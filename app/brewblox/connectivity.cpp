@@ -29,11 +29,10 @@
 #include "spark_wiring_usbserial.h"
 #include "spark_wiring_wifi.h"
 #include <cstdio>
-volatile uint32_t localIp = 0;
-volatile bool wifiIsConnected = false;
 
-volatile bool mdns_started = false;
-volatile bool http_started = false;
+uint32_t localIp = 0;
+bool mdns_started = false;
+bool http_started = false;
 
 constexpr uint16_t webPort = PLATFORM_ID == PLATFORM_GCC ? 8380 : 80;
 static TCPServer httpserver(webPort); // Serve a simple page with instructions
@@ -45,20 +44,45 @@ printWiFiIp(char dest[16])
     snprintf(dest, 16, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
 }
 
+int8_t wifiSignalRssi = 2;
+
+// only update signal strength periodically to reduce number of calls into wifi driver
+void
+updateWifiSignal()
+{
+    if (spark::WiFi.ready()) {
+        // From a particle issue #1967:
+        // avtolstoy: As a workaround for now I might suggest trying to make sure that WiFi.ready() is true
+        // before any WiFi.xxx() calls that rely on wifi_config(), so localIP, macAddress, subnetMask, gatewayIP,
+        // dnsServerIP, dhcpServerIP, BSSID, SSID.
+
+        auto rssi = wlan_connected_rssi();
+        if (rssi == 0) {
+            // means caller should retry, wait until next update for retry
+            return;
+        }
+        IPAddress ip = spark::WiFi.localIP();
+        localIp = ip.raw().ipv4;
+        wifiSignalRssi = rssi;
+        return;
+    }
+    localIp = 0;
+    wifiSignalRssi = 2;
+}
+
 int8_t
 wifiSignal()
 {
-    if (!wifiIsConnected) {
-        return 2;
-    }
+    return wifiSignalRssi;
+}
 
-    wlan_connected_info_t info = {0};
-    info.size = sizeof(info);
-    int r = wlan_connected_info(nullptr, &info, nullptr);
-    if (r == 0) {
-        return info.rssi != std::numeric_limits<int32_t>::min() ? info.rssi / 100 : 2;
-    }
-    return 2;
+bool
+wifiConnected()
+{
+    // WiFi.ready() ensures underlying wifi driver has been initialized correctly
+    // wifiSignalRssi is set above an ensures an IP address is assigned and we have signal
+    // checking ready() too ensures that a disconnect is detected immediately
+    return wifiSignalRssi < 0 && spark::WiFi.ready();
 }
 
 bool
@@ -76,17 +100,11 @@ setWifiCredentials(const char* ssid, const char* password, uint8_t security, uin
 void
 printWifiSSID(char* dest, const uint8_t& maxLen)
 {
-    if (wifiIsConnected) {
+    if (wifiConnected()) {
         strncpy(dest, spark::WiFi.SSID(), maxLen);
     } else {
         dest[0] = 0;
     }
-}
-
-bool
-wifiConnected()
-{
-    return wifiIsConnected;
 }
 
 bool
@@ -132,11 +150,16 @@ theMdns()
 void
 manageConnections(uint32_t now)
 {
-    static uint32_t lastConnect = 0;
+    static uint32_t lastConnected = 0;
+    static uint32_t lastChecked = 0;
     static uint32_t lastAnnounce = 0;
     cbox::tracing::add(AppTrace::MANAGE_CONNECTIVITY);
-    if (spark::WiFi.ready()) {
-        lastConnect = now;
+    if (now - lastChecked >= 1000) {
+        updateWifiSignal();
+        lastChecked = now;
+    }
+    if (wifiConnected()) {
+        lastConnected = now;
         if ((!mdns_started) || ((now - lastAnnounce) > 300000)) {
             cbox::tracing::add(AppTrace::MDNS_START);
             // explicit announce every 5 minutes
@@ -178,20 +201,17 @@ manageConnections(uint32_t now)
             }
         }
     } else {
-        cbox::tracing::add(AppTrace::HTTP_STOP);
-        httpserver.stop();
-        // mdns.stop();
         mdns_started = false;
         http_started = false;
 
-        if (now - lastConnect > 60000) {
+        if (now - lastConnected > 60000) {
             // after 60 seconds without WiFi, trigger reconnect
             // wifi is expected to reconnect automatically. This is a failsafe in case it does not
             cbox::tracing::add(AppTrace::WIFI_CONNECT);
             if (!spark::WiFi.connecting()) {
                 spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
             }
-            lastConnect = now;
+            lastConnected = now; // retry again after 60s
         }
     }
 }
@@ -223,30 +243,10 @@ initMdns()
 }
 
 void
-handleNetworkEvent(system_event_t event, int param)
-{
-    switch (param) {
-    case network_status_connected: {
-        IPAddress ip = spark::WiFi.localIP();
-        localIp = ip.raw().ipv4;
-        wifiIsConnected = true;
-    } break;
-    case network_status_disconnected: {
-        localIp = uint32_t(0);
-        wifiIsConnected = false;
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void
 wifiInit()
 {
     System.disable(SYSTEM_FLAG_RESET_NETWORK_ON_CLOUD_ERRORS);
     spark::WiFi.setListenTimeout(45);
     spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
-    System.on(network_status, handleNetworkEvent);
     initMdns();
 }
