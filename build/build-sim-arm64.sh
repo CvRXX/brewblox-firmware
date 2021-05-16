@@ -17,7 +17,7 @@ docker run \
     -v "$(pwd)":/firmware \
     -w /firmware/build \
     brewblox/simulator-compiler:latest \
-    bash /firmware/build/compile-proto.sh
+    ls
 
 # Enable emulation
 if [[ $(arch) != 'aarch64' ]]; then
