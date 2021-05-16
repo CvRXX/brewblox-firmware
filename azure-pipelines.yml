@@ -81,8 +81,6 @@ jobs:
       name: Default
       demands:
         - Agent.OSArchitecture -equals ARM
-      workspace:
-        clean: all
 
     steps:
       - checkout: self
@@ -97,6 +95,10 @@ jobs:
       - publish: build/target/brewblox-gcc
         artifact: ARM32
 
+      - bash: sudo rm -rf build/target
+        displayName: Cleanup
+        condition: always()
+
   #########################################################
   # Build ARM64
   #########################################################
@@ -105,8 +107,6 @@ jobs:
       name: Default
       demands:
         - Agent.OSArchitecture -equals ARM64
-    workspace:
-      clean: all
 
     steps:
       - checkout: self
@@ -120,6 +120,10 @@ jobs:
 
       - publish: build/target/brewblox-gcc
         artifact: ARM64
+
+      - bash: sudo rm -rf build/target
+        displayName: Cleanup
+        condition: always()
 
   #########################################################
   # Build P1
