@@ -1,13 +1,16 @@
 #! /usr/bin/env bash
 set -ex
 
-test -t 1 && USE_TTY="-it" 
-
 # Use repository root
 pushd "$(dirname "$0")/.." > /dev/null
 
+# Only use TTY flags if possible
+test -t 1 && USE_TTY="-it" 
+
 # clean target dir to not have amd64 leftovers. Sudo needed because docker has created some files as privileged
 sudo rm -rf build/target
+
+ls build/
 
 # Pull native compiler
 docker pull \
@@ -20,7 +23,7 @@ docker run \
     -v "$(pwd)":/firmware \
     -w /firmware/build \
     brewblox/simulator-compiler:latest \
-    ls
+    bash /firmware/build/compile-proto.sh
 
 # Enable emulation
 if [[ $(arch) != 'aarch64' ]]; then
