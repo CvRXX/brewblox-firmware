@@ -96,7 +96,10 @@ jobs:
   # Build ARM64
   #########################################################
   - job: BuildARM64
-    condition: false
+    pool: 
+      name: Default
+      demands:
+        - Agent.OSArchitecture -equals ARM64
 
     steps:
       - checkout: self
