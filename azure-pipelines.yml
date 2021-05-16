@@ -81,6 +81,8 @@ jobs:
       name: Default
       demands:
         - Agent.OSArchitecture -equals ARM
+      workspace:
+        clean: all
 
     steps:
       - checkout: self
@@ -103,6 +105,8 @@ jobs:
       name: Default
       demands:
         - Agent.OSArchitecture -equals ARM64
+    workspace:
+      clean: all
 
     steps:
       - checkout: self
