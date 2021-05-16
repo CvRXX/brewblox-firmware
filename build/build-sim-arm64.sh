@@ -13,7 +13,7 @@ docker pull \
 
 # Compile proto with native compiler
 docker run \
-    -it --rm \
+    --rm \
     -v "$(pwd)":/firmware \
     -w /firmware/build \
     brewblox/simulator-compiler:latest \
