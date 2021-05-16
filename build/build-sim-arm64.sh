@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 set -ex
 
+test -t 1 && USE_TTY="-it" 
+
 # Use repository root
 pushd "$(dirname "$0")/.." > /dev/null
 
@@ -13,6 +15,7 @@ docker pull \
 
 # Compile proto with native compiler
 docker run \
+    ${USE_TTY} \
     --rm \
     -v "$(pwd)":/firmware \
     -w /firmware/build \
@@ -34,7 +37,8 @@ docker pull \
 
 # build
 docker run \
-    -it --rm \
+    ${USE_TTY} \
+    --rm \
     --platform=linux/arm64/v8 \
     -v "$(pwd)/":/firmware/ \
     brewblox/simulator-compiler:latest \
