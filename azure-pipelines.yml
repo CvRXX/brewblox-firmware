@@ -77,7 +77,10 @@ jobs:
   # Build ARM32
   #########################################################
   - job: BuildARM32
-    condition: false
+    pool: 
+      name: Default
+      demands:
+        - Agent.OSArchitecture -equals ARM
 
     steps:
       - checkout: self
@@ -168,6 +171,8 @@ jobs:
     dependsOn:
       - Tests
       - BuildAMD64
+      - BuildARM32
+      - BuildARM64
       - BuildP1
       - BuildPhoton
 
@@ -202,6 +207,8 @@ jobs:
           set -e
           mkdir -p ${SRC}
           cp "$(Pipeline.Workspace)"/AMD64/brewblox-gcc ${SRC}/brewblox-amd64.sim
+          cp "$(Pipeline.Workspace)"/ARM32/brewblox-gcc ${SRC}/brewblox-arm32.sim
+          cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ${SRC}/brewblox-arm64.sim
           cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ${SRC}/brewblox-p1.bin
           cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
           bash docker/firmware-bin/before_build.sh

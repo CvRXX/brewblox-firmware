@@ -5,12 +5,10 @@ set -ex
 pushd "$(dirname "$0")/.." > /dev/null
 
 # Only use TTY flags if possible
-test -t 1 && USE_TTY="-it" 
+test -t 1 && USE_TTY="-it"
 
 # clean target dir to not have amd64 leftovers. Sudo needed because docker has created some files as privileged
 sudo rm -rf build/target
-
-ls build/
 
 # Pull native compiler
 docker pull \
