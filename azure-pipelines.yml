@@ -77,19 +77,25 @@ jobs:
   # Build ARM32
   #########################################################
   - job: BuildARM32
+    condition: false
     pool: 
       name: Default
       demands:
         - Agent.OSArchitecture -equals ARM
 
+    # The build agent comes with compiler dependencies pre-installed
+    # No need to run scripts in container
     steps:
       - checkout: self
   
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-        # should not be run in compiler
-      - script: bash build/build-sim-arm32.sh
+      - script: bash build/compile-proto.sh
+        target: simulator-compiler
+        displayName: Compile proto
+
+      - script: bash build/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -108,14 +114,15 @@ jobs:
       demands:
         - Agent.OSArchitecture -equals ARM64
 
+    # The build agent comes with compiler dependencies pre-installed
+    # No need to run scripts in container
     steps:
       - checkout: self
   
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-        # should not be run in compiler
-      - script: bash build/build-sim-arm64.sh
+      - script: bash build/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
