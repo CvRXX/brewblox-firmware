@@ -77,16 +77,23 @@ jobs:
   # Build ARM32
   #########################################################
   - job: BuildARM32
-    condition: false
+    pool: 
+      name: Default
+      demands:
+        - Agent.OSArchitecture -equals ARM
 
+    # The build agent comes with compiler dependencies pre-installed
+    # No need to run scripts in container
     steps:
       - checkout: self
   
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-        # should not be run in compiler
-      - script: bash build/build-sim-arm32.sh
+      - script: bash build/compile-proto.sh
+        displayName: Compile proto
+
+      - script: bash build/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -96,16 +103,23 @@ jobs:
   # Build ARM64
   #########################################################
   - job: BuildARM64
-    condition: false
+    pool: 
+      name: Default
+      demands:
+        - Agent.OSArchitecture -equals ARM64
 
+    # The build agent comes with compiler dependencies pre-installed
+    # No need to run scripts in container
     steps:
       - checkout: self
   
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-        # should not be run in compiler
-      - script: bash build/build-sim-arm64.sh
+      - script: bash build/compile-proto.sh
+        displayName: Compile proto
+
+      - script: bash build/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -165,6 +179,8 @@ jobs:
     dependsOn:
       - Tests
       - BuildAMD64
+      - BuildARM32
+      - BuildARM64
       - BuildP1
       - BuildPhoton
 
@@ -199,6 +215,8 @@ jobs:
           set -e
           mkdir -p ${SRC}
           cp "$(Pipeline.Workspace)"/AMD64/brewblox-gcc ${SRC}/brewblox-amd64.sim
+          cp "$(Pipeline.Workspace)"/ARM32/brewblox-gcc ${SRC}/brewblox-arm32.sim
+          cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ${SRC}/brewblox-arm64.sim
           cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ${SRC}/brewblox-p1.bin
           cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
           bash docker/firmware-bin/before_build.sh
