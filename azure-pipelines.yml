@@ -77,7 +77,6 @@ jobs:
   # Build ARM32
   #########################################################
   - job: BuildARM32
-    condition: false
     pool: 
       name: Default
       demands:
@@ -99,10 +98,6 @@ jobs:
 
       - publish: build/target/brewblox-gcc
         artifact: ARM32
-
-      - bash: sudo rm -rf build/target
-        displayName: Cleanup
-        condition: always()
 
   #########################################################
   # Build ARM64
@@ -129,10 +124,6 @@ jobs:
 
       - publish: build/target/brewblox-gcc
         artifact: ARM64
-
-      - bash: sudo rm -rf build/target
-        displayName: Cleanup
-        condition: always()
 
   #########################################################
   # Build P1
