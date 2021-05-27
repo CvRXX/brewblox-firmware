@@ -92,7 +92,6 @@ jobs:
         displayName: Checkout submodules
 
       - script: bash build/compile-proto.sh
-        target: simulator-compiler
         displayName: Compile proto
 
       - script: bash build/build-sim-native.sh
@@ -121,6 +120,9 @@ jobs:
   
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
+
+      - script: bash build/compile-proto.sh
+        displayName: Compile proto
 
       - script: bash build/build-sim-native.sh
         displayName: Build executable
