@@ -42,7 +42,6 @@ struct CallbacksBase {
     virtual void callPost(TransactionData&) = 0;
 };
 
-
 /// A helper struct to combine the pre and post condition into one object.
 template <typename Pre, typename Post>
 struct Callbacks : public CallbacksBase {
@@ -117,7 +116,7 @@ struct Settings {
     const int ssPin;
     const Mode mode = SPI_MODE0;
     const BitOrder bitOrder = MSBFIRST;
-    std::function<void()> on_Aquire;
+    std::function<void()> onAquire;
     std::function<void()> on_Release;
     void* platform_device_ptr = nullptr;
 };

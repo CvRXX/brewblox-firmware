@@ -38,7 +38,7 @@ auto callbackDcPinOff = StaticCallbacks{
     nullptr};
 
 TFT035::TFT035(std::function<void()> finishCallback)
-    : spiDevice(spi::Settings{.spi_idx = 0, .speed = 20'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE0, .bitOrder = Settings::BitOrder::MSBFIRST, .on_Aquire = []() {}, .on_Release = []() {}})
+    : spiDevice(spi::Settings{.spi_idx = 0, .speed = 20'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE0, .bitOrder = Settings::BitOrder::MSBFIRST, .onAquire = []() {}, .on_Release = []() {}})
     , finishCallback(finishCallback)
     , dc(2)
 

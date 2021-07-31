@@ -103,7 +103,7 @@ bool DS2408::senseChannelImpl(uint8_t channel, State& result) const
 
 bool DS2408::writeChannelImpl(uint8_t channel, ChannelConfig config)
 {
-    bool latchEnabled = config == ChannelConfig::ACTIVE_HIGH;
+    bool latchEnabled = config == ChannelConfig::DRIVING_ON;
     uint8_t mask = uint8_t{0x01} << (channel - 1);
 
     if (latchEnabled) {

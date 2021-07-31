@@ -124,7 +124,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 auto decoded = blox::DS2413();
                 testBox.processInputToProto(decoded);
 
-                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { config: CHANNEL_ACTIVE_HIGH state: STATE_ACTIVE } } pins { B { } }");
+                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { config: CHANNEL_DRIVING_ON state: STATE_ACTIVE } } pins { B { } }");
             }
         }
 
@@ -238,7 +238,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 auto decoded = blox::MockPins();
                 testBox.processInputToProto(decoded);
 
-                CHECK(decoded.ShortDebugString() == "pins { mock1 { config: CHANNEL_ACTIVE_HIGH state: STATE_ACTIVE } } pins { mock2 { } } pins { mock3 { } } pins { mock4 { } } pins { mock5 { } } pins { mock6 { } } pins { mock7 { } } pins { mock8 { } }");
+                CHECK(decoded.ShortDebugString() == "pins { mock1 { config: CHANNEL_DRIVING_ON state: STATE_ACTIVE } } pins { mock2 { } } pins { mock3 { } } pins { mock4 { } } pins { mock5 { } } pins { mock6 { } } pins { mock7 { } } pins { mock8 { } }");
             }
         }
     }

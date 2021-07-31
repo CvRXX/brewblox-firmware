@@ -13,13 +13,13 @@ DRV8908::DRV8908(uint8_t spi_idx, int ss,
             .ssPin = ss,
             .mode = spi::Settings::Mode::SPI_MODE1,
             .bitOrder = spi::Settings::BitOrder::MSBFIRST,
-            .on_Aquire = []() {},
-            .on_Release = []() {}})
+            .onAquire = std::move(on_spi_aquire),
+            .on_Release = std::move(on_spi_release)})
 {
     spi.init();
 }
 
-spi::error_t DRV8908::readRegister(RegAddr address, uint8_t& val)
+spi::error_t DRV8908::readRegister(RegAddr address, uint8_t& val) const
 {
     spi.aquire_bus();
     std::array<uint8_t, 2> tx{uint8_t(static_cast<uint8_t>(address) | uint8_t(0x40)), 0};

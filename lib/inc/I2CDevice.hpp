@@ -28,8 +28,8 @@ hal_i2c_err_t hal_i2c_read(uint8_t address, uint8_t* data, size_t data_len, bool
 
 class I2CDevice {
 public:
-    virtual uint8_t address() = 0;
-    virtual uint8_t family_address() = 0;
+    virtual uint8_t address() const = 0;
+    virtual uint8_t family_address() const = 0;
 };
 
 template <uint8_t address_base>
@@ -40,12 +40,12 @@ public:
     {
     }
 
-    virtual uint8_t family_address() override final
+    virtual uint8_t family_address() const override final
     {
         return address_base;
     }
 
-    virtual uint8_t address() override final
+    virtual uint8_t address() const override final
     {
         return addr;
     }

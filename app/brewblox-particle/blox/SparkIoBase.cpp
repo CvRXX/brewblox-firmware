@@ -22,8 +22,7 @@
 #include "Board.h"
 
 // generic ArrayIO interface
-bool
-SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const
+bool SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const
 {
     auto pin = channelToPin(channel);
     if (pin != static_cast<decltype(pin)>(-1)) {
@@ -33,31 +32,30 @@ SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const
     return false;
 }
 
-bool
-SparkIoBase::writeChannelImpl(uint8_t channel, ChannelConfig config)
+bool SparkIoBase::writeChannelImpl(uint8_t channel, ChannelConfig config)
 {
     auto pin = channelToPin(channel);
     if (pin != static_cast<decltype(pin)>(-1)) {
 #ifdef PIN_V3_TOP1_DIR
         if (pin == PIN_V3_TOP1) {
-            bool isOutput = (config == ChannelConfig::ACTIVE_HIGH || config == ChannelConfig::ACTIVE_LOW);
+            bool isOutput = (config == ChannelConfig::DRIVING_ON || config == ChannelConfig::DRIVING_OFF);
             HAL_Pin_Mode(PIN_V3_TOP1_DIR, OUTPUT);
             digitalWriteFast(PIN_V3_TOP1_DIR, isOutput);
         }
 #endif
 #ifdef PIN_V3_TOP2_DIR
         if (pin == PIN_V3_TOP2) {
-            bool isOutput = (config == ChannelConfig::ACTIVE_HIGH || config == ChannelConfig::ACTIVE_LOW);
+            bool isOutput = (config == ChannelConfig::DRIVING_ON || config == ChannelConfig::DRIVING_OFF);
             HAL_Pin_Mode(PIN_V3_TOP2_DIR, OUTPUT);
             digitalWriteFast(PIN_V3_TOP2_DIR, isOutput);
         }
 #endif
         switch (config) {
-        case ChannelConfig::ACTIVE_HIGH:
+        case ChannelConfig::DRIVING_ON:
             HAL_Pin_Mode(pin, OUTPUT);
             digitalWriteFast(pin, true);
             break;
-        case ChannelConfig::ACTIVE_LOW:
+        case ChannelConfig::DRIVING_OFF:
             HAL_Pin_Mode(pin, OUTPUT);
             digitalWriteFast(pin, false);
             break;

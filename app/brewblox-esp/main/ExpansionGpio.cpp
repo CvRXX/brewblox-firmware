@@ -3,7 +3,7 @@
 
 using ChanBits = ExpansionGpio::ChanBits;
 using ChanBitsInternal = ExpansionGpio::ChanBitsInternal;
-using PinState = ExpansionGpio::PinState;
+using PinDrive = ExpansionGpio::PinDrive;
 using FlexChannel = ExpansionGpio::FlexChannel;
 
 ChanBits::ChanBits(const ChanBitsInternal& internal)
@@ -30,58 +30,58 @@ ChanBitsInternal::ChanBitsInternal(const ChanBits& external)
     this->c8 = external.c8;
 }
 
-PinState ChanBits::get(uint8_t chan)
+PinDrive ChanBits::get(uint8_t chan)
 {
     // numbering board pins doesn't match driver's bits
     switch (chan) {
     case 1:
-        return PinState(c1);
+        return PinDrive(c1);
     case 2:
-        return PinState(c2);
+        return PinDrive(c2);
     case 3:
-        return PinState(c3);
+        return PinDrive(c3);
     case 4:
-        return PinState(c4);
+        return PinDrive(c4);
     case 5:
-        return PinState(c5);
+        return PinDrive(c5);
     case 6:
-        return PinState(c6);
+        return PinDrive(c6);
     case 7:
-        return PinState(c7);
+        return PinDrive(c7);
     case 8:
-        return PinState(c8);
+        return PinDrive(c8);
     default:
-        return PinState(0x00);
+        return PinDrive(0x00);
     }
 }
 
-void ChanBits::set(uint8_t chan, PinState state)
+void ChanBits::set(uint8_t chan, PinDrive drive)
 {
     // numbering board pins doesn't match driver's bits
     switch (chan) {
     case 1:
-        c1 = state;
+        c1 = drive;
         return;
     case 2:
-        c2 = state;
+        c2 = drive;
         return;
     case 3:
-        c3 = state;
+        c3 = drive;
         return;
     case 4:
-        c4 = state;
+        c4 = drive;
         return;
     case 5:
-        c5 = state;
+        c5 = drive;
         return;
     case 6:
-        c6 = state;
+        c6 = drive;
         return;
     case 7:
-        c7 = state;
+        c7 = drive;
         return;
     case 8:
-        c8 = state;
+        c8 = drive;
         return;
     default:
         return;
@@ -89,25 +89,46 @@ void ChanBits::set(uint8_t chan, PinState state)
 }
 
 void FlexChannel::configure(
+    uint8_t new_id,
+    Type new_type,
     const ChanBits& pins,
-    const ChanBits& when_active_state,
-    const ChanBits& when_inactive_state)
+    const ChanBits& when_active_drive,
+    const ChanBits& when_inactive_drive)
 {
-
+    id = new_id;
+    type = new_type;
     pins_mask = pins;
-    when_active_mask = when_active_state;
-    when_inactive_mask = when_inactive_state;
+    when_active_mask = when_active_drive;
+    when_inactive_mask = when_inactive_drive;
 }
 
 void FlexChannel::apply(ChannelConfig& config, ChanBitsInternal& op_ctrl)
 {
-    if (config == ChannelConfig::ACTIVE_HIGH) {
-        op_ctrl.apply(pins_mask, when_active_mask);
-    } else if (config == ChannelConfig::ACTIVE_LOW) {
-        op_ctrl.apply(pins_mask, when_inactive_mask);
-    } else {
-        op_ctrl.apply(pins_mask, ChanBitsInternal());
+    ChanBitsInternal drive_bits;
+    switch (config) {
+    case ChannelConfig::DRIVING_ON:
+        ESP_LOGI("DRIVING", "ON");
+        drive_bits.all = when_active_mask.all;
+        break;
+    case ChannelConfig::DRIVING_OFF:
+        ESP_LOGI("DRIVING", "OFF");
+        drive_bits.all = when_inactive_mask.all;
+        break;
+    case ChannelConfig::DRIVING_REVERSE:
+        drive_bits.all = ~when_inactive_mask.all;
+        break;
+    case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:
+        drive_bits.all = 0x5555;
+        break;
+    case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE:
+        drive_bits.all = 0xAAAA;
+        break;
+    case ChannelConfig::INPUT:
+    default:
+        drive_bits.all = 0x0000;
+        break;
     }
+    op_ctrl.apply(pins_mask, drive_bits);
 }
 
 bool ExpansionGpio::senseChannelImpl(uint8_t channel, State& result) const
@@ -122,6 +143,8 @@ bool ExpansionGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig con
     uint8_t idx = channel - 1;
 
     flexChannels[idx].apply(config, op_ctrl);
+    ESP_LOGI("op_ctrl", "%x", op_ctrl.all);
+    ESP_LOGI("status", "%x", drv.status());
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
     return true;
@@ -133,32 +156,58 @@ void ExpansionGpio::test()
     ChanBits whenActive;
     ChanBits whenInactive;
     pins.all = 0xFFFF;
-    // pins.set(7, PinState::BOTH);
-    // pins.set(2, PinState::BOTH);
-    // pins.set(3, PinState::BOTH);
-    // pins.set(4, PinState::BOTH);
-    ChanBitsInternal pins2 = pins;
-    ChanBits pins3 = pins2;
-    // pins2.set(1, PinState::BOTH);
-    // pins2.set(2, PinState::BOTH);
 
-    whenActive.set(1, PinState::PULL_DOWN);
-    whenActive.set(2, PinState::PULL_DOWN);
-    whenActive.set(3, PinState::PULL_DOWN);
-    whenActive.set(4, PinState::PULL_DOWN);
-    whenActive.set(5, PinState::PULL_UP);
-    whenActive.set(6, PinState::PULL_UP);
-    whenActive.set(7, PinState::PULL_UP);
-    whenActive.set(8, PinState::PULL_UP);
+    whenActive.set(1, PinDrive::PULL_DOWN);
+    whenActive.set(2, PinDrive::PULL_DOWN);
+    whenActive.set(3, PinDrive::PULL_DOWN);
+    whenActive.set(4, PinDrive::PULL_DOWN);
+    whenActive.set(5, PinDrive::PULL_UP);
+    whenActive.set(6, PinDrive::PULL_UP);
+    whenActive.set(7, PinDrive::PULL_UP);
+    whenActive.set(8, PinDrive::PULL_UP);
 
-    whenInactive.set(1, PinState::PULL_UP);
-    whenInactive.set(2, PinState::PULL_UP);
-    whenInactive.set(3, PinState::PULL_UP);
-    whenInactive.set(4, PinState::PULL_UP);
-    whenInactive.set(5, PinState::PULL_DOWN);
-    whenInactive.set(6, PinState::PULL_DOWN);
-    whenInactive.set(7, PinState::PULL_DOWN);
-    whenInactive.set(8, PinState::PULL_DOWN);
+    whenInactive.set(1, PinDrive::PULL_UP);
+    whenInactive.set(2, PinDrive::PULL_UP);
+    whenInactive.set(3, PinDrive::PULL_UP);
+    whenInactive.set(4, PinDrive::PULL_UP);
+    whenInactive.set(5, PinDrive::PULL_DOWN);
+    whenInactive.set(6, PinDrive::PULL_DOWN);
+    whenInactive.set(7, PinDrive::PULL_DOWN);
+    whenInactive.set(8, PinDrive::PULL_DOWN);
 
-    flexChannels[0].configure(pins, whenActive, whenInactive);
+    flexChannels[0].configure(1, FlexChannel::Type::OUTPUT, pins, whenActive, whenInactive);
+}
+
+ChanBits ExpansionGpio::openload() const
+{
+    auto status = drv.status();
+    ChanBitsInternal old;
+    if (!(status & 0x80) && (status & 0x10)) {
+        // status is valid and open load is detected
+        uint8_t old1 = 0;
+        uint8_t old2 = 0;
+        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
+        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
+        old.byte1 = old1;
+        old.byte2 = old2;
+    }
+
+    return ChanBits{old};
+}
+
+ChanBits ExpansionGpio::overcurrent() const
+{
+    auto status = drv.status();
+    ChanBitsInternal ocp;
+    if (!(status & 0x80) && (status & 0x10)) {
+        // status is valid and overcurrent is detected
+        uint8_t ocp1 = 0;
+        uint8_t ocp2 = 0;
+        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
+        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
+        ocp.byte1 = ocp1;
+        ocp.byte2 = ocp2;
+    }
+
+    return ChanBits{ocp};
 }

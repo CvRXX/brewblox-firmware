@@ -42,7 +42,7 @@ struct SpiDevice {
     * @param ss_pin The slave select pin.
     * @param spi_mode The configuration of the spi device.
     * @param bit_order The bitorder of a spi transaction.
-    * @param on_aquire Gets called when te bus is aquired.
+    * @param onAquire Gets called when te bus is aquired.
     * @param on_release Gets called when te bus is released.
     */
     SpiDevice(spi::Settings&& settings)
@@ -176,8 +176,8 @@ struct SpiDevice {
     void aquire_bus()
     {
         platform_spi::aquire_bus(this->settings);
-        if (settings.on_Aquire) {
-            settings.on_Aquire();
+        if (settings.onAquire) {
+            settings.onAquire();
         }
     }
 

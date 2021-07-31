@@ -98,18 +98,18 @@ int main(int /*argc*/, char** /*argv*/)
                                               });
 
     displayTicker.start();
-
+    static ExpansionGpio* exp1 = new ExpansionGpio(0);
+    exp1->test();
     static auto gpioTester = RecurringTask(io, asio::chrono::milliseconds(5000),
                                            RecurringTask::IntervalType::FROM_EXPIRY,
                                            []() {
-                                               static ExpansionGpio* exp1 = new ExpansionGpio(0);
                                                static bool active = false;
-                                               exp1->test();
                                                if (active) {
-                                                   exp1->writeChannelConfig(1, IoArray::ChannelConfig::ACTIVE_HIGH);
+                                                   exp1->writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_ON);
                                                } else {
-                                                   exp1->writeChannelConfig(1, IoArray::ChannelConfig::ACTIVE_LOW);
+                                                   exp1->writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_OFF);
                                                }
+                                               ESP_LOGI("gpio", "toggle %d", active);
                                                active = !active;
                                                box.discoverNewObjects();
                                            });

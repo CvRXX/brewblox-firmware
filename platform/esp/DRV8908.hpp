@@ -48,15 +48,15 @@ public:
         OLD_CTRL_6 = 0x24,      // Open Load Detect 6
     };
 
-    spi::error_t readRegister(RegAddr address, uint8_t& val);
+    spi::error_t readRegister(RegAddr address, uint8_t& val) const;
     spi::error_t writeRegister(RegAddr address, uint8_t val);
 
-    uint8_t status()
+    uint8_t status() const
     {
         return _status;
     }
 
 private:
-    SpiDevice spi;
-    uint8_t _status;
+    mutable SpiDevice spi;
+    mutable uint8_t _status;
 };

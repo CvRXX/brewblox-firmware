@@ -67,7 +67,7 @@ bool DS2413::writeNeeded()
 
 bool DS2413::writeChannelImpl(uint8_t channel, ChannelConfig config)
 {
-    bool latchEnabled = config == ChannelConfig::ACTIVE_HIGH;
+    bool latchEnabled = config == ChannelConfig::DRIVING_ON;
     uint8_t bitmask;
     if (channel == 1) {
         bitmask = 0b0010;

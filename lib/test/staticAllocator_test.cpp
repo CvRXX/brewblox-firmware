@@ -84,4 +84,9 @@ TEST_CASE("countFreeElements returns the right amount of free elements", "[Stati
     REQUIRE(buffer.countFreeElements() == 1);
     auto thing6 = buffer.get();
     REQUIRE(buffer.countFreeElements() == 0);
+    buffer.free(thing2);
+    buffer.free(thing3);
+    buffer.free(thing4);
+    buffer.free(thing5);
+    buffer.free(thing6);
 }

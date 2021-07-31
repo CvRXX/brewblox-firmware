@@ -264,18 +264,18 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             CHECK(ds1.senseChannel(2, result));
             CHECK(result == ActuatorDigitalBase::State::Inactive);
 
-            // note that for IoArray ACTIVE_HIGH means OUTPUT and ACTIVE
+            // note that for IoArray DRIVING_ON means OUTPUT and ACTIVE
             // It is actually an open drain pull down on in the DS2413
             // Should we rename this?
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::ACTIVE_HIGH));
+            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_ON));
             CHECK(ds1.senseChannel(1, result));
             CHECK(result == ActuatorDigitalBase::State::Active);
 
             CHECK(ds1.senseChannel(2, result));
             CHECK(result == ActuatorDigitalBase::State::Inactive);
 
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::ACTIVE_LOW));
-            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::ACTIVE_HIGH));
+            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_OFF));
+            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::DRIVING_ON));
             CHECK(ds1.senseChannel(1, result));
             CHECK(result == ActuatorDigitalBase::State::Inactive);
 
@@ -352,7 +352,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             for (uint8_t chan = 1; chan <= 8; chan++) {
                 // set one channel as active, others as inactive
                 for (uint8_t i = 1; i <= 8; i++) {
-                    auto config = i == chan ? IoArray::ChannelConfig::ACTIVE_HIGH : IoArray::ChannelConfig::ACTIVE_LOW;
+                    auto config = i == chan ? IoArray::ChannelConfig::DRIVING_ON : IoArray::ChannelConfig::DRIVING_OFF;
                     CHECK(ds1.writeChannelConfig(i, config));
                 }
                 ds1.update();
@@ -381,12 +381,12 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             CHECK(result == ActuatorDigitalBase::State::Inactive);
             // channels start at 1
             CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::ACTIVE_HIGH));
-            CHECK(ds1.writeChannelConfig(3, IoArray::ChannelConfig::ACTIVE_LOW));
+            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::DRIVING_ON));
+            CHECK(ds1.writeChannelConfig(3, IoArray::ChannelConfig::DRIVING_OFF));
             CHECK(ds1.writeChannelConfig(4, IoArray::ChannelConfig::INPUT));
             CHECK(ds1.writeChannelConfig(5, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(6, IoArray::ChannelConfig::ACTIVE_LOW));
-            CHECK(ds1.writeChannelConfig(7, IoArray::ChannelConfig::ACTIVE_HIGH));
+            CHECK(ds1.writeChannelConfig(6, IoArray::ChannelConfig::DRIVING_OFF));
+            CHECK(ds1.writeChannelConfig(7, IoArray::ChannelConfig::DRIVING_ON));
             CHECK(ds1.writeChannelConfig(8, IoArray::ChannelConfig::INPUT));
 
             // bit index starts at 0

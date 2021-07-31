@@ -4,7 +4,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "hal/hal_delay.h"
-#include <array>
+#include <vector>
 
 class ExpansionGpio : public IoArray {
 public:
@@ -26,7 +26,7 @@ public:
 
     void init()
     {
-        expander.set_outputs(0b11111101); // 24V uit
+        expander.set_outputs(0b11111101); // 24V off
         expander.set_config(0b11111000);
         // disable OLD
         ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
@@ -43,11 +43,11 @@ public:
     }
 
 public:
-    enum PinState : uint8_t {
-        DISCONNECTED = 0x0,
+    enum PinDrive : uint8_t {
+        PULL_NONE = 0x0,
         PULL_DOWN = 0x01,
         PULL_UP = 0x02,
-        BOTH = 0x03,
+        PULL_BOTH = 0x03, // this is a short circuit and should not actually be set
     };
 
     struct ChanBitsInternal;
@@ -57,17 +57,7 @@ public:
             this->all = 0;
         }
 
-        // explicit ChanBits(ChanBits& other)
-        // {
-        //     this->all = other.all;
-        // }
-        // explicit ChanBits(const ChanBits& other)
-        // {
-        //     this->all = other.all;
-        // }
-
         ChanBits(const ChanBitsInternal& internal);
-        // ChanBits(ChanBitsInternal& internal);
 
         union {
             struct {
@@ -84,8 +74,8 @@ public:
             uint16_t all;
         };
 
-        PinState get(uint8_t chan);
-        void set(uint8_t chan, PinState state);
+        PinDrive get(uint8_t chan);
+        void set(uint8_t chan, PinDrive state);
     };
 
     struct ChanBitsInternal {
@@ -98,14 +88,6 @@ public:
 
         union {
             struct {
-                // uint8_t c5 : 2;
-                // uint8_t c3 : 2;
-                // uint8_t c6 : 2;
-                // uint8_t c2 : 2;
-                // uint8_t c7 : 2;
-                // uint8_t c8 : 2;
-                // uint8_t c4 : 2;
-                // uint8_t c1 : 2;
                 uint8_t c1 : 2;
                 uint8_t c4 : 2;
                 uint8_t c8 : 2;
@@ -131,29 +113,52 @@ public:
 
     class FlexChannel {
     public:
-        ChanBitsInternal pins_mask;          // pins controlled by this channel
-        ChanBitsInternal when_active_mask;   // state when active
-        ChanBitsInternal when_inactive_mask; // state when inactive
+        enum class Type {
+            NONE = 0,
+            INPUT = 1,
+            OUTPUT = 2,
+            OUTPUT_PWM_80HZ = 3,
+            OUTPUT_PWM_100HZ = 4,
+            OUTPUT_PWM_200HZ = 4,
+            OUTPUT_PWM_2KHZ = 5,
+        };
+
+        uint8_t id = 0;
+        uint8_t pwm_duty = 0;
+        Type type = Type::NONE;
+
+        ChanBits pins() const
+        {
+            ChanBits converted = pins_mask;
+            return converted;
+        }
 
         ChanBits when_active() const
         {
             ChanBits converted = when_active_mask;
             return converted;
         }
+
         ChanBits when_inactive() const
         {
             ChanBits converted = when_inactive_mask;
             return converted; // convert to external order
         }
 
-        // uint8_t pins() const; // convert to 1 bit per pin instead of 2
-
         void configure(
+            uint8_t new_id,
+            Type new_type,
             const ChanBits& pins,
-            const ChanBits& when_active_state,
-            const ChanBits& when_inactive_state);
+            const ChanBits& when_active_drive,
+            const ChanBits& when_inactive_drive);
 
         void apply(ChannelConfig& config, ChanBitsInternal& op_ctrl);
+
+    private:
+        ChanBitsInternal pins_mask;          // pins controlled by this channel
+        ChanBitsInternal when_active_mask;   // state when active
+        ChanBitsInternal when_inactive_mask; // state when inactive
+        friend class ExpansionGpio;
     };
 
     virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
@@ -163,9 +168,38 @@ public:
         return false;
     }
 
+    auto cbegin() const
+    {
+        return flexChannels.cbegin();
+    }
+
+    auto cend() const
+    {
+        return flexChannels.cend();
+    }
+
+    void update();
+
+    uint8_t status() const
+    {
+        return drv.status();
+    }
+
+    ChanBits drive() const
+    {
+        return ChanBits{op_ctrl};
+    }
+
+    ChanBits openload() const;
+    ChanBits overcurrent() const;
+    uint8_t address() const
+    {
+        return expander.address();
+    }
+
 private:
     TCA9538 expander;
     DRV8908 drv;
-    std::array<FlexChannel, 8> flexChannels;
+    std::vector<FlexChannel> flexChannels;
     ChanBitsInternal op_ctrl;
 };

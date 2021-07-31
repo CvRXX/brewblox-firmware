@@ -19,8 +19,7 @@
 
 #include "MotorValve.h"
 
-void
-MotorValve::state(const State& v)
+void MotorValve::state(const State& v)
 {
     auto oldState = m_desiredValveState;
     if (v == State::Active) {
@@ -46,8 +45,7 @@ MotorValve::state() const
     return State::Unknown;
 }
 
-void
-MotorValve::applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr)
+void MotorValve::applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr)
 {
     if (m_startChannel == 0) {
         return;
@@ -55,14 +53,14 @@ MotorValve::applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr)
     // ACTIVE HIGH means latch pull down enabled, so the input to the H-bridge is inverted.
     // We keep the motor enabled just in case. The valve itself has an internal shutoff.
     if (v == ValveState::Opening || v == ValveState::Open) {
-        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::ACTIVE_LOW);
-        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::ACTIVE_HIGH);
+        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::DRIVING_OFF);
+        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::DRIVING_ON);
     } else if (v == ValveState::Closing || v == ValveState::Closed) {
-        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::ACTIVE_HIGH);
-        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::ACTIVE_LOW);
+        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::DRIVING_ON);
+        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::DRIVING_OFF);
     } else {
-        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::ACTIVE_HIGH);
-        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::ACTIVE_HIGH);
+        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::DRIVING_ON);
+        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::DRIVING_ON);
     }
 }
 
@@ -87,11 +85,11 @@ MotorValve::getValveState(const std::shared_ptr<DS2408>& devPtr) const
     ValveState vs = ValveState::Unknown;
 
     // Note: signal to H-bridge is inverted because active high enables a pull down latch
-    if (openChan == Config::ACTIVE_LOW && closeChan == Config::ACTIVE_HIGH) {
+    if (openChan == Config::DRIVING_OFF && closeChan == Config::DRIVING_ON) {
         vs = ValveState::Opening;
-    } else if (openChan == Config::ACTIVE_HIGH && closeChan == Config::ACTIVE_LOW) {
+    } else if (openChan == Config::DRIVING_ON && closeChan == Config::DRIVING_OFF) {
         vs = ValveState::Closing;
-    } else if (openChan == Config::ACTIVE_HIGH && closeChan == Config::ACTIVE_HIGH) {
+    } else if (openChan == Config::DRIVING_ON && closeChan == Config::DRIVING_ON) {
         vs = ValveState::HalfOpenIdle;
     } else {
         return ValveState::InitIdle; // return immediately to get out of init state
@@ -112,8 +110,7 @@ MotorValve::getValveState(const std::shared_ptr<DS2408>& devPtr) const
     return vs;
 }
 
-void
-MotorValve::update()
+void MotorValve::update()
 {
     if (!channelReady()) {
         // Periodic retry to claim channel in case target didn't exist
@@ -138,8 +135,7 @@ MotorValve::update()
     }
 }
 
-void
-MotorValve::claimChannel()
+void MotorValve::claimChannel()
 {
     if (auto devPtr = m_target()) {
         if (m_startChannel != 0) {
@@ -151,8 +147,8 @@ MotorValve::claimChannel()
         if (m_desiredChannel == 1 || m_desiredChannel == 5) { // only 2 valid options
             bool success = devPtr->claimChannel(m_desiredChannel + chanIsClosed, IoArray::ChannelConfig::INPUT);
             success = devPtr->claimChannel(m_desiredChannel + chanIsOpen, IoArray::ChannelConfig::INPUT) && success;
-            success = devPtr->claimChannel(m_desiredChannel + chanOpeningHigh, IoArray::ChannelConfig::ACTIVE_HIGH) && success;
-            success = devPtr->claimChannel(m_desiredChannel + chanClosingHigh, IoArray::ChannelConfig::ACTIVE_HIGH) && success;
+            success = devPtr->claimChannel(m_desiredChannel + chanOpeningHigh, IoArray::ChannelConfig::DRIVING_ON) && success;
+            success = devPtr->claimChannel(m_desiredChannel + chanClosingHigh, IoArray::ChannelConfig::DRIVING_ON) && success;
             if (success) {
                 m_startChannel = m_desiredChannel;
             } else {
