@@ -4,6 +4,9 @@ set -ex
 # Use repository root
 pushd "$(dirname "$0")/.." > /dev/null
 
+# Only use TTY flags if possible
+test -t 1 && USE_TTY="-it"
+
 # clean target dir to not have amd64 leftovers. Sudo needed because docker has created some files as privileged
 sudo rm -rf build/target
 
@@ -13,7 +16,8 @@ docker pull \
 
 # Compile proto with native compiler
 docker run \
-    -it --rm \
+    ${USE_TTY} \
+    --rm \
     -v "$(pwd)":/firmware \
     -w /firmware/build \
     brewblox/simulator-compiler:latest \
@@ -34,7 +38,8 @@ docker pull \
 
 # build
 docker run \
-    -it --rm \
+    ${USE_TTY} \
+    --rm \
     --platform=linux/arm64/v8 \
     -v "$(pwd)/":/firmware/ \
     brewblox/simulator-compiler:latest \
