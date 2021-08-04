@@ -21,7 +21,7 @@
 #include "./reset.h"
 #include "AppTicks.h"
 #include "Board.h"
-#include "OneWireScanningFactory.h"
+#include "OneWireScanningFactory.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "blox/OneWireBusBlock.h"
 #include "blox/SysInfoBlock.h"
@@ -67,7 +67,7 @@ void updateFirmwareFromStream(cbox::StreamType)
 #else
 #include "DS248x.hpp"
 #endif
-#include "OneWireScanningFactory.h"
+#include "OneWireScanningFactory.hpp"
 
 // Include serial connection for platform
 #if defined(SPARK)

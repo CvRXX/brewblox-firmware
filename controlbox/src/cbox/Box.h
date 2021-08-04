@@ -29,7 +29,7 @@
 #include "Object.h"
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
-#include "ScanningFactory.h"
+#include "ScanningFactory.hpp"
 #include <memory>
 
 namespace cbox {

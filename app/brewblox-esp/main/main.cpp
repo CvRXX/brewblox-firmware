@@ -3,7 +3,8 @@
 
 // #include "SDCard.hpp"
 #include "DS248x.hpp"
-#include "ExpansionGpio.hpp"
+#include "ExpOwGpio.hpp"
+#include "I2cScanningFactory.hpp"
 #include "OneWire.h"
 #include "RecurringTask.hpp"
 #include "TempSensor.h"
@@ -64,29 +65,14 @@ int main(int /*argc*/, char** /*argv*/)
 #endif
 {
     Spark4::hw_init();
-
     hal_delay_ms(100);
-    network_init();
-
     mount_blocks_spiff();
-
-    ESP_LOGI("Display", "Image written");
+    network_init();
 
     asio::io_context io;
     static auto& box = makeBrewBloxBox(io);
 
     Graphics::init(box);
-    // static auto widget6 = PidWidget(graphics.grid);
-    // widget6.setBar1(25);
-    // widget6.setBar2(-80);
-
-    static std::array<cbox::CboxPtr<TempSensor>, 5> sensors{{
-        box.makeCboxPtr<TempSensor>(cbox::obj_id_t(100)),
-        box.makeCboxPtr<TempSensor>(cbox::obj_id_t(101)),
-        box.makeCboxPtr<TempSensor>(cbox::obj_id_t(102)),
-        box.makeCboxPtr<TempSensor>(cbox::obj_id_t(103)),
-        box.makeCboxPtr<TempSensor>(cbox::obj_id_t(104)),
-    }};
 
     static CboxServer server(io, 8332, box);
 
@@ -98,23 +84,6 @@ int main(int /*argc*/, char** /*argv*/)
                                               });
 
     displayTicker.start();
-    static ExpansionGpio* exp1 = new ExpansionGpio(0);
-    exp1->test();
-    static auto gpioTester = RecurringTask(io, asio::chrono::milliseconds(5000),
-                                           RecurringTask::IntervalType::FROM_EXPIRY,
-                                           []() {
-                                               static bool active = false;
-                                               if (active) {
-                                                   exp1->writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_ON);
-                                               } else {
-                                                   exp1->writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_OFF);
-                                               }
-                                               ESP_LOGI("gpio", "toggle %d", active);
-                                               active = !active;
-                                               box.discoverNewObjects();
-                                           });
-    gpioTester.start();
-
     io.run();
 
 #ifndef ESP_PLATFORM

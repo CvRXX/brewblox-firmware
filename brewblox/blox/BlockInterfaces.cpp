@@ -104,4 +104,11 @@ interfaceIdImpl<DS2408>()
     return BrewBloxTypes_BlockType_DS2408Interface;
 }
 
+template <>
+const obj_type_t
+interfaceIdImpl<OneWire>()
+{
+    return BrewBloxTypes_BlockType_OneWireBusInterface;
+}
+
 } // end namespace cbox

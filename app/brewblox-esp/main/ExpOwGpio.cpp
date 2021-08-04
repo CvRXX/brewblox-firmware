@@ -1,10 +1,10 @@
-#include "ExpansionGpio.hpp"
+#include "ExpOwGpio.hpp"
 #include "esp_log.h"
 
-using ChanBits = ExpansionGpio::ChanBits;
-using ChanBitsInternal = ExpansionGpio::ChanBitsInternal;
-using PinDrive = ExpansionGpio::PinDrive;
-using FlexChannel = ExpansionGpio::FlexChannel;
+using ChanBits = ExpOwGpio::ChanBits;
+using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
+using PinDrive = ExpOwGpio::PinDrive;
+using FlexChannel = ExpOwGpio::FlexChannel;
 
 ChanBits::ChanBits(const ChanBitsInternal& internal)
 {
@@ -88,20 +88,6 @@ void ChanBits::set(uint8_t chan, PinDrive drive)
     }
 }
 
-void FlexChannel::configure(
-    uint8_t new_id,
-    Type new_type,
-    const ChanBits& pins,
-    const ChanBits& when_active_drive,
-    const ChanBits& when_inactive_drive)
-{
-    id = new_id;
-    type = new_type;
-    pins_mask = pins;
-    when_active_mask = when_active_drive;
-    when_inactive_mask = when_inactive_drive;
-}
-
 void FlexChannel::apply(ChannelConfig& config, ChanBitsInternal& op_ctrl)
 {
     ChanBitsInternal drive_bits;
@@ -131,11 +117,11 @@ void FlexChannel::apply(ChannelConfig& config, ChanBitsInternal& op_ctrl)
     op_ctrl.apply(pins_mask, drive_bits);
 }
 
-bool ExpansionGpio::senseChannelImpl(uint8_t channel, State& result) const
+bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
 {
     return false;
 }
-bool ExpansionGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
+bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
 {
     if (!channel || channel > 8) {
         return false;
@@ -150,7 +136,7 @@ bool ExpansionGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig con
     return true;
 }
 
-void ExpansionGpio::test()
+void ExpOwGpio::test()
 {
     ChanBits pins;
     ChanBits whenActive;
@@ -175,10 +161,10 @@ void ExpansionGpio::test()
     whenInactive.set(7, PinDrive::PULL_DOWN);
     whenInactive.set(8, PinDrive::PULL_DOWN);
 
-    flexChannels[0].configure(1, FlexChannel::Type::OUTPUT, pins, whenActive, whenInactive);
+    flexChannels.emplace_back(1, FlexChannel::Type::OUTPUT, pins, whenActive, whenInactive);
 }
 
-ChanBits ExpansionGpio::openload() const
+ChanBits ExpOwGpio::openload() const
 {
     auto status = drv.status();
     ChanBitsInternal old;
@@ -195,7 +181,7 @@ ChanBits ExpansionGpio::openload() const
     return ChanBits{old};
 }
 
-ChanBits ExpansionGpio::overcurrent() const
+ChanBits ExpOwGpio::overcurrent() const
 {
     auto status = drv.status();
     ChanBitsInternal ocp;

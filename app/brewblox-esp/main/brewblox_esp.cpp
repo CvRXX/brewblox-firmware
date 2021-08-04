@@ -19,9 +19,10 @@
 
 #include "AppTicks.h"
 #include "DS248x.hpp"
+#include "I2cScanningFactory.hpp"
 #include "Logger.h"
 #include "MockTicks.h"
-#include "OneWireScanningFactory.h"
+#include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "blox/OneWireBusBlock.h"
@@ -85,37 +86,22 @@ makeBrewBloxBox(asio::io_context& io)
 {
     static cbox::FileObjectStorage objectStore{"/blocks/"};
 
-    static auto owDriver1 = DS248x(0x00);
-    static auto ow1 = OneWire(owDriver1);
-    static auto owDriver2 = DS248x(0x02);
-    static auto ow2 = OneWire(owDriver2);
-    static auto owDriver3 = DS248x(0x03);
-    static auto ow3 = OneWire(owDriver3);
-    static auto owDriver4 = DS248x(0x04);
-    static auto ow4 = OneWire(owDriver4);
-
     static Ticks<MockTicks> ticks;
 
     cbox::ObjectContainer systemObjects{
         {
             cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(get_device_id)),
             cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<Ticks<MockTicks>>>(ticks)),
-            cbox::ContainedObject(4, 0x80, std::make_shared<OneWireBusBlock>(ow1)),
             cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
-            cbox::ContainedObject(14, 0x80, std::make_shared<OneWireBusBlock>(ow2)),
-            cbox::ContainedObject(15, 0x80, std::make_shared<OneWireBusBlock>(ow3)),
-            cbox::ContainedObject(16, 0x80, std::make_shared<OneWireBusBlock>(ow4)),
         },
         objectStore};
 
     static cbox::ConnectionPool connections{{}}; // managed externally
 
     auto scanners = std::vector<std::unique_ptr<cbox::ScanningFactory>>{};
-    scanners.reserve(4);
-    scanners.push_back(std::make_unique<OneWireScanningFactory>(ow1));
-    scanners.push_back(std::make_unique<OneWireScanningFactory>(ow2));
-    scanners.push_back(std::make_unique<OneWireScanningFactory>(ow3));
-    scanners.push_back(std::make_unique<OneWireScanningFactory>(ow4));
+    scanners.reserve(2);
+    scanners.push_back(std::make_unique<OneWireMultiScanningFactory>());
+    scanners.push_back(std::make_unique<I2cScanningFactory>());
 
     static cbox::Box& box = brewblox::make_box(
         std::move(systemObjects),

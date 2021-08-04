@@ -53,4 +53,6 @@ public:
         // No updates for now. Alternatively, a periodic bus scan for new devices?
         return update_never(now);
     }
+
+    virtual void* implements(const cbox::obj_type_t& iface) override final;
 };

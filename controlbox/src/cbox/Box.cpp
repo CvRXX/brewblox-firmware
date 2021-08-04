@@ -31,7 +31,7 @@
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
 #include "ObjectStorage.h"
-#include "ScanningFactory.h"
+#include "ScanningFactory.hpp"
 #include "Tracing.h"
 #include <memory>
 #include <tuple>

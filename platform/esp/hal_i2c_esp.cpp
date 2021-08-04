@@ -52,3 +52,14 @@ hal_i2c_err_t hal_i2c_read(uint8_t address, uint8_t* data, size_t len, bool stop
     i2c_cmd_link_delete(cmd);
     return to_hal_err(err);
 }
+
+hal_i2c_err_t hal_i2c_detect(uint8_t address, uint32_t timeout)
+{
+    auto cmd = i2c_cmd_link_create();
+    i2c_master_start(cmd);
+    i2c_master_write_byte(cmd, address << 1U, true);
+    i2c_master_stop(cmd);
+    auto err = i2c_master_cmd_begin(I2C_NUM_0, cmd, timeout / portTICK_RATE_MS);
+    i2c_cmd_link_delete(cmd);
+    return to_hal_err(err);
+}

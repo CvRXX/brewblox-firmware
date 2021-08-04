@@ -27,14 +27,9 @@
 #include "blox/TempSensorOneWireBlock.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
-#include "cbox/ScanningFactory.h"
+#include "cbox/ScanningFactory.hpp"
 #include <memory>
 
-/**
- * Simple mock factory that emulates object discovery
- * Normally, a scanning factory will scan some type of communication bus
- * This factory just has a list of candidates. If a LongIntObject with that value doesn't exist, it creates it.
- */
 class OneWireScanningFactory : public cbox::ScanningFactory {
 private:
     OneWire& bus;
@@ -53,7 +48,7 @@ public:
         bus.reset_search();
     }
 
-    virtual OneWireAddress next()
+    OneWireAddress next()
     {
         auto newAddr = OneWireAddress();
         if (bus.search(newAddr)) {

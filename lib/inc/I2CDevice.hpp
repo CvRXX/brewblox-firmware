@@ -22,10 +22,6 @@
 #include <initializer_list>
 #include <vector>
 
-// function prototypes to be implemented by platform dependent source files
-hal_i2c_err_t hal_i2c_write(uint8_t address, const uint8_t* data, size_t data_len, bool stop);
-hal_i2c_err_t hal_i2c_read(uint8_t address, uint8_t* data, size_t data_len, bool stop);
-
 class I2CDevice {
 public:
     virtual uint8_t address() const = 0;

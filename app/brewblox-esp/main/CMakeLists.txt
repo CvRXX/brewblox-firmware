@@ -5,8 +5,8 @@ set(srcs
   main.cpp
   AppTicks.cpp
   brewblox_esp.cpp
-  ExpansionGpio.cpp
-  blox/ExpansionGpioBlock.cpp
+  ExpOwGpio.cpp
+  blox/ExpOwGpioBlock.cpp
   TimerInterrupts.cpp
   network/CboxConnection.cpp
   network/CboxTcpConnection.cpp
@@ -78,6 +78,8 @@ message(STATUS "Git date: " ${GIT_DATE})
 message(STATUS "Proto version: " ${PROTO_VERSION})
 message(STATUS "Proto date: " ${PROTO_DATE})
 message(STATUS "IDF version: " ${SYSTEM_VERSION_STRING})
+
+message(STATUS "brewblox_src: " ${brewblox_srcs})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_VERSION=${GIT_VERSION}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_DATE=${GIT_DATE}")

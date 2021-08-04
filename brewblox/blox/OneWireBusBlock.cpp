@@ -24,8 +24,7 @@
 
 #include "nanopb_callbacks.h"
 
-bool
-streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
     OneWireAddress address;
     OneWire* busPtr = reinterpret_cast<OneWire*>(*arg);
@@ -109,4 +108,17 @@ OneWireBusBlock::streamFrom(cbox::DataIn& dataIn)
         command = message.command;
     }
     return res;
+}
+
+void* OneWireBusBlock::implements(const cbox::obj_type_t& iface)
+{
+    if (iface == BrewBloxTypes_BlockType_OneWireBus) {
+        return this; // me!
+    }
+    if (iface == cbox::interfaceId<OneWire>()) {
+        // return the member that implements the interface in this case
+        OneWire* owPtr = &bus;
+        return owPtr;
+    }
+    return nullptr;
 }

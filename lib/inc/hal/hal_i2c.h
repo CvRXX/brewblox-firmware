@@ -31,4 +31,8 @@ enum hal_i2c_ack_type_t {
     HAL_I2C_MASTER_ACK_MAX,
 };
 
+// function prototypes to be implemented by platform dependent source files
 hal_i2c_err_t hal_i2c_master_init();
+hal_i2c_err_t hal_i2c_write(uint8_t address, const uint8_t* data, size_t data_len, bool stop);
+hal_i2c_err_t hal_i2c_read(uint8_t address, uint8_t* data, size_t data_len, bool stop);
+hal_i2c_err_t hal_i2c_detect(uint8_t address, uint32_t timeout = 100);

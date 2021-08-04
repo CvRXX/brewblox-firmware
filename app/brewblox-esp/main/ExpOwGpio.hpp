@@ -1,14 +1,17 @@
+#pragma once
 #include "DRV8908.hpp"
+#include "DS248x.hpp"
 #include "IoArray.h"
+#include "OneWire.h"
 #include "TCA9538.hpp"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "hal/hal_delay.h"
 #include <vector>
 
-class ExpansionGpio : public IoArray {
+class ExpOwGpio : public IoArray {
 public:
-    ExpansionGpio(uint8_t lower_address)
+    ExpOwGpio(uint8_t lower_address)
         : IoArray(8)
         , expander(lower_address)
         , drv(
@@ -20,6 +23,8 @@ public:
               [this]() {
                   expander.set_output(0, true);
               })
+        , owDriver(lower_address)
+        , ow(owDriver)
     {
         init();
     }
@@ -32,7 +37,7 @@ public:
         ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
         // set overvoltage threshold to 33V and clear all faults
         ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
-        expander.set_outputs(0b11111111); // 24V aan
+        expander.set_outputs(0b11111111); // 24V on
     }
 
     void test();
@@ -123,6 +128,20 @@ public:
             OUTPUT_PWM_2KHZ = 5,
         };
 
+        FlexChannel(
+            uint8_t id,
+            Type type,
+            const ChanBits& pins,
+            const ChanBits& when_active_drive,
+            const ChanBits& when_inactive_drive)
+            : id(id)
+            , type(type)
+            , pins_mask(pins)
+            , when_active_mask(when_active_drive)
+            , when_inactive_mask(when_inactive_drive)
+        {
+        }
+
         uint8_t id = 0;
         uint8_t pwm_duty = 0;
         Type type = Type::NONE;
@@ -158,7 +177,7 @@ public:
         ChanBitsInternal pins_mask;          // pins controlled by this channel
         ChanBitsInternal when_active_mask;   // state when active
         ChanBitsInternal when_inactive_mask; // state when inactive
-        friend class ExpansionGpio;
+        friend class ExpOwGpio;
     };
 
     virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
@@ -197,9 +216,16 @@ public:
         return expander.address();
     }
 
+    OneWire& oneWireBus()
+    {
+        return ow;
+    }
+
 private:
     TCA9538 expander;
     DRV8908 drv;
+    DS248x owDriver;
+    OneWire ow;
     std::vector<FlexChannel> flexChannels;
     ChanBitsInternal op_ctrl;
 };

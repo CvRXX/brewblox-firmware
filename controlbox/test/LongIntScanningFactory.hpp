@@ -1,6 +1,6 @@
 #include "Object.h"
 #include "ObjectContainer.h"
-#include "ScanningFactory.h"
+#include "ScanningFactory.hpp"
 #include "TestObjects.h"
 #include <memory>
 #include <vector>

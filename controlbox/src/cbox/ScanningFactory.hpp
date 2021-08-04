@@ -32,9 +32,7 @@ namespace cbox {
  */
 class ScanningFactory {
 public:
-    ScanningFactory()
-    {
-    }
+    ScanningFactory() = default;
     virtual ~ScanningFactory() = default;
 
     virtual void reset() = 0;

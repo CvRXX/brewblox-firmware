@@ -19,17 +19,17 @@
 
 #pragma once
 
-#include "../ExpansionGpio.hpp"
+#include "../ExpOwGpio.hpp"
 #include "blox/Block.h"
-#include "blox/proto/cpp/ExpansionGpio.pb.h"
+#include "blox/proto/cpp/ExpOwGpio.pb.h"
 
-class ExpansionGpioBlock : public Block<BrewBloxTypes_BlockType_ExpansionGpio> {
+class ExpOwGpioBlock : public Block<BrewBloxTypes_BlockType_ExpOwGpio> {
 private:
-    ExpansionGpio gpio;
+    ExpOwGpio drivers;
 
 public:
-    ExpansionGpioBlock(uint8_t lower_address)
-        : gpio(lower_address)
+    ExpOwGpioBlock(uint8_t lower_address)
+        : drivers(lower_address)
     {
     }
 

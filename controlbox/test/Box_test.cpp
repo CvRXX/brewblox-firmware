@@ -12,7 +12,7 @@
 #include "DataStreamConverters.h"
 #include "EepromObjectStorage.h"
 #include "GroupsObject.h"
-#include "LongIntScanningFactory.h"
+#include "LongIntScanningFactory.hpp"
 #include "Object.h"
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
