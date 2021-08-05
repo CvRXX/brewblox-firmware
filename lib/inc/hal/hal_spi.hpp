@@ -45,9 +45,10 @@ struct SpiDevice {
     * @param onAquire Gets called when te bus is aquired.
     * @param onRelease Gets called when te bus is released.
     */
-    SpiDevice(spi::Settings&& settings)
+    SpiDevice(hal_spi::Settings&& settings)
         : settings{settings}
     {
+        init();
     }
 
     ~SpiDevice()
@@ -56,7 +57,7 @@ struct SpiDevice {
     }
 
     /// Initialises the spi device with the settings defined in the constructor.
-    spi::error_t init()
+    hal_spi::error_t init()
     {
         return platform_spi::init(settings);
     }
@@ -75,7 +76,7 @@ struct SpiDevice {
     * @param values A std::vector of bytes to be send over the bus.
     * @return If any error will occur a non zero result will indicate an error has happened.
     */
-    spi::error_t write(const std::vector<uint8_t>& values)
+    hal_spi::error_t write(const std::vector<uint8_t>& values)
     {
         return platform_spi::write(settings, values.data(), values.size());
     }
@@ -88,7 +89,7 @@ struct SpiDevice {
     * @return If any error will occur a non zero result will indicate an error has happened.
     */
     template <size_t N>
-    spi::error_t write_and_read(
+    hal_spi::error_t write_and_read(
         const std::array<uint8_t, N>& toDevice,
         std::array<uint8_t, N>& fromDevice)
     {
@@ -105,7 +106,7 @@ struct SpiDevice {
     * @param size The amount of bytes to be send.
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
-    spi::error_t write(const uint8_t* data, size_t size)
+    hal_spi::error_t write(const uint8_t* data, size_t size)
     {
         return platform_spi::write(settings, data, size);
     }
@@ -118,7 +119,7 @@ struct SpiDevice {
     * @param value The value to be written to the bus.
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
-    spi::error_t write(uint8_t value)
+    hal_spi::error_t write(uint8_t value)
     {
         return platform_spi::write(settings, &value, 1);
     }
@@ -134,9 +135,9 @@ struct SpiDevice {
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
     template <typename Pre, typename Post>
-    spi::error_t dmaWrite(const uint8_t* data, size_t size, const spi::StaticCallbacks<Pre, Post>& callbacks)
+    hal_spi::error_t dmaWrite(const uint8_t* data, size_t size, const hal_spi::StaticCallbacks<Pre, Post>& callbacks)
     {
-        return platform_spi::dmaWrite(settings, data, size, static_cast<const spi::CallbacksBase*>(&callbacks));
+        return platform_spi::dmaWrite(settings, data, size, static_cast<const hal_spi::CallbacksBase*>(&callbacks));
     }
 
     /**
@@ -150,10 +151,10 @@ struct SpiDevice {
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
     template <typename Pre, typename Post>
-    spi::error_t dmaWrite(const uint8_t* data, size_t size, const spi::Callbacks<Pre, Post>& callbacks)
+    hal_spi::error_t dmaWrite(const uint8_t* data, size_t size, const hal_spi::Callbacks<Pre, Post>& callbacks)
     {
-        auto callbacksToSend = new (spi::callBackArgsBuffer.get<spi::Callbacks<Pre, Post>>()) spi::Callbacks<Pre, Post>(callbacks);
-        return platform_spi::dmaWrite(settings, data, size, static_cast<spi::CallbacksBase*>(callbacksToSend));
+        auto callbacksToSend = new (hal_spi::callBackArgsBuffer.get<hal_spi::Callbacks<Pre, Post>>()) hal_spi::Callbacks<Pre, Post>(callbacks);
+        return platform_spi::dmaWrite(settings, data, size, static_cast<hal_spi::CallbacksBase*>(callbacksToSend));
     }
 
     /**
@@ -167,29 +168,23 @@ struct SpiDevice {
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
     template <typename Pre, typename Post>
-    spi::error_t dmaWrite(const uint8_t* data, size_t size, spi::Callbacks<Pre, Post>&& callbacks)
+    hal_spi::error_t dmaWrite(const uint8_t* data, size_t size, hal_spi::Callbacks<Pre, Post>&& callbacks)
     {
-        auto callbacksToSend = new (spi::callBackArgsBuffer.get<spi::Callbacks<Pre, Post>>()) spi::Callbacks<Pre, Post>(callbacks);
-        return platform_spi::dmaWrite(settings, data, size, static_cast<spi::CallbacksBase*>(callbacksToSend));
+        auto callbacksToSend = new (hal_spi::callBackArgsBuffer.get<hal_spi::Callbacks<Pre, Post>>()) hal_spi::Callbacks<Pre, Post>(callbacks);
+        return platform_spi::dmaWrite(settings, data, size, static_cast<hal_spi::CallbacksBase*>(callbacksToSend));
     }
 
     void aquire_bus()
     {
         platform_spi::aquire_bus(this->settings);
-        if (settings.onAquire) {
-            settings.onAquire();
-        }
     }
 
     void release_bus()
     {
         platform_spi::release_bus(this->settings);
-        if (settings.onRelease) {
-            settings.onRelease();
-        }
     }
 
 private:
-    spi::Settings settings;
+    hal_spi::Settings settings;
 };
-spi::error_t hal_spi_host_init(uint8_t idx);
+hal_spi::error_t hal_spi_host_init(uint8_t idx);

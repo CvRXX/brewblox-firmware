@@ -15,24 +15,15 @@ class ExpOwGpio : public IoArray, public IoModule {
 public:
     ExpOwGpio(uint8_t lower_address)
         : IoArray(8)
+        , spi(get_spi())
         , expander(lower_address)
-        , drv(
-              0, -1,
-              [this]() {
-                  expander.set_output(0, false);
-              },
-              [this]() {
-                  expander.set_output(0, true);
-              })
+        , drv(spi)
         , owDriver(lower_address)
         , ow(owDriver)
     {
-        ESP_LOGE("OWGPIO", "Constructed");
-        //        init();
     }
     virtual ~ExpOwGpio()
     {
-        ESP_LOGE("OWGPIO", "Destructed");
     }
 
     ExpOwGpio(const ExpOwGpio&) = delete;
@@ -49,14 +40,14 @@ public:
         expander.set_outputs(0b11111101); // 24V off
         expander.set_config(0b11111000);
         // disable OLD
+        assert_cs();
         ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
         // set overvoltage threshold to 33V and clear all faults
         ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
+        deassert_cs();
         expander.set_outputs(0b11111111); // 24V on
         hal_delay_ms(1000);
     }
-
-    void test();
 
     virtual bool supportsFastIo()
     {
@@ -251,10 +242,24 @@ public:
     }
 
 private:
+    void assert_cs()
+    {
+        spi.aquire_bus();
+        expander.set_output(0, false);
+    }
+    void deassert_cs()
+    {
+        expander.set_output(0, true);
+        spi.release_bus();
+    }
+
+    SpiDevice& spi;
     TCA9538 expander;
     DRV8908 drv;
     DS248x owDriver;
     OneWire ow;
     std::vector<FlexChannel> flexChannels;
     ChanBitsInternal op_ctrl;
+    ChanBitsInternal old_status;
+    ChanBitsInternal ocp_status;
 };

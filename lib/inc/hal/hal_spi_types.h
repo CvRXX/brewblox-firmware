@@ -23,7 +23,7 @@
 #include <functional>
 #include <stdint.h>
 
-namespace spi {
+namespace hal_spi {
 
 extern SlotMemPool<20, 10> callBackArgsBuffer;
 
@@ -116,8 +116,6 @@ struct Settings {
     const int ssPin;
     const Mode mode = SPI_MODE0;
     const BitOrder bitOrder = MSBFIRST;
-    std::function<void()> onAquire;
-    std::function<void()> onRelease;
     void* platform_device_ptr = nullptr;
 };
 

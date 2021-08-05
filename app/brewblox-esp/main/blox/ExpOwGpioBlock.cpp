@@ -92,7 +92,7 @@ ExpOwGpioBlock::streamPersistedTo(cbox::DataOut& out) const
 cbox::update_t
 ExpOwGpioBlock::update(const cbox::update_t& now)
 {
-    // device.update();
+    drivers.update();
     return update_1s(now);
 }
 

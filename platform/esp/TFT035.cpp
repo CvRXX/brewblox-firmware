@@ -7,7 +7,8 @@
 #include <esp_log.h>
 #include <functional>
 #include <sys/time.h>
-using namespace spi;
+
+using namespace hal_spi;
 
 auto callbackDcPinOn = StaticCallbacks{
     [](TransactionData& t) {
@@ -38,12 +39,11 @@ auto callbackDcPinOff = StaticCallbacks{
     nullptr};
 
 TFT035::TFT035(std::function<void()> finishCallback)
-    : spiDevice(spi::Settings{.spi_idx = 0, .speed = 20'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE0, .bitOrder = Settings::BitOrder::MSBFIRST, .onAquire = {}, .onRelease = {}})
+    : spiDevice(Settings{.spi_idx = 0, .speed = 20'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE0, .bitOrder = Settings::BitOrder::MSBFIRST})
     , finishCallback(finishCallback)
     , dc(2)
 
 {
-    spiDevice.init();
 }
 
 error_t TFT035::writeCmd(const std::vector<uint8_t>& cmd)

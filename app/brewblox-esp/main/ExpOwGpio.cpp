@@ -127,41 +127,56 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     uint8_t idx = channel - 1;
 
     flexChannels[idx].apply(config, op_ctrl);
+    assert_cs();
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
+    deassert_cs();
     return true;
 }
 
 ChanBits ExpOwGpio::openload() const
 {
-    auto status = drv.status();
-    ChanBitsInternal old;
-    if (!(status & 0x80) && (status & 0x10)) {
-        // status is valid and open load is detected
-        uint8_t old1 = 0;
-        uint8_t old2 = 0;
-        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
-        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
-        old.byte1 = old1;
-        old.byte2 = old2;
-    }
-
-    return ChanBits{old};
+    return ChanBits{old_status};
 }
 
 ChanBits ExpOwGpio::overcurrent() const
 {
+    return ChanBits{ocp_status};
+}
+
+void ExpOwGpio::update()
+{
     auto status = drv.status();
-    ChanBitsInternal ocp;
-    if (!(status & 0x80) && (status & 0x10)) {
-        // status is valid and overcurrent is detected
-        uint8_t ocp1 = 0;
-        uint8_t ocp2 = 0;
-        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
-        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
-        ocp.byte1 = ocp1;
-        ocp.byte2 = ocp2;
+    if (status == 0xFF) {
+        init();
+        status = drv.status();
     }
 
-    return ChanBits{ocp};
+    if (!(status & 0x80)) {
+        // status is valid
+        if (status & 0x10) {
+            // open load is detected
+            uint8_t old1 = 0;
+            uint8_t old2 = 0;
+            assert_cs();
+            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
+            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
+            deassert_cs();
+            old_status.byte1 = old1;
+            old_status.byte2 = old2;
+        } else {
+            old_status.all = 0;
+        }
+        if (status & 0x08) {
+            // status is valid and overcurrent is detected
+            uint8_t ocp1 = 0;
+            uint8_t ocp2 = 0;
+            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
+            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
+            ocp_status.byte1 = ocp1;
+            ocp_status.byte2 = ocp2;
+        } else {
+            ocp_status.all = 0;
+        }
+    }
 }

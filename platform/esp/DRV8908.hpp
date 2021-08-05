@@ -3,9 +3,7 @@
 
 class DRV8908 {
 public:
-    DRV8908(uint8_t spi_idx, int ss,
-            std::function<void()>&& on_spi_aquire,
-            std::function<void()>&& on_spi_release);
+    DRV8908(SpiDevice& spi);
     ~DRV8908() = default;
 
     enum class RegAddr : uint8_t {
@@ -48,8 +46,8 @@ public:
         OLD_CTRL_6 = 0x24,      // Open Load Detect 6
     };
 
-    spi::error_t readRegister(RegAddr address, uint8_t& val) const;
-    spi::error_t writeRegister(RegAddr address, uint8_t val);
+    hal_spi::error_t readRegister(RegAddr address, uint8_t& val) const;
+    hal_spi::error_t writeRegister(RegAddr address, uint8_t val);
 
     uint8_t status() const
     {
@@ -57,6 +55,6 @@ public:
     }
 
 private:
-    mutable SpiDevice spi;
+    SpiDevice& spi;
     mutable uint8_t _status;
 };

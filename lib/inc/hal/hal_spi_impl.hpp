@@ -22,7 +22,7 @@
 #include "hal_spi_types.h"
 
 namespace platform_spi {
-using namespace spi;
+using Settings = hal_spi::Settings;
 /**
  * Initialises the spi device.
  * 
@@ -62,7 +62,7 @@ error_t write(Settings& settings, const uint8_t* data, size_t size);
  * @param callbacks The callbacks to be called before and after the transaction. 
  * @return If any error will occur a non zero result will indicate an error has happened.
  */
-error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks);
+error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const hal_spi::CallbacksBase* callbacks);
 /**
  * Writes a n amount of bytes to the spi device and reads the same amount of bytes.
  * 

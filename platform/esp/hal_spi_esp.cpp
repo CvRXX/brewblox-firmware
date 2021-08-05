@@ -8,7 +8,8 @@
 #include "staticAllocator.hpp"
 #include <stdio.h>
 #include <string.h>
-using namespace spi;
+
+using namespace hal_spi;
 
 auto transactionBuffer = StaticAllocator<spi_transaction_t, 10>();
 
@@ -92,7 +93,6 @@ error_t init(Settings& settings)
         .post_cb = post_callback};
 
     spi_device_t* dev_ptr = nullptr;
-    ESP_LOGI("SPI device init", "heaps free %d", heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT));
     auto err = spi_bus_add_device(spi_host.handle, &devcfg, &dev_ptr);
     if (err == ESP_OK) {
         settings.platform_device_ptr = dev_ptr;
