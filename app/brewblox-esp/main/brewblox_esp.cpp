@@ -25,7 +25,7 @@
 #include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
 #include "blox/DisplaySettingsBlock.h"
-#include "blox/OneWireBusBlock.h"
+#include "blox/ExpOwGpioBlock.hpp"
 #include "blox/SysInfoBlock.h"
 #include "blox/TicksBlock.h"
 #include "blox/stringify.h"
@@ -54,29 +54,6 @@ unsigned get_device_id(uint8_t* dest, unsigned len)
     return len;
 }
 
-void everySecond(const asio::error_code& e, std::shared_ptr<asio::steady_timer> t, uint32_t count)
-{
-    if (e) {
-        return;
-    }
-    ESP_LOGI("Tick", "%u", count);
-    t->expires_at(t->expiry() + asio::chrono::seconds(1));
-    t->async_wait(std::bind(everySecond, _1, std::move(t), ++count));
-};
-
-void boxUpdate(const asio::error_code& e, std::shared_ptr<asio::steady_timer> t, cbox::Box* box)
-{
-    const auto start = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
-    if (e) {
-        ESP_LOGE("boxupdate", "%s", e.message().c_str());
-    }
-    const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
-    uint32_t millisSinceBoot = now - start;
-    box->update(millisSinceBoot);
-    t->expires_from_now(asio::chrono::milliseconds(1));
-    t->async_wait(std::bind(boxUpdate, _1, std::move(t), box));
-};
-
 void handleReset(bool, uint8_t)
 {
 }
@@ -98,17 +75,16 @@ makeBrewBloxBox(asio::io_context& io)
 
     static cbox::ConnectionPool connections{{}}; // managed externally
 
-    auto scanners = std::vector<std::unique_ptr<cbox::ScanningFactory>>{};
-    scanners.reserve(2);
-    scanners.push_back(std::make_unique<OneWireMultiScanningFactory>());
-    scanners.push_back(std::make_unique<I2cScanningFactory>());
+    static OneWireMultiScanningFactory oneWireScanner;
+    static I2cScanningFactory i2cScanner;
+
+    static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(i2cScanner), std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
+    static const cbox::ObjectFactory platformFactory{{ExpOwGpioBlock::staticTypeId(), std::make_shared<ExpOwGpioBlock>}};
 
     static cbox::Box& box = brewblox::make_box(
         std::move(systemObjects),
-        {}, // platform factories
-        objectStore,
-        connections,
-        std::move(scanners));
+        platformFactory,
+        objectStore, connections, scanners);
 
     box.loadObjectsFromStorage(); // init box and load stored objects
 
@@ -122,6 +98,14 @@ makeBrewBloxBox(asio::io_context& io)
             box.update(millisSinceBoot);
         });
     updater.start();
+
+    static auto memoryReporter = RecurringTask(
+        io, asio::chrono::milliseconds(1000),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            ESP_LOGI("MEM", "Free heap %u", xPortGetFreeHeapSize());
+        });
+    memoryReporter.start();
 
     return box;
 }

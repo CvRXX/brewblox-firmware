@@ -38,9 +38,9 @@ public:
     virtual void reset() = 0;
 
     // scan takes the existing object container to be able to check if the object already exists
-    virtual std::shared_ptr<Object> scan(ObjectContainer& objects) = 0;
+    virtual std::shared_ptr<Object> scan(const ObjectContainer& objects) const = 0;
 
-    obj_id_t scanAndAdd(ObjectContainer& objects)
+    obj_id_t scanAndAdd(ObjectContainer& objects) const
     {
         if (auto newObj = scan(objects)) {
             return objects.add(std::move(newObj), uint8_t(0x01)); // default to first profile

@@ -117,7 +117,7 @@ struct Settings {
     const Mode mode = SPI_MODE0;
     const BitOrder bitOrder = MSBFIRST;
     std::function<void()> onAquire;
-    std::function<void()> on_Release;
+    std::function<void()> onRelease;
     void* platform_device_ptr = nullptr;
 };
 

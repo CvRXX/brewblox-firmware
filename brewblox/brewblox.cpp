@@ -36,30 +36,22 @@
 #include "blox/TempSensorMockBlock.h"
 #include "blox/TempSensorOneWireBlock.h"
 #include "blox/stringify.h"
+#include "cbox/ScanningFactory.hpp"
 #include <memory>
 
 namespace brewblox {
 
-cbox::ObjectFactory combine_factories(std::vector<cbox::ObjectFactoryEntry>&& a,
-                                      std::vector<cbox::ObjectFactoryEntry>&& b)
-{
-    a.insert(std::end(a),
-             std::make_move_iterator(std::begin(b)),
-             std::make_move_iterator(std::end(b)));
-    return cbox::ObjectFactory(std::move(a));
-}
-
 cbox::Box& make_box(cbox::ObjectContainer&& systemObjects,
-                    std::vector<cbox::ObjectFactoryEntry>&& platformFactories,
+                    const cbox::ObjectFactory& platformFactory,
                     cbox::ObjectStorage& storage,
                     cbox::ConnectionPool& connectionPool,
-                    std::vector<std::unique_ptr<cbox::ScanningFactory>>&& scanners)
+                    const std::vector<std::reference_wrapper<cbox::ScanningFactory>>& scanners)
 {
 
     static cbox::ObjectContainer objects = std::move(systemObjects);
 
-    static const cbox::ObjectFactory factories = combine_factories(
-        std::vector<cbox::ObjectFactoryEntry>{
+    static const cbox::ObjectFactory factory{
+        {
             //{TempSensorOneWireBlock::staticTypeId(), std::make_shared<TempSensorOneWireBlock>},
             {SetpointSensorPairBlock::staticTypeId(), []() { return std::make_shared<SetpointSensorPairBlock>(objects); }},
             {TempSensorMockBlock::staticTypeId(), std::make_shared<TempSensorMockBlock>},
@@ -78,9 +70,11 @@ cbox::Box& make_box(cbox::ObjectContainer&& systemObjects,
             {MockPinsBlock::staticTypeId(), []() { return std::make_shared<MockPinsBlock>(); }},
             {TempSensorCombiBlock::staticTypeId(), []() { return std::make_shared<TempSensorCombiBlock>(objects); }},
         },
-        std::move(platformFactories));
+    };
 
-    static cbox::Box box(factories, objects, storage, connectionPool, std::move(scanners));
+    static const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory), std::cref(platformFactory)}};
+
+    static cbox::Box box(factories, objects, storage, connectionPool, scanners);
 
     return box;
 }

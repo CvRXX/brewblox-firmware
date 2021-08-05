@@ -21,14 +21,14 @@
 
 #include "../ExpOwGpio.hpp"
 #include "blox/Block.h"
-#include "blox/proto/cpp/ExpOwGpio.pb.h"
+#include "blox/proto/cpp/OneWireGpioModule.pb.h"
 
-class ExpOwGpioBlock : public Block<BrewBloxTypes_BlockType_ExpOwGpio> {
+class ExpOwGpioBlock : public Block<BrewBloxTypes_BlockType_OneWireGpioModule> {
 private:
     ExpOwGpio drivers;
 
 public:
-    ExpOwGpioBlock(uint8_t lower_address)
+    ExpOwGpioBlock(uint8_t lower_address = 0xFF)
         : drivers(lower_address)
     {
     }
@@ -38,4 +38,7 @@ public:
     virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final;
     virtual cbox::update_t update(const cbox::update_t& now) override final;
     virtual void* implements(const cbox::obj_type_t& iface) override final;
+
+private:
+    void writeMessage(blox_OneWireGpioModule& message, bool includeNotPersisted) const;
 };

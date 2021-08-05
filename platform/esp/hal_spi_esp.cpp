@@ -1,9 +1,10 @@
+#include "SlotMemPool.hpp"
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
+#include "esp_err.h"
 #include "esp_log.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
-#include "SlotMemPool.hpp"
 #include "staticAllocator.hpp"
 #include <stdio.h>
 #include <string.h>
@@ -91,11 +92,12 @@ error_t init(Settings& settings)
         .post_cb = post_callback};
 
     spi_device_t* dev_ptr = nullptr;
+    ESP_LOGI("SPI device init", "heaps free %d", heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT));
     auto err = spi_bus_add_device(spi_host.handle, &devcfg, &dev_ptr);
     if (err == ESP_OK) {
         settings.platform_device_ptr = dev_ptr;
     } else {
-        ESP_LOGE("SPI", "spi device init error %d", err);
+        ESP_ERROR_CHECK(err);
     }
     return err;
 }
@@ -193,7 +195,7 @@ error_t hal_spi_host_init(uint8_t idx)
     auto spi_host = platform_spi::spiHosts[idx];
     auto err = spi_bus_initialize(spi_host.handle, &spi_host.config, SPI_DMA_CH_AUTO);
     if (err != 0) {
-        ESP_LOGE("SPI", "spi init error %d", err);
+        ESP_ERROR_CHECK(err);
     }
     return err;
 }

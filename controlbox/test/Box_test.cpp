@@ -33,7 +33,7 @@ SCENARIO("A controlbox Box")
          ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))},
         storage};
 
-    ObjectFactory factory = {
+    const ObjectFactory factory = {
         {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
         {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
         {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
@@ -44,14 +44,14 @@ SCENARIO("A controlbox Box")
         {MockStreamObject::staticTypeId(), std::make_shared<MockStreamObject>},
     };
 
+    const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory)}};
+
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
 
-    auto longIntScanner = std::unique_ptr<ScanningFactory>(new LongIntScanningFactory());
-    std::vector<std::unique_ptr<ScanningFactory>> scanningFactories;
-    scanningFactories.push_back(std::move(longIntScanner));
-
-    Box box(factory, container, storage, connPool, std::move(scanningFactories));
+    static LongIntScanningFactory longIntScanner;
+    static const std::vector<std::reference_wrapper<ScanningFactory>> scanners{{std::reference_wrapper<ScanningFactory>(longIntScanner)}};
+    Box box(factories, container, storage, connPool, scanners);
 
     auto in = std::make_shared<StringStreamAutoClear>();
     auto out = std::make_shared<std::stringstream>();
@@ -652,7 +652,7 @@ SCENARIO("A controlbox Box")
                             ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))},
                         storage2};
 
-                    ObjectFactory factory2 = {
+                    const ObjectFactory factory2 = {
                         {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
                         {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
                         {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
@@ -660,12 +660,14 @@ SCENARIO("A controlbox Box")
                              return std::make_shared<PtrLongIntObject>(container);
                          }}};
 
+                    const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories2{{std::cref(factory2)}};
+
                     StringStreamConnectionSource connSource2;
                     ConnectionPool connPool2 = {connSource2};
 
                     THEN("All objects can be restored from storage")
                     {
-                        Box box2(factory2, container2, storage2, connPool2);
+                        Box box2(factories2, container2, storage2, connPool2, scanners);
                         box2.loadObjectsFromStorage();
 
                         auto in2 = std::make_shared<std::stringstream>();
@@ -732,7 +734,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(originalObject, damagedObject));
 
-                            Box box2(factory2, container2, storage2, connPool2);
+                            Box box2(factories2, container2, storage2, connPool2, scanners);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -779,7 +781,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(addCrc(originalObject), addCrc(unsupportedTypeObject)));
 
-                            Box box2(factory2, container2, storage2, connPool2);
+                            Box box2(factories2, container2, storage2, connPool2, scanners);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();

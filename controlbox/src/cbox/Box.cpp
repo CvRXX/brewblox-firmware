@@ -42,16 +42,16 @@ handleReset(bool exit, uint8_t reason);
 
 namespace cbox {
 
-Box::Box(const ObjectFactory& _factory,
+Box::Box(const std::vector<std::reference_wrapper<const cbox::ObjectFactory>>& _factories,
          ObjectContainer& _objects,
          ObjectStorage& _storage,
          ConnectionPool& _connections,
-         std::vector<std::unique_ptr<ScanningFactory>>&& _scanners)
-    : factory(_factory)
+         const std::vector<std::reference_wrapper<ScanningFactory>>& _scanners)
+    : factories(_factories)
     , objects(_objects)
     , storage(_storage)
     , connections(_connections)
-    , scanners{std::move(_scanners)}
+    , scanners(_scanners)
 {
     objects.add(std::make_unique<GroupsObject>(this), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
     objects.setObjectsStartId(userStartId());                             // set startId for user objects to 100
@@ -200,12 +200,16 @@ Box::createObjectFromStream(DataIn& in)
         return std::make_tuple(CboxError::INPUT_STREAM_READ_ERROR, std::shared_ptr<Object>(), uint8_t(0)); // LCOV_EXCL_LINE
     }
 
-    auto retv = factory.make(typeId);
-    auto result = std::get<0>(retv);
-    auto obj = std::get<1>(retv);
-
-    if (obj) {
-        obj->streamFrom(in);
+    std::shared_ptr<Object> obj;
+    CboxError result;
+    for (auto f_it = factories.begin(); f_it < factories.end(); f_it++) {
+        auto retv = f_it->get().make(typeId);
+        result = std::get<0>(retv);
+        obj = std::get<1>(retv);
+        if (obj) {
+            obj->streamFrom(in);
+            break;
+        }
     }
     return std::make_tuple(std::move(result), std::move(obj), groups);
 }
@@ -568,11 +572,12 @@ void Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 
     out.write(asUint8(CboxError::OK));
 
-    for (auto& scanner : scanners) {
-        scanner->reset();
+    for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
+        auto& scanner = scanner_it->get();
+        scanner.reset();
         auto newId = obj_id_t(0);
         do {
-            newId = scanner->scanAndAdd(objects);
+            newId = scanner.scanAndAdd(objects);
             if (newId) {
                 auto cobj = objects.fetchContained(newId);
 
@@ -592,11 +597,12 @@ void Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 
 void Box::discoverNewObjects()
 {
-    for (auto& scanner : scanners) {
-        scanner->reset();
+    for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
+        auto& scanner = scanner_it->get();
+        scanner.reset();
         auto newId = obj_id_t(0);
         do {
-            newId = scanner->scanAndAdd(objects);
+            newId = scanner.scanAndAdd(objects);
         } while (newId);
     }
 }

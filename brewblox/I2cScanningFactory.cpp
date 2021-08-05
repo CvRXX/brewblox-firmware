@@ -24,29 +24,26 @@
 #include <vector>
 
 namespace detail {
-static std::vector<uint8_t> initializedI2cAdresses = {32, 56}; // skip touch screen driver and main board io expander
 static uint8_t nextAddress = 1;
 
-void set_initialized(uint8_t addr)
-{
-    initializedI2cAdresses.push_back(addr);
-}
-
-void set_uninitialized(uint8_t addr)
-{
-    initializedI2cAdresses.erase(std::remove(initializedI2cAdresses.begin(), initializedI2cAdresses.end(), addr));
-}
-
-uint8_t find_next()
+uint8_t find_next(const cbox::ObjectContainer& objects)
 {
     while (detail::nextAddress < 128) {
         uint8_t address = detail::nextAddress++;
-        if (std::find(initializedI2cAdresses.cbegin(), initializedI2cAdresses.cend(), address) != initializedI2cAdresses.cend()) {
-            // already initialized;
-            continue;
-        }
-        auto err = hal_i2c_detect(address, 1000);
+        auto err = hal_i2c_detect(address);
         if (!err) {
+            uint8_t pos = (address & uint8_t{0x3}) + 1;
+            auto samePosition = [&pos](const cbox::ContainedObject& cobj) {
+                if (auto ptr = cbox::asInterface<IoModule>(cobj.object())) {
+                    return ptr->modulePosition() == pos;
+                };
+                return false;
+            };
+            if (std::find_if(objects.cbegin(), objects.cend(), samePosition) != objects.cend()) {
+                // already initialized module at this position;
+                continue;
+            }
+
             return address;
         }
     }
@@ -59,28 +56,18 @@ void I2cScanningFactory::reset()
     detail::nextAddress = 1;
 }
 
-std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& objects)
+std::shared_ptr<cbox::Object> I2cScanningFactory::scan(const cbox::ObjectContainer& objects) const
 {
-    static constexpr uint8_t FAM_DS2482 = 0x18;
-    static constexpr uint8_t FAM_TCA9538 = 0x70;
     uint8_t found = 0;
     do {
-        found = detail::find_next();
-        uint8_t family = found & uint8_t(0xFC);
-        uint8_t lower_bits = found & uint8_t(0x3);
-        if (family == FAM_DS2482) {
-            uint8_t expander_address = FAM_TCA9538 + lower_bits;
+        found = detail::find_next(objects);
+        uint8_t family = found & uint8_t{0xFC};
+        uint8_t lower_bits = found & uint8_t{0x3};
+        if (family == DS248x::base_address()) {
+            uint8_t expander_address = TCA9538::base_address() + lower_bits;
             if (hal_i2c_detect(expander_address) == 0) {
-                // OneWire GPIO module detected (OneWire bus master and port expander)
-                detail::set_initialized(found);
-                detail::set_initialized(expander_address);
-
-                // custom deleter to remove i2c addresses from initialized list when object is deleted
-                return std::shared_ptr<ExpOwGpioBlock>(new ExpOwGpioBlock(lower_bits), [found, expander_address](ExpOwGpioBlock* ptr) {
-                    detail::set_uninitialized(found);
-                    detail::set_uninitialized(expander_address);
-                    delete ptr;
-                });
+                // new OneWire GPIO module detected (OneWire bus master and port expander)
+                return std::make_shared<ExpOwGpioBlock>(lower_bits);
             }
         }
     } while (found);

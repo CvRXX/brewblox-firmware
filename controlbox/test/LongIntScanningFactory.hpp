@@ -15,7 +15,7 @@ namespace cbox {
 class LongIntScanningFactory : public ScanningFactory {
 private:
     std::vector<uint32_t> candidates = {0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
-    std::vector<uint32_t>::const_iterator it;
+    mutable std::vector<uint32_t>::const_iterator it;
 
 public:
     LongIntScanningFactory()
@@ -30,7 +30,7 @@ public:
         it = candidates.cbegin();
     };
 
-    virtual std::shared_ptr<Object> scan(ObjectContainer& objects) override final
+    virtual std::shared_ptr<Object> scan(const ObjectContainer& objects) const override final
     {
         while (it != candidates.cend()) {
             bool found = false;

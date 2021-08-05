@@ -93,11 +93,9 @@ void FlexChannel::apply(ChannelConfig& config, ChanBitsInternal& op_ctrl)
     ChanBitsInternal drive_bits;
     switch (config) {
     case ChannelConfig::DRIVING_ON:
-        ESP_LOGI("DRIVING", "ON");
         drive_bits.all = when_active_mask.all;
         break;
     case ChannelConfig::DRIVING_OFF:
-        ESP_LOGI("DRIVING", "OFF");
         drive_bits.all = when_inactive_mask.all;
         break;
     case ChannelConfig::DRIVING_REVERSE:
@@ -129,39 +127,9 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     uint8_t idx = channel - 1;
 
     flexChannels[idx].apply(config, op_ctrl);
-    ESP_LOGI("op_ctrl", "%x", op_ctrl.all);
-    ESP_LOGI("status", "%x", drv.status());
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
     return true;
-}
-
-void ExpOwGpio::test()
-{
-    ChanBits pins;
-    ChanBits whenActive;
-    ChanBits whenInactive;
-    pins.all = 0xFFFF;
-
-    whenActive.set(1, PinDrive::PULL_DOWN);
-    whenActive.set(2, PinDrive::PULL_DOWN);
-    whenActive.set(3, PinDrive::PULL_DOWN);
-    whenActive.set(4, PinDrive::PULL_DOWN);
-    whenActive.set(5, PinDrive::PULL_UP);
-    whenActive.set(6, PinDrive::PULL_UP);
-    whenActive.set(7, PinDrive::PULL_UP);
-    whenActive.set(8, PinDrive::PULL_UP);
-
-    whenInactive.set(1, PinDrive::PULL_UP);
-    whenInactive.set(2, PinDrive::PULL_UP);
-    whenInactive.set(3, PinDrive::PULL_UP);
-    whenInactive.set(4, PinDrive::PULL_UP);
-    whenInactive.set(5, PinDrive::PULL_DOWN);
-    whenInactive.set(6, PinDrive::PULL_DOWN);
-    whenInactive.set(7, PinDrive::PULL_DOWN);
-    whenInactive.set(8, PinDrive::PULL_DOWN);
-
-    flexChannels.emplace_back(1, FlexChannel::Type::OUTPUT, pins, whenActive, whenInactive);
 }
 
 ChanBits ExpOwGpio::openload() const

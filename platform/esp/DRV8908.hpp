@@ -4,8 +4,8 @@
 class DRV8908 {
 public:
     DRV8908(uint8_t spi_idx, int ss,
-            std::function<void()> on_spi_aquire,
-            std::function<void()> on_spi_release);
+            std::function<void()>&& on_spi_aquire,
+            std::function<void()>&& on_spi_release);
     ~DRV8908() = default;
 
     enum class RegAddr : uint8_t {

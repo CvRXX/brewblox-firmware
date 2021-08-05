@@ -43,7 +43,7 @@ struct SpiDevice {
     * @param spi_mode The configuration of the spi device.
     * @param bit_order The bitorder of a spi transaction.
     * @param onAquire Gets called when te bus is aquired.
-    * @param on_release Gets called when te bus is released.
+    * @param onRelease Gets called when te bus is released.
     */
     SpiDevice(spi::Settings&& settings)
         : settings{settings}
@@ -184,8 +184,8 @@ struct SpiDevice {
     void release_bus()
     {
         platform_spi::release_bus(this->settings);
-        if (settings.on_Release) {
-            settings.on_Release();
+        if (settings.onRelease) {
+            settings.onRelease();
         }
     }
 

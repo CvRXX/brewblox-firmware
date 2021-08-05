@@ -24,11 +24,12 @@
 #include "cbox/ObjectFactory.h"
 
 namespace brewblox {
+
 cbox::Box& make_box(cbox::ObjectContainer&& systemObjects,
-                    std::vector<cbox::ObjectFactoryEntry>&& platformFactories,
+                    const cbox::ObjectFactory& platformFactory,
                     cbox::ObjectStorage& storage,
                     cbox::ConnectionPool& connectionPool,
-                    std::vector<std::unique_ptr<cbox::ScanningFactory>>&& scanners);
+                    const std::vector<std::reference_wrapper<cbox::ScanningFactory>>& scanners);
 
 }
 

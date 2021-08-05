@@ -79,12 +79,12 @@ public:
     CboxError remove(obj_id_t id);
 
     // only const iterators are exposed. We don't want the caller to be able to modify the container
-    CIterator cbegin()
+    CIterator cbegin() const
     {
         return objects.cbegin();
     }
 
-    CIterator cend()
+    CIterator cend() const
     {
         return objects.cend();
     }

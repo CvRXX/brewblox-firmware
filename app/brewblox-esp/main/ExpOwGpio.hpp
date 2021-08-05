@@ -2,14 +2,16 @@
 #include "DRV8908.hpp"
 #include "DS248x.hpp"
 #include "IoArray.h"
+#include "IoModule.hpp"
 #include "OneWire.h"
 #include "TCA9538.hpp"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "hal/hal_delay.h"
+#include <esp_heap_trace.h>
 #include <vector>
 
-class ExpOwGpio : public IoArray {
+class ExpOwGpio : public IoArray, public IoModule {
 public:
     ExpOwGpio(uint8_t lower_address)
         : IoArray(8)
@@ -18,7 +20,6 @@ public:
               0, -1,
               [this]() {
                   expander.set_output(0, false);
-                  hal_delay_ms(1);
               },
               [this]() {
                   expander.set_output(0, true);
@@ -26,7 +27,21 @@ public:
         , owDriver(lower_address)
         , ow(owDriver)
     {
-        init();
+        ESP_LOGE("OWGPIO", "Constructed");
+        //        init();
+    }
+    virtual ~ExpOwGpio()
+    {
+        ESP_LOGE("OWGPIO", "Destructed");
+    }
+
+    ExpOwGpio(const ExpOwGpio&) = delete;
+    ExpOwGpio& operator=(const ExpOwGpio&) = delete;
+
+    static bool detect_presence(uint8_t lower_address)
+    {
+        return hal_i2c_detect(TCA9538::base_address() + lower_address) == 0
+               && hal_i2c_detect(DS248x::base_address() + lower_address) == 0;
     }
 
     void init()
@@ -38,6 +53,7 @@ public:
         // set overvoltage threshold to 33V and clear all faults
         ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
         expander.set_outputs(0b11111111); // 24V on
+        hal_delay_ms(1000);
     }
 
     void test();
@@ -118,24 +134,14 @@ public:
 
     class FlexChannel {
     public:
-        enum class Type {
-            NONE = 0,
-            INPUT = 1,
-            OUTPUT = 2,
-            OUTPUT_PWM_80HZ = 3,
-            OUTPUT_PWM_100HZ = 4,
-            OUTPUT_PWM_200HZ = 4,
-            OUTPUT_PWM_2KHZ = 5,
-        };
-
         FlexChannel(
             uint8_t id,
-            Type type,
+            ChannelConfig config,
             const ChanBits& pins,
             const ChanBits& when_active_drive,
             const ChanBits& when_inactive_drive)
             : id(id)
-            , type(type)
+            , config(config)
             , pins_mask(pins)
             , when_active_mask(when_active_drive)
             , when_inactive_mask(when_inactive_drive)
@@ -143,8 +149,8 @@ public:
         }
 
         uint8_t id = 0;
+        ChannelConfig config = ChannelConfig::UNUSED;
         uint8_t pwm_duty = 0;
-        Type type = Type::NONE;
 
         ChanBits pins() const
         {
@@ -164,12 +170,12 @@ public:
             return converted; // convert to external order
         }
 
-        void configure(
-            uint8_t new_id,
-            Type new_type,
-            const ChanBits& pins,
-            const ChanBits& when_active_drive,
-            const ChanBits& when_inactive_drive);
+        // void configure(
+        //     uint8_t new_id,
+        //     ChannelConfig config,
+        //     const ChanBits& pins,
+        //     const ChanBits& when_active_drive,
+        //     const ChanBits& when_inactive_drive);
 
         void apply(ChannelConfig& config, ChanBitsInternal& op_ctrl);
 
@@ -197,6 +203,16 @@ public:
         return flexChannels.cend();
     }
 
+    void clearChannels()
+    {
+        flexChannels.clear();
+    }
+
+    void addChannel(FlexChannel&& c)
+    {
+        flexChannels.push_back(c);
+    }
+
     void update();
 
     uint8_t status() const
@@ -211,9 +227,22 @@ public:
 
     ChanBits openload() const;
     ChanBits overcurrent() const;
-    uint8_t address() const
+
+    uint8_t modulePosition() const override final
     {
-        return expander.address();
+        auto addr = expander.address();
+        if (addr == 0xFF) {
+            return 0;
+        }
+        return (addr & uint8_t{3}) + 1;
+    }
+
+    void modulePosition(uint8_t pos) override final
+    {
+        if (pos && pos <= 4) {
+            expander.set_address_bits(pos - 1);
+            owDriver.set_address_bits(pos - 1);
+        }
     }
 
     OneWire& oneWireBus()

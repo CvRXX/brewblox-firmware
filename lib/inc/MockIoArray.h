@@ -69,6 +69,8 @@ public:
             case ChannelConfig::DRIVING_REVERSE:         // not supported
             case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:  // not supported
             case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE: // not supported
+            case ChannelConfig::DRIVING_PWM:             // not supported
+            case ChannelConfig::DRIVING_PWM_REVERSE:     // not supported
                 return false;
             }
         }

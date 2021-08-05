@@ -48,7 +48,7 @@ public:
         bus.reset_search();
     }
 
-    OneWireAddress next()
+    OneWireAddress next() const
     {
         auto newAddr = OneWireAddress();
         if (bus.search(newAddr)) {
@@ -57,7 +57,7 @@ public:
         return 0;
     }
 
-    virtual std::shared_ptr<cbox::Object> scan(cbox::ObjectContainer& objects) override final
+    virtual std::shared_ptr<cbox::Object> scan(const cbox::ObjectContainer& objects) const override final
     {
         while (true) {
             if (auto newAddr = next()) {

@@ -3,8 +3,8 @@
 #include <array>
 
 DRV8908::DRV8908(uint8_t spi_idx, int ss,
-                 std::function<void()> on_spi_aquire,
-                 std::function<void()> on_spi_release)
+                 std::function<void()>&& on_spi_aquire,
+                 std::function<void()>&& on_spi_release)
     : spi(
         spi::Settings{
             .spi_idx = spi_idx,
@@ -13,8 +13,8 @@ DRV8908::DRV8908(uint8_t spi_idx, int ss,
             .ssPin = ss,
             .mode = spi::Settings::Mode::SPI_MODE1,
             .bitOrder = spi::Settings::BitOrder::MSBFIRST,
-            .onAquire = std::move(on_spi_aquire),
-            .on_Release = std::move(on_spi_release)})
+            .onAquire = on_spi_aquire,
+            .onRelease = on_spi_release})
 {
     spi.init();
 }

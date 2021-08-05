@@ -24,30 +24,24 @@
 
 class I2CDevice {
 public:
-    virtual uint8_t address() const = 0;
     virtual uint8_t family_address() const = 0;
-};
 
-template <uint8_t address_base>
-class I2CDeviceBase : public I2CDevice {
-public:
-    I2CDeviceBase(uint8_t lower_address)
-        : addr(family_address() + lower_address)
-    {
-    }
-
-    virtual uint8_t family_address() const override final
-    {
-        return address_base;
-    }
-
-    virtual uint8_t address() const override final
+    uint8_t address() const
     {
         return addr;
     }
 
+    void set_address_bits(uint8_t lower_bits)
+    {
+        // use 0xFF as invalid/uninitialized address
+        addr = (lower_bits < 4) ? lower_bits + family_address() : 0xFF;
+    }
+
     bool i2c_write(const std::vector<uint8_t>& values, bool stop = true)
     {
+        if (addr == 0xFF) {
+            return false;
+        }
         lastError = hal_i2c_write(addr, values.data(), values.size(), stop);
         return lastError == 0;
     }
@@ -66,6 +60,9 @@ public:
 
     std::vector<uint8_t> i2c_read(size_t n, bool stop = true)
     {
+        if (addr == 0xFF) {
+            return {};
+        }
         std::vector<uint8_t> values(n);
         lastError = hal_i2c_read(addr, values.data(), values.size(), stop);
         if (lastError == 0) {
@@ -80,6 +77,27 @@ public:
     }
 
 private:
-    uint8_t addr;
-    hal_i2c_err_t lastError;
+    hal_i2c_err_t lastError = 0;
+    uint8_t addr = 0xFF;
+};
+
+template <uint8_t address_base>
+class I2CDeviceBase : public I2CDevice {
+public:
+    I2CDeviceBase(uint8_t lower_address)
+    {
+        set_address_bits(lower_address);
+    }
+
+    // non virtual for when type is known
+    static constexpr uint8_t base_address()
+    {
+        return address_base;
+    }
+
+    // virtual for when type is not known
+    virtual uint8_t family_address() const override final
+    {
+        return address_base;
+    }
 };

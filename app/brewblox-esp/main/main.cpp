@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_heap_caps.h>
+#include <esp_heap_trace.h>
 #include <esp_log.h>
 #include <esp_spiffs.h>
 #include <iomanip>
@@ -49,6 +50,8 @@ void mount_blocks_spiff()
         return;
     }
 }
+#define MEMORY_DEBUG_RECORDS 100
+static heap_trace_record_t trace_record[MEMORY_DEBUG_RECORDS]; // This buffer must be in internal RAM
 
 extern "C" {
 #ifdef ESP_PLATFORM
@@ -64,6 +67,8 @@ void app_main()
 int main(int /*argc*/, char** /*argv*/)
 #endif
 {
+    ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
+
     Spark4::hw_init();
     hal_delay_ms(100);
     mount_blocks_spiff();

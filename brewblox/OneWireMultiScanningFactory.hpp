@@ -34,10 +34,10 @@ public:
         ;
     }
 
-    virtual std::shared_ptr<cbox::Object> scan(cbox::ObjectContainer& objects) override final
+    virtual std::shared_ptr<cbox::Object> scan(const cbox::ObjectContainer& objects) const override final
     {
         for (auto obj_it = objects.cbegin(); obj_it != objects.cend(); ++obj_it) {
-            OneWire* bus = reinterpret_cast<OneWire*>(obj_it->object()->implements(cbox::interfaceId<OneWire>()));
+            OneWire* bus = const_cast<OneWire*>(cbox::asInterface<OneWire>(obj_it->object()));
             if (bus == nullptr) {
                 continue; // not a OneWire bus
             }

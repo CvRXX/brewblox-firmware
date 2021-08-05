@@ -25,6 +25,7 @@
 #include "DigitalConstraints.pb.h"
 #include "FixedPoint.h"
 #include "IoArray.h"
+#include "IoModule.hpp"
 #include "OneWireDevice.h"
 #include "ProcessValue.h"
 #include "SetpointSensorPair.h"
@@ -109,6 +110,13 @@ const obj_type_t
 interfaceIdImpl<OneWire>()
 {
     return BrewBloxTypes_BlockType_OneWireBusInterface;
+}
+
+template <>
+const obj_type_t
+interfaceIdImpl<IoModule>()
+{
+    return BrewBloxTypes_BlockType_IoModuleInterface;
 }
 
 } // end namespace cbox
