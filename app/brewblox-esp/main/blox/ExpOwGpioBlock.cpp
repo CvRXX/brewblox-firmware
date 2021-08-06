@@ -27,15 +27,15 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
     cbox::CboxError res = streamProtoFrom(in, &newData, blox_OneWireGpioModule_fields, blox_OneWireGpioModule_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
-        drivers.modulePosition(newData.module_position);
+        drivers.modulePosition(newData.modulePosition);
         drivers.clearChannels();
         for (uint8_t c = 0; c < newData.channels_count; c++) {
             ExpOwGpio::ChanBits pins;
             ExpOwGpio::ChanBits when_active;
             ExpOwGpio::ChanBits when_inactive;
             pins.all = newData.channels[c].pins;
-            when_active.all = newData.channels[c].when_active;
-            when_inactive.all = newData.channels[c].when_inactive;
+            when_active.all = newData.channels[c].whenActive;
+            when_inactive.all = newData.channels[c].whenInactive;
 
             drivers.addChannel(ExpOwGpio::FlexChannel(
                 newData.channels[c].id,
@@ -51,23 +51,23 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
 
 void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeNotPersisted) const
 {
-    message.module_position = drivers.modulePosition();
+    message.modulePosition = drivers.modulePosition();
     message.channels_count = 0;
     for (auto chan_it = drivers.cbegin(); chan_it < drivers.cend(); chan_it++) {
         message.channels[message.channels_count].id = chan_it->id;
         message.channels[message.channels_count].config = blox_ChannelConfig(chan_it->config);
         message.channels[message.channels_count].pins = chan_it->pins().all;
-        message.channels[message.channels_count].when_active = chan_it->when_active().all;
-        message.channels[message.channels_count].when_inactive = chan_it->when_inactive().all;
-        message.channels[message.channels_count].pwm_duty = chan_it->pwm_duty;
+        message.channels[message.channels_count].whenActive = chan_it->when_active().all;
+        message.channels[message.channels_count].whenInactive = chan_it->when_inactive().all;
+        message.channels[message.channels_count].pwmDuty = chan_it->pwm_duty;
         ++message.channels_count;
     }
 
     if (includeNotPersisted) {
         message.status = drivers.status();
         message.drive = drivers.drive().all;
-        message.overcurrent = drivers.overcurrent().all;
-        message.openload = drivers.openload().all;
+        message.overCurrent = drivers.overcurrent().all;
+        message.openLoad = drivers.openload().all;
     }
 }
 
