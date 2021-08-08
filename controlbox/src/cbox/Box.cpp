@@ -574,7 +574,6 @@ void Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 
     for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
         auto& scanner = scanner_it->get();
-        scanner.reset();
         auto newId = obj_id_t(0);
         do {
             newId = scanner.scanAndAdd(objects);
@@ -598,11 +597,9 @@ void Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 void Box::discoverNewObjects()
 {
     for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
-        auto& scanner = scanner_it->get();
-        scanner.reset();
         auto newId = obj_id_t(0);
         do {
-            newId = scanner.scanAndAdd(objects);
+            newId = scanner_it->get().scanAndAdd(objects);
         } while (newId);
     }
 }

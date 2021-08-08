@@ -24,12 +24,12 @@
 #include <vector>
 
 namespace detail {
-static uint8_t nextAddress = 1;
 
-uint8_t find_next(const cbox::ObjectContainer& objects)
+uint8_t find_next(const cbox::ObjectContainer& objects, uint8_t lastAddress)
 {
-    while (detail::nextAddress < 128) {
-        uint8_t address = detail::nextAddress++;
+    uint8_t address = lastAddress;
+    while (address < 128) {
+        ++address;
         auto err = hal_i2c_detect(address);
         if (!err) {
             uint8_t pos = (address & uint8_t{0x3}) + 1;
@@ -51,18 +51,16 @@ uint8_t find_next(const cbox::ObjectContainer& objects)
 }
 }
 
-void I2cScanningFactory::reset()
-{
-    detail::nextAddress = 1;
-}
-
 std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& objects)
 {
-    uint8_t found = 0;
-    do {
-        found = detail::find_next(objects);
-        uint8_t family = found & uint8_t{0xFC};
-        uint8_t lower_bits = found & uint8_t{0x3};
+    uint8_t address = 0;
+    while (true) {
+        address = detail::find_next(objects, address);
+        if (!address) {
+            return nullptr;
+        }
+        uint8_t family = address & uint8_t{0xFC};
+        uint8_t lower_bits = address & uint8_t{0x3};
         if (family == DS248x::base_address()) {
             uint8_t expander_address = TCA9538::base_address() + lower_bits;
             if (hal_i2c_detect(expander_address) == 0) {
@@ -70,6 +68,6 @@ std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& ob
                 return std::make_shared<ExpOwGpioBlock>(lower_bits);
             }
         }
-    } while (found);
+    };
     return nullptr;
 }

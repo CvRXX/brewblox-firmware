@@ -35,8 +35,6 @@ public:
     ScanningFactory() = default;
     virtual ~ScanningFactory() = default;
 
-    virtual void reset() = 0;
-
     // scan takes the existing object container to be able to check if the object already exists
     virtual std::shared_ptr<Object> scan(ObjectContainer& objects) = 0;
 

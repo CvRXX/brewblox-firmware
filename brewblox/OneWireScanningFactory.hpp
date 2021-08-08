@@ -43,29 +43,13 @@ public:
 
     virtual ~OneWireScanningFactory() = default;
 
-    virtual void reset() override
-    {
-        if (auto bus = busPtr.lock()) {
-            bus->reset_search();
-        }
-    }
-
-    OneWireAddress next()
-    {
-        if (auto bus = busPtr.lock()) {
-            auto newAddr = OneWireAddress();
-            if (bus->search(newAddr)) {
-                return newAddr;
-            }
-        }
-        return 0;
-    }
-
     virtual std::shared_ptr<cbox::Object> scan(cbox::ObjectContainer& objects) override final
     {
         if (auto bus = busPtr.lock()) {
+            bus->reset_search();
             while (true) {
-                if (auto newAddr = next()) {
+                OneWireAddress newAddr;
+                if (bus->search(newAddr)) {
                     bool found = false;
                     for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
                         OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>(existing->object()->implements(cbox::interfaceId<OneWireDevice>()));
@@ -101,10 +85,10 @@ public:
                         }
                     }
                 } else {
-                    break;
+                    return {};
                 }
             };
         }
-        return nullptr;
+        return {};
     }
 };
