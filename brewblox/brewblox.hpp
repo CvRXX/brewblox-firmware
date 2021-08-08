@@ -25,7 +25,7 @@
 
 namespace brewblox {
 
-cbox::Box& make_box(cbox::ObjectContainer&& systemObjects,
+cbox::Box& make_box(cbox::ObjectContainer& objects,
                     const cbox::ObjectFactory& platformFactory,
                     cbox::ObjectStorage& storage,
                     cbox::ConnectionPool& connectionPool,

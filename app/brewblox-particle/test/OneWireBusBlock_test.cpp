@@ -44,7 +44,7 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
 {
     GIVEN("A Blox OneWireBus")
     {
-        OneWireBusBlock ow(theOneWire());
+        OneWireBusBlock ow(setupOneWire());
 
         WHEN("it is encoded to a buffer")
         {

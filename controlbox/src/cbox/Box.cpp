@@ -203,7 +203,7 @@ Box::createObjectFromStream(DataIn& in)
     std::shared_ptr<Object> obj;
     CboxError result;
     for (auto f_it = factories.begin(); f_it < factories.end(); f_it++) {
-        auto retv = f_it->get().make(typeId);
+        auto retv = f_it->get().make(objects, typeId);
         result = std::get<0>(retv);
         obj = std::get<1>(retv);
         if (obj) {

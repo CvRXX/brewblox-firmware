@@ -41,8 +41,8 @@ public:
     {
     }
 
-    ObjectContainer(std::initializer_list<ContainedObject> systemObjects, ObjectStorage& storage_)
-        : objects{systemObjects}
+    ObjectContainer(std::initializer_list<ContainedObject> objects, ObjectStorage& storage_)
+        : objects{objects}
         , storage(storage_)
     {
     }

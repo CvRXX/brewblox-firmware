@@ -30,7 +30,7 @@ public:
         it = candidates.cbegin();
     };
 
-    virtual std::shared_ptr<Object> scan(const ObjectContainer& objects) const override final
+    virtual std::shared_ptr<Object> scan(ObjectContainer& objects) override final
     {
         while (it != candidates.cend()) {
             bool found = false;

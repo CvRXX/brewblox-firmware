@@ -6,6 +6,7 @@ set(srcs
   AppTicks.cpp
   brewblox_esp.cpp
   ExpOwGpio.cpp
+  I2cScanningFactory.cpp
   blox/ExpOwGpioBlock.cpp
   TimerInterrupts.cpp
   network/CboxConnection.cpp

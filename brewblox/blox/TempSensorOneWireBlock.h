@@ -10,11 +10,19 @@ class OneWire;
 
 class TempSensorOneWireBlock : public Block<BrewBloxTypes_BlockType_TempSensorOneWire> {
 private:
+    cbox::CboxPtr<OneWire> owBus;
     DS18B20 sensor;
 
 public:
-    TempSensorOneWireBlock(OneWire& ow)
-        : sensor(ow)
+    TempSensorOneWireBlock(cbox::ObjectContainer& objects)
+        : owBus(objects)
+        , sensor(owBus.lockFunctor())
+    {
+    }
+
+    TempSensorOneWireBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
+        : owBus(objects, busId)
+        , sensor(owBus.lockFunctor())
     {
     }
 
@@ -24,6 +32,7 @@ public:
         cbox::CboxError res = streamProtoFrom(in, &newData, blox_TempSensorOneWire_fields, blox_TempSensorOneWire_size);
         /* if no errors occur, write new settings to wrapped object */
         if (res == cbox::CboxError::OK) {
+            owBus.setId(newData.oneWireBusId);
             sensor.address(OneWireAddress(newData.address));
             sensor.setCalibration(cnl::wrap<temp_t>(newData.offset));
         }
@@ -41,6 +50,7 @@ public:
             stripped.add(blox_TempSensorOneWire_value_tag);
         }
 
+        message.oneWireBusId = owBus.getId();
         message.address = sensor.address();
         message.offset = cnl::unwrap(sensor.getCalibration());
 
@@ -51,6 +61,7 @@ public:
     virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
     {
         blox_TempSensorOneWire message = blox_TempSensorOneWire_init_zero;
+        message.oneWireBusId = owBus.getId();
         message.address = sensor.address();
         message.offset = cnl::unwrap(sensor.getCalibration());
         return streamProtoTo(out, &message, blox_TempSensorOneWire_fields, blox_TempSensorOneWire_size);

@@ -21,16 +21,25 @@
 
 #include "DS2413.h"
 #include "blox/Block.h"
+#include "cbox/CboxPtr.h"
 
 class OneWire;
 
 class DS2413Block : public Block<BrewBloxTypes_BlockType_DS2413> {
 private:
+    cbox::CboxPtr<OneWire> owBus;
     DS2413 device;
 
 public:
-    DS2413Block(OneWire& ow)
-        : device(ow)
+    DS2413Block(cbox::ObjectContainer& objects)
+        : owBus(objects)
+        , device(owBus.lockFunctor())
+    {
+    }
+
+    DS2413Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
+        : owBus(objects, busId)
+        , device(owBus.lockFunctor())
     {
     }
 

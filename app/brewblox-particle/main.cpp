@@ -142,10 +142,6 @@ void setup()
     } while (ticks.millis() < ((PLATFORM_ID != PLATFORM_GCC) ? 2000 : 0));
 
     enablePheripheral5V(true);
-    HAL_Delay_Milliseconds(1);
-
-    StartupScreen::setStep("Init OneWire");
-    theOneWire();
 
     HAL_Delay_Milliseconds(1);
     StartupScreen::setProgress(60);

@@ -41,36 +41,31 @@
 
 namespace brewblox {
 
-cbox::Box& make_box(cbox::ObjectContainer&& systemObjects,
+cbox::Box& make_box(cbox::ObjectContainer& objects,
                     const cbox::ObjectFactory& platformFactory,
                     cbox::ObjectStorage& storage,
                     cbox::ConnectionPool& connectionPool,
                     const std::vector<std::reference_wrapper<cbox::ScanningFactory>>& scanners)
 {
-
-    static cbox::ObjectContainer objects = std::move(systemObjects);
-
-    static const cbox::ObjectFactory factory{
-        {
-            //{TempSensorOneWireBlock::staticTypeId(), std::make_shared<TempSensorOneWireBlock>},
-            {SetpointSensorPairBlock::staticTypeId(), []() { return std::make_shared<SetpointSensorPairBlock>(objects); }},
-            {TempSensorMockBlock::staticTypeId(), std::make_shared<TempSensorMockBlock>},
-            {ActuatorAnalogMockBlock::staticTypeId(), []() { return std::make_shared<ActuatorAnalogMockBlock>(objects); }},
-            {PidBlock::staticTypeId(), []() { return std::make_shared<PidBlock>(objects); }},
-            {ActuatorPwmBlock::staticTypeId(), []() { return std::make_shared<ActuatorPwmBlock>(objects); }},
-            {ActuatorOffsetBlock::staticTypeId(), []() { return std::make_shared<ActuatorOffsetBlock>(objects); }},
-            {BalancerBlock::staticTypeId(), std::make_shared<BalancerBlock>},
-            {MutexBlock::staticTypeId(), std::make_shared<MutexBlock>},
-            {SetpointProfileBlock::staticTypeId(), []() { return std::make_shared<SetpointProfileBlock>(objects); }},
-            //{DS2413Block::staticTypeId(), std::make_shared<DS2413Block>},
-            {DigitalActuatorBlock::staticTypeId(), []() { return std::make_shared<DigitalActuatorBlock>(objects); }},
-            //{DS2408Block::staticTypeId(), std::make_shared<DS2408Block>},
-            {MotorValveBlock::staticTypeId(), []() { return std::make_shared<MotorValveBlock>(objects); }},
-            {ActuatorLogicBlock::staticTypeId(), []() { return std::make_shared<ActuatorLogicBlock>(objects); }},
-            {MockPinsBlock::staticTypeId(), []() { return std::make_shared<MockPinsBlock>(); }},
-            {TempSensorCombiBlock::staticTypeId(), []() { return std::make_shared<TempSensorCombiBlock>(objects); }},
-        },
-    };
+    static const cbox::ObjectFactory factory({
+        {TempSensorOneWireBlock::staticTypeId(), std::make_shared<TempSensorOneWireBlock, cbox::ObjectContainer&>},
+        {SetpointSensorPairBlock::staticTypeId(), std::make_shared<SetpointSensorPairBlock, cbox::ObjectContainer&>},
+        {TempSensorMockBlock::staticTypeId(), std::make_shared<TempSensorMockBlock>},
+        {ActuatorAnalogMockBlock::staticTypeId(), std::make_shared<ActuatorAnalogMockBlock, cbox::ObjectContainer&>},
+        {PidBlock::staticTypeId(), std::make_shared<PidBlock, cbox::ObjectContainer&>},
+        {ActuatorPwmBlock::staticTypeId(), std::make_shared<ActuatorPwmBlock, cbox::ObjectContainer&>},
+        {ActuatorOffsetBlock::staticTypeId(), std::make_shared<ActuatorOffsetBlock, cbox::ObjectContainer&>},
+        {BalancerBlock::staticTypeId(), std::make_shared<BalancerBlock>},
+        {MutexBlock::staticTypeId(), std::make_shared<MutexBlock>},
+        {SetpointProfileBlock::staticTypeId(), std::make_shared<SetpointProfileBlock, cbox::ObjectContainer&>},
+        {DS2413Block::staticTypeId(), std::make_shared<DS2413Block, cbox::ObjectContainer&>},
+        {DigitalActuatorBlock::staticTypeId(), std::make_shared<DigitalActuatorBlock, cbox::ObjectContainer&>},
+        {DS2408Block::staticTypeId(), std::make_shared<DS2408Block, cbox::ObjectContainer&>},
+        {MotorValveBlock::staticTypeId(), std::make_shared<MotorValveBlock, cbox::ObjectContainer&>},
+        {ActuatorLogicBlock::staticTypeId(), std::make_shared<ActuatorLogicBlock, cbox::ObjectContainer&>},
+        {MockPinsBlock::staticTypeId(), std::make_shared<MockPinsBlock>},
+        {TempSensorCombiBlock::staticTypeId(), std::make_shared<TempSensorCombiBlock, cbox::ObjectContainer&>},
+    });
 
     static const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory), std::cref(platformFactory)}};
 

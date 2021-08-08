@@ -65,7 +65,7 @@ makeBrewBloxBox(asio::io_context& io)
 
     static Ticks<MockTicks> ticks;
 
-    cbox::ObjectContainer systemObjects{
+    static cbox::ObjectContainer objects{
         {
             cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(get_device_id)),
             cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<Ticks<MockTicks>>>(ticks)),
@@ -82,7 +82,7 @@ makeBrewBloxBox(asio::io_context& io)
     static const cbox::ObjectFactory platformFactory{{ExpOwGpioBlock::staticTypeId(), std::make_shared<ExpOwGpioBlock>}};
 
     static cbox::Box& box = brewblox::make_box(
-        std::move(systemObjects),
+        objects,
         platformFactory,
         objectStore, connections, scanners);
 

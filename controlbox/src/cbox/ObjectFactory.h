@@ -21,6 +21,7 @@
 #pragma once
 
 #include "Object.h"
+#include "ObjectContainer.h"
 #include <functional>
 #include <memory>
 #include <tuple>
@@ -34,12 +35,27 @@ namespace cbox {
 // Therefore the factory creates a shared pointer right away to only have one allocation.
 struct ObjectFactoryEntry {
     obj_type_t typeId;
-    std::function<std::shared_ptr<Object>()> createFn;
+    std::function<std::shared_ptr<Object>(ObjectContainer&)> createFn;
+
+    ObjectFactoryEntry(const obj_type_t& id, std::function<std::shared_ptr<Object>(ObjectContainer&)>&& fn)
+        : typeId(id)
+        , createFn(std::move(fn))
+    {
+    }
+
+    ObjectFactoryEntry(const obj_type_t& id, std::function<std::shared_ptr<Object>()>&& fn)
+        : typeId(id)
+        , createFn([f = std::move(fn)](ObjectContainer&) { return f(); })
+    {
+    }
 };
 
 class ObjectFactory {
 private:
     const std::vector<ObjectFactoryEntry> objTypes;
+
+    ObjectFactory(ObjectFactory&) = delete;
+    ObjectFactory& operator=(ObjectFactory&) = delete;
 
 public:
     ObjectFactory(std::initializer_list<ObjectFactoryEntry> _objTypes)
@@ -47,12 +63,7 @@ public:
     {
     }
 
-    ObjectFactory(std::vector<ObjectFactoryEntry>&& _objTypes)
-        : objTypes(std::move(_objTypes))
-    {
-    }
-
-    std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t) const;
+    std::tuple<CboxError, std::shared_ptr<Object>> make(ObjectContainer& objects, const obj_type_t& t) const;
 };
 
 } // end namespace cbox

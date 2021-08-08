@@ -20,6 +20,7 @@
 #pragma once
 
 #include "OneWireScanningFactory.hpp"
+#include "cbox/CboxPtr.h"
 
 class OneWireMultiScanningFactory : public cbox::ScanningFactory {
 public:
@@ -34,7 +35,7 @@ public:
         ;
     }
 
-    virtual std::shared_ptr<cbox::Object> scan(const cbox::ObjectContainer& objects) const override final
+    virtual std::shared_ptr<cbox::Object> scan(cbox::ObjectContainer& objects) override final
     {
         for (auto obj_it = objects.cbegin(); obj_it != objects.cend(); ++obj_it) {
             OneWire* bus = const_cast<OneWire*>(cbox::asInterface<OneWire>(obj_it->object()));
@@ -42,7 +43,7 @@ public:
                 continue; // not a OneWire bus
             }
             // use a bus scanner to find new devices on this bus
-            OneWireScanningFactory factory(*bus);
+            OneWireScanningFactory factory(cbox::CboxPtr<OneWire>(objects, obj_it->id()));
             auto obj = factory.scan(objects);
             if (obj) {
                 return obj; // return OneWire object if found

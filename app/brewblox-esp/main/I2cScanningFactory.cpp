@@ -56,7 +56,7 @@ void I2cScanningFactory::reset()
     detail::nextAddress = 1;
 }
 
-std::shared_ptr<cbox::Object> I2cScanningFactory::scan(const cbox::ObjectContainer& objects) const
+std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& objects)
 {
     uint8_t found = 0;
     do {

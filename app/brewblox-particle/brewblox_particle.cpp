@@ -120,33 +120,33 @@ makeBrewBloxBox()
     static EepromAccessImpl eeprom;
     static cbox::EepromObjectStorage objectStore(eeprom);
 
-    cbox::ObjectContainer systemObjects{{
-                                            // groups will be at position 1
-                                            cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(HAL_device_ID)),
-                                            cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<TicksClass>>(ticks)),
-                                            cbox::ContainedObject(4, 0x80, std::make_shared<OneWireBusBlock>(theOneWire())),
+    static cbox::ObjectContainer objects{{
+                                             // groups will be at position 1
+                                             cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(HAL_device_ID)),
+                                             cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<TicksClass>>(ticks)),
+                                             cbox::ContainedObject(4, 0x80, std::make_shared<OneWireBusBlock>(setupOneWire())),
 #if defined(SPARK)
-                                            cbox::ContainedObject(5, 0x80, std::make_shared<WiFiSettingsBlock>()),
-                                            cbox::ContainedObject(6, 0x80, std::make_shared<TouchSettingsBlock>()),
+                                             cbox::ContainedObject(5, 0x80, std::make_shared<WiFiSettingsBlock>()),
+                                             cbox::ContainedObject(6, 0x80, std::make_shared<TouchSettingsBlock>()),
 #endif
-                                            cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
-                                            cbox::ContainedObject(19, 0x80, std::make_shared<PinsBlock>()),
-                                        },
-                                        objectStore};
+                                             cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
+                                             cbox::ContainedObject(19, 0x80, std::make_shared<PinsBlock>()),
+                                         },
+                                         objectStore};
 
     static cbox::ConnectionPool& connections = theConnectionPool();
 
-    static OneWireScanningFactory oneWireScanner(theOneWire());
+    static OneWireScanningFactory oneWireScanner{cbox::CboxPtr<OneWire>(objects)};
 
     static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
     static const cbox::ObjectFactory platformFactory{}; // no platform specific factories
 
     static cbox::Box& box = brewblox::make_box(
-        std::move(systemObjects),
+        objects,
         platformFactory,
         objectStore,
         connections,
-        std::move(scanners));
+        scanners);
 
     return box;
 }
@@ -160,7 +160,7 @@ brewbloxBox()
 
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3
 OneWire&
-theOneWire()
+setupOneWire()
 {
     static auto owDriver = OneWireMockDriver();
     static auto ow = OneWire(owDriver);
@@ -173,7 +173,7 @@ theOneWire()
 }
 #else
 OneWire&
-theOneWire()
+setupOneWire()
 {
     static auto owDriver = DS248x(0x00);
     static auto ow = OneWire(owDriver);

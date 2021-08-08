@@ -45,14 +45,14 @@ public:
 
     virtual void reset() override
     {
-        if (auto bus = busPtr()) {
+        if (auto bus = busPtr.lock()) {
             bus->reset_search();
         }
     }
 
-    OneWireAddress next() const
+    OneWireAddress next()
     {
-        if (auto bus = busPtr()) {
+        if (auto bus = busPtr.lock()) {
             auto newAddr = OneWireAddress();
             if (bus->search(newAddr)) {
                 return newAddr;
@@ -61,10 +61,9 @@ public:
         return 0;
     }
 
-    virtual std::shared_ptr<cbox::Object> scan() const override final
+    virtual std::shared_ptr<cbox::Object> scan(cbox::ObjectContainer& objects) override final
     {
-        if (auto bus = busPtr()) {
-            cbox::ObjectContainer& objects = busPtr.container();
+        if (auto bus = busPtr.lock()) {
             while (true) {
                 if (auto newAddr = next()) {
                     bool found = false;
@@ -83,17 +82,17 @@ public:
                         uint8_t familyCode = newAddr[0];
                         switch (familyCode) {
                         case DS18B20::familyCode: {
-                            auto newSensor = std::make_shared<TempSensorOneWireBlock>(bus);
+                            auto newSensor = std::make_shared<TempSensorOneWireBlock>(objects, busPtr.getId());
                             newSensor->get().address(newAddr);
                             return newSensor;
                         }
                         case DS2413::familyCode: {
-                            auto newDevice = std::make_shared<DS2413Block>(bus);
+                            auto newDevice = std::make_shared<DS2413Block>(objects, busPtr.getId());
                             newDevice->get().address(newAddr);
                             return newDevice;
                         }
                         case DS2408::familyCode: {
-                            auto newDevice = std::make_shared<DS2408Block>(bus);
+                            auto newDevice = std::make_shared<DS2408Block>(objects, busPtr.getId());
                             newDevice->get().address(newAddr);
                             return newDevice;
                         }

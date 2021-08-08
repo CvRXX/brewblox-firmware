@@ -33,7 +33,7 @@ brewbloxBox();
 
 // create a static OneWire object on first use and return a reference to it
 OneWire&
-theOneWire();
+setupOneWire();
 
 void updateBrewbloxBox();
 

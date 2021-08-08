@@ -27,6 +27,7 @@ DS2408Block::streamFrom(cbox::DataIn& in)
     cbox::CboxError res = streamProtoFrom(in, &newData, blox_DS2408_fields, blox_DS2408_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
+        owBus.setId(newData.oneWireBusId);
         device.address(OneWireAddress(newData.address));
         connectMode = newData.connectMode;
     }
@@ -38,6 +39,7 @@ DS2408Block::streamTo(cbox::DataOut& out) const
 {
     blox_DS2408 message = blox_DS2408_init_zero;
 
+    message.oneWireBusId = owBus.getId();
     message.address = device.address();
     message.connected = device.connected();
     message.connectMode = connectMode;
@@ -68,6 +70,7 @@ DS2408Block::streamPersistedTo(cbox::DataOut& out) const
 {
     blox_DS2408 message = blox_DS2408_init_zero;
 
+    message.oneWireBusId = owBus.getId();
     message.address = device.address();
     message.connectMode = connectMode;
     return streamProtoTo(out, &message, blox_DS2408_fields, blox_DS2408_size);
@@ -80,8 +83,7 @@ DS2408Block::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void*
-DS2408Block::implements(const cbox::obj_type_t& iface)
+void* DS2408Block::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_DS2408) {
         return this; // me!

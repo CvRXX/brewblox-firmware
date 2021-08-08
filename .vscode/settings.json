@@ -81,6 +81,7 @@
     "numbers": "cpp",
     "semaphore": "cpp",
     "stop_token": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "shared_mutex": "cpp"
   }
 }
