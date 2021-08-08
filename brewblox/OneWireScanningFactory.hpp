@@ -25,6 +25,7 @@
 #include "blox/DS2408Block.h"
 #include "blox/DS2413Block.h"
 #include "blox/TempSensorOneWireBlock.h"
+#include "cbox/CboxPtr.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include "cbox/ScanningFactory.hpp"
@@ -32,73 +33,79 @@
 
 class OneWireScanningFactory : public cbox::ScanningFactory {
 private:
-    OneWire& bus;
+    cbox::CboxPtr<OneWire> busPtr;
 
 public:
-    OneWireScanningFactory(OneWire& ow)
-        : bus(ow)
+    OneWireScanningFactory(cbox::CboxPtr<OneWire>&& busPtr)
+        : busPtr(busPtr)
     {
-        reset();
     }
 
     virtual ~OneWireScanningFactory() = default;
 
     virtual void reset() override
     {
-        bus.reset_search();
+        if (auto bus = busPtr()) {
+            bus->reset_search();
+        }
     }
 
     OneWireAddress next() const
     {
-        auto newAddr = OneWireAddress();
-        if (bus.search(newAddr)) {
-            return newAddr;
+        if (auto bus = busPtr()) {
+            auto newAddr = OneWireAddress();
+            if (bus->search(newAddr)) {
+                return newAddr;
+            }
         }
         return 0;
     }
 
-    virtual std::shared_ptr<cbox::Object> scan(const cbox::ObjectContainer& objects) const override final
+    virtual std::shared_ptr<cbox::Object> scan() const override final
     {
-        while (true) {
-            if (auto newAddr = next()) {
-                bool found = false;
-                for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
-                    OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>(existing->object()->implements(cbox::interfaceId<OneWireDevice>()));
-                    if (ptrIfCorrectType == nullptr) {
-                        continue; // not the right type, no match
+        if (auto bus = busPtr()) {
+            cbox::ObjectContainer& objects = busPtr.container();
+            while (true) {
+                if (auto newAddr = next()) {
+                    bool found = false;
+                    for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
+                        OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>(existing->object()->implements(cbox::interfaceId<OneWireDevice>()));
+                        if (ptrIfCorrectType == nullptr) {
+                            continue; // not the right type, no match
+                        }
+                        if (ptrIfCorrectType->address() == newAddr) {
+                            found = true; // object with value already exists
+                            break;
+                        }
                     }
-                    if (ptrIfCorrectType->address() == newAddr) {
-                        found = true; // object with value already exists
-                        break;
+                    if (!found) {
+                        // create new object
+                        uint8_t familyCode = newAddr[0];
+                        switch (familyCode) {
+                        case DS18B20::familyCode: {
+                            auto newSensor = std::make_shared<TempSensorOneWireBlock>(bus);
+                            newSensor->get().address(newAddr);
+                            return newSensor;
+                        }
+                        case DS2413::familyCode: {
+                            auto newDevice = std::make_shared<DS2413Block>(bus);
+                            newDevice->get().address(newAddr);
+                            return newDevice;
+                        }
+                        case DS2408::familyCode: {
+                            auto newDevice = std::make_shared<DS2408Block>(bus);
+                            newDevice->get().address(newAddr);
+                            return newDevice;
+                        }
+                        default:
+                            break;
+                        }
                     }
+                } else {
+                    break;
                 }
-                if (!found) {
-                    // create new object
-                    uint8_t familyCode = newAddr[0];
-                    switch (familyCode) {
-                    case DS18B20::familyCode: {
-                        auto newSensor = std::make_shared<TempSensorOneWireBlock>(bus);
-                        newSensor->get().address(newAddr);
-                        return newSensor;
-                    }
-                    case DS2413::familyCode: {
-                        auto newDevice = std::make_shared<DS2413Block>(bus);
-                        newDevice->get().address(newAddr);
-                        return newDevice;
-                    }
-                    case DS2408::familyCode: {
-                        auto newDevice = std::make_shared<DS2408Block>(bus);
-                        newDevice->get().address(newAddr);
-                        return newDevice;
-                    }
-                    default:
-                        break;
-                    }
-                }
-            } else {
-                break;
-            }
-        };
+            };
+        }
         return nullptr;
     }
 };

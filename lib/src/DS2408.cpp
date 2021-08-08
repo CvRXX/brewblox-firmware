@@ -39,51 +39,53 @@ bool DS2408::writeNeeded() const
 
 bool DS2408::update()
 {
-    selectRom();
+    if (auto oneWire = selectRom()) {
+        // Compute the 1-Wire CRC16 and compare it against the received CRC.
+        // Put everything in one buffer so we can compute the CRC easily.
+        uint8_t buf[13];
 
-    // Compute the 1-Wire CRC16 and compare it against the received CRC.
-    // Put everything in one buffer so we can compute the CRC easily.
-    uint8_t buf[13];
+        buf[0] = READ_PIO_REG;            // Read PIO Registers
+        buf[1] = ADDRESS_PIO_STATE_LOWER; // LSB address
+        buf[2] = ADDRESS_UPPER;           // MSB address
+        oneWire->write_bytes(buf, 3);     // Write 3 cmd bytes
+        oneWire->read_bytes(&buf[3], 10); // Read 6 data bytes, 2 0xFF, CRC16
 
-    buf[0] = READ_PIO_REG;            // Read PIO Registers
-    buf[1] = ADDRESS_PIO_STATE_LOWER; // LSB address
-    buf[2] = ADDRESS_UPPER;           // MSB address
-    oneWire.write_bytes(buf, 3);      // Write 3 cmd bytes
-    oneWire.read_bytes(&buf[3], 10);  // Read 6 data bytes, 2 0xFF, CRC16
+        uint16_t crcCalculated = OneWireCrc16(buf, 11);
+        // device sends CRC inverted
+        uint16_t crcReceived = ~((uint16_t(buf[12]) << 8) | uint16_t(buf[11]));
+        bool success = crcCalculated == crcReceived;
 
-    uint16_t crcCalculated = OneWireCrc16(buf, 11);
-    // device sends CRC inverted
-    uint16_t crcReceived = ~((uint16_t(buf[12]) << 8) | uint16_t(buf[11]));
-    bool success = crcCalculated == crcReceived;
-    connected(success);
+        if (success) {
+            pins = buf[3];
+            latches = buf[4];
+            activity = buf[5];
+            cond_search_mask = buf[6];
+            cond_search_pol = buf[7];
+            status = buf[8];
+            dirty = false;
+        }
+        connected(success);
+        if (writeNeeded()) {
+            oneWire->reset();
+            oneWire->select(m_address);
 
-    if (success) {
-        pins = buf[3];
-        latches = buf[4];
-        activity = buf[5];
-        cond_search_mask = buf[6];
-        cond_search_pol = buf[7];
-        status = buf[8];
-        dirty = false;
-    }
-    if (writeNeeded()) {
-        if (selectRom()) {
             uint8_t bytes[3] = {ACCESS_WRITE, desiredLatches, uint8_t(~desiredLatches)};
 
-            if (oneWire.write_bytes(bytes, 3)) {
+            if (oneWire->write_bytes(bytes, 3)) {
                 /* Acknowledgement byte, 0xAA for success, 0xFF for failure. */
                 uint8_t ack;
-                if (oneWire.read(ack) && ack == ACK_SUCCESS) {
-                    success = success && oneWire.read(pins);
+                if (oneWire->read(ack) && ack == ACK_SUCCESS) {
+                    success = success && oneWire->read(pins);
                 }
             };
         }
+
+        oneWire->reset();
         connected(success);
+        return success;
     }
-
-    oneWire.reset();
-
-    return success;
+    connected(false);
+    return false;
 }
 
 bool DS2408::senseChannelImpl(uint8_t channel, State& result) const

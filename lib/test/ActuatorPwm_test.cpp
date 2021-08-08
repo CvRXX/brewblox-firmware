@@ -1330,11 +1330,11 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
 {
     auto now = ticks_millis_t(0);
     OneWireMockDriver mockOw;
-    OneWire ow(mockOw);
+    auto ow = std::make_shared<OneWire>(mockOw);
     auto addr = OneWireAddress(0x0644'4444'4444'443A);
     auto ds2413mock = std::make_shared<DS2413Mock>(addr);
     mockOw.attach(ds2413mock); // DS2413
-    auto ds = std::make_shared<DS2413>(ow, addr);
+    auto ds = std::make_shared<DS2413>([&ow]() { return ow; }, addr);
     ActuatorDigital act([ds]() { return ds; }, 1);
     ds->update(); // connected update happens here
     auto constrained = std::make_shared<ActuatorDigitalConstrained>(act);
@@ -1401,11 +1401,11 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
 {
     auto now = ticks_millis_t(0);
     OneWireMockDriver mockOw;
-    OneWire ow(mockOw);
+    auto ow = std::make_shared<OneWire>(mockOw);
     auto addr = OneWireAddress(0xDA55'5555'5555'5529);
     auto ds2408mock = std::make_shared<DS2408Mock>(addr);
     mockOw.attach(ds2408mock);
-    auto ds = std::make_shared<DS2408>(ow, addr);
+    auto ds = std::make_shared<DS2408>([&ow]() { return ow; }, addr);
     MotorValve act([ds]() { return ds; }, 1);
 
     auto constrained = std::make_shared<ActuatorDigitalConstrained>(act);

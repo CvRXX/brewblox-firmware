@@ -136,13 +136,14 @@ makeBrewBloxBox()
 
     static cbox::ConnectionPool& connections = theConnectionPool();
 
-    auto scanners = std::vector<std::unique_ptr<cbox::ScanningFactory>>{};
-    scanners.reserve(1);
-    scanners.push_back(std::make_unique<OneWireScanningFactory>(theOneWire()));
+    static OneWireScanningFactory oneWireScanner(theOneWire());
+
+    static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
+    static const cbox::ObjectFactory platformFactory{}; // no platform specific factories
 
     static cbox::Box& box = brewblox::make_box(
         std::move(systemObjects),
-        {}, // platform factories
+        platformFactory,
         objectStore,
         connections,
         std::move(scanners));

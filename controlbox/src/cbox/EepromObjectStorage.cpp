@@ -101,7 +101,7 @@ CboxError EepromObjectStorage::storeObject(
         uint16_t eepromBlockSize = objectEepromData.availableForWrite();
         if (eepromBlockSize < requestedSize) {
             // not enough continuous free space
-            if (freeSpace() < requestedSize + (objectHeaderLength() - blockHeaderLength())) {
+            if (freeSpace() < stream_size_t(requestedSize) + (objectHeaderLength() - blockHeaderLength())) {
                 return CboxError::INSUFFICIENT_PERSISTENT_STORAGE; // not even enough total free space
             }
 

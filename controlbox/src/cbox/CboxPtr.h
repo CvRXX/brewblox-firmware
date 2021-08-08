@@ -134,6 +134,11 @@ public:
     {
         return objects.store(id);
     }
+
+    ObjectContainer& container()
+    {
+        return objects;
+    }
 };
 
 } // end namespace cbox

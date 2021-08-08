@@ -157,7 +157,7 @@ CboxError FileObjectStorage::retrieveObjects(
     return CboxError::OK;
 }
 
-bool FileObjectStorage::disposeObject(const storage_id_t& id, bool mergeDisposed)
+bool FileObjectStorage::disposeObject(const storage_id_t& id, bool /*mergeDisposed*/)
 {
     setPath(id);
     return remove(path.c_str()) == 0;

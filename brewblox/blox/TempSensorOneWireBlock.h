@@ -69,14 +69,14 @@ public:
         }
         if (iface == cbox::interfaceId<TempSensor>()) {
             // return the member that implements the interface in this case
-            DS18B20* owptr = &sensor;
-            TempSensor* ptr = owptr;
-            return ptr;
+            DS18B20* dallasPtr = &sensor;
+            TempSensor* sensorPtr = dallasPtr;
+            return sensorPtr;
         }
         if (iface == cbox::interfaceId<OneWireDevice>()) {
             // return the member that implements the interface in this case
-            DS18B20* sensorPtr = &sensor;
-            OneWireDevice* devicePtr = sensorPtr;
+            DS18B20* dallasPtr = &sensor;
+            OneWireDevice* devicePtr = dallasPtr;
             return devicePtr;
         }
         return nullptr;

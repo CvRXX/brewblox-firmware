@@ -21,10 +21,12 @@
 
 #include "OneWire.h"
 #include "OneWireAddress.h"
+#include <functional>
+#include <memory>
 
 class OneWireDevice {
 public:
-    OneWireDevice(OneWire& oneWire_, const OneWireAddress& address_);
+    OneWireDevice(std::function<std::shared_ptr<OneWire>()>&& getBus_, const OneWireAddress& address_);
 
 protected:
     ~OneWireDevice() = default;
@@ -46,13 +48,11 @@ public:
 
     void connected(bool _connected);
 
-    bool selectRom() const
-    {
-        return oneWire.reset() && oneWire.select(m_address);
-    }
+    // return valid OneWire bus if both the bus and the device can be found
+    std::shared_ptr<OneWire> selectRom() const;
 
 protected:
-    OneWire& oneWire;
+    const std::function<std::shared_ptr<OneWire>()> getBus;
     OneWireAddress m_address;
 
 private:
