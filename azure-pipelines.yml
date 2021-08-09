@@ -3,7 +3,7 @@ resources:
     - repository: self
   containers:
     - container: firmware-compiler
-      image: brewblox/firmware-compiler:latest
+      image: brewblox/firmware-compiler:10.3
     - container: simulator-compiler
       image: brewblox/simulator-compiler:latest
     - container: idf
