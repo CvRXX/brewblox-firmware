@@ -7,7 +7,7 @@ resources:
     - container: simulator-compiler
       image: brewblox/simulator-compiler:latest
     - container: idf
-      image: espressif/idf:latest
+      image: espressif/idf:v4.3
 
 pool:
   vmImage: "Ubuntu-20.04"
@@ -177,8 +177,7 @@ jobs:
   # Build ESP32
   #########################################################
   - job: BuildESP32
-    condition: false
-
+    
     steps:
       - checkout: self
 
@@ -217,6 +216,7 @@ jobs:
       - BuildARM64
       - BuildP1
       - BuildPhoton
+      - BuildESP32
 
     variables:
       # Variables imported from brewblox group:
@@ -253,6 +253,10 @@ jobs:
           cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ${SRC}/brewblox-arm64.sim
           cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ${SRC}/brewblox-p1.bin
           cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
+          cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
+          cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.bin ${SRC}/brewblox-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/bootloader-esp32.bin ${SRC}/bootloader-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/partition-table-esp32.bin ${SRC}/partition-table-esp32.bin
           bash docker/firmware-bin/before_build.sh
         displayName: Prepare firmware-bin source files
         env:

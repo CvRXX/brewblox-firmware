@@ -20,6 +20,7 @@
 #include "FileObjectStorage.h"
 #include "Object.h"
 #include "TestObjects.h"
+#include <algorithm>
 #include <catch.hpp>
 #include <cstdio>
 #include <filesystem>
@@ -315,6 +316,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                         return CboxError::OK;
                     };
                     CHECK(storage.retrieveObjects(idCollector) == CboxError::OK);
+                    std::sort(ids.begin(), ids.end()); // sort ids because the files are loaded in random order
                     CHECK(ids == std::vector<obj_id_t>({1, 3, 4}));
                 }
             }
