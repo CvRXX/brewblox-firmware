@@ -188,7 +188,7 @@ jobs:
         target: firmware-compiler
         displayName: Compile proto
 
-      - script: /opt/esp/entrypoint.sh idfy.py build
+      - script: /opt/esp/entrypoint.sh idf.py build
         target: idf
         workingDirectory: app/brewblox-esp
         displayName: Build ESP32
