@@ -188,7 +188,7 @@ jobs:
         target: firmware-compiler
         displayName: Compile proto
 
-      - script: idf.py build
+      - script: /opt/esp/entrypoint.sh idfy.py build
         target: idf
         workingDirectory: app/brewblox-esp
         displayName: Build ESP32
@@ -252,7 +252,6 @@ jobs:
           cp "$(Pipeline.Workspace)"/ARM32/brewblox-gcc ${SRC}/brewblox-arm32.sim
           cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ${SRC}/brewblox-arm64.sim
           cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ${SRC}/brewblox-p1.bin
-          cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
           cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
           cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.bin ${SRC}/brewblox-esp32.bin
           cp "$(Pipeline.Workspace)"/ESP32/bootloader-esp32.bin ${SRC}/bootloader-esp32.bin
