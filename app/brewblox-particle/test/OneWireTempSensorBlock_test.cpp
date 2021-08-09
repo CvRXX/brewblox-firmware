@@ -45,6 +45,7 @@ SCENARIO("A TempSensorOneWireBlock")
         message.set_address(0x7E11'1111'1111'1128);
         message.set_offset(2048);
         message.set_value(123); // value is not writable, so this should not have effect
+        message.set_onewirebusid(4);
 
         testBox.put(message);
 
@@ -67,6 +68,7 @@ SCENARIO("A TempSensorOneWireBlock")
             CHECK(decoded.ShortDebugString() ==
                   "offset: 2048 "
                   "address: 9084060688381448488 "
+                  "oneWireBusId: 4 "
                   "strippedFields: 1");
 
             testBox.put(uint16_t(1)); // msg id
@@ -82,7 +84,8 @@ SCENARIO("A TempSensorOneWireBlock")
             CHECK(decoded.ShortDebugString() ==
                   "value: 83968 " // 20*4096 + 2048
                   "offset: 2048 "
-                  "address: 9084060688381448488");
+                  "address: 9084060688381448488 "
+                  "oneWireBusId: 4");
 
             AND_THEN("The writable settings match what was sent")
             {
@@ -98,6 +101,17 @@ SCENARIO("A TempSensorOneWireBlock")
                     CHECK(sensorPtr->get().valid() == true);
                 }
             }
+        }
+
+        THEN("An incorrect busId is corrected during discovery")
+        {
+            auto ptr = brewbloxBox().makeCboxPtr<OneWireDeviceBlock>(100);
+            auto block = ptr.lock();
+            block->setBusId(0);
+
+            brewbloxBox().discoverNewObjects();
+
+            CHECK(block->getBusId() == 4);
         }
     }
 }

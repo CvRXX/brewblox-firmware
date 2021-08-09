@@ -60,6 +60,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 
         auto message = blox::DS2413();
         message.set_address(0x0644'4444'4444'443A);
+        message.set_onewirebusid(4);
 
         testBox.put(message);
 
@@ -75,7 +76,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
         THEN("The returned protobuf data is as expected")
         {
             CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { } } pins { B { } }");
+            CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { } } pins { B { } } oneWireBusId: 4");
         }
 
         THEN("The writable settings match what was sent")
@@ -124,7 +125,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 auto decoded = blox::DS2413();
                 testBox.processInputToProto(decoded);
 
-                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { config: CHANNEL_DRIVING_ON state: STATE_ACTIVE } } pins { B { } }");
+                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { config: CHANNEL_DRIVING_ON state: STATE_ACTIVE } } pins { B { } } oneWireBusId: 4");
             }
         }
 
