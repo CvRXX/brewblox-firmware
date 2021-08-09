@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../Connections.h"
+#include "cbox/Connections.h"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_wifi.h"

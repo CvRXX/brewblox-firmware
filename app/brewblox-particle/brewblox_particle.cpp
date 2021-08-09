@@ -22,6 +22,7 @@
 #include "AppTicks.h"
 #include "Board.h"
 #include "OneWireScanningFactory.hpp"
+#include "SparkEepromAccess.h"
 #include "blox/DisplaySettingsBlock.h"
 #include "blox/OneWireBusBlock.h"
 #include "blox/SysInfoBlock.h"
@@ -34,7 +35,6 @@
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
 #include "cbox/Tracing.h"
-#include "cbox/spark/SparkEepromAccess.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include <memory>
@@ -71,10 +71,10 @@ void updateFirmwareFromStream(cbox::StreamType)
 
 // Include serial connection for platform
 #if defined(SPARK)
-#if PLATFORM_ID != 3 || defined(STDIN_SERIAL)
-#include "cbox/spark/ConnectionsSerial.h"
+#if PLATFORM_ID != 3
+#include "ConnectionsSerial.h"
 #endif
-#include "cbox/spark/ConnectionsTcp.h"
+#include "ConnectionsTcp.h"
 #else
 #include "cbox/ConnectionsStringStream.h"
 
@@ -100,7 +100,7 @@ theConnectionPool()
 {
 #if defined(SPARK)
     static cbox::TcpConnectionSource tcpSource(8332);
-#if PLATFORM_ID != 3 || defined(STDIN_SERIAL)
+#if PLATFORM_ID != 3
     static auto& boxSerial = _fetch_usbserial();
     static cbox::SerialConnectionSource serialSource(boxSerial);
     static cbox::ConnectionPool connections = {tcpSource, serialSource};
@@ -256,7 +256,7 @@ void updateFirmwareStreamHandler(Stream* stream)
         case '\n':
             if (command == DCMD::Ack) {
                 stream->write("<!FIRMWARE_UPDATER,");
-                stream->write(versionCsv());
+                stream->write(versionCsv().c_str());
                 stream->write(">\n");
                 stream->flush();
                 HAL_Delay_Milliseconds(10);

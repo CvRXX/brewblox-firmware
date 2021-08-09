@@ -15,27 +15,16 @@ namespace cbox {
 class LongIntScanningFactory : public ScanningFactory {
 private:
     std::vector<uint32_t> candidates = {0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
-    mutable std::vector<uint32_t>::const_iterator it;
 
 public:
-    LongIntScanningFactory()
-    {
-        reset();
-    }
+    LongIntScanningFactory() = default;
 
     virtual ~LongIntScanningFactory() = default;
 
-    virtual void reset() override final
-    {
-        it = candidates.cbegin();
-    };
-
     virtual std::shared_ptr<Object> scan(ObjectContainer& objects) override final
     {
-        while (it != candidates.cend()) {
+        for (auto& value : candidates) {
             bool found = false;
-            uint32_t value = *it;
-            ++it;
             for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
                 LongIntObject* ptrIfCorrectType = reinterpret_cast<LongIntObject*>(existing->object()->implements(LongIntObject::staticTypeId()));
                 if (ptrIfCorrectType == nullptr) {

@@ -96,7 +96,7 @@ public:
 private:
     struct Element {
         uint8_t data[maxElementSize];
-        std::atomic<bool> inUse = false;
+        std::atomic<bool> inUse{false};
     };
     std::array<Element, n> data;
 };

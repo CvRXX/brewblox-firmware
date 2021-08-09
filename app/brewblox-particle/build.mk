@@ -19,8 +19,10 @@ endif
 
 # add all controlbox source files
 INCLUDE_DIRS += $(SOURCE_PATH)/controlbox/src/
-CPPSRC += $(call here_files,controlbox/src/cbox/,*.cpp)
-CPPSRC += $(call here_files,controlbox/src/cbox/spark/,*.cpp)
+CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
+# don't include file based persistance on spark platform
+# arm-gcc doesn't support dirent 
+CPPEXCLUDES += controlbox/src/cbox/FileObjectStorage.cpp
 
 # add brewblox files
 INCLUDE_DIRS += $(SOURCE_PATH)/brewblox

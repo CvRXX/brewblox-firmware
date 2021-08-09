@@ -80,27 +80,14 @@ public:
     {
     }
 
-    virtual bool hasNext() override
+    virtual int16_t read() override
     {
-        return available() > 0;
+        return stream.read();
     }
 
-    virtual uint8_t next() override
+    virtual int16_t peek() override
     {
-        return uint8_t(stream.read());
-    }
-
-    virtual uint8_t peek() override
-    {
-        return uint8_t(stream.peek());
-    }
-
-    virtual stream_size_t available() override
-    {
-        if (stream) {
-            return stream.available();
-        }
-        return 0;
+        return stream.peek();
     }
 
     static StreamType streamTypeImpl();

@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "../Connections.h"
+#include "cbox/Connections.h"
 #include "spark_wiring_usbserial.h"
 
 namespace cbox {

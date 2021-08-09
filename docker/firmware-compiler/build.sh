@@ -8,7 +8,7 @@ pushd "$(dirname "$0")" > /dev/null
 # Multi-platform support is handled by simulator-compiler
 # We only need the default amd64
 
-TAG=${TAG:-latest}
+if [ -z "$TAG" ]; then echo "Error: TAG is not set"; exit 1; else echo "building brewblox/firmware-compiler:$TAG"; fi
 
 # don't forget to call with --push
 docker buildx build \

@@ -1,5 +1,5 @@
 #pragma once
-#include "../EepromAccess.h"
+#include "cbox/EepromAccess.h"
 #include "eeprom_hal.h"
 #include <cstdint>
 
