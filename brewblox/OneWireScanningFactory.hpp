@@ -58,6 +58,14 @@ public:
                         }
                         if (ptrIfCorrectType->address() == newAddr) {
                             found = true; // object with value already exists
+
+                            // check if it was on a different bus than where we just found it and correct that if needed
+                            OneWireDeviceBlock* blockPtr = reinterpret_cast<OneWireDeviceBlock*>(existing->object()->implements(cbox::interfaceId<OneWireDeviceBlock>()));
+                            if (blockPtr) {
+                                if (blockPtr->getBusId() != busPtr.getId()) {
+                                    blockPtr->setBusId(busPtr.getId());
+                                }
+                            }
                             break;
                         }
                     }

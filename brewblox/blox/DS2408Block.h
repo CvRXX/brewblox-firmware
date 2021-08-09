@@ -20,27 +20,26 @@
 #pragma once
 
 #include "DS2408.h"
+#include "OneWireDeviceBlock.h"
 #include "blox/Block.h"
-#include "cbox/CboxPtr.h"
 #include "proto/cpp/DS2408.pb.h"
 
 class OneWire;
 
-class DS2408Block : public Block<BrewBloxTypes_BlockType_DS2408> {
+class DS2408Block : public Block<BrewBloxTypes_BlockType_DS2408>, public OneWireDeviceBlock {
 private:
-    cbox::CboxPtr<OneWire> owBus;
     DS2408 device;
     blox_DS2408_PinConnectMode connectMode = blox_DS2408_PinConnectMode_CONNECT_VALVE;
 
 public:
     DS2408Block(cbox::ObjectContainer& objects)
-        : owBus(objects)
+        : OneWireDeviceBlock(objects)
         , device(owBus.lockFunctor())
     {
     }
 
     DS2408Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
-        : owBus(objects, busId)
+        : OneWireDeviceBlock(objects, busId)
         , device(owBus.lockFunctor())
     {
     }

@@ -75,15 +75,20 @@ void* DS2413Block::implements(const cbox::obj_type_t& iface)
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {
-        // return the member that implements the interface in this case
+        // return the member that implements the interface
         IoArray* ptr = &device;
         return ptr;
     }
     if (iface == cbox::interfaceId<OneWireDevice>()) {
-        // return the member that implements the interface in this case
+        // return the member that implements the interface
         DS2413* dsPtr = &device;
         OneWireDevice* devicePtr = dsPtr;
         return devicePtr;
+    }
+    if (iface == cbox::interfaceId<OneWireDeviceBlock>()) {
+        // return the base that implements the interface
+        OneWireDeviceBlock* ptr = this;
+        return ptr;
     }
     return nullptr;
 }

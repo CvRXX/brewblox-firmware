@@ -136,7 +136,7 @@ makeBrewBloxBox()
 
     static cbox::ConnectionPool& connections = theConnectionPool();
 
-    static OneWireScanningFactory oneWireScanner{cbox::CboxPtr<OneWire>(objects)};
+    static OneWireScanningFactory oneWireScanner{cbox::CboxPtr<OneWire>(objects, 4)};
 
     static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
     static const cbox::ObjectFactory platformFactory{}; // no platform specific factories

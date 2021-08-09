@@ -52,7 +52,7 @@ public:
     std::shared_ptr<OneWire> selectRom() const;
 
 protected:
-    const std::function<std::shared_ptr<OneWire>()> getBus;
+    std::function<std::shared_ptr<OneWire>()> getBus;
     OneWireAddress m_address;
 
 private:

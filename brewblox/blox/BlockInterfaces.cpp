@@ -27,6 +27,7 @@
 #include "IoArray.h"
 #include "IoModule.hpp"
 #include "OneWireDevice.h"
+#include "OneWireDeviceBlock.h"
 #include "ProcessValue.h"
 #include "SetpointSensorPair.h"
 #include "TempSensor.h"
@@ -117,6 +118,13 @@ const obj_type_t
 interfaceIdImpl<IoModule>()
 {
     return BrewBloxTypes_BlockType_IoModuleInterface;
+}
+
+template <>
+const obj_type_t
+interfaceIdImpl<OneWireDeviceBlock>()
+{
+    return BrewBloxTypes_BlockType_OneWireDeviceBlockInterface;
 }
 
 } // end namespace cbox

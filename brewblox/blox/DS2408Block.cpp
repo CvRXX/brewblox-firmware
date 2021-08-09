@@ -103,5 +103,10 @@ void* DS2408Block::implements(const cbox::obj_type_t& iface)
         OneWireDevice* devicePtr = dsPtr;
         return devicePtr;
     }
+    if (iface == cbox::interfaceId<OneWireDeviceBlock>()) {
+        // return the base that implements the interface
+        OneWireDeviceBlock* ptr = this;
+        return ptr;
+    }
     return nullptr;
 }
