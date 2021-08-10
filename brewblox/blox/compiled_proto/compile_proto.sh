@@ -11,11 +11,15 @@ fi
 
 pushd "$PROTO_DIR" > /dev/null # .option files are read from execution directory, so have to cd into this dir 
 
+# To prevent recompiling of files when making changes to protos often, use line below to only recompile changed files
+# PROTO_FILES="$(git diff --name-only | sed "s,^,${PROTO_DIR}/," | tr '\n' ' ')"
+PROTO_FILES="${PROTO_DIR}/*.proto"
+
 protoc -I"${PROTO_DIR}" -I"${NANOPB_PATH}/generator" \
 --nanopb_out=../compiled_proto/src \
 --proto_path="${PROTO_DIR}" \
 --plugin=protoc-gen-nanopb="${PROTOC_NANOPB_PLUGIN}" \
-${PROTO_DIR}/*.proto # don't quote
+${PROTO_FILES} # don't quote
 
 rm -f ../compiled_proto/src/nanopb.* # nanopb.h and nanopb.c are not needed and generate compiler warnings when they are not removed
 
