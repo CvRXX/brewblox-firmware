@@ -38,6 +38,9 @@ CPPSRC += $(call here_files,lib/test,*.cpp)
 INCLUDE_DIRS += $(SOURCE_PATH)/lib/inc
 CPPSRC += $(call here_files,lib/src,*.cpp)
 
+# include stubs for hal
+CPPSRC += $(call here_files,platform/stub,*.cpp)
+
 # set cnl as system includes to suppress warnings
 CPPFLAGS += -isystem $(SOURCE_PATH)/lib/cnl/include
 
@@ -76,7 +79,7 @@ CFLAGS += -DDEBUG_BUILD
 # OSX includes sys/wait.h which defines "wait"
 CFLAGS += -D_SYS_WAIT_H_ -D_SYS_WAIT_H
 
-CPPFLAGS += -std=gnu++14
+CPPFLAGS += -std=gnu++17
 CFLAGS += -pthread
 
 # compile with coverage

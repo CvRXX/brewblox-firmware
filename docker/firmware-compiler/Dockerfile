@@ -1,4 +1,4 @@
-FROM gcc:8
+FROM gcc:10.3
 
 ENV TZ=Europe/Amsterdam \
   DEBIAN_FRONTEND=noninteractive \
@@ -12,11 +12,12 @@ RUN apt-get update -q \
   # and install protobuf python package (used by nanopb), and pyserial (used by program-dfu)
   && python -m pip install protobuf pyserial compiledb \
   && apt-get clean \
+  && apt-get purge \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # install arm compiler
-ENV GCC_ARM_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2" \
-  GCC_ARM_VERSION="9-2020-q2-update"
+ENV GCC_ARM_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-x86_64-linux.tar.bz2" \
+  GCC_ARM_VERSION="10.3-2021.07"
 
 RUN dpkg --add-architecture i386 \
   && apt-get update -q \
@@ -24,7 +25,9 @@ RUN dpkg --add-architecture i386 \
   && curl -o /tmp/gcc-arm-none-eabi.tar.bz2 -sSL ${GCC_ARM_URL} \
   && tar xjvf /tmp/gcc-arm-none-eabi.tar.bz2 -C /usr/local \
   && mv /usr/local/gcc-arm-none-eabi-${GCC_ARM_VERSION}/ /usr/local/gcc-arm-embedded \
+  && apt-get remove -qy bzip2 \
   && apt-get clean \
+  && apt-get purge \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/local/gcc-arm-embedded/share
 
 ENV PATH /usr/local/gcc-arm-embedded/bin:$PATH

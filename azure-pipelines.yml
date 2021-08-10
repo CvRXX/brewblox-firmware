@@ -3,9 +3,11 @@ resources:
     - repository: self
   containers:
     - container: firmware-compiler
-      image: brewblox/firmware-compiler:latest
+      image: brewblox/firmware-compiler:10.3
     - container: simulator-compiler
       image: brewblox/simulator-compiler:latest
+    - container: idf
+      image: espressif/idf:v4.3
 
 pool:
   vmImage: "Ubuntu-20.04"
@@ -172,6 +174,37 @@ jobs:
         artifact: Photon
 
   #########################################################
+  # Build ESP32
+  #########################################################
+  - job: BuildESP32
+    
+    steps:
+      - checkout: self
+
+      - script: git submodule update --init --recursive --depth 1
+        displayName: Checkout submodules
+
+      - script: bash build/compile-proto.sh
+        target: firmware-compiler
+        displayName: Compile proto
+
+      - script: /opt/esp/entrypoint.sh idf.py build
+        target: idf
+        workingDirectory: app/brewblox-esp
+        displayName: Build ESP32
+      
+      - bash: |
+          mkdir ./ci
+          cp ./brewblox_esp.bin ./ci/brewblox-esp32.bin
+          cp ./bootloader/bootloader.bin ./ci/bootloader-esp32.bin
+          cp ./partition_table/partition-table.bin ./ci/partition-table-esp32.bin
+        workingDirectory: app/brewblox-esp/build
+        displayName: Export build variables
+
+      - publish: app/brewblox-esp/build/ci
+        artifact: ESP32
+
+  #########################################################
   # Deploy
   #########################################################
   - job: Deploy
@@ -183,6 +216,7 @@ jobs:
       - BuildARM64
       - BuildP1
       - BuildPhoton
+      - BuildESP32
 
     variables:
       # Variables imported from brewblox group:
@@ -219,6 +253,9 @@ jobs:
           cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ${SRC}/brewblox-arm64.sim
           cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ${SRC}/brewblox-p1.bin
           cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
+          cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.bin ${SRC}/brewblox-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/bootloader-esp32.bin ${SRC}/bootloader-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/partition-table-esp32.bin ${SRC}/partition-table-esp32.bin
           bash docker/firmware-bin/before_build.sh
         displayName: Prepare firmware-bin source files
         env:

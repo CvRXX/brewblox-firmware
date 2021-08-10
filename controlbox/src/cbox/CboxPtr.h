@@ -129,6 +129,16 @@ public:
     {
         return !ptr.expired();
     }
+
+    CboxError store()
+    {
+        return objects.store(id);
+    }
+
+    ObjectContainer& container()
+    {
+        return objects;
+    }
 };
 
 } // end namespace cbox

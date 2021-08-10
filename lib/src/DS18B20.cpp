@@ -52,8 +52,7 @@ static constexpr const int16_t RESET_DETECTED_RAW = -2031;
  * This method should be called when the sensor is first created and also any time the sensor reports it has been reset.
  * This re-intializes the reset detection.
  */
-void
-DS18B20::init()
+void DS18B20::init()
 {
     ScratchPad scratchPad;
     bool writeSettings = false;
@@ -95,16 +94,15 @@ DS18B20::init()
     startConversion();
 }
 
-void
-DS18B20::startConversion()
+void DS18B20::startConversion()
 {
-    selectRom();
-    oneWire.write(STARTCONVO);
-    oneWire.reset();
+    if (auto oneWire = selectRom()) {
+        oneWire->write(STARTCONVO);
+        oneWire->reset();
+    }
 }
 
-temp_t
-DS18B20::value() const
+temp_t DS18B20::value() const
 {
     if (!connected()) {
         return 0;
@@ -113,15 +111,13 @@ DS18B20::value() const
     return m_cachedValue;
 }
 
-void
-DS18B20::update()
+void DS18B20::update()
 {
     m_cachedValue = readAndConstrainTemp();
     startConversion();
 }
 
-temp_t
-DS18B20::readAndConstrainTemp()
+temp_t DS18B20::readAndConstrainTemp()
 {
     // difference in precision between DS18B20 format and temperature format
     static constexpr const int32_t scale = 1 << (cnl::_impl::fractional_digits<temp_t>::value - 4);
@@ -147,19 +143,18 @@ DS18B20::readAndConstrainTemp()
     return temp;
 }
 
-bool
-DS18B20::readScratchPad(ScratchPad& scratchPad)
+bool DS18B20::readScratchPad(ScratchPad& scratchPad)
 {
     for (uint8_t retries = 0; retries < 2; retries++) {
         bool success = false;
-        if (selectRom()) {
-            if (oneWire.write(READSCRATCH)) {
-                if (oneWire.read_bytes(&scratchPad[0], 9)) {
+        if (auto oneWire = selectRom()) {
+            if (oneWire->write(READSCRATCH)) {
+                if (oneWire->read_bytes(&scratchPad[0], 9)) {
                     success = scratchPad.valid();
                 }
             }
+            oneWire->reset();
         }
-        oneWire.reset();
         if (success) {
             return true;
         }
@@ -167,48 +162,43 @@ DS18B20::readScratchPad(ScratchPad& scratchPad)
     return false;
 }
 
-void
-DS18B20::writeScratchPad(const ScratchPad& scratchPad, bool copyToEeprom)
+void DS18B20::writeScratchPad(const ScratchPad& scratchPad, bool copyToEeprom)
 {
-    if (selectRom()) {
+    if (auto oneWire = selectRom()) {
         uint8_t bytes[4] = {WRITESCRATCH, scratchPad[HIGH_ALARM_TEMP], scratchPad[LOW_ALARM_TEMP], scratchPad[CONFIGURATION]};
-        if (oneWire.write_bytes(bytes, 4)) {
+        if (oneWire->write_bytes(bytes, 4)) {
             // save the newly written values to eeprom
             if (copyToEeprom) {
-                selectRom();
-                oneWire.write(COPYSCRATCH);
+                oneWire->reset();
+                oneWire->select(m_address);
+                oneWire->write(COPYSCRATCH);
             }
         }
+        oneWire->reset();
     }
-
-    oneWire.reset();
 }
 
-void
-DS18B20::recallScratchpad()
+void DS18B20::recallScratchpad()
 {
-    if (selectRom()) {
-        oneWire.write(RECALLSCRATCH);
+    if (auto oneWire = selectRom()) {
+        oneWire->write(RECALLSCRATCH);
+        oneWire->reset();
     }
-    oneWire.reset();
 }
 
-bool
-DS18B20::
-    isParasitePowered()
+bool DS18B20::isParasitePowered()
 {
     bool busHigh = true;
-    if (selectRom()) {
-        oneWire.write(READPOWERSUPPLY);
+    if (auto oneWire = selectRom()) {
+        oneWire->write(READPOWERSUPPLY);
         // Parasite powered sensors pull the bus low
-        oneWire.read_bit(busHigh);
+        oneWire->read_bit(busHigh);
+        oneWire->reset();
     }
-    oneWire.reset();
     return !busHigh;
 }
 
-int16_t
-DS18B20::getRawTemp()
+int16_t DS18B20::getRawTemp()
 {
     ScratchPad scratchPad;
     if (!readScratchPad(scratchPad)) {

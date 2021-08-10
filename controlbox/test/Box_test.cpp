@@ -8,13 +8,15 @@
 #include "ArrayEepromAccess.h"
 #include "Connections.h"
 #include "ConnectionsStringStream.h"
+#include "Crc.h"
 #include "DataStreamConverters.h"
 #include "EepromObjectStorage.h"
 #include "GroupsObject.h"
-#include "LongIntScanningFactory.h"
+#include "LongIntScanningFactory.hpp"
 #include "Object.h"
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
+#include "TestHelpers.h"
 #include "TestObjects.h"
 #include "Tracing.h"
 
@@ -22,16 +24,16 @@ using namespace cbox;
 
 SCENARIO("A controlbox Box")
 {
+    ArrayEepromAccess<2048> eeprom;
+    EepromObjectStorage storage(eeprom);
     ObjectContainer container{
         // groups object will have id 1
         // add 2 system objects
-        ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
-        ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))};
+        {ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
+         ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))},
+        storage};
 
-    ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
-
-    ObjectFactory factory = {
+    const ObjectFactory factory = {
         {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
         {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
         {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
@@ -42,16 +44,16 @@ SCENARIO("A controlbox Box")
         {MockStreamObject::staticTypeId(), std::make_shared<MockStreamObject>},
     };
 
+    const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory)}};
+
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
 
-    auto longIntScanner = std::unique_ptr<ScanningFactory>(new LongIntScanningFactory(container));
-    std::vector<std::unique_ptr<ScanningFactory>> scanningFactories;
-    scanningFactories.push_back(std::move(longIntScanner));
+    static LongIntScanningFactory longIntScanner;
+    static const std::vector<std::reference_wrapper<ScanningFactory>> scanners{{std::reference_wrapper<ScanningFactory>(longIntScanner)}};
+    Box box(factories, container, storage, connPool, scanners);
 
-    Box box(factory, container, storage, connPool, std::move(scanningFactories));
-
-    auto in = std::make_shared<std::stringstream>();
+    auto in = std::make_shared<StringStreamAutoClear>();
     auto out = std::make_shared<std::stringstream>();
     std::stringstream expected;
     connSource.add(in, out);
@@ -641,13 +643,16 @@ SCENARIO("A controlbox Box")
                 AND_WHEN("A new box is created from existing storage (for example after a reboot)")
                 {
                     // note that only eeprom is not newly created here
-                    ObjectContainer container2 = {
-                        // groups obj is id 1
-                        ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
-                        ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))};
-
                     EepromObjectStorage storage2(eeprom);
-                    ObjectFactory factory2 = {
+
+                    ObjectContainer container2{
+                        // groups obj is id 1
+                        {
+                            ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
+                            ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))},
+                        storage2};
+
+                    const ObjectFactory factory2 = {
                         {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
                         {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
                         {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
@@ -655,12 +660,14 @@ SCENARIO("A controlbox Box")
                              return std::make_shared<PtrLongIntObject>(container);
                          }}};
 
+                    const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories2{{std::cref(factory2)}};
+
                     StringStreamConnectionSource connSource2;
                     ConnectionPool connPool2 = {connSource2};
 
                     THEN("All objects can be restored from storage")
                     {
-                        Box box2(factory2, container2, storage2, connPool2);
+                        Box box2(factories2, container2, storage2, connPool2, scanners);
                         box2.loadObjectsFromStorage();
 
                         auto in2 = std::make_shared<std::stringstream>();
@@ -727,7 +734,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(originalObject, damagedObject));
 
-                            Box box2(factory2, container2, storage2, connPool2);
+                            Box box2(factories2, container2, storage2, connPool2, scanners);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -774,7 +781,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(addCrc(originalObject), addCrc(unsupportedTypeObject)));
 
-                            Box box2(factory2, container2, storage2, connPool2);
+                            Box box2(factories2, container2, storage2, connPool2, scanners);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -1207,11 +1214,11 @@ SCENARIO("A controlbox Box")
     WHEN("A connection sends only a partial message with half a hex encoded byte (1 nibble), a CRC error is returned")
     {
         *in << "000003" // create object
-            << "0";     // ID assigned by box
+            << "0";     // ID with a nibble missing
 
         box.hexCommunicate();
 
-        expected << "00000300"
+        expected << "000003"
                  << "|"
                  << addCrc("43") << "\n";
         CHECK(out->str() == expected.str());

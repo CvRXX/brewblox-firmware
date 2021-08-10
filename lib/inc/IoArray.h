@@ -41,8 +41,13 @@ public:
 
     enum class ChannelConfig {
         UNUSED = 0,
-        ACTIVE_LOW = 1,
-        ACTIVE_HIGH = 2,
+        DRIVING_OFF = 1,
+        DRIVING_ON = 2,
+        DRIVING_REVERSE = 3,
+        DRIVING_BRAKE_LOW_SIDE = 4,
+        DRIVING_BRAKE_HIGH_SIDE = 5,
+        DRIVING_PWM = 6,
+        DRIVING_PWM_REVERSE = 7,
         INPUT = 10,
         UNKNOWN = 255,
     };

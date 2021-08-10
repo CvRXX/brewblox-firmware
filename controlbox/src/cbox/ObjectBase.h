@@ -21,6 +21,7 @@
 
 #include "Object.h"
 #include "ObjectIds.h"
+#include <memory>
 #include <type_traits>
 
 namespace cbox {
@@ -88,6 +89,30 @@ interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
 #else
     return interfaceIdImpl<T>();
 #endif
+}
+
+template <class T>
+T* asInterface(Object& obj)
+{
+    return reinterpret_cast<T*>(obj.implements(interfaceId<T>()));
+}
+
+template <class T>
+T* asInterface(std::shared_ptr<Object>& obj)
+{
+    if (obj) {
+        return reinterpret_cast<T*>(obj->implements(interfaceId<T>()));
+    }
+    return nullptr;
+}
+
+template <class T>
+const T* asInterface(const std::shared_ptr<Object>& obj)
+{
+    if (obj) {
+        return reinterpret_cast<const T*>(obj->implements(interfaceId<T>()));
+    }
+    return nullptr;
 }
 
 } // end namespace cbox

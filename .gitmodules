@@ -6,6 +6,9 @@
 	path = platform/spark/device-os
 	url = https://github.com/particle-iot/device-os.git
 	branch = brewblox
-[submodule "app/brewblox/proto"]
-	path = app/brewblox/proto
+[submodule "blox/proto"]
+	path = brewblox/blox/proto
 	url = https://github.com/BrewBlox/brewblox-proto.git
+[submodule "external_libs/lvgl"]
+	path = external_libs/lvgl
+	url = https://github.com/lvgl/lvgl.git

@@ -1,0 +1,71 @@
+/*
+ * Copyright 2015 BrewPi / Elco Jacobs, Matthew McGowan.
+ *
+ * This file is part of BrewPi.
+ * 
+ * BrewPi is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * BrewPi is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+#include "d4d.hpp"
+#include <cstddef>
+
+/**
+ * The core colors for a simple widget. Most widgets use only these core color values
+ * so we don't need to waste space storing the full D4D_COLOR_SCHEME which stores colors
+ * that aren't applicable (screen, progress bar, guage etc...) 
+ */
+struct SmallColorScheme {
+    D4D_COLOR bckg;        ///< The object background color in standard state
+    D4D_COLOR bckgDis;     ///< The object background color in disabled state
+    D4D_COLOR bckgFocus;   ///< The object background color in focused state
+    D4D_COLOR bckgCapture; ///< The object background color in captured state
+    D4D_COLOR fore;        ///< The object fore color in standard state
+    D4D_COLOR foreDis;     ///< The object fore color in disabled state
+    D4D_COLOR foreFocus;   ///< The object fore color in focused state
+    D4D_COLOR foreCapture; ///< The object fore color in captured state
+};
+
+// silence warnings for this dirty hack to save space
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+inline D4D_CLR_SCHEME*
+AS_D4D_COLOR_SCHEME(SmallColorScheme* small)
+{
+    uint8_t* address = reinterpret_cast<uint8_t*>(small) - offsetof(D4D_CLR_SCHEME, bckg);
+    return reinterpret_cast<D4D_CLR_SCHEME*>(address);
+}
+#pragma GCC diagnostic pop
+
+static constexpr SmallColorScheme
+makeSmallColorScheme(const uint8_t r, const uint8_t g, const uint8_t b)
+{
+    uint8_t r_lighter = r < 232 ? r + 24 : 255;
+    uint8_t g_lighter = g < 232 ? g + 24 : 255;
+    uint8_t b_lighter = b < 232 ? b + 24 : 255;
+
+    SmallColorScheme scheme = {
+        D4D_COLOR_RGB(r, g, b),                         ///< The object background color in standard state
+        D4D_COLOR_RGB(24, 24, 24),                      ///< The object background color in disabled state
+        D4D_COLOR_RGB(r_lighter, g_lighter, b_lighter), ///< The object background color in focused state
+        D4D_COLOR_RGB(r_lighter, g_lighter, b_lighter), ///< The object background color in captured state
+        D4D_COLOR_RGB(255, 255, 255),                   ///< The object fore color in standard state
+        D4D_COLOR_RGB(48, 48, 48),                      ///< The object fore color in disabled state
+        D4D_COLOR_RGB(255, 255, 255),                   ///< The object fore color in focused state
+        D4D_COLOR_RGB(255, 255, 255),                   ///< The object fore color in captured state
+    };
+    return scheme;
+}
+
+extern SmallColorScheme TOP_BAR_SCHEME;

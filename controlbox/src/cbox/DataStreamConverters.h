@@ -21,6 +21,7 @@
 #pragma once
 
 #include "DataStream.h"
+#include "hex_utility.h"
 #include <string>
 
 namespace cbox {
@@ -92,58 +93,59 @@ public:
  */
 class HexTextToBinaryIn : public DataIn {
     DataIn& textIn;
-    uint8_t char1; // Text character for upper nibble
-    uint8_t char2; // Text character for lower nibble
-
-    void fetchNextByte();
-
-    bool hasData() { return char2; }
-
-    bool peekEndline()
-    {
-        auto inByte = textIn.peek();
-        return (inByte == '\r' || inByte == '\n');
-    }
+    int16_t upper = -1;
+    int16_t lower = -1;
 
 public:
     HexTextToBinaryIn(DataIn& _textIn)
         : textIn(_textIn)
-        , char1(0)
-        , char2(0)
     {
     }
 
-    bool hasNext() override
+    void fetch()
     {
-        return hasData() || (textIn.hasNext() && !peekEndline());
-    }
-
-    uint8_t peek() override
-    {
-        while (!hasData() && textIn.hasNext()) {
-            fetchNextByte();
+        if (upper < 0) { // 2 bytes to fetch
+            upper = textIn.read();
+            if (upper < 0) {
+                // no data
+                return;
+            }
         }
-        return uint8_t((h2d(char1) << 4) | h2d(char2));
+
+        if (lower < 0) {
+            lower = textIn.read();
+        }
     }
 
-    uint8_t next() override
+    virtual int16_t peek() override
     {
-        uint8_t r = peek();
-        char1 = 0;
-        char2 = 0;
-        return r;
+        fetch();
+        if (upper < '0' || lower < '0' || lower > 'F' || upper > 'F') {
+            return -1;
+        }
+        return h2d(upper) * 16 + h2d(lower);
     }
 
-    stream_size_t available() override
+    virtual int16_t read() override
     {
-        fetchNextByte();
-        return hasData() ? 1 : 0;
+        auto v = peek();
+        if (v >= 0) {
+            // valid value received, reset nibbles
+            upper = -1;
+            lower = -1;
+        }
+        return v;
     }
 
-    void unBlock()
+    void consumeLineEnd()
     {
-        while (peekEndline()) {
-            textIn.next();
+        while (true) {
+            auto v = peek();
+            if (v == '\r' || v == '\n') {
+                read();
+            } else {
+                return;
+            }
         }
     }
 
@@ -152,11 +154,5 @@ public:
         return textIn.streamType();
     }
 };
-
-// helper function for testing. Appends the CRC to a hex string, the same way CrcDataOut would do
-std::string
-addCrc(const std::string& in);
-std::string
-crc(const std::string& in);
 
 } // end namespace cbox
