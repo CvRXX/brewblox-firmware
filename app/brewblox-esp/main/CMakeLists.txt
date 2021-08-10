@@ -44,7 +44,6 @@ set(cnl_inc "../../../lib/cnl/include")
 file(GLOB nanopb_srcs ../../../platform/spark/device-os/third_party/nanopb/nanopb/*.c)
 set(nanopb_inc "../../../platform/spark/device-os/third_party/nanopb/nanopb")
 
-
 execute_process (
     COMMAND git rev-parse --short=8 HEAD
     OUTPUT_VARIABLE GIT_VERSION

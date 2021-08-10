@@ -5,8 +5,8 @@
 #include "cbox/Box.h"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
-#include "network/Ethernet.hpp"
-#include "network/Wifi.hpp"
+#include "network/ethernet.hpp"
+#include "network/wifi.hpp"
 
 lv_disp_drv_t Graphics::disp_drv;
 std::unique_ptr<TFT035> Graphics::display;
@@ -111,13 +111,10 @@ void Layout::update()
     updateConfig();
     updateWidgets();
 
-    auto& wifi = get_wifi();
-    auto& ethernet = get_ethernet();
-
-    bar->setWifiIp(wifi.get_local_ip());
-    bar->setWifiEnabled(wifi.is_connected());
-    bar->setEthernetIp(ethernet.get_local_ip());
-    bar->setEthernetEnabled(ethernet.is_connected());
+    bar->setWifiIp(wifi::ip4().addr);
+    bar->setWifiEnabled(wifi::isConnected());
+    bar->setEthernetIp(ethernet::ip4().addr);
+    bar->setEthernetEnabled(ethernet::isConnected());
 
     bar->updateTime();
 }

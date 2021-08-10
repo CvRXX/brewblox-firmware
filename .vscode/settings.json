@@ -82,6 +82,7 @@
     "semaphore": "cpp",
     "stop_token": "cpp",
     "regex": "cpp",
-    "shared_mutex": "cpp"
+    "shared_mutex": "cpp",
+    "wifi_config.h": "c"
   }
 }

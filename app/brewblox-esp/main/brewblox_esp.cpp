@@ -42,8 +42,6 @@
 #include <functional>
 #include <memory>
 
-using namespace std::placeholders;
-
 unsigned get_device_id(uint8_t* dest, unsigned len)
 {
     uint8_t mac[6];
@@ -99,13 +97,13 @@ makeBrewBloxBox(asio::io_context& io)
         });
     updater.start();
 
-    static auto memoryReporter = RecurringTask(
-        io, asio::chrono::milliseconds(1000),
-        RecurringTask::IntervalType::FROM_EXECUTION,
-        []() {
-            ESP_LOGI("MEM", "Free heap %u", xPortGetFreeHeapSize());
-        });
-    memoryReporter.start();
+    // static auto memoryReporter = RecurringTask(
+    //     io, asio::chrono::milliseconds(1000),
+    //     RecurringTask::IntervalType::FROM_EXECUTION,
+    //     []() {
+    //         ESP_LOGI("MEM", "Free heap %u", xPortGetFreeHeapSize());
+    //     });
+    // memoryReporter.start();
 
     return box;
 }

@@ -1,4 +1,4 @@
-#include "Ethernet.hpp"
+#include "ethernet.hpp"
 #include <cstring>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -6,6 +6,7 @@
 #include <esp_eth.h>
 #include <esp_eth_netif_glue.h>
 #include <esp_event.h>
+//#include <esp_event_base.h>
 #include <esp_netif.h>
 #pragma GCC diagnostic pop
 
@@ -13,7 +14,22 @@ extern "C" {
 esp_eth_phy_t* esp_eth_phy_new_lan8742(const eth_phy_config_t* config);
 }
 
-Ethernet::Ethernet()
+namespace ethernet {
+esp_event_handler_instance_t instance_eth_event{};
+esp_event_handler_instance_t instance_ip_event{};
+esp_netif_t* interface{nullptr};
+bool connected{false};
+esp_eth_mac_t* mac{nullptr};
+esp_eth_phy_t* phy{nullptr};
+esp_eth_handle_t eth_handle{nullptr};
+esp_ip4_addr ip{0};
+
+void eth_event_handler(void* event_handler_arg,
+                       esp_event_base_t event_base,
+                       int32_t event_id,
+                       void* event_data);
+
+void init()
 {
     esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
     interface = esp_netif_new(&cfg);
@@ -21,14 +37,14 @@ Ethernet::Ethernet()
 
     esp_event_handler_instance_register(ETH_EVENT,
                                         ESP_EVENT_ANY_ID,
-                                        &Ethernet::eth_event_callback,
-                                        this,
+                                        &eth_event_handler,
+                                        nullptr,
                                         &instance_eth_event);
 
     esp_event_handler_instance_register(IP_EVENT,
                                         ESP_EVENT_ANY_ID,
-                                        &Ethernet::eth_event_callback,
-                                        this,
+                                        &eth_event_handler,
+                                        nullptr,
                                         &instance_ip_event);
 
     eth_mac_config_t mac_config = ETH_MAC_DEFAULT_CONFIG();
@@ -46,9 +62,16 @@ Ethernet::Ethernet()
 #endif
     esp_eth_config_t config = ETH_DEFAULT_CONFIG(mac, phy);
     esp_eth_driver_install(&config, &eth_handle);
+
+    auto err = esp_netif_attach(interface, esp_eth_new_netif_glue(eth_handle));
+
+    if (err == ESP_OK) {
+        /* start Ethernet driver state machine */
+        err = esp_eth_start(eth_handle);
+    }
 }
 
-Ethernet::~Ethernet()
+void deinit()
 {
     esp_event_handler_instance_unregister(IP_EVENT, ESP_EVENT_ANY_ID, instance_ip_event);
     esp_event_handler_instance_unregister(ETH_EVENT, ESP_EVENT_ANY_ID, instance_eth_event);
@@ -58,51 +81,40 @@ Ethernet::~Ethernet()
     }
 }
 
-esp_err_t Ethernet::start()
+void eth_event_handler(void* event_handler_arg,
+                       esp_event_base_t event_base,
+                       int32_t event_id,
+                       void* event_data)
 {
-    apply_host_name();
-    auto err = esp_netif_attach(interface, esp_eth_new_netif_glue(eth_handle));
-
-    if (err == ESP_OK) {
-        /* start Ethernet driver state machine */
-        err = esp_eth_start(eth_handle);
-    }
-    return err;
-}
-
-void Ethernet::eth_event_callback(void* event_handler_arg,
-                                  esp_event_base_t event_base,
-                                  int32_t event_id,
-                                  void* event_data)
-{
-    // Note: be very careful with what you do in this method - it runs under the event task
-    // (sys_evt) with a very small default stack.
-    Ethernet* eth = reinterpret_cast<Ethernet*>(event_handler_arg);
-
     if (event_base == ETH_EVENT) {
         switch (event_id) {
         case ETHERNET_EVENT_START: {
         } break;
         case ETHERNET_EVENT_STOP: {
-            eth->ip.addr = 0;
+            ip.addr = 0;
         } break;
         case ETHERNET_EVENT_CONNECTED: {
-            eth->connected = true;
+            connected = true;
         } break;
         case ETHERNET_EVENT_DISCONNECTED: {
-            eth->ip.addr = 0;
-            eth->connected = false;
+            ip.addr = 0;
+            connected = false;
         } break;
         }
     } else if (event_base == IP_EVENT) {
         if (event_id == IP_EVENT_ETH_GOT_IP) {
-            eth->ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
+            ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
         }
     }
 }
 
-Ethernet& get_ethernet()
+esp_ip4_addr ip4()
 {
-    static Ethernet* eth = new Ethernet();
-    return *eth;
+    return ip;
+}
+
+bool isConnected()
+{
+    return connected;
+}
 }
