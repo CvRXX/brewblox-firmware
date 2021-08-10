@@ -21,7 +21,7 @@
 
 #include "blox/Block.h"
 #include "cbox/DataStream.h"
-#include "proto/cpp/DisplaySettings.pb.h"
+#include "compiled_proto/src/DisplaySettings.pb.h"
 
 // provides a protobuf interface to the read only system info
 class DisplaySettingsBlock : public cbox::ObjectBase<BrewBloxTypes_BlockType_DisplaySettings> {

@@ -20,13 +20,10 @@
 #pragma once
 
 #include "IoArray.h"
-#include "proto/cpp/IoArray.pb.h"
+#include "compiled_proto/src/IoArray.pb.h"
 
-void
-writeIoConfig(IoArray& device, uint8_t chan, const blox_ChannelConfig& v);
+void writeIoConfig(IoArray& device, uint8_t chan, const blox_ChannelConfig& v);
 
-void
-readIoConfig(const IoArray& device, uint8_t chan, blox_ChannelConfig& result);
+void readIoConfig(const IoArray& device, uint8_t chan, blox_ChannelConfig& result);
 
-void
-readIo(const IoArray& device, uint8_t chan, blox_IoChannel& result);
+void readIo(const IoArray& device, uint8_t chan, blox_IoChannel& result);

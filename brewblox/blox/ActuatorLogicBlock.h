@@ -5,7 +5,7 @@
 #include "ProcessValue.h"
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
-#include "proto/cpp/ActuatorLogic.pb.h"
+#include "compiled_proto/src/ActuatorLogic.pb.h"
 #include <vector>
 
 namespace cbox {

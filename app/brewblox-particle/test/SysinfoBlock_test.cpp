@@ -21,7 +21,7 @@
 
 #include "BrewBloxTestBox.h"
 #include "blox/SysInfoBlock.h"
-#include "blox/proto/test/cpp/SysInfo_test.pb.h"
+#include "blox/compiled_proto/test_src/SysInfo_test.pb.h"
 #include "blox/stringify.h"
 
 using namespace cbox;

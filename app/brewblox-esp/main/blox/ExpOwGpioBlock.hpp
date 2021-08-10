@@ -21,7 +21,7 @@
 
 #include "../ExpOwGpio.hpp"
 #include "blox/Block.h"
-#include "blox/proto/cpp/OneWireGpioModule.pb.h"
+#include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
 
 class ExpOwGpioBlock : public Block<BrewBloxTypes_BlockType_OneWireGpioModule> {
 private:

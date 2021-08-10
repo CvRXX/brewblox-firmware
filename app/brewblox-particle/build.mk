@@ -29,8 +29,8 @@ INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
 CPPSRC += $(call here_files,brewblox,*.cpp)
 
 # add auto-generated protobuf includes
-INCLUDE_DIRS += $(SOURCE_PATH)/brewblox/blox/proto/cpp
-CSRC += $(call here_files,brewblox/blox/proto/cpp,*.c)
+INCLUDE_DIRS += $(SOURCE_PATH)/brewblox/blox/compiled_proto/src
+CSRC += $(call here_files,brewblox/blox/compiled_proto/src,*.c)
 
 
 ifeq ($(PLATFORM_ID),6)

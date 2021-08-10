@@ -1,11 +1,10 @@
 #include "BalancerBlock.h"
 #include "ActuatorAnalogConstraintsProto.h"
+#include "compiled_proto/src/Balancer.pb.h"
 #include "nanopb_callbacks.h"
-#include "proto/cpp/Balancer.pb.h"
 
 // stream result of a bus search, with arg pointing to the onewire bus
-bool
-streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
     auto balancerPtr = reinterpret_cast<BalancerBlock::Balancer_t*>(*arg);
     for (const auto& requester : balancerPtr->clients()) {
@@ -33,8 +32,7 @@ BalancerBlock::streamTo(cbox::DataOut& out) const
     return streamProtoTo(out, &message, blox_Balancer_fields, std::numeric_limits<size_t>::max());
 }
 
-void*
-BalancerBlock::implements(const cbox::obj_type_t& iface)
+void* BalancerBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_Balancer) {
         return this; // me!

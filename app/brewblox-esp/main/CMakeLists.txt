@@ -30,7 +30,7 @@ file(GLOB graphics_srcs ../../../platform/all/graphics/*.cpp ../../../platform/a
 file(GLOB cbox_srcs ../../../controlbox/src/cbox/*.cpp)
 set(cbox_inc "../../../controlbox/src/")
 
-file(GLOB brewblox_srcs ../../../brewblox/*.cpp ../../../brewblox/blox/*.cpp ../../../brewblox/blox/proto/cpp/*.c)
+file(GLOB brewblox_srcs ../../../brewblox/*.cpp ../../../brewblox/blox/*.cpp ../../../brewblox/blox/compiled_proto/src/*.c)
 set(brewblox_inc "../../../brewblox/")
 
 file(GLOB esp_srcs ../../../platform/esp/*.cpp ../../../platform/esp/*.c)
@@ -103,7 +103,7 @@ idf_component_register(
     ${http_srcs}
   INCLUDE_DIRS 
     .
-    ${REPO_ROOT}/brewblox/blox/proto/cpp
+    ${REPO_ROOT}/brewblox/blox/compiled_proto/src
     ${brewblox_inc}
     ${nanopb_inc}
     ${cbox_inc}

@@ -1,8 +1,8 @@
 #include "ActuatorOffsetBlock.h"
 #include "ActuatorAnalogConstraintsProto.h"
 #include "blox/FieldTags.h"
-#include "proto/cpp/ActuatorOffset.pb.h"
-#include "proto/cpp/AnalogConstraints.pb.h"
+#include "compiled_proto/src/ActuatorOffset.pb.h"
+#include "compiled_proto/src/AnalogConstraints.pb.h"
 
 cbox::CboxError
 ActuatorOffsetBlock::streamFrom(cbox::DataIn& dataIn)
@@ -77,8 +77,7 @@ ActuatorOffsetBlock::update(const cbox::update_t& now)
     return now + 1000;
 }
 
-void*
-ActuatorOffsetBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorOffsetBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_ActuatorOffset) {
         return this; // me!

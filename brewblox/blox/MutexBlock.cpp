@@ -18,8 +18,8 @@
  */
 
 #include "MutexBlock.h"
+#include "compiled_proto/src/Mutex.pb.h"
 #include "nanopb_callbacks.h"
-#include "proto/cpp/Mutex.pb.h"
 
 cbox::CboxError
 MutexBlock::streamFrom(cbox::DataIn& dataIn)
@@ -42,8 +42,7 @@ MutexBlock::streamTo(cbox::DataOut& out) const
     return streamProtoTo(out, &message, blox_Mutex_fields, blox_Mutex_size);
 }
 
-void*
-MutexBlock::implements(const cbox::obj_type_t& iface)
+void* MutexBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_Mutex) {
         return this; // me!
