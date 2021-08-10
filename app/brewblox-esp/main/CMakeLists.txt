@@ -30,7 +30,7 @@ file(GLOB graphics_srcs ../../../platform/all/graphics/*.cpp ../../../platform/a
 file(GLOB cbox_srcs ../../../controlbox/src/cbox/*.cpp)
 set(cbox_inc "../../../controlbox/src/")
 
-file(GLOB brewblox_srcs ../../../brewblox/*.cpp ../../../brewblox/blox/*.cpp ../../../brewblox/blox/proto/cpp/*.c)
+file(GLOB brewblox_srcs ../../../brewblox/*.cpp ../../../brewblox/blox/*.cpp ../../../brewblox/blox/compiled_proto/src/*.c)
 set(brewblox_inc "../../../brewblox/")
 
 file(GLOB esp_srcs ../../../platform/esp/*.cpp ../../../platform/esp/*.c)
@@ -81,12 +81,12 @@ message(STATUS "IDF version: " ${SYSTEM_VERSION_STRING})
 
 message(STATUS "brewblox_src: " ${brewblox_srcs})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_VERSION=${GIT_VERSION}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_DATE=${GIT_DATE}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_VERSION=${PROTO_VERSION}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_DATE=${PROTO_DATE}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_VERSION=\\\"${GIT_VERSION}\\\"")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_DATE=\\\"${GIT_DATE}\\\"")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_VERSION=\\\"${PROTO_VERSION}\\\"")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_DATE=\\\"${PROTO_DATE}\\\"")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLATFORM_ID=100")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSYSTEM_VERSION_STRING=${SYSTEM_VERSION_STRING}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSYSTEM_VERSION_STRING=${SYSTEM_VERSION_STRING}") # not quoted for compatibility with particle
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLV_LVGL_H_INCLUDE_SIMPLE")
 
 
@@ -103,7 +103,7 @@ idf_component_register(
     ${http_srcs}
   INCLUDE_DIRS 
     .
-    ${REPO_ROOT}/brewblox/blox/proto/cpp
+    ${REPO_ROOT}/brewblox/blox/compiled_proto/src
     ${brewblox_inc}
     ${nanopb_inc}
     ${cbox_inc}

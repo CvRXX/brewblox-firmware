@@ -4,7 +4,7 @@
 #include "ActuatorDigitalConstrained.h"
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
-#include "proto/cpp/DigitalActuator.pb.h"
+#include "compiled_proto/src/DigitalActuator.pb.h"
 
 class IoArray;
 

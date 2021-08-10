@@ -23,10 +23,10 @@
 #include "blox/SetpointSensorPairBlock.h"
 #include "blox/TempSensorMockBlock.h"
 #include "blox/TicksBlock.h"
-#include "blox/proto/test/cpp/SetpointProfile_test.pb.h"
-#include "blox/proto/test/cpp/SetpointSensorPair_test.pb.h"
-#include "blox/proto/test/cpp/TempSensorMock_test.pb.h"
-#include "blox/proto/test/cpp/Ticks_test.pb.h"
+#include "blox/compiled_proto/test_src/SetpointProfile_test.pb.h"
+#include "blox/compiled_proto/test_src/SetpointSensorPair_test.pb.h"
+#include "blox/compiled_proto/test_src/TempSensorMock_test.pb.h"
+#include "blox/compiled_proto/test_src/Ticks_test.pb.h"
 #include "cbox/DataStreamIo.h"
 #include <catch.hpp>
 #include <sstream>

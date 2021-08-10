@@ -18,8 +18,8 @@
  */
 
 #include "SetpointSensorPairBlock.h"
-#include "SetpointSensorPair.pb.h"
 #include "blox/FieldTags.h"
+#include "blox/compiled_proto/src/SetpointSensorPair.pb.h"
 
 cbox::CboxError
 SetpointSensorPairBlock::streamFrom(cbox::DataIn& in)
@@ -99,8 +99,7 @@ SetpointSensorPairBlock::update(const cbox::update_t& now)
     return nextUpdate;
 }
 
-void*
-SetpointSensorPairBlock::implements(const cbox::obj_type_t& iface)
+void* SetpointSensorPairBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_SetpointSensorPair) {
         return this; // me!

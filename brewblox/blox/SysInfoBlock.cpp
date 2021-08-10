@@ -18,6 +18,7 @@
  */
 
 #include "SysInfoBlock.h"
+#include "blox/compiled_proto/src/proto_version.h"
 #include "cbox/Tracing.h"
 #include "stringify.h"
 #include <cstring>
@@ -33,10 +34,10 @@ SysInfoBlock::streamTo(cbox::DataOut& out) const
 
     device_id_func(static_cast<uint8_t*>(&message.deviceId[0]), 12);
 
-    strncpy(message.version, stringify(GIT_VERSION), 12);
-    strncpy(message.protocolVersion, stringify(PROTO_VERSION), 12);
-    strncpy(message.releaseDate, stringify(GIT_DATE), 12);
-    strncpy(message.protocolDate, stringify(PROTO_DATE), 12);
+    strncpy(message.version, GIT_VERSION, 12);
+    strncpy(message.protocolVersion, COMPILED_PROTO_VERSION, 12);
+    strncpy(message.releaseDate, GIT_DATE, 12);
+    strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
 
     message.platform = blox_SysInfo_Platform(PLATFORM_ID);
 

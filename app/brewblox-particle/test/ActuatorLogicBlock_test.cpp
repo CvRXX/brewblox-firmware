@@ -24,10 +24,10 @@
 #include "blox/DigitalActuatorBlock.h"
 #include "blox/SetpointSensorPairBlock.h"
 #include "blox/TempSensorMockBlock.h"
-#include "blox/proto/test/cpp/ActuatorLogic_test.pb.h"
-#include "blox/proto/test/cpp/DigitalActuator_test.pb.h"
-#include "blox/proto/test/cpp/SetpointSensorPair_test.pb.h"
-#include "blox/proto/test/cpp/TempSensorMock_test.pb.h"
+#include "blox/compiled_proto/test_src/ActuatorLogic_test.pb.h"
+#include "blox/compiled_proto/test_src/DigitalActuator_test.pb.h"
+#include "blox/compiled_proto/test_src/SetpointSensorPair_test.pb.h"
+#include "blox/compiled_proto/test_src/TempSensorMock_test.pb.h"
 #include "cbox/DataStreamIo.h"
 #include <sstream>
 

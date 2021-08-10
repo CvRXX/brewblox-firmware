@@ -20,7 +20,7 @@
 #pragma once
 
 #include "blox/Block.h"
-#include "blox/proto/cpp/WiFiSettings.pb.h"
+#include "blox/compiled_proto/src/WiFiSettings.pb.h"
 #include "cbox/DataStream.h"
 
 // provides a protobuf interface to the read only system info

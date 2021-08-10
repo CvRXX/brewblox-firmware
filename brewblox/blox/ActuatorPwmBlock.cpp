@@ -1,8 +1,8 @@
 #include "ActuatorPwmBlock.h"
 #include "ActuatorAnalogConstraintsProto.h"
 #include "blox/FieldTags.h"
-#include "proto/cpp/ActuatorPwm.pb.h"
-#include "proto/cpp/AnalogConstraints.pb.h"
+#include "compiled_proto/src/ActuatorPwm.pb.h"
+#include "compiled_proto/src/AnalogConstraints.pb.h"
 
 cbox::CboxError
 ActuatorPwmBlock::streamFrom(cbox::DataIn& dataIn)

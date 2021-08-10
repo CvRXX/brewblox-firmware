@@ -19,7 +19,7 @@
 
 #include "DS2413Block.h"
 #include "IoArrayHelpers.h"
-#include "proto/cpp/DS2413.pb.h"
+#include "compiled_proto/src/DS2413.pb.h"
 
 cbox::CboxError
 DS2413Block::streamFrom(cbox::DataIn& in)
