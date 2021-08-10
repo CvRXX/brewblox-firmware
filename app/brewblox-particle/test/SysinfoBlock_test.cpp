@@ -21,17 +21,17 @@
 
 #include "BrewBloxTestBox.h"
 #include "blox/SysInfoBlock.h"
+#include "blox/compiled_proto/src/proto_version.h"
 #include "blox/compiled_proto/test_src/SysInfo_test.pb.h"
-#include "blox/stringify.h"
 
 using namespace cbox;
 
 SCENARIO("SysInfo Block")
 {
-    std::string version = stringify(GIT_VERSION);
-    std::string protocolVersion = stringify(PROTO_VERSION);
-    std::string releaseDate = stringify(GIT_DATE);
-    std::string protocolDate = stringify(PROTO_DATE);
+    std::string version = GIT_VERSION;
+    std::string protocolVersion = COMPILED_PROTO_VERSION;
+    std::string releaseDate = GIT_DATE;
+    std::string protocolDate = COMPILED_PROTO_DATE;
     using commands = cbox::Box::CommandID;
     std::string replyWithoutTrace = std::string("deviceId: \"999999999999\"")
                                     + " version: \"" + version + "\" platform: PLATFORM_GCC protocolVersion: \"" + protocolVersion

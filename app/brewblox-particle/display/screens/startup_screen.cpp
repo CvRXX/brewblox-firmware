@@ -20,7 +20,6 @@
 #include "startup_screen.h"
 #include "../fonts/fonts.h"
 #include "../logo/brewblox_logo.h"
-#include "blox/stringify.h"
 #include "brewblox_particle.hpp"
 #include "d4d.hpp"
 #include "memory_info.h"
@@ -40,7 +39,7 @@ extern BrewPiTouch touch;
 #error GIT_DATE not set
 #endif
 char stepTxt[32] = "Init board";
-char versionString[] = "version: " stringify(GIT_VERSION) " (" stringify(GIT_DATE) ")";
+char versionString[] = "version: " GIT_VERSION " (" GIT_DATE ")";
 
 D4D_DECLARE_STD_PICTURE(scrStartup_logo, 70, 100, 180, 34, &bmp_brewblox_logo)
 D4D_DECLARE_STD_LABEL(scrStartup_step, stepTxt, 0, 193, 320, 15, FONT_REGULAR)

@@ -14,15 +14,6 @@ sudo rm -rf build/target
 docker pull \
     brewblox/simulator-compiler:latest
 
-# Compile proto with native compiler
-docker run \
-    ${USE_TTY} \
-    --rm \
-    -v "$(pwd)":/firmware \
-    -w /firmware/build \
-    brewblox/simulator-compiler:latest \
-    bash compile-proto.sh
-
 # Enable emulation
 if [[ $(arch) != 'armv7l' ]]; then
     docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
