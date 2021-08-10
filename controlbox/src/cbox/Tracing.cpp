@@ -23,17 +23,29 @@
 #include <array>
 #include <cstdint>
 
+#ifdef ESP_PLATFORM
+// retained memory not yet working on ESP, commented out for now.
+// ESP has application level tracing support that's better than this for an alternative implementation
+// #include <esp_attr.h>
+// __NOINIT_ATTR
+#define __RETAINED__
+#else
+#define __RETAINED__ __attribute__((section(".retained_user")))
+#endif
+
 namespace cbox {
 
 namespace tracing {
+
     namespace detail {
-        __attribute__((section(".retained_user"))) std::array<TraceEvent, 10> historyRetained = std::array<TraceEvent, 10>{TraceEvent{uint8_t(tracing::Action::NONE), 0, 0}};
-        __attribute__((section(".retained_user"))) uint8_t lastIdx = 0;
+        __RETAINED__ std::array<TraceEvent, 10> historyRetained;
+        __RETAINED__ uint8_t lastIdx;
         bool writeEnabled = false;
     }
 
     void add(uint8_t a, obj_id_t i, obj_type_t t)
     {
+#ifndef ESP_PLATFORM
         using namespace detail;
         if (writeEnabled) {
             if (historyRetained[lastIdx].action == uint8_t(Action::PERSIST_OBJECT) && historyRetained[lastIdx].id == i) {
@@ -43,28 +55,36 @@ namespace tracing {
 
             historyRetained[lastIdx] = TraceEvent{a, i, t};
         }
+#endif
     }
 
     const std::array<TraceEvent, 10>& history()
     {
+        using namespace detail;
+#ifndef ESP_PLATFORM
         // history is kept as a circular buffer,
         // rotate array so oldest element is the first element before returning
-        using namespace detail;
+
         if (lastIdx != 9) {
             std::rotate(historyRetained.begin(), historyRetained.begin() + lastIdx + 1, historyRetained.end());
             lastIdx = 9;
         }
+#endif
         return historyRetained;
     }
 
     void unpause()
     {
+#ifndef ESP_PLATFORM
         detail::writeEnabled = true;
+#endif
     }
 
     void pause()
     {
+#ifndef ESP_PLATFORM
         detail::writeEnabled = false;
+#endif
     }
 }
 }
