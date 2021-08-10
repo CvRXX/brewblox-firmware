@@ -36,10 +36,6 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/compile-proto.sh
-        target: firmware-compiler
-        displayName: Compile proto
-
       - script: bash build/build-tests.sh
         target: firmware-compiler
         displayName: Build tests
@@ -63,10 +59,6 @@ jobs:
       
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
-
-      - script: bash build/compile-proto.sh
-        target: simulator-compiler
-        displayName: Compile proto
 
       - script: bash build/build-sim-native.sh
         target: simulator-compiler
@@ -92,9 +84,6 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/compile-proto.sh
-        displayName: Compile proto
-
       - script: bash build/build-sim-native.sh
         displayName: Build executable
 
@@ -118,9 +107,6 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/compile-proto.sh
-        displayName: Compile proto
-
       - script: bash build/build-sim-native.sh
         displayName: Build executable
 
@@ -137,10 +123,6 @@ jobs:
 
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
-
-      - script: bash build/compile-proto.sh
-        target: firmware-compiler
-        displayName: Compile proto
 
       - script: make APP=brewblox PLATFORM=p1
         target: firmware-compiler
@@ -161,10 +143,6 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/compile-proto.sh
-        target: firmware-compiler
-        displayName: Compile proto
-
       - script: make APP=brewblox PLATFORM=photon
         target: firmware-compiler
         workingDirectory: build
@@ -183,10 +161,6 @@ jobs:
 
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
-
-      - script: bash build/compile-proto.sh
-        target: firmware-compiler
-        displayName: Compile proto
 
       - script: /opt/esp/entrypoint.sh idf.py build
         target: idf
