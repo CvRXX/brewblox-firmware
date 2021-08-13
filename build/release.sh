@@ -32,7 +32,7 @@ docker create --name bin-box brewblox/firmware-bin:"${TAG}" > /dev/null
 
 # Copy files
 rm -rf ./release
-docker cp bin-box:/binaries ./release
+docker cp bin-box:/firmware ./release
 
 # Remove image
 docker rm bin-box > /dev/null
