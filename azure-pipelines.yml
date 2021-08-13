@@ -19,6 +19,9 @@ trigger:
       - "edge"
       - "feature/*"
       - "fix/*"
+  tags:
+    exclude:
+      - "*"
 pr:
   branches:
     include:
