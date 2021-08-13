@@ -2,8 +2,16 @@
 #include "./BaseWidget.hpp"
 #include "blox/PidBlock.h"
 
+/// A widget which represents a pid.
 class PidWidget : public BaseWidget {
 public:
+    /**
+     * Constructs the widget
+     * @param grid The grid placeholder in which the widget will be placed.
+     * @param ptr A cboxPtr to the object the widget represents.
+     * @param label The user set label of the object.
+     * @param color The background color of the widget.
+     */
     PidWidget(lv_obj_t* grid, cbox::CboxPtr<PidBlock>&& ptr, const char* label, lv_color_t color)
         : BaseWidget(grid, color)
         , lookup(ptr)
@@ -19,81 +27,133 @@ public:
         lv_obj_del(obj);
     }
 
+    /// Updates the widget with information from the object it's representing.
     void update()
     {
         if (auto ptr = lookup.const_lock()) {
 
-            setBar1(int32_t(ptr->get().p()));
-            setBar2(int32_t(ptr->get().i()));
-            setBar3(int32_t(ptr->get().d()));
+            setPBar(int32_t(ptr->get().p()));
+            setIBar(int32_t(ptr->get().i()));
+            setDBar(int32_t(ptr->get().d()));
 
             auto& inputLookup = ptr->getInputLookup();
             auto& outputLookup = ptr->getOutputLookup();
             auto input = inputLookup.const_lock();
             if (input && input->valueValid()) {
-                setValue1(temp_to_string(input->value(), 1, tempUnit));
+                setInputValue(temp_to_string(input->value(), 1, tempUnit));
             } else {
-                setValue1("-");
+                setInputValue("-");
             }
             if (input && input->settingValid()) {
-                setValue2(temp_to_string(input->setting(), 1, tempUnit));
+                setInputSetting(temp_to_string(input->setting(), 1, tempUnit));
             } else {
-                setValue2("-");
+                setInputSetting("-");
             }
 
             auto output = outputLookup.const_lock();
             if (output && output->valueValid()) {
-                setValue3(temp_to_string(output->value(), 1, tempUnit));
+                setOutputValue(temp_to_string(output->value(), 1, tempUnit));
             } else {
-                setValue3("-");
+                setOutputValue("-");
             }
             if (output && output->settingValid()) {
-                setValue4(temp_to_string(output->setting(), 1, tempUnit));
+                setOutputSetting(temp_to_string(output->setting(), 1, tempUnit));
             } else {
-                setValue4("-");
+                setOutputSetting("-");
             }
+
+            setActive(ptr->get().active());
 
             return;
         }
     }
+
+    /**
+     * Sets the label of the widget.
+     * @param txt The label text.
+     */
     void setLabel(std::string txt)
     {
         lv_label_set_text(label, txt.c_str());
     }
 
-    void setValue1(std::string txt)
+    /**
+     * Sets the input value of the widget.
+     * @param txt The input value text.
+     */
+    void setInputValue(std::string txt)
     {
-        lv_label_set_text(value1, txt.c_str());
-        lv_obj_align(value1, NULL, LV_ALIGN_CENTER, -30, -30);
+        lv_label_set_text(inputValue, txt.c_str());
+        lv_obj_align(inputValue, NULL, LV_ALIGN_CENTER, -40, -30);
     }
 
-    void setValue2(std::string txt)
+    /**
+     * Sets the input setting of the widget.
+     * @param txt The input setting text.
+     */
+    void setInputSetting(std::string txt)
     {
-        lv_label_set_text(value2, txt.c_str());
-        lv_obj_align(value2, NULL, LV_ALIGN_CENTER, -30, -52);
-    }
-    void setValue3(std::string txt)
-    {
-        lv_label_set_text(value3, txt.c_str());
-        lv_obj_align(value3, NULL, LV_ALIGN_CENTER, 30, -30);
-    }
-    void setValue4(std::string txt)
-    {
-        lv_label_set_text(value4, txt.c_str());
-        lv_obj_align(value4, NULL, LV_ALIGN_CENTER, 30, -52);
+        lv_label_set_text(inputSetting, txt.c_str());
+        lv_obj_align(inputSetting, NULL, LV_ALIGN_CENTER, -40, -52);
     }
 
-    void setBar1(int32_t persentage)
+    /**
+     * Sets the output value of the widget.
+     * @param txt The output value text.
+     */
+    void setOutputValue(std::string txt)
     {
-        lv_bar_set_value(bar1, persentage, LV_ANIM_ON);
+        lv_label_set_text(outputValue, txt.c_str());
+        lv_obj_align(outputValue, NULL, LV_ALIGN_CENTER, 40, -30);
     }
-    void setBar2(int32_t persentage)
+
+    /**
+     * Sets the output setting of the widget.
+     * @param txt The output setting text.
+     */
+    void setOutputSetting(std::string txt)
     {
-        lv_bar_set_value(bar2, persentage, LV_ANIM_ON);
+        lv_label_set_text(outputSetting, txt.c_str());
+        lv_obj_align(outputSetting, NULL, LV_ALIGN_CENTER, 40, -52);
     }
-    void setBar3(int32_t persentage)
+
+    /**
+     * Sets the proportional status bar of the widget.
+     * @param persentage The filling of the bar. 
+     * Positive values will cause the bar to go east, negative values will cause it to go west.
+     */
+    void setPBar(int32_t persentage)
     {
-        lv_bar_set_value(bar3, persentage, LV_ANIM_ON);
+        lv_bar_set_value(pBar, persentage, LV_ANIM_ON);
+    }
+
+    /**
+     * Sets the integral status bar of the widget.
+     * @param persentage The filling of the bar. 
+     * Positive values will cause the bar to go east, negative values will cause it to go west.
+     */
+    void setIBar(int32_t persentage)
+    {
+        lv_bar_set_value(iBar, persentage, LV_ANIM_ON);
+    }
+
+    /**
+     * Sets the derivative status bar of the widget.
+     * @param persentage The filling of the bar. 
+     * Positive values will cause the bar to go east, negative values will cause it to go west.
+     */
+    void setDBar(int32_t persentage)
+    {
+        lv_bar_set_value(dBar, persentage, LV_ANIM_ON);
+    }
+
+    /**
+     * Sets the activeness of the widget. This will turn the led on or off.
+     * @param state If the led should be on or off.
+     */
+    void setActive(bool state)
+    {
+        state ? lv_led_on(led) : lv_led_off(led);
     }
 
 private:
@@ -103,63 +163,90 @@ private:
         lv_label_set_text(label, labelTxt);
         lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 47);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        lv_obj_set_style_local_text_font(label, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_16);
+        lv_obj_add_style(label, LV_LABEL_PART_MAIN, &style::block_text);
 
-        value1 = lv_label_create(obj, NULL);
-        lv_label_set_text(value1, "-");
-        lv_obj_align(value1, NULL, LV_ALIGN_CENTER, -30, -30);
-        lv_label_set_align(value1, LV_LABEL_ALIGN_CENTER);
-        lv_obj_set_style_local_text_font(value1, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        inputValue = lv_label_create(obj, NULL);
+        lv_label_set_text(inputValue, "-");
+        lv_obj_set_style_local_text_font(inputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        lv_obj_align(inputValue, NULL, LV_ALIGN_CENTER, -40, -30);
+        lv_label_set_align(inputValue, LV_LABEL_ALIGN_CENTER);
 
-        value2 = lv_label_create(obj, NULL);
-        lv_label_set_text(value2, "-");
-        lv_obj_align(value2, NULL, LV_ALIGN_CENTER, -30, -52);
-        lv_label_set_align(value2, LV_LABEL_ALIGN_CENTER);
-        lv_obj_set_style_local_text_font(value2, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        inputSetting = lv_label_create(obj, NULL);
+        lv_label_set_text(inputSetting, "-");
+        lv_obj_set_style_local_text_font(inputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        lv_obj_align(inputSetting, NULL, LV_ALIGN_CENTER, -40, -52);
+        lv_label_set_align(inputSetting, LV_LABEL_ALIGN_CENTER);
 
-        value3 = lv_label_create(obj, NULL);
-        lv_label_set_text(value3, "-");
-        lv_obj_align(value3, NULL, LV_ALIGN_CENTER, 30, -30);
-        lv_label_set_align(value3, LV_LABEL_ALIGN_CENTER);
-        lv_obj_set_style_local_text_font(value3, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        outputValue = lv_label_create(obj, NULL);
+        lv_label_set_text(outputValue, "-");
+        lv_obj_set_style_local_text_font(outputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        lv_obj_align(outputValue, NULL, LV_ALIGN_CENTER, 40, -30);
+        lv_label_set_align(outputValue, LV_LABEL_ALIGN_CENTER);
 
-        value4 = lv_label_create(obj, NULL);
-        lv_label_set_text(value4, "-");
-        lv_obj_align(value4, NULL, LV_ALIGN_CENTER, 30, -52);
-        lv_label_set_align(value4, LV_LABEL_ALIGN_CENTER);
-        lv_obj_set_style_local_text_font(value4, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        outputSetting = lv_label_create(obj, NULL);
+        lv_label_set_text(outputSetting, "-");
+        lv_obj_set_style_local_text_font(outputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
+        lv_obj_align(outputSetting, NULL, LV_ALIGN_CENTER, 40, -52);
+        lv_label_set_align(outputSetting, LV_LABEL_ALIGN_CENTER);
 
-        bar1 = lv_bar_create(obj, NULL);
-        lv_obj_set_size(bar1, 100, 10);
-        lv_bar_set_type(bar1, LV_BAR_TYPE_SYMMETRICAL);
-        lv_bar_set_range(bar1, -100, 100);
-        lv_obj_align(bar1, NULL, LV_ALIGN_CENTER, 0, -5);
-        lv_bar_set_anim_time(bar1, 2000);
-        lv_bar_set_value(bar1, 0, LV_ANIM_OFF);
+        pBar = lv_bar_create(obj, NULL);
+        lv_obj_set_size(pBar, 100, 10);
+        lv_bar_set_type(pBar, LV_BAR_TYPE_SYMMETRICAL);
+        lv_bar_set_range(pBar, -100, 100);
+        lv_obj_align(pBar, NULL, LV_ALIGN_CENTER, 0, -5);
+        lv_bar_set_anim_time(pBar, 2000);
+        lv_bar_set_value(pBar, 0, LV_ANIM_OFF);
 
-        bar2 = lv_bar_create(obj, NULL);
-        lv_obj_set_size(bar2, 100, 10);
-        lv_bar_set_type(bar2, LV_BAR_TYPE_SYMMETRICAL);
-        lv_bar_set_range(bar2, -100, 100);
-        lv_obj_align(bar2, NULL, LV_ALIGN_CENTER, 0, 10);
-        lv_bar_set_anim_time(bar2, 2000);
-        lv_bar_set_value(bar2, 0, LV_ANIM_OFF);
+        iBar = lv_bar_create(obj, NULL);
+        lv_obj_set_size(iBar, 100, 10);
+        lv_bar_set_type(iBar, LV_BAR_TYPE_SYMMETRICAL);
+        lv_bar_set_range(iBar, -100, 100);
+        lv_obj_align(iBar, NULL, LV_ALIGN_CENTER, 0, 10);
+        lv_bar_set_anim_time(iBar, 2000);
+        lv_bar_set_value(iBar, 0, LV_ANIM_OFF);
 
-        bar3 = lv_bar_create(obj, NULL);
-        lv_obj_set_size(bar3, 100, 10);
-        lv_bar_set_type(bar3, LV_BAR_TYPE_SYMMETRICAL);
-        lv_bar_set_range(bar3, -100, 100);
-        lv_obj_align(bar3, NULL, LV_ALIGN_CENTER, 0, 25);
-        lv_bar_set_anim_time(bar3, 2000);
-        lv_bar_set_value(bar3, 0, LV_ANIM_OFF);
+        dBar = lv_bar_create(obj, NULL);
+        lv_obj_set_size(dBar, 100, 10);
+        lv_bar_set_type(dBar, LV_BAR_TYPE_SYMMETRICAL);
+        lv_bar_set_range(dBar, -100, 100);
+        lv_obj_align(dBar, NULL, LV_ALIGN_CENTER, 0, 25);
+        lv_bar_set_anim_time(dBar, 2000);
+        lv_bar_set_value(dBar, 0, LV_ANIM_OFF);
+
+        led = lv_led_create(obj, NULL);
+        lv_obj_set_size(led, 16, 16);
+        lv_obj_align(led, NULL, LV_ALIGN_CENTER, 0, -41);
+
+        if (this->getRed() > (255 / 2)) {
+            lv_obj_set_style_local_bg_color(pBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+            lv_obj_set_style_local_bg_color(iBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+            lv_obj_set_style_local_bg_color(dBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+        }
+
+        if (this->getLuminance() > (255 / 2)) {
+            lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+            lv_obj_set_style_local_text_color(inputValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+            lv_obj_set_style_local_text_color(inputSetting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+            lv_obj_set_style_local_text_color(outputValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+            lv_obj_set_style_local_text_color(outputSetting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+
+        } else {
+            lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+            lv_obj_set_style_local_text_color(inputValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+            lv_obj_set_style_local_text_color(inputSetting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+            lv_obj_set_style_local_text_color(outputValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+            lv_obj_set_style_local_text_color(outputSetting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+        }
     }
     lv_obj_t* label;
-    lv_obj_t* value1;
-    lv_obj_t* value2;
-    lv_obj_t* value3;
-    lv_obj_t* value4;
-    lv_obj_t* bar1;
-    lv_obj_t* bar2;
-    lv_obj_t* bar3;
+    lv_obj_t* inputValue;
+    lv_obj_t* inputSetting;
+    lv_obj_t* outputValue;
+    lv_obj_t* outputSetting;
+    lv_obj_t* pBar;
+    lv_obj_t* iBar;
+    lv_obj_t* dBar;
+    lv_obj_t* led;
+
     cbox::CboxPtr<PidBlock> lookup;
 };

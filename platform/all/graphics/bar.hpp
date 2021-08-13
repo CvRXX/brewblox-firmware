@@ -4,20 +4,19 @@
 #include <ctime>
 #include <string>
 
+/// A topbar for the display
 class Bar {
 
 public:
+    /**
+     * Constructs the bar.
+     * @param maincontainer the maincontainer in which the bar will be drawn.
+     */
     Bar(lv_obj_t* mainContainer)
     {
         barObj = lv_obj_create(mainContainer, NULL);
         lv_obj_set_size(barObj, 480, 25);
         lv_obj_add_style(barObj, LV_CONT_PART_MAIN, &style::bar);
-        // lv_obj_set_style_local_bg_color(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-        // lv_obj_set_style_local_margin_all(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_pad_all(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_border_width(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_radius(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_text_font(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &main_font);
 
         label = lv_label_create(barObj, NULL);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
@@ -33,28 +32,47 @@ public:
 
     Bar(){};
 
+    /**
+     * Sets the ethernet ip displayed in the top bar.
+     * @param ip The ip to be shown.
+     */
     void setEthernetIp(uint32_t ip)
     {
         this->ethernetIp = formatIp(ip);
         updateLabel();
     }
 
+    /**
+     * Sets the wifi ip displayed in the top bar.
+     * @param ip The ip to be shown.
+     */
     void setWifiIp(uint32_t ip)
     {
         this->wifiIp = formatIp(ip);
         updateLabel();
     }
+
+    /**
+     * Enables or disables the wifi. If enabled the ip will be shown.
+     * @param enabled If true the wifi will be enabled.
+     */
     void setWifiEnabled(bool enabled)
     {
         this->wifiEnabled = enabled;
         updateLabel();
     }
+
+    /**
+     * Enables or disables the ethernet. If enabled the ip will be shown.
+     * @param enabled If true the ethernet will be enabled.
+     */
     void setEthernetEnabled(bool enabled)
     {
         this->ethernetEnabled = enabled;
         updateLabel();
     }
 
+    /// Updates the time shown in the bar.
     void updateTime()
     {
         struct timeval tv;

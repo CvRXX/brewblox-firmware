@@ -12,6 +12,9 @@ public:
     BaseWidget(const BaseWidget&) = delete;
     BaseWidget& operator=(const BaseWidget&) = delete;
 
+    uint8_t getLuminance();
+    uint8_t getRed();
+
     virtual void update() = 0;
     static TempUnit tempUnit;
 
