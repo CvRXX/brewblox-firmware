@@ -13,12 +13,12 @@ pool:
   vmImage: "Ubuntu-20.04"
 
 trigger:
-  tags:
-    include:
-      - "*"
   branches:
     include:
-      - "*"
+      - "develop"
+      - "edge"
+      - "feature/*"
+      - "fix/*"
 pr:
   branches:
     include:
