@@ -41,6 +41,7 @@
 #include <esp_wifi_types.h>
 #include <functional>
 #include <memory>
+#include "TicksEsp.h"
 
 unsigned get_device_id(uint8_t* dest, unsigned len)
 {
@@ -61,12 +62,12 @@ makeBrewBloxBox(asio::io_context& io)
 {
     static cbox::FileObjectStorage objectStore{"/blocks/"};
 
-    static Ticks<MockTicks> ticks;
+    static Ticks<TicksEsp> ticks;
 
     static cbox::ObjectContainer objects{
         {
             cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(get_device_id)),
-            cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<Ticks<MockTicks>>>(ticks)),
+            cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<Ticks<TicksEsp>>>(ticks)),
             cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
         },
         objectStore};

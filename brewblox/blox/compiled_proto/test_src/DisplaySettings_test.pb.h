@@ -421,6 +421,20 @@ class DisplaySettings : public ::google::protobuf::Message /* @@protoc_insertion
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
+  // string timeZone = 5 [(.nanopb_test) = {
+  void clear_timezone();
+  static const int kTimeZoneFieldNumber = 5;
+  const ::std::string& timezone() const;
+  void set_timezone(const ::std::string& value);
+  #if LANG_CXX11
+  void set_timezone(::std::string&& value);
+  #endif
+  void set_timezone(const char* value);
+  void set_timezone(const char* value, size_t size);
+  ::std::string* mutable_timezone();
+  ::std::string* release_timezone();
+  void set_allocated_timezone(::std::string* timezone);
+
   // .blox.DisplaySettings.TemperatureUnit tempUnit = 3;
   void clear_tempunit();
   static const int kTempUnitFieldNumber = 3;
@@ -439,6 +453,7 @@ class DisplaySettings : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox::Widget > widgets_;
   ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::internal::ArenaStringPtr timezone_;
   int tempunit_;
   ::google::protobuf::uint32 brightness_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -813,6 +828,59 @@ inline void DisplaySettings::set_brightness(::google::protobuf::uint32 value) {
   
   brightness_ = value;
   // @@protoc_insertion_point(field_set:blox.DisplaySettings.brightness)
+}
+
+// string timeZone = 5 [(.nanopb_test) = {
+inline void DisplaySettings::clear_timezone() {
+  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& DisplaySettings::timezone() const {
+  // @@protoc_insertion_point(field_get:blox.DisplaySettings.timeZone)
+  return timezone_.GetNoArena();
+}
+inline void DisplaySettings::set_timezone(const ::std::string& value) {
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:blox.DisplaySettings.timeZone)
+}
+#if LANG_CXX11
+inline void DisplaySettings::set_timezone(::std::string&& value) {
+  
+  timezone_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:blox.DisplaySettings.timeZone)
+}
+#endif
+inline void DisplaySettings::set_timezone(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:blox.DisplaySettings.timeZone)
+}
+inline void DisplaySettings::set_timezone(const char* value, size_t size) {
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:blox.DisplaySettings.timeZone)
+}
+inline ::std::string* DisplaySettings::mutable_timezone() {
+  
+  // @@protoc_insertion_point(field_mutable:blox.DisplaySettings.timeZone)
+  return timezone_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* DisplaySettings::release_timezone() {
+  // @@protoc_insertion_point(field_release:blox.DisplaySettings.timeZone)
+  
+  return timezone_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void DisplaySettings::set_allocated_timezone(::std::string* timezone) {
+  if (timezone != NULL) {
+    
+  } else {
+    
+  }
+  timezone_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), timezone);
+  // @@protoc_insertion_point(field_set_allocated:blox.DisplaySettings.timeZone)
 }
 
 #ifdef __GNUC__

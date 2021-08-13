@@ -99,6 +99,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DisplaySettings, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DisplaySettings, tempunit_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DisplaySettings, brightness_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DisplaySettings, timezone_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::Widget)},
@@ -139,15 +140,16 @@ void AddDescriptorsImpl() {
       "tpointSensorPair\030\013 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020H\000\022%\n"
       "\016actuatorAnalog\030\014 \001(\rB\013\212\265\030\002\030\005\222\?\0028\020H\000\022\033\n\003"
       "pid\030\016 \001(\rB\014\212\265\030\003\030\260\002\222\?\0028\020H\000B\014\n\nWidgetType\""
-      "\343\001\n\017DisplaySettings\022$\n\007widgets\030\001 \003(\0132\014.b"
+      "\374\001\n\017DisplaySettings\022$\n\007widgets\030\001 \003(\0132\014.b"
       "lox.WidgetB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\0227"
       "\n\010tempUnit\030\003 \001(\0162%.blox.DisplaySettings."
       "TemperatureUnit\022\031\n\nbrightness\030\004 \001(\rB\005\222\?\002"
-      "8\010\"8\n\017TemperatureUnit\022\020\n\014TEMP_CELSIUS\020\000\022"
-      "\023\n\017TEMP_FAHRENHEIT\020\001:\007\212\265\030\003\030\272\002b\006proto3"
+      "8\010\022\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010\034\"8\n\017Temperatu"
+      "reUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_FAHRENH"
+      "EIT\020\001:\007\212\265\030\003\030\272\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 557);
+      descriptor, 582);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DisplaySettings_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -742,6 +744,7 @@ const int DisplaySettings::kWidgetsFieldNumber;
 const int DisplaySettings::kNameFieldNumber;
 const int DisplaySettings::kTempUnitFieldNumber;
 const int DisplaySettings::kBrightnessFieldNumber;
+const int DisplaySettings::kTimeZoneFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DisplaySettings::DisplaySettings()
@@ -760,6 +763,10 @@ DisplaySettings::DisplaySettings(const DisplaySettings& from)
   if (from.name().size() > 0) {
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
+  timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.timezone().size() > 0) {
+    timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
+  }
   ::memcpy(&tempunit_, &from.tempunit_,
     static_cast<size_t>(reinterpret_cast<char*>(&brightness_) -
     reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
@@ -768,6 +775,7 @@ DisplaySettings::DisplaySettings(const DisplaySettings& from)
 
 void DisplaySettings::SharedCtor() {
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&tempunit_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&brightness_) -
       reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
@@ -780,6 +788,7 @@ DisplaySettings::~DisplaySettings() {
 
 void DisplaySettings::SharedDtor() {
   name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timezone_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void DisplaySettings::SetCachedSize(int size) const {
@@ -804,6 +813,7 @@ void DisplaySettings::Clear() {
 
   widgets_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&tempunit_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&brightness_) -
       reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
@@ -877,6 +887,22 @@ bool DisplaySettings::MergePartialFromCodedStream(
         break;
       }
 
+      // string timeZone = 5 [(.nanopb_test) = {
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_timezone()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->timezone().data(), static_cast<int>(this->timezone().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox.DisplaySettings.timeZone"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -933,6 +959,16 @@ void DisplaySettings::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->brightness(), output);
   }
 
+  // string timeZone = 5 [(.nanopb_test) = {
+  if (this->timezone().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->timezone().data(), static_cast<int>(this->timezone().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox.DisplaySettings.timeZone");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->timezone(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -977,6 +1013,17 @@ void DisplaySettings::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->brightness(), target);
   }
 
+  // string timeZone = 5 [(.nanopb_test) = {
+  if (this->timezone().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->timezone().data(), static_cast<int>(this->timezone().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox.DisplaySettings.timeZone");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->timezone(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -1010,6 +1057,13 @@ size_t DisplaySettings::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
+  }
+
+  // string timeZone = 5 [(.nanopb_test) = {
+  if (this->timezone().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->timezone());
   }
 
   // .blox.DisplaySettings.TemperatureUnit tempUnit = 3;
@@ -1057,6 +1111,10 @@ void DisplaySettings::MergeFrom(const DisplaySettings& from) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
+  if (from.timezone().size() > 0) {
+
+    timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
+  }
   if (from.tempunit() != 0) {
     set_tempunit(from.tempunit());
   }
@@ -1091,6 +1149,8 @@ void DisplaySettings::InternalSwap(DisplaySettings* other) {
   using std::swap;
   CastToBase(&widgets_)->InternalSwap(CastToBase(&other->widgets_));
   name_.Swap(&other->name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  timezone_.Swap(&other->timezone_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(tempunit_, other->tempunit_);
   swap(brightness_, other->brightness_);
