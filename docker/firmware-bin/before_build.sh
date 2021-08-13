@@ -13,6 +13,7 @@ git submodule update --init --depth 1 platform/spark/device-os
 
 FIRMWARE_VERSION=$(git rev-parse --short=8 HEAD)
 FIRMWARE_DATE=$(git show -s --format=%ci)
+FIRMWARE_SHA="$(git rev-parse HEAD)"
 
 PROTO_VERSION=$(git --git-dir ./brewblox/blox/proto/.git rev-parse --short=8 HEAD)
 PROTO_DATE=$(git --git-dir ./brewblox/blox/proto/.git show -s --format=%ci)
@@ -35,6 +36,7 @@ curl -fL -o ${SRC}/system-part2-photon.bin "${PARTICLE_RELEASES}/photon-system-p
     echo "[FIRMWARE]"
     echo "firmware_version=$FIRMWARE_VERSION"
     echo "firmware_date=$FIRMWARE_DATE"
+    echo "firmware_sha=$FIRMWARE_SHA"
     echo "proto_version=$PROTO_VERSION"
     echo "proto_date=$PROTO_DATE"
     echo "system_version=${PARTICLE_VERSION}"
