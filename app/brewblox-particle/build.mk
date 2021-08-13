@@ -29,8 +29,8 @@ INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
 CPPSRC += $(call here_files,brewblox,*.cpp)
 
 # add auto-generated protobuf includes
-INCLUDE_DIRS += $(SOURCE_PATH)/brewblox/blox/proto/cpp
-CSRC += $(call here_files,brewblox/blox/proto/cpp,*.c)
+INCLUDE_DIRS += $(SOURCE_PATH)/brewblox/blox/compiled_proto/src
+CSRC += $(call here_files,brewblox/blox/compiled_proto/src,*.c)
 
 
 ifeq ($(PLATFORM_ID),6)
@@ -137,19 +137,19 @@ CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC))
 
 GIT_VERSION = $(shell cd $(SOURCE_PATH); git rev-parse --short=8 HEAD)
 $(info using $(GIT_VERSION) as version)
-CFLAGS += -DGIT_VERSION="$(GIT_VERSION)"
+CFLAGS += -DGIT_VERSION="\"$(GIT_VERSION)"\"
 
 GIT_DATE = $(shell cd $(SOURCE_PATH); git log -1 --format=%cd --date=short)
 $(info using $(GIT_DATE) as release date)
-CFLAGS += -DGIT_DATE="$(GIT_DATE)"
+CFLAGS += -DGIT_DATE="\"$(GIT_DATE)\""
 
 PROTO_VERSION = $(shell cd $(SOURCE_PATH)/brewblox/blox/proto; git rev-parse --short=8 HEAD)
 $(info using $(PROTO_VERSION) as protocol version)
-CFLAGS += -DPROTO_VERSION="$(PROTO_VERSION)"
+CFLAGS += -DPROTO_VERSION="\"$(PROTO_VERSION)\""
 
 PROTO_DATE = $(shell cd $(SOURCE_PATH)/brewblox/blox/proto; git log -1 --format=%cd --date=short)
 $(info using $(GIT_DATE) as protocol date)
-CFLAGS += -DPROTO_DATE="$(PROTO_DATE)"
+CFLAGS += -DPROTO_DATE="\"$(PROTO_DATE)\""
 
 COMPILER_VERSION = $(shell $(CC) -dumpfullversion) 
 $(info using compiler: $(COMPILER_VERSION))

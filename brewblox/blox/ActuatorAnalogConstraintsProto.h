@@ -2,10 +2,8 @@
 
 #include "ActuatorAnalogConstrained.h"
 #include "cbox/ObjectContainer.h"
-#include "proto/cpp/AnalogConstraints.pb.h"
+#include "compiled_proto/src/AnalogConstraints.pb.h"
 
-void
-setAnalogConstraints(const blox_AnalogConstraints& msg, ActuatorAnalogConstrained& act, cbox::ObjectContainer& objects);
+void setAnalogConstraints(const blox_AnalogConstraints& msg, ActuatorAnalogConstrained& act, cbox::ObjectContainer& objects);
 
-void
-getAnalogConstraints(blox_AnalogConstraints& msg, const ActuatorAnalogConstrained& act);
+void getAnalogConstraints(blox_AnalogConstraints& msg, const ActuatorAnalogConstrained& act);

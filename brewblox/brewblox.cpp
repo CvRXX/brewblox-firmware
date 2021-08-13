@@ -35,6 +35,7 @@
 #include "blox/TempSensorCombiBlock.h"
 #include "blox/TempSensorMockBlock.h"
 #include "blox/TempSensorOneWireBlock.h"
+#include "blox/compiled_proto/src/proto_version.h"
 #include "blox/stringify.h"
 #include "cbox/ScanningFactory.hpp"
 #include <memory>
@@ -91,6 +92,16 @@ versionCsv()
 #define PLATFORM_STRING "unkown"
 #endif
 
-    static const std::string version = stringify(GIT_VERSION) "," stringify(PROTO_VERSION) "," stringify(GIT_DATE) "," stringify(PROTO_DATE) "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_STRING;
+    static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_STRING;
     return version;
 }
+
+constexpr bool equal(char const* lhs, char const* rhs)
+{
+    while (*lhs || *rhs)
+        if (*lhs++ != *rhs++)
+            return false;
+    return true;
+}
+
+static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));

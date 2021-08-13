@@ -5,7 +5,7 @@
 #include "Temperature.h"
 #include "blox/Block.h"
 #include "blox/FieldTags.h"
-#include "proto/cpp/TempSensorOneWire.pb.h"
+#include "compiled_proto/src/TempSensorOneWire.pb.h"
 
 class OneWire;
 

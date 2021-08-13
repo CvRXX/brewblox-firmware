@@ -20,7 +20,7 @@
 #pragma once
 
 #include "blox/Block.h"
-#include "proto/cpp/OneWireBus.pb.h"
+#include "compiled_proto/src/OneWireBus.pb.h"
 
 class OneWire;
 

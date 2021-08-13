@@ -21,7 +21,7 @@
 
 #include "BrewBloxTestBox.h"
 #include "blox/TempSensorOneWireBlock.h"
-#include "blox/proto/test/cpp/TempSensorOneWire_test.pb.h"
+#include "blox/compiled_proto/test_src/TempSensorOneWire_test.pb.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
 #include <sstream>

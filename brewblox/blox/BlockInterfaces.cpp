@@ -22,7 +22,6 @@
 #include "AppTicks.h"
 #include "Balancer.h"
 #include "DS2408.h"
-#include "DigitalConstraints.pb.h"
 #include "FixedPoint.h"
 #include "IoArray.h"
 #include "IoModule.hpp"
@@ -31,7 +30,8 @@
 #include "ProcessValue.h"
 #include "SetpointSensorPair.h"
 #include "TempSensor.h"
-#include "brewblox.pb.h"
+#include "blox/compiled_proto/src/DigitalConstraints.pb.h"
+#include "blox/compiled_proto/src/brewblox.pb.h"
 #include "cbox/ObjectBase.h"
 
 namespace cbox {

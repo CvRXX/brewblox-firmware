@@ -2,7 +2,7 @@
 #include "ActuatorAnalogConstrained.h"
 #include "ActuatorAnalogConstraintsProto.h"
 #include "blox/FieldTags.h"
-#include "proto/cpp/ActuatorAnalogMock.pb.h"
+#include "compiled_proto/src/ActuatorAnalogMock.pb.h"
 
 cbox::CboxError
 ActuatorAnalogMockBlock::streamFrom(cbox::DataIn& dataIn)
@@ -64,8 +64,7 @@ ActuatorAnalogMockBlock::streamPersistedTo(cbox::DataOut& out) const
     return streamProtoTo(out, &message, blox_ActuatorAnalogMock_fields, blox_ActuatorAnalogMock_size);
 }
 
-void*
-ActuatorAnalogMockBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorAnalogMockBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_ActuatorAnalogMock) {
         return this; // me!

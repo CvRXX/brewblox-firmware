@@ -19,12 +19,11 @@
 
 #include "SetpointProfileBlock.h"
 #include "blox/FieldTags.h"
+#include "compiled_proto/src/SetpointProfile.pb.h"
 #include "pb_decode.h"
 #include "pb_encode.h"
-#include "proto/cpp/SetpointProfile.pb.h"
 
-bool
-streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
     const std::vector<SetpointProfileBlock::Point>* points = reinterpret_cast<std::vector<SetpointProfileBlock::Point>*>(*arg);
     for (const auto& p : *points) {
@@ -42,8 +41,7 @@ streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
     return true;
 }
 
-bool
-streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
+bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
 {
     std::vector<SetpointProfileBlock::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfileBlock::Point>*>(*arg);
 
@@ -102,8 +100,7 @@ SetpointProfileBlock::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void*
-SetpointProfileBlock::implements(const cbox::obj_type_t& iface)
+void* SetpointProfileBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_SetpointProfile) {
         return this; // me!

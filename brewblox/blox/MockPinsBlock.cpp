@@ -19,7 +19,7 @@
 
 #include "MockPinsBlock.h"
 #include "IoArrayHelpers.h"
-#include "proto/cpp/MockPins.pb.h"
+#include "compiled_proto/src/MockPins.pb.h"
 
 cbox::CboxError
 MockPinsBlock::streamTo(cbox::DataOut& out) const
@@ -46,8 +46,7 @@ MockPinsBlock::streamTo(cbox::DataOut& out) const
     return streamProtoTo(out, &message, blox_MockPins_fields, blox_MockPins_size);
 }
 
-void*
-MockPinsBlock::implements(const cbox::obj_type_t& iface)
+void* MockPinsBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_MockPins) {
         return this; // me!

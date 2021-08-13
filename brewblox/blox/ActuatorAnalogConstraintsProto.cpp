@@ -3,7 +3,7 @@
 #include "ActuatorAnalogConstrained.h"
 #include "Balancer.h"
 #include "cbox/CboxPtr.h"
-#include "proto/cpp/AnalogConstraints.pb.h"
+#include "compiled_proto/src/AnalogConstraints.pb.h"
 
 using Minimum = AAConstraints::Minimum<blox_AnalogConstraint_min_tag>;
 using Maximum = AAConstraints::Maximum<blox_AnalogConstraint_max_tag>;
@@ -56,8 +56,7 @@ public:
     }
 };
 
-void
-setAnalogConstraints(const blox_AnalogConstraints& msg, ActuatorAnalogConstrained& act, cbox::ObjectContainer& objects)
+void setAnalogConstraints(const blox_AnalogConstraints& msg, ActuatorAnalogConstrained& act, cbox::ObjectContainer& objects)
 {
     act.removeAllConstraints();
     pb_size_t numConstraints = std::min(msg.constraints_count, pb_size_t(sizeof(msg.constraints) / sizeof(msg.constraints[0])));
@@ -79,8 +78,7 @@ setAnalogConstraints(const blox_AnalogConstraints& msg, ActuatorAnalogConstraine
     }
 }
 
-void
-getAnalogConstraints(blox_AnalogConstraints& msg, const ActuatorAnalogConstrained& act)
+void getAnalogConstraints(blox_AnalogConstraints& msg, const ActuatorAnalogConstrained& act)
 {
     auto& constraints = act.constraintsList();
     auto it = constraints.cbegin();

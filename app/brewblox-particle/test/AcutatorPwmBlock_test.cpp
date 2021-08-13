@@ -22,8 +22,8 @@
 #include "BrewBloxTestBox.h"
 #include "blox/ActuatorPwmBlock.h"
 #include "blox/DigitalActuatorBlock.h"
-#include "blox/proto/test/cpp/ActuatorPwm_test.pb.h"
-#include "blox/proto/test/cpp/DigitalActuator_test.pb.h"
+#include "blox/compiled_proto/test_src/ActuatorPwm_test.pb.h"
+#include "blox/compiled_proto/test_src/DigitalActuator_test.pb.h"
 
 SCENARIO("A Blox ActuatorPwm object can be created from streamed protobuf data")
 {

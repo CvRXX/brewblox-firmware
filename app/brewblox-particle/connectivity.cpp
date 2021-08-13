@@ -220,7 +220,7 @@ void initMdns()
     }
 
     mdns.addService(MDNS::Protocol::TCP, "_brewblox", deviceIdString(), 8332,
-                    {"VERSION=" stringify(GIT_VERSION),
+                    {"VERSION=" GIT_VERSION,
                      std::string("ID=") + deviceIdString(),
                      "PLATFORM=" stringify(PLATFORM_ID),
                      hwEntry});

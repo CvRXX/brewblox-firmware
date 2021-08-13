@@ -3,7 +3,7 @@
 #include "ActuatorDigitalConstrained.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/ObjectContainer.h"
-#include "proto/cpp/DigitalConstraints.pb.h"
+#include "compiled_proto/src/DigitalConstraints.pb.h"
 
 using MinOff = ADConstraints::MinOffTime<blox_DigitalConstraint_minOff_tag>;
 using MinOn = ADConstraints::MinOnTime<blox_DigitalConstraint_minOn_tag>;
@@ -72,8 +72,7 @@ public:
     }
 };
 
-void
-setDigitalConstraints(const blox_DigitalConstraints& msg, ActuatorDigitalConstrained& act, cbox::ObjectContainer& objects)
+void setDigitalConstraints(const blox_DigitalConstraints& msg, ActuatorDigitalConstrained& act, cbox::ObjectContainer& objects)
 {
     auto oldConstraints = act.removeAllConstraints();
     pb_size_t numConstraints = std::min(msg.constraints_count, pb_size_t(sizeof(msg.constraints) / sizeof(msg.constraints[0])));
@@ -126,8 +125,7 @@ setDigitalConstraints(const blox_DigitalConstraints& msg, ActuatorDigitalConstra
     }
 }
 
-void
-getDigitalConstraints(blox_DigitalConstraints& msg, const ActuatorDigitalConstrained& act)
+void getDigitalConstraints(blox_DigitalConstraints& msg, const ActuatorDigitalConstrained& act)
 {
     auto& constraints = act.constraintsList();
     auto it = constraints.cbegin();

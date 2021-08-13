@@ -10,19 +10,6 @@ test -t 1 && USE_TTY="-it"
 # clean target dir to not have amd64 leftovers. Sudo needed because docker has created some files as privileged
 sudo rm -rf build/target
 
-# Pull native compiler
-docker pull \
-    brewblox/simulator-compiler:latest
-
-# Compile proto with native compiler
-docker run \
-    ${USE_TTY} \
-    --rm \
-    -v "$(pwd)":/firmware \
-    -w /firmware/build \
-    brewblox/simulator-compiler:latest \
-    bash compile-proto.sh
-
 # Enable emulation
 if [[ $(arch) != 'armv7l' ]]; then
     docker run --rm --privileged multiarch/qemu-user-static --reset -p yes

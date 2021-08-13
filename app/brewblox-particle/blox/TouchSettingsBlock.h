@@ -20,7 +20,7 @@
 #pragma once
 
 #include "blox/Block.h"
-#include "blox/proto/cpp/TouchSettings.pb.h"
+#include "blox/compiled_proto/src/TouchSettings.pb.h"
 #include "cbox/DataStream.h"
 
 // provides a protobuf interface to the read only system info

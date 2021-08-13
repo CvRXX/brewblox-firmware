@@ -23,7 +23,7 @@
 #include "TempSensorCombi.h"
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
-#include "proto/cpp/TempSensorCombi.pb.h"
+#include "compiled_proto/src/TempSensorCombi.pb.h"
 #include <vector>
 
 class TempSensorCombiBlock : public Block<BrewBloxTypes_BlockType_TempSensorCombi> {
