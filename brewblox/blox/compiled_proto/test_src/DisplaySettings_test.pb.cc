@@ -144,7 +144,7 @@ void AddDescriptorsImpl() {
       "lox.WidgetB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\0227"
       "\n\010tempUnit\030\003 \001(\0162%.blox.DisplaySettings."
       "TemperatureUnit\022\031\n\nbrightness\030\004 \001(\rB\005\222\?\002"
-      "8\010\022\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010\034\"8\n\017Temperatu"
+      "8\010\022\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010 \"8\n\017Temperatu"
       "reUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_FAHRENH"
       "EIT\020\001:\007\212\265\030\003\030\272\002b\006proto3"
   };

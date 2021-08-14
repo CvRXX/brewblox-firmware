@@ -45,7 +45,7 @@ typedef struct _blox_DisplaySettings {
     char name[40];
     blox_DisplaySettings_TemperatureUnit tempUnit;
     uint8_t brightness;
-    char timeZone[28];
+    char timeZone[32];
 /* @@protoc_insertion_point(struct:blox_DisplaySettings) */
 } blox_DisplaySettings;
 
@@ -77,7 +77,7 @@ extern const pb_field_t blox_DisplaySettings_fields[6];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_Widget_size                         35
-#define blox_DisplaySettings_size                302
+#define blox_DisplaySettings_size                306
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID
