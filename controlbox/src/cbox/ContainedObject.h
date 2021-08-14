@@ -44,6 +44,11 @@ public:
         }
     }
 
+    // don't allow construction from derived shared ptr
+    // this creates code bloat. It is better to use shared_ptr<Object>(new Derived()) directly than to convert from make_shared<Derived>()
+    template <typename T>
+    explicit ContainedObject(obj_id_t id, uint8_t groups, std::shared_ptr<T>&& obj) = delete;
+
     virtual ~ContainedObject()
     {
         if (_obj) {

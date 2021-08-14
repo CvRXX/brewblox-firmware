@@ -32,7 +32,7 @@ public:
     {
     }
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& dataIn) override final
+    virtual CboxError streamFrom(DataIn& dataIn) override final
     {
         uint8_t newGroups;
         if (!dataIn.get(newGroups)) {
@@ -42,7 +42,7 @@ public:
         return CboxError::OK;
     }
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual CboxError streamTo(DataOut& out) const override final
     {
         uint8_t groups = myBox->getActiveGroups();
         if (!out.put(groups)) {
@@ -51,14 +51,14 @@ public:
         return CboxError::OK;
     }
 
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
+    virtual CboxError streamPersistedTo(DataOut& out) const override final
     {
         return streamTo(out);
     }
 
     virtual update_t update(const update_t& now) override final
     {
-        return cbox::Object::update_never(now);
+        return Object::update_never(now);
     }
 };
 

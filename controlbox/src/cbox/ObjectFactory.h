@@ -29,26 +29,45 @@
 
 namespace cbox {
 
+template <typename T, std::enable_if_t<std::is_constructible<T, ObjectContainer&>::value, std::nullptr_t> = nullptr>
+std::shared_ptr<Object> make(ObjectContainer& objects)
+{
+    return std::shared_ptr<Object>(new T(objects));
+}
+
+template <typename T, std::enable_if_t<std::is_constructible<T>::value, std::nullptr_t> = nullptr>
+std::shared_ptr<Object> make(ObjectContainer&)
+{
+    return std::shared_ptr<Object>(new T());
+}
+
 // An object factory combines the create function with a type ID.
 // They can be put in a container that can be walked to find the matching typeId
 // The container keeps the objects as shared pointer, so it can create weak pointers to them.
 // Therefore the factory creates a shared pointer right away to only have one allocation.
 struct ObjectFactoryEntry {
     obj_type_t typeId;
-    std::function<std::shared_ptr<Object>(ObjectContainer&)> createFn;
+    std::shared_ptr<Object> (*createFn)(ObjectContainer&);
 
-    ObjectFactoryEntry(const obj_type_t& id, std::function<std::shared_ptr<Object>(ObjectContainer&)>&& fn)
+    ObjectFactoryEntry(const obj_type_t& id, std::shared_ptr<Object> (*f)(ObjectContainer&))
         : typeId(id)
-        , createFn(std::move(fn))
+        , createFn(f)
     {
     }
 
-    ObjectFactoryEntry(const obj_type_t& id, std::function<std::shared_ptr<Object>()>&& fn)
+    template <class T>
+    ObjectFactoryEntry(const obj_type_t& id)
         : typeId(id)
-        , createFn([f = std::move(fn)](ObjectContainer&) { return f(); })
+        , createFn(make<T>)
     {
     }
 };
+
+template <typename T>
+ObjectFactoryEntry makeFactoryEntry()
+{
+    return ObjectFactoryEntry(T::staticTypeId(), make<T>);
+}
 
 class ObjectFactory {
 private:

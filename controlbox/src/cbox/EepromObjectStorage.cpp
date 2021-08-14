@@ -143,7 +143,7 @@ CboxError EepromObjectStorage::retrieveObject(
 {
     RegionDataIn objectEepromData = getObjectReader(id, true);
     if (objectEepromData.available() == 0) {
-        return cbox::CboxError::PERSISTED_OBJECT_NOT_FOUND;
+        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
     }
     return handler(objectEepromData);
 }

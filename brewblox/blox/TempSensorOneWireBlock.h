@@ -27,6 +27,12 @@ public:
     {
     }
 
+    TempSensorOneWireBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId, const OneWireAddress& addr)
+        : OneWireDeviceBlock(objects, busId)
+        , sensor(owBus.lockFunctor(), addr)
+    {
+    }
+
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final
     {
         blox_TempSensorOneWire newData = blox_TempSensorOneWire_init_zero;

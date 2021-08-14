@@ -42,7 +42,7 @@ handleReset(bool exit, uint8_t reason);
 
 namespace cbox {
 
-Box::Box(const std::vector<std::reference_wrapper<const cbox::ObjectFactory>>& _factories,
+Box::Box(const std::vector<std::reference_wrapper<const ObjectFactory>>& _factories,
          ObjectContainer& _objects,
          ObjectStorage& _storage,
          ConnectionPool& _connections,
@@ -53,8 +53,8 @@ Box::Box(const std::vector<std::reference_wrapper<const cbox::ObjectFactory>>& _
     , connections(_connections)
     , scanners(_scanners)
 {
-    objects.add(std::make_unique<GroupsObject>(this), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
-    objects.setObjectsStartId(userStartId());                             // set startId for user objects to 100
+    objects.add(std::shared_ptr<Object>(new GroupsObject(this)), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
+    objects.setObjectsStartId(userStartId());                                        // set startId for user objects to 100
 }
 
 /**
@@ -480,7 +480,7 @@ void Box::loadObjectsFromStorage()
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {
-        objects.add(std::make_shared<DeprecatedObject>(id), 0xFF);
+        objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)), 0xFF);
     }
 
     // finally, deactivate objects that should not be active based on the (possibly just loaded) active groups setting

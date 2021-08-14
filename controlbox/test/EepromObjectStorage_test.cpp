@@ -574,18 +574,18 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
 
         WHEN("The error occurs during test serialization, the error raised is returned")
         {
-            obj.streamPersistedToFunc = [](cbox::DataOut& out) { return CboxError::OUTPUT_STREAM_WRITE_ERROR; };
+            obj.streamPersistedToFunc = [](DataOut& out) { return CboxError::OUTPUT_STREAM_WRITE_ERROR; };
             auto res = saveObjectToStorage(obj_id_t(1234), obj);
             CHECK(int(res) == int(CboxError::OUTPUT_STREAM_WRITE_ERROR));
 
-            obj.streamPersistedToFunc = [](cbox::DataOut& out) { return CboxError::OUTPUT_STREAM_ENCODING_ERROR; };
+            obj.streamPersistedToFunc = [](DataOut& out) { return CboxError::OUTPUT_STREAM_ENCODING_ERROR; };
             res = saveObjectToStorage(obj_id_t(1234), obj);
             CHECK(int(res) == int(CboxError::OUTPUT_STREAM_ENCODING_ERROR));
         }
 
         WHEN("The object is too big to fit in eeprom, INSUFFICIENT_PERSISTENT_STORAGE is returned")
         {
-            obj.streamPersistedToFunc = [](cbox::DataOut& out) {
+            obj.streamPersistedToFunc = [](DataOut& out) {
                 for (uint16_t i = 0; i < 2000; i++) {
                     bool written = out.write(0);
                     if (!written) {
@@ -602,7 +602,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
     WHEN("An object indicates it does not need persistence")
     {
         MockStreamObject obj;
-        obj.streamPersistedToFunc = [](cbox::DataOut& out) {
+        obj.streamPersistedToFunc = [](DataOut& out) {
             return CboxError::PERSISTING_NOT_NEEDED;
         };
 

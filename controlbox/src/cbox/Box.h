@@ -72,7 +72,7 @@ public:
     // temporary for testing
     void discoverNewObjects();
 
-    Box(const std::vector<std::reference_wrapper<const cbox::ObjectFactory>>& _factories,
+    Box(const std::vector<std::reference_wrapper<const ObjectFactory>>& _factories,
         ObjectContainer& _objects,
         ObjectStorage& _storage,
         ConnectionPool& _connections,
@@ -106,7 +106,7 @@ public:
     void update(const update_t& now)
     {
         lastUpdateTime = now;
-        tracing::add(cbox::tracing::Action::UPDATE_OBJECTS);
+        tracing::add(tracing::Action::UPDATE_OBJECTS);
         objects.update(now);
     }
 

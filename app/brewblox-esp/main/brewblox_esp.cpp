@@ -24,6 +24,7 @@
 #include "MockTicks.h"
 #include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
+#include "TicksEsp.h"
 #include "blox/DisplaySettingsBlock.h"
 #include "blox/ExpOwGpioBlock.hpp"
 #include "blox/SysInfoBlock.h"
@@ -61,13 +62,13 @@ makeBrewBloxBox(asio::io_context& io)
 {
     static cbox::FileObjectStorage objectStore{"/blocks/"};
 
-    static Ticks<MockTicks> ticks;
+    static Ticks<TicksEsp> ticks;
 
     static cbox::ObjectContainer objects{
         {
-            cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(get_device_id)),
-            cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<Ticks<MockTicks>>>(ticks)),
-            cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
+            cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id))),
+            cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks))),
+            cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
         },
         objectStore};
 
@@ -77,7 +78,7 @@ makeBrewBloxBox(asio::io_context& io)
     static I2cScanningFactory i2cScanner;
 
     static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(i2cScanner), std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
-    static const cbox::ObjectFactory platformFactory{{ExpOwGpioBlock::staticTypeId(), std::make_shared<ExpOwGpioBlock>}};
+    static const cbox::ObjectFactory platformFactory{cbox::makeFactoryEntry<ExpOwGpioBlock>()};
 
     static cbox::Box& box = brewblox::make_box(
         objects,

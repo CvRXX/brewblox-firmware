@@ -65,7 +65,7 @@ std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& ob
             uint8_t expander_address = TCA9538::base_address() + lower_bits;
             if (hal_i2c_detect(expander_address) == 0) {
                 // new OneWire GPIO module detected (OneWire bus master and port expander)
-                return std::make_shared<ExpOwGpioBlock>(lower_bits);
+                return std::shared_ptr<cbox::Object>(new ExpOwGpioBlock(lower_bits));
             }
         }
     };

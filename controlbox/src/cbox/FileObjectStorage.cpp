@@ -114,7 +114,7 @@ CboxError FileObjectStorage::retrieveObject(
     setPath(id);
     std::fstream fs(path, std::fstream::in | std::fstream::binary);
     if (!fs.is_open()) {
-        return cbox::CboxError::PERSISTED_OBJECT_NOT_FOUND;
+        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
     }
 
     IStreamDataIn inStream{fs};
@@ -124,7 +124,7 @@ CboxError FileObjectStorage::retrieveObject(
     if (objectData.get(stored_id) && stored_id == id) {
         return handler(objectData);
     }
-    return cbox::CboxError::PERSISTED_OBJECT_NOT_FOUND;
+    return CboxError::PERSISTED_OBJECT_NOT_FOUND;
 }
 
 /**

@@ -45,6 +45,7 @@ typedef struct _blox_DisplaySettings {
     char name[40];
     blox_DisplaySettings_TemperatureUnit tempUnit;
     uint8_t brightness;
+    char timeZone[32];
 /* @@protoc_insertion_point(struct:blox_DisplaySettings) */
 } blox_DisplaySettings;
 
@@ -52,9 +53,9 @@ typedef struct _blox_DisplaySettings {
 
 /* Initializer values for message structs */
 #define blox_Widget_init_default                 {0, {0}, "", 0, {0}}
-#define blox_DisplaySettings_init_default        {0, {blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default}, "", _blox_DisplaySettings_TemperatureUnit_MIN, 0}
+#define blox_DisplaySettings_init_default        {0, {blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default, blox_Widget_init_default}, "", _blox_DisplaySettings_TemperatureUnit_MIN, 0, ""}
 #define blox_Widget_init_zero                    {0, {0}, "", 0, {0}}
-#define blox_DisplaySettings_init_zero           {0, {blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero}, "", _blox_DisplaySettings_TemperatureUnit_MIN, 0}
+#define blox_DisplaySettings_init_zero           {0, {blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero, blox_Widget_init_zero}, "", _blox_DisplaySettings_TemperatureUnit_MIN, 0, ""}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_Widget_tempSensor_tag               10
@@ -68,14 +69,15 @@ typedef struct _blox_DisplaySettings {
 #define blox_DisplaySettings_name_tag            2
 #define blox_DisplaySettings_tempUnit_tag        3
 #define blox_DisplaySettings_brightness_tag      4
+#define blox_DisplaySettings_timeZone_tag        5
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_Widget_fields[8];
-extern const pb_field_t blox_DisplaySettings_fields[5];
+extern const pb_field_t blox_DisplaySettings_fields[6];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_Widget_size                         35
-#define blox_DisplaySettings_size                272
+#define blox_DisplaySettings_size                306
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

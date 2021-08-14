@@ -20,11 +20,12 @@ const pb_field_t blox_Widget_fields[8] = {
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_DisplaySettings_fields[5] = {
+const pb_field_t blox_DisplaySettings_fields[6] = {
     PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_DisplaySettings, widgets, widgets, &blox_Widget_fields),
     PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, name, widgets, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, tempUnit, name, 0),
     PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, brightness, tempUnit, 0),
+    PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, timeZone, brightness, 0),
     PB_LAST_FIELD
 };
 

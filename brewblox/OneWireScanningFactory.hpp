@@ -74,19 +74,13 @@ public:
                         uint8_t familyCode = newAddr[0];
                         switch (familyCode) {
                         case DS18B20::familyCode: {
-                            auto newSensor = std::make_shared<TempSensorOneWireBlock>(objects, busPtr.getId());
-                            newSensor->get().address(newAddr);
-                            return newSensor;
+                            return std::shared_ptr<cbox::Object>(new TempSensorOneWireBlock(objects, busPtr.getId(), newAddr));
                         }
                         case DS2413::familyCode: {
-                            auto newDevice = std::make_shared<DS2413Block>(objects, busPtr.getId());
-                            newDevice->get().address(newAddr);
-                            return newDevice;
+                            return std::shared_ptr<cbox::Object>(new DS2413Block(objects, busPtr.getId(), newAddr));
                         }
                         case DS2408::familyCode: {
-                            auto newDevice = std::make_shared<DS2408Block>(objects, busPtr.getId());
-                            newDevice->get().address(newAddr);
-                            return newDevice;
+                            return std::shared_ptr<cbox::Object>(new DS2408Block(objects, busPtr.getId(), newAddr));
                         }
                         default:
                             break;

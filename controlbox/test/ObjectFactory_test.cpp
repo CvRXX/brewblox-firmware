@@ -32,12 +32,14 @@ SCENARIO("An object can be created by an ObjectFactory by resolving the type id"
 
     ObjectStorageStub storage;
     ObjectContainer objects(storage);
+    static const auto outOfMemoryTester = [](ObjectContainer&) {
+        return std::shared_ptr<Object>{}; // return nullptr
+    };
+
     ObjectFactory factory = {
-        {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
-        {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
-        {
-            1234, []() { return std::shared_ptr<LongIntVectorObject>(); } // to test running out of memory
-        }};
+        makeFactoryEntry<LongIntObject>(),
+        makeFactoryEntry<LongIntVectorObject>(),
+        {1234, outOfMemoryTester}};
 
     const obj_type_t longIntType = LongIntObject::staticTypeId();
     const obj_type_t longIntVectorType = LongIntVectorObject::staticTypeId();

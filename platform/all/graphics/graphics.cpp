@@ -136,6 +136,9 @@ void Layout::updateConfig()
             BaseWidget::tempUnit = TempUnit::Fahrenheit;
         }
 
+        setenv("TZ", settings.timeZone, 1);
+        tzset();
+
         sensorWidgets.clear();
         for (uint16_t x = 0; x < settings.widgets_count; x++) {
             auto widget = settings.widgets[x];
