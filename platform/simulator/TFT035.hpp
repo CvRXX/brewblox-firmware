@@ -19,7 +19,6 @@
 
 #pragma once
 #include <cstdint>
-#include <functional>
 
 /**
  * A simulated driver for the TFT035 display controller. 
@@ -31,7 +30,7 @@ public:
     * 
     * @param finishCallback The callback to be called when the pixels are transfered to the screen.
     */
-    TFT035(std::function<void()> finishCallback);
+    TFT035(void (*finishCallback)(void));
     ~TFT035() = default;
 
     /// Initialises the display driver.
@@ -78,5 +77,5 @@ public:
     };
 
 private:
-    std::function<void()> finishCallback;
+    void (*finishCallback)(void);
 };

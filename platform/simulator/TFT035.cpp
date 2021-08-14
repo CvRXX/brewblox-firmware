@@ -4,7 +4,7 @@
 #include <vector>
 std::vector<uint64_t> graphicsBuffer;
 
-TFT035::TFT035(std::function<void()> finishCallback)
+TFT035::TFT035(void (*finishCallback)(void))
     : finishCallback(finishCallback)
 {
 }
