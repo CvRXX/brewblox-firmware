@@ -29,8 +29,8 @@ SCENARIO("A controlbox Box")
     ObjectContainer container{
         // groups object will have id 1
         // add 2 system objects
-        {ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
-         ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))},
+        {ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+         ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222)))},
         storage};
 
     const ObjectFactory factory = {
@@ -42,7 +42,7 @@ SCENARIO("A controlbox Box")
         makeFactoryEntry<MockStreamObject>(),
     };
 
-    const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory)}};
+    const std::vector<std::reference_wrapper<const ObjectFactory>> factories{{std::cref(factory)}};
 
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
@@ -646,8 +646,9 @@ SCENARIO("A controlbox Box")
                     ObjectContainer container2{
                         // groups obj is id 1
                         {
-                            ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
-                            ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))},
+                            ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                            ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
+                        },
                         storage2};
 
                     const ObjectFactory factory2 = {
@@ -657,7 +658,7 @@ SCENARIO("A controlbox Box")
                         makeFactoryEntry<PtrLongIntObject>(),
                     };
 
-                    const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories2{{std::cref(factory2)}};
+                    const std::vector<std::reference_wrapper<const ObjectFactory>> factories2{{std::cref(factory2)}};
 
                     StringStreamConnectionSource connSource2;
                     ConnectionPool connPool2 = {connSource2};
@@ -949,7 +950,7 @@ SCENARIO("A controlbox Box")
 
     THEN("Objects update at their requested interval")
     {
-        cbox::tracing::unpause();
+        tracing::unpause();
         box.update(0);
         // create 2 counter objects with different update intervals
         // object creation and write also triggers an object update
@@ -997,45 +998,45 @@ SCENARIO("A controlbox Box")
         THEN("Last actions performed on objects are traced")
         {
 
-            auto it = cbox::tracing::history().cbegin();
+            auto it = tracing::history().cbegin();
 
-            CHECK(it->action == cbox::tracing::Action::UPDATE_OBJECT);
+            CHECK(it->action == tracing::Action::UPDATE_OBJECT);
             CHECK(it->id == 2);
             CHECK(it->type == LongIntObject::staticTypeId());
             ++it; // 1
-            CHECK(it->action == cbox::tracing::Action::UPDATE_OBJECT);
+            CHECK(it->action == tracing::Action::UPDATE_OBJECT);
             CHECK(it->id == 3);
             CHECK(it->type == LongIntObject::staticTypeId());
             ++it; // 2
-            CHECK(it->action == cbox::tracing::Action::UPDATE_CONNECTIONS);
+            CHECK(it->action == tracing::Action::UPDATE_CONNECTIONS);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 3
-            CHECK(it->action == cbox::tracing::Action::CREATE_OBJECT);
+            CHECK(it->action == tracing::Action::CREATE_OBJECT);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 4
-            CHECK(it->action == cbox::tracing::Action::CONSTRUCT_OBJECT);
+            CHECK(it->action == tracing::Action::CONSTRUCT_OBJECT);
             CHECK(it->id == 100);
             CHECK(it->type == 1002);
             ++it; // 5
-            CHECK(it->action == cbox::tracing::Action::PERSIST_OBJECT);
+            CHECK(it->action == tracing::Action::PERSIST_OBJECT);
             CHECK(it->id == 100);
             CHECK(it->type == 1002);
             ++it; // 6
-            CHECK(it->action == cbox::tracing::Action::UPDATE_CONNECTIONS);
+            CHECK(it->action == tracing::Action::UPDATE_CONNECTIONS);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 7
-            CHECK(it->action == cbox::tracing::Action::CREATE_OBJECT);
+            CHECK(it->action == tracing::Action::CREATE_OBJECT);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 8
-            CHECK(it->action == cbox::tracing::Action::CONSTRUCT_OBJECT);
+            CHECK(it->action == tracing::Action::CONSTRUCT_OBJECT);
             CHECK(it->id == 101);
             CHECK(it->type == 1002);
             ++it; // 9
-            CHECK(it->action == cbox::tracing::Action::PERSIST_OBJECT);
+            CHECK(it->action == tracing::Action::PERSIST_OBJECT);
             CHECK(it->id == 101);
             CHECK(it->type == 1002);
         }
@@ -1396,7 +1397,7 @@ SCENARIO("A controlbox Box")
         THEN("An error event annotation is inserted and the message ends in an invalid CRC (1 off)")
         {
             // because the error occurs after the status code 00 has been sent, a CRC error is generated to invalidate the message
-            obj->streamToFunc = [](cbox::DataOut& out) {
+            obj->streamToFunc = [](DataOut& out) {
                 return CboxError::OUTPUT_STREAM_WRITE_ERROR;
             };
 

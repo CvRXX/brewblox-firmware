@@ -30,16 +30,16 @@
 namespace cbox {
 
 template <typename T, std::enable_if_t<std::is_constructible<T, ObjectContainer&>::value, std::nullptr_t> = nullptr>
-std::shared_ptr<cbox::Object> make(cbox::ObjectContainer& objects)
+std::shared_ptr<Object> make(ObjectContainer& objects)
 {
-    return std::make_shared<T>(objects);
-};
+    return std::shared_ptr<Object>(new T(objects));
+}
 
 template <typename T, std::enable_if_t<std::is_constructible<T>::value, std::nullptr_t> = nullptr>
-std::shared_ptr<cbox::Object> make(cbox::ObjectContainer&)
+std::shared_ptr<Object> make(ObjectContainer&)
 {
-    return std::shared_ptr<cbox::Object>(std::make_shared<T>());
-};
+    return std::shared_ptr<Object>(new T());
+}
 
 // An object factory combines the create function with a type ID.
 // They can be put in a container that can be walked to find the matching typeId

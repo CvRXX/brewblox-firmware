@@ -76,6 +76,15 @@ public:
     // create a new object with specific id, optionally replacing an existing object
     obj_id_t add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups, obj_id_t id, bool replace = false);
 
+    // force to pass an object pointer, not a derived shared::ptr
+    // this creates code bloat. It is better to use shared_ptr<Object>(new Derived()) directly than to convert from make_shared<Derived>()
+    template <class T>
+    obj_id_t add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups, obj_id_t id = 0, bool replace = false) = delete;
+
+    // also catch passing unique_ptr, as this also results in unnecessary conversions
+    template <class T>
+    obj_id_t add(std::unique_ptr<T>&& obj, uint8_t active_in_groups, obj_id_t id = 0, bool replace = false) = delete;
+
     CboxError remove(obj_id_t id);
 
     // only const iterators are exposed. We don't want the caller to be able to modify the container

@@ -42,6 +42,12 @@ public:
     {
     }
 
+    DS2413Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId, const OneWireAddress& addr)
+        : OneWireDeviceBlock(objects, busId)
+        , device(owBus.lockFunctor(), addr)
+    {
+    }
+
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
     virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final;

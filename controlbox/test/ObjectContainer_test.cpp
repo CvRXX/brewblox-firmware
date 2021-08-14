@@ -37,9 +37,9 @@ SCENARIO("A container to hold objects")
 
     WHEN("Some objects are added to the container")
     {
-        obj_id_t id1 = container.add(std::make_unique<LongIntObject>(0x11111111), 0xFF);
-        obj_id_t id2 = container.add(std::make_unique<LongIntObject>(0x22222222), 0xFF);
-        obj_id_t id3 = container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF);
+        obj_id_t id1 = container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF);
+        obj_id_t id2 = container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0xFF);
+        obj_id_t id3 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF);
 
         THEN("They are assigned a valid unique ID")
         {
@@ -70,19 +70,19 @@ SCENARIO("A container to hold objects")
 
         THEN("An object can be added with a specific id")
         {
-            obj_id_t id4 = container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF, obj_id_t(123));
+            obj_id_t id4 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, obj_id_t(123));
             CHECK(id4 == 123);
             CHECK(container.fetch(id4).lock());
 
             AND_WHEN("the id already exist, adding fails")
             {
-                obj_id_t id5 = container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF, obj_id_t(123));
+                obj_id_t id5 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, obj_id_t(123));
                 CHECK(id5 == obj_id_t::invalid());
             }
 
             AND_WHEN("replace is used instead of add, it succeeds")
             {
-                obj_id_t id6 = container.add(std::make_unique<LongIntObject>(0x44444444), 0xFF, obj_id_t(123), true);
+                obj_id_t id6 = container.add(std::shared_ptr<Object>(new LongIntObject(0x44444444)), 0xFF, obj_id_t(123), true);
                 CHECK(id6 == obj_id_t(123));
                 auto obj6 = container.fetch(id6).lock();
                 REQUIRE(obj6);
@@ -125,12 +125,12 @@ SCENARIO("A container to hold objects")
 
     WHEN("Objects with out of order IDs are added to the container, the container stays sorted by id")
     {
-        container.add(std::make_unique<LongIntObject>(0x11111111), 0xFF, 20);
-        container.add(std::make_unique<LongIntObject>(0x22222222), 0xFF, 18);
-        container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF, 23);
-        container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF, 2);
-        container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF, 19);
-        container.add(std::make_unique<LongIntObject>(0x33333333), 0xFF);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 20);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0xFF, 18);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 23);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 2);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 19);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF);
         uint16_t lastId = 0;
         uint16_t count = 0;
         for (auto it = container.cbegin(); it != container.cend(); it++) {
@@ -145,7 +145,8 @@ SCENARIO("A container to hold objects")
 
     WHEN("Objects with an invalid object pointer are added")
     {
-        container.add(std::unique_ptr<LongIntObject>(), 0xFF, 20);
+        container.add(std::shared_ptr<Object>(), 0xFF, 20);
+
         BlackholeDataOut out;
         EmptyDataIn in;
         THEN("They generate the INVALID_OBJECT_PTR error on streaming functions")
@@ -165,8 +166,8 @@ SCENARIO("A container to hold objects")
                 container.update(now);
             }
             int updates = 0;
-            for (auto& item : cbox::tracing::history()) {
-                if (item.action == cbox::tracing::UPDATE_OBJECT && item.id == 20) {
+            for (auto& item : tracing::history()) {
+                if (item.action == tracing::UPDATE_OBJECT && item.id == 20) {
                     updates++;
                 }
             }
@@ -179,14 +180,14 @@ SCENARIO("A container with system objects passed in the initializer list")
 {
     ObjectStorageStub storage;
 
-    ObjectContainer objects{{ContainedObject(1, 0xFF, std::make_shared<LongIntObject>(0x11111111)),
-                             ContainedObject(2, 0xFF, std::make_shared<LongIntObject>(0x22222222))},
+    ObjectContainer objects{{ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                             ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x22222222)))},
                             storage};
 
     objects.setObjectsStartId(3); // this locks the system objects
 
-    CHECK(obj_id_t(3) == objects.add(std::make_unique<LongIntObject>(0x33333333), 0xFF)); // will get next free ID (3)
-    CHECK(obj_id_t(4) == objects.add(std::make_unique<LongIntObject>(0x33333333), 0xFF)); // will get next free ID (4)
+    CHECK(obj_id_t(3) == objects.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get next free ID (3)))
+    CHECK(obj_id_t(4) == objects.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get next free ID (4)))
 
     THEN("The system objects can be read like normal objects")
     {
@@ -228,7 +229,7 @@ SCENARIO("A container with system objects passed in the initializer list")
     THEN("No objects can be added in the system ID range")
     {
         objects.setObjectsStartId(100);
-        CHECK(obj_id_t::invalid() == objects.add(std::make_unique<LongIntObject>(0x33333333), 0xFF, 99, true));
+        CHECK(obj_id_t::invalid() == objects.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 99, true));
     }
 
     THEN("Objects added after construction can also be marked system by moving the start ID")
@@ -240,6 +241,6 @@ SCENARIO("A container with system objects passed in the initializer list")
         CHECK(objects.remove(3) == CboxError::OBJECT_NOT_DELETABLE);
         CHECK(objects.remove(4) == CboxError::OBJECT_NOT_DELETABLE);
 
-        CHECK(obj_id_t(100) == objects.add(std::make_unique<LongIntObject>(0x33333333), 0xFF)); // will get start ID (100)
+        CHECK(obj_id_t(100) == objects.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get start ID (100)
     }
 }

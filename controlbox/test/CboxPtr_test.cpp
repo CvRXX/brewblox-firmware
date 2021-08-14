@@ -32,8 +32,8 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
     ArrayEepromAccess<2048> eeprom;
     EepromObjectStorage storage(eeprom);
 
-    ObjectContainer objects{{ContainedObject(1, 0xFF, std::make_shared<LongIntObject>(0x11111111)),
-                             ContainedObject(2, 0xFF, std::make_shared<LongIntObject>(0x11111111))},
+    ObjectContainer objects{{ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                             ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111)))},
                             storage};
 
     CboxPtr<LongIntObject> liPtr(objects);
@@ -60,7 +60,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
-        objects.add(std::make_unique<NameableLongIntObject>(0x22222222), 0xFF, 100);
+        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
         CboxPtr<NameableLongIntObject> nameableLiPtr(objects);
         CboxPtr<LongIntObject> liPtr(objects);
         CboxPtr<Nameable> nameablePtr(objects);
@@ -112,7 +112,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 auto ptr4 = nameablePtr.lock();
                 CHECK(!ptr4);
 
-                objects.add(std::make_unique<NameableLongIntObject>(0x22222222), 0xFF, 100);
+                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
                 THEN("If a new compatible object is created with the same id, the CboxPtr can be locked again")
                 {
                     auto ptr5 = nameablePtr.lock();

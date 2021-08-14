@@ -66,9 +66,9 @@ makeBrewBloxBox(asio::io_context& io)
 
     static cbox::ObjectContainer objects{
         {
-            cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(get_device_id)),
-            cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<Ticks<TicksEsp>>>(ticks)),
-            cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
+            cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id))),
+            cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks))),
+            cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
         },
         objectStore};
 

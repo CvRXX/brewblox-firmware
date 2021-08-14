@@ -122,15 +122,15 @@ makeBrewBloxBox()
 
     static cbox::ObjectContainer objects{{
                                              // groups will be at position 1
-                                             cbox::ContainedObject(2, 0x80, std::make_shared<SysInfoBlock>(HAL_device_ID)),
-                                             cbox::ContainedObject(3, 0x80, std::make_shared<TicksBlock<TicksClass>>(ticks)),
-                                             cbox::ContainedObject(4, 0x80, std::make_shared<OneWireBusBlock>(setupOneWire())),
+                                             cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
+                                             cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
+                                             cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire()))),
 #if defined(SPARK)
-                                             cbox::ContainedObject(5, 0x80, std::make_shared<WiFiSettingsBlock>()),
-                                             cbox::ContainedObject(6, 0x80, std::make_shared<TouchSettingsBlock>()),
+                                             cbox::ContainedObject(5, 0x80, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
+                                             cbox::ContainedObject(6, 0x80, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
 #endif
-                                             cbox::ContainedObject(7, 0x80, std::make_shared<DisplaySettingsBlock>()),
-                                             cbox::ContainedObject(19, 0x80, std::make_shared<PinsBlock>()),
+                                             cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
+                                             cbox::ContainedObject(19, 0x80, std::shared_ptr<cbox::Object>(new PinsBlock())),
                                          },
                                          objectStore};
 
@@ -164,11 +164,11 @@ setupOneWire()
 {
     static auto owDriver = OneWireMockDriver();
     static auto ow = OneWire(owDriver);
-    owDriver.attach(std::make_shared<DS18B20Mock>(OneWireAddress(0x7E11'1111'1111'1128))); // DS18B20
-    owDriver.attach(std::make_shared<DS18B20Mock>(OneWireAddress(0xDE22'2222'2222'2228))); // DS18B20
-    owDriver.attach(std::make_shared<DS18B20Mock>(OneWireAddress(0xBE33'3333'3333'3328))); // DS18B20
-    owDriver.attach(std::make_shared<DS2413Mock>(OneWireAddress(0x0644'4444'4444'443A)));  // DS2413
-    owDriver.attach(std::make_shared<DS2408Mock>(OneWireAddress(0xDA55'5555'5555'5529)));  // DS2408
+    owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS18B20Mock(OneWireAddress(0x7E11'1111'1111'1128)))); // DS18B20
+    owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS18B20Mock(OneWireAddress(0xDE22'2222'2222'2228)))); // DS18B20
+    owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS18B20Mock(OneWireAddress(0xBE33'3333'3333'3328)))); // DS18B20
+    owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS2413Mock(OneWireAddress(0x0644'4444'4444'443A))));  // DS2413
+    owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS2408Mock(OneWireAddress(0xDA55'5555'5555'5529))));  // DS2408
     return ow;
 }
 #else
