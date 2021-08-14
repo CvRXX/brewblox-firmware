@@ -24,6 +24,7 @@
 #include "MockTicks.h"
 #include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
+#include "TicksEsp.h"
 #include "blox/DisplaySettingsBlock.h"
 #include "blox/ExpOwGpioBlock.hpp"
 #include "blox/SysInfoBlock.h"
@@ -41,7 +42,6 @@
 #include <esp_wifi_types.h>
 #include <functional>
 #include <memory>
-#include "TicksEsp.h"
 
 unsigned get_device_id(uint8_t* dest, unsigned len)
 {
@@ -78,7 +78,7 @@ makeBrewBloxBox(asio::io_context& io)
     static I2cScanningFactory i2cScanner;
 
     static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(i2cScanner), std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
-    static const cbox::ObjectFactory platformFactory{{ExpOwGpioBlock::staticTypeId(), std::make_shared<ExpOwGpioBlock>}};
+    static const cbox::ObjectFactory platformFactory{cbox::makeFactoryEntry<ExpOwGpioBlock>()};
 
     static cbox::Box& box = brewblox::make_box(
         objects,

@@ -34,14 +34,12 @@ SCENARIO("A controlbox Box")
         storage};
 
     const ObjectFactory factory = {
-        {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
-        {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
-        {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
-        {PtrLongIntObject::staticTypeId(), [&container]() {
-             return std::make_shared<PtrLongIntObject>(container);
-         }},
-        {NameableLongIntObject::staticTypeId(), std::make_shared<NameableLongIntObject>},
-        {MockStreamObject::staticTypeId(), std::make_shared<MockStreamObject>},
+        makeFactoryEntry<LongIntObject>(),
+        makeFactoryEntry<LongIntVectorObject>(),
+        makeFactoryEntry<UpdateCounter>(),
+        makeFactoryEntry<PtrLongIntObject>(),
+        makeFactoryEntry<NameableLongIntObject>(),
+        makeFactoryEntry<MockStreamObject>(),
     };
 
     const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory)}};
@@ -653,12 +651,11 @@ SCENARIO("A controlbox Box")
                         storage2};
 
                     const ObjectFactory factory2 = {
-                        {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
-                        {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
-                        {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
-                        {PtrLongIntObject::staticTypeId(), [&container]() {
-                             return std::make_shared<PtrLongIntObject>(container);
-                         }}};
+                        makeFactoryEntry<LongIntObject>(),
+                        makeFactoryEntry<LongIntVectorObject>(),
+                        makeFactoryEntry<UpdateCounter>(),
+                        makeFactoryEntry<PtrLongIntObject>(),
+                    };
 
                     const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories2{{std::cref(factory2)}};
 
