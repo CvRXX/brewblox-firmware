@@ -25,21 +25,13 @@
 
 namespace cbox {
 
-template <typename T>
-class CboxPtr {
+class CboxPtrBase {
 private:
     obj_id_t id;
     ObjectContainer& objects;
     std::weak_ptr<Object> ptr;
 
 public:
-    explicit CboxPtr(ObjectContainer& _objects, const obj_id_t& _id = 0)
-        : id(_id)
-        , objects(_objects)
-    {
-    }
-    virtual ~CboxPtr() = default;
-
     void setId(obj_id_t newId)
     {
         if (newId != id) {
@@ -53,13 +45,25 @@ public:
         return id;
     }
 
-    std::shared_ptr<T> lock()
+    CboxError store()
     {
-        return lock_as<T>();
+        return objects.store(id);
     }
 
-    template <class U>
-    std::shared_ptr<U> lock_as()
+    ObjectContainer& container()
+    {
+        return objects;
+    }
+
+protected:
+    explicit CboxPtrBase(ObjectContainer& objects, const obj_id_t& id)
+        : id(id)
+        , objects(objects)
+    {
+    }
+    ~CboxPtrBase() = default;
+
+    std::shared_ptr<Object> lockObject()
     {
         // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
         auto sptr = ptr.lock();
@@ -68,7 +72,29 @@ public:
             ptr = objects.fetch(id);
             sptr = ptr.lock();
         }
-        if (sptr) {
+        return sptr;
+    }
+};
+
+template <typename T>
+class CboxPtr : public CboxPtrBase {
+
+public:
+    explicit CboxPtr(ObjectContainer& objects, const obj_id_t& id = 0)
+        : CboxPtrBase(objects, id)
+    {
+    }
+    ~CboxPtr() = default;
+
+    std::shared_ptr<T> lock()
+    {
+        return lock_as<T>();
+    }
+
+    template <class U>
+    std::shared_ptr<U> lock_as()
+    {
+        if (auto sptr = lockObject()) {
             // if the lookup succeeded, check if the Object implements the requested interface using the interface id
             // If the object returned a non-zero pointer, it supports the interface
             // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
@@ -99,31 +125,9 @@ public:
         return [this]() { return this->lock(); };
     }
 
-    std::function<std::shared_ptr<const T>()>
-    lockFunctor() const
+    std::function<std::shared_ptr<const T>()> lockFunctor() const
     {
         return [this]() { return this->const_lock(); };
-    }
-
-    /*
-     * Returns whether the weak pointer is still valid. This does not do a new object fetch.
-     * Don't query this before trying to use the pointer, just try to lock it.
-     * Use this function after using the sensor with lock() to print the status.
-     */
-    bool
-    valid() const
-    {
-        return !ptr.expired();
-    }
-
-    CboxError store()
-    {
-        return objects.store(id);
-    }
-
-    ObjectContainer& container()
-    {
-        return objects;
     }
 };
 
