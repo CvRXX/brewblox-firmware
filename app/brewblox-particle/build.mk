@@ -132,6 +132,9 @@ include $(SOURCE_PATH)/build/checkers.mk # sanitizer and gcov
 endif
 endif
 
+# keep temporary files for disassembly viewer in vscode
+CPPFLAGS += -save-temps=obj
+
 CSRC := $(filter-out $(CEXCLUDES),$(CSRC))
 CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC)) 
 
