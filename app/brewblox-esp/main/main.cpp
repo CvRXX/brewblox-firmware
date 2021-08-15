@@ -4,6 +4,7 @@
 // #include "SDCard.hpp"
 #include "DS248x.hpp"
 #include "ExpOwGpio.hpp"
+#include "HttpHandler.hpp"
 #include "I2cScanningFactory.hpp"
 #include "OneWire.h"
 #include "RecurringTask.hpp"
@@ -94,6 +95,9 @@ int main(int /*argc*/, char** /*argv*/)
                                               });
 
     displayTicker.start();
+
+    HttpHandler http(io, 80);
+
     io.run();
 
 #ifndef ESP_PLATFORM
