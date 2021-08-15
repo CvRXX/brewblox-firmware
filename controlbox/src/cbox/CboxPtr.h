@@ -53,18 +53,6 @@ public:
         return id;
     }
 
-    /**
-     * @param a shared pointer to an Object class
-     * @param a raw pointer to the same object, but for the interface implemented by T
-     * @return a new shared pointer with the same ref counting block, but a different type and offset pointer
-     */
-    template <class U>
-    auto convert_ptr(std::shared_ptr<Object>&& ptr, void* thisPtr)
-    {
-        auto p = reinterpret_cast<typename std::shared_ptr<U>::element_type*>(thisPtr);
-        return std::shared_ptr<U>(ptr, p);
-    }
-
     std::shared_ptr<T> lock()
     {
         return lock_as<T>();
@@ -74,23 +62,21 @@ public:
     std::shared_ptr<U> lock_as()
     {
         // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
-        std::shared_ptr<Object> sptr;
-        sptr = ptr.lock();
+        auto sptr = ptr.lock();
         if (!sptr) {
-            // Try to lookup the object in the container
+            // Try to find the object in the container
             ptr = objects.fetch(id);
             sptr = ptr.lock();
         }
         if (sptr) {
             // if the lookup succeeded, check if the Object implements the requested interface using the object types
-            auto requestedType = interfaceId<U>();
-            void* thisPtr = sptr->implements(requestedType);
-            if (thisPtr != nullptr) {
+            if (auto interfacePointer = sptr->implements(interfaceId<U>())) {
                 // If the object returned a non-zero pointer, it supports the interface
                 // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
                 // do not point to the same address. That is why the this pointer is returned by the base that implements
-                // the interface. convert_ptr ensures the block managing the lifetime of the object is still used.
-                return this->template convert_ptr<U>(std::move(sptr), thisPtr);
+                // the interface.
+                // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
+                return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(interfacePointer));
             }
         }
         // return empty share pointer
@@ -112,12 +98,13 @@ public:
 
     std::function<std::shared_ptr<T>()> lockFunctor()
     {
-        return std::bind(&CboxPtr<T>::lock, this);
+        return [this]() { return this->lock(); };
     }
 
-    std::function<std::shared_ptr<const T>()> lockFunctor() const
+    std::function<std::shared_ptr<const T>()>
+    lockFunctor() const
     {
-        return std::bind(&CboxPtr<T>::const_lock, this);
+        return [this]() { return this->const_lock(); };
     }
 
     /*
@@ -125,7 +112,8 @@ public:
      * Don't query this before trying to use the pointer, just try to lock it.
      * Use this function after using the sensor with lock() to print the status.
      */
-    bool valid() const
+    bool
+    valid() const
     {
         return !ptr.expired();
     }
