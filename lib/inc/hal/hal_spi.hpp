@@ -134,8 +134,8 @@ struct SpiDevice {
     * @param callbacks The callbacks to be called before and after the transaction. 
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
-    template <typename Pre, typename Post>
-    hal_spi::error_t dmaWrite(const uint8_t* data, size_t size, const hal_spi::StaticCallbacks<Pre, Post>& callbacks)
+
+    hal_spi::error_t dmaWrite(const uint8_t* data, size_t size, const hal_spi::StaticCallbacks& callbacks)
     {
         return platform_spi::dmaWrite(settings, data, size, static_cast<const hal_spi::CallbacksBase*>(&callbacks));
     }

@@ -25,45 +25,50 @@
 
 namespace cbox {
 
-template <typename T>
-class CboxPtr {
+class CboxPtrBase {
 private:
     obj_id_t id;
     ObjectContainer& objects;
     std::weak_ptr<Object> ptr;
 
 public:
-    explicit CboxPtr(ObjectContainer& _objects, const obj_id_t& _id = 0)
-        : id(_id)
-        , objects(_objects)
-    {
-    }
-    virtual ~CboxPtr() = default;
-
-    void setId(obj_id_t newId)
-    {
-        if (newId != id) {
-            id = std::move(newId);
-            ptr.reset();
-        }
-    }
+    void setId(obj_id_t newId);
 
     obj_id_t getId() const
     {
         return id;
     }
 
-    /**
-     * @param a shared pointer to an Object class
-     * @param a raw pointer to the same object, but for the interface implemented by T
-     * @return a new shared pointer with the same ref counting block, but a different type and offset pointer
-     */
-    template <class U>
-    auto convert_ptr(std::shared_ptr<Object>&& ptr, void* thisPtr)
+    CboxError store()
     {
-        auto p = reinterpret_cast<typename std::shared_ptr<U>::element_type*>(thisPtr);
-        return std::shared_ptr<U>(ptr, p);
+        return objects.store(id);
     }
+
+    ObjectContainer& container()
+    {
+        return objects;
+    }
+
+protected:
+    explicit CboxPtrBase(ObjectContainer& objects, const obj_id_t& id)
+        : id(id)
+        , objects(objects)
+    {
+    }
+    ~CboxPtrBase() = default;
+
+    std::shared_ptr<Object> lockObject();
+};
+
+template <typename T>
+class CboxPtr : public CboxPtrBase {
+
+public:
+    explicit CboxPtr(ObjectContainer& objects, const obj_id_t& id = 0)
+        : CboxPtrBase(objects, id)
+    {
+    }
+    ~CboxPtr() = default;
 
     std::shared_ptr<T> lock()
     {
@@ -73,25 +78,14 @@ public:
     template <class U>
     std::shared_ptr<U> lock_as()
     {
-        // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
-        std::shared_ptr<Object> sptr;
-        sptr = ptr.lock();
-        if (!sptr) {
-            // Try to lookup the object in the container
-            ptr = objects.fetch(id);
-            sptr = ptr.lock();
-        }
-        if (sptr) {
-            // if the lookup succeeded, check if the Object implements the requested interface using the object types
-            auto requestedType = interfaceId<U>();
-            void* thisPtr = sptr->implements(requestedType);
-            if (thisPtr != nullptr) {
-                // If the object returned a non-zero pointer, it supports the interface
-                // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
-                // do not point to the same address. That is why the this pointer is returned by the base that implements
-                // the interface. convert_ptr ensures the block managing the lifetime of the object is still used.
-                return this->template convert_ptr<U>(std::move(sptr), thisPtr);
-            }
+        if (auto sptr = lockObject()) {
+            // if the lookup succeeded, check if the Object implements the requested interface using the interface id
+            // If the object returned a non-zero pointer, it supports the interface
+            // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
+            // do not point to the same address. The pointer that is returned is of the address that implements
+            // the interface.
+            // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
+            return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(sptr->implements(interfaceId<U>())));
         }
         // return empty share pointer
         return std::shared_ptr<U>();
@@ -112,32 +106,12 @@ public:
 
     std::function<std::shared_ptr<T>()> lockFunctor()
     {
-        return std::bind(&CboxPtr<T>::lock, this);
+        return [this]() { return this->lock(); };
     }
 
     std::function<std::shared_ptr<const T>()> lockFunctor() const
     {
-        return std::bind(&CboxPtr<T>::const_lock, this);
-    }
-
-    /*
-     * Returns whether the weak pointer is still valid. This does not do a new object fetch.
-     * Don't query this before trying to use the pointer, just try to lock it.
-     * Use this function after using the sensor with lock() to print the status.
-     */
-    bool valid() const
-    {
-        return !ptr.expired();
-    }
-
-    CboxError store()
-    {
-        return objects.store(id);
-    }
-
-    ObjectContainer& container()
-    {
-        return objects;
+        return [this]() { return this->const_lock(); };
     }
 };
 

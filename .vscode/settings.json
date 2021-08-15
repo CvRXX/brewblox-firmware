@@ -84,5 +84,8 @@
     "regex": "cpp",
     "shared_mutex": "cpp",
     "wifi_config.h": "c"
+  },
+  "disasexpl.associations": {
+    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/brewblox/${relativeFileDir}/${fileBasenameNoExtension}.s"
   }
 }

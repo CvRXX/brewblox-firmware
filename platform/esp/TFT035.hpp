@@ -22,7 +22,6 @@
 #include "hal/hal_gpio.h"
 #include "hal/hal_spi.hpp"
 #include "hal/hal_spi_types.h"
-#include <functional>
 
 /**
  * A driver for the TFT035 display controller. 
@@ -34,7 +33,7 @@ public:
     * 
     * @param finishCallback The callback to be called when the pixels are transfered to the screen.
     */
-    TFT035(std::function<void()> finishCallback);
+    TFT035(void (*finishCallback)(void));
     ~TFT035() = default;
 
     /// Initialises the display driver.
@@ -82,7 +81,7 @@ public:
 
 private:
     SpiDevice spiDevice;
-    std::function<void()> finishCallback;
+    void (*finishCallback)(void);
     const hal_pin_t dc;
 
     hal_spi::error_t setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye);

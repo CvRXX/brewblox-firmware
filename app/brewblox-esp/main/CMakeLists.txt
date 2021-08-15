@@ -110,5 +110,5 @@ idf_component_register(
     ${lib_inc}
     ${cnl_inc}
     ${esp_inc}
-    ../../../platform/all
+    ${REPO_ROOT}/platform/all
 )

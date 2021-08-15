@@ -21,11 +21,10 @@
 #pragma once
 
 #include "ActuatorDigitalBase.h"
+#include "IoArray.h"
 #include <cstdint>
 #include <functional>
 #include <memory>
-
-class IoArray;
 
 /*
  * A digital actuator that toggles a channel of an ArrayIo object.

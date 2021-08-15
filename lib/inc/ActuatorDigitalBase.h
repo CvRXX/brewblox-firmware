@@ -21,8 +21,6 @@
 #pragma once
 
 #include <cstdint>
-#include <functional>
-#include <memory>
 
 /*
  * A digital actuator that toggles a channel of an ArrayIo object.

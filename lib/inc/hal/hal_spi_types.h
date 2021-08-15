@@ -55,44 +55,40 @@ struct Callbacks : public CallbacksBase {
         , post(std::move(post))
     {
     }
+
     Pre pre;
     Post post;
 
     void callPre(TransactionData& t) override final
     {
-        if constexpr (!std::is_same<Pre, nullptr_t>::value) {
-            pre(t);
-        }
+        pre(t);
     }
     void callPost(TransactionData& t) override final
     {
-        if constexpr (!std::is_same<Post, nullptr_t>::value) {
-            post(t);
-        }
+        post(t);
     }
 };
 
-template <typename Pre, typename Post>
 struct StaticCallbacks : public CallbacksBase {
 
-    StaticCallbacks(Pre pre, Post post)
+    StaticCallbacks(void (*pre)(TransactionData& t), void (*post)(TransactionData& t))
         : pre(pre)
         , post(post)
     {
     }
 
-    Pre& pre;
-    Post& post;
+    void (*pre)(TransactionData& t);
+    void (*post)(TransactionData& t);
 
     void callPre(TransactionData& t) override final
     {
-        if constexpr (!std::is_same<Pre, nullptr_t>::value) {
+        if (pre) {
             pre(t);
         }
     }
     void callPost(TransactionData& t) override final
     {
-        if constexpr (!std::is_same<Post, nullptr_t>::value) {
+        if (post) {
             post(t);
         }
     }

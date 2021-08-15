@@ -1,7 +1,6 @@
 #include "DigitalActuatorBlock.h"
 #include "ActuatorDigitalConstraintsProto.h"
 #include "FieldTags.h"
-#include "IoArray.h"
 
 DigitalActuatorBlock::DigitalActuatorBlock(cbox::ObjectContainer& objects)
     : objectsRef(objects)
@@ -31,8 +30,7 @@ DigitalActuatorBlock::streamFrom(cbox::DataIn& dataIn)
     return result;
 }
 
-void
-DigitalActuatorBlock::writePersistedStateToMessage(blox_DigitalActuator& message) const
+void DigitalActuatorBlock::writePersistedStateToMessage(blox_DigitalActuator& message) const
 {
     message.hwDevice = hwDevice.getId();
     message.channel = actuator.channel();
@@ -75,8 +73,7 @@ DigitalActuatorBlock::update(const cbox::update_t& now)
     return constrained.update(now);
 }
 
-void*
-DigitalActuatorBlock::implements(const cbox::obj_type_t& iface)
+void* DigitalActuatorBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_DigitalActuator) {
         return this; // me!
