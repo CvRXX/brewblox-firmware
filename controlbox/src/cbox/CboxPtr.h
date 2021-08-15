@@ -69,15 +69,13 @@ public:
             sptr = ptr.lock();
         }
         if (sptr) {
-            // if the lookup succeeded, check if the Object implements the requested interface using the object types
-            if (auto interfacePointer = sptr->implements(interfaceId<U>())) {
-                // If the object returned a non-zero pointer, it supports the interface
-                // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
-                // do not point to the same address. That is why the this pointer is returned by the base that implements
-                // the interface.
-                // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
-                return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(interfacePointer));
-            }
+            // if the lookup succeeded, check if the Object implements the requested interface using the interface id
+            // If the object returned a non-zero pointer, it supports the interface
+            // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
+            // do not point to the same address. The pointer that is returned is of the address that implements
+            // the interface.
+            // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
+            return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(sptr->implements(interfaceId<U>())));
         }
         // return empty share pointer
         return std::shared_ptr<U>();
