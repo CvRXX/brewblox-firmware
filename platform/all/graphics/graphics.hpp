@@ -56,16 +56,20 @@ public:
     Layout(cbox::Box& box);
     ~Layout();
 
-    /// Updates the latout with new information.
+    /** Updates the following:
+     *   - Checks if a new config is available the layout will be redrawn based on the new config.
+     *   - Updates alle the widgets with the latest information about the objects they represent.
+     *   - Updates the status bar with the current ip and network status.
+     *   - Updates the status bar with the latest time. 
+     */
     void update();
 
-    /// Updates all it's widgets with new information.
+    /// Updates alle the widgets with the latest information about the objects they represent.
     void updateWidgets();
 
     /// If a new config is available the layout will be redrawn based on the new config.
     void updateConfig();
 
-    // A pointer to the top bar.
     std::unique_ptr<Bar> bar;
 
 private:

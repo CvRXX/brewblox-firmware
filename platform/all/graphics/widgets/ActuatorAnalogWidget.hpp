@@ -50,10 +50,10 @@ public:
                 if (auto pwmTarget = pwmBlock->targetLookup().const_lock()) {
                     switch (pwmTarget->state()) {
                     case ActuatorPwm::State::Inactive:
-                        setActive(false);
+                        setLed(false);
                         break;
                     case ActuatorPwm::State::Active:
-                        setActive(true);
+                        setLed(true);
                         break;
                     case ActuatorPwm::State::Unknown:
                         lv_obj_set_hidden(led, true);
@@ -72,78 +72,69 @@ public:
      * Sets the label of the widget.
      * @param txt The label text.
      */
-    void setLabel(std::string txt)
+    void setLabel(const std::string& txt)
     {
         lv_label_set_text(label, txt.c_str());
-        lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 50);
+        lv_obj_align(label, nullptr, LV_ALIGN_CENTER, 0, 50);
     }
 
     /**
      * Sets the value of the widget.
      * @param txt The value text.
      */
-    void setValue(std::string txt)
+    void setValue(const std::string& txt)
     {
         lv_label_set_text(value, txt.c_str());
-        lv_obj_align(value, NULL, LV_ALIGN_CENTER, 0, 0);
+        lv_obj_align(value, nullptr, LV_ALIGN_CENTER, 0, 0);
     }
 
     /**
      * Sets the setting of the widget.
      * @param txt The setting text.
      */
-    void setSetting(std::string txt)
+    void setSetting(const std::string& txt)
     {
         lv_label_set_text(setting, txt.c_str());
-        lv_obj_align(setting, NULL, LV_ALIGN_CENTER, 0, -40);
+        lv_obj_align(setting, nullptr, LV_ALIGN_CENTER, 0, -40);
     }
 
     /**
-     * Sets the activeness of the widget. This will turn the led on or off.
+     * Sets the led of the widget. This will turn the led on or off.
      * @param state If the led should be on or off.
      */
-    void setActive(bool state)
+    void setLed(bool state)
     {
         state ? lv_led_on(led) : lv_led_off(led);
     }
 
 private:
-    void makeObj(lv_obj_t* grid, const char* labelTxt, const char* value1Txt, const char* value2Txt)
+    void makeObj(lv_obj_t* grid, const char* labelTxt, const char* valueTxt, const char* settingTxt)
     {
-        label = lv_label_create(obj, NULL);
-        lv_label_set_text(label, labelTxt);
-        lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 50);
+        label = lv_label_create(obj, nullptr);
+        lv_obj_reset_style_list(label, LV_LABEL_PART_MAIN);
         lv_obj_add_style(label, LV_LABEL_PART_MAIN, &style::block_text);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        lv_obj_reset_style_list(label, LV_LABEL_PART_MAIN);
+        setLabel(labelTxt);
 
-        value = lv_label_create(obj, NULL);
-        lv_label_set_text(value, value1Txt);
-        lv_obj_align(value, NULL, LV_ALIGN_CENTER, 0, 0);
+        value = lv_label_create(obj, nullptr);
+        setValue(valueTxt);
+        lv_obj_reset_style_list(value, LV_LABEL_PART_MAIN);
         lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::bigNumber_text);
         lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
-        lv_obj_reset_style_list(value, LV_LABEL_PART_MAIN);
 
-        setting = lv_label_create(obj, NULL);
-        lv_label_set_text(setting, value2Txt);
+        setting = lv_label_create(obj, nullptr);
+        setSetting(settingTxt);
         lv_obj_reset_style_list(setting, LV_LABEL_PART_MAIN);
         lv_obj_add_style(setting, LV_LABEL_PART_MAIN, &style::block_text);
-        lv_obj_align(setting, NULL, LV_ALIGN_CENTER, 0, -40);
         lv_label_set_align(setting, LV_LABEL_ALIGN_CENTER);
 
-        led = lv_led_create(obj, NULL);
+        led = lv_led_create(obj, nullptr);
         lv_obj_set_size(led, 16, 16);
-        lv_obj_align(led, NULL, LV_ALIGN_CENTER, 00, 30);
+        lv_obj_align(led, nullptr, LV_ALIGN_CENTER, 00, 30);
 
-        if (this->getLuminance() > (255 / 2)) {
-            lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-            lv_obj_set_style_local_text_color(value, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-            lv_obj_set_style_local_text_color(setting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-        } else {
-            lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-            lv_obj_set_style_local_text_color(value, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-            lv_obj_set_style_local_text_color(setting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-        }
+        lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
+        lv_obj_set_style_local_text_color(value, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
+        lv_obj_set_style_local_text_color(setting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
     }
 
     cbox::CboxPtr<ActuatorAnalogConstrained> lookup;

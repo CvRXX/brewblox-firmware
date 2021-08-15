@@ -9,24 +9,24 @@ class Bar {
 
 public:
     /**
-     * Constructs the bar.
+     * Constructs the bar and it's components. Also sets the bar text to it's initial values.
      * @param maincontainer the maincontainer in which the bar will be drawn.
      */
     Bar(lv_obj_t* mainContainer)
     {
-        barObj = lv_obj_create(mainContainer, NULL);
+        barObj = lv_obj_create(mainContainer, nullptr);
         lv_obj_set_size(barObj, 480, 25);
         lv_obj_add_style(barObj, LV_CONT_PART_MAIN, &style::bar);
 
-        label = lv_label_create(barObj, NULL);
+        label = lv_label_create(barObj, nullptr);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        lv_obj_align(label, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
+        lv_obj_align(label, nullptr, LV_ALIGN_IN_LEFT_MID, 0, 0);
 
-        timeLabel = lv_label_create(barObj, NULL);
+        timeLabel = lv_label_create(barObj, nullptr);
         lv_label_set_align(timeLabel, LV_LABEL_ALIGN_CENTER);
 
         lv_label_set_text(this->timeLabel, time);
-        lv_obj_align(timeLabel, NULL, LV_ALIGN_IN_RIGHT_MID, -5, 0);
+        lv_obj_align(timeLabel, nullptr, LV_ALIGN_IN_RIGHT_MID, -5, 0);
         updateLabel();
     }
 
@@ -53,7 +53,7 @@ public:
     }
 
     /**
-     * Enables or disables the wifi. If enabled the ip will be shown.
+     * Enables or disables the state of the wifi icon. If enabled the ip will be shown.
      * @param enabled If true the wifi will be enabled.
      */
     void setWifiEnabled(bool enabled)
@@ -63,7 +63,7 @@ public:
     }
 
     /**
-     * Enables or disables the ethernet. If enabled the ip will be shown.
+     * Enables or disables the state of the ethernet icon. If enabled the ip will be shown.
      * @param enabled If true the ethernet will be enabled.
      */
     void setEthernetEnabled(bool enabled)
@@ -79,7 +79,7 @@ public:
         time_t nowtime;
         struct tm* nowtm;
 
-        gettimeofday(&tv, NULL);
+        gettimeofday(&tv, nullptr);
         nowtime = tv.tv_sec;
         nowtm = localtime(&nowtime);
         strftime(time, sizeof(time), "%H:%M:%S", nowtm);
@@ -105,7 +105,7 @@ private:
         }
         std::string t = std::string() + " " + ethernet + "  " + wifi;
         lv_label_set_text(this->label, t.c_str());
-        lv_obj_align(label, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
+        lv_obj_align(label, nullptr, LV_ALIGN_IN_LEFT_MID, 0, 0);
         lv_label_set_text(this->timeLabel, time);
     }
 
