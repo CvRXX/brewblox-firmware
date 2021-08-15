@@ -46,8 +46,6 @@ void init()
     lv_style_set_radius(&block, LV_STATE_DEFAULT, 10);
     lv_style_set_bg_opa(&block, LV_STATE_DEFAULT, LV_OPA_COVER);
     lv_style_set_bg_color(&block, LV_STATE_DEFAULT, LV_COLOR_BLUE);
-    // lv_style_set_bg_grad_color(&block, LV_STATE_DEFAULT, LV_COLOR_BLUE);
-    // lv_style_set_bg_grad_dir(&block, LV_STATE_DEFAULT, LV_GRAD_DIR_VER);
     lv_style_set_border_color(&block, LV_STATE_DEFAULT, LV_COLOR_BLUE);
     lv_style_set_value_color(&block, LV_STATE_DEFAULT, LV_COLOR_WHITE);
 
@@ -57,5 +55,6 @@ void init()
 
     lv_style_init(&block_text);
     lv_style_set_text_color(&block_text, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+    lv_style_set_text_font(&block_text, LV_STATE_DEFAULT, &fonts::main_14);
 }
 }

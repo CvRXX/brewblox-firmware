@@ -12,10 +12,17 @@ public:
     BaseWidget(const BaseWidget&) = delete;
     BaseWidget& operator=(const BaseWidget&) = delete;
 
+    /// Returns the luminance of the background color.
+    uint8_t getLuminance();
+
+    /// Returns the redness of the background color.S
+    uint8_t getRed();
+
     virtual void update() = 0;
     static TempUnit tempUnit;
 
 protected:
     lv_obj_t* obj;
     lv_obj_t* grid;
+    lv_color_t textColor;
 };
