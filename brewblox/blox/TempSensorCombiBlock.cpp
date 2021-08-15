@@ -20,8 +20,7 @@
 #include "TempSensorCombiBlock.h"
 #include "FieldTags.h"
 
-cbox::CboxError
-TempSensorCombiBlock::streamFrom(cbox::DataIn& in)
+cbox::CboxError TempSensorCombiBlock::streamFrom(cbox::DataIn& in)
 {
     blox_TempSensorCombi newData = blox_TempSensorCombi_init_zero;
     cbox::CboxError result = streamProtoFrom(in, &newData, blox_TempSensorCombi_fields, blox_TempSensorCombi_size);
@@ -32,7 +31,7 @@ TempSensorCombiBlock::streamFrom(cbox::DataIn& in)
         inputs.reserve(newData.sensors_count);
         sensor.inputs.reserve(newData.sensors_count);
         for (uint8_t i = 0; i < newData.sensors_count && i < 8; i++) {
-            inputs.push_back(cbox::CboxPtr<TempSensor>(objectsRef, newData.sensors[i]));
+            inputs.emplace_back(objectsRef, newData.sensors[i]);
         }
         for (auto& i : inputs) {
             sensor.inputs.push_back(i.lockFunctor());
@@ -41,8 +40,7 @@ TempSensorCombiBlock::streamFrom(cbox::DataIn& in)
     return result;
 }
 
-void
-TempSensorCombiBlock::writeMessage(blox_TempSensorCombi& message, bool includeReadOnly) const
+void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi& message, bool includeReadOnly) const
 {
     FieldTags stripped;
 
@@ -62,8 +60,7 @@ TempSensorCombiBlock::writeMessage(blox_TempSensorCombi& message, bool includeRe
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 }
 
-cbox::CboxError
-TempSensorCombiBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError TempSensorCombiBlock::streamTo(cbox::DataOut& out) const
 {
     blox_TempSensorCombi message = blox_TempSensorCombi_init_zero;
     writeMessage(message, true);
@@ -71,23 +68,20 @@ TempSensorCombiBlock::streamTo(cbox::DataOut& out) const
     return streamProtoTo(out, &message, blox_TempSensorCombi_fields, blox_TempSensorCombi_size);
 }
 
-cbox::CboxError
-TempSensorCombiBlock::streamPersistedTo(cbox::DataOut& out) const
+cbox::CboxError TempSensorCombiBlock::streamPersistedTo(cbox::DataOut& out) const
 {
     blox_TempSensorCombi message = blox_TempSensorCombi_init_zero;
     writeMessage(message, false);
     return streamProtoTo(out, &message, blox_TempSensorCombi_fields, blox_TempSensorCombi_size);
 }
 
-cbox::update_t
-TempSensorCombiBlock::update(const cbox::update_t& now)
+cbox::update_t TempSensorCombiBlock::update(const cbox::update_t& now)
 {
     sensor.update();
     return update_1s(now);
 }
 
-void*
-TempSensorCombiBlock::implements(const cbox::obj_type_t& iface)
+void* TempSensorCombiBlock::implements(const cbox::obj_type_t& iface)
 {
     if (iface == BrewBloxTypes_BlockType_TempSensorCombi) {
         return this; // me!

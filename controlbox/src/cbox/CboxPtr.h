@@ -32,13 +32,7 @@ private:
     std::weak_ptr<Object> ptr;
 
 public:
-    void setId(obj_id_t newId)
-    {
-        if (newId != id) {
-            id = std::move(newId);
-            ptr.reset();
-        }
-    }
+    void setId(obj_id_t newId);
 
     obj_id_t getId() const
     {
@@ -63,17 +57,7 @@ protected:
     }
     ~CboxPtrBase() = default;
 
-    std::shared_ptr<Object> lockObject()
-    {
-        // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
-        auto sptr = ptr.lock();
-        if (!sptr) {
-            // Try to find the object in the container
-            ptr = objects.fetch(id);
-            sptr = ptr.lock();
-        }
-        return sptr;
-    }
+    std::shared_ptr<Object> lockObject();
 };
 
 template <typename T>

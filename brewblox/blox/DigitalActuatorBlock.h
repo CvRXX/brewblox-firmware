@@ -6,8 +6,6 @@
 #include "cbox/CboxPtr.h"
 #include "compiled_proto/src/DigitalActuator.pb.h"
 
-class IoArray;
-
 class DigitalActuatorBlock : public Block<BrewBloxTypes_BlockType_DigitalActuator> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
