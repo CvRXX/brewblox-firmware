@@ -105,3 +105,26 @@ constexpr bool equal(char const* lhs, char const* rhs)
 }
 
 static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
+
+
+namespace cbox {
+void connectionStarted(DataOut& out)
+{
+    char header[] = "<!BREWBLOX,";
+
+    out.writeBuffer(header, strlen(header));
+    out.writeBuffer(versionCsv().data(), versionCsv().length());
+    out.write(',');
+    cbox::EncodedDataOut hexOut(out);
+    
+    hexOut.write(resetReason());
+    out.write(',');
+    hexOut.write(resetReasonData());
+    out.write(',');
+
+    uint8_t deviceId[12];
+    auto written = get_device_id(deviceId, 12);
+    hexOut.writeBuffer(deviceId, written);
+    out.write('>');
+}
+}

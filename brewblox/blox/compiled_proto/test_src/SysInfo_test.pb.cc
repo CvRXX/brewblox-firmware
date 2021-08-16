@@ -146,24 +146,24 @@ void AddDescriptorsImpl() {
       "TY\020g\022\016\n\nMDNS_START\020h\022\020\n\014MDNS_PROCESS\020i\022\016"
       "\n\nHTTP_START\020j\022\r\n\tHTTP_STOP\020k\022\021\n\rHTTP_RE"
       "SPONSE\020l\022\020\n\014WIFI_CONNECT\020m\022\033\n\027FIRMWARE_U"
-      "PDATE_STARTED\020n\"\236\004\n\007SysInfo\022(\n\010deviceId\030"
-      "\001 \001(\014B\026\212\265\030\002(\001\222\?\002\010\014\222\?\002x\001\212\265\030\0028\001\022\034\n\007version"
-      "\030\002 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\0220\n\010platform\030\003 \001(\0162\026."
-      "blox.SysInfo.PlatformB\006\212\265\030\002(\001\022$\n\017protoco"
-      "lVersion\030\007 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022 \n\013releaseDa"
-      "te\030\010 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022!\n\014protocolDate\030\t "
-      "\001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022-\n\007command\030\n \001(\0162\034.blox"
-      ".SysInfo.SysInfoCommand\022\'\n\005trace\030\013 \003(\0132\013"
-      ".blox.TraceB\013\212\265\030\002(\001\222\?\002\020\n\"X\n\010Platform\022\024\n\020"
-      "PLATFORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023\n\017"
-      "PLATFORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010\"s\n\016Sy"
-      "sInfoCommand\022\020\n\014SYS_CMD_NONE\020\000\022\026\n\022SYS_CM"
-      "D_TRACE_READ\020\001\022\030\n\024SYS_CMD_TRACE_RESUME\020\002"
-      "\022\035\n\031SYS_CMD_TRACE_READ_RESUME\020\003:\007\212\265\030\003\030\200\002"
-      "b\006proto3"
+      "PDATE_STARTED\020n\"\231\004\n\007SysInfo\022#\n\010deviceId\030"
+      "\001 \001(\014B\021\212\265\030\002(\001\222\?\002\010\014\212\265\030\0028\001\022\034\n\007version\030\002 \001("
+      "\tB\013\212\265\030\002(\001\222\?\002\010\014\0220\n\010platform\030\003 \001(\0162\026.blox."
+      "SysInfo.PlatformB\006\212\265\030\002(\001\022$\n\017protocolVers"
+      "ion\030\007 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022 \n\013releaseDate\030\010 "
+      "\001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022!\n\014protocolDate\030\t \001(\tB\013"
+      "\212\265\030\002(\001\222\?\002\010\014\022-\n\007command\030\n \001(\0162\034.blox.SysI"
+      "nfo.SysInfoCommand\022\'\n\005trace\030\013 \003(\0132\013.blox"
+      ".TraceB\013\212\265\030\002(\001\222\?\002\020\n\"X\n\010Platform\022\024\n\020PLATF"
+      "ORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023\n\017PLATF"
+      "ORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010\"s\n\016SysInfo"
+      "Command\022\020\n\014SYS_CMD_NONE\020\000\022\026\n\022SYS_CMD_TRA"
+      "CE_READ\020\001\022\030\n\024SYS_CMD_TRACE_RESUME\020\002\022\035\n\031S"
+      "YS_CMD_TRACE_READ_RESUME\020\003:\007\212\265\030\003\030\200\002b\006pro"
+      "to3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1368);
+      descriptor, 1363);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SysInfo_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
