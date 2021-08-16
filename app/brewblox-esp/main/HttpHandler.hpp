@@ -2,6 +2,7 @@
 
 #include "httpserver/connection.hpp"
 #include "httpserver/server.hpp"
+#include "ota.hpp"
 
 class HttpHandler {
 
@@ -9,7 +10,7 @@ public:
     HttpHandler(asio::io_context& io, const uint16_t& port)
         : server{io, 80}
     {
-        server.add_uri_handler("/", "text/html", [](const http::server::request&, http::server::reply& rep) {
+        server.add_uri_handler("/", "text/html", [](const http::server::request& req, http::server::reply& rep) {
             rep.status = http::server::reply::ok;
             rep.content.append(
                 R"(<!doctype html>)"
@@ -22,6 +23,12 @@ public:
                 R"(<p>)"
                 R"(Spark 4 test page)"
                 R"(<br />)");
+            for (auto& h : req.headers) {
+                rep.content.append(h.name);
+                rep.content.append(": ");
+                rep.content.append(h.value);
+                rep.content.append("<br />");
+            }
             // ending tags are implicit
         });
 
@@ -33,6 +40,7 @@ public:
                 rep.status = http::server::reply::ok;
                 rep.content.append("Received firmware update url: ");
                 rep.content.append(req.content);
+                start_ota(req.content, true);
             }
         });
     }

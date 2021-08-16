@@ -16,3 +16,4 @@ app/brewblox-esp-chemsense/*
 
 # Temp release dir
 release/
+app/brewblox-esp/secure_boot_signing_key.pem
