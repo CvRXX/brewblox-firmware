@@ -101,7 +101,7 @@ private:
         if (ethernetEnabled) {
             ethernet = std::string() + symbols::ethernet + " " + this->ethernetIp;
         } else {
-            ethernet = symbols::ethernet;
+            ethernet = symbols::ethernet_off;
         }
         std::string t = std::string() + " " + ethernet + "  " + wifi;
         lv_label_set_text(this->label, t.c_str());

@@ -48,7 +48,8 @@ static constexpr lv_font_t& main_46 = main_font_46;
 static constexpr lv_font_t& main_48 = main_font_48;
 }
 namespace symbols {
-static constexpr auto wifi = "\xEE\x86\xBA";
-static constexpr auto wifi_off = "\xEE\x87\x9A";
-static constexpr auto ethernet = "\xEE\x8C\xA8";
+static constexpr auto wifi = "\xF3\xB0\x96\xA9";
+static constexpr auto wifi_off = "\xF3\xB0\x96\xAA";
+static constexpr auto ethernet = "\xF3\xB0\x88\x81";
+static constexpr auto ethernet_off = "\xF3\xB0\x88\x82";
 }
