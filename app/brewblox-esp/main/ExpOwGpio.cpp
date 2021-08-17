@@ -120,7 +120,7 @@ uint8_t ChanBits::down() const
     return result;
 }
 
-void ChanBits::setBits(uint8_t up, uint8_t down)
+void ChanBits::setBits(uint8_t down, uint8_t up)
 {
     uint16_t bitDown = 0x1;
     uint16_t bitUp = 0x2;
@@ -340,27 +340,112 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
             return; // refuse overlapping channels
         }
 
-        // zero positions for pins mask
-        when_active_mask.all = when_active_mask.all & exclude_old;
-        when_inactive_mask.all = when_inactive_mask.all & exclude_old;
+        uint8_t pins_external = c.pins();
 
-        // count the number of pins to be driven
-        uint8_t numberOfOnes = 0;
-        uint8_t zerosBeforeOne = 0;
-        uint8_t bit = 0x1;
-        for (uint8_t i = 0; i < 16; i++) {
-            if (bit & c.pins()) {
-                ++numberOfOnes;
-            } else {
-                if (!numberOfOnes) {
-                    ++zerosBeforeOne;
+        int8_t first1 = -1;
+        int8_t last1 = -1;
+        uint8_t num1 = 0;
+        for (uint8_t i = 0; i < 8; i++) {
+            if (pins_external & (uint8_t{1} << i)) {
+                if (first1 < 0) {
+                    first1 = i;
                 }
+                last1 = i;
+                ++num1;
             }
-            bit = bit << 1;
         }
+        if (last1 - first1 != num1) {
+            // pins are not consecutive, this is not supported
+            return;
+        }
+
+        // for device with 2/4/6/8 pins (multiple pins per terminal to higher current)
+        // we need to figure out where to split them if needed
+        uint8_t middle = (last1 + first1) / 2;
+        uint8_t first = 0;
+        uint8_t second = 0;
+        for (uint8_t i = 0; i < 8; i++) {
+            uint8_t pin = (pins_external & (uint8_t{1} << i));
+            if (i <= middle) {
+                first |= pin;
+            } else {
+                second |= pin;
+            }
+        }
+
+        ChanBits when_active_external{when_active_mask};
+        ChanBits when_inactive_external{when_inactive_mask};
 
         switch (flexChannels[idx].deviceType) {
-            // todo
+        case blox_GpioDeviceType_NONE:
+            // no pullups or pull downs
+            break;
+        case blox_GpioDeviceType_ONE_PIN_SSR: // pp, external ground
+            // all push/pull
+            when_inactive_external.setBits(pins_external, 0x00);
+            when_active_external.setBits(0x00, pins_external);
+            break;
+        case blox_GpioDeviceType_TWO_PIN_SSR:
+            // first GND, second push/pull
+            when_inactive_external.setBits(pins_external, 0x00);
+            when_active_external.setBits(first, second);
+            break;
+        case blox_GpioDeviceType_TWO_PIN_COIL:                 // gnd, pu
+        case blox_GpioDeviceType_TWO_PIN_MOTOR_UNIDIRECTIONAL: // gnd, pu
+            // first GND, second pull-up
+            when_inactive_external.setBits(first, 0x00);
+            when_active_external.setBits(first, second);
+            break;
+        case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_GND: // pu, external ground
+        case blox_GpioDeviceType_SINGLE_PIN_MOTOR_HIGH_SIDE:      // pu, external to ground
+            // all pull-up only
+            when_inactive_external.setBits(0x00, 0x00);
+            when_active_external.setBits(0x00, pins_external);
+            break;
+        case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_PWR: // pd, external to PWR
+        case blox_GpioDeviceType_SINGLE_PIN_MOTOR_LOW_SIDE:       // pd, external to PWR
+            // all pull-down only
+            when_inactive_external.setBits(0x00, 0x00);
+            when_active_external.setBits(pins_external, 0x00);
+            break;
+        case blox_GpioDeviceType_TWO_PIN_COIL_PUSH_PULL:      // pp,pp toggled 01 or 10
+        case blox_GpioDeviceType_TWO_PIN_MOTOR_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
+            when_inactive_external.setBits(first, second);
+            when_active_external.setBits(second, first);
+            break;
+        case blox_GpioDeviceType_TWO_PIN_SWITCH_INPUT:; // old, old
+            when_inactive_external.setBits(0x00, 0x00);
+            when_active_external.setBits(0x00, 0x00);
+            break;
+        case blox_GpioDeviceType_SWITCH_TO_EXTERNAL_GND:; // old, external GND
+            when_inactive_external.setBits(0x00, 0x00);
+            when_active_external.setBits(0x00, 0x00);
+            break;
+        case blox_GpioDeviceType_SWITCH_TO_PWR:; // old, external PWR
+            when_inactive_external.setBits(0x00, 0x00);
+            when_active_external.setBits(0x00, 0x00);
+            break;
+        case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_GND:; // pwr, with load detect
+            when_inactive_external.setBits(0x00, pins_external);
+            when_active_external.setBits(0x00, pins_external);
+            break;
+        case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_PWR:; // gnd, with load detect
+            when_inactive_external.setBits(0x00, pins_external);
+            when_active_external.setBits(0x00, pins_external);
+            break;
         }
+
+        // set mask bits in shared masks
+        when_inactive_mask.apply(c.pins_mask, ChanBitsInternal{when_inactive_external});
+        when_active_mask.apply(c.pins_mask, ChanBitsInternal{when_active_external});
     }
+}
+
+const FlexChannel& ExpOwGpio::getChannel(uint8_t channel) const
+{
+    static FlexChannel invalid{};
+    if (!channel || channel > 8) {
+        return invalid;
+    }
+    return flexChannels[channel - 1];
 }

@@ -149,9 +149,14 @@ public:
             pins_mask = ChanBitsInternal{external_pins_mask};
         }
 
-        bool operator==(const FlexChannel& other)
+        bool operator==(const FlexChannel& other) const
         {
             return this->pins_mask.all == other.pins_mask.all && this->deviceType == other.deviceType;
+        }
+
+        bool operator!=(const FlexChannel& other) const
+        {
+            return this->pins_mask.all != other.pins_mask.all || this->deviceType != other.deviceType;
         }
 
         blox_GpioDeviceType deviceType = blox_GpioDeviceType_NONE;
@@ -184,6 +189,7 @@ public:
     blox_DigitalState channelState(uint8_t channel) const;
 
     void setupChannel(uint8_t channel, const FlexChannel& c);
+    const FlexChannel& getChannel(uint8_t channel) const;
 
     void update();
 

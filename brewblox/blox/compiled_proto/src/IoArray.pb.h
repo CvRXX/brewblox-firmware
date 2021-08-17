@@ -18,6 +18,7 @@ typedef enum _blox_DigitalState {
     blox_DigitalState_STATE_INACTIVE = 0,
     blox_DigitalState_STATE_ACTIVE = 1,
     blox_DigitalState_STATE_UNKNOWN = 2,
+    blox_DigitalState_STATE_REVERSE = 3,
     blox_DigitalState_Inactive = 0,
     blox_DigitalState_Active = 1,
     blox_DigitalState_Unknown = 2

@@ -33,6 +33,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
         // first dedode to new array, so deleted channels are overwritten with an unused channel
         std::array<ExpOwGpio::FlexChannel, 8> newChannels;
 
+        // copy variable length array from proto to positions
         for (uint8_t c = 0; c < newData.channels_count; c++) {
             if (newData.channels[c].id > 0 && newData.channels[c].id <= 8) {
                 uint8_t idx = newData.channels[c].id - 1;
@@ -41,10 +42,11 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
                     newData.channels[c].pinsMask);
             }
         }
-        for (uint8_t i = 0; i < 8; i++) {
-            drivers.setupChannel()
-        }
 
+        // copy to drivers, resulting zeroing omitted channels
+        for (uint8_t i = 0; i < 8; i++) {
+            drivers.setupChannel(i + 1, newChannels[i]);
+        }
     }
 
     return res;
@@ -54,18 +56,21 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 {
     message.modulePosition = drivers.modulePosition();
     message.channels_count = 0;
-    for (auto chan_it = drivers.cbegin(); chan_it < drivers.cend(); chan_it++) {
-        message.channels[message.channels_count].id = chan_it->id;
-        message.channels[message.channels_count].deviceType = chan_it->deviceType;
-        message.channels[message.channels_count].pinsMask = chan_it->pins();
 
-        if (includeNotPersisted) {
-            message.channels[message.channels_count].config = blox_ChannelConfig(chan_it->config);
-            message.channels[message.channels_count].status = drivers.channelStatus(chan_it->id);
-            message.channels[message.channels_count].pwmDuty = chan_it->pwm_duty;
-            message.channels[message.channels_count].state = drivers.channelState(chan_it->id);
+    for (uint8_t i = 1; i <= 8; i++) {
+        auto& c = drivers.getChannel(i);
+        if (c.deviceType != blox_GpioDeviceType_NONE) {
+            message.channels[message.channels_count].id = i;
+            message.channels[message.channels_count].deviceType = c.deviceType;
+            message.channels[message.channels_count].pinsMask = c.pins();
+            if (includeNotPersisted) {
+                message.channels[message.channels_count].config = blox_ChannelConfig(c.config);
+                message.channels[message.channels_count].status = drivers.channelStatus(i);
+                message.channels[message.channels_count].pwmDuty = c.pwm_duty;
+                message.channels[message.channels_count].state = drivers.channelState(i);
+            }
+            ++message.channels_count;
         }
-        ++message.channels_count;
     }
 
     if (includeNotPersisted) {
