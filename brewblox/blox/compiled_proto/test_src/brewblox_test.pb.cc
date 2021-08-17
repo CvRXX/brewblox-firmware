@@ -119,6 +119,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, hexstr_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, driven_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, ignored_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, bitfield_),
   0,
   1,
   2,
@@ -128,11 +129,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   6,
   7,
   8,
+  9,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 5, sizeof(::BrewBlox_testTypes)},
   { 5, 12, sizeof(::BrewBlox_testMessageOptions)},
-  { 14, 28, sizeof(::BrewBlox_testFieldOptions)},
+  { 14, 29, sizeof(::BrewBlox_testFieldOptions)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -197,21 +199,21 @@ void AddDescriptorsImpl() {
       "\n\033BrewBlox_testMessageOptions\022.\n\007objtype"
       "\030\003 \001(\0162\035.BrewBlox_testTypes.BlockType\0222\n"
       "\004impl\030\t \003(\0162\035.BrewBlox_testTypes.BlockTy"
-      "peB\005\222\?\002\020\005:\005\222\?\0020\001\"\357\001\n\031BrewBlox_testFieldO"
+      "peB\005\222\?\002\020\005:\005\222\?\0020\001\"\201\002\n\031BrewBlox_testFieldO"
       "ptions\022*\n\004unit\030\001 \001(\0162\034.BrewBlox_testType"
       "s.UnitType\022\r\n\005scale\030\002 \001(\r\022.\n\007objtype\030\003 \001"
       "(\0162\035.BrewBlox_testTypes.BlockType\022\r\n\005hex"
       "ed\030\004 \001(\010\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001"
       "(\010\022\016\n\006hexstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007ig"
-      "nored\030\t \001(\010:\005\222\?\0020\001:Y\n\rbrewblox_test\022\035.go"
-      "ogle.protobuf.FieldOptions\030\321\206\003 \001(\0132\032.Bre"
-      "wBlox_testFieldOptionsB\005\222\?\002\030\003:a\n\021brewblo"
-      "x_test_msg\022\037.google.protobuf.MessageOpti"
-      "ons\030\321\206\003 \001(\0132\034.BrewBlox_testMessageOption"
-      "sB\005\222\?\002\030\003"
+      "nored\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010:\005\222\?\0020\001:Y\n\r"
+      "brewblox_test\022\035.google.protobuf.FieldOpt"
+      "ions\030\321\206\003 \001(\0132\032.BrewBlox_testFieldOptions"
+      "B\005\222\?\002\030\003:a\n\021brewblox_test_msg\022\037.google.pr"
+      "otobuf.MessageOptions\030\321\206\003 \001(\0132\034.BrewBlox"
+      "_testMessageOptionsB\005\222\?\002\030\003"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1848);
+      descriptor, 1866);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "brewblox_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -863,6 +865,7 @@ const int BrewBlox_testFieldOptions::kLoggedFieldNumber;
 const int BrewBlox_testFieldOptions::kHexstrFieldNumber;
 const int BrewBlox_testFieldOptions::kDrivenFieldNumber;
 const int BrewBlox_testFieldOptions::kIgnoredFieldNumber;
+const int BrewBlox_testFieldOptions::kBitfieldFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 BrewBlox_testFieldOptions::BrewBlox_testFieldOptions()
@@ -878,15 +881,15 @@ BrewBlox_testFieldOptions::BrewBlox_testFieldOptions(const BrewBlox_testFieldOpt
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&unit_, &from.unit_,
-    static_cast<size_t>(reinterpret_cast<char*>(&ignored_) -
-    reinterpret_cast<char*>(&unit_)) + sizeof(ignored_));
+    static_cast<size_t>(reinterpret_cast<char*>(&bitfield_) -
+    reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
   // @@protoc_insertion_point(copy_constructor:BrewBlox_testFieldOptions)
 }
 
 void BrewBlox_testFieldOptions::SharedCtor() {
   ::memset(&unit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&ignored_) -
-      reinterpret_cast<char*>(&unit_)) + sizeof(ignored_));
+      reinterpret_cast<char*>(&bitfield_) -
+      reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
 }
 
 BrewBlox_testFieldOptions::~BrewBlox_testFieldOptions() {
@@ -923,7 +926,11 @@ void BrewBlox_testFieldOptions::Clear() {
         reinterpret_cast<char*>(&driven_) -
         reinterpret_cast<char*>(&unit_)) + sizeof(driven_));
   }
-  ignored_ = false;
+  if (cached_has_bits & 768u) {
+    ::memset(&ignored_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&bitfield_) -
+        reinterpret_cast<char*>(&ignored_)) + sizeof(bitfield_));
+  }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -1076,6 +1083,20 @@ bool BrewBlox_testFieldOptions::MergePartialFromCodedStream(
         break;
       }
 
+      // optional bool bitfield = 10;
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+          set_has_bitfield();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &bitfield_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1150,6 +1171,11 @@ void BrewBlox_testFieldOptions::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(9, this->ignored(), output);
   }
 
+  // optional bool bitfield = 10;
+  if (cached_has_bits & 0x00000200u) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(10, this->bitfield(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -1210,6 +1236,11 @@ void BrewBlox_testFieldOptions::SerializeWithCachedSizes(
   // optional bool ignored = 9;
   if (cached_has_bits & 0x00000100u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(9, this->ignored(), target);
+  }
+
+  // optional bool bitfield = 10;
+  if (cached_has_bits & 0x00000200u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(10, this->bitfield(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -1275,11 +1306,18 @@ size_t BrewBlox_testFieldOptions::ByteSizeLong() const {
     }
 
   }
-  // optional bool ignored = 9;
-  if (has_ignored()) {
-    total_size += 1 + 1;
-  }
+  if (_has_bits_[8 / 32] & 768u) {
+    // optional bool ignored = 9;
+    if (has_ignored()) {
+      total_size += 1 + 1;
+    }
 
+    // optional bool bitfield = 10;
+    if (has_bitfield()) {
+      total_size += 1 + 1;
+    }
+
+  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -1335,8 +1373,14 @@ void BrewBlox_testFieldOptions::MergeFrom(const BrewBlox_testFieldOptions& from)
     }
     _has_bits_[0] |= cached_has_bits;
   }
-  if (cached_has_bits & 0x00000100u) {
-    set_ignored(from.ignored());
+  if (cached_has_bits & 768u) {
+    if (cached_has_bits & 0x00000100u) {
+      ignored_ = from.ignored_;
+    }
+    if (cached_has_bits & 0x00000200u) {
+      bitfield_ = from.bitfield_;
+    }
+    _has_bits_[0] |= cached_has_bits;
   }
 }
 
@@ -1373,6 +1417,7 @@ void BrewBlox_testFieldOptions::InternalSwap(BrewBlox_testFieldOptions* other) {
   swap(hexstr_, other->hexstr_);
   swap(driven_, other->driven_);
   swap(ignored_, other->ignored_);
+  swap(bitfield_, other->bitfield_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }

@@ -88,8 +88,132 @@ void ChanBits::set(uint8_t chan, PinDrive drive)
     }
 }
 
-void FlexChannel::apply(ChannelConfig& config, ChanBitsInternal& op_ctrl)
+// get bits for pull-up transistors
+uint8_t ChanBits::up() const
 {
+    uint16_t mask = 0x2;
+    uint8_t bit = 0x1;
+    uint8_t result = 0x0;
+    for (uint8_t i = 0; i < 8; i++) {
+        if (this->all & mask) {
+            result |= bit;
+        }
+        bit = bit << 1;
+        mask = mask << 2;
+    }
+    return result;
+}
+
+// get bits for pull-down transistors
+uint8_t ChanBits::down() const
+{
+    uint16_t mask = 0x1;
+    uint8_t bit = 0x1;
+    uint8_t result = 0x0;
+    for (uint8_t i = 0; i < 8; i++) {
+        if (this->all & mask) {
+            result |= bit;
+        }
+        bit = bit << 1;
+        mask = mask << 2;
+    }
+    return result;
+}
+
+void ChanBits::setBits(uint8_t up, uint8_t down)
+{
+    uint16_t bitDown = 0x1;
+    uint16_t bitUp = 0x2;
+    uint8_t bit = 0x1;
+    uint16_t result = 0;
+    for (uint8_t i = 0; i < 8; i++) {
+        if (down & bit) {
+            result |= bitDown;
+        }
+        if (up & bit) {
+            result |= bitUp;
+        }
+        bit = bit << 1;
+        bitDown = bitDown << 2;
+        bitUp = bitUp << 2;
+    }
+    this->all = result;
+}
+
+bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
+{
+    if (!channel || channel > 8) {
+        return false;
+    }
+    uint8_t idx = channel - 1;
+
+    auto pins = flexChannels[idx].pins();
+
+    if (flexChannels[idx].pwm_duty) {
+        // for a non-zero pwm value, return Active regardless of pin state
+        result = State::Active;
+        return true;
+    }
+
+    switch (flexChannels[idx].deviceType) {
+    case blox_GpioDeviceType_NONE:
+        result = State::Unknown;
+        break;
+    case blox_GpioDeviceType_TWO_PIN_SSR:                     // gnd, pp
+    case blox_GpioDeviceType_ONE_PIN_SSR:                     // pp, external ground
+    case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_GND: // pu, external ground
+    case blox_GpioDeviceType_TWO_PIN_COIL:                    // gnd, pu
+    case blox_GpioDeviceType_TWO_PIN_COIL_PUSH_PULL:          // pp,pp toggled 01 or 10
+    case blox_GpioDeviceType_TWO_PIN_MOTOR_UNIDIRECTIONAL:    // gnd, pu
+    case blox_GpioDeviceType_SINGLE_PIN_MOTOR_HIGH_SIDE:      // pu, external to GND
+        result = pullUp() & pins ? State::Active : State::Inactive;
+        break;
+    case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_PWR: // pd, external ground
+    case blox_GpioDeviceType_SINGLE_PIN_MOTOR_LOW_SIDE:       // pd, external to PWR
+        result = pullDown() & pins ? State::Active : State::Inactive;
+        break;
+    case blox_GpioDeviceType_TWO_PIN_MOTOR_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
+        if ((pullUp() & pins) > (pullDown() & pins)) {
+            result = State::Reverse;
+        } else if ((pullUp() & pins) < (pullDown() & pins)) {
+            result = State::Active;
+        } else {
+            result = State::Inactive;
+        }
+        break;
+    case blox_GpioDeviceType_TWO_PIN_SWITCH_INPUT:; // old, old
+        result = State::Unknown;                    // todo
+        break;
+    case blox_GpioDeviceType_SWITCH_TO_EXTERNAL_GND:; // old, external GND
+        result = State::Unknown;                      // todo
+        break;
+    case blox_GpioDeviceType_SWITCH_TO_PWR:; // old, external PWR
+        result = State::Unknown;             // todo
+        break;
+    case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_GND:; // pwr, with load detect
+        result = State::Unknown;                              // todo
+        break;
+    case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_PWR:; // gnd, with load detect
+        result = State::Unknown;                              // todo
+        break;
+    }
+    return true;
+}
+
+blox_DigitalState ExpOwGpio::channelState(uint8_t channel) const
+{
+    State s{State::Unknown};
+    senseChannelImpl(channel, s);
+    return blox_DigitalState(s);
+}
+
+bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
+{
+    if (!channel || channel > 8) {
+        return false;
+    }
+    uint8_t idx = channel - 1;
+
     ChanBitsInternal drive_bits;
     switch (config) {
     case ChannelConfig::DRIVING_ON:
@@ -112,21 +236,8 @@ void FlexChannel::apply(ChannelConfig& config, ChanBitsInternal& op_ctrl)
         drive_bits.all = 0x0000;
         break;
     }
-    op_ctrl.apply(pins_mask, drive_bits);
-}
+    op_ctrl.apply(flexChannels[idx].pins_mask, when_active_mask);
 
-bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
-{
-    return false;
-}
-bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
-{
-    if (!channel || channel > 8) {
-        return false;
-    }
-    uint8_t idx = channel - 1;
-
-    flexChannels[idx].apply(config, op_ctrl);
     assert_cs();
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
     ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
@@ -134,27 +245,17 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     return true;
 }
 
-ChanBits ExpOwGpio::openload() const
-{
-    return ChanBits{old_status};
-}
-
-ChanBits ExpOwGpio::overcurrent() const
-{
-    return ChanBits{ocp_status};
-}
-
 void ExpOwGpio::update()
 {
-    auto status = drv.status();
-    if (status == 0xFF) {
+    auto drv_status = status();
+    if (drv_status.reserved) {
         init();
-        status = drv.status();
+        drv_status = status();
     }
 
-    if (!(status & 0x80)) {
+    if (!(drv_status.reserved)) {
         // status is valid
-        if (status & 0x10) {
+        if (drv_status.openload) {
             // open load is detected
             uint8_t old1 = 0;
             uint8_t old2 = 0;
@@ -167,7 +268,7 @@ void ExpOwGpio::update()
         } else {
             old_status.all = 0;
         }
-        if (status & 0x08) {
+        if (drv_status.overcurrent) {
             // status is valid and overcurrent is detected
             uint8_t ocp1 = 0;
             uint8_t ocp2 = 0;
@@ -177,6 +278,89 @@ void ExpOwGpio::update()
             ocp_status.byte2 = ocp2;
         } else {
             ocp_status.all = 0;
+        }
+    }
+}
+
+blox_ChannelStatus ExpOwGpio::channelStatus(uint8_t channel) const
+{
+    if (!channel || channel > 8) {
+        return blox_ChannelStatus_UNKNOWN;
+    }
+
+    auto driverStatus = status();
+    if (driverStatus.reserved) {
+        return blox_ChannelStatus_UNKNOWN;
+    }
+    if (driverStatus.power_on_reset) {
+        return blox_ChannelStatus_POWER_ON_RESET;
+    }
+    if (driverStatus.overtemperature_shutdown) {
+        return blox_ChannelStatus_OVERTEMPERATURE_SHUTDOWN;
+    }
+    if (driverStatus.overvoltage) {
+        return blox_ChannelStatus_OVERVOLTAGE;
+    }
+    if (driverStatus.undervoltage) {
+        return blox_ChannelStatus_UNDERVOLTAGE;
+    }
+    // process open load and overcurrent before overtemperature, so they are not masked
+    uint8_t idx = channel - 1;
+    if (driverStatus.openload) {
+        if (flexChannels[idx].pins_mask.all & old_status.all) {
+            return blox_ChannelStatus_OPEN_LOAD;
+        }
+    }
+    if (driverStatus.overcurrent) {
+        if (flexChannels[idx].pins_mask.all & ocp_status.all) {
+            return blox_ChannelStatus_OVERCURRENT;
+        }
+    }
+    if (driverStatus.overtemperature_warning) {
+        return blox_ChannelStatus_OVERTEMPERATURE_WARNING;
+    }
+    return blox_ChannelStatus_OPERATIONAL;
+}
+
+void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
+{
+    if (!channel || channel > 8) {
+        return;
+    }
+    uint8_t idx = channel - 1;
+
+    bool configChanged = c != flexChannels[idx];
+    if (configChanged) {
+        auto old_mask = flexChannels[idx].pins_mask;
+        uint16_t exclude_old = ~old_mask.all;
+        if (c.pins_mask.all & exclude_old & when_active_mask.all) {
+            return; // refuse overlapping channels
+        }
+        if (c.pins_mask.all & exclude_old & when_inactive_mask.all) {
+            return; // refuse overlapping channels
+        }
+
+        // zero positions for pins mask
+        when_active_mask.all = when_active_mask.all & exclude_old;
+        when_inactive_mask.all = when_inactive_mask.all & exclude_old;
+
+        // count the number of pins to be driven
+        uint8_t numberOfOnes = 0;
+        uint8_t zerosBeforeOne = 0;
+        uint8_t bit = 0x1;
+        for (uint8_t i = 0; i < 16; i++) {
+            if (bit & c.pins()) {
+                ++numberOfOnes;
+            } else {
+                if (!numberOfOnes) {
+                    ++zerosBeforeOne;
+                }
+            }
+            bit = bit << 1;
+        }
+
+        switch (flexChannels[idx].deviceType) {
+            // todo
         }
     }
 }

@@ -43,6 +43,7 @@ public:
                         lv_led_off(led);
                         break;
                     case ActuatorPwm::State::Active:
+                    case ActuatorPwm::State::Reverse:
                         lv_led_on(led);
                         break;
                     case ActuatorPwm::State::Unknown:

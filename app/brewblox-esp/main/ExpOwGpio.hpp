@@ -5,10 +5,10 @@
 #include "IoModule.hpp"
 #include "OneWire.h"
 #include "TCA9538.hpp"
+#include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "hal/hal_delay.h"
-#include <esp_heap_trace.h>
 #include <vector>
 
 class ExpOwGpio : public IoArray, public IoModule {
@@ -86,8 +86,15 @@ public:
             uint16_t all;
         };
 
+        // get bits for pull-down transistors
+        uint8_t down() const;
+
+        // get bits for pull-up transistors
+        uint8_t up() const;
+
         PinDrive get(uint8_t chan);
         void set(uint8_t chan, PinDrive state);
+        void setBits(uint8_t up, uint8_t down);
     };
 
     struct ChanBitsInternal {
@@ -125,55 +132,44 @@ public:
 
     class FlexChannel {
     public:
-        FlexChannel(
-            uint8_t id,
-            ChannelConfig config,
-            const ChanBits& pins,
-            const ChanBits& when_active_drive,
-            const ChanBits& when_inactive_drive)
-            : id(id)
-            , config(config)
-            , pins_mask(pins)
-            , when_active_mask(when_active_drive)
-            , when_inactive_mask(when_inactive_drive)
+        FlexChannel()
+            : deviceType(blox_GpioDeviceType_NONE)
         {
+            pins_mask.all = 0;
         }
 
-        uint8_t id = 0;
+        FlexChannel(
+            blox_GpioDeviceType type,
+            uint8_t pins)
+            : deviceType(type)
+        {
+            // set mask for both pull-up and pull-down
+            ChanBits external_pins_mask;
+            external_pins_mask.setBits(pins, pins);
+            pins_mask = ChanBitsInternal{external_pins_mask};
+        }
+
+        bool operator==(const FlexChannel& other)
+        {
+            return this->pins_mask.all == other.pins_mask.all && this->deviceType == other.deviceType;
+        }
+
+        blox_GpioDeviceType deviceType = blox_GpioDeviceType_NONE;
         ChannelConfig config = ChannelConfig::UNUSED;
+
         uint8_t pwm_duty = 0;
 
-        ChanBits pins() const
+        uint8_t pins() const
         {
+            // convert to external order
             ChanBits converted = pins_mask;
-            return converted;
+            // return only 1 bit per pin
+            return converted.up();
         }
-
-        ChanBits when_active() const
-        {
-            ChanBits converted = when_active_mask;
-            return converted;
-        }
-
-        ChanBits when_inactive() const
-        {
-            ChanBits converted = when_inactive_mask;
-            return converted; // convert to external order
-        }
-
-        // void configure(
-        //     uint8_t new_id,
-        //     ChannelConfig config,
-        //     const ChanBits& pins,
-        //     const ChanBits& when_active_drive,
-        //     const ChanBits& when_inactive_drive);
-
         void apply(ChannelConfig& config, ChanBitsInternal& op_ctrl);
 
     private:
-        ChanBitsInternal pins_mask;          // pins controlled by this channel
-        ChanBitsInternal when_active_mask;   // state when active
-        ChanBitsInternal when_inactive_mask; // state when inactive
+        ChanBitsInternal pins_mask; // pins controlled by this channel
         friend class ExpOwGpio;
     };
 
@@ -184,40 +180,58 @@ public:
         return false;
     }
 
-    auto cbegin() const
-    {
-        return flexChannels.cbegin();
-    }
+    blox_ChannelStatus channelStatus(uint8_t channel) const;
+    blox_DigitalState channelState(uint8_t channel) const;
 
-    auto cend() const
-    {
-        return flexChannels.cend();
-    }
-
-    void clearChannels()
-    {
-        flexChannels.clear();
-    }
-
-    void addChannel(FlexChannel&& c)
-    {
-        flexChannels.push_back(c);
-    }
+    void setupChannel(uint8_t channel, const FlexChannel& c);
 
     void update();
 
-    uint8_t status() const
+    DRV8908::Status status() const
     {
         return drv.status();
     }
 
-    ChanBits drive() const
+    uint8_t pullUp() const
     {
-        return ChanBits{op_ctrl};
+        return ChanBits{op_ctrl}.up();
     }
-
-    ChanBits openload() const;
-    ChanBits overcurrent() const;
+    uint8_t pullUpWhenActive() const
+    {
+        return ChanBits{when_active_mask}.up();
+    }
+    uint8_t pullUpWhenInactive() const
+    {
+        return ChanBits{when_inactive_mask}.up();
+    }
+    uint8_t pullDown() const
+    {
+        return ChanBits{op_ctrl}.down();
+    }
+    uint8_t pullDownWhenActive() const
+    {
+        return ChanBits{when_active_mask}.down();
+    }
+    uint8_t pullDownWhenInactive() const
+    {
+        return ChanBits{when_inactive_mask}.down();
+    }
+    uint8_t pullUpOverCurrent() const
+    {
+        return ChanBits{ocp_status}.up();
+    }
+    uint8_t pullDownOverCurrent() const
+    {
+        return ChanBits{ocp_status}.down();
+    }
+    uint8_t pullUpOpenLoad() const
+    {
+        return ChanBits{old_status}.up();
+    }
+    uint8_t pullDownOpenLoad() const
+    {
+        return ChanBits{old_status}.down();
+    }
 
     uint8_t modulePosition() const override final
     {
@@ -258,8 +272,11 @@ private:
     DRV8908 drv;
     DS248x owDriver;
     OneWire ow;
-    std::vector<FlexChannel> flexChannels;
+    std::array<FlexChannel, 8> flexChannels;
+
     ChanBitsInternal op_ctrl;
     ChanBitsInternal old_status;
     ChanBitsInternal ocp_status;
+    ChanBitsInternal when_active_mask;   // state when active
+    ChanBitsInternal when_inactive_mask; // state when inactive
 };

@@ -46,12 +46,29 @@ public:
         OLD_CTRL_6 = 0x24,      // Open Load Detect 6
     };
 
+    struct Status {
+        union {
+            uint8_t
+                reserved : 1,
+                overtemperature_shutdown : 1,
+                overtemperature_warning : 1,
+                openload : 1,
+                overcurrent : 1,
+                undervoltage : 1,
+                overvoltage : 1,
+                power_on_reset : 1;
+            uint8_t all;
+        };
+    };
+
     hal_spi::error_t readRegister(RegAddr address, uint8_t& val) const;
     hal_spi::error_t writeRegister(RegAddr address, uint8_t val);
 
-    uint8_t status() const
+    Status status() const
     {
-        return _status;
+        Status s;
+        s.all = _status;
+        return s;
     }
 
 private:
