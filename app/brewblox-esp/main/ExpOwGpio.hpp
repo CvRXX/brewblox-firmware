@@ -1,4 +1,5 @@
 #pragma once
+
 #include "DRV8908.hpp"
 #include "DS248x.hpp"
 #include "IoArray.h"
@@ -36,20 +37,7 @@ public:
                && hal_i2c_detect(DS248x::base_address() + lower_address) == 0;
     }
 
-    void init()
-    {
-        expander.set_outputs(0b11111101); // 24V off
-        expander.set_config(0b11111000);
-        assert_cs();
-        // disable OLD
-        // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
-        drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
-        // set overvoltage threshold to 33V and clear all faults
-        // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
-        drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
-        deassert_cs();
-        expander.set_outputs(0b11111111); // 24V on
-    }
+    void init();
 
     virtual bool supportsFastIo()
     {
@@ -268,6 +256,7 @@ private:
     {
         spi.aquire_bus();
         expander.set_output(0, false);
+        hal_delay_ms(1);
     }
     void deassert_cs()
     {

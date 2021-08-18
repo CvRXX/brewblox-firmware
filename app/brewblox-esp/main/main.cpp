@@ -97,6 +97,14 @@ int main(int /*argc*/, char** /*argv*/)
 
     displayTicker.start();
 
+    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
+                                            RecurringTask::IntervalType::FROM_EXPIRY,
+                                            []() {
+                                                Spark4::expander_check();
+                                            });
+
+    systemCheck.start();                                            
+
     HttpHandler http(io, 80);
 
     io.run();

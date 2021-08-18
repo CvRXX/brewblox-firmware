@@ -140,6 +140,22 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
     this->all = result;
 }
 
+void ExpOwGpio::init()
+{
+    expander.set_outputs(0b11111101); // 24V off, OneWire powered
+    expander.set_config(0b11111000);  // 3 pins output, others input
+    assert_cs();
+    // disable OLD
+    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
+    drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
+    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
+
+    // enable passive OLD, set overvoltage threshold to 33V and clear all faults
+    drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b10000011);
+    deassert_cs();
+    expander.set_outputs(0b11111111); // 24V on
+}
+
 bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
 {
     if (!channel || channel > 8) {
