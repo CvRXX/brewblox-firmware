@@ -4,7 +4,7 @@
 
 class DRV8908Mock : public MockSpiDevice {
 public:
-    DRV8908Mock(uint8_t ssPin)
+    DRV8908Mock(int ssPin)
         : MockSpiDevice(ssPin)
     {
     }
@@ -16,7 +16,7 @@ public:
             masterToSlave.pop_front();
             auto byte2 = masterToSlave.front();
             masterToSlave.pop_front();
-            auto address = byte1 & ~uint8_t{0xC0};
+            uint8_t address = byte1 & ~uint8_t{0xC0};
             bool isRead = byte1 & uint8_t{0xC0};
 
             // first byte returned is always status

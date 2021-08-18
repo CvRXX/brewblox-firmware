@@ -51,7 +51,7 @@ CPPSRC += $(call here_files,lib/src,*.cpp)
 # CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
 
 # add shared brewblox sources for all platforms
-# INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
+INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
 # CPPSRC += $(call here_files,brewblox,*.cpp)
 
 # include stubs
@@ -61,6 +61,7 @@ CPPSRC += lib/test/TestLogger.cpp
 CPPSRC += platform/esp/DRV8908.cpp
 CPPSRC += platform/test/hal_spi_test.cpp
 CPPSRC += platform/test/hal_i2c_test.cpp
+CPPSRC += app/brewblox-esp/main/ExpOwGpio.cpp
 
 INCLUDE_DIRS += $(SOURCE_PATH)/platform/esp
 
@@ -71,7 +72,7 @@ INCLUDE_DIRS += $(SOURCE_PATH)/platform/esp
 # CCSRC += $(call here_files,brewblox/blox/compiled_proto/test_src,*.pb.cc)
 
 # add nanopb dependencies
-# INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/device-os/third_party/nanopb/nanopb
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/device-os/third_party/nanopb/nanopb
 # CSRC += $(call here_files,platform/spark/device-os/third_party/nanopb/nanopb,*.c)
 # enable message id's
 # CFLAGS += -DPB_MSGID=1

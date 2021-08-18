@@ -1,5 +1,5 @@
 #include "ExpOwGpio.hpp"
-#include "esp_log.h"
+// #include "esp_log.h"
 
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
@@ -239,8 +239,10 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     op_ctrl.apply(flexChannels[idx].pins_mask, when_active_mask);
 
     assert_cs();
-    ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
-    ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
+    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
+    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
+    drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1);
+    drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2);
     deassert_cs();
     return true;
 }
@@ -260,8 +262,10 @@ void ExpOwGpio::update()
             uint8_t old1 = 0;
             uint8_t old2 = 0;
             assert_cs();
-            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
-            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
+            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
+            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
+            drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1);
+            drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2);
             deassert_cs();
             old_status.byte1 = old1;
             old_status.byte2 = old2;
@@ -272,8 +276,10 @@ void ExpOwGpio::update()
             // status is valid and overcurrent is detected
             uint8_t ocp1 = 0;
             uint8_t ocp2 = 0;
-            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
-            ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
+            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
+            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
+            drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1);
+            drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2);
             ocp_status.byte1 = ocp1;
             ocp_status.byte2 = ocp2;
         } else {

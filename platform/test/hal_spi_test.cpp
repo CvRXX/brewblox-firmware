@@ -10,7 +10,7 @@ using namespace hal_spi;
 
 namespace platform_spi {
 
-std::vector<std::unique_ptr<MockSpiDevice>> mockSpiDevices{};
+std::vector<std::shared_ptr<MockSpiDevice>> mockSpiDevices{};
 MockSpiDevice* selected = nullptr;
 
 error_t init(Settings& /*settings*/)
@@ -29,7 +29,7 @@ void aquire_bus(Settings& settings)
     assert(!selected);
 
     auto ssPin = settings.ssPin;
-    auto device = std::find_if(mockSpiDevices.begin(), mockSpiDevices.end(), [ssPin](const std::unique_ptr<MockSpiDevice>& d) {
+    auto device = std::find_if(mockSpiDevices.begin(), mockSpiDevices.end(), [ssPin](const std::shared_ptr<MockSpiDevice>& d) {
         return d->ssPin == ssPin;
     });
     if (device != mockSpiDevices.end()) {
@@ -80,17 +80,17 @@ error_t hal_spi_host_init(uint8_t /*idx*/)
 }
 }
 
-void addMockSpiDevice(std::unique_ptr<MockSpiDevice>&& device)
+void addMockSpiDevice(std::shared_ptr<MockSpiDevice> device)
 {
     platform_spi::mockSpiDevices.push_back(std::move(device));
 }
 
-void removeMockSpiDevice(uint8_t ssPin)
+void removeMockSpiDevice(int ssPin)
 {
     // error when removing a device that is selected
-    assert(platform_spi::selected && platform_spi::selected->ssPin != ssPin);
+    assert(!platform_spi::selected || platform_spi::selected->ssPin != ssPin);
     platform_spi::mockSpiDevices.erase(std::remove_if(
-        platform_spi::mockSpiDevices.begin(), platform_spi::mockSpiDevices.end(), [ssPin](const std::unique_ptr<MockSpiDevice>& d) {
+        platform_spi::mockSpiDevices.begin(), platform_spi::mockSpiDevices.end(), [ssPin](const std::shared_ptr<MockSpiDevice>& d) {
             return d->ssPin == ssPin;
         }));
 }

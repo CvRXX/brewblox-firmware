@@ -24,7 +24,7 @@
 
 SCENARIO("writing outputs of TCA9538")
 {
-    addMockI2CDevice(std::unique_ptr<MockI2CDevice>(new TCA9538Mock(0)));
+    addMockI2CDevice(std::make_shared<TCA9538Mock>(0));
 
     TCA9538 device(0);
 
@@ -39,4 +39,6 @@ SCENARIO("writing outputs of TCA9538")
             CHECK(result == 100);
         }
     }
+
+    removeMockI2CDevice(0x70);
 }

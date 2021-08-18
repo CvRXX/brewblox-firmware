@@ -4,10 +4,16 @@
 #include <deque>
 #include <memory>
 
+void removeMockI2CDevice(uint8_t address);
+
 class MockI2CDevice {
 public:
     MockI2CDevice(uint8_t address)
         : address(address)
+    {
+    }
+
+    ~MockI2CDevice()
     {
     }
 
@@ -36,5 +42,4 @@ protected:
     std::deque<uint8_t> sdaBytes;
 };
 
-void addMockI2CDevice(std::unique_ptr<MockI2CDevice>&& device);
-void removeMockI2CDevice(uint8_t address);
+void addMockI2CDevice(std::shared_ptr<MockI2CDevice> device);

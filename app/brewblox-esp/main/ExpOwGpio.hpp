@@ -6,8 +6,8 @@
 #include "OneWire.h"
 #include "TCA9538.hpp"
 #include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
-#include "esp_err.h"
-#include "esp_log.h"
+// #include "esp_err.h"
+// #include "esp_log.h"
 #include "hal/hal_delay.h"
 #include <vector>
 
@@ -42,12 +42,13 @@ public:
         expander.set_config(0b11111000);
         // disable OLD
         assert_cs();
-        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
+        // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
+        drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
         // set overvoltage threshold to 33V and clear all faults
-        ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
+        // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
+        drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
         deassert_cs();
         expander.set_outputs(0b11111111); // 24V on
-        hal_delay_ms(1000);
     }
 
     virtual bool supportsFastIo()

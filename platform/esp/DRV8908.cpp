@@ -5,6 +5,7 @@
 DRV8908::DRV8908(SpiDevice& spi)
     : spi(spi)
 {
+    _status = 0xFF;
 }
 
 hal_spi::error_t DRV8908::readRegister(RegAddr address, uint8_t& val) const

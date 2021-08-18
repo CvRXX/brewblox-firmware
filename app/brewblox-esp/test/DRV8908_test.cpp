@@ -24,7 +24,7 @@
 
 SCENARIO("writing registers of DRV8908")
 {
-    addMockSpiDevice(std::unique_ptr<MockSpiDevice>(new DRV8908Mock(1)));
+    addMockSpiDevice(std::make_shared<DRV8908Mock>(1));
 
     SpiDevice spi(
         hal_spi::Settings{
@@ -54,4 +54,6 @@ SCENARIO("writing registers of DRV8908")
         }
         spi.release_bus();
     }
+
+    removeMockSpiDevice(1);
 }

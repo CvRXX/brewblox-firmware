@@ -5,10 +5,16 @@
 #include <memory>
 #include <vector>
 
+void removeMockSpiDevice(int ssPin);
+
 class MockSpiDevice {
 public:
-    MockSpiDevice(uint8_t ssPin)
+    MockSpiDevice(int ssPin)
         : ssPin(ssPin)
+    {
+    }
+
+    ~MockSpiDevice()
     {
     }
 
@@ -56,12 +62,11 @@ public:
 
     virtual void process() = 0;
 
-    uint8_t ssPin;
+    int ssPin;
 
 protected:
     std::deque<uint8_t> masterToSlave;
     std::deque<uint8_t> slaveToMaster;
 };
 
-void addMockSpiDevice(std::unique_ptr<MockSpiDevice>&& device);
-void removeMockSpiDevice(uint8_t ssPin);
+void addMockSpiDevice(std::shared_ptr<MockSpiDevice> device);
