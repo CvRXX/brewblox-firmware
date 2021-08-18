@@ -216,13 +216,18 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
 
     ChanBitsInternal drive_bits;
     switch (config) {
+    case ChannelConfig::UNUSED:
+    case ChannelConfig::UNKNOWN:
+        break;
     case ChannelConfig::DRIVING_ON:
+    case ChannelConfig::DRIVING_PWM:
         drive_bits.all = when_active_mask.all;
         break;
     case ChannelConfig::DRIVING_OFF:
         drive_bits.all = when_inactive_mask.all;
         break;
     case ChannelConfig::DRIVING_REVERSE:
+    case ChannelConfig::DRIVING_PWM_REVERSE:
         drive_bits.all = ~when_inactive_mask.all;
         break;
     case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:
@@ -360,7 +365,7 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
                 ++num1;
             }
         }
-        if (last1 - first1 != num1) {
+        if (last1 - first1 + 1 != num1) {
             // pins are not consecutive, this is not supported
             return;
         }
@@ -382,7 +387,9 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
         ChanBits when_active_external{when_active_mask};
         ChanBits when_inactive_external{when_inactive_mask};
 
-        switch (flexChannels[idx].deviceType) {
+        flexChannels[idx] = c;
+
+        switch (c.deviceType) {
         case blox_GpioDeviceType_NONE:
             // no pullups or pull downs
             break;
@@ -440,6 +447,10 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
             when_active_external.setBits(0x00, pins_external);
             break;
         }
+
+        // clear old bits set by previous channel configuration
+        when_active_mask.all = when_active_mask.all & exclude_old;
+        when_inactive_mask.all = when_inactive_mask.all & exclude_old;
 
         // set mask bits in shared masks
         when_inactive_mask.apply(c.pins_mask, ChanBitsInternal{when_inactive_external});

@@ -56,6 +56,67 @@ SCENARIO("OneWire + GPIO module using mock hw")
         }
     }
 
+    WHEN("An single pin SSR is added using 1 pin")
+    {
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_ONE_PIN_SSR, 0b00001000});
+
+        THEN("The pullups are configured as expected")
+        {
+            CHECK(gpio.pullUpWhenActive() == 0b1000);
+            CHECK(gpio.pullDownWhenActive() == 0b0);
+            CHECK(gpio.pullUpWhenInactive() == 0b0);
+            CHECK(gpio.pullDownWhenInactive() == 0b1000);
+        }
+    }
+
+    WHEN("An single pin SSR is added using 4 pins")
+    {
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_ONE_PIN_SSR, 0b00001111});
+
+        THEN("The pullups are configured as expected")
+        {
+            CHECK(gpio.pullUpWhenActive() == 0b1111);
+            CHECK(gpio.pullDownWhenActive() == 0b0);
+            CHECK(gpio.pullUpWhenInactive() == 0b0);
+            CHECK(gpio.pullDownWhenInactive() == 0b1111);
+        }
+    }
+
+    WHEN("An two pin SSR is added using 2 pins")
+    {
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_TWO_PIN_SSR, 0b00000011});
+
+        THEN("The pullups are configured as expected")
+        {
+            CHECK(gpio.pullUpWhenActive() == 0b0010);
+            CHECK(gpio.pullDownWhenActive() == 0b01);
+            CHECK(gpio.pullUpWhenInactive() == 0b00);
+            CHECK(gpio.pullDownWhenInactive() == 0b11);
+        }
+    }
+
+    WHEN("An two pin SSR is added using 4 pins")
+    {
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_TWO_PIN_SSR, 0b00001111});
+
+        THEN("The pullups are configured as expected")
+        {
+            CHECK(gpio.pullUpWhenActive() == 0b001100);
+            CHECK(gpio.pullDownWhenActive() == 0b0011);
+            CHECK(gpio.pullUpWhenInactive() == 0b0000);
+            CHECK(gpio.pullDownWhenInactive() == 0b1111);
+        }
+
+        AND_THEN("When it is replaced by a 2 pin SSR, the now unused bits are reset")
+        {
+            gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_TWO_PIN_SSR, 0b00000011});
+            CHECK(gpio.pullUpWhenActive() == 0b0010);
+            CHECK(gpio.pullDownWhenActive() == 0b01);
+            CHECK(gpio.pullUpWhenInactive() == 0b00);
+            CHECK(gpio.pullDownWhenInactive() == 0b11);
+        }
+    }
+
     removeMockI2CDevice(0x70);
     removeMockSpiDevice(-1);
 }
