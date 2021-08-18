@@ -387,69 +387,81 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 modulestatus() const;
   void set_modulestatus(::google::protobuf::uint32 value);
 
-  // uint32 pullUp = 4 [(.nanopb_test) = {
-  void clear_pullup();
-  static const int kPullUpFieldNumber = 4;
-  ::google::protobuf::uint32 pullup() const;
-  void set_pullup(::google::protobuf::uint32 value);
+  // uint32 pullUpDesired = 4 [(.nanopb_test) = {
+  void clear_pullupdesired();
+  static const int kPullUpDesiredFieldNumber = 4;
+  ::google::protobuf::uint32 pullupdesired() const;
+  void set_pullupdesired(::google::protobuf::uint32 value);
 
-  // uint32 pullUpWhenActive = 5 [(.nanopb_test) = {
+  // uint32 pullUpStatus = 5 [(.nanopb_test) = {
+  void clear_pullupstatus();
+  static const int kPullUpStatusFieldNumber = 5;
+  ::google::protobuf::uint32 pullupstatus() const;
+  void set_pullupstatus(::google::protobuf::uint32 value);
+
+  // uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
   void clear_pullupwhenactive();
-  static const int kPullUpWhenActiveFieldNumber = 5;
+  static const int kPullUpWhenActiveFieldNumber = 6;
   ::google::protobuf::uint32 pullupwhenactive() const;
   void set_pullupwhenactive(::google::protobuf::uint32 value);
 
-  // uint32 pullUpWhenInactive = 6 [(.nanopb_test) = {
+  // uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
   void clear_pullupwheninactive();
-  static const int kPullUpWhenInactiveFieldNumber = 6;
+  static const int kPullUpWhenInactiveFieldNumber = 7;
   ::google::protobuf::uint32 pullupwheninactive() const;
   void set_pullupwheninactive(::google::protobuf::uint32 value);
 
-  // uint32 pullDown = 7 [(.nanopb_test) = {
-  void clear_pulldown();
-  static const int kPullDownFieldNumber = 7;
-  ::google::protobuf::uint32 pulldown() const;
-  void set_pulldown(::google::protobuf::uint32 value);
+  // uint32 pullDownDesired = 8 [(.nanopb_test) = {
+  void clear_pulldowndesired();
+  static const int kPullDownDesiredFieldNumber = 8;
+  ::google::protobuf::uint32 pulldowndesired() const;
+  void set_pulldowndesired(::google::protobuf::uint32 value);
 
-  // uint32 pullDownWhenActive = 8 [(.nanopb_test) = {
+  // uint32 pullDownStatus = 9 [(.nanopb_test) = {
+  void clear_pulldownstatus();
+  static const int kPullDownStatusFieldNumber = 9;
+  ::google::protobuf::uint32 pulldownstatus() const;
+  void set_pulldownstatus(::google::protobuf::uint32 value);
+
+  // uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
   void clear_pulldownwhenactive();
-  static const int kPullDownWhenActiveFieldNumber = 8;
+  static const int kPullDownWhenActiveFieldNumber = 10;
   ::google::protobuf::uint32 pulldownwhenactive() const;
   void set_pulldownwhenactive(::google::protobuf::uint32 value);
 
-  // uint32 pullDownWhenInactive = 9 [(.nanopb_test) = {
+  // uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
   void clear_pulldownwheninactive();
-  static const int kPullDownWhenInactiveFieldNumber = 9;
+  static const int kPullDownWhenInactiveFieldNumber = 11;
   ::google::protobuf::uint32 pulldownwheninactive() const;
   void set_pulldownwheninactive(::google::protobuf::uint32 value);
 
-  // uint32 pullUpOverCurrent = 10 [(.nanopb_test) = {
+  // uint32 pullUpOverCurrent = 12 [(.nanopb_test) = {
   void clear_pullupovercurrent();
-  static const int kPullUpOverCurrentFieldNumber = 10;
+  static const int kPullUpOverCurrentFieldNumber = 12;
   ::google::protobuf::uint32 pullupovercurrent() const;
   void set_pullupovercurrent(::google::protobuf::uint32 value);
 
-  // uint32 pullDownOverCurrent = 11 [(.nanopb_test) = {
+  // uint32 pullDownOverCurrent = 13 [(.nanopb_test) = {
   void clear_pulldownovercurrent();
-  static const int kPullDownOverCurrentFieldNumber = 11;
+  static const int kPullDownOverCurrentFieldNumber = 13;
   ::google::protobuf::uint32 pulldownovercurrent() const;
   void set_pulldownovercurrent(::google::protobuf::uint32 value);
 
-  // uint32 pullUpOpenLoad = 12 [(.nanopb_test) = {
+  // uint32 pullUpOpenLoad = 14 [(.nanopb_test) = {
   void clear_pullupopenload();
-  static const int kPullUpOpenLoadFieldNumber = 12;
+  static const int kPullUpOpenLoadFieldNumber = 14;
   ::google::protobuf::uint32 pullupopenload() const;
   void set_pullupopenload(::google::protobuf::uint32 value);
 
-  // uint32 pullDownOpenLoad = 13 [(.nanopb_test) = {
+  // uint32 pullDownOpenLoad = 15 [(.nanopb_test) = {
   void clear_pulldownopenload();
-  static const int kPullDownOpenLoadFieldNumber = 13;
+  static const int kPullDownOpenLoadFieldNumber = 15;
   ::google::protobuf::uint32 pulldownopenload() const;
   void set_pulldownopenload(::google::protobuf::uint32 value);
 
-  // uint32 moduleStatusClear = 14 [(.nanopb_test) = {
+  // uint32 moduleStatusClear = 16 [(.nanopb_test) = {
   void clear_modulestatusclear();
-  static const int kModuleStatusClearFieldNumber = 14;
+  static const int kModuleStatusClearFieldNumber = 16;
   ::google::protobuf::uint32 modulestatusclear() const;
   void set_modulestatusclear(::google::protobuf::uint32 value);
 
@@ -460,10 +472,12 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::RepeatedPtrField< ::blox::GpioModuleChannel > channels_;
   ::google::protobuf::uint32 moduleposition_;
   ::google::protobuf::uint32 modulestatus_;
-  ::google::protobuf::uint32 pullup_;
+  ::google::protobuf::uint32 pullupdesired_;
+  ::google::protobuf::uint32 pullupstatus_;
   ::google::protobuf::uint32 pullupwhenactive_;
   ::google::protobuf::uint32 pullupwheninactive_;
-  ::google::protobuf::uint32 pulldown_;
+  ::google::protobuf::uint32 pulldowndesired_;
+  ::google::protobuf::uint32 pulldownstatus_;
   ::google::protobuf::uint32 pulldownwhenactive_;
   ::google::protobuf::uint32 pulldownwheninactive_;
   ::google::protobuf::uint32 pullupovercurrent_;
@@ -645,21 +659,35 @@ inline void OneWireGpioModule::set_modulestatus(::google::protobuf::uint32 value
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.moduleStatus)
 }
 
-// uint32 pullUp = 4 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pullup() {
-  pullup_ = 0u;
+// uint32 pullUpDesired = 4 [(.nanopb_test) = {
+inline void OneWireGpioModule::clear_pullupdesired() {
+  pullupdesired_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pullup() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUp)
-  return pullup_;
+inline ::google::protobuf::uint32 OneWireGpioModule::pullupdesired() const {
+  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUpDesired)
+  return pullupdesired_;
 }
-inline void OneWireGpioModule::set_pullup(::google::protobuf::uint32 value) {
+inline void OneWireGpioModule::set_pullupdesired(::google::protobuf::uint32 value) {
   
-  pullup_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUp)
+  pullupdesired_ = value;
+  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpDesired)
 }
 
-// uint32 pullUpWhenActive = 5 [(.nanopb_test) = {
+// uint32 pullUpStatus = 5 [(.nanopb_test) = {
+inline void OneWireGpioModule::clear_pullupstatus() {
+  pullupstatus_ = 0u;
+}
+inline ::google::protobuf::uint32 OneWireGpioModule::pullupstatus() const {
+  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUpStatus)
+  return pullupstatus_;
+}
+inline void OneWireGpioModule::set_pullupstatus(::google::protobuf::uint32 value) {
+  
+  pullupstatus_ = value;
+  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpStatus)
+}
+
+// uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pullupwhenactive() {
   pullupwhenactive_ = 0u;
 }
@@ -673,7 +701,7 @@ inline void OneWireGpioModule::set_pullupwhenactive(::google::protobuf::uint32 v
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpWhenActive)
 }
 
-// uint32 pullUpWhenInactive = 6 [(.nanopb_test) = {
+// uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pullupwheninactive() {
   pullupwheninactive_ = 0u;
 }
@@ -687,21 +715,35 @@ inline void OneWireGpioModule::set_pullupwheninactive(::google::protobuf::uint32
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpWhenInactive)
 }
 
-// uint32 pullDown = 7 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pulldown() {
-  pulldown_ = 0u;
+// uint32 pullDownDesired = 8 [(.nanopb_test) = {
+inline void OneWireGpioModule::clear_pulldowndesired() {
+  pulldowndesired_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pulldown() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDown)
-  return pulldown_;
+inline ::google::protobuf::uint32 OneWireGpioModule::pulldowndesired() const {
+  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDownDesired)
+  return pulldowndesired_;
 }
-inline void OneWireGpioModule::set_pulldown(::google::protobuf::uint32 value) {
+inline void OneWireGpioModule::set_pulldowndesired(::google::protobuf::uint32 value) {
   
-  pulldown_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDown)
+  pulldowndesired_ = value;
+  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownDesired)
 }
 
-// uint32 pullDownWhenActive = 8 [(.nanopb_test) = {
+// uint32 pullDownStatus = 9 [(.nanopb_test) = {
+inline void OneWireGpioModule::clear_pulldownstatus() {
+  pulldownstatus_ = 0u;
+}
+inline ::google::protobuf::uint32 OneWireGpioModule::pulldownstatus() const {
+  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDownStatus)
+  return pulldownstatus_;
+}
+inline void OneWireGpioModule::set_pulldownstatus(::google::protobuf::uint32 value) {
+  
+  pulldownstatus_ = value;
+  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownStatus)
+}
+
+// uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pulldownwhenactive() {
   pulldownwhenactive_ = 0u;
 }
@@ -715,7 +757,7 @@ inline void OneWireGpioModule::set_pulldownwhenactive(::google::protobuf::uint32
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownWhenActive)
 }
 
-// uint32 pullDownWhenInactive = 9 [(.nanopb_test) = {
+// uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pulldownwheninactive() {
   pulldownwheninactive_ = 0u;
 }
@@ -729,7 +771,7 @@ inline void OneWireGpioModule::set_pulldownwheninactive(::google::protobuf::uint
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownWhenInactive)
 }
 
-// uint32 pullUpOverCurrent = 10 [(.nanopb_test) = {
+// uint32 pullUpOverCurrent = 12 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pullupovercurrent() {
   pullupovercurrent_ = 0u;
 }
@@ -743,7 +785,7 @@ inline void OneWireGpioModule::set_pullupovercurrent(::google::protobuf::uint32 
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpOverCurrent)
 }
 
-// uint32 pullDownOverCurrent = 11 [(.nanopb_test) = {
+// uint32 pullDownOverCurrent = 13 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pulldownovercurrent() {
   pulldownovercurrent_ = 0u;
 }
@@ -757,7 +799,7 @@ inline void OneWireGpioModule::set_pulldownovercurrent(::google::protobuf::uint3
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownOverCurrent)
 }
 
-// uint32 pullUpOpenLoad = 12 [(.nanopb_test) = {
+// uint32 pullUpOpenLoad = 14 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pullupopenload() {
   pullupopenload_ = 0u;
 }
@@ -771,7 +813,7 @@ inline void OneWireGpioModule::set_pullupopenload(::google::protobuf::uint32 val
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpOpenLoad)
 }
 
-// uint32 pullDownOpenLoad = 13 [(.nanopb_test) = {
+// uint32 pullDownOpenLoad = 15 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_pulldownopenload() {
   pulldownopenload_ = 0u;
 }
@@ -785,7 +827,7 @@ inline void OneWireGpioModule::set_pulldownopenload(::google::protobuf::uint32 v
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownOpenLoad)
 }
 
-// uint32 moduleStatusClear = 14 [(.nanopb_test) = {
+// uint32 moduleStatusClear = 16 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_modulestatusclear() {
   modulestatusclear_ = 0u;
 }

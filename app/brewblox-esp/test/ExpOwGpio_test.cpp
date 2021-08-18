@@ -36,23 +36,13 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     ExpOwGpio gpio(0);
 
-    WHEN("The gpio driver is initialized")
-    {
-        gpio.init();
-
-        THEN("The config register of the DRV8908 is set to 0b00000011")
-        {
-            REQUIRE(drv->registers[int(DRV8908::RegAddr::CONFIG_CTRL)] == 0b00000011);
-        }
-    }
-
     WHEN("The gpio driver is updated for the first time, it is automatically initialized")
     {
         gpio.update();
 
-        THEN("The config register of the DRV8908 is set to 0b00000011")
+        THEN("The config register of the DRV8908 is set to 0b10000011")
         {
-            REQUIRE(drv->registers[int(DRV8908::RegAddr::CONFIG_CTRL)] == 0b00000011);
+            REQUIRE(drv->registers[int(DRV8908::RegAddr::CONFIG_CTRL)] == 0b10000011);
         }
     }
 

@@ -8,26 +8,26 @@ using FlexChannel = ExpOwGpio::FlexChannel;
 
 ChanBits::ChanBits(const ChanBitsInternal& internal)
 {
-    this->c1 = internal.c1;
-    this->c2 = internal.c2;
-    this->c3 = internal.c3;
-    this->c4 = internal.c4;
-    this->c5 = internal.c5;
-    this->c6 = internal.c6;
-    this->c7 = internal.c7;
-    this->c8 = internal.c8;
+    bits.pin.c1 = internal.bits.pin.c1;
+    bits.pin.c2 = internal.bits.pin.c2;
+    bits.pin.c3 = internal.bits.pin.c3;
+    bits.pin.c4 = internal.bits.pin.c4;
+    bits.pin.c5 = internal.bits.pin.c5;
+    bits.pin.c6 = internal.bits.pin.c6;
+    bits.pin.c7 = internal.bits.pin.c7;
+    bits.pin.c8 = internal.bits.pin.c8;
 }
 
 ChanBitsInternal::ChanBitsInternal(const ChanBits& external)
 {
-    this->c1 = external.c1;
-    this->c2 = external.c2;
-    this->c3 = external.c3;
-    this->c4 = external.c4;
-    this->c5 = external.c5;
-    this->c6 = external.c6;
-    this->c7 = external.c7;
-    this->c8 = external.c8;
+    bits.pin.c1 = external.bits.pin.c1;
+    bits.pin.c2 = external.bits.pin.c2;
+    bits.pin.c3 = external.bits.pin.c3;
+    bits.pin.c4 = external.bits.pin.c4;
+    bits.pin.c5 = external.bits.pin.c5;
+    bits.pin.c6 = external.bits.pin.c6;
+    bits.pin.c7 = external.bits.pin.c7;
+    bits.pin.c8 = external.bits.pin.c8;
 }
 
 PinDrive ChanBits::get(uint8_t chan)
@@ -35,21 +35,21 @@ PinDrive ChanBits::get(uint8_t chan)
     // numbering board pins doesn't match driver's bits
     switch (chan) {
     case 1:
-        return PinDrive(c1);
+        return PinDrive(bits.pin.c1);
     case 2:
-        return PinDrive(c2);
+        return PinDrive(bits.pin.c2);
     case 3:
-        return PinDrive(c3);
+        return PinDrive(bits.pin.c3);
     case 4:
-        return PinDrive(c4);
+        return PinDrive(bits.pin.c4);
     case 5:
-        return PinDrive(c5);
+        return PinDrive(bits.pin.c5);
     case 6:
-        return PinDrive(c6);
+        return PinDrive(bits.pin.c6);
     case 7:
-        return PinDrive(c7);
+        return PinDrive(bits.pin.c7);
     case 8:
-        return PinDrive(c8);
+        return PinDrive(bits.pin.c8);
     default:
         return PinDrive(0x00);
     }
@@ -60,28 +60,28 @@ void ChanBits::set(uint8_t chan, PinDrive drive)
     // numbering board pins doesn't match driver's bits
     switch (chan) {
     case 1:
-        c1 = drive;
+        bits.pin.c1 = drive;
         return;
     case 2:
-        c2 = drive;
+        bits.pin.c2 = drive;
         return;
     case 3:
-        c3 = drive;
+        bits.pin.c3 = drive;
         return;
     case 4:
-        c4 = drive;
+        bits.pin.c4 = drive;
         return;
     case 5:
-        c5 = drive;
+        bits.pin.c5 = drive;
         return;
     case 6:
-        c6 = drive;
+        bits.pin.c6 = drive;
         return;
     case 7:
-        c7 = drive;
+        bits.pin.c7 = drive;
         return;
     case 8:
-        c8 = drive;
+        bits.pin.c8 = drive;
         return;
     default:
         return;
@@ -95,7 +95,7 @@ uint8_t ChanBits::up() const
     uint8_t bit = 0x1;
     uint8_t result = 0x0;
     for (uint8_t i = 0; i < 8; i++) {
-        if (this->all & mask) {
+        if (bits.all & mask) {
             result |= bit;
         }
         bit = bit << 1;
@@ -111,7 +111,7 @@ uint8_t ChanBits::down() const
     uint8_t bit = 0x1;
     uint8_t result = 0x0;
     for (uint8_t i = 0; i < 8; i++) {
-        if (this->all & mask) {
+        if (bits.all & mask) {
             result |= bit;
         }
         bit = bit << 1;
@@ -137,14 +137,13 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
         bitDown = bitDown << 2;
         bitUp = bitUp << 2;
     }
-    this->all = result;
+    bits.all = result;
 }
 
 void ExpOwGpio::init()
 {
     expander.set_outputs(0b11111101); // 24V off, OneWire powered
     expander.set_config(0b11111000);  // 3 pins output, others input
-    assert_cs();
     // disable OLD
     // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
     drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
@@ -152,7 +151,6 @@ void ExpOwGpio::init()
 
     // enable passive OLD, set overvoltage threshold to 33V and clear all faults
     drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b10000011);
-    deassert_cs();
     expander.set_outputs(0b11111111); // 24V on
 }
 
@@ -182,16 +180,16 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
     case blox_GpioDeviceType_TWO_PIN_COIL_PUSH_PULL:          // pp,pp toggled 01 or 10
     case blox_GpioDeviceType_TWO_PIN_MOTOR_UNIDIRECTIONAL:    // gnd, pu
     case blox_GpioDeviceType_SINGLE_PIN_MOTOR_HIGH_SIDE:      // pu, external to GND
-        result = pullUp() & pins ? State::Active : State::Inactive;
+        result = pullUpStatus() & pins ? State::Active : State::Inactive;
         break;
     case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_PWR: // pd, external ground
     case blox_GpioDeviceType_SINGLE_PIN_MOTOR_LOW_SIDE:       // pd, external to PWR
-        result = pullDown() & pins ? State::Active : State::Inactive;
+        result = pullDownStatus() & pins ? State::Active : State::Inactive;
         break;
     case blox_GpioDeviceType_TWO_PIN_MOTOR_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
-        if ((pullUp() & pins) > (pullDown() & pins)) {
+        if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
             result = State::Reverse;
-        } else if ((pullUp() & pins) < (pullDown() & pins)) {
+        } else if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
             result = State::Active;
         } else {
             result = State::Inactive;
@@ -237,75 +235,91 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
         break;
     case ChannelConfig::DRIVING_ON:
     case ChannelConfig::DRIVING_PWM:
-        drive_bits.all = when_active_mask.all;
+        drive_bits.bits.all = when_active_mask.bits.all;
         break;
     case ChannelConfig::DRIVING_OFF:
-        drive_bits.all = when_inactive_mask.all;
+        drive_bits.bits.all = when_inactive_mask.bits.all;
         break;
     case ChannelConfig::DRIVING_REVERSE:
     case ChannelConfig::DRIVING_PWM_REVERSE:
-        drive_bits.all = ~when_inactive_mask.all;
+        drive_bits.bits.all = ~when_inactive_mask.bits.all;
         break;
     case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:
-        drive_bits.all = 0x5555;
+        drive_bits.bits.all = 0x5555;
         break;
     case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE:
-        drive_bits.all = 0xAAAA;
+        drive_bits.bits.all = 0xAAAA;
         break;
     case ChannelConfig::INPUT:
     default:
-        drive_bits.all = 0x0000;
+        drive_bits.bits.all = 0x0000;
         break;
     }
-    op_ctrl.apply(flexChannels[idx].pins_mask, when_active_mask);
+    op_ctrl_desired.apply(flexChannels[idx].pins_mask, when_active_mask);
 
-    assert_cs();
-    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1));
-    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2));
-    drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl.byte1);
-    drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl.byte2);
-    deassert_cs();
+    update();
+
     return true;
 }
 
 void ExpOwGpio::update()
 {
+    bool updateNeeded = false;
     auto drv_status = status();
-    if (drv_status.bits.spi_error || drv_status.bits.power_on_reset) {
-        init();
-        drv_status = status();
-    }
 
-    if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
-        // status is valid
-        if (drv_status.bits.openload) {
-            // open load is detected
-            uint8_t old1 = 0;
-            uint8_t old2 = 0;
-            assert_cs();
-            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
-            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
-            drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1);
-            drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2);
-            deassert_cs();
-            old_status.byte1 = old1;
-            old_status.byte2 = old2;
-        } else {
-            old_status.all = 0;
+    updateNeeded |= op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
+    updateNeeded |= drv_status.bits.spi_error || drv_status.bits.power_on_reset;
+
+    if (updateNeeded) {
+        assert_cs();
+        if (drv_status.bits.spi_error || drv_status.bits.power_on_reset) {
+            init();
         }
-        if (drv_status.bits.overcurrent) {
-            // status is valid and overcurrent is detected
-            uint8_t ocp1 = 0;
-            uint8_t ocp2 = 0;
-            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
-            // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
-            drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1);
-            drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2);
-            ocp_status.byte1 = ocp1;
-            ocp_status.byte2 = ocp2;
-        } else {
-            ocp_status.all = 0;
+
+        drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.byte.byte1);
+        drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl_desired.bits.byte.byte2);
+
+        uint8_t op_ctrl_status1 = 0;
+        uint8_t op_ctrl_status2 = 0;
+        drv.readRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_status1);
+        drv.readRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl_status2);
+        op_ctrl_status.bits.byte.byte1 = op_ctrl_status1;
+        op_ctrl_status.bits.byte.byte2 = op_ctrl_status2;
+
+        drv_status = status(true);
+
+        if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
+            // status is valid
+            if (drv_status.bits.openload) {
+                // open load is detected
+                uint8_t old1 = 0;
+                uint8_t old2 = 0;
+
+                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
+                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
+                drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1);
+                drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2);
+
+                old_status.bits.byte.byte1 = old1;
+                old_status.bits.byte.byte2 = old2;
+            } else {
+                old_status.bits.all = 0;
+            }
+            if (drv_status.bits.overcurrent) {
+                // status is valid and overcurrent is detected
+                uint8_t ocp1 = 0;
+                uint8_t ocp2 = 0;
+                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
+                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
+                drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1);
+                drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2);
+                ocp_status.bits.byte.byte1 = ocp1;
+                ocp_status.bits.byte.byte2 = ocp2;
+            } else {
+                ocp_status.bits.all = 0;
+            }
         }
+        deassert_cs();
     }
 }
 
@@ -334,12 +348,12 @@ blox_ChannelStatus ExpOwGpio::channelStatus(uint8_t channel) const
     // process open load and overcurrent before overtemperature, so they are not masked
     uint8_t idx = channel - 1;
     if (driverStatus.bits.openload) {
-        if (flexChannels[idx].pins_mask.all & old_status.all) {
+        if (flexChannels[idx].pins_mask.bits.all & old_status.bits.all) {
             return blox_ChannelStatus_OPEN_LOAD;
         }
     }
     if (driverStatus.bits.overcurrent) {
-        if (flexChannels[idx].pins_mask.all & ocp_status.all) {
+        if (flexChannels[idx].pins_mask.bits.all & ocp_status.bits.all) {
             return blox_ChannelStatus_OVERCURRENT;
         }
     }
@@ -359,11 +373,11 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
     bool configChanged = c != flexChannels[idx];
     if (configChanged) {
         auto old_mask = flexChannels[idx].pins_mask;
-        uint16_t exclude_old = ~old_mask.all;
-        if (c.pins_mask.all & exclude_old & when_active_mask.all) {
+        uint16_t exclude_old = ~old_mask.bits.all;
+        if (c.pins_mask.bits.all & exclude_old & when_active_mask.bits.all) {
             return; // refuse overlapping channels
         }
-        if (c.pins_mask.all & exclude_old & when_inactive_mask.all) {
+        if (c.pins_mask.bits.all & exclude_old & when_inactive_mask.bits.all) {
             return; // refuse overlapping channels
         }
 
@@ -465,8 +479,8 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
         }
 
         // clear old bits set by previous channel configuration
-        when_active_mask.all = when_active_mask.all & exclude_old;
-        when_inactive_mask.all = when_inactive_mask.all & exclude_old;
+        when_active_mask.bits.all = when_active_mask.bits.all & exclude_old;
+        when_inactive_mask.bits.all = when_inactive_mask.bits.all & exclude_old;
 
         // set mask bits in shared masks
         when_inactive_mask.apply(c.pins_mask, ChanBitsInternal{when_inactive_external});

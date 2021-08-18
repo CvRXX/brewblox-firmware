@@ -14,7 +14,10 @@ hal_spi::error_t DRV8908::readRegister(RegAddr address, uint8_t& val) const
     std::array<uint8_t, 2> rx{0, 0};
     auto ec = spi.write_and_read(tx, rx);
     if (ec == 0 && rx[0] != 0xFF) {
-        _status = rx[0] & 0x7F; // clear reserved bit
+        // clear first 2 bits, which are always read as 1
+        // note that the datasheet is unclear and IC_STAT has bit 5 and 6 as OTW and OTSD
+        // the status in the first byte has bit 6 as always 1 and bit 5 as OT
+        // _status = rx[0] & 0x3F; // doesn't seem reliable
         val = rx[1];
     } else {
         _status = 0x80; // use reserved bit to signal SPI error
@@ -30,7 +33,7 @@ hal_spi::error_t DRV8908::writeRegister(RegAddr address, uint8_t val)
     auto ec = spi.write_and_read(tx, rx);
 
     if (ec == 0 && rx[0] != 0xFF) {
-        _status = rx[0] & 0x7F; // clear reserved bit
+        // _status = rx[0] & 0x3F; // doesn't seem reliable
     } else {
         _status = 0x80; // use reserved bit to signal SPI error
     }

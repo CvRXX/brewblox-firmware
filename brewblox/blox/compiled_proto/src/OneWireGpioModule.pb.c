@@ -20,21 +20,23 @@ const pb_field_t blox_GpioModuleChannel_fields[8] = {
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_OneWireGpioModule_fields[15] = {
+const pb_field_t blox_OneWireGpioModule_fields[17] = {
     PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_OneWireGpioModule, channels, channels, &blox_GpioModuleChannel_fields),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, modulePosition, channels, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatus, modulePosition, 0),
-    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUp, moduleStatus, 0),
-    PB_FIELD(  5, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpWhenActive, pullUp, 0),
-    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpWhenInactive, pullUpWhenActive, 0),
-    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDown, pullUpWhenInactive, 0),
-    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenActive, pullDown, 0),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenInactive, pullDownWhenActive, 0),
-    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpOverCurrent, pullDownWhenInactive, 0),
-    PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownOverCurrent, pullUpOverCurrent, 0),
-    PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpOpenLoad, pullDownOverCurrent, 0),
-    PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownOpenLoad, pullUpOpenLoad, 0),
-    PB_FIELD( 14, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, pullDownOpenLoad, 0),
+    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpDesired, moduleStatus, 0),
+    PB_FIELD(  5, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpStatus, pullUpDesired, 0),
+    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpWhenActive, pullUpStatus, 0),
+    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpWhenInactive, pullUpWhenActive, 0),
+    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownDesired, pullUpWhenInactive, 0),
+    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownStatus, pullDownDesired, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenActive, pullDownStatus, 0),
+    PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenInactive, pullDownWhenActive, 0),
+    PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpOverCurrent, pullDownWhenInactive, 0),
+    PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownOverCurrent, pullUpOverCurrent, 0),
+    PB_FIELD( 14, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpOpenLoad, pullDownOverCurrent, 0),
+    PB_FIELD( 15, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownOpenLoad, pullUpOpenLoad, 0),
+    PB_FIELD( 16, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, pullDownOpenLoad, 0),
     PB_LAST_FIELD
 };
 

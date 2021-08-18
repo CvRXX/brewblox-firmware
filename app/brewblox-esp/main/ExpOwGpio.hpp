@@ -56,12 +56,12 @@ public:
     struct ChanBits {
         ChanBits()
         {
-            this->all = 0;
+            bits.all = 0;
         }
 
         ChanBits(const ChanBitsInternal& internal);
 
-        union {
+        typedef union {
             struct {
                 uint8_t c1 : 2;
                 uint8_t c2 : 2;
@@ -71,10 +71,12 @@ public:
                 uint8_t c6 : 2;
                 uint8_t c7 : 2;
                 uint8_t c8 : 2;
-            };
+            } pin;
 
             uint16_t all;
-        };
+        } Bits;
+
+        Bits bits;
 
         // get bits for pull-down transistors
         uint8_t down() const;
@@ -90,12 +92,12 @@ public:
     struct ChanBitsInternal {
         ChanBitsInternal()
         {
-            this->all = 0;
+            bits.all = 0;
         }
 
         ChanBitsInternal(const ChanBits& external);
 
-        union {
+        typedef union {
             struct {
                 uint8_t c1 : 2;
                 uint8_t c4 : 2;
@@ -105,18 +107,20 @@ public:
                 uint8_t c6 : 2;
                 uint8_t c3 : 2;
                 uint8_t c5 : 2;
-            };
+            } pin;
             struct {
                 uint8_t byte1 : 8;
                 uint8_t byte2 : 8;
-            };
+            } byte;
             uint16_t all;
-        };
+        } Bits;
+
+        Bits bits;
 
         void apply(const ChanBitsInternal& mask, const ChanBitsInternal& state)
         {
-            this->all &= ~mask.all;
-            this->all |= state.all;
+            bits.all &= ~mask.bits.all;
+            bits.all |= state.bits.all;
         }
     };
 
@@ -125,7 +129,7 @@ public:
         FlexChannel()
             : deviceType(blox_GpioDeviceType_NONE)
         {
-            pins_mask.all = 0;
+            pins_mask.bits.all = 0;
         }
 
         FlexChannel(
@@ -141,12 +145,12 @@ public:
 
         bool operator==(const FlexChannel& other) const
         {
-            return this->pins_mask.all == other.pins_mask.all && this->deviceType == other.deviceType;
+            return this->pins_mask.bits.all == other.pins_mask.bits.all && this->deviceType == other.deviceType;
         }
 
         bool operator!=(const FlexChannel& other) const
         {
-            return this->pins_mask.all != other.pins_mask.all || this->deviceType != other.deviceType;
+            return this->pins_mask.bits.all != other.pins_mask.bits.all || this->deviceType != other.deviceType;
         }
 
         blox_GpioDeviceType deviceType = blox_GpioDeviceType_NONE;
@@ -183,14 +187,18 @@ public:
 
     void update();
 
-    DRV8908::Status status() const
+    DRV8908::Status status(bool update = false) const
     {
-        return drv.status();
+        return drv.status(update);
     }
 
-    uint8_t pullUp() const
+    uint8_t pullUpDesired() const
     {
-        return ChanBits{op_ctrl}.up();
+        return ChanBits{op_ctrl_desired}.up();
+    }
+    uint8_t pullUpStatus() const
+    {
+        return ChanBits{op_ctrl_status}.up();
     }
     uint8_t pullUpWhenActive() const
     {
@@ -200,9 +208,13 @@ public:
     {
         return ChanBits{when_inactive_mask}.up();
     }
-    uint8_t pullDown() const
+    uint8_t pullDownDesired() const
     {
-        return ChanBits{op_ctrl}.down();
+        return ChanBits{op_ctrl_desired}.down();
+    }
+    uint8_t pullDownStatus() const
+    {
+        return ChanBits{op_ctrl_status}.down();
     }
     uint8_t pullDownWhenActive() const
     {
@@ -271,7 +283,8 @@ private:
     OneWire ow;
     std::array<FlexChannel, 8> flexChannels;
 
-    ChanBitsInternal op_ctrl;
+    ChanBitsInternal op_ctrl_desired;
+    ChanBitsInternal op_ctrl_status;
     ChanBitsInternal old_status;
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active

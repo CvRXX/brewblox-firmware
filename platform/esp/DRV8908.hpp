@@ -64,8 +64,11 @@ public:
     hal_spi::error_t readRegister(RegAddr address, uint8_t& val) const;
     hal_spi::error_t writeRegister(RegAddr address, uint8_t val);
 
-    Status status() const
+    Status status(bool update = false) const
     {
+        if (update) {
+            readRegister(RegAddr::IC_STAT, _status);
+        }
         Status s;
         s.all = _status;
         return s;

@@ -93,10 +93,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, channels_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, moduleposition_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, modulestatus_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pullup_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pullupdesired_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pullupstatus_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pullupwhenactive_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pullupwheninactive_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pulldown_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pulldowndesired_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pulldownstatus_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pulldownwhenactive_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pulldownwheninactive_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pullupovercurrent_),
@@ -145,43 +147,45 @@ void AddDescriptorsImpl() {
       "lStatusB\006\212\265\030\002(\001\022+\n\006config\030\005 \001(\0162\023.blox.C"
       "hannelConfigB\006\212\265\030\002(\001\022)\n\005state\030\006 \001(\0162\022.bl"
       "ox.DigitalStateB\006\212\265\030\002(\001\022\034\n\007pwmDuty\030\007 \001(\005"
-      "B\013\212\265\030\002(\001\222\?\0028\020\"\376\004\n\021OneWireGpioModule\0220\n\010c"
+      "B\013\212\265\030\002(\001\222\?\0028\020\"\340\005\n\021OneWireGpioModule\0220\n\010c"
       "hannels\030\001 \003(\0132\027.blox.GpioModuleChannelB\005"
       "\222\?\002\020\010\022\035\n\016modulePosition\030\002 \001(\rB\005\222\?\0028\010\022!\n\014"
-      "moduleStatus\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022!\n\006pullU"
-      "p\030\004 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022+\n\020pullUpWhen"
-      "Active\030\005 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022pullU"
-      "pWhenInactive\030\006 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022#"
-      "\n\010pullDown\030\007 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022p"
-      "ullDownWhenActive\030\010 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002"
-      "P\001\022/\n\024pullDownWhenInactive\030\t \001(\rB\021\212\265\030\002(\001"
-      "\222\?\0028\010\212\265\030\002P\001\022,\n\021pullUpOverCurrent\030\n \001(\rB\021"
-      "\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022.\n\023pullDownOverCurrent"
-      "\030\013 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022)\n\016pullUpOpenL"
-      "oad\030\014 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022+\n\020pullDown"
-      "OpenLoad\030\r \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\021mod"
-      "uleStatusClear\030\016 \001(\rB\013\222\?\0028\010\212\265\030\002P\001:\023\212\265\030\003\030"
-      "\305\002\212\265\030\002H\n\212\265\030\002H\014*\307\003\n\016GpioDeviceType\022\010\n\004NON"
-      "E\020\000\022\017\n\013TWO_PIN_SSR\020\001\022\017\n\013ONE_PIN_SSR\020\002\022#\n"
-      "\037SINGLE_PIN_COIL_TO_EXTERNAL_GND\020\003\022#\n\037SI"
-      "NGLE_PIN_COIL_TO_EXTERNAL_PWR\020\004\022\020\n\014TWO_P"
-      "IN_COIL\020\005\022\032\n\026TWO_PIN_COIL_PUSH_PULL\020\006\022 \n"
-      "\034TWO_PIN_MOTOR_UNIDIRECTIONAL\020\007\022\036\n\032SINGL"
-      "E_PIN_MOTOR_HIGH_SIDE\020\010\022\035\n\031SINGLE_PIN_MO"
-      "TOR_LOW_SIDE\020\t\022\037\n\033TWO_PIN_MOTOR_BIDIRECT"
-      "IONAL\020\n\022\030\n\024TWO_PIN_SWITCH_INPUT\020\013\022\032\n\026SWI"
-      "TCH_TO_EXTERNAL_GND\020\014\022\021\n\rSWITCH_TO_PWR\020\r"
-      "\022\"\n\036POWERED_SWITCH_TO_EXTERNAL_GND\020\016\022\"\n\036"
-      "POWERED_SWITCH_TO_EXTERNAL_PWR\020\017*\316\001\n\rCha"
-      "nnelStatus\022\013\n\007UNKNOWN\020\000\022\017\n\013OPERATIONAL\020\001"
-      "\022\017\n\013OVERCURRENT\020\002\022\r\n\tOPEN_LOAD\020\003\022\020\n\014UNDE"
-      "RVOLTAGE\020\004\022\017\n\013OVERVOLTAGE\020\005\022\034\n\030OVERTEMPE"
-      "RATURE_SHUTDOWN\020\006\022\033\n\027OVERTEMPERATURE_WAR"
-      "NING\020\007\022\022\n\016POWER_ON_RESET\020\010\022\r\n\tSPI_ERROR\020"
-      "\tb\006proto3"
+      "moduleStatus\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022(\n\rpullU"
+      "pDesired\030\004 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\'\n\014pul"
+      "lUpStatus\030\005 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022+\n\020pu"
+      "llUpWhenActive\030\006 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022"
+      "-\n\022pullUpWhenInactive\030\007 \001(\rB\021\212\265\030\002(\001\222\?\0028\010"
+      "\212\265\030\002P\001\022*\n\017pullDownDesired\030\010 \001(\rB\021\212\265\030\002(\001\222"
+      "\?\0028\010\212\265\030\002P\001\022)\n\016pullDownStatus\030\t \001(\rB\021\212\265\030\002"
+      "(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022pullDownWhenActive\030\n \001("
+      "\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022/\n\024pullDownWhenInac"
+      "tive\030\013 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022,\n\021pullUpO"
+      "verCurrent\030\014 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022.\n\023p"
+      "ullDownOverCurrent\030\r \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030"
+      "\002P\001\022)\n\016pullUpOpenLoad\030\016 \001(\rB\021\212\265\030\002(\001\222\?\0028\010"
+      "\212\265\030\002P\001\022+\n\020pullDownOpenLoad\030\017 \001(\rB\021\212\265\030\002(\001"
+      "\222\?\0028\010\212\265\030\002P\001\022&\n\021moduleStatusClear\030\020 \001(\rB\013"
+      "\222\?\0028\010\212\265\030\002P\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n\212\265\030\002H\014*\307\003\n\016Gpi"
+      "oDeviceType\022\010\n\004NONE\020\000\022\017\n\013TWO_PIN_SSR\020\001\022\017"
+      "\n\013ONE_PIN_SSR\020\002\022#\n\037SINGLE_PIN_COIL_TO_EX"
+      "TERNAL_GND\020\003\022#\n\037SINGLE_PIN_COIL_TO_EXTER"
+      "NAL_PWR\020\004\022\020\n\014TWO_PIN_COIL\020\005\022\032\n\026TWO_PIN_C"
+      "OIL_PUSH_PULL\020\006\022 \n\034TWO_PIN_MOTOR_UNIDIRE"
+      "CTIONAL\020\007\022\036\n\032SINGLE_PIN_MOTOR_HIGH_SIDE\020"
+      "\010\022\035\n\031SINGLE_PIN_MOTOR_LOW_SIDE\020\t\022\037\n\033TWO_"
+      "PIN_MOTOR_BIDIRECTIONAL\020\n\022\030\n\024TWO_PIN_SWI"
+      "TCH_INPUT\020\013\022\032\n\026SWITCH_TO_EXTERNAL_GND\020\014\022"
+      "\021\n\rSWITCH_TO_PWR\020\r\022\"\n\036POWERED_SWITCH_TO_"
+      "EXTERNAL_GND\020\016\022\"\n\036POWERED_SWITCH_TO_EXTE"
+      "RNAL_PWR\020\017*\316\001\n\rChannelStatus\022\013\n\007UNKNOWN\020"
+      "\000\022\017\n\013OPERATIONAL\020\001\022\017\n\013OVERCURRENT\020\002\022\r\n\tO"
+      "PEN_LOAD\020\003\022\020\n\014UNDERVOLTAGE\020\004\022\017\n\013OVERVOLT"
+      "AGE\020\005\022\034\n\030OVERTEMPERATURE_SHUTDOWN\020\006\022\033\n\027O"
+      "VERTEMPERATURE_WARNING\020\007\022\022\n\016POWER_ON_RES"
+      "ET\020\010\022\r\n\tSPI_ERROR\020\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1689);
+      descriptor, 1787);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireGpioModule_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -713,10 +717,12 @@ void OneWireGpioModule::InitAsDefaultInstance() {
 const int OneWireGpioModule::kChannelsFieldNumber;
 const int OneWireGpioModule::kModulePositionFieldNumber;
 const int OneWireGpioModule::kModuleStatusFieldNumber;
-const int OneWireGpioModule::kPullUpFieldNumber;
+const int OneWireGpioModule::kPullUpDesiredFieldNumber;
+const int OneWireGpioModule::kPullUpStatusFieldNumber;
 const int OneWireGpioModule::kPullUpWhenActiveFieldNumber;
 const int OneWireGpioModule::kPullUpWhenInactiveFieldNumber;
-const int OneWireGpioModule::kPullDownFieldNumber;
+const int OneWireGpioModule::kPullDownDesiredFieldNumber;
+const int OneWireGpioModule::kPullDownStatusFieldNumber;
 const int OneWireGpioModule::kPullDownWhenActiveFieldNumber;
 const int OneWireGpioModule::kPullDownWhenInactiveFieldNumber;
 const int OneWireGpioModule::kPullUpOverCurrentFieldNumber;
@@ -791,7 +797,7 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox.OneWireGpioModule)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -835,24 +841,38 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullUp = 4 [(.nanopb_test) = {
+      // uint32 pullUpDesired = 4 [(.nanopb_test) = {
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &pullup_)));
+                 input, &pullupdesired_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // uint32 pullUpWhenActive = 5 [(.nanopb_test) = {
+      // uint32 pullUpStatus = 5 [(.nanopb_test) = {
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &pullupstatus_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -863,10 +883,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullUpWhenInactive = 6 [(.nanopb_test) = {
-      case 6: {
+      // uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -877,24 +897,38 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullDown = 7 [(.nanopb_test) = {
-      case 7: {
+      // uint32 pullDownDesired = 8 [(.nanopb_test) = {
+      case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &pulldown_)));
+                 input, &pulldowndesired_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // uint32 pullDownWhenActive = 8 [(.nanopb_test) = {
-      case 8: {
+      // uint32 pullDownStatus = 9 [(.nanopb_test) = {
+      case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &pulldownstatus_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -905,10 +939,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullDownWhenInactive = 9 [(.nanopb_test) = {
-      case 9: {
+      // uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
+      case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -919,10 +953,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullUpOverCurrent = 10 [(.nanopb_test) = {
-      case 10: {
+      // uint32 pullUpOverCurrent = 12 [(.nanopb_test) = {
+      case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -933,10 +967,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullDownOverCurrent = 11 [(.nanopb_test) = {
-      case 11: {
+      // uint32 pullDownOverCurrent = 13 [(.nanopb_test) = {
+      case 13: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -947,10 +981,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullUpOpenLoad = 12 [(.nanopb_test) = {
-      case 12: {
+      // uint32 pullUpOpenLoad = 14 [(.nanopb_test) = {
+      case 14: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -961,10 +995,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 pullDownOpenLoad = 13 [(.nanopb_test) = {
-      case 13: {
+      // uint32 pullDownOpenLoad = 15 [(.nanopb_test) = {
+      case 15: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(120u /* 120 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -975,10 +1009,10 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 moduleStatusClear = 14 [(.nanopb_test) = {
-      case 14: {
+      // uint32 moduleStatusClear = 16 [(.nanopb_test) = {
+      case 16: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(128u /* 128 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -1034,59 +1068,69 @@ void OneWireGpioModule::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->modulestatus(), output);
   }
 
-  // uint32 pullUp = 4 [(.nanopb_test) = {
-  if (this->pullup() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->pullup(), output);
+  // uint32 pullUpDesired = 4 [(.nanopb_test) = {
+  if (this->pullupdesired() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->pullupdesired(), output);
   }
 
-  // uint32 pullUpWhenActive = 5 [(.nanopb_test) = {
+  // uint32 pullUpStatus = 5 [(.nanopb_test) = {
+  if (this->pullupstatus() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->pullupstatus(), output);
+  }
+
+  // uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
   if (this->pullupwhenactive() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->pullupwhenactive(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->pullupwhenactive(), output);
   }
 
-  // uint32 pullUpWhenInactive = 6 [(.nanopb_test) = {
+  // uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
   if (this->pullupwheninactive() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->pullupwheninactive(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->pullupwheninactive(), output);
   }
 
-  // uint32 pullDown = 7 [(.nanopb_test) = {
-  if (this->pulldown() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->pulldown(), output);
+  // uint32 pullDownDesired = 8 [(.nanopb_test) = {
+  if (this->pulldowndesired() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->pulldowndesired(), output);
   }
 
-  // uint32 pullDownWhenActive = 8 [(.nanopb_test) = {
+  // uint32 pullDownStatus = 9 [(.nanopb_test) = {
+  if (this->pulldownstatus() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->pulldownstatus(), output);
+  }
+
+  // uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
   if (this->pulldownwhenactive() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->pulldownwhenactive(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->pulldownwhenactive(), output);
   }
 
-  // uint32 pullDownWhenInactive = 9 [(.nanopb_test) = {
+  // uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
   if (this->pulldownwheninactive() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->pulldownwheninactive(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->pulldownwheninactive(), output);
   }
 
-  // uint32 pullUpOverCurrent = 10 [(.nanopb_test) = {
+  // uint32 pullUpOverCurrent = 12 [(.nanopb_test) = {
   if (this->pullupovercurrent() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->pullupovercurrent(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->pullupovercurrent(), output);
   }
 
-  // uint32 pullDownOverCurrent = 11 [(.nanopb_test) = {
+  // uint32 pullDownOverCurrent = 13 [(.nanopb_test) = {
   if (this->pulldownovercurrent() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->pulldownovercurrent(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->pulldownovercurrent(), output);
   }
 
-  // uint32 pullUpOpenLoad = 12 [(.nanopb_test) = {
+  // uint32 pullUpOpenLoad = 14 [(.nanopb_test) = {
   if (this->pullupopenload() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->pullupopenload(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(14, this->pullupopenload(), output);
   }
 
-  // uint32 pullDownOpenLoad = 13 [(.nanopb_test) = {
+  // uint32 pullDownOpenLoad = 15 [(.nanopb_test) = {
   if (this->pulldownopenload() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->pulldownopenload(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(15, this->pulldownopenload(), output);
   }
 
-  // uint32 moduleStatusClear = 14 [(.nanopb_test) = {
+  // uint32 moduleStatusClear = 16 [(.nanopb_test) = {
   if (this->modulestatusclear() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(14, this->modulestatusclear(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(16, this->modulestatusclear(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1121,59 +1165,69 @@ void OneWireGpioModule::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->modulestatus(), target);
   }
 
-  // uint32 pullUp = 4 [(.nanopb_test) = {
-  if (this->pullup() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->pullup(), target);
+  // uint32 pullUpDesired = 4 [(.nanopb_test) = {
+  if (this->pullupdesired() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->pullupdesired(), target);
   }
 
-  // uint32 pullUpWhenActive = 5 [(.nanopb_test) = {
+  // uint32 pullUpStatus = 5 [(.nanopb_test) = {
+  if (this->pullupstatus() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->pullupstatus(), target);
+  }
+
+  // uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
   if (this->pullupwhenactive() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->pullupwhenactive(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->pullupwhenactive(), target);
   }
 
-  // uint32 pullUpWhenInactive = 6 [(.nanopb_test) = {
+  // uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
   if (this->pullupwheninactive() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->pullupwheninactive(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->pullupwheninactive(), target);
   }
 
-  // uint32 pullDown = 7 [(.nanopb_test) = {
-  if (this->pulldown() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->pulldown(), target);
+  // uint32 pullDownDesired = 8 [(.nanopb_test) = {
+  if (this->pulldowndesired() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->pulldowndesired(), target);
   }
 
-  // uint32 pullDownWhenActive = 8 [(.nanopb_test) = {
+  // uint32 pullDownStatus = 9 [(.nanopb_test) = {
+  if (this->pulldownstatus() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->pulldownstatus(), target);
+  }
+
+  // uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
   if (this->pulldownwhenactive() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->pulldownwhenactive(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->pulldownwhenactive(), target);
   }
 
-  // uint32 pullDownWhenInactive = 9 [(.nanopb_test) = {
+  // uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
   if (this->pulldownwheninactive() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->pulldownwheninactive(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->pulldownwheninactive(), target);
   }
 
-  // uint32 pullUpOverCurrent = 10 [(.nanopb_test) = {
+  // uint32 pullUpOverCurrent = 12 [(.nanopb_test) = {
   if (this->pullupovercurrent() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->pullupovercurrent(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->pullupovercurrent(), target);
   }
 
-  // uint32 pullDownOverCurrent = 11 [(.nanopb_test) = {
+  // uint32 pullDownOverCurrent = 13 [(.nanopb_test) = {
   if (this->pulldownovercurrent() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->pulldownovercurrent(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(13, this->pulldownovercurrent(), target);
   }
 
-  // uint32 pullUpOpenLoad = 12 [(.nanopb_test) = {
+  // uint32 pullUpOpenLoad = 14 [(.nanopb_test) = {
   if (this->pullupopenload() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->pullupopenload(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(14, this->pullupopenload(), target);
   }
 
-  // uint32 pullDownOpenLoad = 13 [(.nanopb_test) = {
+  // uint32 pullDownOpenLoad = 15 [(.nanopb_test) = {
   if (this->pulldownopenload() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(13, this->pulldownopenload(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(15, this->pulldownopenload(), target);
   }
 
-  // uint32 moduleStatusClear = 14 [(.nanopb_test) = {
+  // uint32 moduleStatusClear = 16 [(.nanopb_test) = {
   if (this->modulestatusclear() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(14, this->modulestatusclear(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(16, this->modulestatusclear(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1218,79 +1272,93 @@ size_t OneWireGpioModule::ByteSizeLong() const {
         this->modulestatus());
   }
 
-  // uint32 pullUp = 4 [(.nanopb_test) = {
-  if (this->pullup() != 0) {
+  // uint32 pullUpDesired = 4 [(.nanopb_test) = {
+  if (this->pullupdesired() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->pullup());
+        this->pullupdesired());
   }
 
-  // uint32 pullUpWhenActive = 5 [(.nanopb_test) = {
+  // uint32 pullUpStatus = 5 [(.nanopb_test) = {
+  if (this->pullupstatus() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->pullupstatus());
+  }
+
+  // uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
   if (this->pullupwhenactive() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pullupwhenactive());
   }
 
-  // uint32 pullUpWhenInactive = 6 [(.nanopb_test) = {
+  // uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
   if (this->pullupwheninactive() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pullupwheninactive());
   }
 
-  // uint32 pullDown = 7 [(.nanopb_test) = {
-  if (this->pulldown() != 0) {
+  // uint32 pullDownDesired = 8 [(.nanopb_test) = {
+  if (this->pulldowndesired() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->pulldown());
+        this->pulldowndesired());
   }
 
-  // uint32 pullDownWhenActive = 8 [(.nanopb_test) = {
+  // uint32 pullDownStatus = 9 [(.nanopb_test) = {
+  if (this->pulldownstatus() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->pulldownstatus());
+  }
+
+  // uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
   if (this->pulldownwhenactive() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pulldownwhenactive());
   }
 
-  // uint32 pullDownWhenInactive = 9 [(.nanopb_test) = {
+  // uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
   if (this->pulldownwheninactive() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pulldownwheninactive());
   }
 
-  // uint32 pullUpOverCurrent = 10 [(.nanopb_test) = {
+  // uint32 pullUpOverCurrent = 12 [(.nanopb_test) = {
   if (this->pullupovercurrent() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pullupovercurrent());
   }
 
-  // uint32 pullDownOverCurrent = 11 [(.nanopb_test) = {
+  // uint32 pullDownOverCurrent = 13 [(.nanopb_test) = {
   if (this->pulldownovercurrent() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pulldownovercurrent());
   }
 
-  // uint32 pullUpOpenLoad = 12 [(.nanopb_test) = {
+  // uint32 pullUpOpenLoad = 14 [(.nanopb_test) = {
   if (this->pullupopenload() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pullupopenload());
   }
 
-  // uint32 pullDownOpenLoad = 13 [(.nanopb_test) = {
+  // uint32 pullDownOpenLoad = 15 [(.nanopb_test) = {
   if (this->pulldownopenload() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pulldownopenload());
   }
 
-  // uint32 moduleStatusClear = 14 [(.nanopb_test) = {
+  // uint32 moduleStatusClear = 16 [(.nanopb_test) = {
   if (this->modulestatusclear() != 0) {
-    total_size += 1 +
+    total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->modulestatusclear());
   }
@@ -1329,8 +1397,11 @@ void OneWireGpioModule::MergeFrom(const OneWireGpioModule& from) {
   if (from.modulestatus() != 0) {
     set_modulestatus(from.modulestatus());
   }
-  if (from.pullup() != 0) {
-    set_pullup(from.pullup());
+  if (from.pullupdesired() != 0) {
+    set_pullupdesired(from.pullupdesired());
+  }
+  if (from.pullupstatus() != 0) {
+    set_pullupstatus(from.pullupstatus());
   }
   if (from.pullupwhenactive() != 0) {
     set_pullupwhenactive(from.pullupwhenactive());
@@ -1338,8 +1409,11 @@ void OneWireGpioModule::MergeFrom(const OneWireGpioModule& from) {
   if (from.pullupwheninactive() != 0) {
     set_pullupwheninactive(from.pullupwheninactive());
   }
-  if (from.pulldown() != 0) {
-    set_pulldown(from.pulldown());
+  if (from.pulldowndesired() != 0) {
+    set_pulldowndesired(from.pulldowndesired());
+  }
+  if (from.pulldownstatus() != 0) {
+    set_pulldownstatus(from.pulldownstatus());
   }
   if (from.pulldownwhenactive() != 0) {
     set_pulldownwhenactive(from.pulldownwhenactive());
@@ -1391,10 +1465,12 @@ void OneWireGpioModule::InternalSwap(OneWireGpioModule* other) {
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   swap(moduleposition_, other->moduleposition_);
   swap(modulestatus_, other->modulestatus_);
-  swap(pullup_, other->pullup_);
+  swap(pullupdesired_, other->pullupdesired_);
+  swap(pullupstatus_, other->pullupstatus_);
   swap(pullupwhenactive_, other->pullupwhenactive_);
   swap(pullupwheninactive_, other->pullupwheninactive_);
-  swap(pulldown_, other->pulldown_);
+  swap(pulldowndesired_, other->pulldowndesired_);
+  swap(pulldownstatus_, other->pulldownstatus_);
   swap(pulldownwhenactive_, other->pulldownwhenactive_);
   swap(pulldownwheninactive_, other->pulldownwheninactive_);
   swap(pullupovercurrent_, other->pullupovercurrent_);

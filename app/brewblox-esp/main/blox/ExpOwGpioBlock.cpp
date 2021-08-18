@@ -75,10 +75,12 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 
     if (includeNotPersisted) {
         message.moduleStatus = drivers.status().all;
-        message.pullUp = drivers.pullUp();
+        message.pullUpDesired = drivers.pullUpDesired();
+        message.pullUpStatus = drivers.pullUpStatus();
         message.pullUpWhenActive = drivers.pullUpWhenActive();
         message.pullUpWhenInactive = drivers.pullUpWhenInactive();
-        message.pullDown = drivers.pullDown();
+        message.pullDownDesired = drivers.pullDownDesired();
+        message.pullDownStatus = drivers.pullDownStatus();
         message.pullDownWhenActive = drivers.pullDownWhenActive();
         message.pullDownWhenInactive = drivers.pullDownWhenInactive();
         message.pullUpOverCurrent = drivers.pullUpOverCurrent();
