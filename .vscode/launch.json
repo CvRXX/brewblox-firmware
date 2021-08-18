@@ -64,6 +64,23 @@
       "miDebuggerArgs": "-x /home/elco/repos/firmware/tools/gcc-pretty.gdbinit",
     },
     {
+      "name": "gdb esp app test",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/app/brewblox-esp/test/build/brewblox_esp_test_runner",
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "LSAN_OPTIONS",
+          "value": "verbosity=1:log_threads=1"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerArgs": "-x /home/elco/repos/firmware/tools/gcc-pretty.gdbinit",
+    },
+    {
       "name": "gdb controlbox test",
       "type": "cppdbg",
       "request": "launch",

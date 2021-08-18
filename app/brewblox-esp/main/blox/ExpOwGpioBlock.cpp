@@ -31,10 +31,10 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
         drivers.modulePosition(newData.modulePosition);
 
         // first dedode to new array, so deleted channels are overwritten with an unused channel
-        std::array<ExpOwGpio::FlexChannel, 8> newChannels;
+        std::array<ExpOwGpio::FlexChannel, 8> newChannels{};
 
         // copy variable length array from proto to positions
-        for (uint8_t c = 0; c < newData.channels_count; c++) {
+        for (uint8_t c = 0; c < newData.channels_count && c < 8; c++) {
             if (newData.channels[c].id > 0 && newData.channels[c].id <= 8) {
                 uint8_t idx = newData.channels[c].id - 1;
                 newChannels[idx] = ExpOwGpio::FlexChannel(

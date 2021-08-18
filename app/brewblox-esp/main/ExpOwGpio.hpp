@@ -20,6 +20,7 @@ public:
         , drv(spi)
         , owDriver(lower_address)
         , ow(owDriver)
+        , flexChannels{}
     {
     }
     virtual ~ExpOwGpio()
