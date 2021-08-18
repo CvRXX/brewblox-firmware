@@ -172,15 +172,16 @@ void AddDescriptorsImpl() {
       "IONAL\020\n\022\030\n\024TWO_PIN_SWITCH_INPUT\020\013\022\032\n\026SWI"
       "TCH_TO_EXTERNAL_GND\020\014\022\021\n\rSWITCH_TO_PWR\020\r"
       "\022\"\n\036POWERED_SWITCH_TO_EXTERNAL_GND\020\016\022\"\n\036"
-      "POWERED_SWITCH_TO_EXTERNAL_PWR\020\017*\277\001\n\rCha"
+      "POWERED_SWITCH_TO_EXTERNAL_PWR\020\017*\316\001\n\rCha"
       "nnelStatus\022\013\n\007UNKNOWN\020\000\022\017\n\013OPERATIONAL\020\001"
       "\022\017\n\013OVERCURRENT\020\002\022\r\n\tOPEN_LOAD\020\003\022\020\n\014UNDE"
       "RVOLTAGE\020\004\022\017\n\013OVERVOLTAGE\020\005\022\034\n\030OVERTEMPE"
       "RATURE_SHUTDOWN\020\006\022\033\n\027OVERTEMPERATURE_WAR"
-      "NING\020\007\022\022\n\016POWER_ON_RESET\020\010b\006proto3"
+      "NING\020\007\022\022\n\016POWER_ON_RESET\020\010\022\r\n\tSPI_ERROR\020"
+      "\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1674);
+      descriptor, 1689);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireGpioModule_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -243,6 +244,7 @@ bool ChannelStatus_IsValid(int value) {
     case 6:
     case 7:
     case 8:
+    case 9:
       return true;
     default:
       return false;

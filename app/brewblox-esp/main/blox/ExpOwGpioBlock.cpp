@@ -121,7 +121,8 @@ void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
 
     if (iface == cbox::interfaceId<IoArray>()) {
         // return the member that implements the interface in this case
-        IoArray* ptr = &drivers;
+        ExpOwGpio* drvPtr = &drivers;
+        IoArray* ptr = drvPtr; // get base class ptr
         return ptr;
     }
     if (iface == cbox::interfaceId<OneWire>()) {
@@ -131,7 +132,8 @@ void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
 
     if (iface == cbox::interfaceId<IoModule>()) {
         // return the member that implements the interface in this case
-        IoModule* ptr = &drivers;
+        ExpOwGpio* drvPtr = &drivers;
+        IoModule* ptr = drvPtr; // get base class ptr
         return ptr;
     }
 

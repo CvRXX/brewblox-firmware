@@ -49,11 +49,12 @@ typedef enum _blox_ChannelStatus {
     blox_ChannelStatus_OVERVOLTAGE = 5,
     blox_ChannelStatus_OVERTEMPERATURE_SHUTDOWN = 6,
     blox_ChannelStatus_OVERTEMPERATURE_WARNING = 7,
-    blox_ChannelStatus_POWER_ON_RESET = 8
+    blox_ChannelStatus_POWER_ON_RESET = 8,
+    blox_ChannelStatus_SPI_ERROR = 9
 } blox_ChannelStatus;
 #define _blox_ChannelStatus_MIN blox_ChannelStatus_UNKNOWN
-#define _blox_ChannelStatus_MAX blox_ChannelStatus_POWER_ON_RESET
-#define _blox_ChannelStatus_ARRAYSIZE ((blox_ChannelStatus)(blox_ChannelStatus_POWER_ON_RESET+1))
+#define _blox_ChannelStatus_MAX blox_ChannelStatus_SPI_ERROR
+#define _blox_ChannelStatus_ARRAYSIZE ((blox_ChannelStatus)(blox_ChannelStatus_SPI_ERROR+1))
 
 /* Struct definitions */
 typedef struct _blox_GpioModuleChannel {

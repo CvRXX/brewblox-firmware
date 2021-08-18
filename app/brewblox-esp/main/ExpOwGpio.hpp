@@ -40,8 +40,8 @@ public:
     {
         expander.set_outputs(0b11111101); // 24V off
         expander.set_config(0b11111000);
-        // disable OLD
         assert_cs();
+        // disable OLD
         // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
         drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
         // set overvoltage threshold to 33V and clear all faults

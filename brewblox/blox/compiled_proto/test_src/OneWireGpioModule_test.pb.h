@@ -110,12 +110,13 @@ enum ChannelStatus {
   OVERTEMPERATURE_SHUTDOWN = 6,
   OVERTEMPERATURE_WARNING = 7,
   POWER_ON_RESET = 8,
+  SPI_ERROR = 9,
   ChannelStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   ChannelStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool ChannelStatus_IsValid(int value);
 const ChannelStatus ChannelStatus_MIN = UNKNOWN;
-const ChannelStatus ChannelStatus_MAX = POWER_ON_RESET;
+const ChannelStatus ChannelStatus_MAX = SPI_ERROR;
 const int ChannelStatus_ARRAYSIZE = ChannelStatus_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* ChannelStatus_descriptor();

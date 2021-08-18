@@ -255,14 +255,14 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
 void ExpOwGpio::update()
 {
     auto drv_status = status();
-    if (drv_status.reserved) {
+    if (drv_status.bits.spi_error || drv_status.bits.power_on_reset) {
         init();
         drv_status = status();
     }
 
-    if (!(drv_status.reserved)) {
+    if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
         // status is valid
-        if (drv_status.openload) {
+        if (drv_status.bits.openload) {
             // open load is detected
             uint8_t old1 = 0;
             uint8_t old2 = 0;
@@ -277,7 +277,7 @@ void ExpOwGpio::update()
         } else {
             old_status.all = 0;
         }
-        if (drv_status.overcurrent) {
+        if (drv_status.bits.overcurrent) {
             // status is valid and overcurrent is detected
             uint8_t ocp1 = 0;
             uint8_t ocp2 = 0;
@@ -296,38 +296,38 @@ void ExpOwGpio::update()
 blox_ChannelStatus ExpOwGpio::channelStatus(uint8_t channel) const
 {
     if (!channel || channel > 8) {
-        return blox_ChannelStatus_UNKNOWN;
+        return blox_ChannelStatus_SPI_ERROR;
     }
 
     auto driverStatus = status();
-    if (driverStatus.reserved) {
+    if (driverStatus.bits.spi_error) {
         return blox_ChannelStatus_UNKNOWN;
     }
-    if (driverStatus.power_on_reset) {
+    if (driverStatus.bits.power_on_reset) {
         return blox_ChannelStatus_POWER_ON_RESET;
     }
-    if (driverStatus.overtemperature_shutdown) {
+    if (driverStatus.bits.overtemperature_shutdown) {
         return blox_ChannelStatus_OVERTEMPERATURE_SHUTDOWN;
     }
-    if (driverStatus.overvoltage) {
+    if (driverStatus.bits.overvoltage) {
         return blox_ChannelStatus_OVERVOLTAGE;
     }
-    if (driverStatus.undervoltage) {
+    if (driverStatus.bits.undervoltage) {
         return blox_ChannelStatus_UNDERVOLTAGE;
     }
     // process open load and overcurrent before overtemperature, so they are not masked
     uint8_t idx = channel - 1;
-    if (driverStatus.openload) {
+    if (driverStatus.bits.openload) {
         if (flexChannels[idx].pins_mask.all & old_status.all) {
             return blox_ChannelStatus_OPEN_LOAD;
         }
     }
-    if (driverStatus.overcurrent) {
+    if (driverStatus.bits.overcurrent) {
         if (flexChannels[idx].pins_mask.all & ocp_status.all) {
             return blox_ChannelStatus_OVERCURRENT;
         }
     }
-    if (driverStatus.overtemperature_warning) {
+    if (driverStatus.bits.overtemperature_warning) {
         return blox_ChannelStatus_OVERTEMPERATURE_WARNING;
     }
     return blox_ChannelStatus_OPERATIONAL;
@@ -455,6 +455,7 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
         // set mask bits in shared masks
         when_inactive_mask.apply(c.pins_mask, ChanBitsInternal{when_inactive_external});
         when_active_mask.apply(c.pins_mask, ChanBitsInternal{when_active_external});
+        writeChannelImpl(channel, ChannelConfig::DRIVING_OFF);
     }
 }
 
