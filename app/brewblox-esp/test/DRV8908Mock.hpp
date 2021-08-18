@@ -25,6 +25,7 @@ public:
             slaveToMaster.push_back(registers[address]);
             if (isRead) {
             } else {
+                assert(address < registers.size());
                 registers[address] = byte2;
             }
         }

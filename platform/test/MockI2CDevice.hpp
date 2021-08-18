@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <deque>
+#include <memory>
 
 class MockI2CDevice {
 public:
@@ -10,36 +11,30 @@ public:
     {
     }
 
-    void read(uint8_t data)
-    {
-        masterToSlave.push_back(data);
-    }
-
-    void read(const uint8_t* data, size_t size)
+    void read(uint8_t* data, size_t size)
     {
         for (size_t i = 0; i < size; i++) {
-            read(data[i]);
+            data[i] = sdaBytes.front();
+            sdaBytes.pop_front();
         }
-    }
-
-    void write(uint8_t data)
-    {
-        slaveToMaster.push_back(data);
-        process();
     }
 
     void write(const uint8_t* data, size_t size)
     {
+        sdaBytes.clear();
         for (size_t i = 0; i < size; i++) {
-            write(data[i]);
+            sdaBytes.push_back(data[i]);
         }
+        process();
     }
 
     virtual void process() = 0;
 
     uint8_t address;
 
-private:
-    std::deque<uint8_t> masterToSlave;
-    std::deque<uint8_t> slaveToMaster;
+protected:
+    std::deque<uint8_t> sdaBytes;
 };
+
+void addMockI2CDevice(std::unique_ptr<MockI2CDevice>&& device);
+void removeMockI2CDevice(uint8_t address);

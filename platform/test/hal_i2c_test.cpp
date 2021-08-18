@@ -46,3 +46,17 @@ hal_i2c_err_t hal_i2c_detect(uint8_t address)
     }
     return 1;
 }
+
+void addMockI2CDevice(std::unique_ptr<MockI2CDevice>&& device)
+
+{
+    mockI2CDevices.push_back(std::move(device));
+}
+
+void removeMockI2CDevice(uint8_t address)
+{
+    mockI2CDevices.erase(std::remove_if(
+        mockI2CDevices.begin(), mockI2CDevices.end(), [address](const std::unique_ptr<MockI2CDevice>& d) {
+            return d->address == address;
+        }));
+}
