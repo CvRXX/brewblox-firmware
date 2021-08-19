@@ -188,9 +188,9 @@ public:
 
     void update();
 
-    DRV8908::Status status(bool update = false) const
+    DRV8908::Status status() const
     {
-        return drv.status(update);
+        return drv.status();
     }
 
     uint8_t pullUpDesired() const
@@ -269,13 +269,18 @@ private:
     {
         spi.aquire_bus();
         expander.set_output(0, false);
-        hal_delay_ms(1);
+        hal_delay_ms(10);
     }
     void deassert_cs()
     {
         expander.set_output(0, true);
         spi.release_bus();
     }
+
+    void writeDrvRegister(DRV8908::RegAddr addr, uint8_t value);
+    uint8_t readDrvRegister(DRV8908::RegAddr addr);
+    void write2DrvRegisters(DRV8908::RegAddr addr, uint16_t value);
+    uint16_t read2DrvRegisters(DRV8908::RegAddr addr);
 
     SpiDevice& spi;
     TCA9538 expander;

@@ -28,12 +28,12 @@ SCENARIO("writing registers of DRV8908")
 
     SpiDevice spi(
         hal_spi::Settings{
-            .spi_idx = 0,
-            .speed = 100000,
-            .queueSize = 1,
-            .ssPin = 1,
-            .mode = hal_spi::Settings::Mode::SPI_MODE1,
-            .bitOrder = hal_spi::Settings::BitOrder::MSBFIRST,
+            0,
+            100000,
+            1,
+            1,
+            hal_spi::Settings::Mode::SPI_MODE1,
+            hal_spi::Settings::BitOrder::MSBFIRST,
         });
 
     DRV8908 drv(spi);

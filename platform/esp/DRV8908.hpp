@@ -64,13 +64,10 @@ public:
     hal_spi::error_t readRegister(RegAddr address, uint8_t& val) const;
     hal_spi::error_t writeRegister(RegAddr address, uint8_t val);
 
-    Status status(bool update = false) const
+    Status status() const
     {
-        if (update) {
-            readRegister(RegAddr::IC_STAT, _status);
-        }
         Status s;
-        s.all = _status;
+        s.all = _status ^ 0x1; // toggle power-on-reset bit, so a 1 also means a fault
         return s;
     }
 

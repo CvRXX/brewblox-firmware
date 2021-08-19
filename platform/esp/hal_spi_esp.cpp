@@ -2,7 +2,6 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
-#include "esp_log.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
@@ -19,19 +18,17 @@ struct SpiHost {
     spi_bus_config_t config;
 };
 
-SpiHost spiHosts[1]
-    = {
-        {
-            SPI2_HOST,
-            {.mosi_io_num = 13,
-             .miso_io_num = 12,
-             .sclk_io_num = 14,
-             .quadwp_io_num = -1,
-             .quadhd_io_num = -1,
-             .max_transfer_sz = 0,
-             .flags = SPICOMMON_BUSFLAG_MASTER,
-             .intr_flags = 0},
-        }};
+SpiHost spiHosts[1] = {{
+    SPI2_HOST,
+    {.mosi_io_num = 13,
+     .miso_io_num = 12,
+     .sclk_io_num = 14,
+     .quadwp_io_num = -1,
+     .quadhd_io_num = -1,
+     .max_transfer_sz = 0,
+     .flags = SPICOMMON_BUSFLAG_MASTER,
+     .intr_flags = 0},
+}};
 
 spi_device_t* get_platform_ptr(Settings& settings)
 {
@@ -176,17 +173,12 @@ error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8
         .tx_buffer = tx,
         .rx_buffer = rx,
     };
-    ESP_LOGI("SPI WR before", "%u %u,%u,%u", tx[0], tx[1], rx[0], rx[1]);
-    auto err = spi_device_transmit(get_platform_ptr(settings), &trans);
-    ESP_LOGI("SPI WR after", "%u %u, %u %u", tx[0], tx[1], rx[0], rx[1]);
 
-    return err;
+    return spi_device_transmit(get_platform_ptr(settings), &trans);
 }
 
 void aquire_bus(Settings& settings)
 {
-    auto platform_ptr = get_platform_ptr(settings);
-    assert(platform_ptr);
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }
 void release_bus(Settings& settings)

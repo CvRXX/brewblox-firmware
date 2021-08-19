@@ -147,14 +147,12 @@ void ExpOwGpio::init_expander()
 
 void ExpOwGpio::init_driver()
 {
-    // disable OLD detect on all pins
-    drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
-    // disable shutdown on OLD globally (keep bridges operating when OLD is detected)
-    drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
-    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
-
     // set overvoltage threshold to 33V and clear all faults
-    drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
+    writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
+    // disable OLD detect on all pins
+    writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
+    // disable shutdown on OLD globally (keep bridges operating when OLD is detected)
+    writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
 }
 
 bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
@@ -263,6 +261,46 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     return true;
 }
 
+// writes 2 consecutive registers
+void ExpOwGpio::writeDrvRegister(DRV8908::RegAddr addr, uint8_t value)
+{
+    // CS must be toggled for every transfer!
+    // don't use drv.writeRegister directly
+    assert_cs();
+    drv.writeRegister(addr, value);
+    deassert_cs();
+}
+
+// reads 2 consecutive registers
+uint8_t ExpOwGpio::readDrvRegister(DRV8908::RegAddr addr)
+{
+    // CS must be toggled for every transfer!
+    // don't use drv.writeRegister directly
+    uint8_t value = 0xFF;
+    assert_cs();
+    drv.readRegister(addr, value);
+    deassert_cs();
+    return value;
+}
+
+// writes 2 consecutive registers
+void ExpOwGpio::write2DrvRegisters(DRV8908::RegAddr addr, uint16_t value)
+{
+    uint8_t lower = value & 0xFF;
+    uint8_t upper = (value >> 8) & 0xFF;
+
+    writeDrvRegister(addr, lower);
+    writeDrvRegister(DRV8908::RegAddr(uint8_t(addr) + 1), upper);
+}
+
+// reads 2 consecutive registers
+uint16_t ExpOwGpio::read2DrvRegisters(DRV8908::RegAddr addr)
+{
+    uint8_t lower = readDrvRegister(addr);
+    uint8_t upper = readDrvRegister(DRV8908::RegAddr(uint8_t(addr) + 1));
+    return (uint16_t(upper) << 8) + lower;
+}
+
 void ExpOwGpio::update()
 {
     auto drv_status = status();
@@ -277,55 +315,31 @@ void ExpOwGpio::update()
         if (initNeeded) {
             init_expander();
         }
-        assert_cs();
         if (initNeeded) {
             init_driver();
         }
 
-        drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.byte.byte1);
-        drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl_desired.bits.byte.byte2);
+        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
 
-        uint8_t op_ctrl_status1 = 0;
-        uint8_t op_ctrl_status2 = 0;
-        drv.readRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_status1);
-        drv.readRegister(DRV8908::RegAddr::OP_CTRL_2, op_ctrl_status2);
-        op_ctrl_status.bits.byte.byte1 = op_ctrl_status1;
-        op_ctrl_status.bits.byte.byte2 = op_ctrl_status2;
+        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
 
-        drv_status = status(true);
+        drv_status = status(); // use latest status returned during read of registers
 
         if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
             // status is valid
             if (true || drv_status.bits.openload) {
                 // open load is detected
-                uint8_t old1 = 0;
-                uint8_t old2 = 0;
-
-                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1));
-                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2));
-                drv.readRegister(DRV8908::RegAddr::OLD_STAT_1, old1);
-                drv.readRegister(DRV8908::RegAddr::OLD_STAT_2, old2);
-
-                old_status.bits.byte.byte1 = old1;
-                old_status.bits.byte.byte2 = old2;
+                old_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OLD_STAT_1);
             } else {
                 old_status.bits.all = 0;
             }
             if (true || drv_status.bits.overcurrent) {
                 // status is valid and overcurrent is detected
-                uint8_t ocp1 = 0;
-                uint8_t ocp2 = 0;
-                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1));
-                // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2));
-                drv.readRegister(DRV8908::RegAddr::OCP_STAT_1, ocp1);
-                drv.readRegister(DRV8908::RegAddr::OCP_STAT_2, ocp2);
-                ocp_status.bits.byte.byte1 = ocp1;
-                ocp_status.bits.byte.byte2 = ocp2;
+                ocp_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OCP_STAT_1);
             } else {
                 ocp_status.bits.all = 0;
             }
         }
-        deassert_cs();
     }
 }
 
