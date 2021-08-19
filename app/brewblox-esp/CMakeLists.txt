@@ -7,3 +7,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 project(brewblox_esp)
+
+idf_build_set_property(COMPILE_OPTIONS "-fdiagnostics-color=always" APPEND)

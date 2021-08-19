@@ -17,7 +17,7 @@ const pb_field_t blox_Trace_fields[4] = {
 };
 
 const pb_field_t blox_SysInfo_fields[9] = {
-    PB_FIELD(  1, FIXED_LENGTH_BYTES, SINGULAR, STATIC  , FIRST, blox_SysInfo, deviceId, deviceId, 0),
+    PB_FIELD(  1, BYTES   , SINGULAR, STATIC  , FIRST, blox_SysInfo, deviceId, deviceId, 0),
     PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo, version, deviceId, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo, platform, version, 0),
     PB_FIELD(  7, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo, protocolVersion, platform, 0),

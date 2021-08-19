@@ -6,7 +6,11 @@
 
 namespace http {
 namespace server {
-    typedef std::function<void(std::string& content)> uri_content_generator_t;
+    class request;
+    class reply;
+    class connection;
+
+    typedef std::function<void(const request& req, reply& reply)> uri_content_generator_t;
 
     class uri_handler {
     public:

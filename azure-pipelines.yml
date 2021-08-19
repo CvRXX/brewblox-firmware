@@ -165,6 +165,28 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
+      - task: DownloadSecureFile@1
+        name: espSigningKey
+        displayName: 'Download ESP binary signing certificate'
+        inputs:
+          secureFile: 'esp32_secure_boot_signing_key.pem'
+        condition: and(succeeded(), variables.BRANCH)
+
+      - bash: |
+          cp -f PLACEHOLDER_SIGNING_KEY.pem secure_boot_signing_key.pem
+        displayName: Use placeholder signing key
+        workingDirectory: app/brewblox-esp/
+        condition: and(succeeded(), not(variables.BRANCH))
+
+      - bash: |
+          echo "Using actual secure boot signing key"
+          sudo chown root:root $(espSigningKey.secureFilePath)
+          chmod a+r $(espSigningKey.secureFilePath)
+          sudo ln -s -t ./secure_boot_signing_key.pwm $(espSigningKey.secureFilePath)
+        displayName: Use real signing key
+        workingDirectory: app/brewblox-esp/
+        condition: and(succeeded(), variables.BRANCH)        
+
       - script: /opt/esp/entrypoint.sh idf.py build
         target: idf
         workingDirectory: app/brewblox-esp

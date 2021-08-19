@@ -62,6 +62,7 @@ enum DigitalState {
   STATE_INACTIVE = 0,
   STATE_ACTIVE = 1,
   STATE_UNKNOWN = 2,
+  STATE_REVERSE = 3,
   Inactive = 0,
   Active = 1,
   Unknown = 2,
@@ -70,7 +71,7 @@ enum DigitalState {
 };
 bool DigitalState_IsValid(int value);
 const DigitalState DigitalState_MIN = STATE_INACTIVE;
-const DigitalState DigitalState_MAX = STATE_UNKNOWN;
+const DigitalState DigitalState_MAX = STATE_REVERSE;
 const int DigitalState_ARRAYSIZE = DigitalState_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* DigitalState_descriptor();
