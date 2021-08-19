@@ -228,21 +228,22 @@ static void ota_task(void* pvParameter)
 
 static bool diagnostic(void)
 {
-    gpio_config_t io_conf;
-    io_conf.intr_type = GPIO_INTR_DISABLE;
-    io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pin_bit_mask = (1ULL << GPIO_NUM_4);
-    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
-    gpio_config(&io_conf);
+    // gpio_config_t io_conf;
+    // io_conf.intr_type = GPIO_INTR_DISABLE;
+    // io_conf.mode = GPIO_MODE_INPUT;
+    // io_conf.pin_bit_mask = (1ULL << GPIO_NUM_4);
+    // io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    // io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
+    // gpio_config(&io_conf);
 
-    ESP_LOGI(TAG, "Push OK button to roll back update (5 sec)...");
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
+    // ESP_LOGI(TAG, "Push OK button to roll back update (5 sec)...");
+    // vTaskDelay(5000 / portTICK_PERIOD_MS);
 
-    bool diagnostic_is_ok = gpio_get_level(GPIO_NUM_4);
+    // bool diagnostic_is_ok = gpio_get_level(GPIO_NUM_4);
 
-    gpio_reset_pin(GPIO_NUM_4);
-    return diagnostic_is_ok;
+    // gpio_reset_pin(GPIO_NUM_4);
+    // return diagnostic_is_ok;
+    return true;
 }
 
 void check_ota()

@@ -176,12 +176,17 @@ error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8
         .tx_buffer = tx,
         .rx_buffer = rx,
     };
+    ESP_LOGI("SPI WR before", "%u %u,%u,%u", tx[0], tx[1], rx[0], rx[1]);
+    auto err = spi_device_transmit(get_platform_ptr(settings), &trans);
+    ESP_LOGI("SPI WR after", "%u %u, %u %u", tx[0], tx[1], rx[0], rx[1]);
 
-    return spi_device_transmit(get_platform_ptr(settings), &trans);
+    return err;
 }
 
 void aquire_bus(Settings& settings)
 {
+    auto platform_ptr = get_platform_ptr(settings);
+    assert(platform_ptr);
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }
 void release_bus(Settings& settings)

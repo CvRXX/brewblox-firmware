@@ -93,6 +93,7 @@ struct SpiDevice {
         const std::array<uint8_t, N>& toDevice,
         std::array<uint8_t, N>& fromDevice)
     {
+        static_assert(N == 2);
         return platform_spi::writeAndRead(settings, toDevice.data(), N, fromDevice.data(), N);
     }
 

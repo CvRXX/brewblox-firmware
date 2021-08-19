@@ -37,7 +37,8 @@ public:
                && hal_i2c_detect(DS248x::base_address() + lower_address) == 0;
     }
 
-    void init();
+    void init_expander();
+    void init_driver();
 
     virtual bool supportsFastIo()
     {

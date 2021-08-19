@@ -1,6 +1,4 @@
 #include "ExpOwGpio.hpp"
-// #include "esp_log.h"
-
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
 using PinDrive = ExpOwGpio::PinDrive;
@@ -140,18 +138,23 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
     bits.all = result;
 }
 
-void ExpOwGpio::init()
+void ExpOwGpio::init_expander()
 {
     expander.set_outputs(0b11111101); // 24V off, OneWire powered
     expander.set_config(0b11111000);  // 3 pins output, others input
-    // disable OLD
-    // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000));
+    expander.set_outputs(0b11111111); // 24V on, OneWire powered
+}
+
+void ExpOwGpio::init_driver()
+{
+    // disable OLD detect on all pins
+    drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
+    // disable shutdown on OLD globally (keep bridges operating when OLD is detected)
     drv.writeRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
     // ESP_ERROR_CHECK_WITHOUT_ABORT(drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011));
 
-    // enable passive OLD, set overvoltage threshold to 33V and clear all faults
-    drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b10000011);
-    expander.set_outputs(0b11111111); // 24V on
+    // set overvoltage threshold to 33V and clear all faults
+    drv.writeRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
 }
 
 bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
@@ -257,23 +260,26 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     }
     op_ctrl_desired.apply(flexChannels[idx].pins_mask, when_active_mask);
 
-    update();
-
     return true;
 }
 
 void ExpOwGpio::update()
 {
-    bool updateNeeded = false;
     auto drv_status = status();
 
-    updateNeeded |= op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
-    updateNeeded |= drv_status.bits.spi_error || drv_status.bits.power_on_reset;
+    bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
+    bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
 
-    if (updateNeeded) {
+    init_expander();     // test/ remove
+    updateNeeded = true; // test/ remove
+
+    if (updateNeeded || initNeeded) {
+        if (initNeeded) {
+            init_expander();
+        }
         assert_cs();
-        if (drv_status.bits.spi_error || drv_status.bits.power_on_reset) {
-            init();
+        if (initNeeded) {
+            init_driver();
         }
 
         drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.byte.byte1);
@@ -290,7 +296,7 @@ void ExpOwGpio::update()
 
         if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
             // status is valid
-            if (drv_status.bits.openload) {
+            if (true || drv_status.bits.openload) {
                 // open load is detected
                 uint8_t old1 = 0;
                 uint8_t old2 = 0;
@@ -305,7 +311,7 @@ void ExpOwGpio::update()
             } else {
                 old_status.bits.all = 0;
             }
-            if (drv_status.bits.overcurrent) {
+            if (true || drv_status.bits.overcurrent) {
                 // status is valid and overcurrent is detected
                 uint8_t ocp1 = 0;
                 uint8_t ocp2 = 0;
@@ -473,8 +479,8 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
             when_active_external.setBits(0x00, pins_external);
             break;
         case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_PWR:; // gnd, with load detect
-            when_inactive_external.setBits(0x00, pins_external);
-            when_active_external.setBits(0x00, pins_external);
+            when_inactive_external.setBits(pins_external, 0x00);
+            when_active_external.setBits(pins_external, 0x00);
             break;
         }
 

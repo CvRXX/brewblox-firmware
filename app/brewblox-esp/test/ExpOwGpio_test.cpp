@@ -36,13 +36,37 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     ExpOwGpio gpio(0);
 
+    WHEN("Internal and external channel bits are converted to each other")
+    {
+        ExpOwGpio::ChanBits a;
+        ExpOwGpio::ChanBitsInternal b;
+
+        a.bits.all = 0x00FF;
+        b = a;
+        ExpOwGpio::ChanBits c = b;
+        THEN("The bits are rearranged correctly")
+        {
+            CHECK(a.bits.all == c.bits.all);
+            CHECK(a.bits.all != b.bits.all);
+            CHECK(a.bits.pin.c1 == b.bits.pin.c1);
+            CHECK(a.bits.pin.c2 == b.bits.pin.c2);
+            CHECK(a.bits.pin.c3 == b.bits.pin.c3);
+            CHECK(a.bits.pin.c4 == b.bits.pin.c4);
+            CHECK(a.bits.pin.c5 == b.bits.pin.c5);
+            CHECK(a.bits.pin.c6 == b.bits.pin.c6);
+            CHECK(a.bits.pin.c7 == b.bits.pin.c7);
+            CHECK(a.bits.pin.c8 == b.bits.pin.c8);
+            CHECK(b.bits.all == 0b0011001100001111);
+        }
+    }
+
     WHEN("The gpio driver is updated for the first time, it is automatically initialized")
     {
         gpio.update();
 
         THEN("The config register of the DRV8908 is set to 0b10000011")
         {
-            REQUIRE(drv->registers[int(DRV8908::RegAddr::CONFIG_CTRL)] == 0b10000011);
+            REQUIRE(drv->registers[int(DRV8908::RegAddr::CONFIG_CTRL)] == 0b00000011);
         }
     }
 
@@ -56,6 +80,13 @@ SCENARIO("OneWire + GPIO module using mock hw")
             CHECK(gpio.pullDownWhenActive() == 0b0);
             CHECK(gpio.pullUpWhenInactive() == 0b0);
             CHECK(gpio.pullDownWhenInactive() == 0b1000);
+            CHECK(gpio.pullUpDesired() == 0b1000);
+            CHECK(gpio.pullUpStatus() == 0b0000);
+        }
+        AND_THEN("After an update, pullUpStatus matches desired")
+        {
+            gpio.update();
+            CHECK(gpio.pullUpStatus() == 0b1000);
         }
     }
 

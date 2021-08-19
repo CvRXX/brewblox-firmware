@@ -103,7 +103,7 @@ int main(int /*argc*/, char** /*argv*/)
                                                 Spark4::expander_check();
                                             });
 
-    systemCheck.start();                                            
+    systemCheck.start();
 
     HttpHandler http(io, 80);
 
