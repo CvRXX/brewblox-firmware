@@ -702,6 +702,13 @@ class BrewBlox_testFieldOptions : public ::google::protobuf::Message /* @@protoc
   bool ignored() const;
   void set_ignored(bool value);
 
+  // optional bool bitfield = 10;
+  bool has_bitfield() const;
+  void clear_bitfield();
+  static const int kBitfieldFieldNumber = 10;
+  bool bitfield() const;
+  void set_bitfield(bool value);
+
   // @@protoc_insertion_point(class_scope:BrewBlox_testFieldOptions)
  private:
   void set_has_unit();
@@ -722,6 +729,8 @@ class BrewBlox_testFieldOptions : public ::google::protobuf::Message /* @@protoc
   void clear_has_driven();
   void set_has_ignored();
   void clear_has_ignored();
+  void set_has_bitfield();
+  void clear_has_bitfield();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -735,6 +744,7 @@ class BrewBlox_testFieldOptions : public ::google::protobuf::Message /* @@protoc
   bool hexstr_;
   bool driven_;
   bool ignored_;
+  bool bitfield_;
   friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
 };
 // ===================================================================
@@ -1037,6 +1047,30 @@ inline void BrewBlox_testFieldOptions::set_ignored(bool value) {
   set_has_ignored();
   ignored_ = value;
   // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.ignored)
+}
+
+// optional bool bitfield = 10;
+inline bool BrewBlox_testFieldOptions::has_bitfield() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void BrewBlox_testFieldOptions::set_has_bitfield() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void BrewBlox_testFieldOptions::clear_has_bitfield() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void BrewBlox_testFieldOptions::clear_bitfield() {
+  bitfield_ = false;
+  clear_has_bitfield();
+}
+inline bool BrewBlox_testFieldOptions::bitfield() const {
+  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.bitfield)
+  return bitfield_;
+}
+inline void BrewBlox_testFieldOptions::set_bitfield(bool value) {
+  set_has_bitfield();
+  bitfield_ = value;
+  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.bitfield)
 }
 
 #ifdef __GNUC__

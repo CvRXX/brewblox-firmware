@@ -58,9 +58,8 @@ namespace server {
         for (const auto& h : uri_handlers_) {
             if (request_path.compare(h.uri_) == 0) {
 
-                h.content_generator_(rep.content);
+                h.content_generator_(req, rep);
 
-                rep.status = reply::ok;
                 rep.headers.resize(2);
                 rep.headers[0].name = "Content-Length";
                 rep.headers[0].value = std::to_string(rep.content.size());

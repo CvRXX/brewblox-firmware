@@ -34,3 +34,8 @@ cbox::Box& make_box(cbox::ObjectContainer& objects,
 }
 
 const std::string& versionCsv();
+
+unsigned get_device_id(uint8_t* dest, unsigned len);
+
+int resetReason();
+int resetReasonData();

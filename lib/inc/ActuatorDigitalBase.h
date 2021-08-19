@@ -32,6 +32,7 @@ public:
         Inactive = 0,
         Active = 1,
         Unknown = 2,
+        Reverse = 3,
     };
 
     static inline State invertState(State s)

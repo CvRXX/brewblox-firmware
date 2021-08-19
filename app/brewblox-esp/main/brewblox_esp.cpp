@@ -43,14 +43,24 @@
 #include <functional>
 #include <memory>
 
-unsigned get_device_id(uint8_t* dest, unsigned len)
+unsigned get_device_id(uint8_t* dest, unsigned max_len)
 {
     uint8_t mac[6];
     esp_wifi_get_mac(WIFI_IF_STA, mac);
-    for (uint8_t i = 0; i < len; i++) {
-        dest[i] = i < 6 ? mac[i] : 0;
+    uint8_t i;
+    for (i = 0; i < max_len && i < 6; i++) {
+        dest[i] = mac[i];
     }
-    return len;
+    return i;
+}
+
+
+int resetReason(){
+    return 0; // todo
+}
+
+int resetReasonData(){
+    return 0; // todo
 }
 
 void handleReset(bool, uint8_t)

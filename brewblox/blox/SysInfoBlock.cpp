@@ -32,7 +32,8 @@ SysInfoBlock::streamTo(cbox::DataOut& out) const
 {
     blox_SysInfo message = blox_SysInfo_init_zero;
 
-    device_id_func(static_cast<uint8_t*>(&message.deviceId[0]), 12);
+    auto written = device_id_func(static_cast<uint8_t*>(&message.deviceId.bytes[0]), 12);
+    message.deviceId.size = written;
 
     strncpy(message.version, GIT_VERSION, 12);
     strncpy(message.protocolVersion, COMPILED_PROTO_VERSION, 12);

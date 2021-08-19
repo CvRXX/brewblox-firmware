@@ -311,37 +311,28 @@ void updateFirmwareFromStream(cbox::StreamType streamType)
 }
 #endif
 
-namespace cbox {
-void connectionStarted(DataOut& out)
+unsigned get_device_id(uint8_t* dest, unsigned max_len)
 {
-    char header[] = "<!BREWBLOX,";
-
-    out.writeBuffer(header, strlen(header));
-    out.writeBuffer(versionCsv().data(), versionCsv().length());
-    out.write(',');
-    cbox::EncodedDataOut hexOut(out);
-
-#if PLATFORM_ID == 3
-    int resetReason = 0;
-#else
-    auto resetReason = System.resetReason();
-#endif
-    hexOut.write(resetReason);
-    out.write(',');
-#if PLATFORM_ID == 3
-    int resetData = 0;
-#else
-    auto resetData = System.resetReasonData();
-#endif
-    hexOut.write(resetData);
-    out.write(',');
-
-    uint8_t deviceId[12];
-    HAL_device_ID(deviceId, 12);
-    hexOut.writeBuffer(deviceId, 12);
-    out.write('>');
+    return HAL_device_ID(dest, max_len);
 }
 
+int resetReason(){
+#if PLATFORM_ID == 3
+    return 0;
+#else
+    return System.resetReason();
+#endif
+}
+
+int resetReasonData(){
+#if PLATFORM_ID == 3
+    return 0;
+#else
+    return System.resetReasonData();
+#endif
+}
+
+namespace cbox {
 // handler for custom commands outside of controlbox
 bool applicationCommand(uint8_t cmdId, cbox::DataIn& in, cbox::EncodedDataOut& out)
 {

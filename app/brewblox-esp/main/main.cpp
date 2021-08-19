@@ -4,6 +4,7 @@
 // #include "SDCard.hpp"
 #include "DS248x.hpp"
 #include "ExpOwGpio.hpp"
+#include "HttpHandler.hpp"
 #include "I2cScanningFactory.hpp"
 #include "OneWire.h"
 #include "RecurringTask.hpp"
@@ -71,6 +72,7 @@ int main(int /*argc*/, char** /*argv*/)
 #endif
 {
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
+    check_ota();
 
     Spark4::hw_init();
     hal_delay_ms(100);
@@ -94,6 +96,17 @@ int main(int /*argc*/, char** /*argv*/)
                                               });
 
     displayTicker.start();
+
+    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
+                                            RecurringTask::IntervalType::FROM_EXPIRY,
+                                            []() {
+                                                Spark4::expander_check();
+                                            });
+
+    systemCheck.start();
+
+    HttpHandler http(io, 80);
+
     io.run();
 
 #ifndef ESP_PLATFORM
