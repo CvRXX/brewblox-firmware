@@ -91,14 +91,22 @@ private:
             }
 
         } else {
-            wifi = symbols::wifi_off;
+            if (!ethernetEnabled) {
+                wifi = symbols::wifi_off;
+            } else {
+                wifi = "";
+            }
         }
 
         std::string ethernet;
         if (ethernetEnabled) {
             ethernet = std::string() + symbols::ethernet + " " + this->ethernetIp;
         } else {
-            ethernet = symbols::ethernet;
+            if (!wifiEnabled) {
+                ethernet = symbols::ethernet_off;
+            } else {
+                ethernet = "";
+            }
         }
         std::string t = std::string() + " " + ethernet + "  " + wifi;
         lv_label_set_text(this->label, t.c_str());
