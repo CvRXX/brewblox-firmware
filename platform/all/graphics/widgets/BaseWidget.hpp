@@ -15,7 +15,7 @@ public:
     /// Returns the luminance of the background color.
     uint8_t getLuminance();
 
-    /// Returns the redness of the background color.S
+    /// Returns the redness of the background color.
     uint8_t getRed();
 
     virtual void update() = 0;

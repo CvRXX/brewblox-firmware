@@ -213,7 +213,7 @@ private:
         lv_obj_set_size(led, 16, 16);
         lv_obj_align(led, nullptr, LV_ALIGN_CENTER, 0, -41);
 
-        if (this->getRed() > (255 / 2)) {
+        if (this->getRed() > 128) {
             lv_obj_set_style_local_bg_color(pBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
             lv_obj_set_style_local_bg_color(iBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
             lv_obj_set_style_local_bg_color(dBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);

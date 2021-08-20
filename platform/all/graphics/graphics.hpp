@@ -12,7 +12,7 @@ class Layout;
 class Bar;
 class BaseWidget;
 
-/// Represents the graphics for the pyschical screen of the brewblox system.
+/// Represents the graphics for the TFT screen of the Spark 4.
 class Graphics {
 public:
     /**
@@ -46,7 +46,7 @@ private:
     static std::unique_ptr<Layout> layout;
 };
 
-/// A structure that holds the layout of the screen and it's children.
+/// A structure that holds the layout of the screen and its children.
 class Layout {
 public:
     /**
