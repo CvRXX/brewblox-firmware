@@ -83,7 +83,8 @@
     "stop_token": "cpp",
     "regex": "cpp",
     "shared_mutex": "cpp",
-    "wifi_config.h": "c"
+    "wifi_config.h": "c",
+    "*.inc": "cpp"
   },
   "disasexpl.associations": {
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/brewblox/${relativeFileDir}/${fileBasenameNoExtension}.s"

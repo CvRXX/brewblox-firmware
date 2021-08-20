@@ -81,13 +81,13 @@ private:
         std::string wifi;
         if (wifiEnabled) {
             if (rssi < -80) {
-                wifi = std::string() + symbols::wifi_strength1 + " " + this->wifiIp + "   " + std::to_string(rssi);
+                wifi = std::string() + symbols::wifi_strength1 + " " + this->wifiIp;
             } else if (rssi < -70) {
-                wifi = std::string() + symbols::wifi_strength2 + " " + this->wifiIp + "   " + std::to_string(rssi);
+                wifi = std::string() + symbols::wifi_strength2 + " " + this->wifiIp;
             } else if (rssi < -67) {
-                wifi = std::string() + symbols::wifi_strength3 + " " + this->wifiIp + "   " + std::to_string(rssi);
+                wifi = std::string() + symbols::wifi_strength3 + " " + this->wifiIp;
             } else {
-                wifi = std::string() + symbols::wifi_strength4 + " " + this->wifiIp + "   " + std::to_string(rssi);
+                wifi = std::string() + symbols::wifi_strength4 + " " + this->wifiIp;
             }
 
         } else {
