@@ -25,24 +25,27 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
 {
     blox_OneWireGpioModule newData = blox_OneWireGpioModule_init_zero;
     cbox::CboxError res = streamProtoFrom(in, &newData, blox_OneWireGpioModule_fields, blox_OneWireGpioModule_size);
+
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         drivers.modulePosition(newData.modulePosition);
-        drivers.clearChannels();
-        for (uint8_t c = 0; c < newData.channels_count; c++) {
-            ExpOwGpio::ChanBits pins;
-            ExpOwGpio::ChanBits when_active;
-            ExpOwGpio::ChanBits when_inactive;
-            pins.all = newData.channels[c].pins;
-            when_active.all = newData.channels[c].whenActive;
-            when_inactive.all = newData.channels[c].whenInactive;
 
-            drivers.addChannel(ExpOwGpio::FlexChannel(
-                newData.channels[c].id,
-                IoArray::ChannelConfig(newData.channels[c].config),
-                pins,
-                when_active,
-                when_inactive));
+        // first dedode to new array, so deleted channels are overwritten with an unused channel
+        std::array<ExpOwGpio::FlexChannel, 8> newChannels{};
+
+        // copy variable length array from proto to positions
+        for (uint8_t c = 0; c < newData.channels_count && c < 8; c++) {
+            if (newData.channels[c].id > 0 && newData.channels[c].id <= 8) {
+                uint8_t idx = newData.channels[c].id - 1;
+                newChannels[idx] = ExpOwGpio::FlexChannel(
+                    newData.channels[c].deviceType,
+                    newData.channels[c].pinsMask);
+            }
+        }
+
+        // copy to drivers, resulting zeroing omitted channels
+        for (uint8_t i = 0; i < 8; i++) {
+            drivers.setupChannel(i + 1, newChannels[i]);
         }
     }
 
@@ -53,21 +56,37 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 {
     message.modulePosition = drivers.modulePosition();
     message.channels_count = 0;
-    for (auto chan_it = drivers.cbegin(); chan_it < drivers.cend(); chan_it++) {
-        message.channels[message.channels_count].id = chan_it->id;
-        message.channels[message.channels_count].config = blox_ChannelConfig(chan_it->config);
-        message.channels[message.channels_count].pins = chan_it->pins().all;
-        message.channels[message.channels_count].whenActive = chan_it->when_active().all;
-        message.channels[message.channels_count].whenInactive = chan_it->when_inactive().all;
-        message.channels[message.channels_count].pwmDuty = chan_it->pwm_duty;
-        ++message.channels_count;
+
+    for (uint8_t i = 1; i <= 8; i++) {
+        auto& c = drivers.getChannel(i);
+        if (c.deviceType != blox_GpioDeviceType_NONE) {
+            message.channels[message.channels_count].id = i;
+            message.channels[message.channels_count].deviceType = c.deviceType;
+            message.channels[message.channels_count].pinsMask = c.pins();
+            if (includeNotPersisted) {
+                message.channels[message.channels_count].config = blox_ChannelConfig(c.config);
+                message.channels[message.channels_count].status = drivers.channelStatus(i);
+                message.channels[message.channels_count].pwmDuty = c.pwm_duty;
+                message.channels[message.channels_count].state = drivers.channelState(i);
+            }
+            ++message.channels_count;
+        }
     }
 
     if (includeNotPersisted) {
-        message.status = drivers.status();
-        message.drive = drivers.drive().all;
-        message.overCurrent = drivers.overcurrent().all;
-        message.openLoad = drivers.openload().all;
+        message.moduleStatus = drivers.status().all;
+        message.pullUpDesired = drivers.pullUpDesired();
+        message.pullUpStatus = drivers.pullUpStatus();
+        message.pullUpWhenActive = drivers.pullUpWhenActive();
+        message.pullUpWhenInactive = drivers.pullUpWhenInactive();
+        message.pullDownDesired = drivers.pullDownDesired();
+        message.pullDownStatus = drivers.pullDownStatus();
+        message.pullDownWhenActive = drivers.pullDownWhenActive();
+        message.pullDownWhenInactive = drivers.pullDownWhenInactive();
+        message.pullUpOverCurrent = drivers.pullUpOverCurrent();
+        message.pullDownOverCurrent = drivers.pullDownOverCurrent();
+        message.pullUpOpenLoad = drivers.pullUpOpenLoad();
+        message.pullDownOpenLoad = drivers.pullDownOpenLoad();
     }
 }
 
@@ -104,7 +123,8 @@ void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
 
     if (iface == cbox::interfaceId<IoArray>()) {
         // return the member that implements the interface in this case
-        IoArray* ptr = &drivers;
+        ExpOwGpio* drvPtr = &drivers;
+        IoArray* ptr = drvPtr; // get base class ptr
         return ptr;
     }
     if (iface == cbox::interfaceId<OneWire>()) {
@@ -114,7 +134,8 @@ void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
 
     if (iface == cbox::interfaceId<IoModule>()) {
         // return the member that implements the interface in this case
-        IoModule* ptr = &drivers;
+        ExpOwGpio* drvPtr = &drivers;
+        IoModule* ptr = drvPtr; // get base class ptr
         return ptr;
     }
 

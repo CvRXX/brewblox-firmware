@@ -82,8 +82,9 @@ typedef struct _blox_Trace {
 /* @@protoc_insertion_point(struct:blox_Trace) */
 } blox_Trace;
 
+typedef PB_BYTES_ARRAY_T(12) blox_SysInfo_deviceId_t;
 typedef struct _blox_SysInfo {
-    pb_byte_t deviceId[12];
+    blox_SysInfo_deviceId_t deviceId;
     char version[12];
     blox_SysInfo_Platform platform;
     char protocolVersion[12];
@@ -99,9 +100,9 @@ typedef struct _blox_SysInfo {
 
 /* Initializer values for message structs */
 #define blox_Trace_init_default                  {_blox_Trace_Action_MIN, 0, 0}
-#define blox_SysInfo_init_default                {{0}, "", _blox_SysInfo_Platform_MIN, "", "", "", _blox_SysInfo_SysInfoCommand_MIN, 0, {blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default}}
+#define blox_SysInfo_init_default                {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", _blox_SysInfo_SysInfoCommand_MIN, 0, {blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default, blox_Trace_init_default}}
 #define blox_Trace_init_zero                     {_blox_Trace_Action_MIN, 0, 0}
-#define blox_SysInfo_init_zero                   {{0}, "", _blox_SysInfo_Platform_MIN, "", "", "", _blox_SysInfo_SysInfoCommand_MIN, 0, {blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero}}
+#define blox_SysInfo_init_zero                   {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", _blox_SysInfo_SysInfoCommand_MIN, 0, {blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero, blox_Trace_init_zero}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_Trace_action_tag                    1

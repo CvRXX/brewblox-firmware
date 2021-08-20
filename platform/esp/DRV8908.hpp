@@ -46,12 +46,29 @@ public:
         OLD_CTRL_6 = 0x24,      // Open Load Detect 6
     };
 
+    typedef union {
+        struct {
+            uint8_t power_on_reset : 1;
+            uint8_t overvoltage : 1;
+            uint8_t undervoltage : 1;
+            uint8_t overcurrent : 1;
+            uint8_t openload : 1;
+            uint8_t overtemperature_warning : 1;
+            uint8_t overtemperature_shutdown : 1;
+            uint8_t spi_error : 1; // reserved bit on chip, we use it to signal SPI error
+        } bits;
+        uint8_t all;
+    } Status;
+    static_assert(sizeof(Status) == 1);
+
     hal_spi::error_t readRegister(RegAddr address, uint8_t& val) const;
     hal_spi::error_t writeRegister(RegAddr address, uint8_t val);
 
-    uint8_t status() const
+    Status status() const
     {
-        return _status;
+        Status s;
+        s.all = _status ^ 0x1; // toggle power-on-reset bit, so a 1 also means a fault
+        return s;
     }
 
 private:

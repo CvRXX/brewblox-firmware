@@ -88,22 +88,22 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022IoArray_test.proto\022\004blox\"S\n\tIoChannel\022"
       "#\n\006config\030\001 \001(\0162\023.blox.ChannelConfig\022!\n\005"
-      "state\030\002 \001(\0162\022.blox.DigitalState*r\n\014Digit"
-      "alState\022\022\n\016STATE_INACTIVE\020\000\022\020\n\014STATE_ACT"
-      "IVE\020\001\022\021\n\rSTATE_UNKNOWN\020\002\022\014\n\010Inactive\020\000\022\n"
-      "\n\006Active\020\001\022\013\n\007Unknown\020\002\032\002\020\001*\322\002\n\rChannelC"
-      "onfig\022\022\n\016CHANNEL_UNUSED\020\000\022\027\n\023CHANNEL_DRI"
-      "VING_OFF\020\001\022\026\n\022CHANNEL_DRIVING_ON\020\002\022\033\n\027CH"
-      "ANNEL_DRIVING_REVERSE\020\003\022\"\n\036CHANNEL_DRIVI"
-      "NG_BRAKE_LOW_SIDE\020\004\022#\n\037CHANNEL_DRIVING_B"
-      "RAKE_HIGH_SIDE\020\005\022\027\n\023CHANNEL_DRIVING_PWM\020"
-      "\006\022\037\n\033CHANNEL_DRIVING_PWM_REVERSE\020\007\022\021\n\rCH"
-      "ANNEL_INPUT\020\n\022\024\n\017CHANNEL_UNKNOWN\020\377\001\022\026\n\022C"
-      "HANNEL_ACTIVE_LOW\020\001\022\027\n\023CHANNEL_ACTIVE_HI"
-      "GH\020\002\032\002\020\001b\006proto3"
+      "state\030\002 \001(\0162\022.blox.DigitalState*\205\001\n\014Digi"
+      "talState\022\022\n\016STATE_INACTIVE\020\000\022\020\n\014STATE_AC"
+      "TIVE\020\001\022\021\n\rSTATE_UNKNOWN\020\002\022\021\n\rSTATE_REVER"
+      "SE\020\003\022\014\n\010Inactive\020\000\022\n\n\006Active\020\001\022\013\n\007Unknow"
+      "n\020\002\032\002\020\001*\322\002\n\rChannelConfig\022\022\n\016CHANNEL_UNU"
+      "SED\020\000\022\027\n\023CHANNEL_DRIVING_OFF\020\001\022\026\n\022CHANNE"
+      "L_DRIVING_ON\020\002\022\033\n\027CHANNEL_DRIVING_REVERS"
+      "E\020\003\022\"\n\036CHANNEL_DRIVING_BRAKE_LOW_SIDE\020\004\022"
+      "#\n\037CHANNEL_DRIVING_BRAKE_HIGH_SIDE\020\005\022\027\n\023"
+      "CHANNEL_DRIVING_PWM\020\006\022\037\n\033CHANNEL_DRIVING"
+      "_PWM_REVERSE\020\007\022\021\n\rCHANNEL_INPUT\020\n\022\024\n\017CHA"
+      "NNEL_UNKNOWN\020\377\001\022\026\n\022CHANNEL_ACTIVE_LOW\020\001\022"
+      "\027\n\023CHANNEL_ACTIVE_HIGH\020\002\032\002\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 576);
+      descriptor, 596);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "IoArray_test.proto", &protobuf_RegisterTypes);
 }
@@ -129,6 +129,7 @@ bool DigitalState_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;

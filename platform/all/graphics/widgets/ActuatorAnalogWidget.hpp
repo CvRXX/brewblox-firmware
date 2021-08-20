@@ -52,7 +52,8 @@ public:
                     case ActuatorPwm::State::Inactive:
                         setLed(false);
                         break;
-                    case ActuatorPwm::State::Active:
+                    case ActuatorPwm::State::Active:                        
+                    case ActuatorPwm::State::Reverse:
                         setLed(true);
                         break;
                     case ActuatorPwm::State::Unknown:

@@ -2,7 +2,6 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
-#include "esp_log.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
@@ -19,19 +18,17 @@ struct SpiHost {
     spi_bus_config_t config;
 };
 
-SpiHost spiHosts[1]
-    = {
-        {
-            SPI2_HOST,
-            {.mosi_io_num = 13,
-             .miso_io_num = 12,
-             .sclk_io_num = 14,
-             .quadwp_io_num = -1,
-             .quadhd_io_num = -1,
-             .max_transfer_sz = 0,
-             .flags = SPICOMMON_BUSFLAG_MASTER,
-             .intr_flags = 0},
-        }};
+SpiHost spiHosts[1] = {{
+    SPI2_HOST,
+    {.mosi_io_num = 13,
+     .miso_io_num = 12,
+     .sclk_io_num = 14,
+     .quadwp_io_num = -1,
+     .quadhd_io_num = -1,
+     .max_transfer_sz = 0,
+     .flags = SPICOMMON_BUSFLAG_MASTER,
+     .intr_flags = 0},
+}};
 
 spi_device_t* get_platform_ptr(Settings& settings)
 {

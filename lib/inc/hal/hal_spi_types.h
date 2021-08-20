@@ -106,12 +106,12 @@ struct Settings {
         LSBFIRST = 0x00,
         MSBFIRST = 0x01,
     };
-    const uint8_t spi_idx = 0; // index to select SPI master in case of multiple masters
+    const uint8_t spi_idx; // index to select SPI master in case of multiple masters
     const int speed;
     const int queueSize;
     const int ssPin;
-    const Mode mode = SPI_MODE0;
-    const BitOrder bitOrder = MSBFIRST;
+    const Mode mode;
+    const BitOrder bitOrder;
     void* platform_device_ptr = nullptr;
 };
 
