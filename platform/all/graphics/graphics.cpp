@@ -113,6 +113,7 @@ void Layout::update()
 
     bar->setWifiIp(wifi::ip4().addr);
     bar->setWifiEnabled(wifi::isConnected());
+    bar->setWifiRssi(wifi::getRssi());
     bar->setEthernetIp(ethernet::ip4().addr);
     bar->setEthernetEnabled(ethernet::isConnected());
 
