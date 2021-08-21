@@ -13,7 +13,6 @@ build/coverage.xml
 app/brewblox-esp/build/
 app/brewblox-esp/sdkconfig.old
 app/brewblox-esp-chemsense/*
-brewblox/blox/compiled_proto
 
 # Temp release dir
 release/
