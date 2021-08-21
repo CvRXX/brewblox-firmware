@@ -5,150 +5,186 @@
 
 #include <algorithm>
 
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/wire_format_lite_inl.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
+// This is a temporary google only hack
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+#include "third_party/protobuf/version.h"
+#endif
 // @@protoc_insertion_point(includes)
-#include <google/protobuf/port_def.inc>
 
-PROTOBUF_PRAGMA_INIT_SEG
+namespace protobuf_SysInfo_5ftest_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_SysInfo_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Trace;
+}  // namespace protobuf_SysInfo_5ftest_2eproto
 namespace blox {
-constexpr Trace::Trace(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : action_(0)
-
-  , id_(0u)
-  , type_(0u){}
-struct TraceDefaultTypeInternal {
-  constexpr TraceDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~TraceDefaultTypeInternal() {}
-  union {
-    Trace _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT TraceDefaultTypeInternal _Trace_default_instance_;
-constexpr SysInfo::SysInfo(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : trace_()
-  , deviceid_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , version_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , protocolversion_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , releasedate_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , protocoldate_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , platform_(0)
-
-  , command_(0)
-{}
-struct SysInfoDefaultTypeInternal {
-  constexpr SysInfoDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~SysInfoDefaultTypeInternal() {}
-  union {
-    SysInfo _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT SysInfoDefaultTypeInternal _SysInfo_default_instance_;
+class TraceDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<Trace>
+      _instance;
+} _Trace_default_instance_;
+class SysInfoDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SysInfo>
+      _instance;
+} _SysInfo_default_instance_;
 }  // namespace blox
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_SysInfo_5ftest_2eproto[2];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_SysInfo_5ftest_2eproto[3];
-static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_SysInfo_5ftest_2eproto = nullptr;
+namespace protobuf_SysInfo_5ftest_2eproto {
+static void InitDefaultsTrace() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_SysInfo_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  {
+    void* ptr = &::blox::_Trace_default_instance_;
+    new (ptr) ::blox::Trace();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox::Trace::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_Trace =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsTrace}, {}};
+
+static void InitDefaultsSysInfo() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::blox::_SysInfo_default_instance_;
+    new (ptr) ::blox::SysInfo();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox::SysInfo::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_SysInfo =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsSysInfo}, {
+      &protobuf_SysInfo_5ftest_2eproto::scc_info_Trace.base,}};
+
+void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_Trace.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SysInfo.base);
+}
+
+::google::protobuf::Metadata file_level_metadata[2];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
+
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox::Trace, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Trace, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::blox::Trace, action_),
-  PROTOBUF_FIELD_OFFSET(::blox::Trace, id_),
-  PROTOBUF_FIELD_OFFSET(::blox::Trace, type_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Trace, action_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Trace, id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Trace, type_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, deviceid_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, version_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, platform_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, protocolversion_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, releasedate_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, protocoldate_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, command_),
-  PROTOBUF_FIELD_OFFSET(::blox::SysInfo, trace_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, deviceid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, version_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, platform_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, protocolversion_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, releasedate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, protocoldate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, command_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SysInfo, trace_),
 };
-static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::Trace)},
   { 8, -1, sizeof(::blox::SysInfo)},
 };
 
-static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_Trace_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_SysInfo_default_instance_),
+static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Trace_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_SysInfo_default_instance_),
 };
 
-const char descriptor_table_protodef_SysInfo_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\022SysInfo_test.proto\022\004blox\032\023brewblox_tes"
-  "t.proto\032\021nanopb_test.proto\"\352\005\n\005Trace\022\"\n\006"
-  "action\030\001 \001(\0162\022.blox.Trace.Action\022\021\n\002id\030\002"
-  " \001(\rB\005\222\?\0028\020\022\023\n\004type\030\003 \001(\rB\005\222\?\0028\020\"\224\005\n\006Act"
-  "ion\022\010\n\004NONE\020\000\022\017\n\013READ_OBJECT\020\001\022\020\n\014WRITE_"
-  "OBJECT\020\002\022\021\n\rCREATE_OBJECT\020\003\022\021\n\rDELETE_OB"
-  "JECT\020\004\022\027\n\023LIST_ACTIVE_OBJECTS\020\005\022\026\n\022READ_"
-  "STORED_OBJECT\020\006\022\027\n\023LIST_STORED_OBJECTS\020\007"
-  "\022\021\n\rCLEAR_OBJECTS\020\010\022\n\n\006REBOOT\020\t\022\021\n\rFACTO"
-  "RY_RESET\020\n\022\033\n\027LIST_COMPATIBLE_OBJECTS\020\013\022"
-  "\030\n\024DISCOVER_NEW_OBJECTS\020\014\022\024\n\020CONSTRUCT_O"
-  "BJECT\020\024\022\023\n\017DESTRUCT_OBJECT\020\025\022\026\n\022STREAM_F"
-  "ROM_OBJECT\020\026\022\024\n\020STREAM_TO_OBJECT\020\027\022\021\n\rUP"
-  "DATE_OBJECT\020\030\022\022\n\016PERSIST_OBJECT\020\031\022\026\n\022LOA"
-  "D_STORED_OBJECT\020\032\022\022\n\016UPDATE_OBJECTS\020\033\022\026\n"
-  "\022UPDATE_CONNECTIONS\020\034\022\022\n\016UPDATE_DISPLAY\020"
-  "e\022\020\n\014SYSTEM_TASKS\020f\022\027\n\023MANAGE_CONNECTIVI"
-  "TY\020g\022\016\n\nMDNS_START\020h\022\020\n\014MDNS_PROCESS\020i\022\016"
-  "\n\nHTTP_START\020j\022\r\n\tHTTP_STOP\020k\022\021\n\rHTTP_RE"
-  "SPONSE\020l\022\020\n\014WIFI_CONNECT\020m\022\033\n\027FIRMWARE_U"
-  "PDATE_STARTED\020n\"\236\004\n\007SysInfo\022(\n\010deviceId\030"
-  "\001 \001(\014B\026\212\265\030\002(\001\222\?\002\010\014\222\?\002x\001\212\265\030\0028\001\022\034\n\007version"
-  "\030\002 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\0220\n\010platform\030\003 \001(\0162\026."
-  "blox.SysInfo.PlatformB\006\212\265\030\002(\001\022$\n\017protoco"
-  "lVersion\030\007 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022 \n\013releaseDa"
-  "te\030\010 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022!\n\014protocolDate\030\t "
-  "\001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022-\n\007command\030\n \001(\0162\034.blox"
-  ".SysInfo.SysInfoCommand\022\'\n\005trace\030\013 \003(\0132\013"
-  ".blox.TraceB\013\212\265\030\002(\001\222\?\002\020\n\"X\n\010Platform\022\024\n\020"
-  "PLATFORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023\n\017"
-  "PLATFORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010\"s\n\016Sy"
-  "sInfoCommand\022\020\n\014SYS_CMD_NONE\020\000\022\026\n\022SYS_CM"
-  "D_TRACE_READ\020\001\022\030\n\024SYS_CMD_TRACE_RESUME\020\002"
-  "\022\035\n\031SYS_CMD_TRACE_READ_RESUME\020\003:\007\212\265\030\003\030\200\002"
-  "b\006proto3"
-  ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_SysInfo_5ftest_2eproto_deps[2] = {
-  &::descriptor_table_brewblox_5ftest_2eproto,
-  &::descriptor_table_nanopb_5ftest_2eproto,
-};
-static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_SysInfo_5ftest_2eproto_once;
-const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_SysInfo_5ftest_2eproto = {
-  false, false, 1368, descriptor_table_protodef_SysInfo_5ftest_2eproto, "SysInfo_test.proto", 
-  &descriptor_table_SysInfo_5ftest_2eproto_once, descriptor_table_SysInfo_5ftest_2eproto_deps, 2, 2,
-  schemas, file_default_instances, TableStruct_SysInfo_5ftest_2eproto::offsets,
-  file_level_metadata_SysInfo_5ftest_2eproto, file_level_enum_descriptors_SysInfo_5ftest_2eproto, file_level_service_descriptors_SysInfo_5ftest_2eproto,
-};
-PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_SysInfo_5ftest_2eproto_getter() {
-  return &descriptor_table_SysInfo_5ftest_2eproto;
+void protobuf_AssignDescriptors() {
+  AddDescriptors();
+  AssignDescriptors(
+      "SysInfo_test.proto", schemas, file_default_instances, TableStruct::offsets,
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
-// Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_SysInfo_5ftest_2eproto(&descriptor_table_SysInfo_5ftest_2eproto);
+void protobuf_AssignDescriptorsOnce() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
+}
+
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
+void protobuf_RegisterTypes(const ::std::string&) {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
+}
+
+void AddDescriptorsImpl() {
+  InitDefaults();
+  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+      "\n\022SysInfo_test.proto\022\004blox\032\023brewblox_tes"
+      "t.proto\032\021nanopb_test.proto\"\352\005\n\005Trace\022\"\n\006"
+      "action\030\001 \001(\0162\022.blox.Trace.Action\022\021\n\002id\030\002"
+      " \001(\rB\005\222\?\0028\020\022\023\n\004type\030\003 \001(\rB\005\222\?\0028\020\"\224\005\n\006Act"
+      "ion\022\010\n\004NONE\020\000\022\017\n\013READ_OBJECT\020\001\022\020\n\014WRITE_"
+      "OBJECT\020\002\022\021\n\rCREATE_OBJECT\020\003\022\021\n\rDELETE_OB"
+      "JECT\020\004\022\027\n\023LIST_ACTIVE_OBJECTS\020\005\022\026\n\022READ_"
+      "STORED_OBJECT\020\006\022\027\n\023LIST_STORED_OBJECTS\020\007"
+      "\022\021\n\rCLEAR_OBJECTS\020\010\022\n\n\006REBOOT\020\t\022\021\n\rFACTO"
+      "RY_RESET\020\n\022\033\n\027LIST_COMPATIBLE_OBJECTS\020\013\022"
+      "\030\n\024DISCOVER_NEW_OBJECTS\020\014\022\024\n\020CONSTRUCT_O"
+      "BJECT\020\024\022\023\n\017DESTRUCT_OBJECT\020\025\022\026\n\022STREAM_F"
+      "ROM_OBJECT\020\026\022\024\n\020STREAM_TO_OBJECT\020\027\022\021\n\rUP"
+      "DATE_OBJECT\020\030\022\022\n\016PERSIST_OBJECT\020\031\022\026\n\022LOA"
+      "D_STORED_OBJECT\020\032\022\022\n\016UPDATE_OBJECTS\020\033\022\026\n"
+      "\022UPDATE_CONNECTIONS\020\034\022\022\n\016UPDATE_DISPLAY\020"
+      "e\022\020\n\014SYSTEM_TASKS\020f\022\027\n\023MANAGE_CONNECTIVI"
+      "TY\020g\022\016\n\nMDNS_START\020h\022\020\n\014MDNS_PROCESS\020i\022\016"
+      "\n\nHTTP_START\020j\022\r\n\tHTTP_STOP\020k\022\021\n\rHTTP_RE"
+      "SPONSE\020l\022\020\n\014WIFI_CONNECT\020m\022\033\n\027FIRMWARE_U"
+      "PDATE_STARTED\020n\"\231\004\n\007SysInfo\022#\n\010deviceId\030"
+      "\001 \001(\014B\021\212\265\030\002(\001\222\?\002\010\014\212\265\030\0028\001\022\034\n\007version\030\002 \001("
+      "\tB\013\212\265\030\002(\001\222\?\002\010\014\0220\n\010platform\030\003 \001(\0162\026.blox."
+      "SysInfo.PlatformB\006\212\265\030\002(\001\022$\n\017protocolVers"
+      "ion\030\007 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022 \n\013releaseDate\030\010 "
+      "\001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022!\n\014protocolDate\030\t \001(\tB\013"
+      "\212\265\030\002(\001\222\?\002\010\014\022-\n\007command\030\n \001(\0162\034.blox.SysI"
+      "nfo.SysInfoCommand\022\'\n\005trace\030\013 \003(\0132\013.blox"
+      ".TraceB\013\212\265\030\002(\001\222\?\002\020\n\"X\n\010Platform\022\024\n\020PLATF"
+      "ORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023\n\017PLATF"
+      "ORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010\"s\n\016SysInfo"
+      "Command\022\020\n\014SYS_CMD_NONE\020\000\022\026\n\022SYS_CMD_TRA"
+      "CE_READ\020\001\022\030\n\024SYS_CMD_TRACE_RESUME\020\002\022\035\n\031S"
+      "YS_CMD_TRACE_READ_RESUME\020\003:\007\212\265\030\003\030\200\002b\006pro"
+      "to3"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 1363);
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
+    "SysInfo_test.proto", &protobuf_RegisterTypes);
+  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
+  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
+}
+
+void AddDescriptors() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
+}
+// Force AddDescriptors() to be called at dynamic initialization time.
+struct StaticDescriptorInitializer {
+  StaticDescriptorInitializer() {
+    AddDescriptors();
+  }
+} static_descriptor_initializer;
+}  // namespace protobuf_SysInfo_5ftest_2eproto
 namespace blox {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Trace_Action_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_SysInfo_5ftest_2eproto);
-  return file_level_enum_descriptors_SysInfo_5ftest_2eproto[0];
+const ::google::protobuf::EnumDescriptor* Trace_Action_descriptor() {
+  protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_SysInfo_5ftest_2eproto::file_level_enum_descriptors[0];
 }
 bool Trace_Action_IsValid(int value) {
   switch (value) {
@@ -190,46 +226,46 @@ bool Trace_Action_IsValid(int value) {
   }
 }
 
-#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr Trace_Action Trace::NONE;
-constexpr Trace_Action Trace::READ_OBJECT;
-constexpr Trace_Action Trace::WRITE_OBJECT;
-constexpr Trace_Action Trace::CREATE_OBJECT;
-constexpr Trace_Action Trace::DELETE_OBJECT;
-constexpr Trace_Action Trace::LIST_ACTIVE_OBJECTS;
-constexpr Trace_Action Trace::READ_STORED_OBJECT;
-constexpr Trace_Action Trace::LIST_STORED_OBJECTS;
-constexpr Trace_Action Trace::CLEAR_OBJECTS;
-constexpr Trace_Action Trace::REBOOT;
-constexpr Trace_Action Trace::FACTORY_RESET;
-constexpr Trace_Action Trace::LIST_COMPATIBLE_OBJECTS;
-constexpr Trace_Action Trace::DISCOVER_NEW_OBJECTS;
-constexpr Trace_Action Trace::CONSTRUCT_OBJECT;
-constexpr Trace_Action Trace::DESTRUCT_OBJECT;
-constexpr Trace_Action Trace::STREAM_FROM_OBJECT;
-constexpr Trace_Action Trace::STREAM_TO_OBJECT;
-constexpr Trace_Action Trace::UPDATE_OBJECT;
-constexpr Trace_Action Trace::PERSIST_OBJECT;
-constexpr Trace_Action Trace::LOAD_STORED_OBJECT;
-constexpr Trace_Action Trace::UPDATE_OBJECTS;
-constexpr Trace_Action Trace::UPDATE_CONNECTIONS;
-constexpr Trace_Action Trace::UPDATE_DISPLAY;
-constexpr Trace_Action Trace::SYSTEM_TASKS;
-constexpr Trace_Action Trace::MANAGE_CONNECTIVITY;
-constexpr Trace_Action Trace::MDNS_START;
-constexpr Trace_Action Trace::MDNS_PROCESS;
-constexpr Trace_Action Trace::HTTP_START;
-constexpr Trace_Action Trace::HTTP_STOP;
-constexpr Trace_Action Trace::HTTP_RESPONSE;
-constexpr Trace_Action Trace::WIFI_CONNECT;
-constexpr Trace_Action Trace::FIRMWARE_UPDATE_STARTED;
-constexpr Trace_Action Trace::Action_MIN;
-constexpr Trace_Action Trace::Action_MAX;
-constexpr int Trace::Action_ARRAYSIZE;
-#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SysInfo_Platform_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_SysInfo_5ftest_2eproto);
-  return file_level_enum_descriptors_SysInfo_5ftest_2eproto[1];
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const Trace_Action Trace::NONE;
+const Trace_Action Trace::READ_OBJECT;
+const Trace_Action Trace::WRITE_OBJECT;
+const Trace_Action Trace::CREATE_OBJECT;
+const Trace_Action Trace::DELETE_OBJECT;
+const Trace_Action Trace::LIST_ACTIVE_OBJECTS;
+const Trace_Action Trace::READ_STORED_OBJECT;
+const Trace_Action Trace::LIST_STORED_OBJECTS;
+const Trace_Action Trace::CLEAR_OBJECTS;
+const Trace_Action Trace::REBOOT;
+const Trace_Action Trace::FACTORY_RESET;
+const Trace_Action Trace::LIST_COMPATIBLE_OBJECTS;
+const Trace_Action Trace::DISCOVER_NEW_OBJECTS;
+const Trace_Action Trace::CONSTRUCT_OBJECT;
+const Trace_Action Trace::DESTRUCT_OBJECT;
+const Trace_Action Trace::STREAM_FROM_OBJECT;
+const Trace_Action Trace::STREAM_TO_OBJECT;
+const Trace_Action Trace::UPDATE_OBJECT;
+const Trace_Action Trace::PERSIST_OBJECT;
+const Trace_Action Trace::LOAD_STORED_OBJECT;
+const Trace_Action Trace::UPDATE_OBJECTS;
+const Trace_Action Trace::UPDATE_CONNECTIONS;
+const Trace_Action Trace::UPDATE_DISPLAY;
+const Trace_Action Trace::SYSTEM_TASKS;
+const Trace_Action Trace::MANAGE_CONNECTIVITY;
+const Trace_Action Trace::MDNS_START;
+const Trace_Action Trace::MDNS_PROCESS;
+const Trace_Action Trace::HTTP_START;
+const Trace_Action Trace::HTTP_STOP;
+const Trace_Action Trace::HTTP_RESPONSE;
+const Trace_Action Trace::WIFI_CONNECT;
+const Trace_Action Trace::FIRMWARE_UPDATE_STARTED;
+const Trace_Action Trace::Action_MIN;
+const Trace_Action Trace::Action_MAX;
+const int Trace::Action_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* SysInfo_Platform_descriptor() {
+  protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_SysInfo_5ftest_2eproto::file_level_enum_descriptors[1];
 }
 bool SysInfo_Platform_IsValid(int value) {
   switch (value) {
@@ -243,18 +279,18 @@ bool SysInfo_Platform_IsValid(int value) {
   }
 }
 
-#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr SysInfo_Platform SysInfo::PLATFORM_UNKNOWN;
-constexpr SysInfo_Platform SysInfo::PLATFORM_GCC;
-constexpr SysInfo_Platform SysInfo::PLATFORM_PHOTON;
-constexpr SysInfo_Platform SysInfo::PLATFORM_P1;
-constexpr SysInfo_Platform SysInfo::Platform_MIN;
-constexpr SysInfo_Platform SysInfo::Platform_MAX;
-constexpr int SysInfo::Platform_ARRAYSIZE;
-#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SysInfo_SysInfoCommand_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_SysInfo_5ftest_2eproto);
-  return file_level_enum_descriptors_SysInfo_5ftest_2eproto[2];
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const SysInfo_Platform SysInfo::PLATFORM_UNKNOWN;
+const SysInfo_Platform SysInfo::PLATFORM_GCC;
+const SysInfo_Platform SysInfo::PLATFORM_PHOTON;
+const SysInfo_Platform SysInfo::PLATFORM_P1;
+const SysInfo_Platform SysInfo::Platform_MIN;
+const SysInfo_Platform SysInfo::Platform_MAX;
+const int SysInfo::Platform_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* SysInfo_SysInfoCommand_descriptor() {
+  protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_SysInfo_5ftest_2eproto::file_level_enum_descriptors[2];
 }
 bool SysInfo_SysInfoCommand_IsValid(int value) {
   switch (value) {
@@ -268,159 +304,211 @@ bool SysInfo_SysInfoCommand_IsValid(int value) {
   }
 }
 
-#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr SysInfo_SysInfoCommand SysInfo::SYS_CMD_NONE;
-constexpr SysInfo_SysInfoCommand SysInfo::SYS_CMD_TRACE_READ;
-constexpr SysInfo_SysInfoCommand SysInfo::SYS_CMD_TRACE_RESUME;
-constexpr SysInfo_SysInfoCommand SysInfo::SYS_CMD_TRACE_READ_RESUME;
-constexpr SysInfo_SysInfoCommand SysInfo::SysInfoCommand_MIN;
-constexpr SysInfo_SysInfoCommand SysInfo::SysInfoCommand_MAX;
-constexpr int SysInfo::SysInfoCommand_ARRAYSIZE;
-#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const SysInfo_SysInfoCommand SysInfo::SYS_CMD_NONE;
+const SysInfo_SysInfoCommand SysInfo::SYS_CMD_TRACE_READ;
+const SysInfo_SysInfoCommand SysInfo::SYS_CMD_TRACE_RESUME;
+const SysInfo_SysInfoCommand SysInfo::SYS_CMD_TRACE_READ_RESUME;
+const SysInfo_SysInfoCommand SysInfo::SysInfoCommand_MIN;
+const SysInfo_SysInfoCommand SysInfo::SysInfoCommand_MAX;
+const int SysInfo::SysInfoCommand_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 // ===================================================================
 
-class Trace::_Internal {
- public:
-};
+void Trace::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int Trace::kActionFieldNumber;
+const int Trace::kIdFieldNumber;
+const int Trace::kTypeFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Trace::Trace(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+Trace::Trace()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_SysInfo_5ftest_2eproto::scc_info_Trace.base);
   SharedCtor();
-  if (!is_message_owned) {
-    RegisterArenaDtor(arena);
-  }
-  // @@protoc_insertion_point(arena_constructor:blox.Trace)
+  // @@protoc_insertion_point(constructor:blox.Trace)
 }
 Trace::Trace(const Trace& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&action_, &from.action_,
     static_cast<size_t>(reinterpret_cast<char*>(&type_) -
     reinterpret_cast<char*>(&action_)) + sizeof(type_));
   // @@protoc_insertion_point(copy_constructor:blox.Trace)
 }
 
-inline void Trace::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&action_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&type_) -
-    reinterpret_cast<char*>(&action_)) + sizeof(type_));
+void Trace::SharedCtor() {
+  ::memset(&action_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&type_) -
+      reinterpret_cast<char*>(&action_)) + sizeof(type_));
 }
 
 Trace::~Trace() {
   // @@protoc_insertion_point(destructor:blox.Trace)
-  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-inline void Trace::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void Trace::SharedDtor() {
 }
 
-void Trace::ArenaDtor(void* object) {
-  Trace* _this = reinterpret_cast< Trace* >(object);
-  (void)_this;
-}
-void Trace::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Trace::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* Trace::descriptor() {
+  ::protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_SysInfo_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const Trace& Trace::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_SysInfo_5ftest_2eproto::scc_info_Trace.base);
+  return *internal_default_instance();
+}
+
 
 void Trace::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.Trace)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   ::memset(&action_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&type_) -
       reinterpret_cast<char*>(&action_)) + sizeof(type_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
-const char* Trace::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
+bool Trace::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox.Trace)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // .blox.Trace.Action action = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_action(static_cast<::blox::Trace_Action>(val));
-        } else goto handle_unusual;
-        continue;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_action(static_cast< ::blox::Trace_Action >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // uint32 id = 2 [(.nanopb_test) = {
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &id_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // uint32 type = 3 [(.nanopb_test) = {
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &type_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
+        if (tag == 0) {
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
       }
-    }  // switch
-  }  // while
+    }
+  }
 success:
-  return ptr;
+  // @@protoc_insertion_point(parse_success:blox.Trace)
+  return true;
 failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox.Trace)
+  return false;
+#undef DO_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* Trace::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Trace)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+void Trace::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox.Trace)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .blox.Trace.Action action = 1;
-  if (this->_internal_action() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_action(), target);
+  if (this->action() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->action(), output);
   }
 
   // uint32 id = 2 [(.nanopb_test) = {
-  if (this->_internal_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id(), target);
+  if (this->id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->id(), output);
   }
 
   // uint32 type = 3 [(.nanopb_test) = {
-  if (this->_internal_type() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_type(), target);
+  if (this->type() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->type(), output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox.Trace)
+}
+
+::google::protobuf::uint8* Trace::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox.Trace)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .blox.Trace.Action action = 1;
+  if (this->action() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->action(), target);
+  }
+
+  // uint32 id = 2 [(.nanopb_test) = {
+  if (this->id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->id(), target);
+  }
+
+  // uint32 type = 3 [(.nanopb_test) = {
+  if (this->type() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->type(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.Trace)
   return target;
@@ -430,68 +518,74 @@ size_t Trace::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.Trace)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // .blox.Trace.Action action = 1;
-  if (this->_internal_action() != 0) {
+  if (this->action() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_action());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->action());
   }
 
   // uint32 id = 2 [(.nanopb_test) = {
-  if (this->_internal_id() != 0) {
+  if (this->id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_id());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->id());
   }
 
   // uint32 type = 3 [(.nanopb_test) = {
-  if (this->_internal_type() != 0) {
+  if (this->type() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_type());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->type());
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Trace::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    Trace::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Trace::GetClassData() const { return &_class_data_; }
-
-void Trace::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
-  static_cast<Trace *>(to)->MergeFrom(
-      static_cast<const Trace &>(from));
+void Trace::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.Trace)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Trace* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Trace>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Trace)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Trace)
+    MergeFrom(*source);
+  }
 }
-
 
 void Trace::MergeFrom(const Trace& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.Trace)
   GOOGLE_DCHECK_NE(&from, this);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_action() != 0) {
-    _internal_set_action(from._internal_action());
+  if (from.action() != 0) {
+    set_action(from.action());
   }
-  if (from._internal_id() != 0) {
-    _internal_set_id(from._internal_id());
+  if (from.id() != 0) {
+    set_id(from.id());
   }
-  if (from._internal_type() != 0) {
-    _internal_set_type(from._internal_type());
+  if (from.type() != 0) {
+    set_type(from.type());
   }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Trace::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.Trace)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void Trace::CopyFrom(const Trace& from) {
@@ -505,67 +599,70 @@ bool Trace::IsInitialized() const {
   return true;
 }
 
+void Trace::Swap(Trace* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void Trace::InternalSwap(Trace* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Trace, type_)
-      + sizeof(Trace::type_)
-      - PROTOBUF_FIELD_OFFSET(Trace, action_)>(
-          reinterpret_cast<char*>(&action_),
-          reinterpret_cast<char*>(&other->action_));
+  swap(action_, other->action_);
+  swap(id_, other->id_);
+  swap(type_, other->type_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata Trace::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_SysInfo_5ftest_2eproto_getter, &descriptor_table_SysInfo_5ftest_2eproto_once,
-      file_level_metadata_SysInfo_5ftest_2eproto[0]);
+::google::protobuf::Metadata Trace::GetMetadata() const {
+  protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_SysInfo_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
+
 
 // ===================================================================
 
-class SysInfo::_Internal {
- public:
-};
+void SysInfo::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SysInfo::kDeviceIdFieldNumber;
+const int SysInfo::kVersionFieldNumber;
+const int SysInfo::kPlatformFieldNumber;
+const int SysInfo::kProtocolVersionFieldNumber;
+const int SysInfo::kReleaseDateFieldNumber;
+const int SysInfo::kProtocolDateFieldNumber;
+const int SysInfo::kCommandFieldNumber;
+const int SysInfo::kTraceFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-SysInfo::SysInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  trace_(arena) {
+SysInfo::SysInfo()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_SysInfo_5ftest_2eproto::scc_info_SysInfo.base);
   SharedCtor();
-  if (!is_message_owned) {
-    RegisterArenaDtor(arena);
-  }
-  // @@protoc_insertion_point(arena_constructor:blox.SysInfo)
+  // @@protoc_insertion_point(constructor:blox.SysInfo)
 }
 SysInfo::SysInfo(const SysInfo& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
       trace_(from.trace_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  deviceid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_deviceid().empty()) {
-    deviceid_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_deviceid(), 
-      GetArenaForAllocation());
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  deviceid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.deviceid().size() > 0) {
+    deviceid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.deviceid_);
   }
-  version_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_version().empty()) {
-    version_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_version(), 
-      GetArenaForAllocation());
+  version_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.version().size() > 0) {
+    version_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.version_);
   }
-  protocolversion_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_protocolversion().empty()) {
-    protocolversion_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_protocolversion(), 
-      GetArenaForAllocation());
+  protocolversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.protocolversion().size() > 0) {
+    protocolversion_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protocolversion_);
   }
-  releasedate_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_releasedate().empty()) {
-    releasedate_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_releasedate(), 
-      GetArenaForAllocation());
+  releasedate_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.releasedate().size() > 0) {
+    releasedate_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.releasedate_);
   }
-  protocoldate_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_protocoldate().empty()) {
-    protocoldate_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_protocoldate(), 
-      GetArenaForAllocation());
+  protocoldate_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.protocoldate().size() > 0) {
+    protocoldate_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protocoldate_);
   }
   ::memcpy(&platform_, &from.platform_,
     static_cast<size_t>(reinterpret_cast<char*>(&command_) -
@@ -573,240 +670,371 @@ SysInfo::SysInfo(const SysInfo& from)
   // @@protoc_insertion_point(copy_constructor:blox.SysInfo)
 }
 
-inline void SysInfo::SharedCtor() {
-deviceid_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-version_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-protocolversion_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-releasedate_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-protocoldate_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&platform_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&command_) -
-    reinterpret_cast<char*>(&platform_)) + sizeof(command_));
+void SysInfo::SharedCtor() {
+  deviceid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  version_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protocolversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  releasedate_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protocoldate_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&platform_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&command_) -
+      reinterpret_cast<char*>(&platform_)) + sizeof(command_));
 }
 
 SysInfo::~SysInfo() {
   // @@protoc_insertion_point(destructor:blox.SysInfo)
-  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-inline void SysInfo::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  deviceid_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  version_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  protocolversion_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  releasedate_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  protocoldate_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+void SysInfo::SharedDtor() {
+  deviceid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  version_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protocolversion_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  releasedate_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protocoldate_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void SysInfo::ArenaDtor(void* object) {
-  SysInfo* _this = reinterpret_cast< SysInfo* >(object);
-  (void)_this;
-}
-void SysInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void SysInfo::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* SysInfo::descriptor() {
+  ::protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_SysInfo_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SysInfo& SysInfo::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_SysInfo_5ftest_2eproto::scc_info_SysInfo.base);
+  return *internal_default_instance();
+}
+
 
 void SysInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.SysInfo)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   trace_.Clear();
-  deviceid_.ClearToEmpty();
-  version_.ClearToEmpty();
-  protocolversion_.ClearToEmpty();
-  releasedate_.ClearToEmpty();
-  protocoldate_.ClearToEmpty();
+  deviceid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  version_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protocolversion_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  releasedate_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protocoldate_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&platform_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&command_) -
       reinterpret_cast<char*>(&platform_)) + sizeof(command_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
-const char* SysInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
+bool SysInfo::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox.SysInfo)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // bytes deviceId = 1 [(.nanopb_test) = {
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          auto str = _internal_mutable_deviceid();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_deviceid()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // string version = 2 [(.nanopb_test) = {
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_version();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox.SysInfo.version"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_version()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->version().data(), static_cast<int>(this->version().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox.SysInfo.version"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // .blox.SysInfo.Platform platform = 3 [(.brewblox_test) = {
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_platform(static_cast<::blox::SysInfo_Platform>(val));
-        } else goto handle_unusual;
-        continue;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_platform(static_cast< ::blox::SysInfo_Platform >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // string protocolVersion = 7 [(.nanopb_test) = {
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
-          auto str = _internal_mutable_protocolversion();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox.SysInfo.protocolVersion"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_protocolversion()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->protocolversion().data(), static_cast<int>(this->protocolversion().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox.SysInfo.protocolVersion"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // string releaseDate = 8 [(.nanopb_test) = {
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
-          auto str = _internal_mutable_releasedate();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox.SysInfo.releaseDate"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_releasedate()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->releasedate().data(), static_cast<int>(this->releasedate().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox.SysInfo.releaseDate"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // string protocolDate = 9 [(.nanopb_test) = {
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
-          auto str = _internal_mutable_protocoldate();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox.SysInfo.protocolDate"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_protocoldate()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->protocoldate().data(), static_cast<int>(this->protocoldate().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox.SysInfo.protocolDate"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // .blox.SysInfo.SysInfoCommand command = 10;
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_command(static_cast<::blox::SysInfo_SysInfoCommand>(val));
-        } else goto handle_unusual;
-        continue;
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_command(static_cast< ::blox::SysInfo_SysInfoCommand >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // repeated .blox.Trace trace = 11 [(.nanopb_test) = {
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 90)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_trace(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<90>(ptr));
-        } else goto handle_unusual;
-        continue;
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_trace()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
+        if (tag == 0) {
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
       }
-    }  // switch
-  }  // while
+    }
+  }
 success:
-  return ptr;
+  // @@protoc_insertion_point(parse_success:blox.SysInfo)
+  return true;
 failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox.SysInfo)
+  return false;
+#undef DO_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* SysInfo::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox.SysInfo)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+void SysInfo::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox.SysInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bytes deviceId = 1 [(.nanopb_test) = {
-  if (!this->_internal_deviceid().empty()) {
-    target = stream->WriteBytesMaybeAliased(
-        1, this->_internal_deviceid(), target);
+  if (this->deviceid().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      1, this->deviceid(), output);
   }
 
   // string version = 2 [(.nanopb_test) = {
-  if (!this->_internal_version().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_version().data(), static_cast<int>(this->_internal_version().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->version().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->version().data(), static_cast<int>(this->version().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox.SysInfo.version");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_version(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->version(), output);
   }
 
   // .blox.SysInfo.Platform platform = 3 [(.brewblox_test) = {
-  if (this->_internal_platform() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      3, this->_internal_platform(), target);
+  if (this->platform() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      3, this->platform(), output);
   }
 
   // string protocolVersion = 7 [(.nanopb_test) = {
-  if (!this->_internal_protocolversion().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_protocolversion().data(), static_cast<int>(this->_internal_protocolversion().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->protocolversion().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protocolversion().data(), static_cast<int>(this->protocolversion().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox.SysInfo.protocolVersion");
-    target = stream->WriteStringMaybeAliased(
-        7, this->_internal_protocolversion(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->protocolversion(), output);
   }
 
   // string releaseDate = 8 [(.nanopb_test) = {
-  if (!this->_internal_releasedate().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_releasedate().data(), static_cast<int>(this->_internal_releasedate().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->releasedate().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->releasedate().data(), static_cast<int>(this->releasedate().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox.SysInfo.releaseDate");
-    target = stream->WriteStringMaybeAliased(
-        8, this->_internal_releasedate(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      8, this->releasedate(), output);
   }
 
   // string protocolDate = 9 [(.nanopb_test) = {
-  if (!this->_internal_protocoldate().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_protocoldate().data(), static_cast<int>(this->_internal_protocoldate().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->protocoldate().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protocoldate().data(), static_cast<int>(this->protocoldate().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox.SysInfo.protocolDate");
-    target = stream->WriteStringMaybeAliased(
-        9, this->_internal_protocoldate(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      9, this->protocoldate(), output);
   }
 
   // .blox.SysInfo.SysInfoCommand command = 10;
-  if (this->_internal_command() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      10, this->_internal_command(), target);
+  if (this->command() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      10, this->command(), output);
   }
 
   // repeated .blox.Trace trace = 11 [(.nanopb_test) = {
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_trace_size()); i < n; i++) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(11, this->_internal_trace(i), target, stream);
+      n = static_cast<unsigned int>(this->trace_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      11,
+      this->trace(static_cast<int>(i)),
+      output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox.SysInfo)
+}
+
+::google::protobuf::uint8* SysInfo::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox.SysInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes deviceId = 1 [(.nanopb_test) = {
+  if (this->deviceid().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        1, this->deviceid(), target);
+  }
+
+  // string version = 2 [(.nanopb_test) = {
+  if (this->version().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->version().data(), static_cast<int>(this->version().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox.SysInfo.version");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->version(), target);
+  }
+
+  // .blox.SysInfo.Platform platform = 3 [(.brewblox_test) = {
+  if (this->platform() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      3, this->platform(), target);
+  }
+
+  // string protocolVersion = 7 [(.nanopb_test) = {
+  if (this->protocolversion().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protocolversion().data(), static_cast<int>(this->protocolversion().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox.SysInfo.protocolVersion");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->protocolversion(), target);
+  }
+
+  // string releaseDate = 8 [(.nanopb_test) = {
+  if (this->releasedate().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->releasedate().data(), static_cast<int>(this->releasedate().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox.SysInfo.releaseDate");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        8, this->releasedate(), target);
+  }
+
+  // string protocolDate = 9 [(.nanopb_test) = {
+  if (this->protocoldate().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protocoldate().data(), static_cast<int>(this->protocoldate().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox.SysInfo.protocolDate");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->protocoldate(), target);
+  }
+
+  // .blox.SysInfo.SysInfoCommand command = 10;
+  if (this->command() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      10, this->command(), target);
+  }
+
+  // repeated .blox.Trace trace = 11 [(.nanopb_test) = {
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->trace_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        11, this->trace(static_cast<int>(i)), deterministic, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.SysInfo)
   return target;
@@ -816,115 +1044,130 @@ size_t SysInfo::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.SysInfo)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // repeated .blox.Trace trace = 11 [(.nanopb_test) = {
-  total_size += 1UL * this->_internal_trace_size();
-  for (const auto& msg : this->trace_) {
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // repeated .blox.Trace trace = 11 [(.nanopb_test) = {
+  {
+    unsigned int count = static_cast<unsigned int>(this->trace_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->trace(static_cast<int>(i)));
+    }
   }
 
   // bytes deviceId = 1 [(.nanopb_test) = {
-  if (!this->_internal_deviceid().empty()) {
+  if (this->deviceid().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
-        this->_internal_deviceid());
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->deviceid());
   }
 
   // string version = 2 [(.nanopb_test) = {
-  if (!this->_internal_version().empty()) {
+  if (this->version().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_version());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->version());
   }
 
   // string protocolVersion = 7 [(.nanopb_test) = {
-  if (!this->_internal_protocolversion().empty()) {
+  if (this->protocolversion().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_protocolversion());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->protocolversion());
   }
 
   // string releaseDate = 8 [(.nanopb_test) = {
-  if (!this->_internal_releasedate().empty()) {
+  if (this->releasedate().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_releasedate());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->releasedate());
   }
 
   // string protocolDate = 9 [(.nanopb_test) = {
-  if (!this->_internal_protocoldate().empty()) {
+  if (this->protocoldate().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_protocoldate());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->protocoldate());
   }
 
   // .blox.SysInfo.Platform platform = 3 [(.brewblox_test) = {
-  if (this->_internal_platform() != 0) {
+  if (this->platform() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_platform());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->platform());
   }
 
   // .blox.SysInfo.SysInfoCommand command = 10;
-  if (this->_internal_command() != 0) {
+  if (this->command() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_command());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->command());
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SysInfo::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    SysInfo::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SysInfo::GetClassData() const { return &_class_data_; }
-
-void SysInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
-  static_cast<SysInfo *>(to)->MergeFrom(
-      static_cast<const SysInfo &>(from));
+void SysInfo::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.SysInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SysInfo* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SysInfo>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.SysInfo)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.SysInfo)
+    MergeFrom(*source);
+  }
 }
-
 
 void SysInfo::MergeFrom(const SysInfo& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.SysInfo)
   GOOGLE_DCHECK_NE(&from, this);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   trace_.MergeFrom(from.trace_);
-  if (!from._internal_deviceid().empty()) {
-    _internal_set_deviceid(from._internal_deviceid());
+  if (from.deviceid().size() > 0) {
+
+    deviceid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.deviceid_);
   }
-  if (!from._internal_version().empty()) {
-    _internal_set_version(from._internal_version());
+  if (from.version().size() > 0) {
+
+    version_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.version_);
   }
-  if (!from._internal_protocolversion().empty()) {
-    _internal_set_protocolversion(from._internal_protocolversion());
+  if (from.protocolversion().size() > 0) {
+
+    protocolversion_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protocolversion_);
   }
-  if (!from._internal_releasedate().empty()) {
-    _internal_set_releasedate(from._internal_releasedate());
+  if (from.releasedate().size() > 0) {
+
+    releasedate_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.releasedate_);
   }
-  if (!from._internal_protocoldate().empty()) {
-    _internal_set_protocoldate(from._internal_protocoldate());
+  if (from.protocoldate().size() > 0) {
+
+    protocoldate_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protocoldate_);
   }
-  if (from._internal_platform() != 0) {
-    _internal_set_platform(from._internal_platform());
+  if (from.platform() != 0) {
+    set_platform(from.platform());
   }
-  if (from._internal_command() != 0) {
-    _internal_set_command(from._internal_command());
+  if (from.command() != 0) {
+    set_command(from.command());
   }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SysInfo::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.SysInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void SysInfo::CopyFrom(const SysInfo& from) {
@@ -938,59 +1181,45 @@ bool SysInfo::IsInitialized() const {
   return true;
 }
 
+void SysInfo::Swap(SysInfo* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void SysInfo::InternalSwap(SysInfo* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  trace_.InternalSwap(&other->trace_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &deviceid_, GetArenaForAllocation(),
-      &other->deviceid_, other->GetArenaForAllocation()
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &version_, GetArenaForAllocation(),
-      &other->version_, other->GetArenaForAllocation()
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &protocolversion_, GetArenaForAllocation(),
-      &other->protocolversion_, other->GetArenaForAllocation()
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &releasedate_, GetArenaForAllocation(),
-      &other->releasedate_, other->GetArenaForAllocation()
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &protocoldate_, GetArenaForAllocation(),
-      &other->protocoldate_, other->GetArenaForAllocation()
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SysInfo, command_)
-      + sizeof(SysInfo::command_)
-      - PROTOBUF_FIELD_OFFSET(SysInfo, platform_)>(
-          reinterpret_cast<char*>(&platform_),
-          reinterpret_cast<char*>(&other->platform_));
+  CastToBase(&trace_)->InternalSwap(CastToBase(&other->trace_));
+  deviceid_.Swap(&other->deviceid_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  version_.Swap(&other->version_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  protocolversion_.Swap(&other->protocolversion_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  releasedate_.Swap(&other->releasedate_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  protocoldate_.Swap(&other->protocoldate_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(platform_, other->platform_);
+  swap(command_, other->command_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata SysInfo::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_SysInfo_5ftest_2eproto_getter, &descriptor_table_SysInfo_5ftest_2eproto_once,
-      file_level_metadata_SysInfo_5ftest_2eproto[1]);
+::google::protobuf::Metadata SysInfo::GetMetadata() const {
+  protobuf_SysInfo_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_SysInfo_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
+
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace blox
-PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::blox::Trace* Arena::CreateMaybeMessage< ::blox::Trace >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox::Trace >(arena);
+namespace google {
+namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Trace* Arena::CreateMaybeMessage< ::blox::Trace >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::Trace >(arena);
 }
-template<> PROTOBUF_NOINLINE ::blox::SysInfo* Arena::CreateMaybeMessage< ::blox::SysInfo >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox::SysInfo >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::SysInfo* Arena::CreateMaybeMessage< ::blox::SysInfo >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::SysInfo >(arena);
 }
-PROTOBUF_NAMESPACE_CLOSE
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
-#include <google/protobuf/port_undef.inc>

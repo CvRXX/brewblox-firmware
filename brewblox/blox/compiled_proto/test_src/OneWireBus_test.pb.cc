@@ -5,230 +5,314 @@
 
 #include <algorithm>
 
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/wire_format_lite_inl.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
+// This is a temporary google only hack
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+#include "third_party/protobuf/version.h"
+#endif
 // @@protoc_insertion_point(includes)
-#include <google/protobuf/port_def.inc>
 
-PROTOBUF_PRAGMA_INIT_SEG
+namespace protobuf_OneWireBus_5ftest_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_OneWireBus_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_OneWireBusCommand;
+}  // namespace protobuf_OneWireBus_5ftest_2eproto
 namespace blox {
-constexpr OneWireBusCommand::OneWireBusCommand(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : opcode_(0u)
-  , data_(0u){}
-struct OneWireBusCommandDefaultTypeInternal {
-  constexpr OneWireBusCommandDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~OneWireBusCommandDefaultTypeInternal() {}
-  union {
-    OneWireBusCommand _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT OneWireBusCommandDefaultTypeInternal _OneWireBusCommand_default_instance_;
-constexpr OneWireBus::OneWireBus(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : address_()
-  , command_(nullptr){}
-struct OneWireBusDefaultTypeInternal {
-  constexpr OneWireBusDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~OneWireBusDefaultTypeInternal() {}
-  union {
-    OneWireBus _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT OneWireBusDefaultTypeInternal _OneWireBus_default_instance_;
+class OneWireBusCommandDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<OneWireBusCommand>
+      _instance;
+} _OneWireBusCommand_default_instance_;
+class OneWireBusDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<OneWireBus>
+      _instance;
+} _OneWireBus_default_instance_;
 }  // namespace blox
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_OneWireBus_5ftest_2eproto[2];
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_OneWireBus_5ftest_2eproto = nullptr;
-static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_OneWireBus_5ftest_2eproto = nullptr;
+namespace protobuf_OneWireBus_5ftest_2eproto {
+static void InitDefaultsOneWireBusCommand() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_OneWireBus_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  {
+    void* ptr = &::blox::_OneWireBusCommand_default_instance_;
+    new (ptr) ::blox::OneWireBusCommand();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox::OneWireBusCommand::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_OneWireBusCommand =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsOneWireBusCommand}, {}};
+
+static void InitDefaultsOneWireBus() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::blox::_OneWireBus_default_instance_;
+    new (ptr) ::blox::OneWireBus();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox::OneWireBus::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_OneWireBus =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsOneWireBus}, {
+      &protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBusCommand.base,}};
+
+void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_OneWireBusCommand.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_OneWireBus.base);
+}
+
+::google::protobuf::Metadata file_level_metadata[2];
+
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox::OneWireBusCommand, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBusCommand, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::blox::OneWireBusCommand, opcode_),
-  PROTOBUF_FIELD_OFFSET(::blox::OneWireBusCommand, data_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBusCommand, opcode_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBusCommand, data_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox::OneWireBus, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBus, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::blox::OneWireBus, command_),
-  PROTOBUF_FIELD_OFFSET(::blox::OneWireBus, address_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBus, command_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBus, address_),
 };
-static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::OneWireBusCommand)},
   { 7, -1, sizeof(::blox::OneWireBus)},
 };
 
-static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_OneWireBusCommand_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_OneWireBus_default_instance_),
+static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_OneWireBusCommand_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_OneWireBus_default_instance_),
 };
 
-const char descriptor_table_protodef_OneWireBus_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\025OneWireBus_test.proto\022\004blox\032\023brewblox_"
-  "test.proto\032\021nanopb_test.proto\"\?\n\021OneWire"
-  "BusCommand\022\025\n\006opcode\030\001 \001(\rB\005\222\?\0028\010\022\023\n\004dat"
-  "a\030\002 \001(\rB\005\222\?\0028\010\"^\n\nOneWireBus\022(\n\007command\030"
-  "\001 \001(\0132\027.blox.OneWireBusCommand\022\035\n\007addres"
-  "s\030\002 \003(\006B\014\212\265\030\002 \001\212\265\030\002(\001:\007\212\265\030\003\030\202\002b\006proto3"
-  ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_OneWireBus_5ftest_2eproto_deps[2] = {
-  &::descriptor_table_brewblox_5ftest_2eproto,
-  &::descriptor_table_nanopb_5ftest_2eproto,
-};
-static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_OneWireBus_5ftest_2eproto_once;
-const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_OneWireBus_5ftest_2eproto = {
-  false, false, 238, descriptor_table_protodef_OneWireBus_5ftest_2eproto, "OneWireBus_test.proto", 
-  &descriptor_table_OneWireBus_5ftest_2eproto_once, descriptor_table_OneWireBus_5ftest_2eproto_deps, 2, 2,
-  schemas, file_default_instances, TableStruct_OneWireBus_5ftest_2eproto::offsets,
-  file_level_metadata_OneWireBus_5ftest_2eproto, file_level_enum_descriptors_OneWireBus_5ftest_2eproto, file_level_service_descriptors_OneWireBus_5ftest_2eproto,
-};
-PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_OneWireBus_5ftest_2eproto_getter() {
-  return &descriptor_table_OneWireBus_5ftest_2eproto;
+void protobuf_AssignDescriptors() {
+  AddDescriptors();
+  AssignDescriptors(
+      "OneWireBus_test.proto", schemas, file_default_instances, TableStruct::offsets,
+      file_level_metadata, NULL, NULL);
 }
 
-// Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_OneWireBus_5ftest_2eproto(&descriptor_table_OneWireBus_5ftest_2eproto);
+void protobuf_AssignDescriptorsOnce() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
+}
+
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
+void protobuf_RegisterTypes(const ::std::string&) {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
+}
+
+void AddDescriptorsImpl() {
+  InitDefaults();
+  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+      "\n\025OneWireBus_test.proto\022\004blox\032\023brewblox_"
+      "test.proto\032\021nanopb_test.proto\"\?\n\021OneWire"
+      "BusCommand\022\025\n\006opcode\030\001 \001(\rB\005\222\?\0028\010\022\023\n\004dat"
+      "a\030\002 \001(\rB\005\222\?\0028\010\"^\n\nOneWireBus\022(\n\007command\030"
+      "\001 \001(\0132\027.blox.OneWireBusCommand\022\035\n\007addres"
+      "s\030\002 \003(\006B\014\212\265\030\002 \001\212\265\030\002(\001:\007\212\265\030\003\030\202\002b\006proto3"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 238);
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
+    "OneWireBus_test.proto", &protobuf_RegisterTypes);
+  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
+  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
+}
+
+void AddDescriptors() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
+}
+// Force AddDescriptors() to be called at dynamic initialization time.
+struct StaticDescriptorInitializer {
+  StaticDescriptorInitializer() {
+    AddDescriptors();
+  }
+} static_descriptor_initializer;
+}  // namespace protobuf_OneWireBus_5ftest_2eproto
 namespace blox {
 
 // ===================================================================
 
-class OneWireBusCommand::_Internal {
- public:
-};
+void OneWireBusCommand::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int OneWireBusCommand::kOpcodeFieldNumber;
+const int OneWireBusCommand::kDataFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-OneWireBusCommand::OneWireBusCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+OneWireBusCommand::OneWireBusCommand()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBusCommand.base);
   SharedCtor();
-  if (!is_message_owned) {
-    RegisterArenaDtor(arena);
-  }
-  // @@protoc_insertion_point(arena_constructor:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(constructor:blox.OneWireBusCommand)
 }
 OneWireBusCommand::OneWireBusCommand(const OneWireBusCommand& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&opcode_, &from.opcode_,
     static_cast<size_t>(reinterpret_cast<char*>(&data_) -
     reinterpret_cast<char*>(&opcode_)) + sizeof(data_));
   // @@protoc_insertion_point(copy_constructor:blox.OneWireBusCommand)
 }
 
-inline void OneWireBusCommand::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&opcode_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&data_) -
-    reinterpret_cast<char*>(&opcode_)) + sizeof(data_));
+void OneWireBusCommand::SharedCtor() {
+  ::memset(&opcode_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&data_) -
+      reinterpret_cast<char*>(&opcode_)) + sizeof(data_));
 }
 
 OneWireBusCommand::~OneWireBusCommand() {
   // @@protoc_insertion_point(destructor:blox.OneWireBusCommand)
-  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-inline void OneWireBusCommand::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void OneWireBusCommand::SharedDtor() {
 }
 
-void OneWireBusCommand::ArenaDtor(void* object) {
-  OneWireBusCommand* _this = reinterpret_cast< OneWireBusCommand* >(object);
-  (void)_this;
-}
-void OneWireBusCommand::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void OneWireBusCommand::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* OneWireBusCommand::descriptor() {
+  ::protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const OneWireBusCommand& OneWireBusCommand::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBusCommand.base);
+  return *internal_default_instance();
+}
+
 
 void OneWireBusCommand::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.OneWireBusCommand)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   ::memset(&opcode_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&data_) -
       reinterpret_cast<char*>(&opcode_)) + sizeof(data_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
-const char* OneWireBusCommand::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
+bool OneWireBusCommand::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox.OneWireBusCommand)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint32 opcode = 1 [(.nanopb_test) = {
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          opcode_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &opcode_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // uint32 data = 2 [(.nanopb_test) = {
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          data_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &data_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
+        if (tag == 0) {
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
       }
-    }  // switch
-  }  // while
+    }
+  }
 success:
-  return ptr;
+  // @@protoc_insertion_point(parse_success:blox.OneWireBusCommand)
+  return true;
 failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox.OneWireBusCommand)
+  return false;
+#undef DO_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* OneWireBusCommand::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox.OneWireBusCommand)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+void OneWireBusCommand::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox.OneWireBusCommand)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 opcode = 1 [(.nanopb_test) = {
-  if (this->_internal_opcode() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_opcode(), target);
+  if (this->opcode() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->opcode(), output);
   }
 
   // uint32 data = 2 [(.nanopb_test) = {
-  if (this->_internal_data() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_data(), target);
+  if (this->data() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->data(), output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox.OneWireBusCommand)
+}
+
+::google::protobuf::uint8* OneWireBusCommand::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox.OneWireBusCommand)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 opcode = 1 [(.nanopb_test) = {
+  if (this->opcode() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->opcode(), target);
+  }
+
+  // uint32 data = 2 [(.nanopb_test) = {
+  if (this->data() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->data(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.OneWireBusCommand)
   return target;
@@ -238,59 +322,65 @@ size_t OneWireBusCommand::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.OneWireBusCommand)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // uint32 opcode = 1 [(.nanopb_test) = {
-  if (this->_internal_opcode() != 0) {
+  if (this->opcode() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_opcode());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->opcode());
   }
 
   // uint32 data = 2 [(.nanopb_test) = {
-  if (this->_internal_data() != 0) {
+  if (this->data() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_data());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->data());
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData OneWireBusCommand::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    OneWireBusCommand::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*OneWireBusCommand::GetClassData() const { return &_class_data_; }
-
-void OneWireBusCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
-  static_cast<OneWireBusCommand *>(to)->MergeFrom(
-      static_cast<const OneWireBusCommand &>(from));
+void OneWireBusCommand::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.OneWireBusCommand)
+  GOOGLE_DCHECK_NE(&from, this);
+  const OneWireBusCommand* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const OneWireBusCommand>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.OneWireBusCommand)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.OneWireBusCommand)
+    MergeFrom(*source);
+  }
 }
-
 
 void OneWireBusCommand::MergeFrom(const OneWireBusCommand& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.OneWireBusCommand)
   GOOGLE_DCHECK_NE(&from, this);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_opcode() != 0) {
-    _internal_set_opcode(from._internal_opcode());
+  if (from.opcode() != 0) {
+    set_opcode(from.opcode());
   }
-  if (from._internal_data() != 0) {
-    _internal_set_data(from._internal_data());
+  if (from.data() != 0) {
+    set_data(from.data());
   }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void OneWireBusCommand::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.OneWireBusCommand)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void OneWireBusCommand::CopyFrom(const OneWireBusCommand& from) {
@@ -304,164 +394,214 @@ bool OneWireBusCommand::IsInitialized() const {
   return true;
 }
 
+void OneWireBusCommand::Swap(OneWireBusCommand* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void OneWireBusCommand::InternalSwap(OneWireBusCommand* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(OneWireBusCommand, data_)
-      + sizeof(OneWireBusCommand::data_)
-      - PROTOBUF_FIELD_OFFSET(OneWireBusCommand, opcode_)>(
-          reinterpret_cast<char*>(&opcode_),
-          reinterpret_cast<char*>(&other->opcode_));
+  swap(opcode_, other->opcode_);
+  swap(data_, other->data_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata OneWireBusCommand::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_OneWireBus_5ftest_2eproto_getter, &descriptor_table_OneWireBus_5ftest_2eproto_once,
-      file_level_metadata_OneWireBus_5ftest_2eproto[0]);
+::google::protobuf::Metadata OneWireBusCommand::GetMetadata() const {
+  protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
+
 
 // ===================================================================
 
-class OneWireBus::_Internal {
- public:
-  static const ::blox::OneWireBusCommand& command(const OneWireBus* msg);
-};
-
-const ::blox::OneWireBusCommand&
-OneWireBus::_Internal::command(const OneWireBus* msg) {
-  return *msg->command_;
+void OneWireBus::InitAsDefaultInstance() {
+  ::blox::_OneWireBus_default_instance_._instance.get_mutable()->command_ = const_cast< ::blox::OneWireBusCommand*>(
+      ::blox::OneWireBusCommand::internal_default_instance());
 }
-OneWireBus::OneWireBus(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  address_(arena) {
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int OneWireBus::kCommandFieldNumber;
+const int OneWireBus::kAddressFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+OneWireBus::OneWireBus()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBus.base);
   SharedCtor();
-  if (!is_message_owned) {
-    RegisterArenaDtor(arena);
-  }
-  // @@protoc_insertion_point(arena_constructor:blox.OneWireBus)
+  // @@protoc_insertion_point(constructor:blox.OneWireBus)
 }
 OneWireBus::OneWireBus(const OneWireBus& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
       address_(from.address_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_command()) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_command()) {
     command_ = new ::blox::OneWireBusCommand(*from.command_);
   } else {
-    command_ = nullptr;
+    command_ = NULL;
   }
   // @@protoc_insertion_point(copy_constructor:blox.OneWireBus)
 }
 
-inline void OneWireBus::SharedCtor() {
-command_ = nullptr;
+void OneWireBus::SharedCtor() {
+  command_ = NULL;
 }
 
 OneWireBus::~OneWireBus() {
   // @@protoc_insertion_point(destructor:blox.OneWireBus)
-  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-inline void OneWireBus::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void OneWireBus::SharedDtor() {
   if (this != internal_default_instance()) delete command_;
 }
 
-void OneWireBus::ArenaDtor(void* object) {
-  OneWireBus* _this = reinterpret_cast< OneWireBus* >(object);
-  (void)_this;
-}
-void OneWireBus::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void OneWireBus::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* OneWireBus::descriptor() {
+  ::protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const OneWireBus& OneWireBus::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBus.base);
+  return *internal_default_instance();
+}
+
 
 void OneWireBus::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.OneWireBus)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   address_.Clear();
-  if (GetArenaForAllocation() == nullptr && command_ != nullptr) {
+  if (GetArenaNoVirtual() == NULL && command_ != NULL) {
     delete command_;
   }
-  command_ = nullptr;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  command_ = NULL;
+  _internal_metadata_.Clear();
 }
 
-const char* OneWireBus::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
+bool OneWireBus::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox.OneWireBus)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // .blox.OneWireBusCommand command = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_command(), ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_command()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // repeated fixed64 address = 2 [(.brewblox_test) = {
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFixed64Parser(_internal_mutable_address(), ptr, ctx);
-          CHK_(ptr);
-        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17) {
-          _internal_add_address(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<::PROTOBUF_NAMESPACE_ID::uint64>(ptr));
-          ptr += sizeof(::PROTOBUF_NAMESPACE_ID::uint64);
-        } else goto handle_unusual;
-        continue;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_FIXED64>(
+                 input, this->mutable_address())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(17u /* 17 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_FIXED64>(
+                 1, 18u, input, this->mutable_address())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
+        if (tag == 0) {
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
       }
-    }  // switch
-  }  // while
+    }
+  }
 success:
-  return ptr;
+  // @@protoc_insertion_point(parse_success:blox.OneWireBus)
+  return true;
 failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox.OneWireBus)
+  return false;
+#undef DO_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* OneWireBus::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox.OneWireBus)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+void OneWireBus::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox.OneWireBus)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .blox.OneWireBusCommand command = 1;
-  if (this->_internal_has_command()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        1, _Internal::command(this), target, stream);
+  if (this->has_command()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, this->_internal_command(), output);
   }
 
   // repeated fixed64 address = 2 [(.brewblox_test) = {
-  if (this->_internal_address_size() > 0) {
-    target = stream->WriteFixedPacked(2, _internal_address(), target);
+  if (this->address_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(2, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _address_cached_byte_size_));
+    ::google::protobuf::internal::WireFormatLite::WriteFixed64Array(
+      this->address().data(), this->address_size(), output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox.OneWireBus)
+}
+
+::google::protobuf::uint8* OneWireBus::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox.OneWireBus)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .blox.OneWireBusCommand command = 1;
+  if (this->has_command()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        1, this->_internal_command(), deterministic, target);
+  }
+
+  // repeated fixed64 address = 2 [(.brewblox_test) = {
+  if (this->address_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      2,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _address_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteFixed64NoTagToArray(this->address_, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.OneWireBus)
   return target;
@@ -471,62 +611,72 @@ size_t OneWireBus::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.OneWireBus)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // repeated fixed64 address = 2 [(.brewblox_test) = {
   {
-    unsigned int count = static_cast<unsigned int>(this->_internal_address_size());
+    unsigned int count = static_cast<unsigned int>(this->address_size());
     size_t data_size = 8UL * count;
     if (data_size > 0) {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
     }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _address_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
 
   // .blox.OneWireBusCommand command = 1;
-  if (this->_internal_has_command()) {
+  if (this->has_command()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
         *command_);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData OneWireBus::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    OneWireBus::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*OneWireBus::GetClassData() const { return &_class_data_; }
-
-void OneWireBus::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
-  static_cast<OneWireBus *>(to)->MergeFrom(
-      static_cast<const OneWireBus &>(from));
+void OneWireBus::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.OneWireBus)
+  GOOGLE_DCHECK_NE(&from, this);
+  const OneWireBus* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const OneWireBus>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.OneWireBus)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.OneWireBus)
+    MergeFrom(*source);
+  }
 }
-
 
 void OneWireBus::MergeFrom(const OneWireBus& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.OneWireBus)
   GOOGLE_DCHECK_NE(&from, this);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   address_.MergeFrom(from.address_);
-  if (from._internal_has_command()) {
-    _internal_mutable_command()->::blox::OneWireBusCommand::MergeFrom(from._internal_command());
+  if (from.has_command()) {
+    mutable_command()->::blox::OneWireBusCommand::MergeFrom(from.command());
   }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void OneWireBus::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.OneWireBus)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void OneWireBus::CopyFrom(const OneWireBus& from) {
@@ -540,29 +690,34 @@ bool OneWireBus::IsInitialized() const {
   return true;
 }
 
+void OneWireBus::Swap(OneWireBus* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void OneWireBus::InternalSwap(OneWireBus* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   address_.InternalSwap(&other->address_);
   swap(command_, other->command_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata OneWireBus::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_OneWireBus_5ftest_2eproto_getter, &descriptor_table_OneWireBus_5ftest_2eproto_once,
-      file_level_metadata_OneWireBus_5ftest_2eproto[1]);
+::google::protobuf::Metadata OneWireBus::GetMetadata() const {
+  protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
+
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace blox
-PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::blox::OneWireBusCommand* Arena::CreateMaybeMessage< ::blox::OneWireBusCommand >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox::OneWireBusCommand >(arena);
+namespace google {
+namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::OneWireBusCommand* Arena::CreateMaybeMessage< ::blox::OneWireBusCommand >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::OneWireBusCommand >(arena);
 }
-template<> PROTOBUF_NOINLINE ::blox::OneWireBus* Arena::CreateMaybeMessage< ::blox::OneWireBus >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox::OneWireBus >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::OneWireBus* Arena::CreateMaybeMessage< ::blox::OneWireBus >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::OneWireBus >(arena);
 }
-PROTOBUF_NAMESPACE_CLOSE
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
-#include <google/protobuf/port_undef.inc>

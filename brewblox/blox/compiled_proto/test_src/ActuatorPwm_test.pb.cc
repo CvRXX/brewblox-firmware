@@ -5,138 +5,173 @@
 
 #include <algorithm>
 
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/wire_format_lite_inl.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
+// This is a temporary google only hack
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+#include "third_party/protobuf/version.h"
+#endif
 // @@protoc_insertion_point(includes)
-#include <google/protobuf/port_def.inc>
 
-PROTOBUF_PRAGMA_INIT_SEG
+namespace protobuf_AnalogConstraints_5ftest_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_AnalogConstraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_AnalogConstraints;
+}  // namespace protobuf_AnalogConstraints_5ftest_2eproto
 namespace blox {
-constexpr ActuatorPwm::ActuatorPwm(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : strippedfields_()
-  , _strippedfields_cached_byte_size_(0)
-  , constrainedby_(nullptr)
-  , actuatorid_(0u)
-  , period_(0u)
-  , setting_(0)
-  , value_(0)
-  , drivenactuatorid_(0u)
-  , enabled_(false)
-  , desiredsetting_(0){}
-struct ActuatorPwmDefaultTypeInternal {
-  constexpr ActuatorPwmDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~ActuatorPwmDefaultTypeInternal() {}
-  union {
-    ActuatorPwm _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT ActuatorPwmDefaultTypeInternal _ActuatorPwm_default_instance_;
+class ActuatorPwmDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ActuatorPwm>
+      _instance;
+} _ActuatorPwm_default_instance_;
 }  // namespace blox
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_ActuatorPwm_5ftest_2eproto[1];
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_ActuatorPwm_5ftest_2eproto = nullptr;
-static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_ActuatorPwm_5ftest_2eproto = nullptr;
+namespace protobuf_ActuatorPwm_5ftest_2eproto {
+static void InitDefaultsActuatorPwm() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_ActuatorPwm_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  {
+    void* ptr = &::blox::_ActuatorPwm_default_instance_;
+    new (ptr) ::blox::ActuatorPwm();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox::ActuatorPwm::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_ActuatorPwm =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsActuatorPwm}, {
+      &protobuf_AnalogConstraints_5ftest_2eproto::scc_info_AnalogConstraints.base,}};
+
+void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_ActuatorPwm.base);
+}
+
+::google::protobuf::Metadata file_level_metadata[1];
+
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, actuatorid_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, period_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, setting_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, value_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, constrainedby_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, drivenactuatorid_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, enabled_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, desiredsetting_),
-  PROTOBUF_FIELD_OFFSET(::blox::ActuatorPwm, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, actuatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, period_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, constrainedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, drivenactuatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, strippedfields_),
 };
-static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::ActuatorPwm)},
 };
 
-static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_ActuatorPwm_default_instance_),
+static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_ActuatorPwm_default_instance_),
 };
 
-const char descriptor_table_protodef_ActuatorPwm_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\026ActuatorPwm_test.proto\022\004blox\032\023brewblox"
-  "_test.proto\032\021nanopb_test.proto\032\034AnalogCo"
-  "nstraints_test.proto\"\200\003\n\013ActuatorPwm\022\037\n\n"
-  "actuatorId\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022\035\n\006period\030"
-  "\003 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022)\n\007setting\030\004 \001(\021B\030\212"
-  "\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\005 \001(\021B\030"
-  "\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022.\n\rconstrainedB"
-  "y\030\006 \001(\0132\027.blox.AnalogConstraints\0221\n\020driv"
-  "enActuatorId\030\007 \001(\rB\027\212\265\030\002\030\006\212\265\030\002@\001\222\?\0028\020\212\265\030"
-  "\002(\001\022\017\n\007enabled\030\010 \001(\010\022*\n\016desiredSetting\030\t"
-  " \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022(\n\016strippedFiel"
-  "ds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002:\023\212\265\030\003\030\263\002\212\265\030\002H"
-  "\001\212\265\030\002H\005b\006proto3"
-  ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_ActuatorPwm_5ftest_2eproto_deps[3] = {
-  &::descriptor_table_AnalogConstraints_5ftest_2eproto,
-  &::descriptor_table_brewblox_5ftest_2eproto,
-  &::descriptor_table_nanopb_5ftest_2eproto,
-};
-static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_ActuatorPwm_5ftest_2eproto_once;
-const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_ActuatorPwm_5ftest_2eproto = {
-  false, false, 495, descriptor_table_protodef_ActuatorPwm_5ftest_2eproto, "ActuatorPwm_test.proto", 
-  &descriptor_table_ActuatorPwm_5ftest_2eproto_once, descriptor_table_ActuatorPwm_5ftest_2eproto_deps, 3, 1,
-  schemas, file_default_instances, TableStruct_ActuatorPwm_5ftest_2eproto::offsets,
-  file_level_metadata_ActuatorPwm_5ftest_2eproto, file_level_enum_descriptors_ActuatorPwm_5ftest_2eproto, file_level_service_descriptors_ActuatorPwm_5ftest_2eproto,
-};
-PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_ActuatorPwm_5ftest_2eproto_getter() {
-  return &descriptor_table_ActuatorPwm_5ftest_2eproto;
+void protobuf_AssignDescriptors() {
+  AddDescriptors();
+  AssignDescriptors(
+      "ActuatorPwm_test.proto", schemas, file_default_instances, TableStruct::offsets,
+      file_level_metadata, NULL, NULL);
 }
 
-// Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_ActuatorPwm_5ftest_2eproto(&descriptor_table_ActuatorPwm_5ftest_2eproto);
+void protobuf_AssignDescriptorsOnce() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
+}
+
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
+void protobuf_RegisterTypes(const ::std::string&) {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
+}
+
+void AddDescriptorsImpl() {
+  InitDefaults();
+  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+      "\n\026ActuatorPwm_test.proto\022\004blox\032\023brewblox"
+      "_test.proto\032\021nanopb_test.proto\032\034AnalogCo"
+      "nstraints_test.proto\"\200\003\n\013ActuatorPwm\022\037\n\n"
+      "actuatorId\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022\035\n\006period\030"
+      "\003 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022)\n\007setting\030\004 \001(\021B\030\212"
+      "\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\005 \001(\021B\030"
+      "\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022.\n\rconstrainedB"
+      "y\030\006 \001(\0132\027.blox.AnalogConstraints\0221\n\020driv"
+      "enActuatorId\030\007 \001(\rB\027\212\265\030\002\030\006\212\265\030\002@\001\222\?\0028\020\212\265\030"
+      "\002(\001\022\017\n\007enabled\030\010 \001(\010\022*\n\016desiredSetting\030\t"
+      " \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022(\n\016strippedFiel"
+      "ds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002:\023\212\265\030\003\030\263\002\212\265\030\002H"
+      "\001\212\265\030\002H\005b\006proto3"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 495);
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
+    "ActuatorPwm_test.proto", &protobuf_RegisterTypes);
+  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
+  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
+  ::protobuf_AnalogConstraints_5ftest_2eproto::AddDescriptors();
+}
+
+void AddDescriptors() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
+}
+// Force AddDescriptors() to be called at dynamic initialization time.
+struct StaticDescriptorInitializer {
+  StaticDescriptorInitializer() {
+    AddDescriptors();
+  }
+} static_descriptor_initializer;
+}  // namespace protobuf_ActuatorPwm_5ftest_2eproto
 namespace blox {
 
 // ===================================================================
 
-class ActuatorPwm::_Internal {
- public:
-  static const ::blox::AnalogConstraints& constrainedby(const ActuatorPwm* msg);
-};
-
-const ::blox::AnalogConstraints&
-ActuatorPwm::_Internal::constrainedby(const ActuatorPwm* msg) {
-  return *msg->constrainedby_;
+void ActuatorPwm::InitAsDefaultInstance() {
+  ::blox::_ActuatorPwm_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::AnalogConstraints*>(
+      ::blox::AnalogConstraints::internal_default_instance());
 }
 void ActuatorPwm::clear_constrainedby() {
-  if (GetArenaForAllocation() == nullptr && constrainedby_ != nullptr) {
+  if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
     delete constrainedby_;
   }
-  constrainedby_ = nullptr;
+  constrainedby_ = NULL;
 }
-ActuatorPwm::ActuatorPwm(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  strippedfields_(arena) {
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ActuatorPwm::kActuatorIdFieldNumber;
+const int ActuatorPwm::kPeriodFieldNumber;
+const int ActuatorPwm::kSettingFieldNumber;
+const int ActuatorPwm::kValueFieldNumber;
+const int ActuatorPwm::kConstrainedByFieldNumber;
+const int ActuatorPwm::kDrivenActuatorIdFieldNumber;
+const int ActuatorPwm::kEnabledFieldNumber;
+const int ActuatorPwm::kDesiredSettingFieldNumber;
+const int ActuatorPwm::kStrippedFieldsFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ActuatorPwm::ActuatorPwm()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_ActuatorPwm_5ftest_2eproto::scc_info_ActuatorPwm.base);
   SharedCtor();
-  if (!is_message_owned) {
-    RegisterArenaDtor(arena);
-  }
-  // @@protoc_insertion_point(arena_constructor:blox.ActuatorPwm)
+  // @@protoc_insertion_point(constructor:blox.ActuatorPwm)
 }
 ActuatorPwm::ActuatorPwm(const ActuatorPwm& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
       strippedfields_(from.strippedfields_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_constrainedby()) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_constrainedby()) {
     constrainedby_ = new ::blox::AnalogConstraints(*from.constrainedby_);
   } else {
-    constrainedby_ = nullptr;
+    constrainedby_ = NULL;
   }
   ::memcpy(&actuatorid_, &from.actuatorid_,
     static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
@@ -144,215 +179,341 @@ ActuatorPwm::ActuatorPwm(const ActuatorPwm& from)
   // @@protoc_insertion_point(copy_constructor:blox.ActuatorPwm)
 }
 
-inline void ActuatorPwm::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&constrainedby_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
-    reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
+void ActuatorPwm::SharedCtor() {
+  ::memset(&constrainedby_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&desiredsetting_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
 }
 
 ActuatorPwm::~ActuatorPwm() {
   // @@protoc_insertion_point(destructor:blox.ActuatorPwm)
-  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-inline void ActuatorPwm::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+void ActuatorPwm::SharedDtor() {
   if (this != internal_default_instance()) delete constrainedby_;
 }
 
-void ActuatorPwm::ArenaDtor(void* object) {
-  ActuatorPwm* _this = reinterpret_cast< ActuatorPwm* >(object);
-  (void)_this;
-}
-void ActuatorPwm::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void ActuatorPwm::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* ActuatorPwm::descriptor() {
+  ::protobuf_ActuatorPwm_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_ActuatorPwm_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const ActuatorPwm& ActuatorPwm::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorPwm_5ftest_2eproto::scc_info_ActuatorPwm.base);
+  return *internal_default_instance();
+}
+
 
 void ActuatorPwm::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.ActuatorPwm)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   strippedfields_.Clear();
-  if (GetArenaForAllocation() == nullptr && constrainedby_ != nullptr) {
+  if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
     delete constrainedby_;
   }
-  constrainedby_ = nullptr;
+  constrainedby_ = NULL;
   ::memset(&actuatorid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&desiredsetting_) -
       reinterpret_cast<char*>(&actuatorid_)) + sizeof(desiredsetting_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
-const char* ActuatorPwm::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
+bool ActuatorPwm::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox.ActuatorPwm)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint32 actuatorId = 1 [(.nanopb_test) = {
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          actuatorid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &actuatorid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // uint32 period = 3 [(.brewblox_test) = {
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          period_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &period_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 setting = 4 [(.nanopb_test) = {
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
-          setting_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &setting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 value = 5 [(.nanopb_test) = {
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
-          value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &value_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // .blox.AnalogConstraints constrainedBy = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
-          ptr = ctx->ParseMessage(_internal_mutable_constrainedby(), ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_constrainedby()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // uint32 drivenActuatorId = 7 [(.nanopb_test) = {
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
-          drivenactuatorid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &drivenactuatorid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // bool enabled = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
-          enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &enabled_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 desiredSetting = 9 [(.nanopb_test) = {
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
-          desiredsetting_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &desiredsetting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-      case 99:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt32Parser(_internal_mutable_strippedfields(), ptr, ctx);
-          CHK_(ptr);
-        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24) {
-          _internal_add_strippedfields(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 99: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_strippedfields())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 2, 794u, input, this->mutable_strippedfields())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
+        if (tag == 0) {
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
       }
-    }  // switch
-  }  // while
+    }
+  }
 success:
-  return ptr;
+  // @@protoc_insertion_point(parse_success:blox.ActuatorPwm)
+  return true;
 failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox.ActuatorPwm)
+  return false;
+#undef DO_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* ActuatorPwm::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorPwm)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+void ActuatorPwm::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox.ActuatorPwm)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 actuatorId = 1 [(.nanopb_test) = {
-  if (this->_internal_actuatorid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_actuatorid(), target);
+  if (this->actuatorid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->actuatorid(), output);
   }
 
   // uint32 period = 3 [(.brewblox_test) = {
-  if (this->_internal_period() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_period(), target);
+  if (this->period() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->period(), output);
   }
 
   // sint32 setting = 4 [(.nanopb_test) = {
-  if (this->_internal_setting() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(4, this->_internal_setting(), target);
+  if (this->setting() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(4, this->setting(), output);
   }
 
   // sint32 value = 5 [(.nanopb_test) = {
-  if (this->_internal_value() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(5, this->_internal_value(), target);
+  if (this->value() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(5, this->value(), output);
   }
 
   // .blox.AnalogConstraints constrainedBy = 6;
-  if (this->_internal_has_constrainedby()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        6, _Internal::constrainedby(this), target, stream);
+  if (this->has_constrainedby()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      6, this->_internal_constrainedby(), output);
   }
 
   // uint32 drivenActuatorId = 7 [(.nanopb_test) = {
-  if (this->_internal_drivenactuatorid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_drivenactuatorid(), target);
+  if (this->drivenactuatorid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->drivenactuatorid(), output);
   }
 
   // bool enabled = 8;
-  if (this->_internal_enabled() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(8, this->_internal_enabled(), target);
+  if (this->enabled() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->enabled(), output);
   }
 
   // sint32 desiredSetting = 9 [(.nanopb_test) = {
-  if (this->_internal_desiredsetting() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(9, this->_internal_desiredsetting(), target);
+  if (this->desiredsetting() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(9, this->desiredsetting(), output);
   }
 
   // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-  {
-    int byte_size = _strippedfields_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteUInt32Packed(
-          99, _internal_strippedfields(), byte_size, target);
-    }
+  if (this->strippedfields_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _strippedfields_cached_byte_size_));
+  }
+  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->strippedfields(i), output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox.ActuatorPwm)
+}
+
+::google::protobuf::uint8* ActuatorPwm::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorPwm)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 actuatorId = 1 [(.nanopb_test) = {
+  if (this->actuatorid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->actuatorid(), target);
+  }
+
+  // uint32 period = 3 [(.brewblox_test) = {
+  if (this->period() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->period(), target);
+  }
+
+  // sint32 setting = 4 [(.nanopb_test) = {
+  if (this->setting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(4, this->setting(), target);
+  }
+
+  // sint32 value = 5 [(.nanopb_test) = {
+  if (this->value() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->value(), target);
+  }
+
+  // .blox.AnalogConstraints constrainedBy = 6;
+  if (this->has_constrainedby()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        6, this->_internal_constrainedby(), deterministic, target);
+  }
+
+  // uint32 drivenActuatorId = 7 [(.nanopb_test) = {
+  if (this->drivenactuatorid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->drivenactuatorid(), target);
+  }
+
+  // bool enabled = 8;
+  if (this->enabled() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->enabled(), target);
+  }
+
+  // sint32 desiredSetting = 9 [(.nanopb_test) = {
+  if (this->desiredsetting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(9, this->desiredsetting(), target);
+  }
+
+  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  if (this->strippedfields_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      99,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _strippedfields_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->strippedfields_, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.ActuatorPwm)
   return target;
@@ -362,133 +523,140 @@ size_t ActuatorPwm::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.ActuatorPwm)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
   {
-    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
     if (data_size > 0) {
       total_size += 2 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
     }
-    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
-    _strippedfields_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _strippedfields_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
 
   // .blox.AnalogConstraints constrainedBy = 6;
-  if (this->_internal_has_constrainedby()) {
+  if (this->has_constrainedby()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
         *constrainedby_);
   }
 
   // uint32 actuatorId = 1 [(.nanopb_test) = {
-  if (this->_internal_actuatorid() != 0) {
+  if (this->actuatorid() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_actuatorid());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->actuatorid());
   }
 
   // uint32 period = 3 [(.brewblox_test) = {
-  if (this->_internal_period() != 0) {
+  if (this->period() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_period());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->period());
   }
 
   // sint32 setting = 4 [(.nanopb_test) = {
-  if (this->_internal_setting() != 0) {
+  if (this->setting() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_setting());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->setting());
   }
 
   // sint32 value = 5 [(.nanopb_test) = {
-  if (this->_internal_value() != 0) {
+  if (this->value() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_value());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->value());
   }
 
   // uint32 drivenActuatorId = 7 [(.nanopb_test) = {
-  if (this->_internal_drivenactuatorid() != 0) {
+  if (this->drivenactuatorid() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_drivenactuatorid());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->drivenactuatorid());
   }
 
   // bool enabled = 8;
-  if (this->_internal_enabled() != 0) {
+  if (this->enabled() != 0) {
     total_size += 1 + 1;
   }
 
   // sint32 desiredSetting = 9 [(.nanopb_test) = {
-  if (this->_internal_desiredsetting() != 0) {
+  if (this->desiredsetting() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_desiredsetting());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->desiredsetting());
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ActuatorPwm::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    ActuatorPwm::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ActuatorPwm::GetClassData() const { return &_class_data_; }
-
-void ActuatorPwm::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
-  static_cast<ActuatorPwm *>(to)->MergeFrom(
-      static_cast<const ActuatorPwm &>(from));
+void ActuatorPwm::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.ActuatorPwm)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ActuatorPwm* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ActuatorPwm>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.ActuatorPwm)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.ActuatorPwm)
+    MergeFrom(*source);
+  }
 }
-
 
 void ActuatorPwm::MergeFrom(const ActuatorPwm& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.ActuatorPwm)
   GOOGLE_DCHECK_NE(&from, this);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   strippedfields_.MergeFrom(from.strippedfields_);
-  if (from._internal_has_constrainedby()) {
-    _internal_mutable_constrainedby()->::blox::AnalogConstraints::MergeFrom(from._internal_constrainedby());
+  if (from.has_constrainedby()) {
+    mutable_constrainedby()->::blox::AnalogConstraints::MergeFrom(from.constrainedby());
   }
-  if (from._internal_actuatorid() != 0) {
-    _internal_set_actuatorid(from._internal_actuatorid());
+  if (from.actuatorid() != 0) {
+    set_actuatorid(from.actuatorid());
   }
-  if (from._internal_period() != 0) {
-    _internal_set_period(from._internal_period());
+  if (from.period() != 0) {
+    set_period(from.period());
   }
-  if (from._internal_setting() != 0) {
-    _internal_set_setting(from._internal_setting());
+  if (from.setting() != 0) {
+    set_setting(from.setting());
   }
-  if (from._internal_value() != 0) {
-    _internal_set_value(from._internal_value());
+  if (from.value() != 0) {
+    set_value(from.value());
   }
-  if (from._internal_drivenactuatorid() != 0) {
-    _internal_set_drivenactuatorid(from._internal_drivenactuatorid());
+  if (from.drivenactuatorid() != 0) {
+    set_drivenactuatorid(from.drivenactuatorid());
   }
-  if (from._internal_enabled() != 0) {
-    _internal_set_enabled(from._internal_enabled());
+  if (from.enabled() != 0) {
+    set_enabled(from.enabled());
   }
-  if (from._internal_desiredsetting() != 0) {
-    _internal_set_desiredsetting(from._internal_desiredsetting());
+  if (from.desiredsetting() != 0) {
+    set_desiredsetting(from.desiredsetting());
   }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ActuatorPwm::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.ActuatorPwm)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void ActuatorPwm::CopyFrom(const ActuatorPwm& from) {
@@ -502,31 +670,38 @@ bool ActuatorPwm::IsInitialized() const {
   return true;
 }
 
+void ActuatorPwm::Swap(ActuatorPwm* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void ActuatorPwm::InternalSwap(ActuatorPwm* other) {
   using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   strippedfields_.InternalSwap(&other->strippedfields_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ActuatorPwm, desiredsetting_)
-      + sizeof(ActuatorPwm::desiredsetting_)
-      - PROTOBUF_FIELD_OFFSET(ActuatorPwm, constrainedby_)>(
-          reinterpret_cast<char*>(&constrainedby_),
-          reinterpret_cast<char*>(&other->constrainedby_));
+  swap(constrainedby_, other->constrainedby_);
+  swap(actuatorid_, other->actuatorid_);
+  swap(period_, other->period_);
+  swap(setting_, other->setting_);
+  swap(value_, other->value_);
+  swap(drivenactuatorid_, other->drivenactuatorid_);
+  swap(enabled_, other->enabled_);
+  swap(desiredsetting_, other->desiredsetting_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata ActuatorPwm::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_ActuatorPwm_5ftest_2eproto_getter, &descriptor_table_ActuatorPwm_5ftest_2eproto_once,
-      file_level_metadata_ActuatorPwm_5ftest_2eproto[0]);
+::google::protobuf::Metadata ActuatorPwm::GetMetadata() const {
+  protobuf_ActuatorPwm_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_ActuatorPwm_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
+
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace blox
-PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::blox::ActuatorPwm* Arena::CreateMaybeMessage< ::blox::ActuatorPwm >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox::ActuatorPwm >(arena);
+namespace google {
+namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::ActuatorPwm* Arena::CreateMaybeMessage< ::blox::ActuatorPwm >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::ActuatorPwm >(arena);
 }
-PROTOBUF_NAMESPACE_CLOSE
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
-#include <google/protobuf/port_undef.inc>
