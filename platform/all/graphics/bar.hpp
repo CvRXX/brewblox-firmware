@@ -10,14 +10,8 @@ public:
     Bar(lv_obj_t* mainContainer)
     {
         barObj = lv_obj_create(mainContainer, NULL);
-        lv_obj_set_size(barObj, 480, 25);
+        lv_obj_set_size(barObj, 480, 22);
         lv_obj_add_style(barObj, LV_CONT_PART_MAIN, &style::bar);
-        // lv_obj_set_style_local_bg_color(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-        // lv_obj_set_style_local_margin_all(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_pad_all(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_border_width(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_radius(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        // lv_obj_set_style_local_text_font(barObj, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &main_font);
 
         label = lv_label_create(barObj, NULL);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);

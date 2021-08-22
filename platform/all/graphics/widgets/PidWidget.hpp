@@ -13,18 +13,54 @@ public:
      * @param color The background color of the widget.
      */
     PidWidget(lv_obj_t* grid, cbox::CboxPtr<PidBlock>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, color)
+        : BaseWidget(grid, label, color)
         , lookup(ptr)
     {
-        makeObj(label);
+        inputValue = lv_label_create(obj, nullptr);
+        setInputValue("-");
+        lv_obj_set_style_local_text_font(inputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
+        lv_label_set_align(inputValue, LV_LABEL_ALIGN_CENTER);
+
+        inputSetting = lv_label_create(obj, nullptr);
+        setInputSetting("-");
+        lv_obj_set_style_local_text_font(inputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
+        lv_label_set_align(inputSetting, LV_LABEL_ALIGN_CENTER);
+
+        outputValue = lv_label_create(obj, nullptr);
+        setOutputValue("-");
+        lv_obj_set_style_local_text_font(outputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
+        lv_label_set_align(outputValue, LV_LABEL_ALIGN_CENTER);
+
+        outputSetting = lv_label_create(obj, nullptr);
+        setOutputSetting("-");
+        lv_obj_set_style_local_text_font(outputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
+        lv_label_set_align(outputSetting, LV_LABEL_ALIGN_CENTER);
+
+        pidValues = lv_cont_create(obj, nullptr);
+        pLabel = lv_label_create(pidValues, nullptr);
+        lv_label_set_text(pLabel, "P ");
+        pValue = lv_label_create(pidValues, nullptr);
+        lv_label_set_text(pValue, "100");
+        iLabel = lv_label_create(pidValues, nullptr);
+        lv_label_set_text(iLabel, "I");
+        iValue = lv_label_create(pidValues, nullptr);
+        lv_label_set_text(iValue, "80");
+        dLabel = lv_label_create(pidValues, nullptr);
+        lv_label_set_text(dLabel, "D");
+        dValue = lv_label_create(pidValues, nullptr);
+        lv_label_set_text(dValue, "-10");
+
+        lv_obj_set_auto_realign(pidValues, true);
+        lv_obj_align_origo(pidValues, nullptr, LV_ALIGN_CENTER, 0, 0);
+        lv_cont_set_fit(pidValues, LV_FIT_TIGHT);
+        lv_cont_set_layout(pidValues, LV_LAYOUT_ROW_MID);
+
+        // lv_obj_add_style(pidValues, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main);
+        // lv_label_set_align(pidValues, LV_LABEL_ALIGN_CENTER);
     }
 
-    PidWidget(const PidWidget&) = delete;
-    PidWidget& operator=(const PidWidget&) = delete;
-
-    ~PidWidget()
+    virtual ~PidWidget()
     {
-        lv_obj_del(obj);
     }
 
     /// Updates the widget with information from the object it's representing.
@@ -32,9 +68,9 @@ public:
     {
         if (auto ptr = lookup.const_lock()) {
 
-            setPBar(int32_t(ptr->get().p()));
-            setIBar(int32_t(ptr->get().i()));
-            setDBar(int32_t(ptr->get().d()));
+            // setPBar(int32_t(ptr->get().p()));
+            // setIBar(int32_t(ptr->get().i()));
+            // setDBar(int32_t(ptr->get().d()));
 
             auto& inputLookup = ptr->getInputLookup();
             auto& outputLookup = ptr->getOutputLookup();
@@ -62,7 +98,7 @@ public:
                 setOutputSetting("-");
             }
 
-            setLed(ptr->get().active());
+            updatePidValues(to_string_dec(ptr->get().p(), 0), to_string_dec(ptr->get().i(), 0), to_string_dec(ptr->get().d(), 0));
 
             return;
         }
@@ -117,123 +153,30 @@ public:
         lv_obj_align(outputSetting, nullptr, LV_ALIGN_CENTER, 40, -52);
     }
 
-    /**
-     * Sets the proportional value bar of the widget.
-     * @param fillWidth The fill width of the bar. 
-     * Positive values will cause the bar to go right, negative values will cause it to go left.
-     */
-    void setPBar(int32_t fillWidth)
+    void updatePidValues(const std::string& p, const std::string& i, const std::string& d)
     {
-        lv_bar_set_value(pBar, fillWidth, LV_ANIM_ON);
-    }
-
-    /**
-     * Sets the integral value bar of the widget.
-     * @param fillWidth The fill width of the bar. 
-     * Positive values will cause the bar to go right, negative values will cause it to go left.
-     */
-    void setIBar(int32_t fillWidth)
-    {
-        lv_bar_set_value(iBar, fillWidth, LV_ANIM_ON);
-    }
-
-    /**
-     * Sets the derivative value bar of the widget.
-     * @param fillWidth The fill width of the bar. 
-     * Positive values will cause the bar to go right, negative values will cause it to go left.
-     */
-    void setDBar(int32_t fillWidth)
-    {
-        lv_bar_set_value(dBar, fillWidth, LV_ANIM_ON);
-    }
-
-    /**
-     * Sets the led of the widget. This will turn the led on or off.
-     * @param state If the led should be on or off.
-     */
-    void setLed(bool state)
-    {
-        state ? lv_led_on(led) : lv_led_off(led);
+        std::string v = "P: ";
+        v.append(p);
+        v.append("  I: ");
+        v.append(i);
+        v.append("  D: ");
+        v.append(d);
+        lv_label_set_text(pidValues, v.c_str());
+        lv_obj_align(pidValues, nullptr, LV_ALIGN_CENTER, 0, 30);
     }
 
 private:
-    void makeObj(const char* labelTxt)
-    {
-        label = lv_label_create(obj, nullptr);
-        lv_label_set_text(label, labelTxt);
-        lv_obj_align(label, nullptr, LV_ALIGN_CENTER, 0, 47);
-        lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        lv_obj_add_style(label, LV_LABEL_PART_MAIN, &style::block_text);
-
-        inputValue = lv_label_create(obj, nullptr);
-        setInputValue("-");
-        lv_obj_set_style_local_text_font(inputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
-        lv_label_set_align(inputValue, LV_LABEL_ALIGN_CENTER);
-
-        inputSetting = lv_label_create(obj, nullptr);
-        setInputSetting("-");
-        lv_obj_set_style_local_text_font(inputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
-        lv_label_set_align(inputSetting, LV_LABEL_ALIGN_CENTER);
-
-        outputValue = lv_label_create(obj, nullptr);
-        setOutputValue("-");
-        lv_obj_set_style_local_text_font(outputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
-        lv_label_set_align(outputValue, LV_LABEL_ALIGN_CENTER);
-
-        outputSetting = lv_label_create(obj, nullptr);
-        setOutputSetting("-");
-        lv_obj_set_style_local_text_font(outputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main_20);
-        lv_label_set_align(outputSetting, LV_LABEL_ALIGN_CENTER);
-
-        pBar = lv_bar_create(obj, nullptr);
-        lv_obj_set_size(pBar, 100, 10);
-        lv_bar_set_type(pBar, LV_BAR_TYPE_SYMMETRICAL);
-        lv_bar_set_range(pBar, -100, 100);
-        lv_obj_align(pBar, nullptr, LV_ALIGN_CENTER, 0, -5);
-        lv_bar_set_anim_time(pBar, 2000);
-        lv_bar_set_value(pBar, 0, LV_ANIM_OFF);
-
-        iBar = lv_bar_create(obj, nullptr);
-        lv_obj_set_size(iBar, 100, 10);
-        lv_bar_set_type(iBar, LV_BAR_TYPE_SYMMETRICAL);
-        lv_bar_set_range(iBar, -100, 100);
-        lv_obj_align(iBar, nullptr, LV_ALIGN_CENTER, 0, 10);
-        lv_bar_set_anim_time(iBar, 2000);
-        lv_bar_set_value(iBar, 0, LV_ANIM_OFF);
-
-        dBar = lv_bar_create(obj, nullptr);
-        lv_obj_set_size(dBar, 100, 10);
-        lv_bar_set_type(dBar, LV_BAR_TYPE_SYMMETRICAL);
-        lv_bar_set_range(dBar, -100, 100);
-        lv_obj_align(dBar, nullptr, LV_ALIGN_CENTER, 0, 25);
-        lv_bar_set_anim_time(dBar, 2000);
-        lv_bar_set_value(dBar, 0, LV_ANIM_OFF);
-
-        led = lv_led_create(obj, nullptr);
-        lv_obj_set_size(led, 16, 16);
-        lv_obj_align(led, nullptr, LV_ALIGN_CENTER, 0, -41);
-
-        if (this->getRed() > 128) {
-            lv_obj_set_style_local_bg_color(pBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-            lv_obj_set_style_local_bg_color(iBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-            lv_obj_set_style_local_bg_color(dBar, LV_BAR_PART_INDIC, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-        }
-
-        lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-        lv_obj_set_style_local_text_color(inputValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-        lv_obj_set_style_local_text_color(inputSetting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-        lv_obj_set_style_local_text_color(outputValue, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-        lv_obj_set_style_local_text_color(outputSetting, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-    }
-    lv_obj_t* label;
     lv_obj_t* inputValue;
     lv_obj_t* inputSetting;
     lv_obj_t* outputValue;
     lv_obj_t* outputSetting;
-    lv_obj_t* pBar;
-    lv_obj_t* iBar;
-    lv_obj_t* dBar;
-    lv_obj_t* led;
+    lv_obj_t* pidValues;
+    lv_obj_t* pLabel;
+    lv_obj_t* pValue;
+    lv_obj_t* iLabel;
+    lv_obj_t* iValue;
+    lv_obj_t* dLabel;
+    lv_obj_t* dValue;
 
     cbox::CboxPtr<PidBlock> lookup;
 };

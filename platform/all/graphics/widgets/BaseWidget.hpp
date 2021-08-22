@@ -6,8 +6,8 @@
 
 class BaseWidget {
 public:
-    BaseWidget(lv_obj_t* grid, lv_color_t color);
-    virtual ~BaseWidget() = default;
+    BaseWidget(lv_obj_t* grid, const char* labelText, lv_color_t color);
+    virtual ~BaseWidget();
 
     BaseWidget(const BaseWidget&) = delete;
     BaseWidget& operator=(const BaseWidget&) = delete;
@@ -18,11 +18,12 @@ public:
     /// Returns the redness of the background color.
     uint8_t getRed();
 
-    virtual void update() = 0;
+    virtual void update(){};
     static TempUnit tempUnit;
 
 protected:
+    // lv_obj_t* grid;
     lv_obj_t* obj;
-    lv_obj_t* grid;
-    lv_color_t textColor;
+    lv_obj_t* label;
+    lv_color_t bg_color;
 };

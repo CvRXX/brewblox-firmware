@@ -1,7 +1,7 @@
 #pragma once
+#include <array>
 #include <lvgl.h>
 #include <memory>
-#include <vector>
 
 namespace cbox {
 class Box;
@@ -74,8 +74,7 @@ public:
 
 private:
     cbox::Box& box;
-    std::vector<std::unique_ptr<BaseWidget>> sensorWidgets;
-    std::array<lv_obj_t*, 6> placeholders;
+    std::array<std::unique_ptr<BaseWidget>, 6> sensorWidgets{};
     lv_obj_t* mainContainer;
     lv_obj_t* grid;
 };

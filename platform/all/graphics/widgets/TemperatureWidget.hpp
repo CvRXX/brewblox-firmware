@@ -11,22 +11,23 @@ public:
      * Constructs the widget
      * @param grid The grid placeholder in which the widget will be placed.
      * @param ptr A cboxPtr to the object the widget represents.
-     * @param label The user set label of the object.
+     * @param label The name printed at the bottom of the widget.
      * @param color The background color of the widget.
      */
     TemperatureWidget(lv_obj_t* grid, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, color)
+        : BaseWidget(grid, label, color)
         , lookup(ptr)
     {
-        makeObj(grid, label, "-");
+        value = lv_label_create(obj, nullptr);
+        lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
+        lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
     }
 
     TemperatureWidget(const TemperatureWidget&) = delete;
     TemperatureWidget& operator=(const TemperatureWidget&) = delete;
 
-    ~TemperatureWidget()
+    virtual ~TemperatureWidget()
     {
-        lv_obj_del(obj);
     }
 
     /// Updates the widget with information from the object it's representing.
@@ -34,7 +35,9 @@ public:
     {
         if (auto ptr = lookup.const_lock()) {
             if (ptr->valid()) {
-                setValue(temp_to_string(ptr->value(), 2, tempUnit));
+                auto v = temp_to_string(ptr->value(), 1, tempUnit);
+                v.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
+                setValue(v);
             } else {
                 setValue("-");
             }
@@ -63,26 +66,6 @@ public:
     }
 
 private:
-    void makeObj(lv_obj_t* grid, const char* labelTxt, const char* valueTxt)
-    {
-        label = lv_label_create(obj, nullptr);
-        lv_obj_reset_style_list(label, LV_LABEL_PART_MAIN);
-        lv_obj_add_style(label, LV_LABEL_PART_MAIN, &style::block_text);
-        lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        setLabel(labelTxt);
-
-        value = lv_label_create(obj, nullptr);
-        setValue(valueTxt);
-        lv_obj_reset_style_list(value, LV_LABEL_PART_MAIN);
-        lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::bigNumber_text);
-        lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
-
-        lv_obj_set_style_local_text_color(value, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-        lv_obj_set_style_local_text_color(label, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, textColor);
-    }
-
     cbox::CboxPtr<TempSensor> lookup;
-    lv_obj_t* label;
     lv_obj_t* value;
-    TempUnit tempUnit;
 };
