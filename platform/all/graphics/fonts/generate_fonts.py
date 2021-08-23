@@ -13,8 +13,8 @@ icons = [
     "0xF0925",  # Wifi strength 3
     "0xF0928",  # Wifi strength 4
     "0xF092E",  # Wifi off
-    "0xF0201",  # Ethernet on
-    "0xF0202",  # Ethernet off
+    "0xF0200",  # Ethernet
+    "0xF0055",  # arrow-thick-right
 ]
 
 # space until ~. Includes punctuation and numbers, not accent letters
@@ -36,6 +36,7 @@ bullet = '0x2022'
 size_numbers_medium = 20
 size_numbers_large = 36
 size_main = 16
+size_main_small = 12
 
 if not which("npx"):
     print("npx not found, to install, run 'npm i -g npx'")
@@ -54,8 +55,15 @@ os.system(
 )
 
 os.system(
-    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {16} "
+    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main} "
     f"--font Roboto-Medium.ttf -r {','.join([letters, degree])} "
     f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
     f"-o font_main.c"
+)
+
+os.system(
+    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main_small} "
+    f"--font Roboto-Medium.ttf -r {','.join([letters, degree])} "
+    f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
+    f"-o font_main_small.c"
 )

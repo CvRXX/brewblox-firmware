@@ -94,13 +94,9 @@ private:
 
         std::string ethernet;
         if (ethernetEnabled) {
-            ethernet = std::string() + symbols::ethernet + " " + this->ethernetIp;
+            ethernet = std::string(symbols::ethernet) + " " + this->ethernetIp;
         } else {
-            if (!wifiEnabled) {
-                ethernet = symbols::ethernet_off;
-            } else {
-                ethernet = "";
-            }
+            ethernet = "";
         }
         std::string t = std::string() + " " + ethernet + "  " + wifi;
         lv_label_set_text(this->label, t.c_str());
@@ -113,8 +109,8 @@ private:
         return std::to_string((ip >> (8 * 0)) & 0xff) + "." + std::to_string((ip >> (8 * 1)) & 0xff) + "." + std::to_string((ip >> (8 * 2)) & 0xff) + "." + std::to_string((ip >> (8 * 3)) & 0xff);
     }
 
-    std::string ethernetIp = "xx.xx.xx.xx";
-    std::string wifiIp = "xx.xx.xx.xx";
+    std::string ethernetIp = "0.0.0.0";
+    std::string wifiIp = "0.0.0.0";
     bool wifiEnabled = false;
     bool ethernetEnabled = false;
 

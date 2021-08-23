@@ -4,6 +4,7 @@
 
 extern "C" {
 extern lv_font_t font_main;
+extern lv_font_t font_main_small;
 extern lv_font_t font_numbers_medium;
 extern lv_font_t font_numbers_large;
 }
@@ -30,6 +31,7 @@ extern lv_font_t font_numbers_large;
 
 namespace fonts {
 static constexpr lv_font_t& main = ::font_main;
+static constexpr lv_font_t& main_small = ::font_main_small;
 static constexpr lv_font_t& numbers_medium = ::font_numbers_medium;
 static constexpr lv_font_t& numbers_large = ::font_numbers_large;
 static constexpr lv_font_t& widget_name = ::font_main;
@@ -61,6 +63,7 @@ static constexpr auto wifi_strength2 = "\xF3\xB0\xA4\xA2";
 static constexpr auto wifi_strength3 = "\xF3\xB0\xA4\xA5";
 static constexpr auto wifi_strength4 = "\xF3\xB0\xA4\xA8";
 static constexpr auto wifi_off = "\xF3\xB0\xA4\xAE";
-static constexpr auto ethernet = "\xF3\xB0\x88\x81";
-static constexpr auto ethernet_off = "\xF3\xB0\x88\x82";
+static constexpr auto ethernet = "\xF3\xB0\x88\x80";
+static constexpr auto arrow_thick_right = "\xF3\xB0\x81\x95";
+
 }

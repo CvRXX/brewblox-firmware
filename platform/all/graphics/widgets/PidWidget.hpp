@@ -25,46 +25,69 @@ public:
         , iValue(lv_label_create(obj, nullptr))
         , dLabel(lv_label_create(obj, nullptr))
         , dValue(lv_label_create(obj, nullptr))
+        , arrowInput(lv_label_create(obj, nullptr))
+        , arrowOutput(lv_label_create(obj, nullptr))
+        , inputLabel(lv_label_create(obj, nullptr))
+        , outputLabel(lv_label_create(obj, nullptr))
     {
-        lv_obj_set_style_local_text_font(inputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
+        constexpr int inputY = -42;
+        constexpr int outputY = -5;
+        constexpr int leftX = -40;
+        constexpr int rightX = 40;
+        constexpr int pidValuesY = 33;
+
+        lv_obj_add_style(inputValue, LV_OBJ_PART_MAIN, &style::number_medium);
         lv_label_set_text(inputValue, "-");
-        lv_obj_align(inputValue, nullptr, LV_ALIGN_CENTER, -30, -30);
+        lv_obj_align(inputValue, nullptr, LV_ALIGN_CENTER, leftX, inputY);
 
         lv_label_set_text(inputSetting, "-");
-        lv_obj_set_style_local_text_font(inputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_obj_align(inputSetting, nullptr, LV_ALIGN_CENTER, -30, -52);
+        lv_obj_add_style(inputSetting, LV_OBJ_PART_MAIN, &style::number_medium);
+        lv_obj_align(inputSetting, nullptr, LV_ALIGN_CENTER, rightX, inputY);
 
         lv_label_set_text(outputValue, "-");
-        lv_obj_set_style_local_text_font(outputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_obj_align(outputValue, nullptr, LV_ALIGN_CENTER, 30, -30);
+        lv_obj_add_style(outputValue, LV_OBJ_PART_MAIN, &style::number_medium);
+        lv_obj_align(outputValue, nullptr, LV_ALIGN_CENTER, leftX, outputY);
 
         lv_label_set_text(outputSetting, "-");
-        lv_obj_set_style_local_text_font(outputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_obj_align(outputSetting, nullptr, LV_ALIGN_CENTER, 30, -52);
+        lv_obj_add_style(outputSetting, LV_OBJ_PART_MAIN, &style::number_medium);
+        lv_obj_align(outputSetting, nullptr, LV_ALIGN_CENTER, rightX, outputY);
 
-        lv_label_set_text(pLabel, "P ");
+        lv_label_set_text(inputLabel, "input");
+        lv_label_set_text(outputLabel, "output");
+        lv_obj_add_style(inputLabel, LV_OBJ_PART_MAIN, &style::field_label);
+        lv_obj_add_style(outputLabel, LV_OBJ_PART_MAIN, &style::field_label);
+        lv_obj_align(inputLabel, nullptr, LV_ALIGN_CENTER, 0, inputY - 15);
+        lv_obj_align(outputLabel, nullptr, LV_ALIGN_CENTER, 0, outputY - 15);
+
+        lv_label_set_text(arrowInput, symbols::arrow_thick_right);
+        lv_obj_align(arrowInput, nullptr, LV_ALIGN_CENTER, 0, inputY);
+        lv_label_set_text(arrowOutput, symbols::arrow_thick_right);
+        lv_obj_align(arrowOutput, nullptr, LV_ALIGN_CENTER, 0, outputY);
+
+        lv_label_set_text(pLabel, "P");
         lv_label_set_text(iLabel, "I");
         lv_label_set_text(dLabel, "D");
+        lv_obj_add_style(pLabel, LV_OBJ_PART_MAIN, &style::field_label);
+        lv_obj_add_style(iLabel, LV_OBJ_PART_MAIN, &style::field_label);
+        lv_obj_add_style(dLabel, LV_OBJ_PART_MAIN, &style::field_label);
+
         lv_label_set_text(pValue, "0");
         lv_label_set_text(iValue, "0");
         lv_label_set_text(dValue, "0");
 
-        lv_obj_align(pLabel, nullptr, LV_ALIGN_CENTER, -40, 5);
-        lv_obj_align(pValue, nullptr, LV_ALIGN_CENTER, -40, 20);
-        lv_obj_align(iLabel, nullptr, LV_ALIGN_CENTER, 0, 5);
-        lv_obj_align(iValue, nullptr, LV_ALIGN_CENTER, 0, 20);
-        lv_obj_align(dLabel, nullptr, LV_ALIGN_CENTER, 40, 5);
-        lv_obj_align(dValue, nullptr, LV_ALIGN_CENTER, 40, 20);
+        lv_obj_align(pLabel, nullptr, LV_ALIGN_CENTER, -40, pidValuesY - 16);
+        lv_obj_align(pValue, nullptr, LV_ALIGN_CENTER, -40, pidValuesY);
+        lv_obj_align(iLabel, nullptr, LV_ALIGN_CENTER, 0, pidValuesY - 16);
+        lv_obj_align(iValue, nullptr, LV_ALIGN_CENTER, 0, pidValuesY);
+        lv_obj_align(dLabel, nullptr, LV_ALIGN_CENTER, 40, pidValuesY - 16);
+        lv_obj_align(dValue, nullptr, LV_ALIGN_CENTER, 40, pidValuesY);
 
         lv_obj_set_auto_realign(inputValue, true);
         lv_obj_set_auto_realign(inputSetting, true);
         lv_obj_set_auto_realign(outputValue, true);
         lv_obj_set_auto_realign(outputSetting, true);
-        //lv_obj_set_auto_realign(pLabel, true);
         lv_obj_set_auto_realign(pValue, true);
-        //lv_obj_set_auto_realign(iLabel, true);
         lv_obj_set_auto_realign(iValue, true);
-        //lv_obj_set_auto_realign(dLabel, true);
         lv_obj_set_auto_realign(dValue, true);
     }
 
@@ -72,7 +95,7 @@ public:
     {
     }
 
-    /// Updates the widget with information from the object it's representing.
+    /// Updates the widget with iinputValuenformation from the object it's representing.
     void update()
     {
         if (auto ptr = lookup.const_lock()) {
@@ -124,4 +147,8 @@ private:
     lv_obj_t* iValue;
     lv_obj_t* dLabel;
     lv_obj_t* dValue;
+    lv_obj_t* arrowInput;
+    lv_obj_t* arrowOutput;
+    lv_obj_t* inputLabel;
+    lv_obj_t* outputLabel;
 };

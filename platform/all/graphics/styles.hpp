@@ -13,6 +13,7 @@ extern lv_style_t bg_light;
 extern lv_style_t widget_name;
 extern lv_style_t number_large;
 extern lv_style_t number_medium;
+extern lv_style_t field_label;
 
 void init();
 }

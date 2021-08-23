@@ -12,6 +12,7 @@ lv_style_t bg_light;
 lv_style_t widget_name;
 lv_style_t number_large;
 lv_style_t number_medium;
+lv_style_t field_label;
 
 void init()
 {
@@ -21,15 +22,15 @@ void init()
     lv_style_set_margin_all(&maincontainer, LV_STATE_DEFAULT, 0);
     lv_style_set_bg_color(&maincontainer, LV_STATE_DEFAULT, LV_COLOR_BLACK);
     lv_style_set_border_side(&maincontainer, LV_STATE_DEFAULT, LV_BORDER_SIDE_NONE);
+    lv_style_set_text_font(&maincontainer, LV_STATE_DEFAULT, &fonts::main);
 
     lv_style_init(&bar);
     lv_style_set_bg_color(&bar, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-    lv_style_set_text_font(&bar, LV_STATE_DEFAULT, &fonts::main);
     lv_style_set_border_side(&bar, LV_STATE_DEFAULT, LV_BORDER_SIDE_NONE);
     lv_style_set_radius(&bar, LV_STATE_DEFAULT, 0);
 
     lv_style_init(&grid);
-    lv_style_set_bg_color(&bar, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+    lv_style_set_bg_color(&grid, LV_STATE_DEFAULT, LV_COLOR_BLACK);
     lv_style_set_pad_all(&grid, LV_STATE_DEFAULT, 9);
     lv_style_set_pad_inner(&grid, LV_STATE_DEFAULT, 9);
     lv_style_set_border_side(&grid, LV_STATE_DEFAULT, LV_BORDER_SIDE_NONE);
@@ -60,5 +61,10 @@ void init()
 
     lv_style_init(&widget_name);
     lv_style_set_text_font(&widget_name, LV_STATE_DEFAULT, &fonts::widget_name);
+    lv_style_set_text_opa(&widget_name, LV_STATE_DEFAULT, 160);
+
+    lv_style_init(&field_label);
+    lv_style_set_text_font(&field_label, LV_STATE_DEFAULT, &fonts::main_small);
+    lv_style_set_text_opa(&field_label, LV_STATE_DEFAULT, 160);
 }
 }
