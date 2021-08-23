@@ -115,7 +115,7 @@ void Spark4::expander_init()
     expander.write_reg(SX1508::RegAddr::data, 0x00);
 
     // beep also configures clock, which is on the same register
-    // startup_beep();
+    startup_beep();
 }
 
 void Spark4::hw_deinit()
