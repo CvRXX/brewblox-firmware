@@ -51,4 +51,7 @@ public:
 
     // Perform a triple operation which will perform 2 read bits and 1 write bit, returns device status
     virtual uint8_t search_triplet(bool search_direction) = 0;
+
+    // Returens whether a short is detected on the bus
+    virtual bool shortDetected() = 0;
 };

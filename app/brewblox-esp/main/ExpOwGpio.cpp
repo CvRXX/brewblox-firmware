@@ -249,9 +249,7 @@ void ExpOwGpio::update()
 {
     auto drv_status = status();
 
-    bool onewireResetNeeded = owDriver.status().bits.device_reset || owDriver.status().bits.short_detected;
-
-    if (onewireResetNeeded) {
+    if (owDriver.shortDetected()) {
         expander.set_output(ExpanderPins::oneWirePowerEnable, false);
         hal_delay_ms(100);
         // ESP_LOGE("OWGPIO", "Power cycling OneWire on module %d, %x", modulePosition(), owDriver.status().all);

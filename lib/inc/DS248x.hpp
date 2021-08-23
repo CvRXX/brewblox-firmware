@@ -117,6 +117,11 @@ public:
         return s;
     }
 
+    virtual bool shortDetected() override final
+    {
+        return status().bits.short_detected;
+    }
+
 private:
     uint8_t mStatus = 0;
 
