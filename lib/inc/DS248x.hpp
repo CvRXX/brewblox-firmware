@@ -81,7 +81,6 @@ public:
     virtual bool read_bit(bool& bit) override final;
 
     // DS248X specific functions below
-
     bool resetMaster();
 
     //DS2482-800 only
@@ -96,6 +95,27 @@ public:
     //
     // Returns – The DS248X status byte result from the triplet command
     virtual uint8_t search_triplet(bool search_direction) override final;
+
+    typedef union {
+        struct {
+            uint8_t onewire_busy : 1;
+            uint8_t presense_pulse_detect : 1;
+            uint8_t short_detected : 1;
+            uint8_t logic_level : 1;
+            uint8_t device_reset : 1;
+            uint8_t single_bit_result : 1;
+            uint8_t triplet_second_bit : 1;
+            uint8_t direction_taken : 1;
+        } bits;
+        uint8_t all;
+    } Status;
+
+    Status status()
+    {
+        Status s;
+        s.all = mStatus;
+        return s;
+    }
 
 private:
     uint8_t mStatus = 0;

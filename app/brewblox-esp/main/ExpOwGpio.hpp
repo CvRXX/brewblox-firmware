@@ -288,4 +288,12 @@ private:
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
+
+    enum ExpanderPins : uint8_t {
+        spiCsPin = 0,
+        exernalVoltageEnable = 1,
+        driverSleep = 2,
+        driverFault = 3,
+        oneWirePowerEnable = 4,
+    };
 };
