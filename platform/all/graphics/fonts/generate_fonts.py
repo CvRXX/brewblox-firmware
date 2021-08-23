@@ -6,6 +6,8 @@ import os
 import sys
 from shutil import which
 
+# to find icon code, search in https://raw.githubusercontent.com/Templarian/MaterialDesign-Font/master/cheatsheet.html
+# convert hex to utf8 and add to fonts.hpp
 
 icons = [
     "0xF091F",  # Wifi strength 1
@@ -17,7 +19,7 @@ icons = [
     "0xF0055",  # arrow-thick-right
 ]
 
-# space until ~. Includes punctuation and numbers, not accent letters
+# from space to ~. Includes punctuation and numbers, not accent letters
 letters = '0x20-0x7E'
 numbers = [
     '0x20',  # space

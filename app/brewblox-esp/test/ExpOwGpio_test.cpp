@@ -72,7 +72,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An single pin SSR is added using 1 pin")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_ONE_PIN_SSR, 0b00001000});
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 0b00001000});
 
         THEN("The pullups are configured as expected")
         {
@@ -92,7 +92,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An single pin SSR is added using 4 pins")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_ONE_PIN_SSR, 0b00001111});
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 0b00001111});
 
         THEN("The pullups are configured as expected")
         {
@@ -105,7 +105,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An two pin SSR is added using 2 pins")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_TWO_PIN_SSR, 0b00000011});
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 0b00000011});
 
         THEN("The pullups are configured as expected")
         {
@@ -118,7 +118,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An two pin SSR is added using 4 pins")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_TWO_PIN_SSR, 0b00001111});
+        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 0b00001111});
 
         THEN("The pullups are configured as expected")
         {
@@ -130,7 +130,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
         AND_THEN("When it is replaced by a 2 pin SSR, the now unused bits are reset")
         {
-            gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_TWO_PIN_SSR, 0b00000011});
+            gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 0b00000011});
             CHECK(gpio.pullUpWhenActive() == 0b0010);
             CHECK(gpio.pullDownWhenActive() == 0b01);
             CHECK(gpio.pullUpWhenInactive() == 0b00);

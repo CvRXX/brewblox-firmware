@@ -128,7 +128,7 @@ public:
     class FlexChannel {
     public:
         FlexChannel()
-            : deviceType(blox_GpioDeviceType_NONE)
+            : deviceType(blox_GpioDeviceType_GPIO_DEV_NONE)
         {
             pins_mask.bits.all = 0;
         }
@@ -154,7 +154,7 @@ public:
             return this->pins_mask.bits.all != other.pins_mask.bits.all || this->deviceType != other.deviceType;
         }
 
-        blox_GpioDeviceType deviceType = blox_GpioDeviceType_NONE;
+        blox_GpioDeviceType deviceType = blox_GpioDeviceType_GPIO_DEV_NONE;
         ChannelConfig config = ChannelConfig::UNUSED;
 
         uint8_t pwm_duty = 0;
@@ -180,7 +180,6 @@ public:
         return false;
     }
 
-    blox_ChannelStatus channelStatus(uint8_t channel) const;
     blox_DigitalState channelState(uint8_t channel) const;
 
     void setupChannel(uint8_t channel, const FlexChannel& c);
@@ -225,21 +224,16 @@ public:
     {
         return ChanBits{when_inactive_mask}.down();
     }
-    uint8_t pullUpOverCurrent() const
+    uint8_t overCurrent() const
     {
-        return ChanBits{ocp_status}.up();
+        auto external = ChanBits{ocp_status};
+        return external.up() | external.down();
     }
-    uint8_t pullDownOverCurrent() const
+
+    uint8_t openLoad() const
     {
-        return ChanBits{ocp_status}.down();
-    }
-    uint8_t pullUpOpenLoad() const
-    {
-        return ChanBits{old_status}.up();
-    }
-    uint8_t pullDownOpenLoad() const
-    {
-        return ChanBits{old_status}.down();
+        auto external = ChanBits{old_status};
+        return external.up() | external.down();
     }
 
     uint8_t modulePosition() const override final

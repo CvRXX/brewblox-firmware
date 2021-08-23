@@ -171,23 +171,23 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
     }
 
     switch (flexChannels[idx].deviceType) {
-    case blox_GpioDeviceType_NONE:
+    case blox_GpioDeviceType_GPIO_DEV_NONE:
         result = State::Unknown;
         break;
-    case blox_GpioDeviceType_TWO_PIN_SSR:                     // gnd, pp
-    case blox_GpioDeviceType_ONE_PIN_SSR:                     // pp, external ground
-    case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_GND: // pu, external ground
-    case blox_GpioDeviceType_TWO_PIN_COIL:                    // gnd, pu
-    case blox_GpioDeviceType_TWO_PIN_COIL_PUSH_PULL:          // pp,pp toggled 01 or 10
-    case blox_GpioDeviceType_TWO_PIN_MOTOR_UNIDIRECTIONAL:    // gnd, pu
-    case blox_GpioDeviceType_SINGLE_PIN_MOTOR_HIGH_SIDE:      // pu, external to GND
+    case blox_GpioDeviceType_GPIO_DEV_SSR_2P:                  // gnd, pp
+    case blox_GpioDeviceType_GPIO_DEV_SSR_1P:                  // pp, external ground
+    case blox_GpioDeviceType_GPIO_DEV_COIL_HIGH_SIDE_1P:       // pu, external ground
+    case blox_GpioDeviceType_GPIO_DEV_COIL_UNIDIRECTIONAL_2P:  // gnd, pu
+    case blox_GpioDeviceType_GPIO_DEV_COIL_BIDIRECTIONAL_2P:   // pp,pp toggled 01 or 10
+    case blox_GpioDeviceType_GPIO_DEV_MOTOR_UNIDIRECTIONAL_2P: // gnd, pu
+    case blox_GpioDeviceType_GPIO_DEV_MOTOR_HIGH_SIDE_1P:      // pu, external to GND
         result = pullUpStatus() & pins ? State::Active : State::Inactive;
         break;
-    case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_PWR: // pd, external ground
-    case blox_GpioDeviceType_SINGLE_PIN_MOTOR_LOW_SIDE:       // pd, external to PWR
+    case blox_GpioDeviceType_GPIO_DEV_COIL_LOW_SIDE_1P:  // pd, external ground
+    case blox_GpioDeviceType_GPIO_DEV_MOTOR_LOW_SIDE_1P: // pd, external to PWR
         result = pullDownStatus() & pins ? State::Active : State::Inactive;
         break;
-    case blox_GpioDeviceType_TWO_PIN_MOTOR_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
+    case blox_GpioDeviceType_GPIO_DEV_MOTOR_BIDIRECTIONAL_2P: // pp, pp, toggle 01 or 10
         if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
             result = State::Reverse;
         } else if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
@@ -196,20 +196,22 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
             result = State::Inactive;
         }
         break;
-    case blox_GpioDeviceType_TWO_PIN_SWITCH_INPUT:; // old, old
-        result = State::Unknown;                    // todo
-        break;
-    case blox_GpioDeviceType_SWITCH_TO_EXTERNAL_GND:; // old, external GND
+    case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P: // old, old
         result = State::Unknown;                      // todo
         break;
-    case blox_GpioDeviceType_SWITCH_TO_PWR:; // old, external PWR
-        result = State::Unknown;             // todo
+    case blox_GpioDeviceType_GPIO_DEV_GND_LOAD_DETECT_1P:       // old, external GND
+    case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_PULL_DOWN_1P: // old only
+        result = State::Unknown;                                // todo
         break;
-    case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_GND:; // pwr, with load detect
+    case blox_GpioDeviceType_GPIO_DEV_POWER_LOAD_DETECT_1P:   // old, external PWR
+    case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_PULL_UP_1P: // old only
         result = State::Unknown;                              // todo
         break;
-    case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_PWR:; // gnd, with load detect
-        result = State::Unknown;                              // todo
+    case blox_GpioDeviceType_GPIO_DEV_POWER_1P: // pwr, no load detect
+        result = State::Unknown;                // todo
+        break;
+    case blox_GpioDeviceType_GPIO_DEV_GND_1P: // gnd, no load detect
+        result = State::Unknown;              // todo
         break;
     }
     return true;
@@ -343,46 +345,6 @@ void ExpOwGpio::update()
     }
 }
 
-blox_ChannelStatus ExpOwGpio::channelStatus(uint8_t channel) const
-{
-    if (!channel || channel > 8) {
-        return blox_ChannelStatus_SPI_ERROR;
-    }
-
-    auto driverStatus = status();
-    if (driverStatus.bits.spi_error) {
-        return blox_ChannelStatus_UNKNOWN;
-    }
-    if (driverStatus.bits.power_on_reset) {
-        return blox_ChannelStatus_POWER_ON_RESET;
-    }
-    if (driverStatus.bits.overtemperature_shutdown) {
-        return blox_ChannelStatus_OVERTEMPERATURE_SHUTDOWN;
-    }
-    if (driverStatus.bits.overvoltage) {
-        return blox_ChannelStatus_OVERVOLTAGE;
-    }
-    if (driverStatus.bits.undervoltage) {
-        return blox_ChannelStatus_UNDERVOLTAGE;
-    }
-    // process open load and overcurrent before overtemperature, so they are not masked
-    uint8_t idx = channel - 1;
-    if (driverStatus.bits.openload) {
-        if (flexChannels[idx].pins_mask.bits.all & old_status.bits.all) {
-            return blox_ChannelStatus_OPEN_LOAD;
-        }
-    }
-    if (driverStatus.bits.overcurrent) {
-        if (flexChannels[idx].pins_mask.bits.all & ocp_status.bits.all) {
-            return blox_ChannelStatus_OVERCURRENT;
-        }
-    }
-    if (driverStatus.bits.overtemperature_warning) {
-        return blox_ChannelStatus_OVERTEMPERATURE_WARNING;
-    }
-    return blox_ChannelStatus_OPERATIONAL;
-}
-
 void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
 {
     if (!channel || channel > 8) {
@@ -440,59 +402,61 @@ void ExpOwGpio::setupChannel(uint8_t channel, const FlexChannel& c)
         flexChannels[idx] = c;
 
         switch (c.deviceType) {
-        case blox_GpioDeviceType_NONE:
+        case blox_GpioDeviceType_GPIO_DEV_NONE:
             // no pullups or pull downs
             break;
-        case blox_GpioDeviceType_ONE_PIN_SSR: // pp, external ground
+        case blox_GpioDeviceType_GPIO_DEV_SSR_1P: // pp, external ground
             // all push/pull
             when_inactive_external.setBits(pins_external, 0x00);
             when_active_external.setBits(0x00, pins_external);
             break;
-        case blox_GpioDeviceType_TWO_PIN_SSR:
+        case blox_GpioDeviceType_GPIO_DEV_SSR_2P:
             // first GND, second push/pull
             when_inactive_external.setBits(pins_external, 0x00);
             when_active_external.setBits(first, second);
             break;
-        case blox_GpioDeviceType_TWO_PIN_COIL:                 // gnd, pu
-        case blox_GpioDeviceType_TWO_PIN_MOTOR_UNIDIRECTIONAL: // gnd, pu
+        case blox_GpioDeviceType_GPIO_DEV_COIL_UNIDIRECTIONAL_2P:  // gnd, pu
+        case blox_GpioDeviceType_GPIO_DEV_MOTOR_UNIDIRECTIONAL_2P: // gnd, pu
             // first GND, second pull-up
             when_inactive_external.setBits(first, 0x00);
             when_active_external.setBits(first, second);
             break;
-        case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_GND: // pu, external ground
-        case blox_GpioDeviceType_SINGLE_PIN_MOTOR_HIGH_SIDE:      // pu, external to ground
+        case blox_GpioDeviceType_GPIO_DEV_COIL_HIGH_SIDE_1P:  // pu, external ground
+        case blox_GpioDeviceType_GPIO_DEV_MOTOR_HIGH_SIDE_1P: // pu, external to ground
             // all pull-up only
             when_inactive_external.setBits(0x00, 0x00);
             when_active_external.setBits(0x00, pins_external);
             break;
-        case blox_GpioDeviceType_SINGLE_PIN_COIL_TO_EXTERNAL_PWR: // pd, external to PWR
-        case blox_GpioDeviceType_SINGLE_PIN_MOTOR_LOW_SIDE:       // pd, external to PWR
+        case blox_GpioDeviceType_GPIO_DEV_COIL_LOW_SIDE_1P:  // pd, external to PWR
+        case blox_GpioDeviceType_GPIO_DEV_MOTOR_LOW_SIDE_1P: // pd, external to PWR
             // all pull-down only
             when_inactive_external.setBits(0x00, 0x00);
             when_active_external.setBits(pins_external, 0x00);
             break;
-        case blox_GpioDeviceType_TWO_PIN_COIL_PUSH_PULL:      // pp,pp toggled 01 or 10
-        case blox_GpioDeviceType_TWO_PIN_MOTOR_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
+        case blox_GpioDeviceType_GPIO_DEV_COIL_BIDIRECTIONAL_2P:  // pp,pp toggled 01 or 10
+        case blox_GpioDeviceType_GPIO_DEV_MOTOR_BIDIRECTIONAL_2P: // pp, pp, toggle 01 or 10
             when_inactive_external.setBits(first, second);
             when_active_external.setBits(second, first);
             break;
-        case blox_GpioDeviceType_TWO_PIN_SWITCH_INPUT:; // old, old
+        case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P:; // old, old
             when_inactive_external.setBits(0x00, 0x00);
             when_active_external.setBits(0x00, 0x00);
             break;
-        case blox_GpioDeviceType_SWITCH_TO_EXTERNAL_GND:; // old, external GND
+        case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_PULL_DOWN_1P:; // old, external GND
             when_inactive_external.setBits(0x00, 0x00);
             when_active_external.setBits(0x00, 0x00);
             break;
-        case blox_GpioDeviceType_SWITCH_TO_PWR:; // old, external PWR
+        case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_PULL_UP_1P:; // old, external PWR
             when_inactive_external.setBits(0x00, 0x00);
             when_active_external.setBits(0x00, 0x00);
             break;
-        case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_GND:; // pwr, with load detect
+        case blox_GpioDeviceType_GPIO_DEV_POWER_LOAD_DETECT_1P:; // pwr, with load detect
+        case blox_GpioDeviceType_GPIO_DEV_POWER_1P:;             // pwr, without load detect
             when_inactive_external.setBits(0x00, pins_external);
             when_active_external.setBits(0x00, pins_external);
             break;
-        case blox_GpioDeviceType_POWERED_SWITCH_TO_EXTERNAL_PWR:; // gnd, with load detect
+        case blox_GpioDeviceType_GPIO_DEV_GND_LOAD_DETECT_1P:; // gnd, with load detect
+        case blox_GpioDeviceType_GPIO_DEV_GND_1P:
             when_inactive_external.setBits(pins_external, 0x00);
             when_active_external.setBits(pins_external, 0x00);
             break;
