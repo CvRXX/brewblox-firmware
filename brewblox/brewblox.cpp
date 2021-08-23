@@ -106,7 +106,6 @@ constexpr bool equal(char const* lhs, char const* rhs)
 
 static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
 
-
 namespace cbox {
 void connectionStarted(DataOut& out)
 {
@@ -116,7 +115,7 @@ void connectionStarted(DataOut& out)
     out.writeBuffer(versionCsv().data(), versionCsv().length());
     out.write(',');
     cbox::EncodedDataOut hexOut(out);
-    
+
     hexOut.write(resetReason());
     out.write(',');
     hexOut.write(resetReasonData());

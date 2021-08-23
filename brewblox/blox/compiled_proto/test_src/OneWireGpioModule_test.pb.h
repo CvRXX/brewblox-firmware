@@ -237,6 +237,12 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 pinsmask() const;
   void set_pinsmask(::google::protobuf::uint32 value);
 
+  // uint32 width = 4 [(.nanopb_test) = {
+  void clear_width();
+  static const int kWidthFieldNumber = 4;
+  ::google::protobuf::uint32 width() const;
+  void set_width(::google::protobuf::uint32 value);
+
   // .blox.ChannelConfig config = 5 [(.brewblox_test) = {
   void clear_config();
   static const int kConfigFieldNumber = 5;
@@ -262,6 +268,7 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 id_;
   int devicetype_;
   ::google::protobuf::uint32 pinsmask_;
+  ::google::protobuf::uint32 width_;
   int config_;
   int state_;
   ::google::protobuf::int32 pwmduty_;
@@ -519,6 +526,20 @@ inline void GpioModuleChannel::set_pinsmask(::google::protobuf::uint32 value) {
   
   pinsmask_ = value;
   // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.pinsMask)
+}
+
+// uint32 width = 4 [(.nanopb_test) = {
+inline void GpioModuleChannel::clear_width() {
+  width_ = 0u;
+}
+inline ::google::protobuf::uint32 GpioModuleChannel::width() const {
+  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.width)
+  return width_;
+}
+inline void GpioModuleChannel::set_width(::google::protobuf::uint32 value) {
+  
+  width_ = value;
+  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.width)
 }
 
 // .blox.ChannelConfig config = 5 [(.brewblox_test) = {

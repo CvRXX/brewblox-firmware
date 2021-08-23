@@ -62,6 +62,7 @@ typedef struct _blox_GpioModuleChannel {
     uint8_t id;
     blox_GpioDeviceType deviceType;
     uint8_t pinsMask;
+    uint8_t width;
     blox_ChannelConfig config;
     blox_DigitalState state;
     int16_t pwmDuty;
@@ -90,15 +91,16 @@ typedef struct _blox_OneWireGpioModule {
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_GpioModuleChannel_init_default      {0, _blox_GpioDeviceType_MIN, 0, _blox_ChannelConfig_MIN, _blox_DigitalState_MIN, 0}
+#define blox_GpioModuleChannel_init_default      {0, _blox_GpioDeviceType_MIN, 0, 0, _blox_ChannelConfig_MIN, _blox_DigitalState_MIN, 0}
 #define blox_OneWireGpioModule_init_default      {0, {blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-#define blox_GpioModuleChannel_init_zero         {0, _blox_GpioDeviceType_MIN, 0, _blox_ChannelConfig_MIN, _blox_DigitalState_MIN, 0}
+#define blox_GpioModuleChannel_init_zero         {0, _blox_GpioDeviceType_MIN, 0, 0, _blox_ChannelConfig_MIN, _blox_DigitalState_MIN, 0}
 #define blox_OneWireGpioModule_init_zero         {0, {blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_GpioModuleChannel_id_tag            1
 #define blox_GpioModuleChannel_deviceType_tag    2
 #define blox_GpioModuleChannel_pinsMask_tag      3
+#define blox_GpioModuleChannel_width_tag         4
 #define blox_GpioModuleChannel_config_tag        5
 #define blox_GpioModuleChannel_state_tag         6
 #define blox_GpioModuleChannel_pwmDuty_tag       7
@@ -118,12 +120,12 @@ typedef struct _blox_OneWireGpioModule {
 #define blox_OneWireGpioModule_moduleStatusClear_tag 16
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_GpioModuleChannel_fields[7];
+extern const pb_field_t blox_GpioModuleChannel_fields[8];
 extern const pb_field_t blox_OneWireGpioModule_fields[15];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_GpioModuleChannel_size              30
-#define blox_OneWireGpioModule_size              335
+#define blox_GpioModuleChannel_size              36
+#define blox_OneWireGpioModule_size              383
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

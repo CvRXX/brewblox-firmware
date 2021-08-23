@@ -81,6 +81,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, id_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, devicetype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, pinsmask_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, width_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, config_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, state_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::GpioModuleChannel, pwmduty_),
@@ -106,7 +107,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::GpioModuleChannel)},
-  { 11, -1, sizeof(::blox::OneWireGpioModule)},
+  { 12, -1, sizeof(::blox::OneWireGpioModule)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -137,53 +138,53 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\034OneWireGpioModule_test.proto\022\004blox\032\023br"
       "ewblox_test.proto\032\021nanopb_test.proto\032\022Io"
-      "Array_test.proto\"\345\001\n\021GpioModuleChannel\022\021"
+      "Array_test.proto\"\373\001\n\021GpioModuleChannel\022\021"
       "\n\002id\030\001 \001(\rB\005\222\?\0028\010\022(\n\ndeviceType\030\002 \001(\0162\024."
       "blox.GpioDeviceType\022\035\n\010pinsMask\030\003 \001(\rB\013\222"
-      "\?\0028\010\212\265\030\002P\001\022+\n\006config\030\005 \001(\0162\023.blox.Channe"
-      "lConfigB\006\212\265\030\002(\001\022)\n\005state\030\006 \001(\0162\022.blox.Di"
-      "gitalStateB\006\212\265\030\002(\001\022\034\n\007pwmDuty\030\007 \001(\005B\013\212\265\030"
-      "\002(\001\222\?\0028\020\"\367\004\n\021OneWireGpioModule\0220\n\010channe"
-      "ls\030\001 \003(\0132\027.blox.GpioModuleChannelB\005\222\?\002\020\010"
-      "\022\035\n\016modulePosition\030\002 \001(\rB\005\222\?\0028\010\022!\n\014modul"
-      "eStatus\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022(\n\rpullUpDesi"
-      "red\030\004 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\'\n\014pullUpSt"
-      "atus\030\005 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022+\n\020pullUpW"
-      "henActive\030\006 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022pu"
-      "llUpWhenInactive\030\007 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P"
-      "\001\022*\n\017pullDownDesired\030\010 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212"
-      "\265\030\002P\001\022)\n\016pullDownStatus\030\t \001(\rB\021\212\265\030\002(\001\222\?\002"
-      "8\010\212\265\030\002P\001\022-\n\022pullDownWhenActive\030\n \001(\rB\021\212\265"
-      "\030\002(\001\222\?\0028\010\212\265\030\002P\001\022/\n\024pullDownWhenInactive\030"
-      "\013 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\013overCurrent\030"
-      "\014 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022#\n\010openLoad\030\r \001"
-      "(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\021moduleStatusCle"
-      "ar\030\020 \001(\rB\013\222\?\0028\010\212\265\030\002P\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n\212\265\030\002"
-      "H\014*\272\004\n\016GpioDeviceType\022\021\n\rGPIO_DEV_NONE\020\000"
-      "\022\023\n\017GPIO_DEV_SSR_2P\020\001\022\023\n\017GPIO_DEV_SSR_1P"
-      "\020\002\022#\n\037GPIO_DEV_COIL_UNIDIRECTIONAL_2P\020\003\022"
-      "\"\n\036GPIO_DEV_COIL_BIDIRECTIONAL_2P\020\004\022\036\n\032G"
-      "PIO_DEV_COIL_HIGH_SIDE_1P\020\005\022\035\n\031GPIO_DEV_"
-      "COIL_LOW_SIDE_1P\020\006\022$\n GPIO_DEV_MOTOR_UNI"
-      "DIRECTIONAL_2P\020\007\022#\n\037GPIO_DEV_MOTOR_BIDIR"
-      "ECTIONAL_2P\020\010\022\037\n\033GPIO_DEV_MOTOR_HIGH_SID"
-      "E_1P\020\t\022\036\n\032GPIO_DEV_MOTOR_LOW_SIDE_1P\020\n\022\033"
-      "\n\027GPIO_DEV_LOAD_DETECT_2P\020\013\022%\n!GPIO_DEV_"
-      "LOAD_DETECT_PULL_DOWN_1P\020\014\022#\n\037GPIO_DEV_L"
-      "OAD_DETECT_PULL_UP_1P\020\r\022!\n\035GPIO_DEV_POWE"
-      "R_LOAD_DETECT_1P\020\016\022\037\n\033GPIO_DEV_GND_LOAD_"
-      "DETECT_1P\020\017\022\025\n\021GPIO_DEV_POWER_1P\020\020\022\023\n\017GP"
-      "IO_DEV_GND_1P\020\021*\212\002\n\016GpioErrorFlags\022\021\n\rGP"
-      "IO_ERR_NONE\020\000\022\033\n\027GPIO_ERR_POWER_ON_RESET"
-      "\020\001\022\030\n\024GPIO_ERR_OVERVOLTAGE\020\002\022\031\n\025GPIO_ERR"
-      "_UNDERVOLTAGE\020\004\022\030\n\024GPIO_ERR_OVERCURRENT\020"
-      "\010\022\026\n\022GPIO_ERR_OPEN_LOAD\020\020\022$\n GPIO_ERR_OV"
-      "ERTEMPERATURE_WARNING\020 \022\"\n\036GPIO_ERR_OVER"
-      "TEMPERATURE_ERROR\020@\022\027\n\022GPIO_ERR_SPI_ERRO"
-      "R\020\200\001b\006proto3"
+      "\?\0028\010\212\265\030\002P\001\022\024\n\005width\030\004 \001(\rB\005\222\?\0028\010\022+\n\006conf"
+      "ig\030\005 \001(\0162\023.blox.ChannelConfigB\006\212\265\030\002(\001\022)\n"
+      "\005state\030\006 \001(\0162\022.blox.DigitalStateB\006\212\265\030\002(\001"
+      "\022\034\n\007pwmDuty\030\007 \001(\005B\013\212\265\030\002(\001\222\?\0028\020\"\367\004\n\021OneWi"
+      "reGpioModule\0220\n\010channels\030\001 \003(\0132\027.blox.Gp"
+      "ioModuleChannelB\005\222\?\002\020\010\022\035\n\016modulePosition"
+      "\030\002 \001(\rB\005\222\?\0028\010\022!\n\014moduleStatus\030\003 \001(\rB\013\222\?\002"
+      "8\010\212\265\030\002P\001\022(\n\rpullUpDesired\030\004 \001(\rB\021\212\265\030\002(\001\222"
+      "\?\0028\010\212\265\030\002P\001\022\'\n\014pullUpStatus\030\005 \001(\rB\021\212\265\030\002(\001"
+      "\222\?\0028\010\212\265\030\002P\001\022+\n\020pullUpWhenActive\030\006 \001(\rB\021\212"
+      "\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022pullUpWhenInactive\030\007"
+      " \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022*\n\017pullDownDesir"
+      "ed\030\010 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022)\n\016pullDownS"
+      "tatus\030\t \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022pullDo"
+      "wnWhenActive\030\n \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022/\n"
+      "\024pullDownWhenInactive\030\013 \001(\rB\021\212\265\030\002(\001\222\?\0028\010"
+      "\212\265\030\002P\001\022&\n\013overCurrent\030\014 \001(\rB\021\212\265\030\002(\001\222\?\0028\010"
+      "\212\265\030\002P\001\022#\n\010openLoad\030\r \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030"
+      "\002P\001\022&\n\021moduleStatusClear\030\020 \001(\rB\013\222\?\0028\010\212\265\030"
+      "\002P\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n\212\265\030\002H\014*\272\004\n\016GpioDeviceT"
+      "ype\022\021\n\rGPIO_DEV_NONE\020\000\022\023\n\017GPIO_DEV_SSR_2"
+      "P\020\001\022\023\n\017GPIO_DEV_SSR_1P\020\002\022#\n\037GPIO_DEV_COI"
+      "L_UNIDIRECTIONAL_2P\020\003\022\"\n\036GPIO_DEV_COIL_B"
+      "IDIRECTIONAL_2P\020\004\022\036\n\032GPIO_DEV_COIL_HIGH_"
+      "SIDE_1P\020\005\022\035\n\031GPIO_DEV_COIL_LOW_SIDE_1P\020\006"
+      "\022$\n GPIO_DEV_MOTOR_UNIDIRECTIONAL_2P\020\007\022#"
+      "\n\037GPIO_DEV_MOTOR_BIDIRECTIONAL_2P\020\010\022\037\n\033G"
+      "PIO_DEV_MOTOR_HIGH_SIDE_1P\020\t\022\036\n\032GPIO_DEV"
+      "_MOTOR_LOW_SIDE_1P\020\n\022\033\n\027GPIO_DEV_LOAD_DE"
+      "TECT_2P\020\013\022%\n!GPIO_DEV_LOAD_DETECT_PULL_D"
+      "OWN_1P\020\014\022#\n\037GPIO_DEV_LOAD_DETECT_PULL_UP"
+      "_1P\020\r\022!\n\035GPIO_DEV_POWER_LOAD_DETECT_1P\020\016"
+      "\022\037\n\033GPIO_DEV_GND_LOAD_DETECT_1P\020\017\022\025\n\021GPI"
+      "O_DEV_POWER_1P\020\020\022\023\n\017GPIO_DEV_GND_1P\020\021*\212\002"
+      "\n\016GpioErrorFlags\022\021\n\rGPIO_ERR_NONE\020\000\022\033\n\027G"
+      "PIO_ERR_POWER_ON_RESET\020\001\022\030\n\024GPIO_ERR_OVE"
+      "RVOLTAGE\020\002\022\031\n\025GPIO_ERR_UNDERVOLTAGE\020\004\022\030\n"
+      "\024GPIO_ERR_OVERCURRENT\020\010\022\026\n\022GPIO_ERR_OPEN"
+      "_LOAD\020\020\022$\n GPIO_ERR_OVERTEMPERATURE_WARN"
+      "ING\020 \022\"\n\036GPIO_ERR_OVERTEMPERATURE_ERROR\020"
+      "@\022\027\n\022GPIO_ERR_SPI_ERROR\020\200\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1812);
+      descriptor, 1834);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireGpioModule_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -263,6 +264,7 @@ void GpioModuleChannel::InitAsDefaultInstance() {
 const int GpioModuleChannel::kIdFieldNumber;
 const int GpioModuleChannel::kDeviceTypeFieldNumber;
 const int GpioModuleChannel::kPinsMaskFieldNumber;
+const int GpioModuleChannel::kWidthFieldNumber;
 const int GpioModuleChannel::kConfigFieldNumber;
 const int GpioModuleChannel::kStateFieldNumber;
 const int GpioModuleChannel::kPwmDutyFieldNumber;
@@ -378,6 +380,20 @@ bool GpioModuleChannel::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 width = 4 [(.nanopb_test) = {
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &width_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // .blox.ChannelConfig config = 5 [(.brewblox_test) = {
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -464,6 +480,11 @@ void GpioModuleChannel::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->pinsmask(), output);
   }
 
+  // uint32 width = 4 [(.nanopb_test) = {
+  if (this->width() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->width(), output);
+  }
+
   // .blox.ChannelConfig config = 5 [(.brewblox_test) = {
   if (this->config() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -509,6 +530,11 @@ void GpioModuleChannel::SerializeWithCachedSizes(
   // uint32 pinsMask = 3 [(.nanopb_test) = {
   if (this->pinsmask() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->pinsmask(), target);
+  }
+
+  // uint32 width = 4 [(.nanopb_test) = {
+  if (this->width() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->width(), target);
   }
 
   // .blox.ChannelConfig config = 5 [(.brewblox_test) = {
@@ -563,6 +589,13 @@ size_t GpioModuleChannel::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pinsmask());
+  }
+
+  // uint32 width = 4 [(.nanopb_test) = {
+  if (this->width() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->width());
   }
 
   // .blox.ChannelConfig config = 5 [(.brewblox_test) = {
@@ -620,6 +653,9 @@ void GpioModuleChannel::MergeFrom(const GpioModuleChannel& from) {
   if (from.pinsmask() != 0) {
     set_pinsmask(from.pinsmask());
   }
+  if (from.width() != 0) {
+    set_width(from.width());
+  }
   if (from.config() != 0) {
     set_config(from.config());
   }
@@ -658,6 +694,7 @@ void GpioModuleChannel::InternalSwap(GpioModuleChannel* other) {
   swap(id_, other->id_);
   swap(devicetype_, other->devicetype_);
   swap(pinsmask_, other->pinsmask_);
+  swap(width_, other->width_);
   swap(config_, other->config_);
   swap(state_, other->state_);
   swap(pwmduty_, other->pwmduty_);

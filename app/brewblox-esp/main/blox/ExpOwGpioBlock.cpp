@@ -39,6 +39,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
                 uint8_t idx = newData.channels[c].id - 1;
                 newChannels[idx] = ExpOwGpio::FlexChannel(
                     newData.channels[c].deviceType,
+                    newData.channels[c].width,
                     newData.channels[c].pinsMask);
             }
         }
@@ -62,6 +63,7 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
         if (c.deviceType != blox_GpioDeviceType_GPIO_DEV_NONE) {
             message.channels[message.channels_count].id = i;
             message.channels[message.channels_count].deviceType = c.deviceType;
+            message.channels[message.channels_count].width = c.width;
             message.channels[message.channels_count].pinsMask = c.pins();
             if (includeNotPersisted) {
                 message.channels[message.channels_count].config = blox_ChannelConfig(c.config);
