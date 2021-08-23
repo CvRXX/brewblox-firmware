@@ -17,10 +17,9 @@ public:
     TemperatureWidget(lv_obj_t* grid, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
         : BaseWidget(grid, label, color)
         , lookup(ptr)
+        , value(lv_label_create(obj, nullptr))
     {
-        value = lv_label_create(obj, nullptr);
         lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
-        lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
         lv_obj_set_auto_realign(value, true);
     }
 
@@ -48,5 +47,5 @@ public:
 
 private:
     cbox::CboxPtr<TempSensor> lookup;
-    lv_obj_t* value = nullptr;
+    lv_obj_t* value;
 };

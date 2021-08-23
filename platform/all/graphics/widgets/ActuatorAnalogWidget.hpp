@@ -20,13 +20,12 @@ public:
     {
         value = lv_label_create(obj, nullptr);
         lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
-        lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
         lv_obj_align(value, nullptr, LV_ALIGN_CENTER, 0, 0);
         lv_obj_set_auto_realign(value, true);
 
         setting = lv_label_create(obj, nullptr);
         lv_obj_add_style(setting, LV_LABEL_PART_MAIN, &style::number_medium);
-        lv_label_set_align(setting, LV_LABEL_ALIGN_CENTER);
+
         lv_obj_align(setting, nullptr, LV_ALIGN_CENTER, 0, -40);
         lv_obj_set_auto_realign(setting, true);
 

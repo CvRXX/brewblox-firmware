@@ -15,10 +15,7 @@ public:
         lv_obj_set_size(barObj, 480, 22);
         lv_obj_add_style(barObj, LV_CONT_PART_MAIN, &style::bar);
 
-        lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
         lv_obj_align(label, nullptr, LV_ALIGN_IN_LEFT_MID, 0, 0);
-
-        lv_label_set_align(timeLabel, LV_LABEL_ALIGN_CENTER);
 
         lv_label_set_text(this->timeLabel, time);
         lv_obj_align(timeLabel, nullptr, LV_ALIGN_IN_RIGHT_MID, -5, 0);

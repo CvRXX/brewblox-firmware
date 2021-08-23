@@ -38,6 +38,8 @@ void init()
     lv_style_init(&block);
     lv_style_set_radius(&block, LV_STATE_DEFAULT, 5);
     lv_style_set_bg_opa(&block, LV_STATE_DEFAULT, LV_OPA_COVER);
+    lv_style_set_bg_opa(&block, LV_STATE_DISABLED, 50);
+    lv_style_set_text_opa(&block, LV_STATE_DISABLED, 50);
     lv_style_set_border_width(&block, LV_STATE_DEFAULT, 1);
     lv_style_set_border_opa(&block, LV_STATE_DEFAULT, 80);
     lv_style_set_pad_all(&block, LV_STATE_DEFAULT, 10);

@@ -15,48 +15,57 @@ public:
     PidWidget(lv_obj_t* grid, cbox::CboxPtr<PidBlock>&& ptr, const char* label, lv_color_t color)
         : BaseWidget(grid, label, color)
         , lookup(ptr)
+        , inputValue(lv_label_create(obj, nullptr))
+        , inputSetting(lv_label_create(obj, nullptr))
+        , outputValue(lv_label_create(obj, nullptr))
+        , outputSetting(lv_label_create(obj, nullptr))
+        , pLabel(lv_label_create(obj, nullptr))
+        , pValue(lv_label_create(obj, nullptr))
+        , iLabel(lv_label_create(obj, nullptr))
+        , iValue(lv_label_create(obj, nullptr))
+        , dLabel(lv_label_create(obj, nullptr))
+        , dValue(lv_label_create(obj, nullptr))
     {
-        inputValue = lv_label_create(obj, nullptr);
-        setInputValue("-");
         lv_obj_set_style_local_text_font(inputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_label_set_align(inputValue, LV_LABEL_ALIGN_CENTER);
+        lv_label_set_text(inputValue, "-");
+        lv_obj_align(inputValue, nullptr, LV_ALIGN_CENTER, -30, -30);
 
-        inputSetting = lv_label_create(obj, nullptr);
-        setInputSetting("-");
+        lv_label_set_text(inputSetting, "-");
         lv_obj_set_style_local_text_font(inputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_label_set_align(inputSetting, LV_LABEL_ALIGN_CENTER);
+        lv_obj_align(inputSetting, nullptr, LV_ALIGN_CENTER, -30, -52);
 
-        outputValue = lv_label_create(obj, nullptr);
-        setOutputValue("-");
+        lv_label_set_text(outputValue, "-");
         lv_obj_set_style_local_text_font(outputValue, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_label_set_align(outputValue, LV_LABEL_ALIGN_CENTER);
+        lv_obj_align(outputValue, nullptr, LV_ALIGN_CENTER, 30, -30);
 
-        outputSetting = lv_label_create(obj, nullptr);
-        setOutputSetting("-");
+        lv_label_set_text(outputSetting, "-");
         lv_obj_set_style_local_text_font(outputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
-        lv_label_set_align(outputSetting, LV_LABEL_ALIGN_CENTER);
+        lv_obj_align(outputSetting, nullptr, LV_ALIGN_CENTER, 30, -52);
 
-        // pidValues = lv_cont_create(obj, nullptr);
-        // pLabel = lv_label_create(pidValues, nullptr);
-        // lv_label_set_text(pLabel, "P ");
-        // pValue = lv_label_create(pidValues, nullptr);
-        // lv_label_set_text(pValue, "100");
-        // iLabel = lv_label_create(pidValues, nullptr);
-        // lv_label_set_text(iLabel, "I");
-        // iValue = lv_label_create(pidValues, nullptr);
-        // lv_label_set_text(iValue, "80");
-        // dLabel = lv_label_create(pidValues, nullptr);
-        // lv_label_set_text(dLabel, "D");
-        // dValue = lv_label_create(pidValues, nullptr);
-        // lv_label_set_text(dValue, "-10");
+        lv_label_set_text(pLabel, "P ");
+        lv_label_set_text(iLabel, "I");
+        lv_label_set_text(dLabel, "D");
+        lv_label_set_text(pValue, "0");
+        lv_label_set_text(iValue, "0");
+        lv_label_set_text(dValue, "0");
 
-        // lv_obj_set_auto_realign(pidValues, true);
-        // lv_obj_align_origo(pidValues, nullptr, LV_ALIGN_CENTER, 0, 0);
-        // lv_cont_set_fit(pidValues, LV_FIT_TIGHT);
-        // lv_cont_set_layout(pidValues, LV_LAYOUT_ROW_MID);
+        lv_obj_align(pLabel, nullptr, LV_ALIGN_CENTER, -40, 5);
+        lv_obj_align(pValue, nullptr, LV_ALIGN_CENTER, -40, 20);
+        lv_obj_align(iLabel, nullptr, LV_ALIGN_CENTER, 0, 5);
+        lv_obj_align(iValue, nullptr, LV_ALIGN_CENTER, 0, 20);
+        lv_obj_align(dLabel, nullptr, LV_ALIGN_CENTER, 40, 5);
+        lv_obj_align(dValue, nullptr, LV_ALIGN_CENTER, 40, 20);
 
-        // lv_obj_add_style(pidValues, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main);
-        // lv_label_set_align(pidValues, LV_LABEL_ALIGN_CENTER);
+        lv_obj_set_auto_realign(inputValue, true);
+        lv_obj_set_auto_realign(inputSetting, true);
+        lv_obj_set_auto_realign(outputValue, true);
+        lv_obj_set_auto_realign(outputSetting, true);
+        //lv_obj_set_auto_realign(pLabel, true);
+        lv_obj_set_auto_realign(pValue, true);
+        //lv_obj_set_auto_realign(iLabel, true);
+        lv_obj_set_auto_realign(iValue, true);
+        //lv_obj_set_auto_realign(dLabel, true);
+        lv_obj_set_auto_realign(dValue, true);
     }
 
     virtual ~PidWidget()
@@ -67,107 +76,52 @@ public:
     void update()
     {
         if (auto ptr = lookup.const_lock()) {
-
-            // setPBar(int32_t(ptr->get().p()));
-            // setIBar(int32_t(ptr->get().i()));
-            // setDBar(int32_t(ptr->get().d()));
-
+            lv_obj_set_state(obj, LV_STATE_DEFAULT);
             auto& inputLookup = ptr->getInputLookup();
             auto& outputLookup = ptr->getOutputLookup();
             auto input = inputLookup.const_lock();
             if (input && input->valueValid()) {
-                setInputValue(temp_to_string(input->value(), 1, tempUnit));
+                lv_label_set_text(inputValue, temp_to_string(input->value(), 1, tempUnit).c_str());
             } else {
-                setInputValue("-");
+                lv_label_set_text(inputValue, "-");
             }
             if (input && input->settingValid()) {
-                setInputSetting(temp_to_string(input->setting(), 1, tempUnit));
+                lv_label_set_text(inputSetting, temp_to_string(input->setting(), 1, tempUnit).c_str());
             } else {
-                setInputSetting("-");
+                lv_label_set_text(inputSetting, "-");
             }
 
             auto output = outputLookup.const_lock();
             if (output && output->valueValid()) {
-                setOutputValue(temp_to_string(output->value(), 1, tempUnit));
+                lv_label_set_text(outputValue, to_string_dec(output->value(), 1).c_str());
             } else {
-                setOutputValue("-");
+                lv_label_set_text(outputValue, "-");
             }
             if (output && output->settingValid()) {
-                setOutputSetting(temp_to_string(output->setting(), 1, tempUnit));
+                lv_label_set_text(outputSetting, to_string_dec(output->setting(), 1).c_str());
             } else {
-                setOutputSetting("-");
+                lv_label_set_text(outputSetting, "-");
             }
 
-            updatePidValues(to_string_dec(ptr->get().p(), 0), to_string_dec(ptr->get().i(), 0), to_string_dec(ptr->get().d(), 0));
-
-            return;
+            lv_label_set_text(pValue, to_string_dec(ptr->get().p(), 0).c_str());
+            lv_label_set_text(iValue, to_string_dec(ptr->get().i(), 0).c_str());
+            lv_label_set_text(dValue, to_string_dec(ptr->get().d(), 0).c_str());
+        } else {
+            lv_obj_set_state(obj, LV_STATE_DISABLED);
         }
     }
 
-    /**
-     * Sets the input value of the widget.
-     * @param txt The input value text.
-     */
-    void setInputValue(const std::string& txt)
-    {
-        lv_label_set_text(inputValue, txt.c_str());
-        lv_obj_align(inputValue, nullptr, LV_ALIGN_CENTER, -40, -30);
-    }
-
-    /**
-     * Sets the input setting of the widget.
-     * @param txt The input setting text.
-     */
-    void setInputSetting(const std::string& txt)
-    {
-        lv_label_set_text(inputSetting, txt.c_str());
-        lv_obj_align(inputSetting, nullptr, LV_ALIGN_CENTER, -40, -52);
-    }
-
-    /**
-     * Sets the output value of the widget.
-     * @param txt The output value text.
-     */
-    void setOutputValue(const std::string& txt)
-    {
-        lv_label_set_text(outputValue, txt.c_str());
-        lv_obj_align(outputValue, nullptr, LV_ALIGN_CENTER, 40, -30);
-    }
-
-    /**
-     * Sets the output setting of the widget.
-     * @param txt The output setting text.
-     */
-    void setOutputSetting(const std::string& txt)
-    {
-        lv_label_set_text(outputSetting, txt.c_str());
-        lv_obj_align(outputSetting, nullptr, LV_ALIGN_CENTER, 40, -52);
-    }
-
-    void updatePidValues(const std::string& p, const std::string& i, const std::string& d)
-    {
-        // std::string v = "P: ";
-        // v.append(p);
-        // v.append("  I: ");
-        // v.append(i);
-        // v.append("  D: ");
-        // v.append(d);
-        // lv_label_set_text(pidValues, v.c_str());
-        // lv_obj_align(pidValues, nullptr, LV_ALIGN_CENTER, 0, 30);
-    }
-
 private:
-    lv_obj_t* inputValue = nullptr;
-    lv_obj_t* inputSetting = nullptr;
-    lv_obj_t* outputValue = nullptr;
-    lv_obj_t* outputSetting = nullptr;
-    lv_obj_t* pidValues = nullptr;
-    lv_obj_t* pLabel = nullptr;
-    lv_obj_t* pValue = nullptr;
-    lv_obj_t* iLabel = nullptr;
-    lv_obj_t* iValue = nullptr;
-    lv_obj_t* dLabel = nullptr;
-    lv_obj_t* dValue = nullptr;
-
     cbox::CboxPtr<PidBlock> lookup;
+    lv_obj_t* inputValue;
+    lv_obj_t* inputSetting;
+    lv_obj_t* outputValue;
+    lv_obj_t* outputSetting;
+    lv_obj_t* pidValues;
+    lv_obj_t* pLabel;
+    lv_obj_t* pValue;
+    lv_obj_t* iLabel;
+    lv_obj_t* iValue;
+    lv_obj_t* dLabel;
+    lv_obj_t* dValue;
 };
