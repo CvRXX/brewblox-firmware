@@ -4,65 +4,48 @@
 #include "./BaseWidget.hpp"
 #include "lvgl.h"
 
+/// A widget which represents an temperature.
 class TemperatureWidget : public BaseWidget {
 public:
-    TemperatureWidget(lv_obj_t* grid, const cbox::CboxPtr<TempSensor> ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, color)
+    /**
+     * Constructs the widget
+     * @param grid The grid in which the widget will be placed.
+     * @param ptr A cboxPtr to the object the widget represents.
+     * @param label The name printed at the bottom of the widget.
+     * @param color The background color of the widget.
+     */
+    TemperatureWidget(lv_obj_t* grid, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
+        : BaseWidget(grid, label, color)
         , lookup(ptr)
+        , value(lv_label_create(obj, nullptr))
     {
-        makeObj(grid, label, "-");
+        lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
+        lv_obj_set_auto_realign(value, true);
     }
 
     TemperatureWidget(const TemperatureWidget&) = delete;
     TemperatureWidget& operator=(const TemperatureWidget&) = delete;
 
-    ~TemperatureWidget()
+    virtual ~TemperatureWidget()
     {
-        lv_obj_del(obj);
     }
+
+    /// Updates the widget with information from the object it's representing.
     void update()
     {
         if (auto ptr = lookup.const_lock()) {
             if (ptr->valid()) {
-                setValue(temp_to_string(ptr->value(), 2, tempUnit));
+                auto str = temp_to_string(ptr->value(), 1, tempUnit);
+                str.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
+                lv_label_set_text(value, str.c_str());
             } else {
-                setValue("-");
+                lv_label_set_text(value, "-");
             }
             return;
         }
     }
-    void setLabel(std::string txt)
-    {
-        lv_label_set_text(label, txt.c_str());
-        lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 50);
-    }
-
-    void setValue(std::string txt)
-    {
-        lv_label_set_text(value, txt.c_str());
-        lv_obj_align(value, NULL, LV_ALIGN_CENTER, 0, 0);
-    }
 
 private:
-    void makeObj(lv_obj_t* grid, const char* labelTxt, const char* valueTxt)
-    {
-        label = lv_label_create(obj, NULL);
-        lv_label_set_text(label, labelTxt);
-        lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 50);
-        lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        lv_obj_reset_style_list(label, LV_LABEL_PART_MAIN);
-        lv_obj_add_style(label, LV_LABEL_PART_MAIN, &style::block_text);
-
-        value = lv_label_create(obj, NULL);
-        lv_label_set_text(value, valueTxt);
-        lv_obj_align(value, NULL, LV_ALIGN_CENTER, 0, 0);
-        lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
-        lv_obj_reset_style_list(value, LV_LABEL_PART_MAIN);
-        lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::bigNumber_text);
-    }
-
     cbox::CboxPtr<TempSensor> lookup;
-    lv_obj_t* label;
     lv_obj_t* value;
-    TempUnit tempUnit;
 };

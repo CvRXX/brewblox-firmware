@@ -14,4 +14,10 @@ void init(PROVISION_METHOD method);
 void deinit();
 esp_ip4_addr ip4();
 bool isConnected();
+
+/**
+ * Returns the rssi of the current ap's signal.
+ * @return The rssi in dBm
+ */
+int8_t getRssi();
 };

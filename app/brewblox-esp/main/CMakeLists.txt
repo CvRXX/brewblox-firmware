@@ -26,7 +26,7 @@ set(srcs
 
 file(GLOB network_srcs ./network/*.cpp)
 file(GLOB http_srcs ./httpserver/*.cpp)
-file(GLOB graphics_srcs ../../../platform/all/graphics/*.cpp ../../../platform/all/graphics/fonts/*.cpp ../../../platform/all/graphics/widgets/*.cpp)
+file(GLOB graphics_srcs ../../../platform/all/graphics/*.cpp ../../../platform/all/graphics/fonts/*.c ../../../platform/all/graphics/widgets/*.cpp)
 
 file(GLOB cbox_srcs ../../../controlbox/src/cbox/*.cpp)
 set(cbox_inc "../../../controlbox/src/")
@@ -88,7 +88,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_VERSION=\\\"${PROTO_VERSION}\\\"
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_DATE=\\\"${PROTO_DATE}\\\"")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLATFORM_ID=100")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSYSTEM_VERSION_STRING=${SYSTEM_VERSION_STRING}") # not quoted for compatibility with particle
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLV_LVGL_H_INCLUDE_SIMPLE")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DLV_LVGL_H_INCLUDE_SIMPLE")
 
 
 idf_component_register(

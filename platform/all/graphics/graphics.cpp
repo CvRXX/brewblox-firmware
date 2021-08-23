@@ -1,12 +1,9 @@
 #include "graphics.hpp"
 #include "TFT035.hpp"
-#include "bar.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
-#include "graphics/widgets.hpp"
+#include "layout.hpp"
 #include "lvgl.h"
-#include "network/ethernet.hpp"
-#include "network/wifi.hpp"
 
 lv_disp_drv_t Graphics::disp_drv;
 std::unique_ptr<TFT035> Graphics::display;
@@ -74,94 +71,4 @@ void Graphics::monitor_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area, lv_
 void Graphics::tick(uint32_t millisElapsed)
 {
     lv_tick_inc(millisElapsed);
-}
-
-Layout::Layout(cbox::Box& box)
-    : box(box)
-{
-    mainContainer = lv_cont_create(lv_scr_act(), NULL);
-    lv_cont_set_fit(mainContainer, LV_FIT_PARENT);
-    lv_cont_set_layout(mainContainer, LV_LAYOUT_PRETTY_MID);
-    lv_obj_add_style(mainContainer, LV_CONT_PART_MAIN, &style::maincontainer);
-
-    bar = std::make_unique<Bar>(mainContainer);
-    grid = lv_cont_create(mainContainer, NULL);
-    lv_obj_align_origo(grid, NULL, LV_ALIGN_CENTER, 0, 0); /*This parametrs will be sued when realigned*/
-    lv_obj_set_size(grid, 480, 295);
-    lv_cont_set_layout(grid, LV_LAYOUT_PRETTY_MID);
-    lv_obj_add_style(grid, LV_CONT_PART_MAIN, &style::grid);
-
-    for (auto& placeholder : placeholders) {
-        placeholder = lv_obj_create(grid, NULL);
-        lv_obj_reset_style_list(placeholder, LV_BTN_PART_MAIN);
-        lv_obj_set_size(placeholder, 145, 132);
-        lv_obj_set_style_local_pad_all(placeholder, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-        lv_obj_set_style_local_margin_all(placeholder, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, 0);
-    }
-}
-
-Layout::~Layout()
-{
-    lv_obj_del(grid);
-    lv_obj_del(mainContainer);
-}
-
-void Layout::update()
-{
-    updateConfig();
-    updateWidgets();
-
-    bar->setWifiIp(wifi::ip4().addr);
-    bar->setWifiEnabled(wifi::isConnected());
-    bar->setEthernetIp(ethernet::ip4().addr);
-    bar->setEthernetEnabled(ethernet::isConnected());
-
-    bar->updateTime();
-}
-
-void Layout::updateWidgets()
-{
-    for (auto& widget : sensorWidgets) {
-        widget->update();
-    }
-}
-void Layout::updateConfig()
-{
-    if (DisplaySettingsBlock::newSettingsReceived()) {
-        auto settings = DisplaySettingsBlock::settings();
-
-        if (settings.tempUnit == blox_DisplaySettings_TemperatureUnit_TEMP_CELSIUS) {
-            BaseWidget::tempUnit = TempUnit::Celsius;
-        } else {
-            BaseWidget::tempUnit = TempUnit::Fahrenheit;
-        }
-
-        setenv("TZ", settings.timeZone, 1);
-        tzset();
-
-        sensorWidgets.clear();
-        for (uint16_t x = 0; x < settings.widgets_count; x++) {
-            auto widget = settings.widgets[x];
-            assert(widget.pos > 0 && widget.pos <= 6);
-            auto placeholder = placeholders[widget.pos - 1];
-            auto color = lv_color_make(widget.color[0], widget.color[1], widget.color[2]);
-            if (widget.which_WidgetType == blox_Widget_tempSensor_tag) {
-                auto lookup = box.makeCboxPtr<TempSensor>(cbox::obj_id_t(widget.WidgetType.tempSensor));
-                auto ptr = std::make_unique<TemperatureWidget>(placeholder, lookup, widget.name, color);
-                sensorWidgets.push_back(std::move(ptr));
-            } else if (settings.widgets[x].which_WidgetType == blox_Widget_setpointSensorPair_tag) {
-                auto lookup = box.makeCboxPtr<SetpointSensorPairBlock>(cbox::obj_id_t(widget.WidgetType.setpointSensorPair));
-                auto ptr = std::make_unique<SetpointWidget>(placeholder, lookup, widget.name, color);
-                sensorWidgets.push_back(std::move(ptr));
-            } else if (settings.widgets[x].which_WidgetType == blox_Widget_actuatorAnalog_tag) {
-                auto lookup = box.makeCboxPtr<ActuatorAnalogConstrained>(cbox::obj_id_t(widget.WidgetType.setpointSensorPair));
-                auto ptr = std::make_unique<ActuatorAnalogWidget>(placeholder, lookup, widget.name, color);
-                sensorWidgets.push_back(std::move(ptr));
-            } else if (widget.which_WidgetType == blox_Widget_pid_tag) {
-                auto lookup = box.makeCboxPtr<PidBlock>(cbox::obj_id_t(widget.WidgetType.pid));
-                auto ptr = std::make_unique<PidWidget>(placeholder, std::move(lookup), widget.name, color);
-                sensorWidgets.push_back(std::move(ptr));
-            }
-        }
-    }
 }

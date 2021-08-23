@@ -289,4 +289,13 @@ bool isConnected()
 {
     return connected;
 }
+
+int8_t getRssi()
+{
+    wifi_ap_record_t wifidata;
+    if (esp_wifi_sta_get_ap_info(&wifidata) == 0) {
+        return wifidata.rssi;
+    }
+    return 0;
+}
 }
