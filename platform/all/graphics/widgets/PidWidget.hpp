@@ -7,7 +7,7 @@ class PidWidget : public BaseWidget {
 public:
     /**
      * Constructs the widget
-     * @param grid The grid placeholder in which the widget will be placed.
+     * @param grid The grid in which the widget will be placed.
      * @param ptr A cboxPtr to the object the widget represents.
      * @param label The user set label of the object.
      * @param color The background color of the widget.
@@ -36,24 +36,24 @@ public:
         lv_obj_set_style_local_text_font(outputSetting, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::numbers_medium);
         lv_label_set_align(outputSetting, LV_LABEL_ALIGN_CENTER);
 
-        pidValues = lv_cont_create(obj, nullptr);
-        pLabel = lv_label_create(pidValues, nullptr);
-        lv_label_set_text(pLabel, "P ");
-        pValue = lv_label_create(pidValues, nullptr);
-        lv_label_set_text(pValue, "100");
-        iLabel = lv_label_create(pidValues, nullptr);
-        lv_label_set_text(iLabel, "I");
-        iValue = lv_label_create(pidValues, nullptr);
-        lv_label_set_text(iValue, "80");
-        dLabel = lv_label_create(pidValues, nullptr);
-        lv_label_set_text(dLabel, "D");
-        dValue = lv_label_create(pidValues, nullptr);
-        lv_label_set_text(dValue, "-10");
+        // pidValues = lv_cont_create(obj, nullptr);
+        // pLabel = lv_label_create(pidValues, nullptr);
+        // lv_label_set_text(pLabel, "P ");
+        // pValue = lv_label_create(pidValues, nullptr);
+        // lv_label_set_text(pValue, "100");
+        // iLabel = lv_label_create(pidValues, nullptr);
+        // lv_label_set_text(iLabel, "I");
+        // iValue = lv_label_create(pidValues, nullptr);
+        // lv_label_set_text(iValue, "80");
+        // dLabel = lv_label_create(pidValues, nullptr);
+        // lv_label_set_text(dLabel, "D");
+        // dValue = lv_label_create(pidValues, nullptr);
+        // lv_label_set_text(dValue, "-10");
 
-        lv_obj_set_auto_realign(pidValues, true);
-        lv_obj_align_origo(pidValues, nullptr, LV_ALIGN_CENTER, 0, 0);
-        lv_cont_set_fit(pidValues, LV_FIT_TIGHT);
-        lv_cont_set_layout(pidValues, LV_LAYOUT_ROW_MID);
+        // lv_obj_set_auto_realign(pidValues, true);
+        // lv_obj_align_origo(pidValues, nullptr, LV_ALIGN_CENTER, 0, 0);
+        // lv_cont_set_fit(pidValues, LV_FIT_TIGHT);
+        // lv_cont_set_layout(pidValues, LV_LAYOUT_ROW_MID);
 
         // lv_obj_add_style(pidValues, LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, &fonts::main);
         // lv_label_set_align(pidValues, LV_LABEL_ALIGN_CENTER);
@@ -105,15 +105,6 @@ public:
     }
 
     /**
-     * Sets the label of the widget.
-     * @param txt The label text.
-     */
-    void setLabel(const std::string& txt)
-    {
-        lv_label_set_text(label, txt.c_str());
-    }
-
-    /**
      * Sets the input value of the widget.
      * @param txt The input value text.
      */
@@ -155,28 +146,28 @@ public:
 
     void updatePidValues(const std::string& p, const std::string& i, const std::string& d)
     {
-        std::string v = "P: ";
-        v.append(p);
-        v.append("  I: ");
-        v.append(i);
-        v.append("  D: ");
-        v.append(d);
-        lv_label_set_text(pidValues, v.c_str());
-        lv_obj_align(pidValues, nullptr, LV_ALIGN_CENTER, 0, 30);
+        // std::string v = "P: ";
+        // v.append(p);
+        // v.append("  I: ");
+        // v.append(i);
+        // v.append("  D: ");
+        // v.append(d);
+        // lv_label_set_text(pidValues, v.c_str());
+        // lv_obj_align(pidValues, nullptr, LV_ALIGN_CENTER, 0, 30);
     }
 
 private:
-    lv_obj_t* inputValue;
-    lv_obj_t* inputSetting;
-    lv_obj_t* outputValue;
-    lv_obj_t* outputSetting;
-    lv_obj_t* pidValues;
-    lv_obj_t* pLabel;
-    lv_obj_t* pValue;
-    lv_obj_t* iLabel;
-    lv_obj_t* iValue;
-    lv_obj_t* dLabel;
-    lv_obj_t* dValue;
+    lv_obj_t* inputValue = nullptr;
+    lv_obj_t* inputSetting = nullptr;
+    lv_obj_t* outputValue = nullptr;
+    lv_obj_t* outputSetting = nullptr;
+    lv_obj_t* pidValues = nullptr;
+    lv_obj_t* pLabel = nullptr;
+    lv_obj_t* pValue = nullptr;
+    lv_obj_t* iLabel = nullptr;
+    lv_obj_t* iValue = nullptr;
+    lv_obj_t* dLabel = nullptr;
+    lv_obj_t* dValue = nullptr;
 
     cbox::CboxPtr<PidBlock> lookup;
 };

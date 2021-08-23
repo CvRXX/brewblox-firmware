@@ -8,7 +8,7 @@ class SetpointWidget : public BaseWidget {
 public:
     /**
      * Constructs the widget
-     * @param grid The grid placeholder in which the widget will be placed.
+     * @param grid The grid in which the widget will be placed.
      * @param ptr A cboxPtr to the object the widget represents.
      * @param label The user set label of the object.
      * @param color The background color of the widget.
@@ -20,10 +20,14 @@ public:
         value = lv_label_create(obj, nullptr);
         lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
         lv_label_set_align(value, LV_LABEL_ALIGN_CENTER);
+        lv_obj_align(value, nullptr, LV_ALIGN_CENTER, 0, 0);
+        lv_obj_set_auto_realign(value, true);
 
         setting = lv_label_create(obj, nullptr);
         lv_obj_add_style(setting, LV_LABEL_PART_MAIN, &style::number_medium);
         lv_label_set_align(setting, LV_LABEL_ALIGN_CENTER);
+        lv_obj_align(setting, nullptr, LV_ALIGN_CENTER, 0, -40);
+        lv_obj_set_auto_realign(setting, true);
     }
 
     virtual ~SetpointWidget()
@@ -37,41 +41,24 @@ public:
             auto& pair = ptr->get();
 
             if (pair.valueValid()) {
-                setValue(temp_to_string(pair.value(), 2, tempUnit));
+                auto str = temp_to_string(pair.value(), 1, tempUnit);
+                str.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
+                lv_label_set_text(value, str.c_str());
             } else {
-                setValue("-");
+                lv_label_set_text(value, "-");
             }
             if (pair.settingValid()) {
-                setSetting(temp_to_string(pair.setting(), 2, tempUnit));
+                auto str = temp_to_string(pair.setting(), 1, tempUnit);
+                lv_label_set_text(setting, str.c_str());
             } else {
-                setValue("-");
+                lv_label_set_text(setting, "-");
             }
             return;
         }
     }
 
-    /**
-     * Sets the value of the widget.
-     * @param txt The value text.
-     */
-    void setValue(const std::string& txt)
-    {
-        lv_label_set_text(value, txt.c_str());
-        lv_obj_align(value, nullptr, LV_ALIGN_CENTER, 0, 0);
-    }
-
-    /**
-     * Sets the setting of the widget.
-     * @param txt The setting text.
-     */
-    void setSetting(const std::string& txt)
-    {
-        lv_label_set_text(setting, txt.c_str());
-        lv_obj_align(setting, nullptr, LV_ALIGN_CENTER, 0, -40);
-    }
-
 private:
     cbox::CboxPtr<SetpointSensorPairBlock> lookup;
-    lv_obj_t* value;
-    lv_obj_t* setting;
+    lv_obj_t* value = nullptr;
+    lv_obj_t* setting = nullptr;
 };

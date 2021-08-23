@@ -1,6 +1,30 @@
 {
   "files.associations": {
-    "**/include/**": "cpp"
+    "**/include/**": "cpp",
+    "array": "cpp",
+    "*.tcc": "cpp",
+    "cctype": "cpp",
+    "clocale": "cpp",
+    "cstdint": "cpp",
+    "cstdio": "cpp",
+    "cstdlib": "cpp",
+    "cwchar": "cpp",
+    "cwctype": "cpp",
+    "exception": "cpp",
+    "functional": "cpp",
+    "initializer_list": "cpp",
+    "iosfwd": "cpp",
+    "limits": "cpp",
+    "new": "cpp",
+    "ostream": "cpp",
+    "stdexcept": "cpp",
+    "streambuf": "cpp",
+    "string": "cpp",
+    "system_error": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "typeinfo": "cpp",
+    "utility": "cpp"
   },
   "disasexpl.associations": {
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/brewblox/${relativeFileDir}/${fileBasenameNoExtension}.s"

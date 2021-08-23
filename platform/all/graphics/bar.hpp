@@ -8,24 +8,27 @@ class Bar {
 
 public:
     Bar(lv_obj_t* mainContainer)
+        : barObj(lv_obj_create(mainContainer, nullptr))
+        , label(lv_label_create(barObj, nullptr))
+        , timeLabel(lv_label_create(barObj, nullptr))
     {
-        barObj = lv_obj_create(mainContainer, NULL);
         lv_obj_set_size(barObj, 480, 22);
         lv_obj_add_style(barObj, LV_CONT_PART_MAIN, &style::bar);
 
-        label = lv_label_create(barObj, NULL);
         lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-        lv_obj_align(label, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
+        lv_obj_align(label, nullptr, LV_ALIGN_IN_LEFT_MID, 0, 0);
 
-        timeLabel = lv_label_create(barObj, NULL);
         lv_label_set_align(timeLabel, LV_LABEL_ALIGN_CENTER);
 
         lv_label_set_text(this->timeLabel, time);
-        lv_obj_align(timeLabel, NULL, LV_ALIGN_IN_RIGHT_MID, -5, 0);
+        lv_obj_align(timeLabel, nullptr, LV_ALIGN_IN_RIGHT_MID, -5, 0);
         updateLabel();
     }
 
-    Bar(){};
+    ~Bar()
+    {
+        lv_obj_del(barObj);
+    }
 
     void setEthernetIp(uint32_t ip)
     {
@@ -61,7 +64,7 @@ public:
         time_t nowtime;
         struct tm* nowtm;
 
-        gettimeofday(&tv, NULL);
+        gettimeofday(&tv, nullptr);
         nowtime = tv.tv_sec;
         nowtm = localtime(&nowtime);
         strftime(time, sizeof(time), "%H:%M:%S", nowtm);
@@ -104,7 +107,7 @@ private:
         }
         std::string t = std::string() + " " + ethernet + "  " + wifi;
         lv_label_set_text(this->label, t.c_str());
-        lv_obj_align(label, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
+        lv_obj_align(label, nullptr, LV_ALIGN_IN_LEFT_MID, 0, 0);
         lv_label_set_text(this->timeLabel, time);
     }
 
@@ -120,7 +123,7 @@ private:
 
     int8_t rssi = 0;
     char time[10] = "00:00:00";
-    lv_obj_t* barObj = nullptr;
-    lv_obj_t* label = nullptr;
-    lv_obj_t* timeLabel = nullptr;
+    lv_obj_t* barObj;
+    lv_obj_t* label;
+    lv_obj_t* timeLabel;
 };

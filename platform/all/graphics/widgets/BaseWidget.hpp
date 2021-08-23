@@ -22,8 +22,9 @@ public:
     static TempUnit tempUnit;
 
 protected:
-    // lv_obj_t* grid;
     lv_obj_t* obj;
+
+private:
     lv_obj_t* label;
     lv_color_t bg_color;
 };
