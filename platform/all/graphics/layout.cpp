@@ -4,8 +4,6 @@
 #include "cbox/Box.h"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
-#include "network/ethernet.hpp"
-#include "network/wifi.hpp"
 
 Layout::Layout(cbox::Box& box)
     : box(box)
@@ -32,14 +30,7 @@ void Layout::update()
 {
     updateConfig();
     updateWidgets();
-
-    bar->setWifiIp(wifi::ip4().addr);
-    bar->setWifiEnabled(wifi::isConnected());
-    bar->setWifiRssi(wifi::getRssi());
-    bar->setEthernetIp(ethernet::ip4().addr);
-    bar->setEthernetEnabled(ethernet::isConnected());
-
-    bar->updateTime();
+    bar->update();
 }
 
 void Layout::updateWidgets()
@@ -93,7 +84,7 @@ void Layout::updateConfig()
                 }
             }
             // return base widget as empty placeholder
-            return std::unique_ptr<BaseWidget>(new BaseWidget(grid, "empty", LV_COLOR_GRAY));
+            return std::unique_ptr<BaseWidget>(new BaseWidget(grid, "", LV_COLOR_MAKE(0x20, 0x20, 0x20)));
         };
 
         for (uint8_t pos = 0; pos < 6; pos++) {

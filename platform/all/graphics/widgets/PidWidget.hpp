@@ -30,11 +30,11 @@ public:
         , inputLabel(lv_label_create(obj, nullptr))
         , outputLabel(lv_label_create(obj, nullptr))
     {
-        constexpr int inputY = -42;
-        constexpr int outputY = -5;
+        constexpr int inputY = -40;
+        constexpr int outputY = -3;
         constexpr int leftX = -40;
         constexpr int rightX = 40;
-        constexpr int pidValuesY = 33;
+        constexpr int pidValuesY = 34;
 
         lv_obj_add_style(inputValue, LV_OBJ_PART_MAIN, &style::number_medium);
         lv_label_set_text(inputValue, "-");
@@ -56,8 +56,8 @@ public:
         lv_label_set_text(outputLabel, "output");
         lv_obj_add_style(inputLabel, LV_OBJ_PART_MAIN, &style::field_label);
         lv_obj_add_style(outputLabel, LV_OBJ_PART_MAIN, &style::field_label);
-        lv_obj_align(inputLabel, nullptr, LV_ALIGN_CENTER, 0, inputY - 15);
-        lv_obj_align(outputLabel, nullptr, LV_ALIGN_CENTER, 0, outputY - 15);
+        lv_obj_align(inputLabel, nullptr, LV_ALIGN_CENTER, 0, inputY - 18);
+        lv_obj_align(outputLabel, nullptr, LV_ALIGN_CENTER, 0, outputY - 18);
 
         lv_label_set_text(arrowInput, symbols::arrow_thick_right);
         lv_obj_align(arrowInput, nullptr, LV_ALIGN_CENTER, 0, inputY);
