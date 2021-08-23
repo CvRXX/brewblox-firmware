@@ -39,6 +39,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
                 uint8_t idx = newData.channels[c].id - 1;
                 newChannels[idx] = ExpOwGpio::FlexChannel(
                     newData.channels[c].deviceType,
+                    newData.channels[c].width,
                     newData.channels[c].pinsMask);
             }
         }
@@ -59,13 +60,13 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 
     for (uint8_t i = 1; i <= 8; i++) {
         auto& c = drivers.getChannel(i);
-        if (c.deviceType != blox_GpioDeviceType_NONE) {
+        if (c.deviceType != blox_GpioDeviceType_GPIO_DEV_NONE) {
             message.channels[message.channels_count].id = i;
             message.channels[message.channels_count].deviceType = c.deviceType;
+            message.channels[message.channels_count].width = c.width;
             message.channels[message.channels_count].pinsMask = c.pins();
             if (includeNotPersisted) {
                 message.channels[message.channels_count].config = blox_ChannelConfig(c.config);
-                message.channels[message.channels_count].status = drivers.channelStatus(i);
                 message.channels[message.channels_count].pwmDuty = c.pwm_duty;
                 message.channels[message.channels_count].state = drivers.channelState(i);
             }
@@ -83,10 +84,8 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
         message.pullDownStatus = drivers.pullDownStatus();
         message.pullDownWhenActive = drivers.pullDownWhenActive();
         message.pullDownWhenInactive = drivers.pullDownWhenInactive();
-        message.pullUpOverCurrent = drivers.pullUpOverCurrent();
-        message.pullDownOverCurrent = drivers.pullDownOverCurrent();
-        message.pullUpOpenLoad = drivers.pullUpOpenLoad();
-        message.pullDownOpenLoad = drivers.pullDownOpenLoad();
+        message.overCurrent = drivers.overCurrent();
+        message.openLoad = drivers.openLoad();
     }
 }
 

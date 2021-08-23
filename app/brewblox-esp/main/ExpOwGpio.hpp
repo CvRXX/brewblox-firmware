@@ -128,15 +128,18 @@ public:
     class FlexChannel {
     public:
         FlexChannel()
-            : deviceType(blox_GpioDeviceType_NONE)
+            : deviceType(blox_GpioDeviceType_GPIO_DEV_NONE)
+            , width(0)
         {
             pins_mask.bits.all = 0;
         }
 
         FlexChannel(
             blox_GpioDeviceType type,
+            uint8_t width,
             uint8_t pins)
             : deviceType(type)
+            , width(width)
         {
             // set mask for both pull-up and pull-down
             ChanBits external_pins_mask;
@@ -146,17 +149,21 @@ public:
 
         bool operator==(const FlexChannel& other) const
         {
-            return this->pins_mask.bits.all == other.pins_mask.bits.all && this->deviceType == other.deviceType;
+            return this->pins_mask.bits.all == other.pins_mask.bits.all
+                   && this->deviceType == other.deviceType
+                   && this->width == other.width;
         }
 
         bool operator!=(const FlexChannel& other) const
         {
-            return this->pins_mask.bits.all != other.pins_mask.bits.all || this->deviceType != other.deviceType;
+            return this->pins_mask.bits.all != other.pins_mask.bits.all
+                   || this->deviceType != other.deviceType
+                   || this->width == other.width;
         }
 
-        blox_GpioDeviceType deviceType = blox_GpioDeviceType_NONE;
+        blox_GpioDeviceType deviceType = blox_GpioDeviceType_GPIO_DEV_NONE;
         ChannelConfig config = ChannelConfig::UNUSED;
-
+        uint8_t width;
         uint8_t pwm_duty = 0;
 
         uint8_t pins() const
@@ -180,10 +187,9 @@ public:
         return false;
     }
 
-    blox_ChannelStatus channelStatus(uint8_t channel) const;
     blox_DigitalState channelState(uint8_t channel) const;
 
-    void setupChannel(uint8_t channel, const FlexChannel& c);
+    void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;
 
     void update();
@@ -225,21 +231,16 @@ public:
     {
         return ChanBits{when_inactive_mask}.down();
     }
-    uint8_t pullUpOverCurrent() const
+    uint8_t overCurrent() const
     {
-        return ChanBits{ocp_status}.up();
+        auto external = ChanBits{ocp_status};
+        return external.up() | external.down();
     }
-    uint8_t pullDownOverCurrent() const
+
+    uint8_t openLoad() const
     {
-        return ChanBits{ocp_status}.down();
-    }
-    uint8_t pullUpOpenLoad() const
-    {
-        return ChanBits{old_status}.up();
-    }
-    uint8_t pullDownOpenLoad() const
-    {
-        return ChanBits{old_status}.down();
+        auto external = ChanBits{old_status};
+        return external.up() | external.down();
     }
 
     uint8_t modulePosition() const override final
