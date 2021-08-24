@@ -9,14 +9,11 @@
 
 
 
-const pb_field_t blox_GpioModuleChannel_fields[8] = {
+const pb_field_t blox_GpioModuleChannel_fields[5] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_GpioModuleChannel, id, id, 0),
     PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, deviceType, id, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, pinsMask, deviceType, 0),
     PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, width, pinsMask, 0),
-    PB_FIELD(  5, UENUM   , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, config, width, 0),
-    PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, state, config, 0),
-    PB_FIELD(  7, INT32   , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, pwmDuty, state, 0),
     PB_LAST_FIELD
 };
 
@@ -34,7 +31,7 @@ const pb_field_t blox_OneWireGpioModule_fields[15] = {
     PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenInactive, pullDownWhenActive, 0),
     PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, overCurrent, pullDownWhenInactive, 0),
     PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, openLoad, overCurrent, 0),
-    PB_FIELD( 16, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, openLoad, 0),
+    PB_FIELD( 32, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, openLoad, 0),
     PB_LAST_FIELD
 };
 

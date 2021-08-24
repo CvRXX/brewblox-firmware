@@ -65,11 +65,6 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
             message.channels[message.channels_count].deviceType = c.deviceType;
             message.channels[message.channels_count].width = c.width;
             message.channels[message.channels_count].pinsMask = c.pins();
-            if (includeNotPersisted) {
-                message.channels[message.channels_count].config = blox_ChannelConfig(c.config);
-                message.channels[message.channels_count].pwmDuty = c.pwm_duty;
-                message.channels[message.channels_count].state = drivers.channelState(i);
-            }
             ++message.channels_count;
         }
     }
