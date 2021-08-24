@@ -54,12 +54,13 @@ unsigned get_device_id(uint8_t* dest, unsigned max_len)
     return i;
 }
 
-
-int resetReason(){
+int resetReason()
+{
     return 0; // todo
 }
 
-int resetReasonData(){
+int resetReasonData()
+{
     return 0; // todo
 }
 
@@ -96,6 +97,8 @@ makeBrewBloxBox(asio::io_context& io)
         objectStore, connections, scanners);
 
     box.loadObjectsFromStorage(); // init box and load stored objects
+
+    box.discoverNewObjects(); // discover new/moved devices
 
     static auto updater = RecurringTask(
         io, asio::chrono::milliseconds(10),

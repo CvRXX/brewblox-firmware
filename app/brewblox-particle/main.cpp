@@ -155,7 +155,11 @@ void setup()
     brewbloxBox().loadObjectsFromStorage(); // init box and load stored objects
     HAL_Delay_Milliseconds(1);
 
-    StartupScreen::setProgress(80);
+    StartupScreen::setProgress(90);
+    StartupScreen::setStep("Scanning for new devices");
+    brewbloxBox().discoverNewObjects();
+
+    StartupScreen::setProgress(90);
     StartupScreen::setStep("Enabling WiFi and mDNS");
     wifiInit();
     HAL_Delay_Milliseconds(1);

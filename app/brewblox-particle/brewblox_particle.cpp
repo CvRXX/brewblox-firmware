@@ -114,6 +114,16 @@ theConnectionPool()
     return connections;
 }
 
+void powerCyclePheripheral5V()
+{
+// The Onewire 5V on the Spark 3 can be toggled. The Spark 2 didn't have this functionality
+#if PLATFORM_ID == 8
+    enablePheripheral5V(false);
+    ticks.delayMillis(100);
+    enablePheripheral5V(true);
+#endif
+}
+
 cbox::Box&
 makeBrewBloxBox()
 {
@@ -124,7 +134,7 @@ makeBrewBloxBox()
                                              // groups will be at position 1
                                              cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
                                              cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
-                                             cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire()))),
+                                             cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V))),
 #if defined(SPARK)
                                              cbox::ContainedObject(5, 0x80, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
                                              cbox::ContainedObject(6, 0x80, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
@@ -316,7 +326,8 @@ unsigned get_device_id(uint8_t* dest, unsigned max_len)
     return HAL_device_ID(dest, max_len);
 }
 
-int resetReason(){
+int resetReason()
+{
 #if PLATFORM_ID == 3
     return 0;
 #else
@@ -324,7 +335,8 @@ int resetReason(){
 #endif
 }
 
-int resetReasonData(){
+int resetReasonData()
+{
 #if PLATFORM_ID == 3
     return 0;
 #else

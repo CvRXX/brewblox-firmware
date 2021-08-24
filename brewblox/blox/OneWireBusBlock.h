@@ -19,10 +19,9 @@
 
 #pragma once
 
+#include "OneWire.h"
 #include "blox/Block.h"
 #include "compiled_proto/src/OneWireBus.pb.h"
-
-class OneWire;
 
 class OneWireBusBlock : public Block<BrewBloxTypes_BlockType_OneWireBus> {
 private:
@@ -35,7 +34,7 @@ private:
     static const uint8_t SEARCH = 2; // pass family as data, 00 for all
 
 public:
-    OneWireBusBlock(OneWire& ow);
+    OneWireBusBlock(OneWire& ow, void (*onShortDetected)() = nullptr);
     virtual ~OneWireBusBlock() = default;
 
     OneWire& oneWire() { return bus; }
@@ -48,11 +47,8 @@ public:
         return cbox::CboxError::PERSISTING_NOT_NEEDED;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
-    {
-        // No updates for now. Alternatively, a periodic bus scan for new devices?
-        return update_never(now);
-    }
+    virtual cbox::update_t update(const cbox::update_t& now) override final;
 
+    static void (*onShortDetected)();
     virtual void* implements(const cbox::obj_type_t& iface) override final;
 };

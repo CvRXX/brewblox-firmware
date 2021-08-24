@@ -1,7 +1,7 @@
 #include "ExpOwGpio.hpp"
+
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
-using PinDrive = ExpOwGpio::PinDrive;
 using FlexChannel = ExpOwGpio::FlexChannel;
 
 ChanBits::ChanBits(const ChanBitsInternal& internal)
@@ -26,64 +26,6 @@ ChanBitsInternal::ChanBitsInternal(const ChanBits& external)
     bits.pin.c6 = external.bits.pin.c6;
     bits.pin.c7 = external.bits.pin.c7;
     bits.pin.c8 = external.bits.pin.c8;
-}
-
-PinDrive ChanBits::get(uint8_t chan)
-{
-    // numbering board pins doesn't match driver's bits
-    switch (chan) {
-    case 1:
-        return PinDrive(bits.pin.c1);
-    case 2:
-        return PinDrive(bits.pin.c2);
-    case 3:
-        return PinDrive(bits.pin.c3);
-    case 4:
-        return PinDrive(bits.pin.c4);
-    case 5:
-        return PinDrive(bits.pin.c5);
-    case 6:
-        return PinDrive(bits.pin.c6);
-    case 7:
-        return PinDrive(bits.pin.c7);
-    case 8:
-        return PinDrive(bits.pin.c8);
-    default:
-        return PinDrive(0x00);
-    }
-}
-
-void ChanBits::set(uint8_t chan, PinDrive drive)
-{
-    // numbering board pins doesn't match driver's bits
-    switch (chan) {
-    case 1:
-        bits.pin.c1 = drive;
-        return;
-    case 2:
-        bits.pin.c2 = drive;
-        return;
-    case 3:
-        bits.pin.c3 = drive;
-        return;
-    case 4:
-        bits.pin.c4 = drive;
-        return;
-    case 5:
-        bits.pin.c5 = drive;
-        return;
-    case 6:
-        bits.pin.c6 = drive;
-        return;
-    case 7:
-        bits.pin.c7 = drive;
-        return;
-    case 8:
-        bits.pin.c8 = drive;
-        return;
-    default:
-        return;
-    }
 }
 
 // get bits for pull-up transistors
@@ -141,7 +83,7 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
 void ExpOwGpio::init_expander()
 {
     expander.set_outputs(0b11111101); // 24V off, OneWire powered
-    expander.set_config(0b11111000);  // 3 pins output, others input
+    expander.set_config(0b11101000);  // pin 4, 2, 1, 0 output, others input
     expander.set_outputs(0b11111111); // 24V on, OneWire powered
 }
 
@@ -307,11 +249,16 @@ void ExpOwGpio::update()
 {
     auto drv_status = status();
 
+    if (owDriver.shortDetected()) {
+        expander.set_output(ExpanderPins::oneWirePowerEnable, false);
+        hal_delay_ms(100);
+        // ESP_LOGE("OWGPIO", "Power cycling OneWire on module %d, %x", modulePosition(), owDriver.status().all);
+        expander.set_output(ExpanderPins::oneWirePowerEnable, true);
+        owDriver.init();
+    }
+
     bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
     bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
-
-    init_expander();     // test/ remove
-    updateNeeded = true; // test/ remove
 
     if (updateNeeded || initNeeded) {
         if (initNeeded) {

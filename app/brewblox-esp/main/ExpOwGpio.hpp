@@ -46,13 +46,6 @@ public:
     }
 
 public:
-    enum PinDrive : uint8_t {
-        PULL_NONE = 0x0,
-        PULL_DOWN = 0x01,
-        PULL_UP = 0x02,
-        PULL_BOTH = 0x03, // this is a short circuit and should not actually be set
-    };
-
     struct ChanBitsInternal;
     struct ChanBits {
         ChanBits()
@@ -85,8 +78,7 @@ public:
         // get bits for pull-up transistors
         uint8_t up() const;
 
-        PinDrive get(uint8_t chan);
-        void set(uint8_t chan, PinDrive state);
+        // sets all up and down bits by interweaving them into a 16-bit value
         void setBits(uint8_t up, uint8_t down);
     };
 
@@ -296,4 +288,12 @@ private:
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
+
+    enum ExpanderPins : uint8_t {
+        spiCsPin = 0,
+        exernalVoltageEnable = 1,
+        driverSleep = 2,
+        driverFault = 3,
+        oneWirePowerEnable = 4,
+    };
 };

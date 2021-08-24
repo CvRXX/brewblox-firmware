@@ -43,10 +43,11 @@ bool streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* 
     return true;
 }
 
-OneWireBusBlock::OneWireBusBlock(OneWire& ow)
+OneWireBusBlock::OneWireBusBlock(OneWire& ow, void (*onShortDetected_)())
     : bus(ow)
     , command({NO_OP, 0})
 {
+    onShortDetected = onShortDetected_;
     bus.init();
 }
 
@@ -122,3 +123,16 @@ void* OneWireBusBlock::implements(const cbox::obj_type_t& iface)
     }
     return nullptr;
 }
+
+cbox::update_t OneWireBusBlock::update(const cbox::update_t& now)
+{
+    if (onShortDetected) {
+        if (bus.shortDetected()) {
+            onShortDetected();
+            bus.init();
+        }
+    }
+    return update_1s(now);
+}
+
+void (*OneWireBusBlock::onShortDetected)();

@@ -83,4 +83,10 @@ public:
     // When the last device has been return, reset_search or target_search has to be called
     // to reset the search.
     bool search(OneWireAddress& newAddr);
+
+    // Checks the driver for a short on the bus
+    bool shortDetected()
+    {
+        return driver.shortDetected();
+    }
 };

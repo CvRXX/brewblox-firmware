@@ -90,6 +90,11 @@ public:
         devices.push_back(std::move(device));
     }
 
+    bool shortDetected() override final
+    {
+        return false;
+    }
+
 private:
     std::vector<std::shared_ptr<OneWireMockDevice>> devices;
 };
