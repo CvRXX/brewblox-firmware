@@ -33,7 +33,6 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
-#include "IoArray_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_OneWireGpioModule_5ftest_2eproto 
 
@@ -69,27 +68,30 @@ enum GpioDeviceType {
   GPIO_DEV_NONE = 0,
   GPIO_DEV_SSR_2P = 1,
   GPIO_DEV_SSR_1P = 2,
-  GPIO_DEV_COIL_UNIDIRECTIONAL_2P = 3,
-  GPIO_DEV_COIL_BIDIRECTIONAL_2P = 4,
-  GPIO_DEV_COIL_HIGH_SIDE_1P = 5,
-  GPIO_DEV_COIL_LOW_SIDE_1P = 6,
-  GPIO_DEV_MOTOR_UNIDIRECTIONAL_2P = 7,
-  GPIO_DEV_MOTOR_BIDIRECTIONAL_2P = 8,
-  GPIO_DEV_MOTOR_HIGH_SIDE_1P = 9,
-  GPIO_DEV_MOTOR_LOW_SIDE_1P = 10,
-  GPIO_DEV_LOAD_DETECT_2P = 11,
-  GPIO_DEV_LOAD_DETECT_PULL_DOWN_1P = 12,
-  GPIO_DEV_LOAD_DETECT_PULL_UP_1P = 13,
-  GPIO_DEV_POWER_LOAD_DETECT_1P = 14,
-  GPIO_DEV_GND_LOAD_DETECT_1P = 15,
-  GPIO_DEV_POWER_1P = 16,
-  GPIO_DEV_GND_1P = 17,
+  GPIO_DEV_MECHANICAL_RELAY_2P = 3,
+  GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SIDE = 4,
+  GPIO_DEV_MECHANICAL_RELAY_1P_LOW_SIDE = 5,
+  GPIO_DEV_COIL_2P = 6,
+  GPIO_DEV_COIL_2P_BIDIRECTIONAL = 7,
+  GPIO_DEV_COIL_1P_HIGH_SIDE = 8,
+  GPIO_DEV_COIL_1P_LOW_SIDE = 9,
+  GPIO_DEV_MOTOR_2P = 10,
+  GPIO_DEV_MOTOR_2P_BIDIRECTIONAL = 11,
+  GPIO_DEV_MOTOR_1P_HIGH_SIDE = 12,
+  GPIO_DEV_MOTOR_1P_LOW_SIDE = 13,
+  GPIO_DEV_LOAD_DETECT_2P = 14,
+  GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN = 15,
+  GPIO_DEV_LOAD_DETECT_1P_PULL_UP = 16,
+  GPIO_DEV_POWER_1P = 17,
+  GPIO_DEV_POWER_1P_LOAD_DETECT = 18,
+  GPIO_DEV_GND_1P = 19,
+  GPIO_DEV_GND_1P_LOAD_DETECT = 20,
   GpioDeviceType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   GpioDeviceType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool GpioDeviceType_IsValid(int value);
 const GpioDeviceType GpioDeviceType_MIN = GPIO_DEV_NONE;
-const GpioDeviceType GpioDeviceType_MAX = GPIO_DEV_GND_1P;
+const GpioDeviceType GpioDeviceType_MAX = GPIO_DEV_GND_1P_LOAD_DETECT;
 const int GpioDeviceType_ARRAYSIZE = GpioDeviceType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* GpioDeviceType_descriptor();
@@ -243,24 +245,6 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 width() const;
   void set_width(::google::protobuf::uint32 value);
 
-  // .blox.ChannelConfig config = 5 [(.brewblox_test) = {
-  void clear_config();
-  static const int kConfigFieldNumber = 5;
-  ::blox::ChannelConfig config() const;
-  void set_config(::blox::ChannelConfig value);
-
-  // .blox.DigitalState state = 6 [(.brewblox_test) = {
-  void clear_state();
-  static const int kStateFieldNumber = 6;
-  ::blox::DigitalState state() const;
-  void set_state(::blox::DigitalState value);
-
-  // int32 pwmDuty = 7 [(.nanopb_test) = {
-  void clear_pwmduty();
-  static const int kPwmDutyFieldNumber = 7;
-  ::google::protobuf::int32 pwmduty() const;
-  void set_pwmduty(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:blox.GpioModuleChannel)
  private:
 
@@ -269,9 +253,6 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   int devicetype_;
   ::google::protobuf::uint32 pinsmask_;
   ::google::protobuf::uint32 width_;
-  int config_;
-  int state_;
-  ::google::protobuf::int32 pwmduty_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireGpioModule_5ftest_2eproto::TableStruct;
 };
@@ -448,9 +429,9 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 openload() const;
   void set_openload(::google::protobuf::uint32 value);
 
-  // uint32 moduleStatusClear = 16 [(.nanopb_test) = {
+  // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
   void clear_modulestatusclear();
-  static const int kModuleStatusClearFieldNumber = 16;
+  static const int kModuleStatusClearFieldNumber = 32;
   ::google::protobuf::uint32 modulestatusclear() const;
   void set_modulestatusclear(::google::protobuf::uint32 value);
 
@@ -540,48 +521,6 @@ inline void GpioModuleChannel::set_width(::google::protobuf::uint32 value) {
   
   width_ = value;
   // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.width)
-}
-
-// .blox.ChannelConfig config = 5 [(.brewblox_test) = {
-inline void GpioModuleChannel::clear_config() {
-  config_ = 0;
-}
-inline ::blox::ChannelConfig GpioModuleChannel::config() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.config)
-  return static_cast< ::blox::ChannelConfig >(config_);
-}
-inline void GpioModuleChannel::set_config(::blox::ChannelConfig value) {
-  
-  config_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.config)
-}
-
-// .blox.DigitalState state = 6 [(.brewblox_test) = {
-inline void GpioModuleChannel::clear_state() {
-  state_ = 0;
-}
-inline ::blox::DigitalState GpioModuleChannel::state() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.state)
-  return static_cast< ::blox::DigitalState >(state_);
-}
-inline void GpioModuleChannel::set_state(::blox::DigitalState value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.state)
-}
-
-// int32 pwmDuty = 7 [(.nanopb_test) = {
-inline void GpioModuleChannel::clear_pwmduty() {
-  pwmduty_ = 0;
-}
-inline ::google::protobuf::int32 GpioModuleChannel::pwmduty() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.pwmDuty)
-  return pwmduty_;
-}
-inline void GpioModuleChannel::set_pwmduty(::google::protobuf::int32 value) {
-  
-  pwmduty_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.pwmDuty)
 }
 
 // -------------------------------------------------------------------
@@ -786,7 +725,7 @@ inline void OneWireGpioModule::set_openload(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.openLoad)
 }
 
-// uint32 moduleStatusClear = 16 [(.nanopb_test) = {
+// uint32 moduleStatusClear = 32 [(.nanopb_test) = {
 inline void OneWireGpioModule::clear_modulestatusclear() {
   modulestatusclear_ = 0u;
 }

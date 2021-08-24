@@ -179,8 +179,6 @@ public:
         return false;
     }
 
-    blox_DigitalState channelState(uint8_t channel) const;
-
     void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;
 
