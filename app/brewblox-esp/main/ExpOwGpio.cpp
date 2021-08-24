@@ -82,9 +82,8 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
 
 void ExpOwGpio::init_expander()
 {
-    expander.set_outputs(0b11111101); // 24V off, OneWire powered
-    expander.set_config(0b11101000);  // pin 4, 2, 1, 0 output, others input
-    expander.set_outputs(0b11111111); // 24V on, OneWire powered
+    expander.set_config(0b11101000); // pin 4, 2, 1, 0 output, others input
+    expander.set_outputs(externalPower ? 0xFF : 0xFD);
 }
 
 void ExpOwGpio::init_driver()
@@ -248,7 +247,6 @@ void ExpOwGpio::update()
     if (owDriver.shortDetected()) {
         expander.set_output(ExpanderPins::oneWirePowerEnable, false);
         hal_delay_ms(100);
-        // ESP_LOGE("OWGPIO", "Power cycling OneWire on module %d, %x", modulePosition(), owDriver.status().all);
         expander.set_output(ExpanderPins::oneWirePowerEnable, true);
         owDriver.init();
     }
@@ -331,6 +329,10 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
             // pins are not consecutive, this is not supported
             c.pins_mask.bits.all = 0;
         }
+
+        // clear old bits set by previous channel configuration
+        when_active_mask.bits.all = when_active_mask.bits.all & exclude_old;
+        when_inactive_mask.bits.all = when_inactive_mask.bits.all & exclude_old;
 
         flexChannels[idx] = c;
 
@@ -415,10 +417,6 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
                 when_active_external.setBits(pins_external, 0x00);
                 break;
             }
-
-            // clear old bits set by previous channel configuration
-            when_active_mask.bits.all = when_active_mask.bits.all & exclude_old;
-            when_inactive_mask.bits.all = when_inactive_mask.bits.all & exclude_old;
 
             // set mask bits in shared masks
             when_inactive_mask.apply(c.pins_mask, ChanBitsInternal{when_inactive_external});

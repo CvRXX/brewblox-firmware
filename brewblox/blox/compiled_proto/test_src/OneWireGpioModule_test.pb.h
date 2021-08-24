@@ -429,6 +429,12 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 openload() const;
   void set_openload(::google::protobuf::uint32 value);
 
+  // bool useExternalPower = 14;
+  void clear_useexternalpower();
+  static const int kUseExternalPowerFieldNumber = 14;
+  bool useexternalpower() const;
+  void set_useexternalpower(bool value);
+
   // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
   void clear_modulestatusclear();
   static const int kModuleStatusClearFieldNumber = 32;
@@ -452,6 +458,7 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 pulldownwheninactive_;
   ::google::protobuf::uint32 overcurrent_;
   ::google::protobuf::uint32 openload_;
+  bool useexternalpower_;
   ::google::protobuf::uint32 modulestatusclear_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireGpioModule_5ftest_2eproto::TableStruct;
@@ -723,6 +730,20 @@ inline void OneWireGpioModule::set_openload(::google::protobuf::uint32 value) {
   
   openload_ = value;
   // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.openLoad)
+}
+
+// bool useExternalPower = 14;
+inline void OneWireGpioModule::clear_useexternalpower() {
+  useexternalpower_ = false;
+}
+inline bool OneWireGpioModule::useexternalpower() const {
+  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.useExternalPower)
+  return useexternalpower_;
+}
+inline void OneWireGpioModule::set_useexternalpower(bool value) {
+  
+  useexternalpower_ = value;
+  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.useExternalPower)
 }
 
 // uint32 moduleStatusClear = 32 [(.nanopb_test) = {

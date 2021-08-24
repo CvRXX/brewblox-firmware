@@ -82,6 +82,7 @@ typedef struct _blox_OneWireGpioModule {
     uint8_t pullDownWhenInactive;
     uint8_t overCurrent;
     uint8_t openLoad;
+    bool useExternalPower;
     uint8_t moduleStatusClear;
 /* @@protoc_insertion_point(struct:blox_OneWireGpioModule) */
 } blox_OneWireGpioModule;
@@ -90,9 +91,9 @@ typedef struct _blox_OneWireGpioModule {
 
 /* Initializer values for message structs */
 #define blox_GpioModuleChannel_init_default      {0, _blox_GpioDeviceType_MIN, 0, 0}
-#define blox_OneWireGpioModule_init_default      {0, {blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define blox_OneWireGpioModule_init_default      {0, {blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default, blox_GpioModuleChannel_init_default}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 #define blox_GpioModuleChannel_init_zero         {0, _blox_GpioDeviceType_MIN, 0, 0}
-#define blox_OneWireGpioModule_init_zero         {0, {blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define blox_OneWireGpioModule_init_zero         {0, {blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero, blox_GpioModuleChannel_init_zero}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_GpioModuleChannel_id_tag            1
@@ -112,15 +113,16 @@ typedef struct _blox_OneWireGpioModule {
 #define blox_OneWireGpioModule_pullDownWhenInactive_tag 11
 #define blox_OneWireGpioModule_overCurrent_tag   12
 #define blox_OneWireGpioModule_openLoad_tag      13
+#define blox_OneWireGpioModule_useExternalPower_tag 14
 #define blox_OneWireGpioModule_moduleStatusClear_tag 32
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_GpioModuleChannel_fields[5];
-extern const pb_field_t blox_OneWireGpioModule_fields[15];
+extern const pb_field_t blox_OneWireGpioModule_fields[16];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_GpioModuleChannel_size              20
-#define blox_OneWireGpioModule_size              255
+#define blox_OneWireGpioModule_size              257
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

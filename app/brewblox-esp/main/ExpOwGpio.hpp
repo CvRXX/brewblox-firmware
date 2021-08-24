@@ -255,16 +255,26 @@ public:
         return ow;
     }
 
+    void externalPowerEnabled(bool isEnabled)
+    {
+        externalPower = isEnabled;
+        init_expander();
+    }
+
+    bool externalPowerEnabled() const
+    {
+        return externalPower;
+    }
+
 private:
     void assert_cs()
     {
         spi.aquire_bus();
-        expander.set_output(0, false);
-        hal_delay_ms(10);
+        expander.set_output(ExpanderPins::spiCsPin, false);
     }
     void deassert_cs()
     {
-        expander.set_output(0, true);
+        expander.set_output(ExpanderPins::spiCsPin, true);
         spi.release_bus();
     }
 
@@ -286,6 +296,7 @@ private:
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
+    bool externalPower = false;
 
     enum ExpanderPins : uint8_t {
         spiCsPin = 0,

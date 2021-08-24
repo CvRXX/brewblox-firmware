@@ -29,6 +29,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         drivers.modulePosition(newData.modulePosition);
+        drivers.externalPowerEnabled(newData.useExternalPower);
 
         // first dedode to new array, so deleted channels are overwritten with an unused channel
         std::array<ExpOwGpio::FlexChannel, 8> newChannels{};
@@ -57,6 +58,7 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 {
     message.modulePosition = drivers.modulePosition();
     message.channels_count = 0;
+    message.useExternalPower = drivers.externalPowerEnabled();
 
     for (uint8_t i = 1; i <= 8; i++) {
         auto& c = drivers.getChannel(i);

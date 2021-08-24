@@ -17,7 +17,7 @@ const pb_field_t blox_GpioModuleChannel_fields[5] = {
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_OneWireGpioModule_fields[15] = {
+const pb_field_t blox_OneWireGpioModule_fields[16] = {
     PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_OneWireGpioModule, channels, channels, &blox_GpioModuleChannel_fields),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, modulePosition, channels, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatus, modulePosition, 0),
@@ -31,7 +31,8 @@ const pb_field_t blox_OneWireGpioModule_fields[15] = {
     PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenInactive, pullDownWhenActive, 0),
     PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, overCurrent, pullDownWhenInactive, 0),
     PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, openLoad, overCurrent, 0),
-    PB_FIELD( 32, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, openLoad, 0),
+    PB_FIELD( 14, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, useExternalPower, openLoad, 0),
+    PB_FIELD( 32, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, useExternalPower, 0),
     PB_LAST_FIELD
 };
 

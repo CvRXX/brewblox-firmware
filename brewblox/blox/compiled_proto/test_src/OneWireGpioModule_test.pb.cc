@@ -100,6 +100,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, pulldownwheninactive_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, overcurrent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, openload_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, useexternalpower_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireGpioModule, modulestatusclear_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -138,7 +139,7 @@ void AddDescriptorsImpl() {
       "\021GpioModuleChannel\022\021\n\002id\030\001 \001(\rB\005\222\?\0028\010\022(\n"
       "\ndeviceType\030\002 \001(\0162\024.blox.GpioDeviceType\022"
       "\035\n\010pinsMask\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022\024\n\005width\030"
-      "\004 \001(\rB\005\222\?\0028\010\"\367\004\n\021OneWireGpioModule\0220\n\010ch"
+      "\004 \001(\rB\005\222\?\0028\010\"\221\005\n\021OneWireGpioModule\0220\n\010ch"
       "annels\030\001 \003(\0132\027.blox.GpioModuleChannelB\005\222"
       "\?\002\020\010\022\035\n\016modulePosition\030\002 \001(\rB\005\222\?\0028\010\022!\n\014m"
       "oduleStatus\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022(\n\rpullUp"
@@ -152,35 +153,36 @@ void AddDescriptorsImpl() {
       "B\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022/\n\024pullDownWhenInact"
       "ive\030\013 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\013overCurr"
       "ent\030\014 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022#\n\010openLoad"
-      "\030\r \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\021moduleStatu"
-      "sClear\030  \001(\rB\013\222\?\0028\010\212\265\030\002P\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n"
-      "\212\265\030\002H\014*\225\005\n\016GpioDeviceType\022\021\n\rGPIO_DEV_NO"
-      "NE\020\000\022\023\n\017GPIO_DEV_SSR_2P\020\001\022\023\n\017GPIO_DEV_SS"
-      "R_1P\020\002\022 \n\034GPIO_DEV_MECHANICAL_RELAY_2P\020\003"
-      "\022*\n&GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SI"
-      "DE\020\004\022)\n%GPIO_DEV_MECHANICAL_RELAY_1P_LOW"
-      "_SIDE\020\005\022\024\n\020GPIO_DEV_COIL_2P\020\006\022\"\n\036GPIO_DE"
-      "V_COIL_2P_BIDIRECTIONAL\020\007\022\036\n\032GPIO_DEV_CO"
-      "IL_1P_HIGH_SIDE\020\010\022\035\n\031GPIO_DEV_COIL_1P_LO"
-      "W_SIDE\020\t\022\025\n\021GPIO_DEV_MOTOR_2P\020\n\022#\n\037GPIO_"
-      "DEV_MOTOR_2P_BIDIRECTIONAL\020\013\022\037\n\033GPIO_DEV"
-      "_MOTOR_1P_HIGH_SIDE\020\014\022\036\n\032GPIO_DEV_MOTOR_"
-      "1P_LOW_SIDE\020\r\022\033\n\027GPIO_DEV_LOAD_DETECT_2P"
-      "\020\016\022%\n!GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN\020"
-      "\017\022#\n\037GPIO_DEV_LOAD_DETECT_1P_PULL_UP\020\020\022\025"
-      "\n\021GPIO_DEV_POWER_1P\020\021\022!\n\035GPIO_DEV_POWER_"
-      "1P_LOAD_DETECT\020\022\022\023\n\017GPIO_DEV_GND_1P\020\023\022\037\n"
-      "\033GPIO_DEV_GND_1P_LOAD_DETECT\020\024*\212\002\n\016GpioE"
-      "rrorFlags\022\021\n\rGPIO_ERR_NONE\020\000\022\033\n\027GPIO_ERR"
-      "_POWER_ON_RESET\020\001\022\030\n\024GPIO_ERR_OVERVOLTAG"
-      "E\020\002\022\031\n\025GPIO_ERR_UNDERVOLTAGE\020\004\022\030\n\024GPIO_E"
-      "RR_OVERCURRENT\020\010\022\026\n\022GPIO_ERR_OPEN_LOAD\020\020"
-      "\022$\n GPIO_ERR_OVERTEMPERATURE_WARNING\020 \022\""
-      "\n\036GPIO_ERR_OVERTEMPERATURE_ERROR\020@\022\027\n\022GP"
-      "IO_ERR_SPI_ERROR\020\200\001b\006proto3"
+      "\030\r \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\030\n\020useExternal"
+      "Power\030\016 \001(\010\022&\n\021moduleStatusClear\030  \001(\rB\013"
+      "\222\?\0028\010\212\265\030\002P\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n\212\265\030\002H\014*\225\005\n\016Gpi"
+      "oDeviceType\022\021\n\rGPIO_DEV_NONE\020\000\022\023\n\017GPIO_D"
+      "EV_SSR_2P\020\001\022\023\n\017GPIO_DEV_SSR_1P\020\002\022 \n\034GPIO"
+      "_DEV_MECHANICAL_RELAY_2P\020\003\022*\n&GPIO_DEV_M"
+      "ECHANICAL_RELAY_1P_HIGH_SIDE\020\004\022)\n%GPIO_D"
+      "EV_MECHANICAL_RELAY_1P_LOW_SIDE\020\005\022\024\n\020GPI"
+      "O_DEV_COIL_2P\020\006\022\"\n\036GPIO_DEV_COIL_2P_BIDI"
+      "RECTIONAL\020\007\022\036\n\032GPIO_DEV_COIL_1P_HIGH_SID"
+      "E\020\010\022\035\n\031GPIO_DEV_COIL_1P_LOW_SIDE\020\t\022\025\n\021GP"
+      "IO_DEV_MOTOR_2P\020\n\022#\n\037GPIO_DEV_MOTOR_2P_B"
+      "IDIRECTIONAL\020\013\022\037\n\033GPIO_DEV_MOTOR_1P_HIGH"
+      "_SIDE\020\014\022\036\n\032GPIO_DEV_MOTOR_1P_LOW_SIDE\020\r\022"
+      "\033\n\027GPIO_DEV_LOAD_DETECT_2P\020\016\022%\n!GPIO_DEV"
+      "_LOAD_DETECT_1P_PULL_DOWN\020\017\022#\n\037GPIO_DEV_"
+      "LOAD_DETECT_1P_PULL_UP\020\020\022\025\n\021GPIO_DEV_POW"
+      "ER_1P\020\021\022!\n\035GPIO_DEV_POWER_1P_LOAD_DETECT"
+      "\020\022\022\023\n\017GPIO_DEV_GND_1P\020\023\022\037\n\033GPIO_DEV_GND_"
+      "1P_LOAD_DETECT\020\024*\212\002\n\016GpioErrorFlags\022\021\n\rG"
+      "PIO_ERR_NONE\020\000\022\033\n\027GPIO_ERR_POWER_ON_RESE"
+      "T\020\001\022\030\n\024GPIO_ERR_OVERVOLTAGE\020\002\022\031\n\025GPIO_ER"
+      "R_UNDERVOLTAGE\020\004\022\030\n\024GPIO_ERR_OVERCURRENT"
+      "\020\010\022\026\n\022GPIO_ERR_OPEN_LOAD\020\020\022$\n GPIO_ERR_O"
+      "VERTEMPERATURE_WARNING\020 \022\"\n\036GPIO_ERR_OVE"
+      "RTEMPERATURE_ERROR\020@\022\027\n\022GPIO_ERR_SPI_ERR"
+      "OR\020\200\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1787);
+      descriptor, 1813);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireGpioModule_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -611,6 +613,7 @@ const int OneWireGpioModule::kPullDownWhenActiveFieldNumber;
 const int OneWireGpioModule::kPullDownWhenInactiveFieldNumber;
 const int OneWireGpioModule::kOverCurrentFieldNumber;
 const int OneWireGpioModule::kOpenLoadFieldNumber;
+const int OneWireGpioModule::kUseExternalPowerFieldNumber;
 const int OneWireGpioModule::kModuleStatusClearFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -863,6 +866,20 @@ bool OneWireGpioModule::MergePartialFromCodedStream(
         break;
       }
 
+      // bool useExternalPower = 14;
+      case 14: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &useexternalpower_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
       case 32: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -972,6 +989,11 @@ void OneWireGpioModule::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->openload(), output);
   }
 
+  // bool useExternalPower = 14;
+  if (this->useexternalpower() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(14, this->useexternalpower(), output);
+  }
+
   // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
   if (this->modulestatusclear() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(32, this->modulestatusclear(), output);
@@ -1057,6 +1079,11 @@ void OneWireGpioModule::SerializeWithCachedSizes(
   // uint32 openLoad = 13 [(.nanopb_test) = {
   if (this->openload() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(13, this->openload(), target);
+  }
+
+  // bool useExternalPower = 14;
+  if (this->useexternalpower() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(14, this->useexternalpower(), target);
   }
 
   // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
@@ -1176,6 +1203,11 @@ size_t OneWireGpioModule::ByteSizeLong() const {
         this->openload());
   }
 
+  // bool useExternalPower = 14;
+  if (this->useexternalpower() != 0) {
+    total_size += 1 + 1;
+  }
+
   // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
   if (this->modulestatusclear() != 0) {
     total_size += 2 +
@@ -1247,6 +1279,9 @@ void OneWireGpioModule::MergeFrom(const OneWireGpioModule& from) {
   if (from.openload() != 0) {
     set_openload(from.openload());
   }
+  if (from.useexternalpower() != 0) {
+    set_useexternalpower(from.useexternalpower());
+  }
   if (from.modulestatusclear() != 0) {
     set_modulestatusclear(from.modulestatusclear());
   }
@@ -1289,6 +1324,7 @@ void OneWireGpioModule::InternalSwap(OneWireGpioModule* other) {
   swap(pulldownwheninactive_, other->pulldownwheninactive_);
   swap(overcurrent_, other->overcurrent_);
   swap(openload_, other->openload_);
+  swap(useexternalpower_, other->useexternalpower_);
   swap(modulestatusclear_, other->modulestatusclear_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
