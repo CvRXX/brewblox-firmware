@@ -18,6 +18,7 @@
  */
 
 #include "../main/ExpOwGpio.hpp"
+#include "ActuatorDigital.h"
 #include "DRV8908.hpp"
 #include "DRV8908Mock.hpp"
 #include "MockI2CDevice.hpp"
@@ -34,7 +35,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
     addMockI2CDevice(tca);
     addMockSpiDevice(drv);
 
-    ExpOwGpio gpio(0);
+    auto gpio = std::make_shared<ExpOwGpio>(0);
 
     WHEN("Internal and external channel bits are converted to each other")
     {
@@ -62,7 +63,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("The gpio driver is updated for the first time, it is automatically initialized")
     {
-        gpio.update();
+        gpio->update();
 
         THEN("The config register of the DRV8908 is set to 0b10000011")
         {
@@ -72,116 +73,127 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An single pin SSR is added using 1 pin")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00001000});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00001000});
 
         THEN("The pullups are configured as expected")
         {
-            CHECK(gpio.pullUpWhenActive() == 0b1000);
-            CHECK(gpio.pullDownWhenActive() == 0b0);
-            CHECK(gpio.pullUpWhenInactive() == 0b0);
-            CHECK(gpio.pullDownWhenInactive() == 0b1000);
-            CHECK(gpio.pullUpDesired() == 0b1000);
-            CHECK(gpio.pullUpStatus() == 0b0000);
-        }
-        AND_THEN("After an update, pullUpStatus matches desired")
-        {
-            gpio.update();
-            CHECK(gpio.pullUpStatus() == 0b1000);
+            CHECK(gpio->pullUpWhenActive() == 0b1000);
+            CHECK(gpio->pullDownWhenActive() == 0b0);
+            CHECK(gpio->pullUpWhenInactive() == 0b0);
+            CHECK(gpio->pullDownWhenInactive() == 0b1000);
+            CHECK(gpio->pullUpDesired() == 0b0000);
+            CHECK(gpio->pullUpStatus() == 0b0000);
         }
     }
 
     WHEN("An single pin SSR is added using 4 pins")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
 
         THEN("The pullups are configured as expected")
         {
-            CHECK(gpio.pullUpWhenActive() == 0b1111);
-            CHECK(gpio.pullDownWhenActive() == 0b0);
-            CHECK(gpio.pullUpWhenInactive() == 0b0);
-            CHECK(gpio.pullDownWhenInactive() == 0b1111);
+            CHECK(gpio->pullUpWhenActive() == 0b1111);
+            CHECK(gpio->pullDownWhenActive() == 0b0);
+            CHECK(gpio->pullUpWhenInactive() == 0b0);
+            CHECK(gpio->pullDownWhenInactive() == 0b1111);
         }
     }
 
     WHEN("An two pin SSR is added using 2 pins")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
 
         THEN("The pullups are configured as expected")
         {
-            CHECK(gpio.pullUpWhenActive() == 0b0010);
-            CHECK(gpio.pullDownWhenActive() == 0b01);
-            CHECK(gpio.pullUpWhenInactive() == 0b00);
-            CHECK(gpio.pullDownWhenInactive() == 0b11);
+            CHECK(gpio->pullUpWhenActive() == 0b0010);
+            CHECK(gpio->pullDownWhenActive() == 0b01);
+            CHECK(gpio->pullUpWhenInactive() == 0b00);
+            CHECK(gpio->pullDownWhenInactive() == 0b11);
+        }
+
+        THEN("It can be driven by a digital actuator")
+        {
+            ActuatorDigital act([gpio]() { return gpio; }, 1);
+            CHECK(gpio->pullUpStatus() == 0b0000);
+            CHECK(gpio->pullDownStatus() == 0b0011);
+            CHECK(act.state() == ActuatorDigital::State::Inactive);
+            act.state(ActuatorDigital::State::Active);
+            CHECK(act.state() == ActuatorDigital::State::Active);
+            CHECK(gpio->pullUpStatus() == 0b0010);
+            CHECK(gpio->pullDownStatus() == 0b0001);
+            act.state(ActuatorDigital::State::Inactive);
+            CHECK(act.state() == ActuatorDigital::State::Inactive);
+            CHECK(gpio->pullUpStatus() == 0b0000);
+            CHECK(gpio->pullDownStatus() == 0b0011);
         }
     }
 
     WHEN("An two pin SSR is added using 4 pins")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 4, 0b00001111});
 
         THEN("The pullups are configured as expected")
         {
-            CHECK(gpio.pullUpWhenActive() == 0b001100);
-            CHECK(gpio.pullDownWhenActive() == 0b0011);
-            CHECK(gpio.pullUpWhenInactive() == 0b0000);
-            CHECK(gpio.pullDownWhenInactive() == 0b1111);
+            CHECK(gpio->pullUpWhenActive() == 0b001100);
+            CHECK(gpio->pullDownWhenActive() == 0b0011);
+            CHECK(gpio->pullUpWhenInactive() == 0b0000);
+            CHECK(gpio->pullDownWhenInactive() == 0b1111);
         }
 
         AND_THEN("When it is replaced by a 2 pin SSR, the now unused bits are reset")
         {
-            gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
-            CHECK(gpio.pullUpWhenActive() == 0b0010);
-            CHECK(gpio.pullDownWhenActive() == 0b01);
-            CHECK(gpio.pullUpWhenInactive() == 0b00);
-            CHECK(gpio.pullDownWhenInactive() == 0b11);
+            gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
+            CHECK(gpio->pullUpWhenActive() == 0b0010);
+            CHECK(gpio->pullDownWhenActive() == 0b01);
+            CHECK(gpio->pullUpWhenInactive() == 0b00);
+            CHECK(gpio->pullDownWhenInactive() == 0b11);
         }
     }
 
     WHEN("When the width doesn't match the number of ones in the mask")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 2, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 2, 0b00001111});
 
         THEN("Then no changes are made to the pull-up/pull-down settings")
         {
-            CHECK(gpio.pullUpWhenActive() == 0);
-            CHECK(gpio.pullDownWhenActive() == 0);
-            CHECK(gpio.pullUpWhenInactive() == 0);
-            CHECK(gpio.pullDownWhenInactive() == 0);
+            CHECK(gpio->pullUpWhenActive() == 0);
+            CHECK(gpio->pullDownWhenActive() == 0);
+            CHECK(gpio->pullUpWhenInactive() == 0);
+            CHECK(gpio->pullDownWhenInactive() == 0);
         }
     }
 
     WHEN("When the ones in the mask are not consecutive")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00011011});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00011011});
 
         THEN("Then no changes are made to the pull-up/pull-down settings")
         {
-            CHECK(gpio.pullUpWhenActive() == 0);
-            CHECK(gpio.pullDownWhenActive() == 0);
-            CHECK(gpio.pullUpWhenInactive() == 0);
-            CHECK(gpio.pullDownWhenInactive() == 0);
+            CHECK(gpio->pullUpWhenActive() == 0);
+            CHECK(gpio->pullDownWhenActive() == 0);
+            CHECK(gpio->pullUpWhenInactive() == 0);
+            CHECK(gpio->pullDownWhenInactive() == 0);
         }
     }
 
     WHEN("When the ones in the mask overlap with another channel")
     {
-        gpio.setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
 
-        gpio.setupChannel(2, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00111100});
+        gpio->setupChannel(2, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00111100});
 
         THEN("Then no changes are made to the pull-up/pull-down settings")
         {
-            CHECK(gpio.pullUpWhenActive() == 0b1111);
-            CHECK(gpio.pullDownWhenActive() == 0b0);
-            CHECK(gpio.pullUpWhenInactive() == 0b0);
-            CHECK(gpio.pullDownWhenInactive() == 0b1111);
+            CHECK(gpio->pullUpWhenActive() == 0b1111);
+            CHECK(gpio->pullDownWhenActive() == 0b0);
+            CHECK(gpio->pullUpWhenInactive() == 0b0);
+            CHECK(gpio->pullDownWhenInactive() == 0b1111);
         }
 
         THEN("The pin mask of the second channel is cleared")
         {
-            CHECK(gpio.getChannel(1).pins() == 0b00001111);
-            CHECK(gpio.getChannel(2).pins() == 0);
+            CHECK(gpio->getChannel(1).pins() == 0b00001111);
+            CHECK(gpio->getChannel(2).pins() == 0);
         }
     }
 

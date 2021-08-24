@@ -195,7 +195,8 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
         drive_bits.bits.all = 0x0000;
         break;
     }
-    op_ctrl_desired.apply(flexChannels[idx].pins_mask, when_active_mask);
+    op_ctrl_desired.apply(flexChannels[idx].pins_mask, drive_bits);
+    update();
 
     return true;
 }
