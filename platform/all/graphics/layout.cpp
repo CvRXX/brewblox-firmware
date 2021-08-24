@@ -1,4 +1,5 @@
 #include "layout.hpp"
+#include "Spark4.hpp"
 #include "bar.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
@@ -52,6 +53,8 @@ void Layout::updateConfig()
         } else {
             BaseWidget::tempUnit = TempUnit::Fahrenheit;
         }
+
+        spark4::display_brightness(settings.brightness);
 
         setenv("TZ", settings.timeZone, 1);
         tzset();

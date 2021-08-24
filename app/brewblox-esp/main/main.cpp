@@ -74,7 +74,7 @@ int main(int /*argc*/, char** /*argv*/)
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
     check_ota();
 
-    Spark4::hw_init();
+    spark4::hw_init();
     hal_delay_ms(100);
 
     mount_blocks_spiff();
@@ -100,7 +100,7 @@ int main(int /*argc*/, char** /*argv*/)
     static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
                                             RecurringTask::IntervalType::FROM_EXPIRY,
                                             []() {
-                                                Spark4::expander_check();
+                                                spark4::expander_check();
                                             });
 
     systemCheck.start();

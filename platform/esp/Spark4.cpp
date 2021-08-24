@@ -8,11 +8,14 @@
 #include <nvs_flash.h>
 #pragma GCC diagnostic pop
 
+#include "SX1508.hpp"
 #include "driver/gpio.h"
 #include "hal/hal_delay.h"
 #include "hal/hal_i2c.h"
 #include "hal/hal_spi.hpp"
 #include <esp_log.h>
+
+namespace spark4 {
 
 constexpr auto PIN_NUM_MISO = GPIO_NUM_12;
 constexpr auto PIN_NUM_MOSI = GPIO_NUM_13;
@@ -22,7 +25,9 @@ constexpr auto PIN_NUM_SD_CS = GPIO_NUM_5;
 constexpr auto PIN_NUM_TFT_CS = GPIO_NUM_4;
 constexpr auto PIN_NUM_I2C_IRQ = GPIO_NUM_35;
 
-void Spark4::hw_init()
+SX1508 expander(0);
+
+void hw_init()
 {
     /* Initialize NVS partition */
     esp_err_t ret = nvs_flash_init();
@@ -64,7 +69,7 @@ void Spark4::hw_init()
     expander_init();
 }
 
-void Spark4::expander_check()
+void expander_check()
 {
     uint8_t misc = 0;
     if (expander.read_reg(SX1508::RegAddr::misc, misc)) {
@@ -78,7 +83,7 @@ void Spark4::expander_check()
     expander_init(); // device has reset
 }
 
-void Spark4::expander_init()
+void expander_init()
 {
     expander.reset();
 
@@ -123,19 +128,22 @@ void Spark4::expander_init()
     startup_beep();
 }
 
-void Spark4::hw_deinit()
+void hw_deinit()
 {
     gpio_uninstall_isr_service();
     nvs_flash_deinit();
 }
 
-void Spark4::display_brightness(uint8_t b)
+void display_brightness(uint8_t b)
 {
+    if (b < 20) {
+        b = 128; // if a too low value is set, revert back to default
+    }
     // enable signal should be inverted
     expander.write_reg(SX1508::RegAddr::iOn5, uint8_t{255} - b);
 }
 
-void Spark4::startup_beep()
+void startup_beep()
 {
     expander.write_reg(SX1508::RegAddr::clock, 0b01011011);
     hal_delay_ms(200);
@@ -149,4 +157,4 @@ void Spark4::startup_beep()
 // 3, 6, 7 -> LED B, R, G. (B and G support breathing)
 // 5 -> LCD backlight
 
-SX1508 Spark4::expander(0);
+}
