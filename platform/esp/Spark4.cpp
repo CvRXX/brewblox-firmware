@@ -53,6 +53,11 @@ void Spark4::hw_init()
     gpio_set_level(PIN_NUM_SD_CS, 1);
     gpio_set_level(PIN_NUM_TFT_CS, 1);
 
+    // use weakest drive on 50Mhz oscillator pin for phy
+    // using normal drive strength creates overshoot and clamping
+    // weakest strength gives a nicer oscillation and much better EMC
+    gpio_set_drive_capability(GPIO_NUM_0, GPIO_DRIVE_CAP_0);
+
     hal_i2c_master_init();
     hal_spi_host_init(0);
 
