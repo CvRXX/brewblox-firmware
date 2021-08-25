@@ -235,27 +235,19 @@ uint16_t ExpOwGpio::read2DrvRegisters(DRV8908::RegAddr addr)
     return (uint16_t(upper) << 8) + lower;
 }
 
-void ExpOwGpio::update()
+void ExpOwGpio::update(bool forceRefresh)
 {
     auto drv_status = status();
-
-    if (owDriver.shortDetected()) {
-        expander.set_output(ExpanderPins::oneWirePowerEnable, false);
-        hal_delay_ms(100);
-        expander.set_output(ExpanderPins::oneWirePowerEnable, true);
-        owDriver.init();
-    }
 
     bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
     bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
 
-    if (updateNeeded || initNeeded) {
+    if (forceRefresh || updateNeeded || initNeeded) {
         if (initNeeded) {
             init_driver();
         }
 
         write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
-
         op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
 
         drv_status = status(); // use latest status returned during read of registers
@@ -275,6 +267,13 @@ void ExpOwGpio::update()
                 ocp_status.bits.all = 0;
             }
         }
+    }
+
+    if (owDriver.shortDetected()) {
+        expander.set_output(ExpanderPins::oneWirePowerEnable, false);
+        hal_delay_ms(200);
+        expander.set_output(ExpanderPins::oneWirePowerEnable, true);
+        owDriver.init();
     }
 }
 

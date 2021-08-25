@@ -182,7 +182,7 @@ public:
     void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;
 
-    void update();
+    void update(bool forceRefresh = false);
 
     DRV8908::Status status() const
     {
