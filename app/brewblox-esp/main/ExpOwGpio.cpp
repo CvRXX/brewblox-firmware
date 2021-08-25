@@ -80,12 +80,6 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
     bits.all = result;
 }
 
-void ExpOwGpio::init_expander()
-{
-    expander.set_config(0b11101000); // pin 4, 2, 1, 0 output, others input
-    expander.set_outputs(externalPower ? 0xFF : 0xFD);
-}
-
 void ExpOwGpio::init_driver()
 {
     // set overvoltage threshold to 33V and clear all faults
@@ -256,9 +250,6 @@ void ExpOwGpio::update()
     bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
 
     if (updateNeeded || initNeeded) {
-        if (initNeeded) {
-            init_expander();
-        }
         if (initNeeded) {
             init_driver();
         }
