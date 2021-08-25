@@ -24,6 +24,8 @@ constexpr auto PIN_NUM_DC = GPIO_NUM_2;
 constexpr auto PIN_NUM_SD_CS = GPIO_NUM_5;
 constexpr auto PIN_NUM_TFT_CS = GPIO_NUM_4;
 constexpr auto PIN_NUM_I2C_IRQ = GPIO_NUM_35;
+constexpr auto PIN_NUM_I2C_SDA = GPIO_NUM_32;
+constexpr auto PIN_NUM_I2C_SCL = GPIO_NUM_33;
 
 SX1508 expander(0);
 
@@ -62,6 +64,10 @@ void hw_init()
     // using normal drive strength creates overshoot and clamping
     // weakest strength gives a nicer oscillation and much better EMC
     gpio_set_drive_capability(GPIO_NUM_0, GPIO_DRIVE_CAP_0);
+    // use low drive strenght for SPI.
+    // Fast rise time will bypass mux that disconnects external SPI
+    gpio_set_drive_capability(PIN_NUM_MOSI, GPIO_DRIVE_CAP_0);
+    gpio_set_drive_capability(PIN_NUM_CLK, GPIO_DRIVE_CAP_0);
 
     hal_i2c_master_init();
     hal_spi_host_init(0);
