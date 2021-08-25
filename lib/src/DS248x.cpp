@@ -143,7 +143,9 @@ bool DS248x::reset()
                 // i2c error
                 return false;
             }
-            if ((result[0] & DS248X_STATUS_BUSY) == 0) {
+            mStatus = result[0];
+            if ((mStatus & DS248X_STATUS_BUSY) == 0) {
+                shortDetectedFlag = (mStatus & 0x4);
                 return true;
             }
             hal_delay_ms(1);
