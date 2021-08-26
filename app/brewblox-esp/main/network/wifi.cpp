@@ -135,7 +135,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     }
 }
 
-void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned)
+void init(PROVISION_METHOD method, bool forceProvision)
 {
     /* Configuration for the provisioning manager */
     static const wifi_prov_mgr_config_t ble_config{
@@ -147,8 +147,27 @@ void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned)
         .scheme_event_handler = WIFI_PROV_EVENT_HANDLER_NONE,
         .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
 
-    auto& config = method == PROVISION_METHOD::BLE ? ble_config : softap_config;
+    wifi_event_group = xEventGroupCreate();
 
+    /* Register our event handler for Wi-Fi, IP and Provisioning related events */
+
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_event));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr, &instance_ip_event));
+
+    /* Initialize Wi-Fi including netif with default config */
+    esp_netif_create_default_wifi_sta();
+
+    if (method == PROVISION_METHOD::SOFTAP) {
+        esp_netif_create_default_wifi_ap();
+    }
+
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    /* Initialize provisioning manager with the configuration parameters set above */
+
+    auto& config = method == PROVISION_METHOD::BLE ? ble_config : softap_config;
     ESP_ERROR_CHECK(wifi_prov_mgr_init(config));
 
     bool provisioned = false;
@@ -156,8 +175,7 @@ void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned)
     ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
 
     /* If device is not yet provisioned start provisioning service */
-    if (!provisioned || continueIfAlreadyProvisioned) {
-
+    if (!provisioned || forceProvision) {
         ESP_LOGI(TAG, "Starting provisioning");
 
         /* What is the Device Service Name that we want
@@ -246,6 +264,7 @@ void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned)
         /* Print QR code for provisioning */
 
         prov_print_qr(service_name, pop, (method == PROVISION_METHOD::BLE) ? PROV_TRANSPORT_BLE : PROV_TRANSPORT_SOFTAP);
+
     } else {
         ESP_LOGI(TAG, "Already provisioned, starting Wi-Fi STA");
 
@@ -256,31 +275,6 @@ void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned)
         /* Start Wi-Fi station */
         init_sta();
     }
-}
-
-void init(PROVISION_METHOD method)
-{
-    // wifi_event_group = xEventGroupCreate();
-
-    /* Register our event handler for Wi-Fi, IP and Provisioning related events */
-
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_event));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr, &instance_ip_event));
-
-    /* Initialize Wi-Fi including netif with default config */
-    esp_netif_create_default_wifi_sta();
-
-    if (method == PROVISION_METHOD::SOFTAP) {
-        esp_netif_create_default_wifi_ap();
-    }
-
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-
-    provision(method, false);
-
-    /* Initialize provisioning manager with the configuration parameters set above */
 
     /* Wait for Wi-Fi connection */
     // xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_EVENT, false, true, portMAX_DELAY);

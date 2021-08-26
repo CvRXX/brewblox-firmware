@@ -82,7 +82,6 @@ int main(int /*argc*/, char** /*argv*/)
 
     mount_blocks_spiff();
     ethernet::init();
-    wifi::init(wifi::PROVISION_METHOD::BLE);
 
     asio::io_context io;
     static auto& box = makeBrewBloxBox(io);
@@ -97,15 +96,17 @@ int main(int /*argc*/, char** /*argv*/)
                                                      static uint8_t count = 0;
                                                      if (spark4::adcRead5V() < 2000u) {
                                                          ++count;
-                                                         ESP_LOGE("MAIN", "PROV: %u", count);
                                                          if (count >= 5) {
                                                              // OK button pressed for 5 seconds after boot
                                                              // reset provisioning
-                                                             wifi::provision(wifi::PROVISION_METHOD::BLE, true);
+                                                             wifi::init(wifi::PROVISION_METHOD::BLE, true);
                                                              return false;
                                                          }
+                                                         // still pressed, wait
                                                          return true;
                                                      }
+                                                     // button released
+                                                     wifi::init(wifi::PROVISION_METHOD::BLE, false);
                                                      return false;
                                                  });
 
@@ -125,8 +126,6 @@ int main(int /*argc*/, char** /*argv*/)
                                             RecurringTask::IntervalType::FROM_EXPIRY,
                                             []() -> bool {
                                                 spark4::expander_check();
-                                                ESP_LOGE("MAIN", "ADC5: %u", spark4::adcRead5V());
-                                                ESP_LOGE("MAIN", "ADCEXT: %u", spark4::adcReadExternal());
                                                 return true;
                                             });
 

@@ -10,8 +10,7 @@ enum class PROVISION_METHOD {
     SOFTAP = 1
 };
 
-void init(PROVISION_METHOD method);
-void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned);
+void init(PROVISION_METHOD method, bool forceProvision);
 void deinit();
 esp_ip4_addr ip4();
 bool isConnected();
