@@ -108,6 +108,7 @@ makeBrewBloxBox(asio::io_context& io)
             const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
             uint32_t millisSinceBoot = now - start;
             box.update(millisSinceBoot);
+            return true;
         });
     updater.start();
 

@@ -11,6 +11,7 @@ enum class PROVISION_METHOD {
 };
 
 void init(PROVISION_METHOD method);
+void provision(PROVISION_METHOD method, bool continueIfAlreadyProvisioned);
 void deinit();
 esp_ip4_addr ip4();
 bool isConnected();

@@ -3,6 +3,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
+#include <driver/adc.h>
 #include <driver/gpio.h>
 #include <esp_event.h>
 #include <nvs_flash.h>
@@ -10,9 +11,11 @@
 
 #include "SX1508.hpp"
 #include "driver/gpio.h"
+#include "esp_adc_cal.h"
 #include "hal/hal_delay.h"
 #include "hal/hal_i2c.h"
 #include "hal/hal_spi.hpp"
+#include "soc/adc_channel.h"
 #include <esp_log.h>
 
 namespace spark4 {
@@ -156,6 +159,36 @@ void startup_beep()
     expander.write_reg(SX1508::RegAddr::clock, 0b01011010);
     hal_delay_ms(200);
     expander.write_reg(SX1508::RegAddr::clock, 0b01010000);
+}
+
+esp_adc_cal_characteristics_t adc_characteristics;
+void adc_init()
+{
+    adc1_config_width(ADC_WIDTH_12Bit);
+    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_6db);
+    adc1_config_channel_atten(ADC1_CHANNEL_3, ADC_ATTEN_6db);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_6db, ADC_WIDTH_BIT_12, 1100, &adc_characteristics);
+}
+
+uint32_t adcRead5V()
+{
+
+    uint32_t voltage;
+    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_0), &adc_characteristics, &voltage)) {
+        // voltage divider 10k and 4k7
+        return voltage + (voltage * 100) / 47;
+    }
+    return 0;
+}
+
+uint32_t adcReadExternal()
+{
+    uint32_t voltage;
+    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_3), &adc_characteristics, &voltage)) {
+        // voltage divider 88k7 and 4k7
+        return voltage + (voltage * 887) / 47;
+    }
+    return 0;
 }
 
 // Expander pins:

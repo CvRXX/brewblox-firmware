@@ -25,7 +25,9 @@
 
 #include <esp_log.h>
 #include <esp_spiffs.h>
+#include <functional>
 #include <iomanip>
+#include <memory>
 #include <sstream>
 
 void mount_blocks_spiff()
@@ -75,6 +77,7 @@ int main(int /*argc*/, char** /*argv*/)
     check_ota();
 
     spark4::hw_init();
+    spark4::adc_init();
     hal_delay_ms(100);
 
     mount_blocks_spiff();
@@ -88,19 +91,43 @@ int main(int /*argc*/, char** /*argv*/)
 
     static CboxServer server(io, 8332, box);
 
+    static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
+                                                 RecurringTask::IntervalType::FROM_EXPIRY,
+                                                 []() -> bool {
+                                                     static uint8_t count = 0;
+                                                     if (spark4::adcRead5V() < 2000u) {
+                                                         ++count;
+                                                         ESP_LOGE("MAIN", "PROV: %u", count);
+                                                         if (count >= 5) {
+                                                             // OK button pressed for 5 seconds after boot
+                                                             // reset provisioning
+                                                             wifi::provision(wifi::PROVISION_METHOD::BLE, true);
+                                                             return false;
+                                                         }
+                                                         return true;
+                                                     }
+                                                     return false;
+                                                 });
+
+    provisionTimeout.start();
+
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() {
+                                              []() -> bool {
                                                   Graphics::update();
                                                   Graphics::tick(100);
+                                                  return true;
                                               });
 
     displayTicker.start();
 
     static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
                                             RecurringTask::IntervalType::FROM_EXPIRY,
-                                            []() {
+                                            []() -> bool {
                                                 spark4::expander_check();
+                                                ESP_LOGE("MAIN", "ADC5: %u", spark4::adcRead5V());
+                                                ESP_LOGE("MAIN", "ADCEXT: %u", spark4::adcReadExternal());
+                                                return true;
                                             });
 
     systemCheck.start();
