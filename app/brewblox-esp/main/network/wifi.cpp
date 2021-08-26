@@ -165,6 +165,9 @@ void init(PROVISION_METHOD method, bool forceProvision)
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
+    /* disable wifi power saving for better performance */
+    esp_wifi_set_ps(WIFI_PS_NONE);
+
     /* Initialize provisioning manager with the configuration parameters set above */
 
     auto& config = method == PROVISION_METHOD::BLE ? ble_config : softap_config;
