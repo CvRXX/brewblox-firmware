@@ -20,6 +20,7 @@
 #include "connectivity.h"
 #include "Board.h"
 #include "MDNS.h"
+#include "brewblox.hpp"
 #include "brewblox_particle.hpp"
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
