@@ -17,12 +17,10 @@
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
 #include "network/ethernet.hpp"
+#include "network/mdns.hpp"
 #include "network/wifi.hpp"
 #include <algorithm>
 #include <asio.hpp>
-// #include <esp_heap_caps.h>
-// #include <esp_heap_trace.h>
-
 #include <esp_log.h>
 #include <esp_spiffs.h>
 #include <functional>
@@ -96,17 +94,14 @@ int main(int /*argc*/, char** /*argv*/)
                                                      static uint8_t count = 0;
                                                      if (spark4::adcRead5V() < 2000u) {
                                                          ++count;
-                                                         if (count >= 5) {
-                                                             // OK button pressed for 5 seconds after boot
-                                                             // reset provisioning
-                                                             wifi::init(wifi::PROVISION_METHOD::BLE, true);
-                                                             return false;
+                                                         if (count < 5) {
+                                                             // still pressed
+                                                             return true;
                                                          }
-                                                         // still pressed, wait
-                                                         return true;
                                                      }
-                                                     // button released
-                                                     wifi::init(wifi::PROVISION_METHOD::BLE, false);
+                                                     bool resetProvision = count >= 5;
+                                                     wifi::init(wifi::PROVISION_METHOD::BLE, resetProvision);
+                                                     mdns::start();
                                                      return false;
                                                  });
 

@@ -106,27 +106,6 @@ bool listeningModeEnabled()
     return spark::WiFi.listening();
 }
 
-std::string
-deviceIdStringInit()
-{
-    std::string hex;
-    hex.reserve(25);
-    uint8_t id[12];
-    HAL_device_ID(id, 12);
-    for (uint8_t i = 0; i < 12; i++) {
-        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF0) >> 4));
-        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF)));
-    }
-    return hex;
-}
-
-const std::string&
-deviceIdString()
-{
-    static auto hexId = deviceIdStringInit();
-    return hexId;
-}
-
 MDNS& theMdns()
 {
     static MDNS* theStaticMDNS = new MDNS(deviceIdString());

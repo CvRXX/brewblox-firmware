@@ -106,6 +106,27 @@ constexpr bool equal(char const* lhs, char const* rhs)
 
 static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
 
+std::string
+deviceIdStringInit()
+{
+    uint8_t id[12];
+    auto len = get_device_id(id, 12);
+    std::string hex;
+    hex.reserve(len);
+    for (uint8_t i = 0; i < len; i++) {
+        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF0) >> 4));
+        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF)));
+    }
+    return hex;
+}
+
+const std::string&
+deviceIdString()
+{
+    static auto hexId = deviceIdStringInit();
+    return hexId;
+}
+
 namespace cbox {
 void connectionStarted(DataOut& out)
 {
@@ -121,9 +142,7 @@ void connectionStarted(DataOut& out)
     hexOut.write(resetReasonData());
     out.write(',');
 
-    uint8_t deviceId[12];
-    auto written = get_device_id(deviceId, 12);
-    hexOut.writeBuffer(deviceId, written);
+    out.writeBuffer(deviceIdString().data(), deviceIdString().size());
     out.write('>');
 }
 }

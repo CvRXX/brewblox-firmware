@@ -43,6 +43,9 @@
 #include <functional>
 #include <memory>
 
+// platform specific implementation for prototype in brewblox.hpp
+// returns actual bytes written
+// must be called after wifi init to have valid mac address
 unsigned get_device_id(uint8_t* dest, unsigned max_len)
 {
     uint8_t mac[6];

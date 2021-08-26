@@ -27,8 +27,6 @@ class io_context;
 
 cbox::Box& makeBrewBloxBox(asio::io_context& io_context);
 
-const char* versionCsv();
-
 void logEvent(const std::string& event);
 
 enum AppTrace : uint8_t {
