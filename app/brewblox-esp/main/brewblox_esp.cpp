@@ -43,6 +43,9 @@
 #include <functional>
 #include <memory>
 
+// platform specific implementation for prototype in brewblox.hpp
+// returns actual bytes written
+// must be called after wifi init to have valid mac address
 unsigned get_device_id(uint8_t* dest, unsigned max_len)
 {
     uint8_t mac[6];
@@ -108,6 +111,7 @@ makeBrewBloxBox(asio::io_context& io)
             const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
             uint32_t millisSinceBoot = now - start;
             box.update(millisSinceBoot);
+            return true;
         });
     updater.start();
 

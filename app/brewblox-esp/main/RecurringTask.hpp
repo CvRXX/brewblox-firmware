@@ -10,7 +10,7 @@ public:
     RecurringTask(asio::io_context& io_,
                   asio::chrono::milliseconds interval_,
                   IntervalType intervalType_,
-                  std::function<void()>&& task_)
+                  std::function<bool()>&& task_)
         : interval(interval_)
         , type(intervalType_)
         , task(task_)
@@ -46,17 +46,18 @@ private:
             return;
         }
 
-        task();
-        if (type == IntervalType::FROM_EXECUTION) {
-            timer.expires_from_now(interval);
-        } else {
-            timer.expires_at(timer.expiry() + interval);
+        if (task()) {
+            if (type == IntervalType::FROM_EXECUTION) {
+                timer.expires_from_now(interval);
+            } else {
+                timer.expires_at(timer.expiry() + interval);
+            }
+            run();
         }
-        run();
     }
 
     asio::chrono::milliseconds interval;
     IntervalType type;
-    std::function<void()> task;
+    std::function<bool()> task;
     asio::steady_timer timer;
 };

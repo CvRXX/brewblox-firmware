@@ -3,16 +3,22 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
+#include <driver/adc.h>
 #include <driver/gpio.h>
 #include <esp_event.h>
 #include <nvs_flash.h>
 #pragma GCC diagnostic pop
 
+#include "SX1508.hpp"
 #include "driver/gpio.h"
+#include "esp_adc_cal.h"
 #include "hal/hal_delay.h"
 #include "hal/hal_i2c.h"
 #include "hal/hal_spi.hpp"
+#include "soc/adc_channel.h"
 #include <esp_log.h>
+
+namespace spark4 {
 
 constexpr auto PIN_NUM_MISO = GPIO_NUM_12;
 constexpr auto PIN_NUM_MOSI = GPIO_NUM_13;
@@ -21,8 +27,12 @@ constexpr auto PIN_NUM_DC = GPIO_NUM_2;
 constexpr auto PIN_NUM_SD_CS = GPIO_NUM_5;
 constexpr auto PIN_NUM_TFT_CS = GPIO_NUM_4;
 constexpr auto PIN_NUM_I2C_IRQ = GPIO_NUM_35;
+constexpr auto PIN_NUM_I2C_SDA = GPIO_NUM_32;
+constexpr auto PIN_NUM_I2C_SCL = GPIO_NUM_33;
 
-void Spark4::hw_init()
+SX1508 expander(0);
+
+void hw_init()
 {
     /* Initialize NVS partition */
     esp_err_t ret = nvs_flash_init();
@@ -57,6 +67,10 @@ void Spark4::hw_init()
     // using normal drive strength creates overshoot and clamping
     // weakest strength gives a nicer oscillation and much better EMC
     gpio_set_drive_capability(GPIO_NUM_0, GPIO_DRIVE_CAP_0);
+    // use low drive strenght for SPI.
+    // Fast rise time will bypass mux that disconnects external SPI
+    gpio_set_drive_capability(PIN_NUM_MOSI, GPIO_DRIVE_CAP_0);
+    gpio_set_drive_capability(PIN_NUM_CLK, GPIO_DRIVE_CAP_0);
 
     hal_i2c_master_init();
     hal_spi_host_init(0);
@@ -64,7 +78,7 @@ void Spark4::hw_init()
     expander_init();
 }
 
-void Spark4::expander_check()
+void expander_check()
 {
     uint8_t misc = 0;
     if (expander.read_reg(SX1508::RegAddr::misc, misc)) {
@@ -78,7 +92,7 @@ void Spark4::expander_check()
     expander_init(); // device has reset
 }
 
-void Spark4::expander_init()
+void expander_init()
 {
     expander.reset();
 
@@ -123,19 +137,22 @@ void Spark4::expander_init()
     startup_beep();
 }
 
-void Spark4::hw_deinit()
+void hw_deinit()
 {
     gpio_uninstall_isr_service();
     nvs_flash_deinit();
 }
 
-void Spark4::display_brightness(uint8_t b)
+void display_brightness(uint8_t b)
 {
+    if (b < 20) {
+        b = 128; // if a too low value is set, revert back to default
+    }
     // enable signal should be inverted
     expander.write_reg(SX1508::RegAddr::iOn5, uint8_t{255} - b);
 }
 
-void Spark4::startup_beep()
+void startup_beep()
 {
     expander.write_reg(SX1508::RegAddr::clock, 0b01011011);
     hal_delay_ms(200);
@@ -144,9 +161,39 @@ void Spark4::startup_beep()
     expander.write_reg(SX1508::RegAddr::clock, 0b01010000);
 }
 
+esp_adc_cal_characteristics_t adc_characteristics;
+void adc_init()
+{
+    adc1_config_width(ADC_WIDTH_12Bit);
+    adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_6db);
+    adc1_config_channel_atten(ADC1_CHANNEL_3, ADC_ATTEN_6db);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_6db, ADC_WIDTH_BIT_12, 1100, &adc_characteristics);
+}
+
+uint32_t adcRead5V()
+{
+
+    uint32_t voltage;
+    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_0), &adc_characteristics, &voltage)) {
+        // voltage divider 10k and 4k7
+        return voltage + (voltage * 100) / 47;
+    }
+    return 0;
+}
+
+uint32_t adcReadExternal()
+{
+    uint32_t voltage;
+    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_3), &adc_characteristics, &voltage)) {
+        // voltage divider 88k7 and 4k7
+        return voltage + (voltage * 887) / 47;
+    }
+    return 0;
+}
+
 // Expander pins:
 // 0,1,2,4 -> EX0, EX1, EX2, EX3 (interrupt inputs)
 // 3, 6, 7 -> LED B, R, G. (B and G support breathing)
 // 5 -> LCD backlight
 
-SX1508 Spark4::expander(0);
+}

@@ -135,7 +135,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     }
 }
 
-void init(PROVISION_METHOD method)
+void init(PROVISION_METHOD method, bool forceProvision)
 {
     /* Configuration for the provisioning manager */
     static const wifi_prov_mgr_config_t ble_config{
@@ -165,6 +165,9 @@ void init(PROVISION_METHOD method)
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
+    /* disable wifi power saving for better performance */
+    esp_wifi_set_ps(WIFI_PS_NONE);
+
     /* Initialize provisioning manager with the configuration parameters set above */
 
     auto& config = method == PROVISION_METHOD::BLE ? ble_config : softap_config;
@@ -175,7 +178,7 @@ void init(PROVISION_METHOD method)
     ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
 
     /* If device is not yet provisioned start provisioning service */
-    if (!provisioned) {
+    if (!provisioned || forceProvision) {
         ESP_LOGI(TAG, "Starting provisioning");
 
         /* What is the Device Service Name that we want

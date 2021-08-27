@@ -107,7 +107,10 @@ ExpOwGpioBlock::streamPersistedTo(cbox::DataOut& out) const
 cbox::update_t
 ExpOwGpioBlock::update(const cbox::update_t& now)
 {
-    drivers.update();
+    // Update is called any time a channel is set,
+    // but only talks to the driver when the cached value doesn't match the desired value
+    // Every second, force a fresh read from the driver
+    drivers.update(true);
     return update_1s(now);
 }
 

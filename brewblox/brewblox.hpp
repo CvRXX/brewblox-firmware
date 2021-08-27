@@ -35,7 +35,13 @@ cbox::Box& make_box(cbox::ObjectContainer& objects,
 
 const std::string& versionCsv();
 
-unsigned get_device_id(uint8_t* dest, unsigned len);
+// write device id as raw bytes to destination buffer
+// must be implemented by platform specific source file
+// returns actual bytes written
+unsigned get_device_id(uint8_t* dest, unsigned max_len);
+
+// unsigned get_device_id(uint8_t* dest, unsigned len);
+const std::string& deviceIdString();
 
 int resetReason();
 int resetReasonData();

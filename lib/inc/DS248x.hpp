@@ -119,12 +119,15 @@ public:
 
     virtual bool shortDetected() override final
     {
-        return status().bits.short_detected;
+        bool detected = shortDetectedFlag;
+        shortDetectedFlag = false;
+        return detected;
     }
 
 private:
     uint8_t mStatus = 0;
 
-    bool busyWait();         // blocks until ready or timeout, updates status
-    uint8_t failedWaits = 0; // keep track of consecutive failed waits
+    bool busyWait();                // blocks until ready or timeout, updates status
+    uint8_t failedWaits = 0;        // keep track of consecutive failed waits
+    bool shortDetectedFlag = false; // keep flag up until value is read
 };

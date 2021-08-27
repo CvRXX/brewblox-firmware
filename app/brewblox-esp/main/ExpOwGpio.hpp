@@ -182,7 +182,7 @@ public:
     void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;
 
-    void update();
+    void update(bool forceRefresh = false);
 
     DRV8908::Status status() const
     {
@@ -258,7 +258,6 @@ public:
     void externalPowerEnabled(bool isEnabled)
     {
         externalPower = isEnabled;
-        init_expander();
     }
 
     bool externalPowerEnabled() const
@@ -270,11 +269,16 @@ private:
     void assert_cs()
     {
         spi.aquire_bus();
-        expander.set_output(ExpanderPins::spiCsPin, false);
+        // always set both configuration registers of the expander
+        // in case the IC has reset, this will ensure a correct state.
+
+        expander.set_outputs(externalPower ? 0xFE : 0xFC);
+        expander.set_config(0b11101000); // pin 4, 2, 1, 0 output, others input
     }
+
     void deassert_cs()
     {
-        expander.set_output(ExpanderPins::spiCsPin, true);
+        expander.set_outputs(externalPower ? 0xFF : 0xFD);
         spi.release_bus();
     }
 

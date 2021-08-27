@@ -17,15 +17,15 @@
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
 #include "network/ethernet.hpp"
+#include "network/mdns.hpp"
 #include "network/wifi.hpp"
 #include <algorithm>
 #include <asio.hpp>
-// #include <esp_heap_caps.h>
-// #include <esp_heap_trace.h>
-
 #include <esp_log.h>
 #include <esp_spiffs.h>
+#include <functional>
 #include <iomanip>
+#include <memory>
 #include <sstream>
 
 void mount_blocks_spiff()
@@ -74,12 +74,12 @@ int main(int /*argc*/, char** /*argv*/)
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
     check_ota();
 
-    Spark4::hw_init();
+    spark4::hw_init();
+    spark4::adc_init();
     hal_delay_ms(100);
 
     mount_blocks_spiff();
     ethernet::init();
-    wifi::init(wifi::PROVISION_METHOD::BLE);
 
     asio::io_context io;
     static auto& box = makeBrewBloxBox(io);
@@ -88,19 +88,40 @@ int main(int /*argc*/, char** /*argv*/)
 
     static CboxServer server(io, 8332, box);
 
+    static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
+                                                 RecurringTask::IntervalType::FROM_EXPIRY,
+                                                 []() -> bool {
+                                                     static uint8_t count = 0;
+                                                     if (spark4::adcRead5V() < 2000u) {
+                                                         ++count;
+                                                         if (count < 5) {
+                                                             // still pressed
+                                                             return true;
+                                                         }
+                                                     }
+                                                     bool resetProvision = count >= 5;
+                                                     wifi::init(wifi::PROVISION_METHOD::BLE, resetProvision);
+                                                     mdns::start();
+                                                     return false;
+                                                 });
+
+    provisionTimeout.start();
+
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() {
+                                              []() -> bool {
                                                   Graphics::update();
                                                   Graphics::tick(100);
+                                                  return true;
                                               });
 
     displayTicker.start();
 
     static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
                                             RecurringTask::IntervalType::FROM_EXPIRY,
-                                            []() {
-                                                Spark4::expander_check();
+                                            []() -> bool {
+                                                spark4::expander_check();
+                                                return true;
                                             });
 
     systemCheck.start();
