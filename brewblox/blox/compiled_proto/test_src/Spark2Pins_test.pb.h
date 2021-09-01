@@ -83,29 +83,29 @@ inline bool Spark2Pins_Hardware_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<Spark2Pins_Hardware>(
     Spark2Pins_Hardware_descriptor(), name, value);
 }
-enum Spark2PinIds {
-  SPARK2_NO_PIN = 0,
-  SPARK2_BOTTOM1 = 1,
-  SPARK2_BOTTOM2 = 2,
-  SPARK2_BOTTOM3 = 3,
-  SPARK2_BOTTOM0 = 4,
-  Spark2PinIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Spark2PinIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum Spark2ChannelIds {
+  SPARK2_CHAN_NONE = 0,
+  SPARK2_CHAN_BOTTOM1 = 1,
+  SPARK2_CHAN_BOTTOM2 = 2,
+  SPARK2_CHAN_BOTTOM3 = 3,
+  SPARK2_CHAN_BOTTOM0 = 4,
+  Spark2ChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Spark2ChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Spark2PinIds_IsValid(int value);
-const Spark2PinIds Spark2PinIds_MIN = SPARK2_NO_PIN;
-const Spark2PinIds Spark2PinIds_MAX = SPARK2_BOTTOM0;
-const int Spark2PinIds_ARRAYSIZE = Spark2PinIds_MAX + 1;
+bool Spark2ChannelIds_IsValid(int value);
+const Spark2ChannelIds Spark2ChannelIds_MIN = SPARK2_CHAN_NONE;
+const Spark2ChannelIds Spark2ChannelIds_MAX = SPARK2_CHAN_BOTTOM0;
+const int Spark2ChannelIds_ARRAYSIZE = Spark2ChannelIds_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Spark2PinIds_descriptor();
-inline const ::std::string& Spark2PinIds_Name(Spark2PinIds value) {
+const ::google::protobuf::EnumDescriptor* Spark2ChannelIds_descriptor();
+inline const ::std::string& Spark2ChannelIds_Name(Spark2ChannelIds value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Spark2PinIds_descriptor(), value);
+    Spark2ChannelIds_descriptor(), value);
 }
-inline bool Spark2PinIds_Parse(
-    const ::std::string& name, Spark2PinIds* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Spark2PinIds>(
-    Spark2PinIds_descriptor(), name, value);
+inline bool Spark2ChannelIds_Parse(
+    const ::std::string& name, Spark2ChannelIds* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Spark2ChannelIds>(
+    Spark2ChannelIds_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -340,10 +340,10 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2Pins_Hardware>() {
   return ::blox::Spark2Pins_Hardware_descriptor();
 }
-template <> struct is_proto_enum< ::blox::Spark2PinIds> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox::Spark2ChannelIds> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2PinIds>() {
-  return ::blox::Spark2PinIds_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2ChannelIds>() {
+  return ::blox::Spark2ChannelIds_descriptor();
 }
 
 }  // namespace protobuf

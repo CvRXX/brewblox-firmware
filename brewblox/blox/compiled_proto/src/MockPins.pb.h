@@ -17,6 +17,22 @@
 extern "C" {
 #endif
 
+/* Enum definitions */
+typedef enum _blox_MockPinsChannelIds {
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_NONE = 0,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_A = 1,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_B = 2,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_C = 3,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_D = 4,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_E = 5,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_F = 6,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_G = 7,
+    blox_MockPinsChannelIds_MOCKPINS_CHAN_H = 8
+} blox_MockPinsChannelIds;
+#define _blox_MockPinsChannelIds_MIN blox_MockPinsChannelIds_MOCKPINS_CHAN_NONE
+#define _blox_MockPinsChannelIds_MAX blox_MockPinsChannelIds_MOCKPINS_CHAN_H
+#define _blox_MockPinsChannelIds_ARRAYSIZE ((blox_MockPinsChannelIds)(blox_MockPinsChannelIds_MOCKPINS_CHAN_H+1))
+
 /* Struct definitions */
 typedef struct _blox_MockPins {
     pb_size_t channels_count;

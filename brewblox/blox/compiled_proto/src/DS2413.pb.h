@@ -17,6 +17,16 @@
 extern "C" {
 #endif
 
+/* Enum definitions */
+typedef enum _blox_DS2413ChannelIds {
+    blox_DS2413ChannelIds_DS2413_CHAN_NONE = 0,
+    blox_DS2413ChannelIds_DS2413_CHAN_A = 1,
+    blox_DS2413ChannelIds_DS2413_CHAN_B = 2
+} blox_DS2413ChannelIds;
+#define _blox_DS2413ChannelIds_MIN blox_DS2413ChannelIds_DS2413_CHAN_NONE
+#define _blox_DS2413ChannelIds_MAX blox_DS2413ChannelIds_DS2413_CHAN_B
+#define _blox_DS2413ChannelIds_ARRAYSIZE ((blox_DS2413ChannelIds)(blox_DS2413ChannelIds_DS2413_CHAN_B+1))
+
 /* Struct definitions */
 typedef struct _blox_DS2413 {
     uint64_t address;

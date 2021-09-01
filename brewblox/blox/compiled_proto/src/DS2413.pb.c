@@ -18,6 +18,7 @@ const pb_field_t blox_DS2413_fields[5] = {
 };
 
 
+
 /* Check that field information fits in pb_field_t */
 #if !defined(PB_FIELD_32BIT)
 /* If you get an error here, it means that you need to define PB_FIELD_32BIT

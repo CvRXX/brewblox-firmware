@@ -73,11 +73,11 @@ Spark3PinsBlock::streamTo(cbox::DataOut& out) const
     blox_Spark3Pins message = blox_Spark3Pins_init_zero;
 
     message.channels_count = 5;
-    message.channels[0].id = blox_Spark3PinIds_SPARK3_TOP1;
-    message.channels[1].id = blox_Spark3PinIds_SPARK3_TOP2;
-    message.channels[2].id = blox_Spark3PinIds_SPARK3_TOP3;
-    message.channels[3].id = blox_Spark3PinIds_SPARK3_BOTTOM1;
-    message.channels[4].id = blox_Spark3PinIds_SPARK3_BOTTOM2;
+    message.channels[0].id = blox_Spark3ChannelIds_SPARK3_CHAN_TOP1;
+    message.channels[1].id = blox_Spark3ChannelIds_SPARK3_CHAN_TOP2;
+    message.channels[2].id = blox_Spark3ChannelIds_SPARK3_CHAN_TOP3;
+    message.channels[3].id = blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM1;
+    message.channels[4].id = blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM2;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 #if defined(PIN_5V_ENABLE)

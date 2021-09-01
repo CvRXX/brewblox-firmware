@@ -50,6 +50,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -71,7 +72,7 @@ void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "MockPins_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -92,10 +93,15 @@ void AddDescriptorsImpl() {
       "st.proto\032\021nanopb_test.proto\032\022IoArray_tes"
       "t.proto\"N\n\010MockPins\0223\n\010channels\030\002 \003(\0132\017."
       "blox.IoChannelB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\303"
-      "\002\212\265\030\002H\nb\006proto3"
+      "\002\212\265\030\002H\n*\324\001\n\022MockPinsChannelIds\022\026\n\022MOCKPI"
+      "NS_CHAN_NONE\020\000\022\023\n\017MOCKPINS_CHAN_A\020\001\022\023\n\017M"
+      "OCKPINS_CHAN_B\020\002\022\023\n\017MOCKPINS_CHAN_C\020\003\022\023\n"
+      "\017MOCKPINS_CHAN_D\020\004\022\023\n\017MOCKPINS_CHAN_E\020\005\022"
+      "\023\n\017MOCKPINS_CHAN_F\020\006\022\023\n\017MOCKPINS_CHAN_G\020"
+      "\007\022\023\n\017MOCKPINS_CHAN_H\020\010b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 175);
+      descriptor, 390);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MockPins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -115,6 +121,27 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_MockPins_5ftest_2eproto
 namespace blox {
+const ::google::protobuf::EnumDescriptor* MockPinsChannelIds_descriptor() {
+  protobuf_MockPins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_MockPins_5ftest_2eproto::file_level_enum_descriptors[0];
+}
+bool MockPinsChannelIds_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 

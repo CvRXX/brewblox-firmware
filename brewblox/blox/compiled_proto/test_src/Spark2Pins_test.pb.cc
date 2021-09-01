@@ -98,13 +98,14 @@ void AddDescriptorsImpl() {
       ".HardwareB\006\212\265\030\002(\001\0223\n\010channels\030\t \003(\0132\017.bl"
       "ox.IoChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\"8\n\010Hardwa"
       "re\022\016\n\nHW_UNKNOWN\020\000\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_"
-      "SPARK2\020\002:\r\212\265\030\003\030\300\002\212\265\030\002H\n*q\n\014Spark2PinIds\022"
-      "\021\n\rSPARK2_NO_PIN\020\000\022\022\n\016SPARK2_BOTTOM1\020\001\022\022"
-      "\n\016SPARK2_BOTTOM2\020\002\022\022\n\016SPARK2_BOTTOM3\020\003\022\022"
-      "\n\016SPARK2_BOTTOM0\020\004b\006proto3"
+      "SPARK2\020\002:\r\212\265\030\003\030\300\002\212\265\030\002H\n*\214\001\n\020Spark2Channe"
+      "lIds\022\024\n\020SPARK2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHA"
+      "N_BOTTOM1\020\001\022\027\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023"
+      "SPARK2_CHAN_BOTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOT"
+      "TOM0\020\004b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 426);
+      descriptor, 454);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark2Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -147,11 +148,11 @@ const Spark2Pins_Hardware Spark2Pins::Hardware_MIN;
 const Spark2Pins_Hardware Spark2Pins::Hardware_MAX;
 const int Spark2Pins::Hardware_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* Spark2PinIds_descriptor() {
+const ::google::protobuf::EnumDescriptor* Spark2ChannelIds_descriptor() {
   protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[1];
 }
-bool Spark2PinIds_IsValid(int value) {
+bool Spark2ChannelIds_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

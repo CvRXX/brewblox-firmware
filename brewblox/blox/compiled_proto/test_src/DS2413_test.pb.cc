@@ -50,6 +50,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -74,7 +75,7 @@ void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "DS2413_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -97,10 +98,12 @@ void AddDescriptorsImpl() {
       "\001\022\031\n\tconnected\030\006 \001(\010B\006\212\265\030\002(\001\022(\n\014oneWireB"
       "usId\030\010 \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020\212\265\030\002(\001\0223\n\010channe"
       "ls\030\t \003(\0132\017.blox.IoChannelB\020\222\?\002\020\002\222\?\002x\001\212\265\030"
-      "\002(\001:\023\212\265\030\003\030\273\002\212\265\030\002H\n\212\265\030\002H\tb\006proto3"
+      "\002(\001:\023\212\265\030\003\030\273\002\212\265\030\002H\n\212\265\030\002H\t*N\n\020DS2413Channe"
+      "lIds\022\024\n\020DS2413_CHAN_NONE\020\000\022\021\n\rDS2413_CHA"
+      "N_A\020\001\022\021\n\rDS2413_CHAN_B\020\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 272);
+      descriptor, 352);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DS2413_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -120,6 +123,21 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_DS2413_5ftest_2eproto
 namespace blox {
+const ::google::protobuf::EnumDescriptor* DS2413ChannelIds_descriptor() {
+  protobuf_DS2413_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_DS2413_5ftest_2eproto::file_level_enum_descriptors[0];
+}
+bool DS2413ChannelIds_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 

@@ -102,13 +102,14 @@ void AddDescriptorsImpl() {
       "\002(\001\222\?\0028\020\212\265\030\003\020\232\003\022%\n\tvoltage12\030\007 \001(\rB\022\212\265\030\002"
       "(\001\222\?\0028\020\212\265\030\003\020\225\001\0223\n\010channels\030\010 \003(\0132\017.blox."
       "IoChannelB\020\222\?\002\020\005\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\277\002\212\265\030\002"
-      "H\n*|\n\014Spark3PinIds\022\021\n\rSPARK3_NO_PIN\020\000\022\017\n"
-      "\013SPARK3_TOP1\020\001\022\017\n\013SPARK3_TOP2\020\002\022\017\n\013SPARK"
-      "3_TOP3\020\003\022\022\n\016SPARK3_BOTTOM1\020\004\022\022\n\016SPARK3_B"
-      "OTTOM2\020\005b\006proto3"
+      "H\n*\231\001\n\020Spark3ChannelIds\022\021\n\rSPARK3_NO_PIN"
+      "\020\000\022\024\n\020SPARK3_CHAN_TOP1\020\001\022\024\n\020SPARK3_CHAN_"
+      "TOP2\020\002\022\024\n\020SPARK3_CHAN_TOP3\020\003\022\027\n\023SPARK3_C"
+      "HAN_BOTTOM1\020\004\022\027\n\023SPARK3_CHAN_BOTTOM2\020\005b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 456);
+      descriptor, 486);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark3Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -128,11 +129,11 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_Spark3Pins_5ftest_2eproto
 namespace blox {
-const ::google::protobuf::EnumDescriptor* Spark3PinIds_descriptor() {
+const ::google::protobuf::EnumDescriptor* Spark3ChannelIds_descriptor() {
   protobuf_Spark3Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_Spark3Pins_5ftest_2eproto::file_level_enum_descriptors[0];
 }
-bool Spark3PinIds_IsValid(int value) {
+bool Spark3ChannelIds_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

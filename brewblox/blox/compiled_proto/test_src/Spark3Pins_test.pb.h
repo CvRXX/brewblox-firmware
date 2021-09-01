@@ -61,30 +61,30 @@ template<> ::blox::Spark3Pins* Arena::CreateMaybeMessage<::blox::Spark3Pins>(Are
 }  // namespace google
 namespace blox {
 
-enum Spark3PinIds {
+enum Spark3ChannelIds {
   SPARK3_NO_PIN = 0,
-  SPARK3_TOP1 = 1,
-  SPARK3_TOP2 = 2,
-  SPARK3_TOP3 = 3,
-  SPARK3_BOTTOM1 = 4,
-  SPARK3_BOTTOM2 = 5,
-  Spark3PinIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Spark3PinIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  SPARK3_CHAN_TOP1 = 1,
+  SPARK3_CHAN_TOP2 = 2,
+  SPARK3_CHAN_TOP3 = 3,
+  SPARK3_CHAN_BOTTOM1 = 4,
+  SPARK3_CHAN_BOTTOM2 = 5,
+  Spark3ChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Spark3ChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Spark3PinIds_IsValid(int value);
-const Spark3PinIds Spark3PinIds_MIN = SPARK3_NO_PIN;
-const Spark3PinIds Spark3PinIds_MAX = SPARK3_BOTTOM2;
-const int Spark3PinIds_ARRAYSIZE = Spark3PinIds_MAX + 1;
+bool Spark3ChannelIds_IsValid(int value);
+const Spark3ChannelIds Spark3ChannelIds_MIN = SPARK3_NO_PIN;
+const Spark3ChannelIds Spark3ChannelIds_MAX = SPARK3_CHAN_BOTTOM2;
+const int Spark3ChannelIds_ARRAYSIZE = Spark3ChannelIds_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Spark3PinIds_descriptor();
-inline const ::std::string& Spark3PinIds_Name(Spark3PinIds value) {
+const ::google::protobuf::EnumDescriptor* Spark3ChannelIds_descriptor();
+inline const ::std::string& Spark3ChannelIds_Name(Spark3ChannelIds value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Spark3PinIds_descriptor(), value);
+    Spark3ChannelIds_descriptor(), value);
 }
-inline bool Spark3PinIds_Parse(
-    const ::std::string& name, Spark3PinIds* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Spark3PinIds>(
-    Spark3PinIds_descriptor(), name, value);
+inline bool Spark3ChannelIds_Parse(
+    const ::std::string& name, Spark3ChannelIds* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Spark3ChannelIds>(
+    Spark3ChannelIds_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -349,10 +349,10 @@ Spark3Pins::channels() const {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::Spark3PinIds> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox::Spark3ChannelIds> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark3PinIds>() {
-  return ::blox::Spark3PinIds_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark3ChannelIds>() {
+  return ::blox::Spark3ChannelIds_descriptor();
 }
 
 }  // namespace protobuf

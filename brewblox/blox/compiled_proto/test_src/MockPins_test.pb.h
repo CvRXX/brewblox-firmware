@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
@@ -60,6 +61,34 @@ template<> ::blox::MockPins* Arena::CreateMaybeMessage<::blox::MockPins>(Arena*)
 }  // namespace google
 namespace blox {
 
+enum MockPinsChannelIds {
+  MOCKPINS_CHAN_NONE = 0,
+  MOCKPINS_CHAN_A = 1,
+  MOCKPINS_CHAN_B = 2,
+  MOCKPINS_CHAN_C = 3,
+  MOCKPINS_CHAN_D = 4,
+  MOCKPINS_CHAN_E = 5,
+  MOCKPINS_CHAN_F = 6,
+  MOCKPINS_CHAN_G = 7,
+  MOCKPINS_CHAN_H = 8,
+  MockPinsChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  MockPinsChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool MockPinsChannelIds_IsValid(int value);
+const MockPinsChannelIds MockPinsChannelIds_MIN = MOCKPINS_CHAN_NONE;
+const MockPinsChannelIds MockPinsChannelIds_MAX = MOCKPINS_CHAN_H;
+const int MockPinsChannelIds_ARRAYSIZE = MockPinsChannelIds_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* MockPinsChannelIds_descriptor();
+inline const ::std::string& MockPinsChannelIds_Name(MockPinsChannelIds value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    MockPinsChannelIds_descriptor(), value);
+}
+inline bool MockPinsChannelIds_Parse(
+    const ::std::string& name, MockPinsChannelIds* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<MockPinsChannelIds>(
+    MockPinsChannelIds_descriptor(), name, value);
+}
 // ===================================================================
 
 class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.MockPins) */ {
@@ -214,6 +243,18 @@ MockPins::channels() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace blox
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::blox::MockPinsChannelIds> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::MockPinsChannelIds>() {
+  return ::blox::MockPinsChannelIds_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

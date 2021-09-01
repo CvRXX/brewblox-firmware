@@ -18,16 +18,16 @@ extern "C" {
 #endif
 
 /* Enum definitions */
-typedef enum _blox_Spark2PinIds {
-    blox_Spark2PinIds_SPARK2_NO_PIN = 0,
-    blox_Spark2PinIds_SPARK2_BOTTOM1 = 1,
-    blox_Spark2PinIds_SPARK2_BOTTOM2 = 2,
-    blox_Spark2PinIds_SPARK2_BOTTOM3 = 3,
-    blox_Spark2PinIds_SPARK2_BOTTOM0 = 4
-} blox_Spark2PinIds;
-#define _blox_Spark2PinIds_MIN blox_Spark2PinIds_SPARK2_NO_PIN
-#define _blox_Spark2PinIds_MAX blox_Spark2PinIds_SPARK2_BOTTOM0
-#define _blox_Spark2PinIds_ARRAYSIZE ((blox_Spark2PinIds)(blox_Spark2PinIds_SPARK2_BOTTOM0+1))
+typedef enum _blox_Spark2ChannelIds {
+    blox_Spark2ChannelIds_SPARK2_CHAN_NONE = 0,
+    blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM1 = 1,
+    blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM2 = 2,
+    blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM3 = 3,
+    blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM0 = 4
+} blox_Spark2ChannelIds;
+#define _blox_Spark2ChannelIds_MIN blox_Spark2ChannelIds_SPARK2_CHAN_NONE
+#define _blox_Spark2ChannelIds_MAX blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM0
+#define _blox_Spark2ChannelIds_ARRAYSIZE ((blox_Spark2ChannelIds)(blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM0+1))
 
 typedef enum _blox_Spark2Pins_Hardware {
     blox_Spark2Pins_Hardware_HW_UNKNOWN = 0,

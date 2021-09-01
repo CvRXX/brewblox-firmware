@@ -18,7 +18,6 @@
  */
 
 #include "./ExpOwGpioBlock.hpp"
-#include "blox/IoArrayHelpers.h"
 
 cbox::CboxError
 ExpOwGpioBlock::streamFrom(cbox::DataIn& in)

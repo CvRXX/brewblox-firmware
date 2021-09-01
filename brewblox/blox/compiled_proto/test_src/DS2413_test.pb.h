@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
@@ -60,6 +61,28 @@ template<> ::blox::DS2413* Arena::CreateMaybeMessage<::blox::DS2413>(Arena*);
 }  // namespace google
 namespace blox {
 
+enum DS2413ChannelIds {
+  DS2413_CHAN_NONE = 0,
+  DS2413_CHAN_A = 1,
+  DS2413_CHAN_B = 2,
+  DS2413ChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  DS2413ChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool DS2413ChannelIds_IsValid(int value);
+const DS2413ChannelIds DS2413ChannelIds_MIN = DS2413_CHAN_NONE;
+const DS2413ChannelIds DS2413ChannelIds_MAX = DS2413_CHAN_B;
+const int DS2413ChannelIds_ARRAYSIZE = DS2413ChannelIds_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* DS2413ChannelIds_descriptor();
+inline const ::std::string& DS2413ChannelIds_Name(DS2413ChannelIds value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    DS2413ChannelIds_descriptor(), value);
+}
+inline bool DS2413ChannelIds_Parse(
+    const ::std::string& name, DS2413ChannelIds* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<DS2413ChannelIds>(
+    DS2413ChannelIds_descriptor(), name, value);
+}
 // ===================================================================
 
 class DS2413 : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.DS2413) */ {
@@ -277,6 +300,18 @@ DS2413::channels() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace blox
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::blox::DS2413ChannelIds> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::DS2413ChannelIds>() {
+  return ::blox::DS2413ChannelIds_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

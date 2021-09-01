@@ -43,8 +43,8 @@ DS2413Block::streamTo(cbox::DataOut& out) const
     message.connected = device.connected();
 
     message.channels_count = 2;
-    message.channels[0].id = 1;
-    message.channels[1].id = 2;
+    message.channels[0].id = blox_DS2413ChannelIds_DS2413_CHAN_A;
+    message.channels[1].id = blox_DS2413ChannelIds_DS2413_CHAN_B;
 
     return streamProtoTo(out, &message, blox_DS2413_fields, blox_DS2413_size);
 }

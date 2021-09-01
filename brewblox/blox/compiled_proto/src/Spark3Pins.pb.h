@@ -18,17 +18,17 @@ extern "C" {
 #endif
 
 /* Enum definitions */
-typedef enum _blox_Spark3PinIds {
-    blox_Spark3PinIds_SPARK3_NO_PIN = 0,
-    blox_Spark3PinIds_SPARK3_TOP1 = 1,
-    blox_Spark3PinIds_SPARK3_TOP2 = 2,
-    blox_Spark3PinIds_SPARK3_TOP3 = 3,
-    blox_Spark3PinIds_SPARK3_BOTTOM1 = 4,
-    blox_Spark3PinIds_SPARK3_BOTTOM2 = 5
-} blox_Spark3PinIds;
-#define _blox_Spark3PinIds_MIN blox_Spark3PinIds_SPARK3_NO_PIN
-#define _blox_Spark3PinIds_MAX blox_Spark3PinIds_SPARK3_BOTTOM2
-#define _blox_Spark3PinIds_ARRAYSIZE ((blox_Spark3PinIds)(blox_Spark3PinIds_SPARK3_BOTTOM2+1))
+typedef enum _blox_Spark3ChannelIds {
+    blox_Spark3ChannelIds_SPARK3_NO_PIN = 0,
+    blox_Spark3ChannelIds_SPARK3_CHAN_TOP1 = 1,
+    blox_Spark3ChannelIds_SPARK3_CHAN_TOP2 = 2,
+    blox_Spark3ChannelIds_SPARK3_CHAN_TOP3 = 3,
+    blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM1 = 4,
+    blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM2 = 5
+} blox_Spark3ChannelIds;
+#define _blox_Spark3ChannelIds_MIN blox_Spark3ChannelIds_SPARK3_NO_PIN
+#define _blox_Spark3ChannelIds_MAX blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM2
+#define _blox_Spark3ChannelIds_ARRAYSIZE ((blox_Spark3ChannelIds)(blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM2+1))
 
 /* Struct definitions */
 typedef struct _blox_Spark3Pins {
