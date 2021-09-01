@@ -431,17 +431,17 @@ class DS2408 : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.DS2408IoPin pins = 7 [(.nanopb_test) = {
-  int pins_size() const;
-  void clear_pins();
-  static const int kPinsFieldNumber = 7;
-  ::blox::DS2408IoPin* mutable_pins(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::DS2408IoPin >*
-      mutable_pins();
-  const ::blox::DS2408IoPin& pins(int index) const;
-  ::blox::DS2408IoPin* add_pins();
-  const ::google::protobuf::RepeatedPtrField< ::blox::DS2408IoPin >&
-      pins() const;
+  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+  int channels_size() const;
+  void clear_channels();
+  static const int kChannelsFieldNumber = 11;
+  ::blox::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+      mutable_channels();
+  const ::blox::IoChannel& channels(int index) const;
+  ::blox::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+      channels() const;
 
   // fixed64 address = 1 [(.brewblox_test) = {
   void clear_address();
@@ -471,7 +471,7 @@ class DS2408 : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::DS2408IoPin > pins_;
+  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
   ::google::protobuf::uint64 address_;
   ::google::protobuf::uint32 onewirebusid_;
   bool connected_;
@@ -835,36 +835,6 @@ inline void DS2408::set_connected(bool value) {
   // @@protoc_insertion_point(field_set:blox.DS2408.connected)
 }
 
-// repeated .blox.DS2408IoPin pins = 7 [(.nanopb_test) = {
-inline int DS2408::pins_size() const {
-  return pins_.size();
-}
-inline void DS2408::clear_pins() {
-  pins_.Clear();
-}
-inline ::blox::DS2408IoPin* DS2408::mutable_pins(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.DS2408.pins)
-  return pins_.Mutable(index);
-}
-inline ::google::protobuf::RepeatedPtrField< ::blox::DS2408IoPin >*
-DS2408::mutable_pins() {
-  // @@protoc_insertion_point(field_mutable_list:blox.DS2408.pins)
-  return &pins_;
-}
-inline const ::blox::DS2408IoPin& DS2408::pins(int index) const {
-  // @@protoc_insertion_point(field_get:blox.DS2408.pins)
-  return pins_.Get(index);
-}
-inline ::blox::DS2408IoPin* DS2408::add_pins() {
-  // @@protoc_insertion_point(field_add:blox.DS2408.pins)
-  return pins_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::blox::DS2408IoPin >&
-DS2408::pins() const {
-  // @@protoc_insertion_point(field_list:blox.DS2408.pins)
-  return pins_;
-}
-
 // .blox.DS2408.PinConnectMode connectMode = 9;
 inline void DS2408::clear_connectmode() {
   connectmode_ = 0;
@@ -891,6 +861,33 @@ inline void DS2408::set_onewirebusid(::google::protobuf::uint32 value) {
   
   onewirebusid_ = value;
   // @@protoc_insertion_point(field_set:blox.DS2408.oneWireBusId)
+}
+
+// repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+inline int DS2408::channels_size() const {
+  return channels_.size();
+}
+inline ::blox::IoChannel* DS2408::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox.DS2408.channels)
+  return channels_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+DS2408::mutable_channels() {
+  // @@protoc_insertion_point(field_mutable_list:blox.DS2408.channels)
+  return &channels_;
+}
+inline const ::blox::IoChannel& DS2408::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox.DS2408.channels)
+  return channels_.Get(index);
+}
+inline ::blox::IoChannel* DS2408::add_channels() {
+  // @@protoc_insertion_point(field_add:blox.DS2408.channels)
+  return channels_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+DS2408::channels() const {
+  // @@protoc_insertion_point(field_list:blox.DS2408.channels)
+  return channels_;
 }
 
 #ifdef __GNUC__

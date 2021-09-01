@@ -21,7 +21,6 @@
 
 #include "blox/Spark3PinsBlock.h"
 #include "Board.h"
-#include "blox/IoArrayHelpers.h"
 #include "blox/compiled_proto/src/Spark3Pins.pb.h"
 
 #if PLATFORM_ID != 3
@@ -73,17 +72,12 @@ Spark3PinsBlock::streamTo(cbox::DataOut& out) const
 {
     blox_Spark3Pins message = blox_Spark3Pins_init_zero;
 
-    message.pins_count = numPins;
-    message.pins[0].which_Pin = blox_Spark3IoPin_top1_tag;
-    readIo(*this, 1, message.pins[0].Pin.top1);
-    message.pins[1].which_Pin = blox_Spark3IoPin_top2_tag;
-    readIo(*this, 2, message.pins[1].Pin.top2);
-    message.pins[2].which_Pin = blox_Spark3IoPin_top3_tag;
-    readIo(*this, 3, message.pins[2].Pin.top3);
-    message.pins[3].which_Pin = blox_Spark3IoPin_bottom1_tag;
-    readIo(*this, 4, message.pins[3].Pin.bottom1);
-    message.pins[4].which_Pin = blox_Spark3IoPin_bottom2_tag;
-    readIo(*this, 5, message.pins[4].Pin.bottom2);
+    message.channels_count = 5;
+    message.channels[0].id = blox_Spark3PinIds_SPARK3_TOP1;
+    message.channels[1].id = blox_Spark3PinIds_SPARK3_TOP2;
+    message.channels[2].id = blox_Spark3PinIds_SPARK3_TOP3;
+    message.channels[3].id = blox_Spark3PinIds_SPARK3_BOTTOM1;
+    message.channels[4].id = blox_Spark3PinIds_SPARK3_BOTTOM2;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 #if defined(PIN_5V_ENABLE)

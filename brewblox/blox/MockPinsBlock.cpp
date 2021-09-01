@@ -18,7 +18,6 @@
  */
 
 #include "MockPinsBlock.h"
-#include "IoArrayHelpers.h"
 #include "compiled_proto/src/MockPins.pb.h"
 
 cbox::CboxError
@@ -26,23 +25,16 @@ MockPinsBlock::streamTo(cbox::DataOut& out) const
 {
     blox_MockPins message = blox_MockPins_init_zero;
     // looks a bit silly, but this way it is implemented the same as teh Spark2 and Spark3 blocks
-    message.pins_count = 8;
-    message.pins[0].which_Pin = blox_MockPinsIoPin_mock1_tag;
-    readIo(mocks, 1, message.pins[0].Pin.mock1);
-    message.pins[1].which_Pin = blox_MockPinsIoPin_mock2_tag;
-    readIo(mocks, 2, message.pins[1].Pin.mock2);
-    message.pins[2].which_Pin = blox_MockPinsIoPin_mock3_tag;
-    readIo(mocks, 3, message.pins[2].Pin.mock3);
-    message.pins[3].which_Pin = blox_MockPinsIoPin_mock4_tag;
-    readIo(mocks, 4, message.pins[3].Pin.mock4);
-    message.pins[4].which_Pin = blox_MockPinsIoPin_mock5_tag;
-    readIo(mocks, 5, message.pins[4].Pin.mock5);
-    message.pins[5].which_Pin = blox_MockPinsIoPin_mock6_tag;
-    readIo(mocks, 6, message.pins[5].Pin.mock6);
-    message.pins[6].which_Pin = blox_MockPinsIoPin_mock7_tag;
-    readIo(mocks, 7, message.pins[6].Pin.mock7);
-    message.pins[7].which_Pin = blox_MockPinsIoPin_mock8_tag;
-    readIo(mocks, 8, message.pins[7].Pin.mock8);
+    message.channels_count = 8;
+    message.channels[0].id = 1;
+    message.channels[1].id = 2;
+    message.channels[2].id = 3;
+    message.channels[3].id = 4;
+    message.channels[4].id = 5;
+    message.channels[5].id = 6;
+    message.channels[6].id = 7;
+    message.channels[7].id = 8;
+
     return streamProtoTo(out, &message, blox_MockPins_fields, blox_MockPins_size);
 }
 

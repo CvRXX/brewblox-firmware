@@ -76,7 +76,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
         THEN("The returned protobuf data is as expected")
         {
             CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { } } pins { B { } } oneWireBusId: 4");
+            CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true oneWireBusId: 4 channels { id: 1 } channels { id: 2 }");
         }
 
         THEN("The writable settings match what was sent")
@@ -125,7 +125,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 auto decoded = blox::DS2413();
                 testBox.processInputToProto(decoded);
 
-                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true pins { A { config: CHANNEL_DRIVING_ON state: STATE_ACTIVE } } pins { B { } } oneWireBusId: 4");
+                // DS2413 proto doesn't change when channels are used, but leaving this here for when we change our mind
+                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true oneWireBusId: 4 channels { id: 1 } channels { id: 2 }");
             }
         }
 
@@ -198,7 +199,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
         THEN("The returned mock protobuf data is as expected")
         {
             CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "pins { mock1 { } } pins { mock2 { } } pins { mock3 { } } pins { mock4 { } } pins { mock5 { } } pins { mock6 { } } pins { mock7 { } } pins { mock8 { } }");
+            CHECK(decoded.ShortDebugString() == "channels { id: 1 } channels { id: 2 } channels { id: 3 } channels { id: 4 } channels { id: 5 } channels { id: 6 } channels { id: 7 } channels { id: 8 }");
         }
 
         AND_WHEN("A DigitalActuator block is created that uses one of the channels")
@@ -230,7 +231,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
 
                 CHECK(decoded.ShortDebugString() == "hwDevice: 100 channel: 1 state: STATE_ACTIVE desiredState: STATE_ACTIVE");
             }
-            THEN("A read of the DS2413 is as expected")
+            THEN("A read of the mock pins is as expected")
             {
                 testBox.put(uint16_t(0)); // msg id
                 testBox.put(commands::READ_OBJECT);
@@ -239,7 +240,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 auto decoded = blox::MockPins();
                 testBox.processInputToProto(decoded);
 
-                CHECK(decoded.ShortDebugString() == "pins { mock1 { config: CHANNEL_DRIVING_ON state: STATE_ACTIVE } } pins { mock2 { } } pins { mock3 { } } pins { mock4 { } } pins { mock5 { } } pins { mock6 { } } pins { mock7 { } } pins { mock8 { } }");
+                // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind
+                CHECK(decoded.ShortDebugString() == "channels { id: 1 } channels { id: 2 } channels { id: 3 } channels { id: 4 } channels { id: 5 } channels { id: 6 } channels { id: 7 } channels { id: 8 }");
             }
         }
     }

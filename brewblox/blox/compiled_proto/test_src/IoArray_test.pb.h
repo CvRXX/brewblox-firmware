@@ -31,6 +31,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "nanopb_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto 
 
@@ -83,37 +84,6 @@ inline bool DigitalState_Parse(
     const ::std::string& name, DigitalState* value) {
   return ::google::protobuf::internal::ParseNamedEnum<DigitalState>(
     DigitalState_descriptor(), name, value);
-}
-enum ChannelConfig {
-  CHANNEL_UNUSED = 0,
-  CHANNEL_DRIVING_OFF = 1,
-  CHANNEL_DRIVING_ON = 2,
-  CHANNEL_DRIVING_REVERSE = 3,
-  CHANNEL_DRIVING_BRAKE_LOW_SIDE = 4,
-  CHANNEL_DRIVING_BRAKE_HIGH_SIDE = 5,
-  CHANNEL_DRIVING_PWM = 6,
-  CHANNEL_DRIVING_PWM_REVERSE = 7,
-  CHANNEL_INPUT = 10,
-  CHANNEL_UNKNOWN = 255,
-  CHANNEL_ACTIVE_LOW = 1,
-  CHANNEL_ACTIVE_HIGH = 2,
-  ChannelConfig_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  ChannelConfig_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool ChannelConfig_IsValid(int value);
-const ChannelConfig ChannelConfig_MIN = CHANNEL_UNUSED;
-const ChannelConfig ChannelConfig_MAX = CHANNEL_UNKNOWN;
-const int ChannelConfig_ARRAYSIZE = ChannelConfig_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* ChannelConfig_descriptor();
-inline const ::std::string& ChannelConfig_Name(ChannelConfig value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ChannelConfig_descriptor(), value);
-}
-inline bool ChannelConfig_Parse(
-    const ::std::string& name, ChannelConfig* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ChannelConfig>(
-    ChannelConfig_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -204,24 +174,17 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // .blox.ChannelConfig config = 1;
-  void clear_config();
-  static const int kConfigFieldNumber = 1;
-  ::blox::ChannelConfig config() const;
-  void set_config(::blox::ChannelConfig value);
-
-  // .blox.DigitalState state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  ::blox::DigitalState state() const;
-  void set_state(::blox::DigitalState value);
+  // uint32 id = 1 [(.nanopb_test) = {
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  ::google::protobuf::uint32 id() const;
+  void set_id(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:blox.IoChannel)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  int config_;
-  int state_;
+  ::google::protobuf::uint32 id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_IoArray_5ftest_2eproto::TableStruct;
 };
@@ -236,32 +199,18 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
 #endif  // __GNUC__
 // IoChannel
 
-// .blox.ChannelConfig config = 1;
-inline void IoChannel::clear_config() {
-  config_ = 0;
+// uint32 id = 1 [(.nanopb_test) = {
+inline void IoChannel::clear_id() {
+  id_ = 0u;
 }
-inline ::blox::ChannelConfig IoChannel::config() const {
-  // @@protoc_insertion_point(field_get:blox.IoChannel.config)
-  return static_cast< ::blox::ChannelConfig >(config_);
+inline ::google::protobuf::uint32 IoChannel::id() const {
+  // @@protoc_insertion_point(field_get:blox.IoChannel.id)
+  return id_;
 }
-inline void IoChannel::set_config(::blox::ChannelConfig value) {
+inline void IoChannel::set_id(::google::protobuf::uint32 value) {
   
-  config_ = value;
-  // @@protoc_insertion_point(field_set:blox.IoChannel.config)
-}
-
-// .blox.DigitalState state = 2;
-inline void IoChannel::clear_state() {
-  state_ = 0;
-}
-inline ::blox::DigitalState IoChannel::state() const {
-  // @@protoc_insertion_point(field_get:blox.IoChannel.state)
-  return static_cast< ::blox::DigitalState >(state_);
-}
-inline void IoChannel::set_state(::blox::DigitalState value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:blox.IoChannel.state)
+  id_ = value;
+  // @@protoc_insertion_point(field_set:blox.IoChannel.id)
 }
 
 #ifdef __GNUC__
@@ -279,11 +228,6 @@ template <> struct is_proto_enum< ::blox::DigitalState> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox::DigitalState>() {
   return ::blox::DigitalState_descriptor();
-}
-template <> struct is_proto_enum< ::blox::ChannelConfig> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::ChannelConfig>() {
-  return ::blox::ChannelConfig_descriptor();
 }
 
 }  // namespace protobuf

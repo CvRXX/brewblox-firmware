@@ -27,46 +27,26 @@ typedef enum _blox_DigitalState {
 #define _blox_DigitalState_MAX blox_DigitalState_Unknown
 #define _blox_DigitalState_ARRAYSIZE ((blox_DigitalState)(blox_DigitalState_Unknown+1))
 
-typedef enum _blox_ChannelConfig {
-    blox_ChannelConfig_CHANNEL_UNUSED = 0,
-    blox_ChannelConfig_CHANNEL_DRIVING_OFF = 1,
-    blox_ChannelConfig_CHANNEL_DRIVING_ON = 2,
-    blox_ChannelConfig_CHANNEL_DRIVING_REVERSE = 3,
-    blox_ChannelConfig_CHANNEL_DRIVING_BRAKE_LOW_SIDE = 4,
-    blox_ChannelConfig_CHANNEL_DRIVING_BRAKE_HIGH_SIDE = 5,
-    blox_ChannelConfig_CHANNEL_DRIVING_PWM = 6,
-    blox_ChannelConfig_CHANNEL_DRIVING_PWM_REVERSE = 7,
-    blox_ChannelConfig_CHANNEL_INPUT = 10,
-    blox_ChannelConfig_CHANNEL_UNKNOWN = 255,
-    blox_ChannelConfig_CHANNEL_ACTIVE_LOW = 1,
-    blox_ChannelConfig_CHANNEL_ACTIVE_HIGH = 2
-} blox_ChannelConfig;
-#define _blox_ChannelConfig_MIN blox_ChannelConfig_CHANNEL_UNUSED
-#define _blox_ChannelConfig_MAX blox_ChannelConfig_CHANNEL_ACTIVE_HIGH
-#define _blox_ChannelConfig_ARRAYSIZE ((blox_ChannelConfig)(blox_ChannelConfig_CHANNEL_ACTIVE_HIGH+1))
-
 /* Struct definitions */
 typedef struct _blox_IoChannel {
-    blox_ChannelConfig config;
-    blox_DigitalState state;
+    uint8_t id;
 /* @@protoc_insertion_point(struct:blox_IoChannel) */
 } blox_IoChannel;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_IoChannel_init_default              {_blox_ChannelConfig_MIN, _blox_DigitalState_MIN}
-#define blox_IoChannel_init_zero                 {_blox_ChannelConfig_MIN, _blox_DigitalState_MIN}
+#define blox_IoChannel_init_default              {0}
+#define blox_IoChannel_init_zero                 {0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define blox_IoChannel_config_tag                1
-#define blox_IoChannel_state_tag                 2
+#define blox_IoChannel_id_tag                    1
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_IoChannel_fields[3];
+extern const pb_field_t blox_IoChannel_fields[2];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_IoChannel_size                      5
+#define blox_IoChannel_size                      6
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

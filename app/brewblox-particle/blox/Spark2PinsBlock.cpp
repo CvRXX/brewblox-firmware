@@ -21,7 +21,6 @@
 
 #include "blox/Spark2PinsBlock.h"
 #include "Board.h"
-#include "blox/IoArrayHelpers.h"
 #include "blox/compiled_proto/src/Spark2Pins.pb.h"
 
 pin_t Spark2PinsBlock::channelToPin(uint8_t channel) const
@@ -62,19 +61,15 @@ Spark2PinsBlock::streamTo(cbox::DataOut& out) const
 {
     blox_Spark2Pins message = blox_Spark2Pins_init_zero;
 
-    message.pins[0].which_Pin = blox_Spark2PinsIoPin_bottom1_tag;
-    readIo(*this, 1, message.pins[0].Pin.bottom1);
-    message.pins[1].which_Pin = blox_Spark2PinsIoPin_bottom2_tag;
-    readIo(*this, 2, message.pins[1].Pin.bottom2);
-    message.pins[2].which_Pin = blox_Spark2PinsIoPin_bottom3_tag;
-    readIo(*this, 3, message.pins[2].Pin.bottom3);
+    message.channels[0].id = blox_Spark2PinIds_SPARK2_BOTTOM1;
+    message.channels[1].id = blox_Spark2PinIds_SPARK2_BOTTOM2;
+    message.channels[2].id = blox_Spark2PinIds_SPARK2_BOTTOM3;
 
     if (getSparkVersion() != SparkVersion::V1) {
-        message.pins[3].which_Pin = blox_Spark2PinsIoPin_bottom0_tag;
-        readIoConfig(*this, 4, message.pins[3].Pin.bottom0.config);
-        message.pins_count = numPins;
+        message.channels[3].id = blox_Spark2PinIds_SPARK2_BOTTOM0;
+        message.channels_count = 4;
     } else {
-        message.pins_count = numPins - 1;
+        message.channels_count = 3;
     }
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
