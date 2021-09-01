@@ -9,11 +9,12 @@
 
 
 
-const pb_field_t blox_GpioModuleChannel_fields[5] = {
+const pb_field_t blox_GpioModuleChannel_fields[6] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_GpioModuleChannel, id, id, 0),
     PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, deviceType, id, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, pinsMask, deviceType, 0),
     PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, width, pinsMask, 0),
+    PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, name, width, 0),
     PB_LAST_FIELD
 };
 

@@ -18,7 +18,6 @@
  */
 
 #include "DS2413Block.h"
-#include "IoArrayHelpers.h"
 #include "compiled_proto/src/DS2413.pb.h"
 
 cbox::CboxError
@@ -43,11 +42,9 @@ DS2413Block::streamTo(cbox::DataOut& out) const
     message.address = device.address();
     message.connected = device.connected();
 
-    message.pins_count = 2;
-    message.pins[0].which_Pin = blox_DS2413IoPin_A_tag;
-    readIo(device, 1, message.pins[0].Pin.A);
-    message.pins[1].which_Pin = blox_DS2413IoPin_B_tag;
-    readIo(device, 2, message.pins[1].Pin.B);
+    message.channels_count = 2;
+    message.channels[0].id = blox_DS2413ChannelIds_DS2413_CHAN_A;
+    message.channels[1].id = blox_DS2413ChannelIds_DS2413_CHAN_B;
 
     return streamProtoTo(out, &message, blox_DS2413_fields, blox_DS2413_size);
 }

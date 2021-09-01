@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
@@ -41,7 +42,7 @@ namespace protobuf_MockPins_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[2];
+  static const ::google::protobuf::internal::ParseTable schema[1];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -52,249 +53,43 @@ namespace blox {
 class MockPins;
 class MockPinsDefaultTypeInternal;
 extern MockPinsDefaultTypeInternal _MockPins_default_instance_;
-class MockPinsIoPin;
-class MockPinsIoPinDefaultTypeInternal;
-extern MockPinsIoPinDefaultTypeInternal _MockPinsIoPin_default_instance_;
 }  // namespace blox
 namespace google {
 namespace protobuf {
 template<> ::blox::MockPins* Arena::CreateMaybeMessage<::blox::MockPins>(Arena*);
-template<> ::blox::MockPinsIoPin* Arena::CreateMaybeMessage<::blox::MockPinsIoPin>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
 
-// ===================================================================
-
-class MockPinsIoPin : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.MockPinsIoPin) */ {
- public:
-  MockPinsIoPin();
-  virtual ~MockPinsIoPin();
-
-  MockPinsIoPin(const MockPinsIoPin& from);
-
-  inline MockPinsIoPin& operator=(const MockPinsIoPin& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  MockPinsIoPin(MockPinsIoPin&& from) noexcept
-    : MockPinsIoPin() {
-    *this = ::std::move(from);
-  }
-
-  inline MockPinsIoPin& operator=(MockPinsIoPin&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const MockPinsIoPin& default_instance();
-
-  enum PinCase {
-    kMock1 = 1,
-    kMock2 = 2,
-    kMock3 = 3,
-    kMock4 = 4,
-    kMock5 = 5,
-    kMock6 = 6,
-    kMock7 = 7,
-    kMock8 = 8,
-    PIN_NOT_SET = 0,
-  };
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const MockPinsIoPin* internal_default_instance() {
-    return reinterpret_cast<const MockPinsIoPin*>(
-               &_MockPinsIoPin_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  void Swap(MockPinsIoPin* other);
-  friend void swap(MockPinsIoPin& a, MockPinsIoPin& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline MockPinsIoPin* New() const final {
-    return CreateMaybeMessage<MockPinsIoPin>(NULL);
-  }
-
-  MockPinsIoPin* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<MockPinsIoPin>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const MockPinsIoPin& from);
-  void MergeFrom(const MockPinsIoPin& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(MockPinsIoPin* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // .blox.IoChannel mock1 = 1;
-  bool has_mock1() const;
-  void clear_mock1();
-  static const int kMock1FieldNumber = 1;
-  private:
-  const ::blox::IoChannel& _internal_mock1() const;
-  public:
-  const ::blox::IoChannel& mock1() const;
-  ::blox::IoChannel* release_mock1();
-  ::blox::IoChannel* mutable_mock1();
-  void set_allocated_mock1(::blox::IoChannel* mock1);
-
-  // .blox.IoChannel mock2 = 2;
-  bool has_mock2() const;
-  void clear_mock2();
-  static const int kMock2FieldNumber = 2;
-  private:
-  const ::blox::IoChannel& _internal_mock2() const;
-  public:
-  const ::blox::IoChannel& mock2() const;
-  ::blox::IoChannel* release_mock2();
-  ::blox::IoChannel* mutable_mock2();
-  void set_allocated_mock2(::blox::IoChannel* mock2);
-
-  // .blox.IoChannel mock3 = 3;
-  bool has_mock3() const;
-  void clear_mock3();
-  static const int kMock3FieldNumber = 3;
-  private:
-  const ::blox::IoChannel& _internal_mock3() const;
-  public:
-  const ::blox::IoChannel& mock3() const;
-  ::blox::IoChannel* release_mock3();
-  ::blox::IoChannel* mutable_mock3();
-  void set_allocated_mock3(::blox::IoChannel* mock3);
-
-  // .blox.IoChannel mock4 = 4;
-  bool has_mock4() const;
-  void clear_mock4();
-  static const int kMock4FieldNumber = 4;
-  private:
-  const ::blox::IoChannel& _internal_mock4() const;
-  public:
-  const ::blox::IoChannel& mock4() const;
-  ::blox::IoChannel* release_mock4();
-  ::blox::IoChannel* mutable_mock4();
-  void set_allocated_mock4(::blox::IoChannel* mock4);
-
-  // .blox.IoChannel mock5 = 5;
-  bool has_mock5() const;
-  void clear_mock5();
-  static const int kMock5FieldNumber = 5;
-  private:
-  const ::blox::IoChannel& _internal_mock5() const;
-  public:
-  const ::blox::IoChannel& mock5() const;
-  ::blox::IoChannel* release_mock5();
-  ::blox::IoChannel* mutable_mock5();
-  void set_allocated_mock5(::blox::IoChannel* mock5);
-
-  // .blox.IoChannel mock6 = 6;
-  bool has_mock6() const;
-  void clear_mock6();
-  static const int kMock6FieldNumber = 6;
-  private:
-  const ::blox::IoChannel& _internal_mock6() const;
-  public:
-  const ::blox::IoChannel& mock6() const;
-  ::blox::IoChannel* release_mock6();
-  ::blox::IoChannel* mutable_mock6();
-  void set_allocated_mock6(::blox::IoChannel* mock6);
-
-  // .blox.IoChannel mock7 = 7;
-  bool has_mock7() const;
-  void clear_mock7();
-  static const int kMock7FieldNumber = 7;
-  private:
-  const ::blox::IoChannel& _internal_mock7() const;
-  public:
-  const ::blox::IoChannel& mock7() const;
-  ::blox::IoChannel* release_mock7();
-  ::blox::IoChannel* mutable_mock7();
-  void set_allocated_mock7(::blox::IoChannel* mock7);
-
-  // .blox.IoChannel mock8 = 8;
-  bool has_mock8() const;
-  void clear_mock8();
-  static const int kMock8FieldNumber = 8;
-  private:
-  const ::blox::IoChannel& _internal_mock8() const;
-  public:
-  const ::blox::IoChannel& mock8() const;
-  ::blox::IoChannel* release_mock8();
-  ::blox::IoChannel* mutable_mock8();
-  void set_allocated_mock8(::blox::IoChannel* mock8);
-
-  void clear_Pin();
-  PinCase Pin_case() const;
-  // @@protoc_insertion_point(class_scope:blox.MockPinsIoPin)
- private:
-  void set_has_mock1();
-  void set_has_mock2();
-  void set_has_mock3();
-  void set_has_mock4();
-  void set_has_mock5();
-  void set_has_mock6();
-  void set_has_mock7();
-  void set_has_mock8();
-
-  inline bool has_Pin() const;
-  inline void clear_has_Pin();
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  union PinUnion {
-    PinUnion() {}
-    ::blox::IoChannel* mock1_;
-    ::blox::IoChannel* mock2_;
-    ::blox::IoChannel* mock3_;
-    ::blox::IoChannel* mock4_;
-    ::blox::IoChannel* mock5_;
-    ::blox::IoChannel* mock6_;
-    ::blox::IoChannel* mock7_;
-    ::blox::IoChannel* mock8_;
-  } Pin_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  ::google::protobuf::uint32 _oneof_case_[1];
-
-  friend struct ::protobuf_MockPins_5ftest_2eproto::TableStruct;
+enum MockPinsChannelIds {
+  MOCKPINS_CHAN_NONE = 0,
+  MOCKPINS_CHAN_A = 1,
+  MOCKPINS_CHAN_B = 2,
+  MOCKPINS_CHAN_C = 3,
+  MOCKPINS_CHAN_D = 4,
+  MOCKPINS_CHAN_E = 5,
+  MOCKPINS_CHAN_F = 6,
+  MOCKPINS_CHAN_G = 7,
+  MOCKPINS_CHAN_H = 8,
+  MockPinsChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  MockPinsChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-// -------------------------------------------------------------------
+bool MockPinsChannelIds_IsValid(int value);
+const MockPinsChannelIds MockPinsChannelIds_MIN = MOCKPINS_CHAN_NONE;
+const MockPinsChannelIds MockPinsChannelIds_MAX = MOCKPINS_CHAN_H;
+const int MockPinsChannelIds_ARRAYSIZE = MockPinsChannelIds_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* MockPinsChannelIds_descriptor();
+inline const ::std::string& MockPinsChannelIds_Name(MockPinsChannelIds value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    MockPinsChannelIds_descriptor(), value);
+}
+inline bool MockPinsChannelIds_Parse(
+    const ::std::string& name, MockPinsChannelIds* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<MockPinsChannelIds>(
+    MockPinsChannelIds_descriptor(), name, value);
+}
+// ===================================================================
 
 class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.MockPins) */ {
  public:
@@ -331,7 +126,7 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_MockPins_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   void Swap(MockPins* other);
   friend void swap(MockPins& a, MockPins& b) {
@@ -383,23 +178,23 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.MockPinsIoPin pins = 1 [(.nanopb_test) = {
-  int pins_size() const;
-  void clear_pins();
-  static const int kPinsFieldNumber = 1;
-  ::blox::MockPinsIoPin* mutable_pins(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::MockPinsIoPin >*
-      mutable_pins();
-  const ::blox::MockPinsIoPin& pins(int index) const;
-  ::blox::MockPinsIoPin* add_pins();
-  const ::google::protobuf::RepeatedPtrField< ::blox::MockPinsIoPin >&
-      pins() const;
+  // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
+  int channels_size() const;
+  void clear_channels();
+  static const int kChannelsFieldNumber = 2;
+  ::blox::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+      mutable_channels();
+  const ::blox::IoChannel& channels(int index) const;
+  ::blox::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+      channels() const;
 
   // @@protoc_insertion_point(class_scope:blox.MockPins)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::MockPinsIoPin > pins_;
+  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_MockPins_5ftest_2eproto::TableStruct;
 };
@@ -412,364 +207,54 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// MockPinsIoPin
-
-// .blox.IoChannel mock1 = 1;
-inline bool MockPinsIoPin::has_mock1() const {
-  return Pin_case() == kMock1;
-}
-inline void MockPinsIoPin::set_has_mock1() {
-  _oneof_case_[0] = kMock1;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock1() const {
-  return *Pin_.mock1_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock1() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock1)
-  if (has_mock1()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock1_;
-    Pin_.mock1_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock1() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock1)
-  return has_mock1()
-      ? *Pin_.mock1_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock1() {
-  if (!has_mock1()) {
-    clear_Pin();
-    set_has_mock1();
-    Pin_.mock1_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock1)
-  return Pin_.mock1_;
-}
-
-// .blox.IoChannel mock2 = 2;
-inline bool MockPinsIoPin::has_mock2() const {
-  return Pin_case() == kMock2;
-}
-inline void MockPinsIoPin::set_has_mock2() {
-  _oneof_case_[0] = kMock2;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock2() const {
-  return *Pin_.mock2_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock2() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock2)
-  if (has_mock2()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock2_;
-    Pin_.mock2_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock2() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock2)
-  return has_mock2()
-      ? *Pin_.mock2_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock2() {
-  if (!has_mock2()) {
-    clear_Pin();
-    set_has_mock2();
-    Pin_.mock2_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock2)
-  return Pin_.mock2_;
-}
-
-// .blox.IoChannel mock3 = 3;
-inline bool MockPinsIoPin::has_mock3() const {
-  return Pin_case() == kMock3;
-}
-inline void MockPinsIoPin::set_has_mock3() {
-  _oneof_case_[0] = kMock3;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock3() const {
-  return *Pin_.mock3_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock3() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock3)
-  if (has_mock3()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock3_;
-    Pin_.mock3_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock3() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock3)
-  return has_mock3()
-      ? *Pin_.mock3_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock3() {
-  if (!has_mock3()) {
-    clear_Pin();
-    set_has_mock3();
-    Pin_.mock3_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock3)
-  return Pin_.mock3_;
-}
-
-// .blox.IoChannel mock4 = 4;
-inline bool MockPinsIoPin::has_mock4() const {
-  return Pin_case() == kMock4;
-}
-inline void MockPinsIoPin::set_has_mock4() {
-  _oneof_case_[0] = kMock4;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock4() const {
-  return *Pin_.mock4_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock4() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock4)
-  if (has_mock4()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock4_;
-    Pin_.mock4_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock4() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock4)
-  return has_mock4()
-      ? *Pin_.mock4_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock4() {
-  if (!has_mock4()) {
-    clear_Pin();
-    set_has_mock4();
-    Pin_.mock4_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock4)
-  return Pin_.mock4_;
-}
-
-// .blox.IoChannel mock5 = 5;
-inline bool MockPinsIoPin::has_mock5() const {
-  return Pin_case() == kMock5;
-}
-inline void MockPinsIoPin::set_has_mock5() {
-  _oneof_case_[0] = kMock5;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock5() const {
-  return *Pin_.mock5_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock5() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock5)
-  if (has_mock5()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock5_;
-    Pin_.mock5_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock5() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock5)
-  return has_mock5()
-      ? *Pin_.mock5_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock5() {
-  if (!has_mock5()) {
-    clear_Pin();
-    set_has_mock5();
-    Pin_.mock5_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock5)
-  return Pin_.mock5_;
-}
-
-// .blox.IoChannel mock6 = 6;
-inline bool MockPinsIoPin::has_mock6() const {
-  return Pin_case() == kMock6;
-}
-inline void MockPinsIoPin::set_has_mock6() {
-  _oneof_case_[0] = kMock6;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock6() const {
-  return *Pin_.mock6_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock6() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock6)
-  if (has_mock6()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock6_;
-    Pin_.mock6_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock6() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock6)
-  return has_mock6()
-      ? *Pin_.mock6_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock6() {
-  if (!has_mock6()) {
-    clear_Pin();
-    set_has_mock6();
-    Pin_.mock6_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock6)
-  return Pin_.mock6_;
-}
-
-// .blox.IoChannel mock7 = 7;
-inline bool MockPinsIoPin::has_mock7() const {
-  return Pin_case() == kMock7;
-}
-inline void MockPinsIoPin::set_has_mock7() {
-  _oneof_case_[0] = kMock7;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock7() const {
-  return *Pin_.mock7_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock7() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock7)
-  if (has_mock7()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock7_;
-    Pin_.mock7_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock7() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock7)
-  return has_mock7()
-      ? *Pin_.mock7_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock7() {
-  if (!has_mock7()) {
-    clear_Pin();
-    set_has_mock7();
-    Pin_.mock7_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock7)
-  return Pin_.mock7_;
-}
-
-// .blox.IoChannel mock8 = 8;
-inline bool MockPinsIoPin::has_mock8() const {
-  return Pin_case() == kMock8;
-}
-inline void MockPinsIoPin::set_has_mock8() {
-  _oneof_case_[0] = kMock8;
-}
-inline const ::blox::IoChannel& MockPinsIoPin::_internal_mock8() const {
-  return *Pin_.mock8_;
-}
-inline ::blox::IoChannel* MockPinsIoPin::release_mock8() {
-  // @@protoc_insertion_point(field_release:blox.MockPinsIoPin.mock8)
-  if (has_mock8()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.mock8_;
-    Pin_.mock8_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& MockPinsIoPin::mock8() const {
-  // @@protoc_insertion_point(field_get:blox.MockPinsIoPin.mock8)
-  return has_mock8()
-      ? *Pin_.mock8_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* MockPinsIoPin::mutable_mock8() {
-  if (!has_mock8()) {
-    clear_Pin();
-    set_has_mock8();
-    Pin_.mock8_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.MockPinsIoPin.mock8)
-  return Pin_.mock8_;
-}
-
-inline bool MockPinsIoPin::has_Pin() const {
-  return Pin_case() != PIN_NOT_SET;
-}
-inline void MockPinsIoPin::clear_has_Pin() {
-  _oneof_case_[0] = PIN_NOT_SET;
-}
-inline MockPinsIoPin::PinCase MockPinsIoPin::Pin_case() const {
-  return MockPinsIoPin::PinCase(_oneof_case_[0]);
-}
-// -------------------------------------------------------------------
-
 // MockPins
 
-// repeated .blox.MockPinsIoPin pins = 1 [(.nanopb_test) = {
-inline int MockPins::pins_size() const {
-  return pins_.size();
+// repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
+inline int MockPins::channels_size() const {
+  return channels_.size();
 }
-inline void MockPins::clear_pins() {
-  pins_.Clear();
+inline ::blox::IoChannel* MockPins::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox.MockPins.channels)
+  return channels_.Mutable(index);
 }
-inline ::blox::MockPinsIoPin* MockPins::mutable_pins(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.MockPins.pins)
-  return pins_.Mutable(index);
+inline ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+MockPins::mutable_channels() {
+  // @@protoc_insertion_point(field_mutable_list:blox.MockPins.channels)
+  return &channels_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::MockPinsIoPin >*
-MockPins::mutable_pins() {
-  // @@protoc_insertion_point(field_mutable_list:blox.MockPins.pins)
-  return &pins_;
+inline const ::blox::IoChannel& MockPins::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox.MockPins.channels)
+  return channels_.Get(index);
 }
-inline const ::blox::MockPinsIoPin& MockPins::pins(int index) const {
-  // @@protoc_insertion_point(field_get:blox.MockPins.pins)
-  return pins_.Get(index);
+inline ::blox::IoChannel* MockPins::add_channels() {
+  // @@protoc_insertion_point(field_add:blox.MockPins.channels)
+  return channels_.Add();
 }
-inline ::blox::MockPinsIoPin* MockPins::add_pins() {
-  // @@protoc_insertion_point(field_add:blox.MockPins.pins)
-  return pins_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::blox::MockPinsIoPin >&
-MockPins::pins() const {
-  // @@protoc_insertion_point(field_list:blox.MockPins.pins)
-  return pins_;
+inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+MockPins::channels() const {
+  // @@protoc_insertion_point(field_list:blox.MockPins.channels)
+  return channels_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace blox
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::blox::MockPinsChannelIds> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::MockPinsChannelIds>() {
+  return ::blox::MockPinsChannelIds_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

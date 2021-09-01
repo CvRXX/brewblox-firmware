@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
@@ -41,7 +42,7 @@ namespace protobuf_Spark3Pins_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[2];
+  static const ::google::protobuf::internal::ParseTable schema[1];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -49,207 +50,43 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_Spark3Pins_5ftest_2eproto
 namespace blox {
-class Spark3IoPin;
-class Spark3IoPinDefaultTypeInternal;
-extern Spark3IoPinDefaultTypeInternal _Spark3IoPin_default_instance_;
 class Spark3Pins;
 class Spark3PinsDefaultTypeInternal;
 extern Spark3PinsDefaultTypeInternal _Spark3Pins_default_instance_;
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::Spark3IoPin* Arena::CreateMaybeMessage<::blox::Spark3IoPin>(Arena*);
 template<> ::blox::Spark3Pins* Arena::CreateMaybeMessage<::blox::Spark3Pins>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
 
-// ===================================================================
-
-class Spark3IoPin : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Spark3IoPin) */ {
- public:
-  Spark3IoPin();
-  virtual ~Spark3IoPin();
-
-  Spark3IoPin(const Spark3IoPin& from);
-
-  inline Spark3IoPin& operator=(const Spark3IoPin& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  Spark3IoPin(Spark3IoPin&& from) noexcept
-    : Spark3IoPin() {
-    *this = ::std::move(from);
-  }
-
-  inline Spark3IoPin& operator=(Spark3IoPin&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Spark3IoPin& default_instance();
-
-  enum PinCase {
-    kTop1 = 1,
-    kTop2 = 2,
-    kTop3 = 3,
-    kBottom1 = 4,
-    kBottom2 = 5,
-    PIN_NOT_SET = 0,
-  };
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Spark3IoPin* internal_default_instance() {
-    return reinterpret_cast<const Spark3IoPin*>(
-               &_Spark3IoPin_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  void Swap(Spark3IoPin* other);
-  friend void swap(Spark3IoPin& a, Spark3IoPin& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Spark3IoPin* New() const final {
-    return CreateMaybeMessage<Spark3IoPin>(NULL);
-  }
-
-  Spark3IoPin* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Spark3IoPin>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Spark3IoPin& from);
-  void MergeFrom(const Spark3IoPin& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Spark3IoPin* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // .blox.IoChannel top1 = 1;
-  bool has_top1() const;
-  void clear_top1();
-  static const int kTop1FieldNumber = 1;
-  private:
-  const ::blox::IoChannel& _internal_top1() const;
-  public:
-  const ::blox::IoChannel& top1() const;
-  ::blox::IoChannel* release_top1();
-  ::blox::IoChannel* mutable_top1();
-  void set_allocated_top1(::blox::IoChannel* top1);
-
-  // .blox.IoChannel top2 = 2;
-  bool has_top2() const;
-  void clear_top2();
-  static const int kTop2FieldNumber = 2;
-  private:
-  const ::blox::IoChannel& _internal_top2() const;
-  public:
-  const ::blox::IoChannel& top2() const;
-  ::blox::IoChannel* release_top2();
-  ::blox::IoChannel* mutable_top2();
-  void set_allocated_top2(::blox::IoChannel* top2);
-
-  // .blox.IoChannel top3 = 3;
-  bool has_top3() const;
-  void clear_top3();
-  static const int kTop3FieldNumber = 3;
-  private:
-  const ::blox::IoChannel& _internal_top3() const;
-  public:
-  const ::blox::IoChannel& top3() const;
-  ::blox::IoChannel* release_top3();
-  ::blox::IoChannel* mutable_top3();
-  void set_allocated_top3(::blox::IoChannel* top3);
-
-  // .blox.IoChannel bottom1 = 4;
-  bool has_bottom1() const;
-  void clear_bottom1();
-  static const int kBottom1FieldNumber = 4;
-  private:
-  const ::blox::IoChannel& _internal_bottom1() const;
-  public:
-  const ::blox::IoChannel& bottom1() const;
-  ::blox::IoChannel* release_bottom1();
-  ::blox::IoChannel* mutable_bottom1();
-  void set_allocated_bottom1(::blox::IoChannel* bottom1);
-
-  // .blox.IoChannel bottom2 = 5;
-  bool has_bottom2() const;
-  void clear_bottom2();
-  static const int kBottom2FieldNumber = 5;
-  private:
-  const ::blox::IoChannel& _internal_bottom2() const;
-  public:
-  const ::blox::IoChannel& bottom2() const;
-  ::blox::IoChannel* release_bottom2();
-  ::blox::IoChannel* mutable_bottom2();
-  void set_allocated_bottom2(::blox::IoChannel* bottom2);
-
-  void clear_Pin();
-  PinCase Pin_case() const;
-  // @@protoc_insertion_point(class_scope:blox.Spark3IoPin)
- private:
-  void set_has_top1();
-  void set_has_top2();
-  void set_has_top3();
-  void set_has_bottom1();
-  void set_has_bottom2();
-
-  inline bool has_Pin() const;
-  inline void clear_has_Pin();
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  union PinUnion {
-    PinUnion() {}
-    ::blox::IoChannel* top1_;
-    ::blox::IoChannel* top2_;
-    ::blox::IoChannel* top3_;
-    ::blox::IoChannel* bottom1_;
-    ::blox::IoChannel* bottom2_;
-  } Pin_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  ::google::protobuf::uint32 _oneof_case_[1];
-
-  friend struct ::protobuf_Spark3Pins_5ftest_2eproto::TableStruct;
+enum Spark3ChannelIds {
+  SPARK3_NO_PIN = 0,
+  SPARK3_CHAN_TOP1 = 1,
+  SPARK3_CHAN_TOP2 = 2,
+  SPARK3_CHAN_TOP3 = 3,
+  SPARK3_CHAN_BOTTOM1 = 4,
+  SPARK3_CHAN_BOTTOM2 = 5,
+  Spark3ChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Spark3ChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-// -------------------------------------------------------------------
+bool Spark3ChannelIds_IsValid(int value);
+const Spark3ChannelIds Spark3ChannelIds_MIN = SPARK3_NO_PIN;
+const Spark3ChannelIds Spark3ChannelIds_MAX = SPARK3_CHAN_BOTTOM2;
+const int Spark3ChannelIds_ARRAYSIZE = Spark3ChannelIds_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Spark3ChannelIds_descriptor();
+inline const ::std::string& Spark3ChannelIds_Name(Spark3ChannelIds value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Spark3ChannelIds_descriptor(), value);
+}
+inline bool Spark3ChannelIds_Parse(
+    const ::std::string& name, Spark3ChannelIds* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Spark3ChannelIds>(
+    Spark3ChannelIds_descriptor(), name, value);
+}
+// ===================================================================
 
 class Spark3Pins : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Spark3Pins) */ {
  public:
@@ -286,7 +123,7 @@ class Spark3Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_Spark3Pins_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   void Swap(Spark3Pins* other);
   friend void swap(Spark3Pins& a, Spark3Pins& b) {
@@ -338,17 +175,17 @@ class Spark3Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.Spark3IoPin pins = 1 [(.nanopb_test) = {
-  int pins_size() const;
-  void clear_pins();
-  static const int kPinsFieldNumber = 1;
-  ::blox::Spark3IoPin* mutable_pins(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::Spark3IoPin >*
-      mutable_pins();
-  const ::blox::Spark3IoPin& pins(int index) const;
-  ::blox::Spark3IoPin* add_pins();
-  const ::google::protobuf::RepeatedPtrField< ::blox::Spark3IoPin >&
-      pins() const;
+  // repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
+  int channels_size() const;
+  void clear_channels();
+  static const int kChannelsFieldNumber = 8;
+  ::blox::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+      mutable_channels();
+  const ::blox::IoChannel& channels(int index) const;
+  ::blox::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+      channels() const;
 
   // bool enableIoSupply5V = 2;
   void clear_enableiosupply5v();
@@ -384,7 +221,7 @@ class Spark3Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::Spark3IoPin > pins_;
+  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
   bool enableiosupply5v_;
   bool enableiosupply12v_;
   bool soundalarm_;
@@ -402,240 +239,7 @@ class Spark3Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Spark3IoPin
-
-// .blox.IoChannel top1 = 1;
-inline bool Spark3IoPin::has_top1() const {
-  return Pin_case() == kTop1;
-}
-inline void Spark3IoPin::set_has_top1() {
-  _oneof_case_[0] = kTop1;
-}
-inline const ::blox::IoChannel& Spark3IoPin::_internal_top1() const {
-  return *Pin_.top1_;
-}
-inline ::blox::IoChannel* Spark3IoPin::release_top1() {
-  // @@protoc_insertion_point(field_release:blox.Spark3IoPin.top1)
-  if (has_top1()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.top1_;
-    Pin_.top1_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& Spark3IoPin::top1() const {
-  // @@protoc_insertion_point(field_get:blox.Spark3IoPin.top1)
-  return has_top1()
-      ? *Pin_.top1_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* Spark3IoPin::mutable_top1() {
-  if (!has_top1()) {
-    clear_Pin();
-    set_has_top1();
-    Pin_.top1_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.Spark3IoPin.top1)
-  return Pin_.top1_;
-}
-
-// .blox.IoChannel top2 = 2;
-inline bool Spark3IoPin::has_top2() const {
-  return Pin_case() == kTop2;
-}
-inline void Spark3IoPin::set_has_top2() {
-  _oneof_case_[0] = kTop2;
-}
-inline const ::blox::IoChannel& Spark3IoPin::_internal_top2() const {
-  return *Pin_.top2_;
-}
-inline ::blox::IoChannel* Spark3IoPin::release_top2() {
-  // @@protoc_insertion_point(field_release:blox.Spark3IoPin.top2)
-  if (has_top2()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.top2_;
-    Pin_.top2_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& Spark3IoPin::top2() const {
-  // @@protoc_insertion_point(field_get:blox.Spark3IoPin.top2)
-  return has_top2()
-      ? *Pin_.top2_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* Spark3IoPin::mutable_top2() {
-  if (!has_top2()) {
-    clear_Pin();
-    set_has_top2();
-    Pin_.top2_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.Spark3IoPin.top2)
-  return Pin_.top2_;
-}
-
-// .blox.IoChannel top3 = 3;
-inline bool Spark3IoPin::has_top3() const {
-  return Pin_case() == kTop3;
-}
-inline void Spark3IoPin::set_has_top3() {
-  _oneof_case_[0] = kTop3;
-}
-inline const ::blox::IoChannel& Spark3IoPin::_internal_top3() const {
-  return *Pin_.top3_;
-}
-inline ::blox::IoChannel* Spark3IoPin::release_top3() {
-  // @@protoc_insertion_point(field_release:blox.Spark3IoPin.top3)
-  if (has_top3()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.top3_;
-    Pin_.top3_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& Spark3IoPin::top3() const {
-  // @@protoc_insertion_point(field_get:blox.Spark3IoPin.top3)
-  return has_top3()
-      ? *Pin_.top3_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* Spark3IoPin::mutable_top3() {
-  if (!has_top3()) {
-    clear_Pin();
-    set_has_top3();
-    Pin_.top3_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.Spark3IoPin.top3)
-  return Pin_.top3_;
-}
-
-// .blox.IoChannel bottom1 = 4;
-inline bool Spark3IoPin::has_bottom1() const {
-  return Pin_case() == kBottom1;
-}
-inline void Spark3IoPin::set_has_bottom1() {
-  _oneof_case_[0] = kBottom1;
-}
-inline const ::blox::IoChannel& Spark3IoPin::_internal_bottom1() const {
-  return *Pin_.bottom1_;
-}
-inline ::blox::IoChannel* Spark3IoPin::release_bottom1() {
-  // @@protoc_insertion_point(field_release:blox.Spark3IoPin.bottom1)
-  if (has_bottom1()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.bottom1_;
-    Pin_.bottom1_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& Spark3IoPin::bottom1() const {
-  // @@protoc_insertion_point(field_get:blox.Spark3IoPin.bottom1)
-  return has_bottom1()
-      ? *Pin_.bottom1_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* Spark3IoPin::mutable_bottom1() {
-  if (!has_bottom1()) {
-    clear_Pin();
-    set_has_bottom1();
-    Pin_.bottom1_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.Spark3IoPin.bottom1)
-  return Pin_.bottom1_;
-}
-
-// .blox.IoChannel bottom2 = 5;
-inline bool Spark3IoPin::has_bottom2() const {
-  return Pin_case() == kBottom2;
-}
-inline void Spark3IoPin::set_has_bottom2() {
-  _oneof_case_[0] = kBottom2;
-}
-inline const ::blox::IoChannel& Spark3IoPin::_internal_bottom2() const {
-  return *Pin_.bottom2_;
-}
-inline ::blox::IoChannel* Spark3IoPin::release_bottom2() {
-  // @@protoc_insertion_point(field_release:blox.Spark3IoPin.bottom2)
-  if (has_bottom2()) {
-    clear_has_Pin();
-      ::blox::IoChannel* temp = Pin_.bottom2_;
-    Pin_.bottom2_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox::IoChannel& Spark3IoPin::bottom2() const {
-  // @@protoc_insertion_point(field_get:blox.Spark3IoPin.bottom2)
-  return has_bottom2()
-      ? *Pin_.bottom2_
-      : *reinterpret_cast< ::blox::IoChannel*>(&::blox::_IoChannel_default_instance_);
-}
-inline ::blox::IoChannel* Spark3IoPin::mutable_bottom2() {
-  if (!has_bottom2()) {
-    clear_Pin();
-    set_has_bottom2();
-    Pin_.bottom2_ = CreateMaybeMessage< ::blox::IoChannel >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox.Spark3IoPin.bottom2)
-  return Pin_.bottom2_;
-}
-
-inline bool Spark3IoPin::has_Pin() const {
-  return Pin_case() != PIN_NOT_SET;
-}
-inline void Spark3IoPin::clear_has_Pin() {
-  _oneof_case_[0] = PIN_NOT_SET;
-}
-inline Spark3IoPin::PinCase Spark3IoPin::Pin_case() const {
-  return Spark3IoPin::PinCase(_oneof_case_[0]);
-}
-// -------------------------------------------------------------------
-
 // Spark3Pins
-
-// repeated .blox.Spark3IoPin pins = 1 [(.nanopb_test) = {
-inline int Spark3Pins::pins_size() const {
-  return pins_.size();
-}
-inline void Spark3Pins::clear_pins() {
-  pins_.Clear();
-}
-inline ::blox::Spark3IoPin* Spark3Pins::mutable_pins(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.Spark3Pins.pins)
-  return pins_.Mutable(index);
-}
-inline ::google::protobuf::RepeatedPtrField< ::blox::Spark3IoPin >*
-Spark3Pins::mutable_pins() {
-  // @@protoc_insertion_point(field_mutable_list:blox.Spark3Pins.pins)
-  return &pins_;
-}
-inline const ::blox::Spark3IoPin& Spark3Pins::pins(int index) const {
-  // @@protoc_insertion_point(field_get:blox.Spark3Pins.pins)
-  return pins_.Get(index);
-}
-inline ::blox::Spark3IoPin* Spark3Pins::add_pins() {
-  // @@protoc_insertion_point(field_add:blox.Spark3Pins.pins)
-  return pins_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::blox::Spark3IoPin >&
-Spark3Pins::pins() const {
-  // @@protoc_insertion_point(field_list:blox.Spark3Pins.pins)
-  return pins_;
-}
 
 // bool enableIoSupply5V = 2;
 inline void Spark3Pins::clear_enableiosupply5v() {
@@ -707,15 +311,52 @@ inline void Spark3Pins::set_voltage12(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox.Spark3Pins.voltage12)
 }
 
+// repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
+inline int Spark3Pins::channels_size() const {
+  return channels_.size();
+}
+inline ::blox::IoChannel* Spark3Pins::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox.Spark3Pins.channels)
+  return channels_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+Spark3Pins::mutable_channels() {
+  // @@protoc_insertion_point(field_mutable_list:blox.Spark3Pins.channels)
+  return &channels_;
+}
+inline const ::blox::IoChannel& Spark3Pins::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox.Spark3Pins.channels)
+  return channels_.Get(index);
+}
+inline ::blox::IoChannel* Spark3Pins::add_channels() {
+  // @@protoc_insertion_point(field_add:blox.Spark3Pins.channels)
+  return channels_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+Spark3Pins::channels() const {
+  // @@protoc_insertion_point(field_list:blox.Spark3Pins.channels)
+  return channels_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace blox
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::blox::Spark3ChannelIds> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark3ChannelIds>() {
+  return ::blox::Spark3ChannelIds_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

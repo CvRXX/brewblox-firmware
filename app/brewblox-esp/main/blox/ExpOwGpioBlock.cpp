@@ -18,7 +18,6 @@
  */
 
 #include "./ExpOwGpioBlock.hpp"
-#include "blox/IoArrayHelpers.h"
 
 cbox::CboxError
 ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
@@ -33,6 +32,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
 
         // first dedode to new array, so deleted channels are overwritten with an unused channel
         std::array<ExpOwGpio::FlexChannel, 8> newChannels{};
+        channelNames.clear();
 
         // copy variable length array from proto to positions
         for (uint8_t c = 0; c < newData.channels_count && c < 8; c++) {
@@ -43,6 +43,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
                     newData.channels[c].width,
                     newData.channels[c].pinsMask);
             }
+            channelNames.push_back({newData.channels[c].id, std::string(newData.channels[c].name)});
         }
 
         // copy to drivers, resulting zeroing omitted channels
@@ -67,6 +68,12 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
             message.channels[message.channels_count].deviceType = c.deviceType;
             message.channels[message.channels_count].width = c.width;
             message.channels[message.channels_count].pinsMask = c.pins();
+            for (auto& entry : channelNames) {
+                if (entry.id == i) {
+                    entry.name.copy(message.channels[message.channels_count].name, sizeof(message.channels[message.channels_count].name));
+                    break;
+                }
+            }
             ++message.channels_count;
         }
     }

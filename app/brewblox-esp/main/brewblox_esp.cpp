@@ -175,12 +175,7 @@ namespace cbox {
 // handler for custom commands outside of controlbox
 bool applicationCommand(uint8_t cmdId, cbox::DataIn& in, cbox::EncodedDataOut& out)
 {
-    switch (cmdId) {
-    case 100: // firmware update
-    {
-        return true;
-    }
-    }
+    // no custom commands
     return false;
 }
 

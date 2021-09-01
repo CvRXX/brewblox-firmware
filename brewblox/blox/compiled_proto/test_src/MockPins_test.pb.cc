@@ -22,23 +22,7 @@
 namespace protobuf_IoArray_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel;
 }  // namespace protobuf_IoArray_5ftest_2eproto
-namespace protobuf_MockPins_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_MockPins_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_MockPinsIoPin;
-}  // namespace protobuf_MockPins_5ftest_2eproto
 namespace blox {
-class MockPinsIoPinDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<MockPinsIoPin>
-      _instance;
-  const ::blox::IoChannel* mock1_;
-  const ::blox::IoChannel* mock2_;
-  const ::blox::IoChannel* mock3_;
-  const ::blox::IoChannel* mock4_;
-  const ::blox::IoChannel* mock5_;
-  const ::blox::IoChannel* mock6_;
-  const ::blox::IoChannel* mock7_;
-  const ::blox::IoChannel* mock8_;
-} _MockPinsIoPin_default_instance_;
 class MockPinsDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<MockPins>
@@ -46,21 +30,6 @@ class MockPinsDefaultTypeInternal {
 } _MockPins_default_instance_;
 }  // namespace blox
 namespace protobuf_MockPins_5ftest_2eproto {
-static void InitDefaultsMockPinsIoPin() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox::_MockPinsIoPin_default_instance_;
-    new (ptr) ::blox::MockPinsIoPin();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox::MockPinsIoPin::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<1> scc_info_MockPinsIoPin =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsMockPinsIoPin}, {
-      &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
-
 static void InitDefaultsMockPins() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -74,44 +43,28 @@ static void InitDefaultsMockPins() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_MockPins =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsMockPins}, {
-      &protobuf_MockPins_5ftest_2eproto::scc_info_MockPinsIoPin.base,}};
+      &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_MockPinsIoPin.base);
   ::google::protobuf::internal::InitSCC(&scc_info_MockPins.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[2];
+::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPinsIoPin, _internal_metadata_),
-  ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPinsIoPin, _oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock1_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock2_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock3_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock4_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock5_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock6_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock7_),
-  offsetof(::blox::MockPinsIoPinDefaultTypeInternal, mock8_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPinsIoPin, Pin_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPins, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPins, pins_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPins, channels_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::MockPinsIoPin)},
-  { 14, -1, sizeof(::blox::MockPins)},
+  { 0, -1, sizeof(::blox::MockPins)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_MockPinsIoPin_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_MockPins_default_instance_),
 };
 
@@ -119,7 +72,7 @@ void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "MockPins_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -130,7 +83,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
 }
 
 void AddDescriptorsImpl() {
@@ -138,19 +91,17 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\023MockPins_test.proto\022\004blox\032\023brewblox_te"
       "st.proto\032\021nanopb_test.proto\032\022IoArray_tes"
-      "t.proto\"\246\002\n\rMockPinsIoPin\022 \n\005mock1\030\001 \001(\013"
-      "2\017.blox.IoChannelH\000\022 \n\005mock2\030\002 \001(\0132\017.blo"
-      "x.IoChannelH\000\022 \n\005mock3\030\003 \001(\0132\017.blox.IoCh"
-      "annelH\000\022 \n\005mock4\030\004 \001(\0132\017.blox.IoChannelH"
-      "\000\022 \n\005mock5\030\005 \001(\0132\017.blox.IoChannelH\000\022 \n\005m"
-      "ock6\030\006 \001(\0132\017.blox.IoChannelH\000\022 \n\005mock7\030\007"
-      " \001(\0132\017.blox.IoChannelH\000\022 \n\005mock8\030\010 \001(\0132\017"
-      ".blox.IoChannelH\000B\005\n\003Pin\"N\n\010MockPins\0223\n\004"
-      "pins\030\001 \003(\0132\023.blox.MockPinsIoPinB\020\222\?\002\020\010\222\?"
-      "\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\303\002\212\265\030\002H\nb\006proto3"
+      "t.proto\"N\n\010MockPins\0223\n\010channels\030\002 \003(\0132\017."
+      "blox.IoChannelB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\303"
+      "\002\212\265\030\002H\n*\324\001\n\022MockPinsChannelIds\022\026\n\022MOCKPI"
+      "NS_CHAN_NONE\020\000\022\023\n\017MOCKPINS_CHAN_A\020\001\022\023\n\017M"
+      "OCKPINS_CHAN_B\020\002\022\023\n\017MOCKPINS_CHAN_C\020\003\022\023\n"
+      "\017MOCKPINS_CHAN_D\020\004\022\023\n\017MOCKPINS_CHAN_E\020\005\022"
+      "\023\n\017MOCKPINS_CHAN_F\020\006\022\023\n\017MOCKPINS_CHAN_G\020"
+      "\007\022\023\n\017MOCKPINS_CHAN_H\020\010b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 472);
+      descriptor, 390);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MockPins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -170,758 +121,25 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_MockPins_5ftest_2eproto
 namespace blox {
-
-// ===================================================================
-
-void MockPinsIoPin::InitAsDefaultInstance() {
-  ::blox::_MockPinsIoPin_default_instance_.mock1_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock2_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock3_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock4_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock5_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock6_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock7_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_MockPinsIoPin_default_instance_.mock8_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-}
-void MockPinsIoPin::set_allocated_mock1(::blox::IoChannel* mock1) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock1) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock1 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock1, submessage_arena);
-    }
-    set_has_mock1();
-    Pin_.mock1_ = mock1;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock1)
-}
-void MockPinsIoPin::clear_mock1() {
-  if (has_mock1()) {
-    delete Pin_.mock1_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock2(::blox::IoChannel* mock2) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock2) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock2 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock2, submessage_arena);
-    }
-    set_has_mock2();
-    Pin_.mock2_ = mock2;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock2)
-}
-void MockPinsIoPin::clear_mock2() {
-  if (has_mock2()) {
-    delete Pin_.mock2_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock3(::blox::IoChannel* mock3) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock3) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock3 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock3, submessage_arena);
-    }
-    set_has_mock3();
-    Pin_.mock3_ = mock3;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock3)
-}
-void MockPinsIoPin::clear_mock3() {
-  if (has_mock3()) {
-    delete Pin_.mock3_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock4(::blox::IoChannel* mock4) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock4) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock4 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock4, submessage_arena);
-    }
-    set_has_mock4();
-    Pin_.mock4_ = mock4;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock4)
-}
-void MockPinsIoPin::clear_mock4() {
-  if (has_mock4()) {
-    delete Pin_.mock4_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock5(::blox::IoChannel* mock5) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock5) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock5 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock5, submessage_arena);
-    }
-    set_has_mock5();
-    Pin_.mock5_ = mock5;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock5)
-}
-void MockPinsIoPin::clear_mock5() {
-  if (has_mock5()) {
-    delete Pin_.mock5_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock6(::blox::IoChannel* mock6) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock6) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock6 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock6, submessage_arena);
-    }
-    set_has_mock6();
-    Pin_.mock6_ = mock6;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock6)
-}
-void MockPinsIoPin::clear_mock6() {
-  if (has_mock6()) {
-    delete Pin_.mock6_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock7(::blox::IoChannel* mock7) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock7) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock7 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock7, submessage_arena);
-    }
-    set_has_mock7();
-    Pin_.mock7_ = mock7;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock7)
-}
-void MockPinsIoPin::clear_mock7() {
-  if (has_mock7()) {
-    delete Pin_.mock7_;
-    clear_has_Pin();
-  }
-}
-void MockPinsIoPin::set_allocated_mock8(::blox::IoChannel* mock8) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (mock8) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      mock8 = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, mock8, submessage_arena);
-    }
-    set_has_mock8();
-    Pin_.mock8_ = mock8;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.MockPinsIoPin.mock8)
-}
-void MockPinsIoPin::clear_mock8() {
-  if (has_mock8()) {
-    delete Pin_.mock8_;
-    clear_has_Pin();
-  }
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int MockPinsIoPin::kMock1FieldNumber;
-const int MockPinsIoPin::kMock2FieldNumber;
-const int MockPinsIoPin::kMock3FieldNumber;
-const int MockPinsIoPin::kMock4FieldNumber;
-const int MockPinsIoPin::kMock5FieldNumber;
-const int MockPinsIoPin::kMock6FieldNumber;
-const int MockPinsIoPin::kMock7FieldNumber;
-const int MockPinsIoPin::kMock8FieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-MockPinsIoPin::MockPinsIoPin()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_MockPins_5ftest_2eproto::scc_info_MockPinsIoPin.base);
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.MockPinsIoPin)
-}
-MockPinsIoPin::MockPinsIoPin(const MockPinsIoPin& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  clear_has_Pin();
-  switch (from.Pin_case()) {
-    case kMock1: {
-      mutable_mock1()->::blox::IoChannel::MergeFrom(from.mock1());
-      break;
-    }
-    case kMock2: {
-      mutable_mock2()->::blox::IoChannel::MergeFrom(from.mock2());
-      break;
-    }
-    case kMock3: {
-      mutable_mock3()->::blox::IoChannel::MergeFrom(from.mock3());
-      break;
-    }
-    case kMock4: {
-      mutable_mock4()->::blox::IoChannel::MergeFrom(from.mock4());
-      break;
-    }
-    case kMock5: {
-      mutable_mock5()->::blox::IoChannel::MergeFrom(from.mock5());
-      break;
-    }
-    case kMock6: {
-      mutable_mock6()->::blox::IoChannel::MergeFrom(from.mock6());
-      break;
-    }
-    case kMock7: {
-      mutable_mock7()->::blox::IoChannel::MergeFrom(from.mock7());
-      break;
-    }
-    case kMock8: {
-      mutable_mock8()->::blox::IoChannel::MergeFrom(from.mock8());
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-  // @@protoc_insertion_point(copy_constructor:blox.MockPinsIoPin)
-}
-
-void MockPinsIoPin::SharedCtor() {
-  clear_has_Pin();
-}
-
-MockPinsIoPin::~MockPinsIoPin() {
-  // @@protoc_insertion_point(destructor:blox.MockPinsIoPin)
-  SharedDtor();
-}
-
-void MockPinsIoPin::SharedDtor() {
-  if (has_Pin()) {
-    clear_Pin();
-  }
-}
-
-void MockPinsIoPin::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const ::google::protobuf::Descriptor* MockPinsIoPin::descriptor() {
-  ::protobuf_MockPins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MockPins_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const MockPinsIoPin& MockPinsIoPin::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_MockPins_5ftest_2eproto::scc_info_MockPinsIoPin.base);
-  return *internal_default_instance();
-}
-
-
-void MockPinsIoPin::clear_Pin() {
-// @@protoc_insertion_point(one_of_clear_start:blox.MockPinsIoPin)
-  switch (Pin_case()) {
-    case kMock1: {
-      delete Pin_.mock1_;
-      break;
-    }
-    case kMock2: {
-      delete Pin_.mock2_;
-      break;
-    }
-    case kMock3: {
-      delete Pin_.mock3_;
-      break;
-    }
-    case kMock4: {
-      delete Pin_.mock4_;
-      break;
-    }
-    case kMock5: {
-      delete Pin_.mock5_;
-      break;
-    }
-    case kMock6: {
-      delete Pin_.mock6_;
-      break;
-    }
-    case kMock7: {
-      delete Pin_.mock7_;
-      break;
-    }
-    case kMock8: {
-      delete Pin_.mock8_;
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-  _oneof_case_[0] = PIN_NOT_SET;
-}
-
-
-void MockPinsIoPin::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.MockPinsIoPin)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  clear_Pin();
-  _internal_metadata_.Clear();
-}
-
-bool MockPinsIoPin::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.MockPinsIoPin)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox.IoChannel mock1 = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock1()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock2 = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock2()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock3 = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock3()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock4 = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock4()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock5 = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock5()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock6 = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock6()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock7 = 7;
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock7()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel mock8 = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_mock8()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:blox.MockPinsIoPin)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:blox.MockPinsIoPin)
-  return false;
-#undef DO_
-}
-
-void MockPinsIoPin::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.MockPinsIoPin)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .blox.IoChannel mock1 = 1;
-  if (has_mock1()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->_internal_mock1(), output);
-  }
-
-  // .blox.IoChannel mock2 = 2;
-  if (has_mock2()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->_internal_mock2(), output);
-  }
-
-  // .blox.IoChannel mock3 = 3;
-  if (has_mock3()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->_internal_mock3(), output);
-  }
-
-  // .blox.IoChannel mock4 = 4;
-  if (has_mock4()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->_internal_mock4(), output);
-  }
-
-  // .blox.IoChannel mock5 = 5;
-  if (has_mock5()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->_internal_mock5(), output);
-  }
-
-  // .blox.IoChannel mock6 = 6;
-  if (has_mock6()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->_internal_mock6(), output);
-  }
-
-  // .blox.IoChannel mock7 = 7;
-  if (has_mock7()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->_internal_mock7(), output);
-  }
-
-  // .blox.IoChannel mock8 = 8;
-  if (has_mock8()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->_internal_mock8(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox.MockPinsIoPin)
-}
-
-::google::protobuf::uint8* MockPinsIoPin::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.MockPinsIoPin)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .blox.IoChannel mock1 = 1;
-  if (has_mock1()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->_internal_mock1(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock2 = 2;
-  if (has_mock2()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->_internal_mock2(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock3 = 3;
-  if (has_mock3()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        3, this->_internal_mock3(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock4 = 4;
-  if (has_mock4()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        4, this->_internal_mock4(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock5 = 5;
-  if (has_mock5()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        5, this->_internal_mock5(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock6 = 6;
-  if (has_mock6()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        6, this->_internal_mock6(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock7 = 7;
-  if (has_mock7()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        7, this->_internal_mock7(), deterministic, target);
-  }
-
-  // .blox.IoChannel mock8 = 8;
-  if (has_mock8()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        8, this->_internal_mock8(), deterministic, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.MockPinsIoPin)
-  return target;
-}
-
-size_t MockPinsIoPin::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.MockPinsIoPin)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  switch (Pin_case()) {
-    // .blox.IoChannel mock1 = 1;
-    case kMock1: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock1_);
-      break;
-    }
-    // .blox.IoChannel mock2 = 2;
-    case kMock2: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock2_);
-      break;
-    }
-    // .blox.IoChannel mock3 = 3;
-    case kMock3: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock3_);
-      break;
-    }
-    // .blox.IoChannel mock4 = 4;
-    case kMock4: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock4_);
-      break;
-    }
-    // .blox.IoChannel mock5 = 5;
-    case kMock5: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock5_);
-      break;
-    }
-    // .blox.IoChannel mock6 = 6;
-    case kMock6: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock6_);
-      break;
-    }
-    // .blox.IoChannel mock7 = 7;
-    case kMock7: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock7_);
-      break;
-    }
-    // .blox.IoChannel mock8 = 8;
-    case kMock8: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.mock8_);
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void MockPinsIoPin::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.MockPinsIoPin)
-  GOOGLE_DCHECK_NE(&from, this);
-  const MockPinsIoPin* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const MockPinsIoPin>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.MockPinsIoPin)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.MockPinsIoPin)
-    MergeFrom(*source);
-  }
-}
-
-void MockPinsIoPin::MergeFrom(const MockPinsIoPin& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.MockPinsIoPin)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  switch (from.Pin_case()) {
-    case kMock1: {
-      mutable_mock1()->::blox::IoChannel::MergeFrom(from.mock1());
-      break;
-    }
-    case kMock2: {
-      mutable_mock2()->::blox::IoChannel::MergeFrom(from.mock2());
-      break;
-    }
-    case kMock3: {
-      mutable_mock3()->::blox::IoChannel::MergeFrom(from.mock3());
-      break;
-    }
-    case kMock4: {
-      mutable_mock4()->::blox::IoChannel::MergeFrom(from.mock4());
-      break;
-    }
-    case kMock5: {
-      mutable_mock5()->::blox::IoChannel::MergeFrom(from.mock5());
-      break;
-    }
-    case kMock6: {
-      mutable_mock6()->::blox::IoChannel::MergeFrom(from.mock6());
-      break;
-    }
-    case kMock7: {
-      mutable_mock7()->::blox::IoChannel::MergeFrom(from.mock7());
-      break;
-    }
-    case kMock8: {
-      mutable_mock8()->::blox::IoChannel::MergeFrom(from.mock8());
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-}
-
-void MockPinsIoPin::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.MockPinsIoPin)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void MockPinsIoPin::CopyFrom(const MockPinsIoPin& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.MockPinsIoPin)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool MockPinsIoPin::IsInitialized() const {
-  return true;
-}
-
-void MockPinsIoPin::Swap(MockPinsIoPin* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void MockPinsIoPin::InternalSwap(MockPinsIoPin* other) {
-  using std::swap;
-  swap(Pin_, other->Pin_);
-  swap(_oneof_case_[0], other->_oneof_case_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-}
-
-::google::protobuf::Metadata MockPinsIoPin::GetMetadata() const {
+const ::google::protobuf::EnumDescriptor* MockPinsChannelIds_descriptor() {
   protobuf_MockPins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MockPins_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_MockPins_5ftest_2eproto::file_level_enum_descriptors[0];
+}
+bool MockPinsChannelIds_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      return true;
+    default:
+      return false;
+  }
 }
 
 
@@ -929,8 +147,11 @@ void MockPinsIoPin::InternalSwap(MockPinsIoPin* other) {
 
 void MockPins::InitAsDefaultInstance() {
 }
+void MockPins::clear_channels() {
+  channels_.Clear();
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int MockPins::kPinsFieldNumber;
+const int MockPins::kChannelsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 MockPins::MockPins()
@@ -943,7 +164,7 @@ MockPins::MockPins()
 MockPins::MockPins(const MockPins& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      pins_(from.pins_) {
+      channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:blox.MockPins)
 }
@@ -979,7 +200,7 @@ void MockPins::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  pins_.Clear();
+  channels_.Clear();
   _internal_metadata_.Clear();
 }
 
@@ -993,12 +214,12 @@ bool MockPins::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .blox.MockPinsIoPin pins = 1 [(.nanopb_test) = {
-      case 1: {
+      // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
+      case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_pins()));
+                input, add_channels()));
         } else {
           goto handle_unusual;
         }
@@ -1031,12 +252,12 @@ void MockPins::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .blox.MockPinsIoPin pins = 1 [(.nanopb_test) = {
+  // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->pins_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->pins(static_cast<int>(i)),
+      2,
+      this->channels(static_cast<int>(i)),
       output);
   }
 
@@ -1054,12 +275,12 @@ void MockPins::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .blox.MockPinsIoPin pins = 1 [(.nanopb_test) = {
+  // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->pins_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, this->pins(static_cast<int>(i)), deterministic, target);
+        2, this->channels(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1079,14 +300,14 @@ size_t MockPins::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.MockPinsIoPin pins = 1 [(.nanopb_test) = {
+  // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
   {
-    unsigned int count = static_cast<unsigned int>(this->pins_size());
+    unsigned int count = static_cast<unsigned int>(this->channels_size());
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->pins(static_cast<int>(i)));
+          this->channels(static_cast<int>(i)));
     }
   }
 
@@ -1117,7 +338,7 @@ void MockPins::MergeFrom(const MockPins& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  pins_.MergeFrom(from.pins_);
+  channels_.MergeFrom(from.channels_);
 }
 
 void MockPins::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1144,7 +365,7 @@ void MockPins::Swap(MockPins* other) {
 }
 void MockPins::InternalSwap(MockPins* other) {
   using std::swap;
-  CastToBase(&pins_)->InternalSwap(CastToBase(&other->pins_));
+  CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
@@ -1158,9 +379,6 @@ void MockPins::InternalSwap(MockPins* other) {
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::MockPinsIoPin* Arena::CreateMaybeMessage< ::blox::MockPinsIoPin >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::MockPinsIoPin >(arena);
-}
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::MockPins* Arena::CreateMaybeMessage< ::blox::MockPins >(Arena* arena) {
   return Arena::CreateInternal< ::blox::MockPins >(arena);
 }

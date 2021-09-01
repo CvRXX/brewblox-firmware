@@ -137,7 +137,7 @@ CFLAGS += -g -fprofile-arcs -ftest-coverage
 LDFLAGS += -lgcov
 
 # compile with coverage and sanitizer (uncommented because cnl doesn't work well with it)
-# include $(SOURCE_PATH)/build/checkers.mk # sanitizer and gcov
+include $(SOURCE_PATH)/build/checkers.mk # sanitizer and gcov
 
 # the following warnings can help find opportunities for impromevent in virtual functions
 # Warn when virtual functions are overriden without override/override final specifier (requires gcc 5.1)

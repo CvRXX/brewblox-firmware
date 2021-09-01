@@ -18,7 +18,6 @@
  */
 
 #include "DS2408Block.h"
-#include "IoArrayHelpers.h"
 
 cbox::CboxError
 DS2408Block::streamFrom(cbox::DataIn& in)
@@ -43,24 +42,21 @@ DS2408Block::streamTo(cbox::DataOut& out) const
     message.address = device.address();
     message.connected = device.connected();
     message.connectMode = connectMode;
-
-    message.pins_count = 8;
-    message.pins[0].which_Pin = blox_DS2408IoPin_A_tag;
-    readIo(device, 1, message.pins[0].Pin.A);
-    message.pins[1].which_Pin = blox_DS2408IoPin_B_tag;
-    readIo(device, 2, message.pins[1].Pin.B);
-    message.pins[2].which_Pin = blox_DS2408IoPin_C_tag;
-    readIo(device, 3, message.pins[2].Pin.C);
-    message.pins[3].which_Pin = blox_DS2408IoPin_D_tag;
-    readIo(device, 4, message.pins[3].Pin.D);
-    message.pins[4].which_Pin = blox_DS2408IoPin_E_tag;
-    readIo(device, 5, message.pins[4].Pin.E);
-    message.pins[5].which_Pin = blox_DS2408IoPin_F_tag;
-    readIo(device, 6, message.pins[5].Pin.F);
-    message.pins[6].which_Pin = blox_DS2408IoPin_G_tag;
-    readIo(device, 7, message.pins[6].Pin.G);
-    message.pins[7].which_Pin = blox_DS2408IoPin_H_tag;
-    readIo(device, 8, message.pins[7].Pin.H);
+    if (connectMode == blox_DS2408_PinConnectMode_CONNECT_ACTUATOR) {
+        message.channels_count = 8;
+        message.channels[0].id = blox_DS2408ChannelIds_DS2408_CHAN_A;
+        message.channels[1].id = blox_DS2408ChannelIds_DS2408_CHAN_B;
+        message.channels[2].id = blox_DS2408ChannelIds_DS2408_CHAN_C;
+        message.channels[3].id = blox_DS2408ChannelIds_DS2408_CHAN_D;
+        message.channels[4].id = blox_DS2408ChannelIds_DS2408_CHAN_E;
+        message.channels[5].id = blox_DS2408ChannelIds_DS2408_CHAN_F;
+        message.channels[6].id = blox_DS2408ChannelIds_DS2408_CHAN_G;
+        message.channels[7].id = blox_DS2408ChannelIds_DS2408_CHAN_H;
+    } else {
+        message.channels_count = 2;
+        message.channels[0].id = blox_DS2408ChannelIds_DS2408_VALVE_A;
+        message.channels[1].id = blox_DS2408ChannelIds_DS2408_VALVE_B;
+    }
 
     return streamProtoTo(out, &message, blox_DS2408_fields, blox_DS2408_size);
 }

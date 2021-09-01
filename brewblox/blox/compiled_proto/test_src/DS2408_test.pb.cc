@@ -19,26 +19,10 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_DS2408_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_DS2408_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_DS2408IoPin;
-}  // namespace protobuf_DS2408_5ftest_2eproto
 namespace protobuf_IoArray_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel;
 }  // namespace protobuf_IoArray_5ftest_2eproto
 namespace blox {
-class DS2408IoPinDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<DS2408IoPin>
-      _instance;
-  const ::blox::IoChannel* a_;
-  const ::blox::IoChannel* b_;
-  const ::blox::IoChannel* c_;
-  const ::blox::IoChannel* d_;
-  const ::blox::IoChannel* e_;
-  const ::blox::IoChannel* f_;
-  const ::blox::IoChannel* g_;
-  const ::blox::IoChannel* h_;
-} _DS2408IoPin_default_instance_;
 class DS2408DefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<DS2408>
@@ -46,21 +30,6 @@ class DS2408DefaultTypeInternal {
 } _DS2408_default_instance_;
 }  // namespace blox
 namespace protobuf_DS2408_5ftest_2eproto {
-static void InitDefaultsDS2408IoPin() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox::_DS2408IoPin_default_instance_;
-    new (ptr) ::blox::DS2408IoPin();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox::DS2408IoPin::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<1> scc_info_DS2408IoPin =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsDS2408IoPin}, {
-      &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
-
 static void InitDefaultsDS2408() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -74,31 +43,16 @@ static void InitDefaultsDS2408() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_DS2408 =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsDS2408}, {
-      &protobuf_DS2408_5ftest_2eproto::scc_info_DS2408IoPin.base,}};
+      &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_DS2408IoPin.base);
   ::google::protobuf::internal::InitSCC(&scc_info_DS2408.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[2];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
+::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408IoPin, _internal_metadata_),
-  ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408IoPin, _oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, a_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, b_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, c_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, d_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, e_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, f_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, g_),
-  offsetof(::blox::DS2408IoPinDefaultTypeInternal, h_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408IoPin, Pin_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -106,17 +60,15 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, address_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, connected_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, pins_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, connectmode_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, onewirebusid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, channels_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::DS2408IoPin)},
-  { 14, -1, sizeof(::blox::DS2408)},
+  { 0, -1, sizeof(::blox::DS2408)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_DS2408IoPin_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_DS2408_default_instance_),
 };
 
@@ -135,7 +87,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
 }
 
 void AddDescriptorsImpl() {
@@ -143,24 +95,24 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\021DS2408_test.proto\022\004blox\032\023brewblox_test"
       ".proto\032\021nanopb_test.proto\032\022IoArray_test."
-      "proto\"\204\002\n\013DS2408IoPin\022\034\n\001A\030\001 \001(\0132\017.blox."
-      "IoChannelH\000\022\034\n\001B\030\002 \001(\0132\017.blox.IoChannelH"
-      "\000\022\034\n\001C\030\003 \001(\0132\017.blox.IoChannelH\000\022\034\n\001D\030\004 \001"
-      "(\0132\017.blox.IoChannelH\000\022\034\n\001E\030\005 \001(\0132\017.blox."
-      "IoChannelH\000\022\034\n\001F\030\006 \001(\0132\017.blox.IoChannelH"
-      "\000\022\034\n\001G\030\007 \001(\0132\017.blox.IoChannelH\000\022\034\n\001H\030\010 \001"
-      "(\0132\017.blox.IoChannelH\000B\005\n\003Pin\"\241\002\n\006DS2408\022"
-      "\027\n\007address\030\001 \001(\006B\006\212\265\030\002 \001\022\031\n\tconnected\030\006 "
-      "\001(\010B\006\212\265\030\002(\001\0221\n\004pins\030\007 \003(\0132\021.blox.DS2408I"
-      "oPinB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001\0220\n\013connectMode\030\t "
-      "\001(\0162\033.blox.DS2408.PinConnectMode\022(\n\014oneW"
-      "ireBusId\030\n \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020\212\265\030\002(\001\"9\n\016Pi"
-      "nConnectMode\022\021\n\rCONNECT_VALVE\020\000\022\024\n\020CONNE"
-      "CT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002H\n\212\265\030\002H\013\212\265\030\002H\t"
-      "b\006proto3"
+      "proto\"\236\002\n\006DS2408\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 "
+      "\001\022\031\n\tconnected\030\006 \001(\010B\006\212\265\030\002(\001\0220\n\013connectM"
+      "ode\030\t \001(\0162\033.blox.DS2408.PinConnectMode\022("
+      "\n\014oneWireBusId\030\n \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020\212\265\030\002(\001"
+      "\022.\n\010channels\030\013 \003(\0132\017.blox.IoChannelB\013\222\?\002"
+      "\020\010\212\265\030\002(\001\"9\n\016PinConnectMode\022\021\n\rCONNECT_VA"
+      "LVE\020\000\022\024\n\020CONNECT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002"
+      "H\n\212\265\030\002H\013\212\265\030\002H\t*\203\002\n\020DS2408ChannelIds\022\024\n\020D"
+      "S2408_CHAN_NONE\020\000\022\021\n\rDS2408_CHAN_A\020\001\022\021\n\r"
+      "DS2408_CHAN_B\020\002\022\021\n\rDS2408_CHAN_C\020\003\022\021\n\rDS"
+      "2408_CHAN_D\020\004\022\021\n\rDS2408_CHAN_E\020\005\022\021\n\rDS24"
+      "08_CHAN_F\020\006\022\021\n\rDS2408_CHAN_G\020\007\022\021\n\rDS2408"
+      "_CHAN_H\020\010\022\025\n\021DS2408_VALVE_NONE\020\000\022\022\n\016DS24"
+      "08_VALVE_A\020\001\022\022\n\016DS2408_VALVE_B\020\005\032\002\020\001b\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 648);
+      descriptor, 644);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DS2408_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -201,758 +153,25 @@ const DS2408_PinConnectMode DS2408::PinConnectMode_MIN;
 const DS2408_PinConnectMode DS2408::PinConnectMode_MAX;
 const int DS2408::PinConnectMode_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-// ===================================================================
-
-void DS2408IoPin::InitAsDefaultInstance() {
-  ::blox::_DS2408IoPin_default_instance_.a_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.b_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.c_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.d_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.e_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.f_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.g_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-  ::blox::_DS2408IoPin_default_instance_.h_ = const_cast< ::blox::IoChannel*>(
-      ::blox::IoChannel::internal_default_instance());
-}
-void DS2408IoPin::set_allocated_a(::blox::IoChannel* a) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (a) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      a = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, a, submessage_arena);
-    }
-    set_has_a();
-    Pin_.a_ = a;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.A)
-}
-void DS2408IoPin::clear_a() {
-  if (has_a()) {
-    delete Pin_.a_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_b(::blox::IoChannel* b) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (b) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      b = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, b, submessage_arena);
-    }
-    set_has_b();
-    Pin_.b_ = b;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.B)
-}
-void DS2408IoPin::clear_b() {
-  if (has_b()) {
-    delete Pin_.b_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_c(::blox::IoChannel* c) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (c) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      c = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, c, submessage_arena);
-    }
-    set_has_c();
-    Pin_.c_ = c;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.C)
-}
-void DS2408IoPin::clear_c() {
-  if (has_c()) {
-    delete Pin_.c_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_d(::blox::IoChannel* d) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (d) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      d = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, d, submessage_arena);
-    }
-    set_has_d();
-    Pin_.d_ = d;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.D)
-}
-void DS2408IoPin::clear_d() {
-  if (has_d()) {
-    delete Pin_.d_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_e(::blox::IoChannel* e) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (e) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      e = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, e, submessage_arena);
-    }
-    set_has_e();
-    Pin_.e_ = e;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.E)
-}
-void DS2408IoPin::clear_e() {
-  if (has_e()) {
-    delete Pin_.e_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_f(::blox::IoChannel* f) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (f) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      f = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, f, submessage_arena);
-    }
-    set_has_f();
-    Pin_.f_ = f;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.F)
-}
-void DS2408IoPin::clear_f() {
-  if (has_f()) {
-    delete Pin_.f_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_g(::blox::IoChannel* g) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (g) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      g = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, g, submessage_arena);
-    }
-    set_has_g();
-    Pin_.g_ = g;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.G)
-}
-void DS2408IoPin::clear_g() {
-  if (has_g()) {
-    delete Pin_.g_;
-    clear_has_Pin();
-  }
-}
-void DS2408IoPin::set_allocated_h(::blox::IoChannel* h) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_Pin();
-  if (h) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      h = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, h, submessage_arena);
-    }
-    set_has_h();
-    Pin_.h_ = h;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox.DS2408IoPin.H)
-}
-void DS2408IoPin::clear_h() {
-  if (has_h()) {
-    delete Pin_.h_;
-    clear_has_Pin();
-  }
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int DS2408IoPin::kAFieldNumber;
-const int DS2408IoPin::kBFieldNumber;
-const int DS2408IoPin::kCFieldNumber;
-const int DS2408IoPin::kDFieldNumber;
-const int DS2408IoPin::kEFieldNumber;
-const int DS2408IoPin::kFFieldNumber;
-const int DS2408IoPin::kGFieldNumber;
-const int DS2408IoPin::kHFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-DS2408IoPin::DS2408IoPin()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_DS2408_5ftest_2eproto::scc_info_DS2408IoPin.base);
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.DS2408IoPin)
-}
-DS2408IoPin::DS2408IoPin(const DS2408IoPin& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  clear_has_Pin();
-  switch (from.Pin_case()) {
-    case kA: {
-      mutable_a()->::blox::IoChannel::MergeFrom(from.a());
-      break;
-    }
-    case kB: {
-      mutable_b()->::blox::IoChannel::MergeFrom(from.b());
-      break;
-    }
-    case kC: {
-      mutable_c()->::blox::IoChannel::MergeFrom(from.c());
-      break;
-    }
-    case kD: {
-      mutable_d()->::blox::IoChannel::MergeFrom(from.d());
-      break;
-    }
-    case kE: {
-      mutable_e()->::blox::IoChannel::MergeFrom(from.e());
-      break;
-    }
-    case kF: {
-      mutable_f()->::blox::IoChannel::MergeFrom(from.f());
-      break;
-    }
-    case kG: {
-      mutable_g()->::blox::IoChannel::MergeFrom(from.g());
-      break;
-    }
-    case kH: {
-      mutable_h()->::blox::IoChannel::MergeFrom(from.h());
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-  // @@protoc_insertion_point(copy_constructor:blox.DS2408IoPin)
-}
-
-void DS2408IoPin::SharedCtor() {
-  clear_has_Pin();
-}
-
-DS2408IoPin::~DS2408IoPin() {
-  // @@protoc_insertion_point(destructor:blox.DS2408IoPin)
-  SharedDtor();
-}
-
-void DS2408IoPin::SharedDtor() {
-  if (has_Pin()) {
-    clear_Pin();
-  }
-}
-
-void DS2408IoPin::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const ::google::protobuf::Descriptor* DS2408IoPin::descriptor() {
-  ::protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_DS2408_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const DS2408IoPin& DS2408IoPin::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_DS2408_5ftest_2eproto::scc_info_DS2408IoPin.base);
-  return *internal_default_instance();
-}
-
-
-void DS2408IoPin::clear_Pin() {
-// @@protoc_insertion_point(one_of_clear_start:blox.DS2408IoPin)
-  switch (Pin_case()) {
-    case kA: {
-      delete Pin_.a_;
-      break;
-    }
-    case kB: {
-      delete Pin_.b_;
-      break;
-    }
-    case kC: {
-      delete Pin_.c_;
-      break;
-    }
-    case kD: {
-      delete Pin_.d_;
-      break;
-    }
-    case kE: {
-      delete Pin_.e_;
-      break;
-    }
-    case kF: {
-      delete Pin_.f_;
-      break;
-    }
-    case kG: {
-      delete Pin_.g_;
-      break;
-    }
-    case kH: {
-      delete Pin_.h_;
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-  _oneof_case_[0] = PIN_NOT_SET;
-}
-
-
-void DS2408IoPin::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.DS2408IoPin)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  clear_Pin();
-  _internal_metadata_.Clear();
-}
-
-bool DS2408IoPin::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.DS2408IoPin)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox.IoChannel A = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_a()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel B = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_b()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel C = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_c()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel D = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_d()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel E = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_e()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel F = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_f()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel G = 7;
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_g()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // .blox.IoChannel H = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_h()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:blox.DS2408IoPin)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:blox.DS2408IoPin)
-  return false;
-#undef DO_
-}
-
-void DS2408IoPin::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.DS2408IoPin)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .blox.IoChannel A = 1;
-  if (has_a()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->_internal_a(), output);
-  }
-
-  // .blox.IoChannel B = 2;
-  if (has_b()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->_internal_b(), output);
-  }
-
-  // .blox.IoChannel C = 3;
-  if (has_c()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->_internal_c(), output);
-  }
-
-  // .blox.IoChannel D = 4;
-  if (has_d()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->_internal_d(), output);
-  }
-
-  // .blox.IoChannel E = 5;
-  if (has_e()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->_internal_e(), output);
-  }
-
-  // .blox.IoChannel F = 6;
-  if (has_f()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->_internal_f(), output);
-  }
-
-  // .blox.IoChannel G = 7;
-  if (has_g()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->_internal_g(), output);
-  }
-
-  // .blox.IoChannel H = 8;
-  if (has_h()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->_internal_h(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox.DS2408IoPin)
-}
-
-::google::protobuf::uint8* DS2408IoPin::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.DS2408IoPin)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .blox.IoChannel A = 1;
-  if (has_a()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->_internal_a(), deterministic, target);
-  }
-
-  // .blox.IoChannel B = 2;
-  if (has_b()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->_internal_b(), deterministic, target);
-  }
-
-  // .blox.IoChannel C = 3;
-  if (has_c()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        3, this->_internal_c(), deterministic, target);
-  }
-
-  // .blox.IoChannel D = 4;
-  if (has_d()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        4, this->_internal_d(), deterministic, target);
-  }
-
-  // .blox.IoChannel E = 5;
-  if (has_e()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        5, this->_internal_e(), deterministic, target);
-  }
-
-  // .blox.IoChannel F = 6;
-  if (has_f()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        6, this->_internal_f(), deterministic, target);
-  }
-
-  // .blox.IoChannel G = 7;
-  if (has_g()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        7, this->_internal_g(), deterministic, target);
-  }
-
-  // .blox.IoChannel H = 8;
-  if (has_h()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        8, this->_internal_h(), deterministic, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.DS2408IoPin)
-  return target;
-}
-
-size_t DS2408IoPin::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.DS2408IoPin)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  switch (Pin_case()) {
-    // .blox.IoChannel A = 1;
-    case kA: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.a_);
-      break;
-    }
-    // .blox.IoChannel B = 2;
-    case kB: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.b_);
-      break;
-    }
-    // .blox.IoChannel C = 3;
-    case kC: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.c_);
-      break;
-    }
-    // .blox.IoChannel D = 4;
-    case kD: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.d_);
-      break;
-    }
-    // .blox.IoChannel E = 5;
-    case kE: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.e_);
-      break;
-    }
-    // .blox.IoChannel F = 6;
-    case kF: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.f_);
-      break;
-    }
-    // .blox.IoChannel G = 7;
-    case kG: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.g_);
-      break;
-    }
-    // .blox.IoChannel H = 8;
-    case kH: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *Pin_.h_);
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void DS2408IoPin::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.DS2408IoPin)
-  GOOGLE_DCHECK_NE(&from, this);
-  const DS2408IoPin* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const DS2408IoPin>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.DS2408IoPin)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.DS2408IoPin)
-    MergeFrom(*source);
-  }
-}
-
-void DS2408IoPin::MergeFrom(const DS2408IoPin& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.DS2408IoPin)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  switch (from.Pin_case()) {
-    case kA: {
-      mutable_a()->::blox::IoChannel::MergeFrom(from.a());
-      break;
-    }
-    case kB: {
-      mutable_b()->::blox::IoChannel::MergeFrom(from.b());
-      break;
-    }
-    case kC: {
-      mutable_c()->::blox::IoChannel::MergeFrom(from.c());
-      break;
-    }
-    case kD: {
-      mutable_d()->::blox::IoChannel::MergeFrom(from.d());
-      break;
-    }
-    case kE: {
-      mutable_e()->::blox::IoChannel::MergeFrom(from.e());
-      break;
-    }
-    case kF: {
-      mutable_f()->::blox::IoChannel::MergeFrom(from.f());
-      break;
-    }
-    case kG: {
-      mutable_g()->::blox::IoChannel::MergeFrom(from.g());
-      break;
-    }
-    case kH: {
-      mutable_h()->::blox::IoChannel::MergeFrom(from.h());
-      break;
-    }
-    case PIN_NOT_SET: {
-      break;
-    }
-  }
-}
-
-void DS2408IoPin::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.DS2408IoPin)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void DS2408IoPin::CopyFrom(const DS2408IoPin& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.DS2408IoPin)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool DS2408IoPin::IsInitialized() const {
-  return true;
-}
-
-void DS2408IoPin::Swap(DS2408IoPin* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void DS2408IoPin::InternalSwap(DS2408IoPin* other) {
-  using std::swap;
-  swap(Pin_, other->Pin_);
-  swap(_oneof_case_[0], other->_oneof_case_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-}
-
-::google::protobuf::Metadata DS2408IoPin::GetMetadata() const {
+const ::google::protobuf::EnumDescriptor* DS2408ChannelIds_descriptor() {
   protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_DS2408_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+  return protobuf_DS2408_5ftest_2eproto::file_level_enum_descriptors[1];
+}
+bool DS2408ChannelIds_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      return true;
+    default:
+      return false;
+  }
 }
 
 
@@ -960,12 +179,15 @@ void DS2408IoPin::InternalSwap(DS2408IoPin* other) {
 
 void DS2408::InitAsDefaultInstance() {
 }
+void DS2408::clear_channels() {
+  channels_.Clear();
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int DS2408::kAddressFieldNumber;
 const int DS2408::kConnectedFieldNumber;
-const int DS2408::kPinsFieldNumber;
 const int DS2408::kConnectModeFieldNumber;
 const int DS2408::kOneWireBusIdFieldNumber;
+const int DS2408::kChannelsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DS2408::DS2408()
@@ -978,7 +200,7 @@ DS2408::DS2408()
 DS2408::DS2408(const DS2408& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      pins_(from.pins_) {
+      channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&address_, &from.address_,
     static_cast<size_t>(reinterpret_cast<char*>(&connectmode_) -
@@ -1020,7 +242,7 @@ void DS2408::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  pins_.Clear();
+  channels_.Clear();
   ::memset(&address_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&connectmode_) -
       reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
@@ -1065,18 +287,6 @@ bool DS2408::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .blox.DS2408IoPin pins = 7 [(.nanopb_test) = {
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_pins()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // .blox.DS2408.PinConnectMode connectMode = 9;
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -1100,6 +310,18 @@ bool DS2408::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &onewirebusid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_channels()));
         } else {
           goto handle_unusual;
         }
@@ -1142,15 +364,6 @@ void DS2408::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(6, this->connected(), output);
   }
 
-  // repeated .blox.DS2408IoPin pins = 7 [(.nanopb_test) = {
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->pins_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7,
-      this->pins(static_cast<int>(i)),
-      output);
-  }
-
   // .blox.DS2408.PinConnectMode connectMode = 9;
   if (this->connectmode() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -1160,6 +373,15 @@ void DS2408::SerializeWithCachedSizes(
   // uint32 oneWireBusId = 10 [(.nanopb_test) = {
   if (this->onewirebusid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->onewirebusid(), output);
+  }
+
+  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      11,
+      this->channels(static_cast<int>(i)),
+      output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1186,14 +408,6 @@ void DS2408::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(6, this->connected(), target);
   }
 
-  // repeated .blox.DS2408IoPin pins = 7 [(.nanopb_test) = {
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->pins_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        7, this->pins(static_cast<int>(i)), deterministic, target);
-  }
-
   // .blox.DS2408.PinConnectMode connectMode = 9;
   if (this->connectmode() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
@@ -1203,6 +417,14 @@ void DS2408::SerializeWithCachedSizes(
   // uint32 oneWireBusId = 10 [(.nanopb_test) = {
   if (this->onewirebusid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->onewirebusid(), target);
+  }
+
+  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        11, this->channels(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1222,14 +444,14 @@ size_t DS2408::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.DS2408IoPin pins = 7 [(.nanopb_test) = {
+  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
   {
-    unsigned int count = static_cast<unsigned int>(this->pins_size());
+    unsigned int count = static_cast<unsigned int>(this->channels_size());
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->pins(static_cast<int>(i)));
+          this->channels(static_cast<int>(i)));
     }
   }
 
@@ -1283,7 +505,7 @@ void DS2408::MergeFrom(const DS2408& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  pins_.MergeFrom(from.pins_);
+  channels_.MergeFrom(from.channels_);
   if (from.address() != 0) {
     set_address(from.address());
   }
@@ -1322,7 +544,7 @@ void DS2408::Swap(DS2408* other) {
 }
 void DS2408::InternalSwap(DS2408* other) {
   using std::swap;
-  CastToBase(&pins_)->InternalSwap(CastToBase(&other->pins_));
+  CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   swap(address_, other->address_);
   swap(onewirebusid_, other->onewirebusid_);
   swap(connected_, other->connected_);
@@ -1340,9 +562,6 @@ void DS2408::InternalSwap(DS2408* other) {
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::DS2408IoPin* Arena::CreateMaybeMessage< ::blox::DS2408IoPin >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::DS2408IoPin >(arena);
-}
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::DS2408* Arena::CreateMaybeMessage< ::blox::DS2408 >(Arena* arena) {
   return Arena::CreateInternal< ::blox::DS2408 >(arena);
 }

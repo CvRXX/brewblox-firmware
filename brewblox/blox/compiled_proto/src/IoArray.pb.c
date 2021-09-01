@@ -9,12 +9,10 @@
 
 
 
-const pb_field_t blox_IoChannel_fields[3] = {
-    PB_FIELD(  1, UENUM   , SINGULAR, STATIC  , FIRST, blox_IoChannel, config, config, 0),
-    PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_IoChannel, state, config, 0),
+const pb_field_t blox_IoChannel_fields[2] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_IoChannel, id, id, 0),
     PB_LAST_FIELD
 };
-
 
 
 

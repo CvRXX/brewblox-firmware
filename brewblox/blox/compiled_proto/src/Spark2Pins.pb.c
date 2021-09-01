@@ -9,20 +9,13 @@
 
 
 
-const pb_field_t blox_Spark2PinsIoPin_fields[5] = {
-    PB_ONEOF_FIELD(Pin,   1, MESSAGE , ONEOF, STATIC  , FIRST, blox_Spark2PinsIoPin, bottom1, bottom1, &blox_IoChannel_fields),
-    PB_ONEOF_FIELD(Pin,   2, MESSAGE , ONEOF, STATIC  , UNION, blox_Spark2PinsIoPin, bottom2, bottom2, &blox_IoChannel_fields),
-    PB_ONEOF_FIELD(Pin,   3, MESSAGE , ONEOF, STATIC  , UNION, blox_Spark2PinsIoPin, bottom3, bottom3, &blox_IoChannel_fields),
-    PB_ONEOF_FIELD(Pin,   4, MESSAGE , ONEOF, STATIC  , UNION, blox_Spark2PinsIoPin, bottom0, bottom0, &blox_IoChannel_fields),
+const pb_field_t blox_Spark2Pins_fields[4] = {
+    PB_FIELD(  5, BOOL    , SINGULAR, STATIC  , FIRST, blox_Spark2Pins, soundAlarm, soundAlarm, 0),
+    PB_FIELD(  8, UENUM   , SINGULAR, STATIC  , OTHER, blox_Spark2Pins, hardware, soundAlarm, 0),
+    PB_FIELD(  9, MESSAGE , REPEATED, STATIC  , OTHER, blox_Spark2Pins, channels, hardware, &blox_IoChannel_fields),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_Spark2Pins_fields[4] = {
-    PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_Spark2Pins, pins, pins, &blox_Spark2PinsIoPin_fields),
-    PB_FIELD(  5, BOOL    , SINGULAR, STATIC  , OTHER, blox_Spark2Pins, soundAlarm, pins, 0),
-    PB_FIELD(  8, UENUM   , SINGULAR, STATIC  , OTHER, blox_Spark2Pins, hardware, soundAlarm, 0),
-    PB_LAST_FIELD
-};
 
 
 
@@ -35,7 +28,7 @@ const pb_field_t blox_Spark2Pins_fields[4] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_Spark2PinsIoPin, Pin.bottom1) < 65536 && pb_membersize(blox_Spark2PinsIoPin, Pin.bottom2) < 65536 && pb_membersize(blox_Spark2PinsIoPin, Pin.bottom3) < 65536 && pb_membersize(blox_Spark2PinsIoPin, Pin.bottom0) < 65536 && pb_membersize(blox_Spark2Pins, pins[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Spark2PinsIoPin_blox_Spark2Pins)
+PB_STATIC_ASSERT((pb_membersize(blox_Spark2Pins, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Spark2Pins)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -46,7 +39,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_Spark2PinsIoPin, Pin.bottom1) < 65536 && pb
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_Spark2PinsIoPin, Pin.bottom1) < 256 && pb_membersize(blox_Spark2PinsIoPin, Pin.bottom2) < 256 && pb_membersize(blox_Spark2PinsIoPin, Pin.bottom3) < 256 && pb_membersize(blox_Spark2PinsIoPin, Pin.bottom0) < 256 && pb_membersize(blox_Spark2Pins, pins[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Spark2PinsIoPin_blox_Spark2Pins)
+PB_STATIC_ASSERT((pb_membersize(blox_Spark2Pins, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Spark2Pins)
 #endif
 
 
