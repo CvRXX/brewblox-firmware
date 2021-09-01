@@ -93,8 +93,8 @@ enum DS2408ChannelIds {
   DS2408_CHAN_G = 7,
   DS2408_CHAN_H = 8,
   DS2408_VALVE_NONE = 0,
-  DS2408_VALVE_A = 1,
-  DS2408_VALVE_B = 5,
+  DS2408_VALVE_A = 5,
+  DS2408_VALVE_B = 1,
   DS2408ChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   DS2408ChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };

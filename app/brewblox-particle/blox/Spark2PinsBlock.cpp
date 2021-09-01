@@ -61,14 +61,16 @@ Spark2PinsBlock::streamTo(cbox::DataOut& out) const
 {
     blox_Spark2Pins message = blox_Spark2Pins_init_zero;
 
-    message.channels[0].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM1;
-    message.channels[1].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM2;
-    message.channels[2].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM3;
-
     if (getSparkVersion() != SparkVersion::V1) {
-        message.channels[3].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM0;
+        message.channels[0].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM0;
+        message.channels[1].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM1;
+        message.channels[2].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM2;
+        message.channels[3].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM3;
         message.channels_count = 4;
     } else {
+        message.channels[0].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM1;
+        message.channels[1].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM2;
+        message.channels[2].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM3;
         message.channels_count = 3;
     }
 

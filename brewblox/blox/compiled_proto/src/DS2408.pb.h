@@ -29,8 +29,8 @@ typedef enum _blox_DS2408ChannelIds {
     blox_DS2408ChannelIds_DS2408_CHAN_G = 7,
     blox_DS2408ChannelIds_DS2408_CHAN_H = 8,
     blox_DS2408ChannelIds_DS2408_VALVE_NONE = 0,
-    blox_DS2408ChannelIds_DS2408_VALVE_A = 1,
-    blox_DS2408ChannelIds_DS2408_VALVE_B = 5
+    blox_DS2408ChannelIds_DS2408_VALVE_A = 5,
+    blox_DS2408ChannelIds_DS2408_VALVE_B = 1
 } blox_DS2408ChannelIds;
 #define _blox_DS2408ChannelIds_MIN blox_DS2408ChannelIds_DS2408_CHAN_NONE
 #define _blox_DS2408ChannelIds_MAX blox_DS2408ChannelIds_DS2408_VALVE_B
