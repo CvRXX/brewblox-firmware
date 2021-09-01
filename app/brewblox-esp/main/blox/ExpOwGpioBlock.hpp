@@ -22,6 +22,8 @@
 #include "../ExpOwGpio.hpp"
 #include "blox/Block.h"
 #include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
+#include <string>
+#include <vector>
 
 class ExpOwGpioBlock : public Block<BrewBloxTypes_BlockType_OneWireGpioModule> {
 private:
@@ -41,4 +43,10 @@ public:
 
 private:
     void writeMessage(blox_OneWireGpioModule& message, bool includeNotPersisted) const;
+
+    typedef struct {
+        uint8_t id;
+        std::string name;
+    } ChannelNameEntry;
+    std::vector<ChannelNameEntry> channelNames;
 };

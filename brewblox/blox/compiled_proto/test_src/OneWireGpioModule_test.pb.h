@@ -221,6 +221,20 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
+  // string name = 5 [(.nanopb_test) = {
+  void clear_name();
+  static const int kNameFieldNumber = 5;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
   // uint32 id = 1 [(.nanopb_test) = {
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -249,6 +263,7 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint32 id_;
   int devicetype_;
   ::google::protobuf::uint32 pinsmask_;
@@ -528,6 +543,59 @@ inline void GpioModuleChannel::set_width(::google::protobuf::uint32 value) {
   
   width_ = value;
   // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.width)
+}
+
+// string name = 5 [(.nanopb_test) = {
+inline void GpioModuleChannel::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GpioModuleChannel::name() const {
+  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.name)
+  return name_.GetNoArena();
+}
+inline void GpioModuleChannel::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.name)
+}
+#if LANG_CXX11
+inline void GpioModuleChannel::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:blox.GpioModuleChannel.name)
+}
+#endif
+inline void GpioModuleChannel::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:blox.GpioModuleChannel.name)
+}
+inline void GpioModuleChannel::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:blox.GpioModuleChannel.name)
+}
+inline ::std::string* GpioModuleChannel::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:blox.GpioModuleChannel.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GpioModuleChannel::release_name() {
+  // @@protoc_insertion_point(field_release:blox.GpioModuleChannel.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GpioModuleChannel::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:blox.GpioModuleChannel.name)
 }
 
 // -------------------------------------------------------------------
