@@ -12,3 +12,6 @@
 [submodule "external_libs/lvgl"]
 	path = external_libs/lvgl
 	url = https://github.com/lvgl/lvgl.git
+[submodule "external_libs/lv_lib_qrcode"]
+	path = external_libs/lv_lib_qrcode
+	url = https://github.com/lvgl/lv_lib_qrcode.git
