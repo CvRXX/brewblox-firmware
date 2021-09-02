@@ -2,13 +2,15 @@
 
 #include "httpserver/connection.hpp"
 #include "httpserver/server.hpp"
+#include "network/CboxServer.hpp"
 #include "ota.hpp"
 
 class HttpHandler {
 
 public:
-    HttpHandler(asio::io_context& io, const uint16_t& port)
+    HttpHandler(asio::io_context& io, const uint16_t& port, CboxServer& cboxServer)
         : server{io, 80}
+        , cboxServer(cboxServer)
     {
         server.add_uri_handler("/", "text/html", [](const http::server::request& req, http::server::reply& rep) {
             rep.status = http::server::reply::ok;
@@ -32,7 +34,7 @@ public:
             // ending tags are implicit
         });
 
-        server.add_uri_handler("/firmware_update", "text/html", [](const http::server::request& req, http::server::reply& rep) {
+        server.add_uri_handler("/firmware_update", "text/html", [&cboxServer](const http::server::request& req, http::server::reply& rep) {
             if (req.method != "POST") {
                 rep = http::server::reply::stock_reply(http::server::reply::method_not_allowed);
                 rep.headers.push_back({"Allow", "POST"});
@@ -40,6 +42,7 @@ public:
                 rep.status = http::server::reply::ok;
                 rep.content.append("Received firmware update url: ");
                 rep.content.append(req.content);
+                cboxServer.do_await_stop();
                 start_ota(req.content, true);
             }
         });
@@ -47,4 +50,5 @@ public:
 
 private:
     http::server::server server;
+    CboxServer& cboxServer;
 };

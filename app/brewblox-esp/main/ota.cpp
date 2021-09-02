@@ -47,11 +47,8 @@ static void __attribute__((noreturn)) task_fatal_error(void)
 {
     ESP_LOGE(TAG, "Exiting task due to fatal error...");
 
-    (void)vTaskDelete(NULL);
-
-    while (1) {
-        ;
-    }
+    vTaskDelay(3000);
+    esp_restart();
 }
 
 static void print_sha256(const uint8_t* image_hash, const char* label)
