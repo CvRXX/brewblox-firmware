@@ -105,6 +105,9 @@ public:
     void fetch()
     {
         if (upper < 0) { // 2 bytes to fetch
+            if (!isxdigit(textIn.peek())) {
+                return; // leave non-hex characters in the stream
+            }
             upper = textIn.read();
             if (upper < 0) {
                 // no data
@@ -113,6 +116,9 @@ public:
         }
 
         if (lower < 0) {
+            if (!isxdigit(textIn.peek())) {
+                return; // leave non-hex characters in the stream
+            }
             lower = textIn.read();
         }
     }
@@ -137,12 +143,17 @@ public:
         return v;
     }
 
-    void consumeLineEnd()
+    void consumeNonHex()
     {
         while (true) {
-            auto v = peek();
-            if (v == '\r' || v == '\n') {
-                read();
+            auto v = textIn.peek();
+            if (v < 0) {
+                break;
+            }
+            if (!isxdigit(v)) {
+                textIn.read();
+                upper = -1;
+                lower = -1;
             } else {
                 return;
             }
