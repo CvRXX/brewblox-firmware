@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -ex
+set -euo pipefail
 
 function do_inspect() {
     bin="$1"
