@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
+pushd "$(dirname "$0")" > /dev/null
 
 particle usb listen
 echo ""

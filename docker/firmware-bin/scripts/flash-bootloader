@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
+pushd "$(dirname "$0")" > /dev/null
 
 function flash() {
     particle flash --serial --yes "$1"
@@ -16,6 +17,13 @@ fi
 if [[ -n $(lsusb -d 2b04:c008) ]]; then
     echo "Flashing P1 bootloader..."
     flash bootloader-p1.bin
+    exit
+fi
+
+if [[ -n $(lsusb -d 10c4:ea60) ]]; then
+    echo "ESP32 detected."
+    echo "Bootloader is included when running the flash command."
+    echo "There is no need to do it separately."
     exit
 fi
 
