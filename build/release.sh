@@ -14,9 +14,10 @@ then
 fi
 
 # Azure SAS token must have been set to upload to Azure
-if [[ -z "${AZURE_STORAGE_SAS_TOKEN}" ]]
+if [[ -z "${AZURE_STORAGE_SAS_TOKEN:-}" ]]
 then
-    echo "ERROR: AZURE_STORAGE_SAS_TOKEN was not set."
+    echo "ERROR: AZURE_STORAGE_SAS_TOKEN variable was not set."
+    echo "You can generate a SAS token at https://portal.azure.com -> brewblox -> containers -> firmware -> Shared access tokens"
     exit 1
 fi
 
@@ -54,24 +55,24 @@ echo "Publishing brewblox/firmware-bin:${TAG} as "
 az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
-    --name "${firmware_name}-firmware.ini" \
+    --name "${firmware_name}/firmware.ini" \
     --file ./release/firmware.ini
 
 az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
-    --name "${firmware_name}-esp32.bin" \
+    --name "${firmware_name}/brewblox-esp32.bin" \
     --file ./release/brewblox-esp32.bin
 
 az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
-    --name "${archive_filename}" \
+    --name "${firmware_name}/brewblox-release.tar.gz" \
     --file "/tmp/${archive_filename}"
 
 # Also upload a ini file named with current branch
 az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
-    --name "${TAG}-firmware.ini" \
+    --name "${TAG}/firmware.ini" \
     --file ./release/firmware.ini
