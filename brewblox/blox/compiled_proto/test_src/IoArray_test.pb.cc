@@ -5,115 +5,79 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
 
+PROTOBUF_PRAGMA_INIT_SEG
 namespace blox {
-class IoChannelDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<IoChannel>
-      _instance;
-} _IoChannel_default_instance_;
+constexpr IoChannel::IoChannel(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : id_(0u){}
+struct IoChannelDefaultTypeInternal {
+  constexpr IoChannelDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~IoChannelDefaultTypeInternal() {}
+  union {
+    IoChannel _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT IoChannelDefaultTypeInternal _IoChannel_default_instance_;
 }  // namespace blox
-namespace protobuf_IoArray_5ftest_2eproto {
-static void InitDefaultsIoChannel() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_IoArray_5ftest_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_IoArray_5ftest_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_IoArray_5ftest_2eproto = nullptr;
 
-  {
-    void* ptr = &::blox::_IoChannel_default_instance_;
-    new (ptr) ::blox::IoChannel();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox::IoChannel::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsIoChannel}, {}};
-
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_IoChannel.base);
-}
-
-::google::protobuf::Metadata file_level_metadata[1];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_IoArray_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::IoChannel, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox::IoChannel, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::IoChannel, id_),
+  PROTOBUF_FIELD_OFFSET(::blox::IoChannel, id_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::IoChannel)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_IoChannel_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_IoChannel_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "IoArray_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
+const char descriptor_table_protodef_IoArray_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\022IoArray_test.proto\022\004blox\032\021nanopb_test."
+  "proto\"\036\n\tIoChannel\022\021\n\002id\030\001 \001(\rB\005\222\?\0028\010*\205\001"
+  "\n\014DigitalState\022\022\n\016STATE_INACTIVE\020\000\022\020\n\014ST"
+  "ATE_ACTIVE\020\001\022\021\n\rSTATE_UNKNOWN\020\002\022\021\n\rSTATE"
+  "_REVERSE\020\003\022\014\n\010Inactive\020\000\022\n\n\006Active\020\001\022\013\n\007"
+  "Unknown\020\002\032\002\020\001b\006proto3"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_IoArray_5ftest_2eproto_deps[1] = {
+  &::descriptor_table_nanopb_5ftest_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_IoArray_5ftest_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_IoArray_5ftest_2eproto = {
+  false, false, 221, descriptor_table_protodef_IoArray_5ftest_2eproto, "IoArray_test.proto", 
+  &descriptor_table_IoArray_5ftest_2eproto_once, descriptor_table_IoArray_5ftest_2eproto_deps, 1, 1,
+  schemas, file_default_instances, TableStruct_IoArray_5ftest_2eproto::offsets,
+  file_level_metadata_IoArray_5ftest_2eproto, file_level_enum_descriptors_IoArray_5ftest_2eproto, file_level_service_descriptors_IoArray_5ftest_2eproto,
+};
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_IoArray_5ftest_2eproto_getter() {
+  return &descriptor_table_IoArray_5ftest_2eproto;
 }
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\022IoArray_test.proto\022\004blox\032\021nanopb_test."
-      "proto\"\036\n\tIoChannel\022\021\n\002id\030\001 \001(\rB\005\222\?\0028\010*\205\001"
-      "\n\014DigitalState\022\022\n\016STATE_INACTIVE\020\000\022\020\n\014ST"
-      "ATE_ACTIVE\020\001\022\021\n\rSTATE_UNKNOWN\020\002\022\021\n\rSTATE"
-      "_REVERSE\020\003\022\014\n\010Inactive\020\000\022\n\n\006Active\020\001\022\013\n\007"
-      "Unknown\020\002\032\002\020\001b\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 221);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "IoArray_test.proto", &protobuf_RegisterTypes);
-  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_IoArray_5ftest_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_IoArray_5ftest_2eproto(&descriptor_table_IoArray_5ftest_2eproto);
 namespace blox {
-const ::google::protobuf::EnumDescriptor* DigitalState_descriptor() {
-  protobuf_IoArray_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_IoArray_5ftest_2eproto::file_level_enum_descriptors[0];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DigitalState_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_IoArray_5ftest_2eproto);
+  return file_level_enum_descriptors_IoArray_5ftest_2eproto[0];
 }
 bool DigitalState_IsValid(int value) {
   switch (value) {
@@ -130,140 +94,112 @@ bool DigitalState_IsValid(int value) {
 
 // ===================================================================
 
-void IoChannel::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int IoChannel::kIdFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class IoChannel::_Internal {
+ public:
+};
 
-IoChannel::IoChannel()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base);
+IoChannel::IoChannel(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.IoChannel)
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:blox.IoChannel)
 }
 IoChannel::IoChannel(const IoChannel& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   id_ = from.id_;
   // @@protoc_insertion_point(copy_constructor:blox.IoChannel)
 }
 
-void IoChannel::SharedCtor() {
-  id_ = 0u;
+inline void IoChannel::SharedCtor() {
+id_ = 0u;
 }
 
 IoChannel::~IoChannel() {
   // @@protoc_insertion_point(destructor:blox.IoChannel)
+  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void IoChannel::SharedDtor() {
+inline void IoChannel::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
+void IoChannel::ArenaDtor(void* object) {
+  IoChannel* _this = reinterpret_cast< IoChannel* >(object);
+  (void)_this;
+}
+void IoChannel::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void IoChannel::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* IoChannel::descriptor() {
-  ::protobuf_IoArray_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_IoArray_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const IoChannel& IoChannel::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base);
-  return *internal_default_instance();
-}
-
 
 void IoChannel::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.IoChannel)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   id_ = 0u;
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool IoChannel::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.IoChannel)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* IoChannel::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
       // uint32 id = 1 [(.nanopb_test) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &id_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox.IoChannel)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.IoChannel)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void IoChannel::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.IoChannel)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 id = 1 [(.nanopb_test) = {
-  if (this->id() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->id(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox.IoChannel)
-}
-
-::google::protobuf::uint8* IoChannel::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* IoChannel::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox.IoChannel)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 id = 1 [(.nanopb_test) = {
-  if (this->id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->id(), target);
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.IoChannel)
   return target;
@@ -273,55 +209,49 @@ size_t IoChannel::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.IoChannel)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // uint32 id = 1 [(.nanopb_test) = {
-  if (this->id() != 0) {
+  if (this->_internal_id() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void IoChannel::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.IoChannel)
-  GOOGLE_DCHECK_NE(&from, this);
-  const IoChannel* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const IoChannel>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.IoChannel)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.IoChannel)
-    MergeFrom(*source);
-  }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData IoChannel::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    IoChannel::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*IoChannel::GetClassData() const { return &_class_data_; }
+
+void IoChannel::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
+  static_cast<IoChannel *>(to)->MergeFrom(
+      static_cast<const IoChannel &>(from));
 }
+
 
 void IoChannel::MergeFrom(const IoChannel& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.IoChannel)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.id() != 0) {
-    set_id(from.id());
+  if (from._internal_id() != 0) {
+    _internal_set_id(from._internal_id());
   }
-}
-
-void IoChannel::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.IoChannel)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void IoChannel::CopyFrom(const IoChannel& from) {
@@ -335,30 +265,25 @@ bool IoChannel::IsInitialized() const {
   return true;
 }
 
-void IoChannel::Swap(IoChannel* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void IoChannel::InternalSwap(IoChannel* other) {
   using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(id_, other->id_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata IoChannel::GetMetadata() const {
-  protobuf_IoArray_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_IoArray_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata IoChannel::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_IoArray_5ftest_2eproto_getter, &descriptor_table_IoArray_5ftest_2eproto_once,
+      file_level_metadata_IoArray_5ftest_2eproto[0]);
 }
-
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace blox
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::IoChannel* Arena::CreateMaybeMessage< ::blox::IoChannel >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::IoChannel >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::blox::IoChannel* Arena::CreateMaybeMessage< ::blox::IoChannel >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox::IoChannel >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

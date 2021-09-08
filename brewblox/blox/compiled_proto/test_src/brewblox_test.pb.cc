@@ -5,121 +5,99 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
 
-namespace protobuf_brewblox_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_brewblox_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_BrewBlox_testFieldOptions;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_brewblox_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_BrewBlox_testMessageOptions;
-}  // namespace protobuf_brewblox_5ftest_2eproto
-class BrewBlox_testTypesDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<BrewBlox_testTypes>
-      _instance;
-} _BrewBlox_testTypes_default_instance_;
-class BrewBlox_testMessageOptionsDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<BrewBlox_testMessageOptions>
-      _instance;
-} _BrewBlox_testMessageOptions_default_instance_;
-class BrewBlox_testFieldOptionsDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<BrewBlox_testFieldOptions>
-      _instance;
-} _BrewBlox_testFieldOptions_default_instance_;
-namespace protobuf_brewblox_5ftest_2eproto {
-static void InitDefaultsBrewBlox_testTypes() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
+PROTOBUF_PRAGMA_INIT_SEG
+constexpr BrewBlox_testTypes::BrewBlox_testTypes(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+struct BrewBlox_testTypesDefaultTypeInternal {
+  constexpr BrewBlox_testTypesDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~BrewBlox_testTypesDefaultTypeInternal() {}
+  union {
+    BrewBlox_testTypes _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT BrewBlox_testTypesDefaultTypeInternal _BrewBlox_testTypes_default_instance_;
+constexpr BrewBlox_testMessageOptions::BrewBlox_testMessageOptions(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : impl_()
+  , objtype_(0)
+{}
+struct BrewBlox_testMessageOptionsDefaultTypeInternal {
+  constexpr BrewBlox_testMessageOptionsDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~BrewBlox_testMessageOptionsDefaultTypeInternal() {}
+  union {
+    BrewBlox_testMessageOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT BrewBlox_testMessageOptionsDefaultTypeInternal _BrewBlox_testMessageOptions_default_instance_;
+constexpr BrewBlox_testFieldOptions::BrewBlox_testFieldOptions(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : unit_(0)
 
-  {
-    void* ptr = &::_BrewBlox_testTypes_default_instance_;
-    new (ptr) ::BrewBlox_testTypes();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::BrewBlox_testTypes::InitAsDefaultInstance();
-}
+  , scale_(0u)
+  , objtype_(0)
 
-::google::protobuf::internal::SCCInfo<0> scc_info_BrewBlox_testTypes =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBrewBlox_testTypes}, {}};
+  , hexed_(false)
+  , readonly_(false)
+  , logged_(false)
+  , hexstr_(false)
+  , driven_(false)
+  , ignored_(false)
+  , bitfield_(false){}
+struct BrewBlox_testFieldOptionsDefaultTypeInternal {
+  constexpr BrewBlox_testFieldOptionsDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~BrewBlox_testFieldOptionsDefaultTypeInternal() {}
+  union {
+    BrewBlox_testFieldOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT BrewBlox_testFieldOptionsDefaultTypeInternal _BrewBlox_testFieldOptions_default_instance_;
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_brewblox_5ftest_2eproto[3];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_brewblox_5ftest_2eproto[2];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_brewblox_5ftest_2eproto = nullptr;
 
-static void InitDefaultsBrewBlox_testMessageOptions() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::_BrewBlox_testMessageOptions_default_instance_;
-    new (ptr) ::BrewBlox_testMessageOptions();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::BrewBlox_testMessageOptions::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_BrewBlox_testMessageOptions =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBrewBlox_testMessageOptions}, {}};
-
-static void InitDefaultsBrewBlox_testFieldOptions() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::_BrewBlox_testFieldOptions_default_instance_;
-    new (ptr) ::BrewBlox_testFieldOptions();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::BrewBlox_testFieldOptions::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_BrewBlox_testFieldOptions =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBrewBlox_testFieldOptions}, {}};
-
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_BrewBlox_testTypes.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_BrewBlox_testMessageOptions.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_BrewBlox_testFieldOptions.base);
-}
-
-::google::protobuf::Metadata file_level_metadata[3];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testTypes, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testTypes, _internal_metadata_),
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_brewblox_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testTypes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testMessageOptions, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testMessageOptions, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testMessageOptions, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testMessageOptions, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testMessageOptions, objtype_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testMessageOptions, impl_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testMessageOptions, objtype_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testMessageOptions, impl_),
   0,
   ~0u,
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, unit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, scale_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, objtype_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, hexed_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, readonly_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, logged_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, hexstr_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, driven_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, ignored_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::BrewBlox_testFieldOptions, bitfield_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, unit_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, scale_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, objtype_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, hexed_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, readonly_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, logged_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, hexstr_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, driven_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, ignored_),
+  PROTOBUF_FIELD_OFFSET(::BrewBlox_testFieldOptions, bitfield_),
   0,
   1,
   2,
@@ -131,109 +109,87 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   8,
   9,
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 5, sizeof(::BrewBlox_testTypes)},
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, sizeof(::BrewBlox_testTypes)},
   { 5, 12, sizeof(::BrewBlox_testMessageOptions)},
   { 14, 29, sizeof(::BrewBlox_testFieldOptions)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_BrewBlox_testTypes_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_BrewBlox_testMessageOptions_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_BrewBlox_testFieldOptions_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_BrewBlox_testTypes_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_BrewBlox_testMessageOptions_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_BrewBlox_testFieldOptions_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "brewblox_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
+const char descriptor_table_protodef_brewblox_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\023brewblox_test.proto\032 google/protobuf/d"
+  "escriptor.proto\032\021nanopb_test.proto\"\260\t\n\022B"
+  "rewBlox_testTypes\"\214\002\n\010UnitType\022\n\n\006NotSet"
+  "\020\000\022\013\n\007Celsius\020\001\022\022\n\016InverseCelsius\020\002\022\n\n\006S"
+  "econd\020\003\022\n\n\006Minute\020\004\022\010\n\004Hour\020\005\022\020\n\014DeltaCe"
+  "lsius\020\006\022\031\n\025DeltaCelsiusPerSecond\020\007\022\031\n\025De"
+  "ltaCelsiusPerMinute\020\010\022\027\n\023DeltaCelsiusPer"
+  "Hour\020\t\022\032\n\026DeltaCelsiusMultSecond\020\n\022\032\n\026De"
+  "ltaCelsiusMultMinute\020\013\022\030\n\024DeltaCelsiusMu"
+  "ltHour\020\014\"\212\007\n\tBlockType\022\013\n\007Invalid\020\000\022\031\n\025P"
+  "rocessValueInterface\020\001\022\027\n\023TempSensorInte"
+  "rface\020\002\022\037\n\033SetpointSensorPairInterface\020\004"
+  "\022\033\n\027ActuatorAnalogInterface\020\005\022\034\n\030Actuato"
+  "rDigitalInterface\020\006\022\025\n\021BalancerInterface"
+  "\020\007\022\022\n\016MutexInterface\020\010\022\032\n\026OneWireDeviceI"
+  "nterface\020\t\022\024\n\020IoArrayInterface\020\n\022\023\n\017DS24"
+  "08Interface\020\013\022\027\n\023OneWireBusInterface\020\014\022\025"
+  "\n\021IoModuleInterface\020\r\022\037\n\033OneWireDeviceBl"
+  "ockInterface\020\016\022\010\n\003Any\020\377\001\022\014\n\007SysInfo\020\200\002\022\n"
+  "\n\005Ticks\020\201\002\022\017\n\nOneWireBus\020\202\002\022\016\n\tBoardPins"
+  "\020\203\002\022\023\n\016TempSensorMock\020\255\002\022\026\n\021TempSensorOn"
+  "eWire\020\256\002\022\027\n\022SetpointSensorPair\020\257\002\022\010\n\003Pid"
+  "\020\260\002\022\027\n\022ActuatorAnalogMock\020\261\002\022\020\n\013Actuator"
+  "Pin\020\262\002\022\020\n\013ActuatorPwm\020\263\002\022\023\n\016ActuatorOffs"
+  "et\020\264\002\022\r\n\010Balancer\020\265\002\022\n\n\005Mutex\020\266\002\022\024\n\017Setp"
+  "ointProfile\020\267\002\022\021\n\014WiFiSettings\020\270\002\022\022\n\rTou"
+  "chSettings\020\271\002\022\024\n\017DisplaySettings\020\272\002\022\013\n\006D"
+  "S2413\020\273\002\022\024\n\017ActuatorOneWire\020\274\002\022\013\n\006DS2408"
+  "\020\275\002\022\024\n\017DigitalActuator\020\276\002\022\017\n\nSpark3Pins\020"
+  "\277\002\022\017\n\nSpark2Pins\020\300\002\022\017\n\nMotorValve\020\301\002\022\022\n\r"
+  "ActuatorLogic\020\302\002\022\r\n\010MockPins\020\303\002\022\024\n\017TempS"
+  "ensorCombi\020\304\002\022\026\n\021OneWireGpioModule\020\305\002\"\210\001"
+  "\n\033BrewBlox_testMessageOptions\022.\n\007objtype"
+  "\030\003 \001(\0162\035.BrewBlox_testTypes.BlockType\0222\n"
+  "\004impl\030\t \003(\0162\035.BrewBlox_testTypes.BlockTy"
+  "peB\005\222\?\002\020\005:\005\222\?\0020\001\"\201\002\n\031BrewBlox_testFieldO"
+  "ptions\022*\n\004unit\030\001 \001(\0162\034.BrewBlox_testType"
+  "s.UnitType\022\r\n\005scale\030\002 \001(\r\022.\n\007objtype\030\003 \001"
+  "(\0162\035.BrewBlox_testTypes.BlockType\022\r\n\005hex"
+  "ed\030\004 \001(\010\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001"
+  "(\010\022\016\n\006hexstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007ig"
+  "nored\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010:\005\222\?\0020\001:Y\n\r"
+  "brewblox_test\022\035.google.protobuf.FieldOpt"
+  "ions\030\321\206\003 \001(\0132\032.BrewBlox_testFieldOptions"
+  "B\005\222\?\002\030\003:a\n\021brewblox_test_msg\022\037.google.pr"
+  "otobuf.MessageOptions\030\321\206\003 \001(\0132\034.BrewBlox"
+  "_testMessageOptionsB\005\222\?\002\030\003"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_brewblox_5ftest_2eproto_deps[2] = {
+  &::descriptor_table_google_2fprotobuf_2fdescriptor_2eproto,
+  &::descriptor_table_nanopb_5ftest_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_brewblox_5ftest_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_brewblox_5ftest_2eproto = {
+  false, false, 1866, descriptor_table_protodef_brewblox_5ftest_2eproto, "brewblox_test.proto", 
+  &descriptor_table_brewblox_5ftest_2eproto_once, descriptor_table_brewblox_5ftest_2eproto_deps, 2, 3,
+  schemas, file_default_instances, TableStruct_brewblox_5ftest_2eproto::offsets,
+  file_level_metadata_brewblox_5ftest_2eproto, file_level_enum_descriptors_brewblox_5ftest_2eproto, file_level_service_descriptors_brewblox_5ftest_2eproto,
+};
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_brewblox_5ftest_2eproto_getter() {
+  return &descriptor_table_brewblox_5ftest_2eproto;
 }
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 3);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\023brewblox_test.proto\032 google/protobuf/d"
-      "escriptor.proto\032\021nanopb_test.proto\"\260\t\n\022B"
-      "rewBlox_testTypes\"\214\002\n\010UnitType\022\n\n\006NotSet"
-      "\020\000\022\013\n\007Celsius\020\001\022\022\n\016InverseCelsius\020\002\022\n\n\006S"
-      "econd\020\003\022\n\n\006Minute\020\004\022\010\n\004Hour\020\005\022\020\n\014DeltaCe"
-      "lsius\020\006\022\031\n\025DeltaCelsiusPerSecond\020\007\022\031\n\025De"
-      "ltaCelsiusPerMinute\020\010\022\027\n\023DeltaCelsiusPer"
-      "Hour\020\t\022\032\n\026DeltaCelsiusMultSecond\020\n\022\032\n\026De"
-      "ltaCelsiusMultMinute\020\013\022\030\n\024DeltaCelsiusMu"
-      "ltHour\020\014\"\212\007\n\tBlockType\022\013\n\007Invalid\020\000\022\031\n\025P"
-      "rocessValueInterface\020\001\022\027\n\023TempSensorInte"
-      "rface\020\002\022\037\n\033SetpointSensorPairInterface\020\004"
-      "\022\033\n\027ActuatorAnalogInterface\020\005\022\034\n\030Actuato"
-      "rDigitalInterface\020\006\022\025\n\021BalancerInterface"
-      "\020\007\022\022\n\016MutexInterface\020\010\022\032\n\026OneWireDeviceI"
-      "nterface\020\t\022\024\n\020IoArrayInterface\020\n\022\023\n\017DS24"
-      "08Interface\020\013\022\027\n\023OneWireBusInterface\020\014\022\025"
-      "\n\021IoModuleInterface\020\r\022\037\n\033OneWireDeviceBl"
-      "ockInterface\020\016\022\010\n\003Any\020\377\001\022\014\n\007SysInfo\020\200\002\022\n"
-      "\n\005Ticks\020\201\002\022\017\n\nOneWireBus\020\202\002\022\016\n\tBoardPins"
-      "\020\203\002\022\023\n\016TempSensorMock\020\255\002\022\026\n\021TempSensorOn"
-      "eWire\020\256\002\022\027\n\022SetpointSensorPair\020\257\002\022\010\n\003Pid"
-      "\020\260\002\022\027\n\022ActuatorAnalogMock\020\261\002\022\020\n\013Actuator"
-      "Pin\020\262\002\022\020\n\013ActuatorPwm\020\263\002\022\023\n\016ActuatorOffs"
-      "et\020\264\002\022\r\n\010Balancer\020\265\002\022\n\n\005Mutex\020\266\002\022\024\n\017Setp"
-      "ointProfile\020\267\002\022\021\n\014WiFiSettings\020\270\002\022\022\n\rTou"
-      "chSettings\020\271\002\022\024\n\017DisplaySettings\020\272\002\022\013\n\006D"
-      "S2413\020\273\002\022\024\n\017ActuatorOneWire\020\274\002\022\013\n\006DS2408"
-      "\020\275\002\022\024\n\017DigitalActuator\020\276\002\022\017\n\nSpark3Pins\020"
-      "\277\002\022\017\n\nSpark2Pins\020\300\002\022\017\n\nMotorValve\020\301\002\022\022\n\r"
-      "ActuatorLogic\020\302\002\022\r\n\010MockPins\020\303\002\022\024\n\017TempS"
-      "ensorCombi\020\304\002\022\026\n\021OneWireGpioModule\020\305\002\"\210\001"
-      "\n\033BrewBlox_testMessageOptions\022.\n\007objtype"
-      "\030\003 \001(\0162\035.BrewBlox_testTypes.BlockType\0222\n"
-      "\004impl\030\t \003(\0162\035.BrewBlox_testTypes.BlockTy"
-      "peB\005\222\?\002\020\005:\005\222\?\0020\001\"\201\002\n\031BrewBlox_testFieldO"
-      "ptions\022*\n\004unit\030\001 \001(\0162\034.BrewBlox_testType"
-      "s.UnitType\022\r\n\005scale\030\002 \001(\r\022.\n\007objtype\030\003 \001"
-      "(\0162\035.BrewBlox_testTypes.BlockType\022\r\n\005hex"
-      "ed\030\004 \001(\010\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001"
-      "(\010\022\016\n\006hexstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007ig"
-      "nored\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010:\005\222\?\0020\001:Y\n\r"
-      "brewblox_test\022\035.google.protobuf.FieldOpt"
-      "ions\030\321\206\003 \001(\0132\032.BrewBlox_testFieldOptions"
-      "B\005\222\?\002\030\003:a\n\021brewblox_test_msg\022\037.google.pr"
-      "otobuf.MessageOptions\030\321\206\003 \001(\0132\034.BrewBlox"
-      "_testMessageOptionsB\005\222\?\002\030\003"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1866);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "brewblox_test.proto", &protobuf_RegisterTypes);
-  ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
-  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_brewblox_5ftest_2eproto
-const ::google::protobuf::EnumDescriptor* BrewBlox_testTypes_UnitType_descriptor() {
-  protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_brewblox_5ftest_2eproto::file_level_enum_descriptors[0];
+// Force running AddDescriptors() at dynamic initialization time.
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_brewblox_5ftest_2eproto(&descriptor_table_brewblox_5ftest_2eproto);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BrewBlox_testTypes_UnitType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_brewblox_5ftest_2eproto);
+  return file_level_enum_descriptors_brewblox_5ftest_2eproto[0];
 }
 bool BrewBlox_testTypes_UnitType_IsValid(int value) {
   switch (value) {
@@ -256,27 +212,27 @@ bool BrewBlox_testTypes_UnitType_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::NotSet;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::Celsius;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::InverseCelsius;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::Second;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::Minute;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::Hour;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsius;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusPerSecond;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusPerMinute;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusPerHour;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusMultSecond;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusMultMinute;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusMultHour;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::UnitType_MIN;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes::UnitType_MAX;
-const int BrewBlox_testTypes::UnitType_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* BrewBlox_testTypes_BlockType_descriptor() {
-  protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_brewblox_5ftest_2eproto::file_level_enum_descriptors[1];
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::NotSet;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::Celsius;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::InverseCelsius;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::Second;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::Minute;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::Hour;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsius;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusPerSecond;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusPerMinute;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusPerHour;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusMultSecond;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusMultMinute;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::DeltaCelsiusMultHour;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::UnitType_MIN;
+constexpr BrewBlox_testTypes_UnitType BrewBlox_testTypes::UnitType_MAX;
+constexpr int BrewBlox_testTypes::UnitType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BrewBlox_testTypes_BlockType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_brewblox_5ftest_2eproto);
+  return file_level_enum_descriptors_brewblox_5ftest_2eproto[1];
 }
 bool BrewBlox_testTypes_BlockType_IsValid(int value) {
   switch (value) {
@@ -330,161 +286,143 @@ bool BrewBlox_testTypes_BlockType_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Invalid;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ProcessValueInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::SetpointSensorPairInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorAnalogInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorDigitalInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::BalancerInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::MutexInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireDeviceInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::IoArrayInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::DS2408Interface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireBusInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::IoModuleInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireDeviceBlockInterface;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Any;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::SysInfo;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Ticks;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireBus;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::BoardPins;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorMock;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorOneWire;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::SetpointSensorPair;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Pid;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorAnalogMock;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorPin;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorPwm;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorOffset;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Balancer;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Mutex;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::SetpointProfile;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::WiFiSettings;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::TouchSettings;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::DisplaySettings;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::DS2413;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorOneWire;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::DS2408;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::DigitalActuator;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Spark3Pins;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::Spark2Pins;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::MotorValve;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorLogic;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::MockPins;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorCombi;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireGpioModule;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::BlockType_MIN;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes::BlockType_MAX;
-const int BrewBlox_testTypes::BlockType_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Invalid;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ProcessValueInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::SetpointSensorPairInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorAnalogInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorDigitalInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::BalancerInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::MutexInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireDeviceInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::IoArrayInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::DS2408Interface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireBusInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::IoModuleInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireDeviceBlockInterface;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Any;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::SysInfo;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Ticks;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireBus;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::BoardPins;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorMock;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorOneWire;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::SetpointSensorPair;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Pid;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorAnalogMock;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorPin;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorPwm;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorOffset;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Balancer;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Mutex;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::SetpointProfile;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::WiFiSettings;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::TouchSettings;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::DisplaySettings;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::DS2413;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorOneWire;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::DS2408;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::DigitalActuator;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Spark3Pins;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::Spark2Pins;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::MotorValve;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::ActuatorLogic;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::MockPins;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::TempSensorCombi;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::OneWireGpioModule;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::BlockType_MIN;
+constexpr BrewBlox_testTypes_BlockType BrewBlox_testTypes::BlockType_MAX;
+constexpr int BrewBlox_testTypes::BlockType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
-void BrewBlox_testTypes::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class BrewBlox_testTypes::_Internal {
+ public:
+};
 
-BrewBlox_testTypes::BrewBlox_testTypes()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_brewblox_5ftest_2eproto::scc_info_BrewBlox_testTypes.base);
+BrewBlox_testTypes::BrewBlox_testTypes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:BrewBlox_testTypes)
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:BrewBlox_testTypes)
 }
 BrewBlox_testTypes::BrewBlox_testTypes(const BrewBlox_testTypes& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:BrewBlox_testTypes)
 }
 
-void BrewBlox_testTypes::SharedCtor() {
+inline void BrewBlox_testTypes::SharedCtor() {
 }
 
 BrewBlox_testTypes::~BrewBlox_testTypes() {
   // @@protoc_insertion_point(destructor:BrewBlox_testTypes)
+  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void BrewBlox_testTypes::SharedDtor() {
+inline void BrewBlox_testTypes::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
+void BrewBlox_testTypes::ArenaDtor(void* object) {
+  BrewBlox_testTypes* _this = reinterpret_cast< BrewBlox_testTypes* >(object);
+  (void)_this;
+}
+void BrewBlox_testTypes::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void BrewBlox_testTypes::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* BrewBlox_testTypes::descriptor() {
-  ::protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_brewblox_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const BrewBlox_testTypes& BrewBlox_testTypes::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_brewblox_5ftest_2eproto::scc_info_BrewBlox_testTypes.base);
-  return *internal_default_instance();
-}
-
 
 void BrewBlox_testTypes::Clear() {
 // @@protoc_insertion_point(message_clear_start:BrewBlox_testTypes)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _has_bits_.Clear();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool BrewBlox_testTypes::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:BrewBlox_testTypes)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
-  }
+const char* BrewBlox_testTypes::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:BrewBlox_testTypes)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:BrewBlox_testTypes)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void BrewBlox_testTypes::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:BrewBlox_testTypes)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:BrewBlox_testTypes)
-}
-
-::google::protobuf::uint8* BrewBlox_testTypes::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* BrewBlox_testTypes::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:BrewBlox_testTypes)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:BrewBlox_testTypes)
   return target;
@@ -494,45 +432,39 @@ size_t BrewBlox_testTypes::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:BrewBlox_testTypes)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void BrewBlox_testTypes::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:BrewBlox_testTypes)
-  GOOGLE_DCHECK_NE(&from, this);
-  const BrewBlox_testTypes* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const BrewBlox_testTypes>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BrewBlox_testTypes)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:BrewBlox_testTypes)
-    MergeFrom(*source);
-  }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BrewBlox_testTypes::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    BrewBlox_testTypes::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BrewBlox_testTypes::GetClassData() const { return &_class_data_; }
+
+void BrewBlox_testTypes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
+  static_cast<BrewBlox_testTypes *>(to)->MergeFrom(
+      static_cast<const BrewBlox_testTypes &>(from));
 }
+
 
 void BrewBlox_testTypes::MergeFrom(const BrewBlox_testTypes& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:BrewBlox_testTypes)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-}
-
-void BrewBlox_testTypes::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:BrewBlox_testTypes)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void BrewBlox_testTypes::CopyFrom(const BrewBlox_testTypes& from) {
@@ -546,212 +478,170 @@ bool BrewBlox_testTypes::IsInitialized() const {
   return true;
 }
 
-void BrewBlox_testTypes::Swap(BrewBlox_testTypes* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void BrewBlox_testTypes::InternalSwap(BrewBlox_testTypes* other) {
   using std::swap;
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata BrewBlox_testTypes::GetMetadata() const {
-  protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_brewblox_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata BrewBlox_testTypes::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_brewblox_5ftest_2eproto_getter, &descriptor_table_brewblox_5ftest_2eproto_once,
+      file_level_metadata_brewblox_5ftest_2eproto[0]);
 }
-
 
 // ===================================================================
 
-void BrewBlox_testMessageOptions::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int BrewBlox_testMessageOptions::kObjtypeFieldNumber;
-const int BrewBlox_testMessageOptions::kImplFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class BrewBlox_testMessageOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<BrewBlox_testMessageOptions>()._has_bits_);
+  static void set_has_objtype(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
 
-BrewBlox_testMessageOptions::BrewBlox_testMessageOptions()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_brewblox_5ftest_2eproto::scc_info_BrewBlox_testMessageOptions.base);
+BrewBlox_testMessageOptions::BrewBlox_testMessageOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
+  impl_(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:BrewBlox_testMessageOptions)
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:BrewBlox_testMessageOptions)
 }
 BrewBlox_testMessageOptions::BrewBlox_testMessageOptions(const BrewBlox_testMessageOptions& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_),
       impl_(from.impl_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   objtype_ = from.objtype_;
   // @@protoc_insertion_point(copy_constructor:BrewBlox_testMessageOptions)
 }
 
-void BrewBlox_testMessageOptions::SharedCtor() {
-  objtype_ = 0;
+inline void BrewBlox_testMessageOptions::SharedCtor() {
+objtype_ = 0;
 }
 
 BrewBlox_testMessageOptions::~BrewBlox_testMessageOptions() {
   // @@protoc_insertion_point(destructor:BrewBlox_testMessageOptions)
+  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void BrewBlox_testMessageOptions::SharedDtor() {
+inline void BrewBlox_testMessageOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
+void BrewBlox_testMessageOptions::ArenaDtor(void* object) {
+  BrewBlox_testMessageOptions* _this = reinterpret_cast< BrewBlox_testMessageOptions* >(object);
+  (void)_this;
+}
+void BrewBlox_testMessageOptions::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void BrewBlox_testMessageOptions::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* BrewBlox_testMessageOptions::descriptor() {
-  ::protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_brewblox_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const BrewBlox_testMessageOptions& BrewBlox_testMessageOptions::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_brewblox_5ftest_2eproto::scc_info_BrewBlox_testMessageOptions.base);
-  return *internal_default_instance();
-}
-
 
 void BrewBlox_testMessageOptions::Clear() {
 // @@protoc_insertion_point(message_clear_start:BrewBlox_testMessageOptions)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   impl_.Clear();
   objtype_ = 0;
   _has_bits_.Clear();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool BrewBlox_testMessageOptions::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:BrewBlox_testMessageOptions)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* BrewBlox_testMessageOptions::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
       // optional .BrewBlox_testTypes.BlockType objtype = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::BrewBlox_testTypes_BlockType_IsValid(value)) {
-            set_objtype(static_cast< ::BrewBlox_testTypes_BlockType >(value));
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::BrewBlox_testTypes_BlockType_IsValid(val))) {
+            _internal_set_objtype(static_cast<::BrewBlox_testTypes_BlockType>(val));
           } else {
-            mutable_unknown_fields()->AddVarint(
-                3, static_cast< ::google::protobuf::uint64>(value));
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(3, val, mutable_unknown_fields());
           }
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+        } else goto handle_unusual;
+        continue;
       // repeated .BrewBlox_testTypes.BlockType impl = 9 [(.nanopb_test) = {
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::BrewBlox_testTypes_BlockType_IsValid(value)) {
-            add_impl(static_cast< ::BrewBlox_testTypes_BlockType >(value));
-          } else {
-            mutable_unknown_fields()->AddVarint(
-                9, static_cast< ::google::protobuf::uint64>(value));
-          }
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormat::ReadPackedEnumPreserveUnknowns(
-                 input,
-                 9,
-                 ::BrewBlox_testTypes_BlockType_IsValid,
-                 mutable_unknown_fields(),
-                 this->mutable_impl())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+            CHK_(ptr);
+            if (PROTOBUF_PREDICT_TRUE(::BrewBlox_testTypes_BlockType_IsValid(val))) {
+              _internal_add_impl(static_cast<::BrewBlox_testTypes_BlockType>(val));
+            } else {
+              ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(9, val, mutable_unknown_fields());
+            }
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<72>(ptr));
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(_internal_mutable_impl(), ptr, ctx, ::BrewBlox_testTypes_BlockType_IsValid, &_internal_metadata_, 9);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:BrewBlox_testMessageOptions)
-  return true;
+  _has_bits_.Or(has_bits);
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:BrewBlox_testMessageOptions)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void BrewBlox_testMessageOptions::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:BrewBlox_testMessageOptions)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // optional .BrewBlox_testTypes.BlockType objtype = 3;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->objtype(), output);
-  }
-
-  // repeated .BrewBlox_testTypes.BlockType impl = 9 [(.nanopb_test) = {
-  for (int i = 0, n = this->impl_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      9, this->impl(i), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:BrewBlox_testMessageOptions)
-}
-
-::google::protobuf::uint8* BrewBlox_testMessageOptions::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* BrewBlox_testMessageOptions::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:BrewBlox_testMessageOptions)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
   // optional .BrewBlox_testTypes.BlockType objtype = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->objtype(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_objtype(), target);
   }
 
   // repeated .BrewBlox_testTypes.BlockType impl = 9 [(.nanopb_test) = {
-  target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-    9, this->impl_, target);
+  for (int i = 0, n = this->_internal_impl_size(); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+        9, this->_internal_impl(i), target);
+  }
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:BrewBlox_testMessageOptions)
   return target;
@@ -761,65 +651,60 @@ size_t BrewBlox_testMessageOptions::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:BrewBlox_testMessageOptions)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated .BrewBlox_testTypes.BlockType impl = 9 [(.nanopb_test) = {
   {
     size_t data_size = 0;
-    unsigned int count = static_cast<unsigned int>(this->impl_size());for (unsigned int i = 0; i < count; i++) {
-      data_size += ::google::protobuf::internal::WireFormatLite::EnumSize(
-        this->impl(static_cast<int>(i)));
+    unsigned int count = static_cast<unsigned int>(this->_internal_impl_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(
+        this->_internal_impl(static_cast<int>(i)));
     }
     total_size += (1UL * count) + data_size;
   }
 
   // optional .BrewBlox_testTypes.BlockType objtype = 3;
-  if (has_objtype()) {
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->objtype());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_objtype());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void BrewBlox_testMessageOptions::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:BrewBlox_testMessageOptions)
-  GOOGLE_DCHECK_NE(&from, this);
-  const BrewBlox_testMessageOptions* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const BrewBlox_testMessageOptions>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BrewBlox_testMessageOptions)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:BrewBlox_testMessageOptions)
-    MergeFrom(*source);
-  }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BrewBlox_testMessageOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    BrewBlox_testMessageOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BrewBlox_testMessageOptions::GetClassData() const { return &_class_data_; }
+
+void BrewBlox_testMessageOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
+  static_cast<BrewBlox_testMessageOptions *>(to)->MergeFrom(
+      static_cast<const BrewBlox_testMessageOptions &>(from));
 }
+
 
 void BrewBlox_testMessageOptions::MergeFrom(const BrewBlox_testMessageOptions& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:BrewBlox_testMessageOptions)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   impl_.MergeFrom(from.impl_);
-  if (from.has_objtype()) {
-    set_objtype(from.objtype());
+  if (from._internal_has_objtype()) {
+    _internal_set_objtype(from._internal_objtype());
   }
-}
-
-void BrewBlox_testMessageOptions::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:BrewBlox_testMessageOptions)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void BrewBlox_testMessageOptions::CopyFrom(const BrewBlox_testMessageOptions& from) {
@@ -833,419 +718,316 @@ bool BrewBlox_testMessageOptions::IsInitialized() const {
   return true;
 }
 
-void BrewBlox_testMessageOptions::Swap(BrewBlox_testMessageOptions* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void BrewBlox_testMessageOptions::InternalSwap(BrewBlox_testMessageOptions* other) {
   using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   impl_.InternalSwap(&other->impl_);
   swap(objtype_, other->objtype_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata BrewBlox_testMessageOptions::GetMetadata() const {
-  protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_brewblox_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata BrewBlox_testMessageOptions::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_brewblox_5ftest_2eproto_getter, &descriptor_table_brewblox_5ftest_2eproto_once,
+      file_level_metadata_brewblox_5ftest_2eproto[1]);
 }
-
 
 // ===================================================================
 
-void BrewBlox_testFieldOptions::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int BrewBlox_testFieldOptions::kUnitFieldNumber;
-const int BrewBlox_testFieldOptions::kScaleFieldNumber;
-const int BrewBlox_testFieldOptions::kObjtypeFieldNumber;
-const int BrewBlox_testFieldOptions::kHexedFieldNumber;
-const int BrewBlox_testFieldOptions::kReadonlyFieldNumber;
-const int BrewBlox_testFieldOptions::kLoggedFieldNumber;
-const int BrewBlox_testFieldOptions::kHexstrFieldNumber;
-const int BrewBlox_testFieldOptions::kDrivenFieldNumber;
-const int BrewBlox_testFieldOptions::kIgnoredFieldNumber;
-const int BrewBlox_testFieldOptions::kBitfieldFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class BrewBlox_testFieldOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<BrewBlox_testFieldOptions>()._has_bits_);
+  static void set_has_unit(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_scale(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_objtype(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_hexed(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_readonly(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static void set_has_logged(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+  static void set_has_hexstr(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
+  static void set_has_driven(HasBits* has_bits) {
+    (*has_bits)[0] |= 128u;
+  }
+  static void set_has_ignored(HasBits* has_bits) {
+    (*has_bits)[0] |= 256u;
+  }
+  static void set_has_bitfield(HasBits* has_bits) {
+    (*has_bits)[0] |= 512u;
+  }
+};
 
-BrewBlox_testFieldOptions::BrewBlox_testFieldOptions()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_brewblox_5ftest_2eproto::scc_info_BrewBlox_testFieldOptions.base);
+BrewBlox_testFieldOptions::BrewBlox_testFieldOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:BrewBlox_testFieldOptions)
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:BrewBlox_testFieldOptions)
 }
 BrewBlox_testFieldOptions::BrewBlox_testFieldOptions(const BrewBlox_testFieldOptions& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&unit_, &from.unit_,
     static_cast<size_t>(reinterpret_cast<char*>(&bitfield_) -
     reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
   // @@protoc_insertion_point(copy_constructor:BrewBlox_testFieldOptions)
 }
 
-void BrewBlox_testFieldOptions::SharedCtor() {
-  ::memset(&unit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&bitfield_) -
-      reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
+inline void BrewBlox_testFieldOptions::SharedCtor() {
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&unit_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&bitfield_) -
+    reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
 }
 
 BrewBlox_testFieldOptions::~BrewBlox_testFieldOptions() {
   // @@protoc_insertion_point(destructor:BrewBlox_testFieldOptions)
+  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void BrewBlox_testFieldOptions::SharedDtor() {
+inline void BrewBlox_testFieldOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
+void BrewBlox_testFieldOptions::ArenaDtor(void* object) {
+  BrewBlox_testFieldOptions* _this = reinterpret_cast< BrewBlox_testFieldOptions* >(object);
+  (void)_this;
+}
+void BrewBlox_testFieldOptions::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void BrewBlox_testFieldOptions::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* BrewBlox_testFieldOptions::descriptor() {
-  ::protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_brewblox_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const BrewBlox_testFieldOptions& BrewBlox_testFieldOptions::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_brewblox_5ftest_2eproto::scc_info_BrewBlox_testFieldOptions.base);
-  return *internal_default_instance();
-}
-
 
 void BrewBlox_testFieldOptions::Clear() {
 // @@protoc_insertion_point(message_clear_start:BrewBlox_testFieldOptions)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 255u) {
+  if (cached_has_bits & 0x000000ffu) {
     ::memset(&unit_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&driven_) -
         reinterpret_cast<char*>(&unit_)) + sizeof(driven_));
   }
-  if (cached_has_bits & 768u) {
+  if (cached_has_bits & 0x00000300u) {
     ::memset(&ignored_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&bitfield_) -
         reinterpret_cast<char*>(&ignored_)) + sizeof(bitfield_));
   }
   _has_bits_.Clear();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool BrewBlox_testFieldOptions::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:BrewBlox_testFieldOptions)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* BrewBlox_testFieldOptions::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
       // optional .BrewBlox_testTypes.UnitType unit = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::BrewBlox_testTypes_UnitType_IsValid(value)) {
-            set_unit(static_cast< ::BrewBlox_testTypes_UnitType >(value));
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::BrewBlox_testTypes_UnitType_IsValid(val))) {
+            _internal_set_unit(static_cast<::BrewBlox_testTypes_UnitType>(val));
           } else {
-            mutable_unknown_fields()->AddVarint(
-                1, static_cast< ::google::protobuf::uint64>(value));
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(1, val, mutable_unknown_fields());
           }
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+        } else goto handle_unusual;
+        continue;
       // optional uint32 scale = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-          set_has_scale();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &scale_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          _Internal::set_has_scale(&has_bits);
+          scale_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional .BrewBlox_testTypes.BlockType objtype = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::BrewBlox_testTypes_BlockType_IsValid(value)) {
-            set_objtype(static_cast< ::BrewBlox_testTypes_BlockType >(value));
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::BrewBlox_testTypes_BlockType_IsValid(val))) {
+            _internal_set_objtype(static_cast<::BrewBlox_testTypes_BlockType>(val));
           } else {
-            mutable_unknown_fields()->AddVarint(
-                3, static_cast< ::google::protobuf::uint64>(value));
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(3, val, mutable_unknown_fields());
           }
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+        } else goto handle_unusual;
+        continue;
       // optional bool hexed = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
-          set_has_hexed();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &hexed_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          _Internal::set_has_hexed(&has_bits);
+          hexed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional bool readonly = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
-          set_has_readonly();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &readonly_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          _Internal::set_has_readonly(&has_bits);
+          readonly_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional bool logged = 6;
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-          set_has_logged();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &logged_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          _Internal::set_has_logged(&has_bits);
+          logged_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional bool hexstr = 7;
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
-          set_has_hexstr();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &hexstr_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          _Internal::set_has_hexstr(&has_bits);
+          hexstr_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional bool driven = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
-          set_has_driven();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &driven_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          _Internal::set_has_driven(&has_bits);
+          driven_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional bool ignored = 9;
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
-          set_has_ignored();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &ignored_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          _Internal::set_has_ignored(&has_bits);
+          ignored_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional bool bitfield = 10;
-      case 10: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
-          set_has_bitfield();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &bitfield_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+          _Internal::set_has_bitfield(&has_bits);
+          bitfield_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:BrewBlox_testFieldOptions)
-  return true;
+  _has_bits_.Or(has_bits);
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:BrewBlox_testFieldOptions)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void BrewBlox_testFieldOptions::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:BrewBlox_testFieldOptions)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // optional .BrewBlox_testTypes.UnitType unit = 1;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->unit(), output);
-  }
-
-  // optional uint32 scale = 2;
-  if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->scale(), output);
-  }
-
-  // optional .BrewBlox_testTypes.BlockType objtype = 3;
-  if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->objtype(), output);
-  }
-
-  // optional bool hexed = 4;
-  if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->hexed(), output);
-  }
-
-  // optional bool readonly = 5;
-  if (cached_has_bits & 0x00000010u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->readonly(), output);
-  }
-
-  // optional bool logged = 6;
-  if (cached_has_bits & 0x00000020u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(6, this->logged(), output);
-  }
-
-  // optional bool hexstr = 7;
-  if (cached_has_bits & 0x00000040u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->hexstr(), output);
-  }
-
-  // optional bool driven = 8;
-  if (cached_has_bits & 0x00000080u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->driven(), output);
-  }
-
-  // optional bool ignored = 9;
-  if (cached_has_bits & 0x00000100u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(9, this->ignored(), output);
-  }
-
-  // optional bool bitfield = 10;
-  if (cached_has_bits & 0x00000200u) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(10, this->bitfield(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:BrewBlox_testFieldOptions)
-}
-
-::google::protobuf::uint8* BrewBlox_testFieldOptions::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* BrewBlox_testFieldOptions::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:BrewBlox_testFieldOptions)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
   // optional .BrewBlox_testTypes.UnitType unit = 1;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->unit(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_unit(), target);
   }
 
   // optional uint32 scale = 2;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->scale(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_scale(), target);
   }
 
   // optional .BrewBlox_testTypes.BlockType objtype = 3;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->objtype(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_objtype(), target);
   }
 
   // optional bool hexed = 4;
   if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(4, this->hexed(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(4, this->_internal_hexed(), target);
   }
 
   // optional bool readonly = 5;
   if (cached_has_bits & 0x00000010u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->readonly(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(5, this->_internal_readonly(), target);
   }
 
   // optional bool logged = 6;
   if (cached_has_bits & 0x00000020u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(6, this->logged(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(6, this->_internal_logged(), target);
   }
 
   // optional bool hexstr = 7;
   if (cached_has_bits & 0x00000040u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->hexstr(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(7, this->_internal_hexstr(), target);
   }
 
   // optional bool driven = 8;
   if (cached_has_bits & 0x00000080u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->driven(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(8, this->_internal_driven(), target);
   }
 
   // optional bool ignored = 9;
   if (cached_has_bits & 0x00000100u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(9, this->ignored(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(9, this->_internal_ignored(), target);
   }
 
   // optional bool bitfield = 10;
   if (cached_has_bits & 0x00000200u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(10, this->bitfield(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(10, this->_internal_bitfield(), target);
   }
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:BrewBlox_testFieldOptions)
   return target;
@@ -1255,98 +1037,99 @@ size_t BrewBlox_testFieldOptions::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:BrewBlox_testFieldOptions)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  if (_has_bits_[0 / 32] & 255u) {
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x000000ffu) {
     // optional .BrewBlox_testTypes.UnitType unit = 1;
-    if (has_unit()) {
+    if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->unit());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_unit());
     }
 
     // optional uint32 scale = 2;
-    if (has_scale()) {
+    if (cached_has_bits & 0x00000002u) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->scale());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+          this->_internal_scale());
     }
 
     // optional .BrewBlox_testTypes.BlockType objtype = 3;
-    if (has_objtype()) {
+    if (cached_has_bits & 0x00000004u) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->objtype());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_objtype());
     }
 
     // optional bool hexed = 4;
-    if (has_hexed()) {
+    if (cached_has_bits & 0x00000008u) {
       total_size += 1 + 1;
     }
 
     // optional bool readonly = 5;
-    if (has_readonly()) {
+    if (cached_has_bits & 0x00000010u) {
       total_size += 1 + 1;
     }
 
     // optional bool logged = 6;
-    if (has_logged()) {
+    if (cached_has_bits & 0x00000020u) {
       total_size += 1 + 1;
     }
 
     // optional bool hexstr = 7;
-    if (has_hexstr()) {
+    if (cached_has_bits & 0x00000040u) {
       total_size += 1 + 1;
     }
 
     // optional bool driven = 8;
-    if (has_driven()) {
+    if (cached_has_bits & 0x00000080u) {
       total_size += 1 + 1;
     }
 
   }
-  if (_has_bits_[8 / 32] & 768u) {
+  if (cached_has_bits & 0x00000300u) {
     // optional bool ignored = 9;
-    if (has_ignored()) {
+    if (cached_has_bits & 0x00000100u) {
       total_size += 1 + 1;
     }
 
     // optional bool bitfield = 10;
-    if (has_bitfield()) {
+    if (cached_has_bits & 0x00000200u) {
       total_size += 1 + 1;
     }
 
   }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void BrewBlox_testFieldOptions::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:BrewBlox_testFieldOptions)
-  GOOGLE_DCHECK_NE(&from, this);
-  const BrewBlox_testFieldOptions* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const BrewBlox_testFieldOptions>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BrewBlox_testFieldOptions)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:BrewBlox_testFieldOptions)
-    MergeFrom(*source);
-  }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BrewBlox_testFieldOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    BrewBlox_testFieldOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BrewBlox_testFieldOptions::GetClassData() const { return &_class_data_; }
+
+void BrewBlox_testFieldOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
+  static_cast<BrewBlox_testFieldOptions *>(to)->MergeFrom(
+      static_cast<const BrewBlox_testFieldOptions &>(from));
 }
+
 
 void BrewBlox_testFieldOptions::MergeFrom(const BrewBlox_testFieldOptions& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:BrewBlox_testFieldOptions)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 255u) {
+  if (cached_has_bits & 0x000000ffu) {
     if (cached_has_bits & 0x00000001u) {
       unit_ = from.unit_;
     }
@@ -1373,7 +1156,7 @@ void BrewBlox_testFieldOptions::MergeFrom(const BrewBlox_testFieldOptions& from)
     }
     _has_bits_[0] |= cached_has_bits;
   }
-  if (cached_has_bits & 768u) {
+  if (cached_has_bits & 0x00000300u) {
     if (cached_has_bits & 0x00000100u) {
       ignored_ = from.ignored_;
     }
@@ -1382,13 +1165,7 @@ void BrewBlox_testFieldOptions::MergeFrom(const BrewBlox_testFieldOptions& from)
     }
     _has_bits_[0] |= cached_has_bits;
   }
-}
-
-void BrewBlox_testFieldOptions::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:BrewBlox_testFieldOptions)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void BrewBlox_testFieldOptions::CopyFrom(const BrewBlox_testFieldOptions& from) {
@@ -1402,51 +1179,42 @@ bool BrewBlox_testFieldOptions::IsInitialized() const {
   return true;
 }
 
-void BrewBlox_testFieldOptions::Swap(BrewBlox_testFieldOptions* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void BrewBlox_testFieldOptions::InternalSwap(BrewBlox_testFieldOptions* other) {
   using std::swap;
-  swap(unit_, other->unit_);
-  swap(scale_, other->scale_);
-  swap(objtype_, other->objtype_);
-  swap(hexed_, other->hexed_);
-  swap(readonly_, other->readonly_);
-  swap(logged_, other->logged_);
-  swap(hexstr_, other->hexstr_);
-  swap(driven_, other->driven_);
-  swap(ignored_, other->ignored_);
-  swap(bitfield_, other->bitfield_);
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BrewBlox_testFieldOptions, bitfield_)
+      + sizeof(BrewBlox_testFieldOptions::bitfield_)
+      - PROTOBUF_FIELD_OFFSET(BrewBlox_testFieldOptions, unit_)>(
+          reinterpret_cast<char*>(&unit_),
+          reinterpret_cast<char*>(&other->unit_));
 }
 
-::google::protobuf::Metadata BrewBlox_testFieldOptions::GetMetadata() const {
-  protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_brewblox_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata BrewBlox_testFieldOptions::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_brewblox_5ftest_2eproto_getter, &descriptor_table_brewblox_5ftest_2eproto_once,
+      file_level_metadata_brewblox_5ftest_2eproto[2]);
 }
-
-::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::BrewBlox_testFieldOptions >, 11, false >
-  brewblox_test(kBrewbloxTestFieldNumber, *::BrewBlox_testFieldOptions::internal_default_instance());
-::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::BrewBlox_testMessageOptions >, 11, false >
-  brewblox_test_msg(kBrewbloxTestMsgFieldNumber, *::BrewBlox_testMessageOptions::internal_default_instance());
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
+    ::PROTOBUF_NAMESPACE_ID::internal::MessageTypeTraits< ::BrewBlox_testFieldOptions >, 11, false >
+  brewblox_test(kBrewbloxTestFieldNumber, ::BrewBlox_testFieldOptions::default_instance());
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
+    ::PROTOBUF_NAMESPACE_ID::internal::MessageTypeTraits< ::BrewBlox_testMessageOptions >, 11, false >
+  brewblox_test_msg(kBrewbloxTestMsgFieldNumber, ::BrewBlox_testMessageOptions::default_instance());
 
 // @@protoc_insertion_point(namespace_scope)
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::BrewBlox_testTypes* Arena::CreateMaybeMessage< ::BrewBlox_testTypes >(Arena* arena) {
-  return Arena::CreateInternal< ::BrewBlox_testTypes >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::BrewBlox_testTypes* Arena::CreateMaybeMessage< ::BrewBlox_testTypes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BrewBlox_testTypes >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::BrewBlox_testMessageOptions* Arena::CreateMaybeMessage< ::BrewBlox_testMessageOptions >(Arena* arena) {
-  return Arena::CreateInternal< ::BrewBlox_testMessageOptions >(arena);
+template<> PROTOBUF_NOINLINE ::BrewBlox_testMessageOptions* Arena::CreateMaybeMessage< ::BrewBlox_testMessageOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BrewBlox_testMessageOptions >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::BrewBlox_testFieldOptions* Arena::CreateMaybeMessage< ::BrewBlox_testFieldOptions >(Arena* arena) {
-  return Arena::CreateInternal< ::BrewBlox_testFieldOptions >(arena);
+template<> PROTOBUF_NOINLINE ::BrewBlox_testFieldOptions* Arena::CreateMaybeMessage< ::BrewBlox_testFieldOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BrewBlox_testFieldOptions >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

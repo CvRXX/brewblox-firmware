@@ -5,138 +5,108 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
+#include <google/protobuf/port_def.inc>
 
-namespace protobuf_DigitalConstraints_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_DigitalConstraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_DigitalConstraints;
-}  // namespace protobuf_DigitalConstraints_5ftest_2eproto
+PROTOBUF_PRAGMA_INIT_SEG
 namespace blox {
-class MotorValveDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<MotorValve>
-      _instance;
-} _MotorValve_default_instance_;
+constexpr MotorValve::MotorValve(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : strippedfields_()
+  , _strippedfields_cached_byte_size_(0)
+  , constrainedby_(nullptr)
+  , hwdevice_(0u)
+  , startchannel_(0u)
+  , state_(0)
+
+  , valvestate_(0)
+
+  , desiredstate_(0)
+{}
+struct MotorValveDefaultTypeInternal {
+  constexpr MotorValveDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~MotorValveDefaultTypeInternal() {}
+  union {
+    MotorValve _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT MotorValveDefaultTypeInternal _MotorValve_default_instance_;
 }  // namespace blox
-namespace protobuf_MotorValve_5ftest_2eproto {
-static void InitDefaultsMotorValve() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_MotorValve_5ftest_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_MotorValve_5ftest_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_MotorValve_5ftest_2eproto = nullptr;
 
-  {
-    void* ptr = &::blox::_MotorValve_default_instance_;
-    new (ptr) ::blox::MotorValve();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox::MotorValve::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<1> scc_info_MotorValve =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsMotorValve}, {
-      &protobuf_DigitalConstraints_5ftest_2eproto::scc_info_DigitalConstraints.base,}};
-
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_MotorValve.base);
-}
-
-::google::protobuf::Metadata file_level_metadata[1];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_MotorValve_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, hwdevice_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, startchannel_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, state_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, valvestate_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, desiredstate_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MotorValve, strippedfields_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, hwdevice_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, startchannel_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, state_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, constrainedby_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, valvestate_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, desiredstate_),
+  PROTOBUF_FIELD_OFFSET(::blox::MotorValve, strippedfields_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::MotorValve)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_MotorValve_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox::_MotorValve_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "MotorValve_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
+const char descriptor_table_protodef_MotorValve_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\025MotorValve_test.proto\022\004blox\032\023brewblox_"
+  "test.proto\032\021nanopb_test.proto\032\035DigitalCo"
+  "nstraints_test.proto\032\022IoArray_test.proto"
+  "\"\363\003\n\nMotorValve\022#\n\010hwDevice\030\001 \001(\rB\021\212\265\030\002\030"
+  "\013\212\265\030\002@\001\222\?\0028\020\022\033\n\014startChannel\030\002 \001(\rB\005\222\?\0028"
+  "\010\022/\n\005state\030\003 \001(\0162\022.blox.DigitalStateB\014\212\265"
+  "\030\0020\001\212\265\030\002(\001\022/\n\rconstrainedBy\030\005 \001(\0132\030.blox"
+  ".DigitalConstraints\022=\n\nvalveState\030\006 \001(\0162"
+  "\033.blox.MotorValve.ValveStateB\014\212\265\030\0020\001\212\265\030\002"
+  "(\001\0220\n\014desiredState\030\007 \001(\0162\022.blox.DigitalS"
+  "tateB\006\212\265\030\0020\001\022(\n\016strippedFields\030c \003(\rB\020\212\265"
+  "\030\002(\001\222\?\0028\020\222\?\002\020\002\"\226\001\n\nValveState\022\021\n\rVALVE_U"
+  "NKNOWN\020\000\022\016\n\nVALVE_OPEN\020\001\022\020\n\014VALVE_CLOSED"
+  "\020\002\022\021\n\rVALVE_OPENING\020\003\022\021\n\rVALVE_CLOSING\020\004"
+  "\022\030\n\024VALVE_HALF_OPEN_IDLE\020\005\022\023\n\017VALVE_INIT"
+  "_IDLE\020\006:\r\212\265\030\003\030\301\002\212\265\030\002H\006b\006proto3"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_MotorValve_5ftest_2eproto_deps[4] = {
+  &::descriptor_table_DigitalConstraints_5ftest_2eproto,
+  &::descriptor_table_IoArray_5ftest_2eproto,
+  &::descriptor_table_brewblox_5ftest_2eproto,
+  &::descriptor_table_nanopb_5ftest_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_MotorValve_5ftest_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MotorValve_5ftest_2eproto = {
+  false, false, 630, descriptor_table_protodef_MotorValve_5ftest_2eproto, "MotorValve_test.proto", 
+  &descriptor_table_MotorValve_5ftest_2eproto_once, descriptor_table_MotorValve_5ftest_2eproto_deps, 4, 1,
+  schemas, file_default_instances, TableStruct_MotorValve_5ftest_2eproto::offsets,
+  file_level_metadata_MotorValve_5ftest_2eproto, file_level_enum_descriptors_MotorValve_5ftest_2eproto, file_level_service_descriptors_MotorValve_5ftest_2eproto,
+};
+PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable* descriptor_table_MotorValve_5ftest_2eproto_getter() {
+  return &descriptor_table_MotorValve_5ftest_2eproto;
 }
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\025MotorValve_test.proto\022\004blox\032\023brewblox_"
-      "test.proto\032\021nanopb_test.proto\032\035DigitalCo"
-      "nstraints_test.proto\032\022IoArray_test.proto"
-      "\"\363\003\n\nMotorValve\022#\n\010hwDevice\030\001 \001(\rB\021\212\265\030\002\030"
-      "\013\212\265\030\002@\001\222\?\0028\020\022\033\n\014startChannel\030\002 \001(\rB\005\222\?\0028"
-      "\010\022/\n\005state\030\003 \001(\0162\022.blox.DigitalStateB\014\212\265"
-      "\030\0020\001\212\265\030\002(\001\022/\n\rconstrainedBy\030\005 \001(\0132\030.blox"
-      ".DigitalConstraints\022=\n\nvalveState\030\006 \001(\0162"
-      "\033.blox.MotorValve.ValveStateB\014\212\265\030\0020\001\212\265\030\002"
-      "(\001\0220\n\014desiredState\030\007 \001(\0162\022.blox.DigitalS"
-      "tateB\006\212\265\030\0020\001\022(\n\016strippedFields\030c \003(\rB\020\212\265"
-      "\030\002(\001\222\?\0028\020\222\?\002\020\002\"\226\001\n\nValveState\022\021\n\rVALVE_U"
-      "NKNOWN\020\000\022\016\n\nVALVE_OPEN\020\001\022\020\n\014VALVE_CLOSED"
-      "\020\002\022\021\n\rVALVE_OPENING\020\003\022\021\n\rVALVE_CLOSING\020\004"
-      "\022\030\n\024VALVE_HALF_OPEN_IDLE\020\005\022\023\n\017VALVE_INIT"
-      "_IDLE\020\006:\r\212\265\030\003\030\301\002\212\265\030\002H\006b\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 630);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "MotorValve_test.proto", &protobuf_RegisterTypes);
-  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
-  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-  ::protobuf_DigitalConstraints_5ftest_2eproto::AddDescriptors();
-  ::protobuf_IoArray_5ftest_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_MotorValve_5ftest_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_MotorValve_5ftest_2eproto(&descriptor_table_MotorValve_5ftest_2eproto);
 namespace blox {
-const ::google::protobuf::EnumDescriptor* MotorValve_ValveState_descriptor() {
-  protobuf_MotorValve_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_MotorValve_5ftest_2eproto::file_level_enum_descriptors[0];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MotorValve_ValveState_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MotorValve_5ftest_2eproto);
+  return file_level_enum_descriptors_MotorValve_5ftest_2eproto[0];
 }
 bool MotorValve_ValveState_IsValid(int value) {
   switch (value) {
@@ -153,57 +123,54 @@ bool MotorValve_ValveState_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const MotorValve_ValveState MotorValve::VALVE_UNKNOWN;
-const MotorValve_ValveState MotorValve::VALVE_OPEN;
-const MotorValve_ValveState MotorValve::VALVE_CLOSED;
-const MotorValve_ValveState MotorValve::VALVE_OPENING;
-const MotorValve_ValveState MotorValve::VALVE_CLOSING;
-const MotorValve_ValveState MotorValve::VALVE_HALF_OPEN_IDLE;
-const MotorValve_ValveState MotorValve::VALVE_INIT_IDLE;
-const MotorValve_ValveState MotorValve::ValveState_MIN;
-const MotorValve_ValveState MotorValve::ValveState_MAX;
-const int MotorValve::ValveState_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr MotorValve_ValveState MotorValve::VALVE_UNKNOWN;
+constexpr MotorValve_ValveState MotorValve::VALVE_OPEN;
+constexpr MotorValve_ValveState MotorValve::VALVE_CLOSED;
+constexpr MotorValve_ValveState MotorValve::VALVE_OPENING;
+constexpr MotorValve_ValveState MotorValve::VALVE_CLOSING;
+constexpr MotorValve_ValveState MotorValve::VALVE_HALF_OPEN_IDLE;
+constexpr MotorValve_ValveState MotorValve::VALVE_INIT_IDLE;
+constexpr MotorValve_ValveState MotorValve::ValveState_MIN;
+constexpr MotorValve_ValveState MotorValve::ValveState_MAX;
+constexpr int MotorValve::ValveState_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
-void MotorValve::InitAsDefaultInstance() {
-  ::blox::_MotorValve_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::DigitalConstraints*>(
-      ::blox::DigitalConstraints::internal_default_instance());
+class MotorValve::_Internal {
+ public:
+  static const ::blox::DigitalConstraints& constrainedby(const MotorValve* msg);
+};
+
+const ::blox::DigitalConstraints&
+MotorValve::_Internal::constrainedby(const MotorValve* msg) {
+  return *msg->constrainedby_;
 }
 void MotorValve::clear_constrainedby() {
-  if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
+  if (GetArenaForAllocation() == nullptr && constrainedby_ != nullptr) {
     delete constrainedby_;
   }
-  constrainedby_ = NULL;
+  constrainedby_ = nullptr;
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int MotorValve::kHwDeviceFieldNumber;
-const int MotorValve::kStartChannelFieldNumber;
-const int MotorValve::kStateFieldNumber;
-const int MotorValve::kConstrainedByFieldNumber;
-const int MotorValve::kValveStateFieldNumber;
-const int MotorValve::kDesiredStateFieldNumber;
-const int MotorValve::kStrippedFieldsFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-MotorValve::MotorValve()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_MotorValve_5ftest_2eproto::scc_info_MotorValve.base);
+MotorValve::MotorValve(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
+  strippedfields_(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.MotorValve)
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:blox.MotorValve)
 }
 MotorValve::MotorValve(const MotorValve& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       strippedfields_(from.strippedfields_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  if (from.has_constrainedby()) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_constrainedby()) {
     constrainedby_ = new ::blox::DigitalConstraints(*from.constrainedby_);
   } else {
-    constrainedby_ = NULL;
+    constrainedby_ = nullptr;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
     static_cast<size_t>(reinterpret_cast<char*>(&desiredstate_) -
@@ -211,302 +178,195 @@ MotorValve::MotorValve(const MotorValve& from)
   // @@protoc_insertion_point(copy_constructor:blox.MotorValve)
 }
 
-void MotorValve::SharedCtor() {
-  ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredstate_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredstate_));
+inline void MotorValve::SharedCtor() {
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&constrainedby_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&desiredstate_) -
+    reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredstate_));
 }
 
 MotorValve::~MotorValve() {
   // @@protoc_insertion_point(destructor:blox.MotorValve)
+  if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void MotorValve::SharedDtor() {
+inline void MotorValve::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete constrainedby_;
 }
 
+void MotorValve::ArenaDtor(void* object) {
+  MotorValve* _this = reinterpret_cast< MotorValve* >(object);
+  (void)_this;
+}
+void MotorValve::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void MotorValve::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* MotorValve::descriptor() {
-  ::protobuf_MotorValve_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MotorValve_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const MotorValve& MotorValve::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_MotorValve_5ftest_2eproto::scc_info_MotorValve.base);
-  return *internal_default_instance();
-}
-
 
 void MotorValve::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox.MotorValve)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   strippedfields_.Clear();
-  if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
+  if (GetArenaForAllocation() == nullptr && constrainedby_ != nullptr) {
     delete constrainedby_;
   }
-  constrainedby_ = NULL;
+  constrainedby_ = nullptr;
   ::memset(&hwdevice_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&desiredstate_) -
       reinterpret_cast<char*>(&hwdevice_)) + sizeof(desiredstate_));
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool MotorValve::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.MotorValve)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* MotorValve::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
       // uint32 hwDevice = 1 [(.nanopb_test) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &hwdevice_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          hwdevice_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 startChannel = 2 [(.nanopb_test) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &startchannel_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          startchannel_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .blox.DigitalState state = 3 [(.brewblox_test) = {
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_state(static_cast< ::blox::DigitalState >(value));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_state(static_cast<::blox::DigitalState>(val));
+        } else goto handle_unusual;
+        continue;
       // .blox.DigitalConstraints constrainedBy = 5;
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_constrainedby()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_constrainedby(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_valvestate(static_cast< ::blox::MotorValve_ValveState >(value));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_valvestate(static_cast<::blox::MotorValve_ValveState>(val));
+        } else goto handle_unusual;
+        continue;
       // .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_desiredstate(static_cast< ::blox::DigitalState >(value));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_desiredstate(static_cast<::blox::DigitalState>(val));
+        } else goto handle_unusual;
+        continue;
       // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 99:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt32Parser(_internal_mutable_strippedfields(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24) {
+          _internal_add_strippedfields(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* MotorValve::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:blox.MotorValve)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 hwDevice = 1 [(.nanopb_test) = {
+  if (this->_internal_hwdevice() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_hwdevice(), target);
+  }
+
+  // uint32 startChannel = 2 [(.nanopb_test) = {
+  if (this->_internal_startchannel() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_startchannel(), target);
+  }
+
+  // .blox.DigitalState state = 3 [(.brewblox_test) = {
+  if (this->_internal_state() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_state(), target);
+  }
+
+  // .blox.DigitalConstraints constrainedBy = 5;
+  if (this->_internal_has_constrainedby()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        5, _Internal::constrainedby(this), target, stream);
+  }
+
+  // .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
+  if (this->_internal_valvestate() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      6, this->_internal_valvestate(), target);
+  }
+
+  // .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
+  if (this->_internal_desiredstate() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      7, this->_internal_desiredstate(), target);
+  }
+
+  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  {
+    int byte_size = _strippedfields_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteUInt32Packed(
+          99, _internal_strippedfields(), byte_size, target);
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:blox.MotorValve)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:blox.MotorValve)
-  return false;
-#undef DO_
-}
 
-void MotorValve::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.MotorValve)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 hwDevice = 1 [(.nanopb_test) = {
-  if (this->hwdevice() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->hwdevice(), output);
-  }
-
-  // uint32 startChannel = 2 [(.nanopb_test) = {
-  if (this->startchannel() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->startchannel(), output);
-  }
-
-  // .blox.DigitalState state = 3 [(.brewblox_test) = {
-  if (this->state() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->state(), output);
-  }
-
-  // .blox.DigitalConstraints constrainedBy = 5;
-  if (this->has_constrainedby()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->_internal_constrainedby(), output);
-  }
-
-  // .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
-  if (this->valvestate() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      6, this->valvestate(), output);
-  }
-
-  // .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
-  if (this->desiredstate() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      7, this->desiredstate(), output);
-  }
-
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox.MotorValve)
-}
-
-::google::protobuf::uint8* MotorValve::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.MotorValve)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 hwDevice = 1 [(.nanopb_test) = {
-  if (this->hwdevice() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->hwdevice(), target);
-  }
-
-  // uint32 startChannel = 2 [(.nanopb_test) = {
-  if (this->startchannel() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->startchannel(), target);
-  }
-
-  // .blox.DigitalState state = 3 [(.brewblox_test) = {
-  if (this->state() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->state(), target);
-  }
-
-  // .blox.DigitalConstraints constrainedBy = 5;
-  if (this->has_constrainedby()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        5, this->_internal_constrainedby(), deterministic, target);
-  }
-
-  // .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
-  if (this->valvestate() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      6, this->valvestate(), target);
-  }
-
-  // .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
-  if (this->desiredstate() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      7, this->desiredstate(), target);
-  }
-
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox.MotorValve)
   return target;
@@ -516,119 +376,112 @@ size_t MotorValve::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox.MotorValve)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
   {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
     if (data_size > 0) {
       total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _strippedfields_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
   // .blox.DigitalConstraints constrainedBy = 5;
-  if (this->has_constrainedby()) {
+  if (this->_internal_has_constrainedby()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *constrainedby_);
   }
 
   // uint32 hwDevice = 1 [(.nanopb_test) = {
-  if (this->hwdevice() != 0) {
+  if (this->_internal_hwdevice() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->hwdevice());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_hwdevice());
   }
 
   // uint32 startChannel = 2 [(.nanopb_test) = {
-  if (this->startchannel() != 0) {
+  if (this->_internal_startchannel() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->startchannel());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_startchannel());
   }
 
   // .blox.DigitalState state = 3 [(.brewblox_test) = {
-  if (this->state() != 0) {
+  if (this->_internal_state() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
   }
 
   // .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
-  if (this->valvestate() != 0) {
+  if (this->_internal_valvestate() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->valvestate());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_valvestate());
   }
 
   // .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
-  if (this->desiredstate() != 0) {
+  if (this->_internal_desiredstate() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->desiredstate());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_desiredstate());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void MotorValve::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.MotorValve)
-  GOOGLE_DCHECK_NE(&from, this);
-  const MotorValve* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const MotorValve>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.MotorValve)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.MotorValve)
-    MergeFrom(*source);
-  }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData MotorValve::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    MotorValve::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*MotorValve::GetClassData() const { return &_class_data_; }
+
+void MotorValve::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message*to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message&from) {
+  static_cast<MotorValve *>(to)->MergeFrom(
+      static_cast<const MotorValve &>(from));
 }
+
 
 void MotorValve::MergeFrom(const MotorValve& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox.MotorValve)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   strippedfields_.MergeFrom(from.strippedfields_);
-  if (from.has_constrainedby()) {
-    mutable_constrainedby()->::blox::DigitalConstraints::MergeFrom(from.constrainedby());
+  if (from._internal_has_constrainedby()) {
+    _internal_mutable_constrainedby()->::blox::DigitalConstraints::MergeFrom(from._internal_constrainedby());
   }
-  if (from.hwdevice() != 0) {
-    set_hwdevice(from.hwdevice());
+  if (from._internal_hwdevice() != 0) {
+    _internal_set_hwdevice(from._internal_hwdevice());
   }
-  if (from.startchannel() != 0) {
-    set_startchannel(from.startchannel());
+  if (from._internal_startchannel() != 0) {
+    _internal_set_startchannel(from._internal_startchannel());
   }
-  if (from.state() != 0) {
-    set_state(from.state());
+  if (from._internal_state() != 0) {
+    _internal_set_state(from._internal_state());
   }
-  if (from.valvestate() != 0) {
-    set_valvestate(from.valvestate());
+  if (from._internal_valvestate() != 0) {
+    _internal_set_valvestate(from._internal_valvestate());
   }
-  if (from.desiredstate() != 0) {
-    set_desiredstate(from.desiredstate());
+  if (from._internal_desiredstate() != 0) {
+    _internal_set_desiredstate(from._internal_desiredstate());
   }
-}
-
-void MotorValve::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.MotorValve)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void MotorValve::CopyFrom(const MotorValve& from) {
@@ -642,36 +495,31 @@ bool MotorValve::IsInitialized() const {
   return true;
 }
 
-void MotorValve::Swap(MotorValve* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void MotorValve::InternalSwap(MotorValve* other) {
   using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   strippedfields_.InternalSwap(&other->strippedfields_);
-  swap(constrainedby_, other->constrainedby_);
-  swap(hwdevice_, other->hwdevice_);
-  swap(startchannel_, other->startchannel_);
-  swap(state_, other->state_);
-  swap(valvestate_, other->valvestate_);
-  swap(desiredstate_, other->desiredstate_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(MotorValve, desiredstate_)
+      + sizeof(MotorValve::desiredstate_)
+      - PROTOBUF_FIELD_OFFSET(MotorValve, constrainedby_)>(
+          reinterpret_cast<char*>(&constrainedby_),
+          reinterpret_cast<char*>(&other->constrainedby_));
 }
 
-::google::protobuf::Metadata MotorValve::GetMetadata() const {
-  protobuf_MotorValve_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MotorValve_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata MotorValve::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_MotorValve_5ftest_2eproto_getter, &descriptor_table_MotorValve_5ftest_2eproto_once,
+      file_level_metadata_MotorValve_5ftest_2eproto[0]);
 }
-
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace blox
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::MotorValve* Arena::CreateMaybeMessage< ::blox::MotorValve >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::MotorValve >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::blox::MotorValve* Arena::CreateMaybeMessage< ::blox::MotorValve >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox::MotorValve >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>
