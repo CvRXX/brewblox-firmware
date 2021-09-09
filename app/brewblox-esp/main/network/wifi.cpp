@@ -128,10 +128,16 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
         /* Signal main application to continue execution */
         xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT);
+
+        /* disable wifi power saving for better performance */
+        esp_wifi_set_ps(WIFI_PS_NONE);
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         connected = false;
         ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
         esp_wifi_connect();
+
+        /* enable wifi power saving */
+        esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
     }
 }
 
@@ -164,9 +170,6 @@ void init(PROVISION_METHOD method, bool forceProvision)
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-
-    /* disable wifi power saving for better performance */
-    esp_wifi_set_ps(WIFI_PS_NONE);
 
     /* Initialize provisioning manager with the configuration parameters set above */
 
