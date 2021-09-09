@@ -92,6 +92,40 @@ void expander_check()
     expander_init(); // device has reset
 }
 
+void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
+{
+    expander.write_reg(SX1508::RegAddr::iOn6, R);
+    expander.write_reg(SX1508::RegAddr::iOn7, G);
+    expander.write_reg(SX1508::RegAddr::iOn3, B);
+
+    if (mode == BREATHE) {
+        //green
+        expander.write_reg(SX1508::RegAddr::tRise7, duration - 1);
+        expander.write_reg(SX1508::RegAddr::tOn7, 1); // 1 period on
+        expander.write_reg(SX1508::RegAddr::tFall7, duration - 1);
+        expander.write_reg(SX1508::RegAddr::off7, 0b00001010); // 1 period off, intensity 2
+        //blue
+        expander.write_reg(SX1508::RegAddr::tRise3, duration - 1);
+        expander.write_reg(SX1508::RegAddr::tOn3, 1); // 1 period on
+        expander.write_reg(SX1508::RegAddr::tFall3, duration - 1);
+        expander.write_reg(SX1508::RegAddr::off3, 0b00001010); // 1 period off, intensity 2
+    } else {
+        //green
+        expander.write_reg(SX1508::RegAddr::tRise7, 0);
+        expander.write_reg(SX1508::RegAddr::tOn7, duration);
+        expander.write_reg(SX1508::RegAddr::tFall7, 0);
+        expander.write_reg(SX1508::RegAddr::off7, duration << 3);
+        //blue
+        expander.write_reg(SX1508::RegAddr::tRise3, 0);
+        expander.write_reg(SX1508::RegAddr::tOn3, duration);
+        expander.write_reg(SX1508::RegAddr::tFall3, 0);
+        expander.write_reg(SX1508::RegAddr::off3, duration << 3);
+    }
+
+    expander.write_reg(SX1508::RegAddr::tOn6, duration);
+    expander.write_reg(SX1508::RegAddr::off6, duration << 3);
+}
+
 void expander_init()
 {
     expander.reset();
@@ -109,23 +143,8 @@ void expander_init()
     // enable led driver on RGB and backlight
     expander.write_reg(SX1508::RegAddr::ledDriverEnable, 0b11101000);
 
-    // Configure Blue and Green for breathing
-    expander.write_reg(SX1508::RegAddr::iOn3, 128);
-    expander.write_reg(SX1508::RegAddr::tRise3, 3);
-    expander.write_reg(SX1508::RegAddr::tOn3, 1);
-    expander.write_reg(SX1508::RegAddr::tFall3, 3);
-    expander.write_reg(SX1508::RegAddr::off3, 0b00001010); // 1 period off, intensity 2
-
-    expander.write_reg(SX1508::RegAddr::iOn7, 128);
-    expander.write_reg(SX1508::RegAddr::tRise7, 3);
-    expander.write_reg(SX1508::RegAddr::tOn7, 1);
-    expander.write_reg(SX1508::RegAddr::tFall7, 3);
-    expander.write_reg(SX1508::RegAddr::off7, 0b00001010); // 1 period off, intensity 2
-
-    // Configure Red for blinking, but disabled now
-    expander.write_reg(SX1508::RegAddr::iOn6, 0);
-    expander.write_reg(SX1508::RegAddr::tOn6, 15);
-    expander.write_reg(SX1508::RegAddr::off6, 0b01111000); // 1 period off, intensity 0
+    // Blink fast white during boot
+    set_led(128, 128, 128, LED_MODE::BLINK, 1);
 
     // Configure backlight PWM at 50%
     display_brightness(128);
