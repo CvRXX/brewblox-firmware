@@ -3,6 +3,7 @@
 #include "httpserver/connection.hpp"
 #include "httpserver/server.hpp"
 #include "network/CboxServer.hpp"
+#include "network/wifi.hpp"
 #include "ota.hpp"
 
 class HttpHandler {
@@ -19,18 +20,16 @@ public:
                 R"(<html lang=en>)"
                 R"(<head>)"
                 R"(<meta charset=utf-8>)"
-                R"(<title>Spark 4 status page</title>)"
+                R"(<title>This is the Spark 4 status page. For now it only contains a link for WiFi setup.</title>)"
                 R"(</head>)"
                 R"(<body>)"
                 R"(<p>)"
-                R"(Spark 4 test page)"
-                R"(<br />)");
-            for (auto& h : req.headers) {
-                rep.content.append(h.name);
-                rep.content.append(": ");
-                rep.content.append(h.value);
-                rep.content.append("<br />");
-            }
+                R"(Spark 4 status page)"
+                R"(</p><p>)"
+                R"(<a href=')");
+
+            wifi::append_qr_url(rep.content);
+            rep.content.append(R"('>Click here to generate a QR code for WiFi setup</a>)");
             // ending tags are implicit
         });
 

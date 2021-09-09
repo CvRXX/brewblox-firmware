@@ -21,6 +21,7 @@
 #include <wifi_provisioning/manager.h>
 
 #include "qrcode.h"
+#include <string>
 #include <wifi_provisioning/scheme_ble.h>
 #include <wifi_provisioning/scheme_softap.h>
 
@@ -57,6 +58,29 @@ void get_device_service_name(char* service_name, size_t max)
     esp_wifi_get_mac(WIFI_IF_STA, eth_mac);
     snprintf(service_name, max, "%s%02X%02X%02X",
              ssid_prefix, eth_mac[3], eth_mac[4], eth_mac[5]);
+}
+
+std::string qr_payload()
+{
+    char service_name[16];
+    get_device_service_name(service_name, sizeof(service_name));
+
+    std::string payload;
+    payload.append("{\"ver\":\"");
+    payload.append(PROV_QR_VERSION);
+    payload.append("\",\"name\":\"");
+    payload.append(service_name);
+    payload.append("\",\"transport\":\"");
+    payload.append(PROV_TRANSPORT_BLE);
+    payload.append("\"}");
+    return payload;
+}
+
+void append_qr_url(std::string& s)
+{
+    s.append(QRCODE_BASE_URL);
+    s.append("?data=");
+    s.append(qr_payload());
 }
 
 void prov_print_qr(const char* name, const char* pop, const char* transport)

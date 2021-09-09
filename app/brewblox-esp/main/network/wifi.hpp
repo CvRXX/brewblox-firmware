@@ -2,6 +2,7 @@
 
 #include <esp_err.h>
 #include <esp_netif_ip_addr.h>
+#include <string>
 
 namespace wifi {
 
@@ -20,4 +21,6 @@ bool isConnected();
  * @return The rssi in dBm
  */
 int8_t getRssi();
+
+void append_qr_url(std::string& s);
 };
