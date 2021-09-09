@@ -54,7 +54,7 @@ void init_sta(void)
 void get_device_service_name(char* service_name, size_t max)
 {
     uint8_t eth_mac[6];
-    const char* ssid_prefix = "BREWBLOX_";
+    const char* ssid_prefix = "PROV_BREWBLOX_";
     esp_wifi_get_mac(WIFI_IF_STA, eth_mac);
     snprintf(service_name, max, "%s%02X%02X%02X",
              ssid_prefix, eth_mac[3], eth_mac[4], eth_mac[5]);
@@ -62,7 +62,7 @@ void get_device_service_name(char* service_name, size_t max)
 
 std::string qr_payload()
 {
-    char service_name[16];
+    char service_name[22];
     get_device_service_name(service_name, sizeof(service_name));
 
     std::string payload;
@@ -213,7 +213,7 @@ void init(PROVISION_METHOD method, bool forceProvision)
          *     - Wi-Fi SSID when scheme is wifi_prov_scheme_softap
          *     - device name when scheme is wifi_prov_scheme_ble
          */
-        char service_name[16];
+        char service_name[22];
         get_device_service_name(service_name, sizeof(service_name));
 
         /* What is the security level that we want (0 or 1):
