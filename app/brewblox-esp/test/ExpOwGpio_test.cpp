@@ -197,6 +197,56 @@ SCENARIO("OneWire + GPIO module using mock hw")
         }
     }
 
+    WHEN("A channel is moved to different pins")
+    {
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00001111});
+
+        CHECK(gpio->pullUpWhenActive() == 0b1100);
+        CHECK(gpio->pullDownWhenActive() == 0b0011);
+        CHECK(gpio->pullUpWhenInactive() == 0b0011);
+        CHECK(gpio->pullDownWhenInactive() == 0b1100);
+        CHECK(gpio->pullDownStatus() == 0b1100);
+        CHECK(gpio->pullUpStatus() == 0b0011);
+
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00111100});
+
+        THEN("The bits related to the old pins are cleared")
+        {
+            CHECK(gpio->pullUpWhenActive() == 0b110000);
+            CHECK(gpio->pullDownWhenActive() == 0b001100);
+            CHECK(gpio->pullUpWhenInactive() == 0b001100);
+            CHECK(gpio->pullDownWhenInactive() == 0b110000);
+            CHECK(gpio->pullDownStatus() == 0b110000);
+            CHECK(gpio->pullUpStatus() == 0b001100);
+        }
+
+        WHEN("The channel is toggled to active before the move")
+        {
+            gpio->writeChannelImpl(1, IoArray::ChannelConfig::DRIVING_ON);
+
+            THEN("The bits are correct before the move")
+            {
+                CHECK(gpio->pullUpWhenActive() == 0b110000);
+                CHECK(gpio->pullDownWhenActive() == 0b001100);
+                CHECK(gpio->pullUpWhenInactive() == 0b001100);
+                CHECK(gpio->pullDownWhenInactive() == 0b110000);
+                CHECK(gpio->pullDownStatus() == 0b001100);
+                CHECK(gpio->pullUpStatus() == 0b110000);
+
+                AND_THEN("The bits correct after the move")
+                {
+                    gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00001111});
+                    CHECK(gpio->pullUpWhenActive() == 0b1100);
+                    CHECK(gpio->pullDownWhenActive() == 0b0011);
+                    CHECK(gpio->pullUpWhenInactive() == 0b0011);
+                    CHECK(gpio->pullDownWhenInactive() == 0b1100);
+                    CHECK(gpio->pullDownStatus() == 0b1100);
+                    CHECK(gpio->pullUpStatus() == 0b0011);
+                }
+            }
+        }
+    }
+
     removeMockI2CDevice(0x70);
     removeMockSpiDevice(-1);
 }
