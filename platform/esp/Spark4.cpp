@@ -31,6 +31,7 @@ constexpr auto PIN_NUM_I2C_SDA = GPIO_NUM_32;
 constexpr auto PIN_NUM_I2C_SCL = GPIO_NUM_33;
 
 SX1508 expander(0);
+uint8_t backLightPwm = 128;
 
 void hw_init()
 {
@@ -94,36 +95,47 @@ void expander_check()
 
 void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
 {
-    expander.write_reg(SX1508::RegAddr::iOn6, R);
-    expander.write_reg(SX1508::RegAddr::iOn7, G);
-    expander.write_reg(SX1508::RegAddr::iOn3, B);
+    uint8_t tOn3 = duration;
+    uint8_t tOn7 = duration;
+    uint8_t tOn6 = duration;
+    uint8_t off3 = duration << 3;
+    uint8_t off7 = duration << 3;
+    uint8_t off6 = duration << 3;
+    uint8_t tRise3 = 0;
+    uint8_t tFall3 = 0;
+    uint8_t tRise7 = 0;
+    uint8_t tFall7 = 0;
 
     if (mode == BREATHE) {
         //green
-        expander.write_reg(SX1508::RegAddr::tRise7, duration - 1);
-        expander.write_reg(SX1508::RegAddr::tOn7, 1); // 1 period on
-        expander.write_reg(SX1508::RegAddr::tFall7, duration - 1);
-        expander.write_reg(SX1508::RegAddr::off7, 0b00001010); // 1 period off, intensity 2
-        //blue
-        expander.write_reg(SX1508::RegAddr::tRise3, duration - 1);
-        expander.write_reg(SX1508::RegAddr::tOn3, 1); // 1 period on
-        expander.write_reg(SX1508::RegAddr::tFall3, duration - 1);
-        expander.write_reg(SX1508::RegAddr::off3, 0b00001010); // 1 period off, intensity 2
-    } else {
-        //green
-        expander.write_reg(SX1508::RegAddr::tRise7, 0);
-        expander.write_reg(SX1508::RegAddr::tOn7, duration);
-        expander.write_reg(SX1508::RegAddr::tFall7, 0);
-        expander.write_reg(SX1508::RegAddr::off7, duration << 3);
-        //blue
-        expander.write_reg(SX1508::RegAddr::tRise3, 0);
-        expander.write_reg(SX1508::RegAddr::tOn3, duration);
-        expander.write_reg(SX1508::RegAddr::tFall3, 0);
-        expander.write_reg(SX1508::RegAddr::off3, duration << 3);
+        tOn3 = 1;
+        tRise3 = duration - 1;
+        tFall3 = duration - 1;
+        off3 = 0b00001010; // period off, intensity 2
+        tOn7 = 1;
+        tRise7 = duration - 1;
+        tFall7 = duration - 1;
+        off7 = 0b00001010; // period off, intensity 2
     }
 
-    expander.write_reg(SX1508::RegAddr::tOn6, duration);
-    expander.write_reg(SX1508::RegAddr::off6, duration << 3);
+    expander.write_regs({
+        uint8_t(SX1508::RegAddr::tOn3), // start address
+        tOn3,                           // tOn3
+        B,                              // iOn3
+        off3,                           // off3
+        tRise3,                         // tRise3
+        tFall3,                         // tFall3
+        0,                              // iOn4, led driver is disdabled on this pin but by including it we can use a single transaction
+        backLightPwm,                   // iOn5
+        tOn6,                           // tOn6
+        R,                              // iOn6
+        off6,                           // off6
+        tOn7,                           // tOn7
+        G,                              // iOn7
+        off7,                           // off7
+        tRise7,                         // tRise7
+        tFall7,                         // tFall7
+    });
 }
 
 void expander_init()
@@ -134,7 +146,7 @@ void expander_init()
     expander.write_reg(SX1508::RegAddr::inputDisable, 0b11101000);
     // Disable pullup for RGB LED and TFT backlight
     expander.write_reg(SX1508::RegAddr::pullUp, 0b00010111);
-    // Set direction
+    // Setuint8_t backLightPwm = 128; direction
     expander.write_reg(SX1508::RegAddr::dir, 0b00010111);
     // Enable open drain for RGB LED, TFT backlight is push/pull
     expander.write_reg(SX1508::RegAddr::openDrain, 0b11001000);
@@ -166,10 +178,12 @@ void hw_deinit()
 void display_brightness(uint8_t b)
 {
     if (b < 20) {
-        b = 128; // if a too low value is set, revert back to default
+        backLightPwm = 128; // if a too low value is set, revert back to default
+    } else {
+        backLightPwm = 255 - b;
     }
     // enable signal should be inverted
-    expander.write_reg(SX1508::RegAddr::iOn5, uint8_t{255} - b);
+    expander.write_reg(SX1508::RegAddr::iOn5, backLightPwm);
 }
 
 void startup_beep()
@@ -215,5 +229,4 @@ uint32_t adcReadExternal()
 // 0,1,2,4 -> EX0, EX1, EX2, EX3 (interrupt inputs)
 // 3, 6, 7 -> LED B, R, G. (B and G support breathing)
 // 5 -> LCD backlight
-
 }
