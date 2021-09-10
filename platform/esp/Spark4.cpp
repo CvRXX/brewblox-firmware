@@ -140,7 +140,8 @@ void expander_init()
     expander.write_reg(SX1508::RegAddr::openDrain, 0b11001000);
     // logarithmic fading for RGB, PWM frequendy 250 Hz, reset is POR, auto increment register, auto clean nint on read
     expander.write_reg(SX1508::RegAddr::misc, 0b11101000);
-    // enable led driver on RGB and backlight
+
+    // enable led drivers
     expander.write_reg(SX1508::RegAddr::ledDriverEnable, 0b11101000);
 
     // Blink fast white during boot
