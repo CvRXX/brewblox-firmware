@@ -140,33 +140,32 @@ void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
 
 void expander_init()
 {
+    uint8_t outputs = 0b11101000;
     expander.reset();
-
-    // Disable input for RGB LED and TFT backlight
-    expander.write_reg(SX1508::RegAddr::inputDisable, 0b11101000);
-    // Disable pullup for RGB LED and TFT backlight
-    expander.write_reg(SX1508::RegAddr::pullUp, 0b00010111);
-    // Setuint8_t backLightPwm = 128; direction
-    expander.write_reg(SX1508::RegAddr::dir, 0b00010111);
-    // Enable open drain for RGB LED, TFT backlight is push/pull
-    expander.write_reg(SX1508::RegAddr::openDrain, 0b11001000);
-    // logarithmic fading for RGB, PWM frequendy 250 Hz, reset is POR, auto increment register, auto clean nint on read
-    expander.write_reg(SX1508::RegAddr::misc, 0b11101000);
-
-    // enable led drivers
-    expander.write_reg(SX1508::RegAddr::ledDriverEnable, 0b11101000);
-
-    // Blink fast white during boot
-    set_led(128, 128, 128, LED_MODE::BLINK, 1);
-
-    // Configure backlight PWM at 50%
-    display_brightness(128);
-
-    // Enable outputs
-    expander.write_reg(SX1508::RegAddr::data, 0x00);
 
     // beep also configures clock, which is on the same register
     startup_beep();
+
+    // Disable input for RGB LED and TFT backlight
+    expander.write_reg(SX1508::RegAddr::inputDisable, outputs);
+    // Disable pullup for RGB LED and TFT backlight
+    expander.write_reg(SX1508::RegAddr::pullUp, ~outputs);
+    // Set direction
+    expander.write_reg(SX1508::RegAddr::dir, ~outputs);
+    // Enable open drain for RGB LED, TFT backlight is push/pull
+    expander.write_reg(SX1508::RegAddr::openDrain, 0b11001000);
+    // logarithmic fading for RGB, PWM frequendy 1 kHz, reset is counter reset, auto increment register, auto clean nint on read
+    // reset is only triggered by ESD or otherwise unintentionally, so let it only reset the counters
+    expander.write_reg(SX1508::RegAddr::misc, 0b11001100);
+
+    // enable led drivers on outputs
+    expander.write_reg(SX1508::RegAddr::ledDriverEnable, outputs);
+
+    // Blink fast orange during boot
+    set_led(128, 128, 0, LED_MODE::BLINK, 2);
+
+    // Enable outputs
+    expander.write_reg(SX1508::RegAddr::data, ~outputs);
 }
 
 void hw_deinit()

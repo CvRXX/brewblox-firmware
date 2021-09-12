@@ -118,12 +118,12 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         switch (event_id) {
         case WIFI_PROV_START:
             // Configure blue blinking
-            spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 2);
+            spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 8);
             ESP_LOGI(TAG, "Provisioning started");
             break;
         case WIFI_PROV_CRED_RECV: {
             // Configure blue/green blinking
-            spark4::set_led(0, 128, 128, spark4::LED_MODE::BLINK, 2);
+            spark4::set_led(0, 128, 128, spark4::LED_MODE::BLINK, 8);
             wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
             ESP_LOGI(TAG,
                      "Received Wi-Fi credentials for SSID: %s\n",
@@ -132,7 +132,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         }
         case WIFI_PROV_CRED_FAIL: {
             // Configure fast red blinking
-            spark4::set_led(128, 0, 0, spark4::LED_MODE::BLINK, 1);
+            spark4::set_led(128, 0, 0, spark4::LED_MODE::BLINK, 4);
             wifi_prov_sta_fail_reason_t* reason = (wifi_prov_sta_fail_reason_t*)event_data;
             ESP_LOGE(TAG,
                      "Provisioning failed!\n\tReason : %s"
@@ -144,8 +144,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             ESP_LOGI(TAG, "Provisioning successful");
             break;
         case WIFI_PROV_END:
-            // Configure blue slow breathing
-            spark4::set_led(0, 0, 128, spark4::LED_MODE::BREATHE, 5);
             /* De-initialize manager once provisioning is finished */
             wifi_prov_mgr_deinit();
             break;
@@ -154,11 +152,11 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         }
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         // Configure Green for blinking fast
-        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 1);
+        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
         esp_wifi_connect();
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         // Configure Blue and Green for breathing
-        spark4::set_led(0, 128, 128, spark4::LED_MODE::BREATHE, 4);
+        spark4::set_led(0, 128, 128, spark4::LED_MODE::BREATHE, 15);
 
         connected = true;
         ip_event_got_ip_t* event = (ip_event_got_ip_t*)event_data;
@@ -173,7 +171,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         connected = false;
         ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
         // Configure Green for blinking fast
-        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 1);
+        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
         esp_wifi_connect();
 
         /* enable wifi power saving */
