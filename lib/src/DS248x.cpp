@@ -31,10 +31,10 @@ bool DS248x::busyWait()
         for (uint8_t retries = 0; retries < 5; retries++) {
             auto result = i2c_read(1);
             if (result.size()) {
-                mStatus = result[0];
-                bool ready = (mStatus & DS248X_STATUS_BUSY) == 0;
+                bool ready = (result[0] & DS248X_STATUS_BUSY) == 0;
                 if (ready) {
-                    shortDetectedFlag |= (mStatus & 0x4);
+                    mStatus = result[0];
+                    shortDetectedFlag |= (result[0] & 0x4);
                     failedWaits = 0;
                     return true;
                 }
@@ -129,27 +129,23 @@ bool DS248x::selectChannel(uint8_t channel)
 
 bool DS248x::reset()
 {
-    for (uint8_t retries = 0; retries < 10; retries++) {
-        if (!i2c_write(DS248X_1WRS)) {
-            // No ack received, onewire is busy
-            hal_delay_ms(1);
-            continue;
-        }
-
-        // read status until ready
-        // todo: use repeated start condition ?
-        for (uint8_t retries2 = 0; retries2 < 10; retries2++) {
-            auto result = i2c_read(1);
-            if (result.size() == 0) {
-                // i2c error
-                return false;
+    if (busyWait()) {
+        if (i2c_write(DS248X_1WRS)) {
+            // read status until ready
+            // todo: use repeated start condition ?
+            for (uint8_t retries = 0; retries < 10; retries++) {
+                auto result = i2c_read(1);
+                if (result.size() == 0) {
+                    // i2c error
+                    return false;
+                }
+                if ((result[0] & DS248X_STATUS_BUSY) == 0) {
+                    mStatus = result[0];
+                    shortDetectedFlag |= (result[0] & 0x4);
+                    return (mStatus & DS248X_STATUS_PPD) > 0;
+                }
+                hal_delay_ms(1);
             }
-            mStatus = result[0];
-            if ((mStatus & DS248X_STATUS_BUSY) == 0) {
-                shortDetectedFlag |= (mStatus & 0x4);
-                return true;
-            }
-            hal_delay_ms(1);
         }
     }
     return false;
@@ -166,7 +162,6 @@ bool DS248x::write(uint8_t b)
 bool DS248x::read(uint8_t& b)
 {
     if (busyWait()) {
-
         if (!i2c_write(DS248X_1WRB)) {
             return false;
         }
@@ -177,8 +172,9 @@ bool DS248x::read(uint8_t& b)
                 // i2c error
                 return false;
             }
-            bool ready = (mStatus & DS248X_STATUS_BUSY) == 0;
+            bool ready = (result[0] & DS248X_STATUS_BUSY) == 0;
             if (ready) {
+                mStatus = result[0];
                 if (i2c_write({DS248X_SRP, PTR_READ})) {
                     auto result = i2c_read(1);
                     if (result.size()) {
