@@ -53,11 +53,11 @@ public:
         if (isConnected && validChannel(channel)) {
             uint8_t mask = getMask(channel);
             switch (config) {
-            case ChannelConfig::ACTIVE_HIGH:
+            case ChannelConfig::DRIVING_ON:
                 pinStates |= mask;
                 pinModes |= mask;
                 return true;
-            case ChannelConfig::ACTIVE_LOW:
+            case ChannelConfig::DRIVING_OFF:
                 pinStates &= ~mask;
                 pinModes |= mask;
                 return true;
@@ -66,6 +66,11 @@ public:
                 return true;
             case ChannelConfig::UNUSED:
             case ChannelConfig::UNKNOWN:
+            case ChannelConfig::DRIVING_REVERSE:         // not supported
+            case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:  // not supported
+            case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE: // not supported
+            case ChannelConfig::DRIVING_PWM:             // not supported
+            case ChannelConfig::DRIVING_PWM_REVERSE:     // not supported
                 return false;
             }
         }

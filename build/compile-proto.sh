@@ -1,5 +1,4 @@
 #!/bin/bash
-MY_DIR=$(dirname "$(readlink -f "$0")")
 
 handle_error() {
   echo "Encountered error when executing $(basename $0)!" >&2
@@ -8,24 +7,26 @@ handle_error() {
 }
 trap handle_error ERR
 
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$(readlink -f "${MY_DIR}/../brewblox/blox/compiled_proto")"
+
 # rebuild generator, particle doesn't keep the compiled version up to date
-pushd "$MY_DIR/../platform/spark/device-os/third_party/nanopb/nanopb/generator/proto" > /dev/null
+pushd "$MY_DIR/../platform/spark/device-os/third_party/nanopb/nanopb/generator/proto" > /dev/null || exit 1
 if [ -f nanopb_pb2.py ]; then
   rm nanopb_pb2.py 
 fi
 make
-popd > /dev/null
+popd > /dev/null || exit 1
 
-pushd "$MY_DIR/../app/brewblox/proto" > /dev/null
 echo -e "Compiling proto files using nanopb for brewblox firmware"
-bash generate_proto_cpp.sh;
+bash "$SCRIPT_DIR/compile_proto.sh"
 
 echo -e "Compiling proto files using google protobuf for unit tests"
-bash generate_proto_test_cpp.sh;
-popd > /dev/null
+bash "$SCRIPT_DIR/compile_test_proto.sh"
 
 echo "Done"
 
-pushd "$MY_DIR/../platform/spark/device-os/third_party/nanopb/nanopb/generator/proto" > /dev/null
+pushd "$MY_DIR/../platform/spark/device-os/third_party/nanopb/nanopb/generator/proto" > /dev/null || exit 1
 git checkout nanopb_pb2.py # revert submodule changes
+popd > /dev/null || exit 1
 exit

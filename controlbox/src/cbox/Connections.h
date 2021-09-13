@@ -80,27 +80,14 @@ public:
     {
     }
 
-    virtual bool hasNext() override
+    virtual int16_t read() override
     {
-        return available() > 0;
+        return stream.read();
     }
 
-    virtual uint8_t next() override
+    virtual int16_t peek() override
     {
-        return uint8_t(stream.read());
-    }
-
-    virtual uint8_t peek() override
-    {
-        return uint8_t(stream.peek());
-    }
-
-    virtual stream_size_t available() override
-    {
-        if (stream) {
-            return stream.available();
-        }
-        return 0;
+        return stream.peek();
     }
 
     static StreamType streamTypeImpl();
@@ -218,96 +205,6 @@ public:
     StreamConnection(const StreamConnection& other) = delete; // not copyable
 };
 
-extern void
-connectionStarted(DataOut& out);
-
-class ConnectionPool {
-private:
-    std::vector<std::reference_wrapper<ConnectionSource>> connectionSources;
-    std::vector<std::unique_ptr<Connection>> connections;
-
-    CompositeDataOut<decltype(connections)> allConnectionsDataOut;
-    DataOut* currentDataOut;
-
-public:
-    ConnectionPool(std::initializer_list<std::reference_wrapper<ConnectionSource>> list)
-        : connectionSources(list)
-        , allConnectionsDataOut(connections, [](const decltype(connections)::value_type& conn) -> DataOut& { return conn->getDataOut(); })
-        , currentDataOut(&allConnectionsDataOut)
-    {
-    }
-
-    void updateConnections()
-    {
-        connections.erase(
-            std::remove_if(connections.begin(), connections.end(), [](const decltype(connections)::value_type& conn) {
-                return !conn->isConnected(); // remove disconnected connections from pool
-            }),
-            connections.end());
-
-        for (auto& source : connectionSources) {
-            while (true) {
-                auto con = source.get().newConnection();
-                if (con) {
-                    if (connections.size() >= 4) {
-                        auto oldest = connections.begin();
-                        auto& out = (*oldest)->getDataOut();
-                        const char message[] = "<!Max connections exceeded, closing oldest>";
-                        out.writeBuffer(message, sizeof(message) / sizeof(message[0]));
-                        connections.erase(oldest);
-                    }
-                    auto& out = con->getDataOut();
-                    connectionStarted(out);
-                    connections.push_back(std::move(con));
-                } else {
-                    break;
-                }
-            }
-        }
-    }
-
-    size_t size()
-    {
-        return connections.size();
-    }
-
-    void process(std::function<void(DataIn& in, DataOut& out)> handler)
-    {
-        tracing::add(tracing::Action::UPDATE_CONNECTIONS);
-        updateConnections();
-        for (auto& conn : connections) {
-            DataIn& in = conn->getDataIn();
-            DataOut& out = conn->getDataOut();
-            currentDataOut = &out;
-            handler(in, out);
-        }
-        currentDataOut = &allConnectionsDataOut;
-    }
-
-    DataOut& logDataOut() const
-    {
-        return *currentDataOut;
-    }
-
-    void disconnect()
-    {
-        connections.clear();
-    }
-
-    void stopAll()
-    {
-        disconnect();
-        for (auto& source : connectionSources) {
-            source.get().stop();
-        }
-    }
-
-    void startAll()
-    {
-        for (auto& source : connectionSources) {
-            source.get().start();
-        }
-    }
-};
+extern void connectionStarted(DataOut& out);
 
 } // end namespace cbox

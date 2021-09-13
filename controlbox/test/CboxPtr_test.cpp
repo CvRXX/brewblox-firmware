@@ -19,6 +19,8 @@
 
 #include "CboxPtr.h"
 
+#include "ArrayEepromAccess.h"
+#include "EepromObjectStorage.h"
 #include "ObjectContainer.h"
 #include "TestObjects.h"
 #include <catch.hpp>
@@ -27,11 +29,12 @@ using namespace cbox;
 
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
+    ArrayEepromAccess<2048> eeprom;
+    EepromObjectStorage storage(eeprom);
 
-    ObjectContainer objects = {
-        ContainedObject(1, 0xFF, std::make_shared<LongIntObject>(0x11111111)),
-        ContainedObject(2, 0xFF, std::make_shared<LongIntObject>(0x11111111)),
-    };
+    ObjectContainer objects{{ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                             ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111)))},
+                            storage};
 
     CboxPtr<LongIntObject> liPtr(objects);
     CboxPtr<LongIntVectorObject> livPtr(objects);
@@ -57,7 +60,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
-        objects.add(std::make_unique<NameableLongIntObject>(0x22222222), 0xFF, 100);
+        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
         CboxPtr<NameableLongIntObject> nameableLiPtr(objects);
         CboxPtr<LongIntObject> liPtr(objects);
         CboxPtr<Nameable> nameablePtr(objects);
@@ -109,7 +112,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 auto ptr4 = nameablePtr.lock();
                 CHECK(!ptr4);
 
-                objects.add(std::make_unique<NameableLongIntObject>(0x22222222), 0xFF, 100);
+                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
                 THEN("If a new compatible object is created with the same id, the CboxPtr can be locked again")
                 {
                     auto ptr5 = nameablePtr.lock();
@@ -142,6 +145,23 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
             {
                 auto ptr = liPtr.lock_as<LongIntVectorObject>();
                 CHECK(ptr == nullptr);
+            }
+        }
+
+        THEN("A CboxPtr can persist its object to storage")
+        {
+            CHECK(liPtr.store() == CboxError::OK);
+
+            AND_THEN("The object can be reloaded from storage")
+            {
+                if (auto ptr = liPtr.lock()) {
+                    *ptr = uint32_t{0x1}; // change object without storing
+                }
+                auto res = objects.reloadStored(obj_id_t(100));
+                CHECK(res == CboxError::OK);
+                if (auto ptr = liPtr.lock()) {
+                    CHECK(uint32_t(*ptr) == uint32_t{0x22222222});
+                }
             }
         }
     }

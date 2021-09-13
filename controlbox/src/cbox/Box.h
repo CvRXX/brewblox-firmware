@@ -21,6 +21,7 @@
 
 #include "CboxError.h"
 #include "CboxPtr.h"
+#include "ConnectionPool.h"
 #include "Connections.h"
 #include "DataStream.h"
 #include "DataStreamConverters.h"
@@ -28,8 +29,9 @@
 #include "Object.h"
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
-#include "ScanningFactory.h"
+#include "ScanningFactory.hpp"
 #include <memory>
+#include <vector>
 
 namespace cbox {
 
@@ -38,12 +40,12 @@ private:
     // A single container is used for both system and user objects.
     // The application can add the system objects first, then set the start ID to a higher value.
     // The objects with an ID lower than the start ID cannot be deleted.
-    const ObjectFactory& factory;
+    const std::vector<std::reference_wrapper<const ObjectFactory>>& factories;
     ObjectContainer& objects;
     ObjectStorage& storage;
     // Box receives commands from connections in the connection pool and streams back the answer to the same connection
     ConnectionPool& connections;
-    std::vector<std::unique_ptr<ScanningFactory>> scanners;
+    const std::vector<std::reference_wrapper<ScanningFactory>>& scanners;
     uint8_t activeGroups = 0x81; // system group and first user group
     update_t lastUpdateTime = 0;
 
@@ -67,15 +69,18 @@ private:
     CboxError loadSingleObjectFromStorage(const storage_id_t& id, RegionDataIn& objInStorage);
 
 public:
-    Box(const ObjectFactory& _factory,
+    // temporary for testing
+    void discoverNewObjects();
+
+    Box(const std::vector<std::reference_wrapper<const ObjectFactory>>& _factories,
         ObjectContainer& _objects,
         ObjectStorage& _storage,
         ConnectionPool& _connections,
-        std::vector<std::unique_ptr<ScanningFactory>>&& _scanners = std::vector<std::unique_ptr<ScanningFactory>>());
+        const std::vector<std::reference_wrapper<ScanningFactory>>& _scanners);
 
     Box(const Box&) = delete;
+    Box(Box&&) = delete;
     Box& operator=(const Box&) = delete;
-    Box(Box&&) = default;
 
     ~Box() = default;
 
@@ -83,6 +88,8 @@ public:
 
     // process all incoming messages assuming they are hex encoded
     void hexCommunicate();
+
+    void parseMessage(DataIn& in, DataOut& out);
 
     auto getObject(const obj_id_t& id)
     {
@@ -99,7 +106,7 @@ public:
     void update(const update_t& now)
     {
         lastUpdateTime = now;
-        tracing::add(cbox::tracing::Action::UPDATE_OBJECTS);
+        tracing::add(tracing::Action::UPDATE_OBJECTS);
         objects.update(now);
     }
 
@@ -166,7 +173,6 @@ public:
     }
 };
 
-bool
-applicationCommand(uint8_t cmdId, DataIn& in, EncodedDataOut& out); // command handler specified by application to add additional commands
+bool applicationCommand(uint8_t cmdId, DataIn& in, EncodedDataOut& out); // command handler specified by application to add additional commands
 
 } // end namespace cbox

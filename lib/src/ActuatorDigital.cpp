@@ -26,8 +26,7 @@
 
 using State = ActuatorDigitalBase::State;
 
-void
-ActuatorDigital::state(const State& v)
+void ActuatorDigital::state(const State& v)
 {
     if (channelReady()) {
         if (auto devPtr = m_target()) {
@@ -35,14 +34,13 @@ ActuatorDigital::state(const State& v)
             if (m_invert) {
                 newState = invertState(v);
             }
-            IoArray::ChannelConfig config = newState == State::Active ? IoArray::ChannelConfig::ACTIVE_HIGH : IoArray::ChannelConfig::ACTIVE_LOW;
+            IoArray::ChannelConfig config = newState == State::Active ? IoArray::ChannelConfig::DRIVING_ON : IoArray::ChannelConfig::DRIVING_OFF;
             devPtr->writeChannelConfig(m_channel, config);
         }
     }
 }
 
-State
-ActuatorDigital::state() const
+State ActuatorDigital::state() const
 {
     if (channelReady()) {
         if (auto devPtr = m_target()) {
@@ -59,8 +57,7 @@ ActuatorDigital::state() const
     return State::Unknown;
 }
 
-void
-ActuatorDigital::claimChannel()
+void ActuatorDigital::claimChannel()
 {
     if (auto devPtr = m_target()) {
         if (m_channel != 0) {
@@ -73,14 +70,13 @@ ActuatorDigital::claimChannel()
             m_channel = 0;
             return;
         }
-        if (devPtr->claimChannel(m_desiredChannel, IoArray::ChannelConfig::ACTIVE_LOW)) {
+        if (devPtr->claimChannel(m_desiredChannel, IoArray::ChannelConfig::DRIVING_OFF)) {
             m_channel = m_desiredChannel;
         }
     }
 }
 
-bool
-ActuatorDigital::supportsFastIo() const
+bool ActuatorDigital::supportsFastIo() const
 {
     if (auto devPtr = m_target()) {
         return devPtr->supportsFastIo();

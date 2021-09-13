@@ -8,13 +8,15 @@
 #include "ArrayEepromAccess.h"
 #include "Connections.h"
 #include "ConnectionsStringStream.h"
+#include "Crc.h"
 #include "DataStreamConverters.h"
 #include "EepromObjectStorage.h"
 #include "GroupsObject.h"
-#include "LongIntScanningFactory.h"
+#include "LongIntScanningFactory.hpp"
 #include "Object.h"
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
+#include "TestHelpers.h"
 #include "TestObjects.h"
 #include "Tracing.h"
 
@@ -22,36 +24,34 @@ using namespace cbox;
 
 SCENARIO("A controlbox Box")
 {
+    ArrayEepromAccess<2048> eeprom;
+    EepromObjectStorage storage(eeprom);
     ObjectContainer container{
         // groups object will have id 1
         // add 2 system objects
-        ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
-        ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))};
+        {ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+         ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222)))},
+        storage};
 
-    ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
-
-    ObjectFactory factory = {
-        {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
-        {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
-        {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
-        {PtrLongIntObject::staticTypeId(), [&container]() {
-             return std::make_shared<PtrLongIntObject>(container);
-         }},
-        {NameableLongIntObject::staticTypeId(), std::make_shared<NameableLongIntObject>},
-        {MockStreamObject::staticTypeId(), std::make_shared<MockStreamObject>},
+    const ObjectFactory factory = {
+        makeFactoryEntry<LongIntObject>(),
+        makeFactoryEntry<LongIntVectorObject>(),
+        makeFactoryEntry<UpdateCounter>(),
+        makeFactoryEntry<PtrLongIntObject>(),
+        makeFactoryEntry<NameableLongIntObject>(),
+        makeFactoryEntry<MockStreamObject>(),
     };
+
+    const std::vector<std::reference_wrapper<const ObjectFactory>> factories{{std::cref(factory)}};
 
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
 
-    auto longIntScanner = std::unique_ptr<ScanningFactory>(new LongIntScanningFactory(container));
-    std::vector<std::unique_ptr<ScanningFactory>> scanningFactories;
-    scanningFactories.push_back(std::move(longIntScanner));
+    static LongIntScanningFactory longIntScanner;
+    static const std::vector<std::reference_wrapper<ScanningFactory>> scanners{{std::reference_wrapper<ScanningFactory>(longIntScanner)}};
+    Box box(factories, container, storage, connPool, scanners);
 
-    Box box(factory, container, storage, connPool, std::move(scanningFactories));
-
-    auto in = std::make_shared<std::stringstream>();
+    auto in = std::make_shared<StringStreamAutoClear>();
     auto out = std::make_shared<std::stringstream>();
     std::stringstream expected;
     connSource.add(in, out);
@@ -641,26 +641,31 @@ SCENARIO("A controlbox Box")
                 AND_WHEN("A new box is created from existing storage (for example after a reboot)")
                 {
                     // note that only eeprom is not newly created here
-                    ObjectContainer container2 = {
-                        // groups obj is id 1
-                        ContainedObject(2, 0x80, std::make_shared<LongIntObject>(0x11111111)),
-                        ContainedObject(3, 0x80, std::make_shared<LongIntObject>(0x22222222))};
-
                     EepromObjectStorage storage2(eeprom);
-                    ObjectFactory factory2 = {
-                        {LongIntObject::staticTypeId(), std::make_shared<LongIntObject>},
-                        {LongIntVectorObject::staticTypeId(), std::make_shared<LongIntVectorObject>},
-                        {UpdateCounter::staticTypeId(), std::make_shared<UpdateCounter>},
-                        {PtrLongIntObject::staticTypeId(), [&container]() {
-                             return std::make_shared<PtrLongIntObject>(container);
-                         }}};
+
+                    ObjectContainer container2{
+                        // groups obj is id 1
+                        {
+                            ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                            ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
+                        },
+                        storage2};
+
+                    const ObjectFactory factory2 = {
+                        makeFactoryEntry<LongIntObject>(),
+                        makeFactoryEntry<LongIntVectorObject>(),
+                        makeFactoryEntry<UpdateCounter>(),
+                        makeFactoryEntry<PtrLongIntObject>(),
+                    };
+
+                    const std::vector<std::reference_wrapper<const ObjectFactory>> factories2{{std::cref(factory2)}};
 
                     StringStreamConnectionSource connSource2;
                     ConnectionPool connPool2 = {connSource2};
 
                     THEN("All objects can be restored from storage")
                     {
-                        Box box2(factory2, container2, storage2, connPool2);
+                        Box box2(factories2, container2, storage2, connPool2, scanners);
                         box2.loadObjectsFromStorage();
 
                         auto in2 = std::make_shared<std::stringstream>();
@@ -727,7 +732,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(originalObject, damagedObject));
 
-                            Box box2(factory2, container2, storage2, connPool2);
+                            Box box2(factories2, container2, storage2, connPool2, scanners);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -774,7 +779,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(addCrc(originalObject), addCrc(unsupportedTypeObject)));
 
-                            Box box2(factory2, container2, storage2, connPool2);
+                            Box box2(factories2, container2, storage2, connPool2, scanners);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -945,7 +950,7 @@ SCENARIO("A controlbox Box")
 
     THEN("Objects update at their requested interval")
     {
-        cbox::tracing::unpause();
+        tracing::unpause();
         box.update(0);
         // create 2 counter objects with different update intervals
         // object creation and write also triggers an object update
@@ -993,45 +998,45 @@ SCENARIO("A controlbox Box")
         THEN("Last actions performed on objects are traced")
         {
 
-            auto it = cbox::tracing::history().cbegin();
+            auto it = tracing::history().cbegin();
 
-            CHECK(it->action == cbox::tracing::Action::UPDATE_OBJECT);
+            CHECK(it->action == tracing::Action::UPDATE_OBJECT);
             CHECK(it->id == 2);
             CHECK(it->type == LongIntObject::staticTypeId());
             ++it; // 1
-            CHECK(it->action == cbox::tracing::Action::UPDATE_OBJECT);
+            CHECK(it->action == tracing::Action::UPDATE_OBJECT);
             CHECK(it->id == 3);
             CHECK(it->type == LongIntObject::staticTypeId());
             ++it; // 2
-            CHECK(it->action == cbox::tracing::Action::UPDATE_CONNECTIONS);
+            CHECK(it->action == tracing::Action::UPDATE_CONNECTIONS);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 3
-            CHECK(it->action == cbox::tracing::Action::CREATE_OBJECT);
+            CHECK(it->action == tracing::Action::CREATE_OBJECT);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 4
-            CHECK(it->action == cbox::tracing::Action::CONSTRUCT_OBJECT);
+            CHECK(it->action == tracing::Action::CONSTRUCT_OBJECT);
             CHECK(it->id == 100);
             CHECK(it->type == 1002);
             ++it; // 5
-            CHECK(it->action == cbox::tracing::Action::PERSIST_OBJECT);
+            CHECK(it->action == tracing::Action::PERSIST_OBJECT);
             CHECK(it->id == 100);
             CHECK(it->type == 1002);
             ++it; // 6
-            CHECK(it->action == cbox::tracing::Action::UPDATE_CONNECTIONS);
+            CHECK(it->action == tracing::Action::UPDATE_CONNECTIONS);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 7
-            CHECK(it->action == cbox::tracing::Action::CREATE_OBJECT);
+            CHECK(it->action == tracing::Action::CREATE_OBJECT);
             CHECK(it->id == 0);
             CHECK(it->type == 0);
             ++it; // 8
-            CHECK(it->action == cbox::tracing::Action::CONSTRUCT_OBJECT);
+            CHECK(it->action == tracing::Action::CONSTRUCT_OBJECT);
             CHECK(it->id == 101);
             CHECK(it->type == 1002);
             ++it; // 9
-            CHECK(it->action == cbox::tracing::Action::PERSIST_OBJECT);
+            CHECK(it->action == tracing::Action::PERSIST_OBJECT);
             CHECK(it->id == 101);
             CHECK(it->type == 1002);
         }
@@ -1207,11 +1212,11 @@ SCENARIO("A controlbox Box")
     WHEN("A connection sends only a partial message with half a hex encoded byte (1 nibble), a CRC error is returned")
     {
         *in << "000003" // create object
-            << "0";     // ID assigned by box
+            << "0";     // ID with a nibble missing
 
         box.hexCommunicate();
 
-        expected << "00000300"
+        expected << "000003"
                  << "|"
                  << addCrc("43") << "\n";
         CHECK(out->str() == expected.str());
@@ -1392,7 +1397,7 @@ SCENARIO("A controlbox Box")
         THEN("An error event annotation is inserted and the message ends in an invalid CRC (1 off)")
         {
             // because the error occurs after the status code 00 has been sent, a CRC error is generated to invalidate the message
-            obj->streamToFunc = [](cbox::DataOut& out) {
+            obj->streamToFunc = [](DataOut& out) {
                 return CboxError::OUTPUT_STREAM_WRITE_ERROR;
             };
 

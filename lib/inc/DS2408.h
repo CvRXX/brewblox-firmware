@@ -25,8 +25,6 @@
 #include "IoArray.h"
 #include "OneWireDevice.h"
 
-#define DS2408_FAMILY_ID 0x29
-
 /**
  * Provides access to a OneWire-addressable 8-channel I/O device.
  * Each output has a pull-down transistor, which can be enabled by writing 0 to the pio output latch.
@@ -52,8 +50,8 @@ public:
      * Constructor initializes both caches to 0xFF.
      * This means the output latches are disabled and all pins are sensed high
      */
-    DS2408(OneWire& oneWire, OneWireAddress address = familyCode)
-        : OneWireDevice(oneWire, address)
+    DS2408(std::function<std::shared_ptr<OneWire>()>&& getBus, OneWireAddress address = familyCode)
+        : OneWireDevice(std::move(getBus), address)
         , IoArray(8)
     {
     }

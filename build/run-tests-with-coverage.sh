@@ -21,15 +21,15 @@ fi
 gcovr --root "$ROOT_DIR" \
   "$ROOT_DIR/controlbox/build/" \
   "$ROOT_DIR/lib/test/build/" \
-  "$ROOT_DIR/app/brewblox/test/build/" \
+  "$ROOT_DIR/app/brewblox-particle/test/build/" \
   -e '.*/boost/.*' \
   -e '^/usr/.*' \
   -e "$ROOT_DIR/platform/spark/device-os/.*" \
-  -e "$ROOT_DIR/app/brewblox/proto/.*" \
+  -e "$ROOT_DIR/brewblox/blox/proto/.*" \
   -e "$ROOT_DIR/lib/cnl/.*" \
   -e "$ROOT_DIR/controlbox/test/.*" \
   -e "$ROOT_DIR/lib/test/" \
-  -e "$ROOT_DIR/app/brewblox/test/" \
+  -e "$ROOT_DIR/app/brewblox-particle/test/" \
   --$FORMAT \
   --output "$OUTPUT" \
   $FORMAT_ARGS \

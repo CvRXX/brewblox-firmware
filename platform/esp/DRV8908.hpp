@@ -1,0 +1,77 @@
+#pragma once
+#include "hal/hal_spi.hpp"
+
+class DRV8908 {
+public:
+    DRV8908(SpiDevice& spi);
+    ~DRV8908() = default;
+
+    enum class RegAddr : uint8_t {
+        IC_STAT = 0x00,         // IC Status
+        OCP_STAT_1 = 0x01,      // Overcurrent Protection Status 1
+        OCP_STAT_2 = 0x02,      // Overcurrent Protection Status 2
+        OCP_STAT_3 = 0x03,      // Overcurrent Protection Status 3
+        OLD_STAT_1 = 0x04,      // Open Load Detection Status 1
+        OLD_STAT_2 = 0x05,      // Open Load Detection Status 2
+        OLD_STAT_3 = 0x06,      // Open Load Detection Status 3
+        CONFIG_CTRL = 0x07,     // Configuration
+        OP_CTRL_1 = 0x08,       // Operation Control 1
+        OP_CTRL_2 = 0x09,       // Operation Control 2
+        OP_CTRL_3 = 0x0A,       // Operation Control 3
+        PWM_CTRL_1 = 0x0B,      // PWM Control 1
+        PWM_CTRL_2 = 0x0C,      // PWM Control 2
+        FW_CTRL_1 = 0x0D,       // Free-Wheeling Control 1
+        FW_CTRL_2 = 0x0E,       // Free-Wheeling Control 2
+        PWM_MAP_CTRL_1 = 0x0F,  // PWM Map Control 1
+        PWM_MAP_CTRL_2 = 0x10,  // PWM Map Control 2
+        PWM_MAP_CTRL_3 = 0x11,  // PWM Map Control 3
+        PWM_MAP_CTRL_4 = 0x12,  // PWM Map Control 4
+        PWM_FREQ_CTRL_1 = 0x13, // PWM Frequency Control 1
+        PWM_FREQ_CTRL_2 = 0x14, // PWM Frequency Control 2
+        PWM_DUTY_CTRL_1 = 0x15, // PWM Duty Control 1
+        PWM_DUTY_CTRL_2 = 0x16, // PWM Duty Control 2
+        PWM_DUTY_CTRL_3 = 0x17, // PWM Duty Control 3
+        PWM_DUTY_CTRL_4 = 0x18, // PWM Duty Control 4
+        PWM_DUTY_CTRL_5 = 0x19, // PWM Duty Control 5
+        PWM_DUTY_CTRL_6 = 0x1A, // PWM Duty Control 6
+        PWM_DUTY_CTRL_7 = 0x1B, // PWM Duty Control 7
+        PWM_DUTY_CTRL_8 = 0x1C, // PWM Duty Control 8
+        SR_CTRL_1 = 0x1D,       // Slew Rate Control 1
+        SR_CTRL_2 = 0x1E,       // Slew Rate Control 2
+        OLD_CTRL_1 = 0x1F,      // Open Load Detect 1
+        OLD_CTRL_2 = 0x20,      // Open Load Detect 2
+        OLD_CTRL_3 = 0x21,      // Open Load Detect 3
+        OLD_CTRL_4 = 0x22,      // Open Load Detect 4
+        OLD_CTRL_5 = 0x23,      // Open Load Detect 5
+        OLD_CTRL_6 = 0x24,      // Open Load Detect 6
+    };
+
+    typedef union {
+        struct {
+            uint8_t power_on_reset : 1;
+            uint8_t overvoltage : 1;
+            uint8_t undervoltage : 1;
+            uint8_t overcurrent : 1;
+            uint8_t openload : 1;
+            uint8_t overtemperature_warning : 1;
+            uint8_t overtemperature_shutdown : 1;
+            uint8_t spi_error : 1; // reserved bit on chip, we use it to signal SPI error
+        } bits;
+        uint8_t all;
+    } Status;
+    static_assert(sizeof(Status) == 1);
+
+    hal_spi::error_t readRegister(RegAddr address, uint8_t& val) const;
+    hal_spi::error_t writeRegister(RegAddr address, uint8_t val);
+
+    Status status() const
+    {
+        Status s;
+        s.all = _status ^ 0x1; // toggle power-on-reset bit, so a 1 also means a fault
+        return s;
+    }
+
+private:
+    SpiDevice& spi;
+    mutable uint8_t _status;
+};

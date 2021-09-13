@@ -1,4 +1,4 @@
 FROM scratch
-COPY scripts/* /scripts/
-COPY source/* /binaries/
+COPY scripts/* /firmware/
+COPY source/* /firmware/
 CMD ["/nothing-to-see-here"]

@@ -26,10 +26,7 @@
         "showReuseMessage": false,
         "clear": false
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     },
     {
       "label": "build_photon",
@@ -54,10 +51,7 @@
         "showReuseMessage": false,
         "clear": false
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     },
     {
       "label": "build_gcc_local",
@@ -79,10 +73,7 @@
         "showReuseMessage": false,
         "clear": false
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     },
     {
       "label": "flash_p1",
@@ -273,7 +264,7 @@
         "bash",
         "../wrapped_make.sh",
         "-C",
-        "../app/brewblox/test"
+        "../app/brewblox-particle/test"
       ],
       "group": "build",
       "options": {
@@ -287,10 +278,7 @@
         "showReuseMessage": false,
         "clear": true
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     },
     {
       "label": "build lib tests",
@@ -342,10 +330,7 @@
         "showReuseMessage": false,
         "clear": true
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     },
     {
       "label": "build cbox tests local",
@@ -422,7 +407,7 @@
       "args": [
         "../wrapped_make.sh",
         "-C",
-        "../app/brewblox/test"
+        "../app/brewblox-particle/test"
       ],
       "group": "build",
       "options": {
@@ -436,10 +421,7 @@
         "showReuseMessage": false,
         "clear": true
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     },
     {
       "label": "clean all",
@@ -487,10 +469,7 @@
         "showReuseMessage": false,
         "clear": false
       },
-      "problemMatcher": "$gcc",
-      "dependsOn": [
-        "compile proto"
-      ]
+      "problemMatcher": "$gcc"
     }
   ]
 }

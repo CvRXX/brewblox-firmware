@@ -8,14 +8,15 @@ SRC=docker/firmware-bin/source
 # They are assumed to be present in docker/firmware-bin/source already.
 
 git submodule sync
-git submodule update --init --depth 1 app/brewblox/proto
+git submodule update --init --depth 1 brewblox/blox/proto
 git submodule update --init --depth 1 platform/spark/device-os
 
 FIRMWARE_VERSION=$(git rev-parse --short=8 HEAD)
-FIRMWARE_DATE=$(git show -s --format=%ci)
+FIRMWARE_DATE=$(git log -1 --format=%cd --date=short)
+FIRMWARE_SHA="$(git rev-parse HEAD)"
 
-PROTO_VERSION=$(git --git-dir ./app/brewblox/proto/.git rev-parse --short=8 HEAD)
-PROTO_DATE=$(git --git-dir ./app/brewblox/proto/.git show -s --format=%ci)
+PROTO_VERSION=$(git --git-dir ./brewblox/blox/proto/.git rev-parse --short=8 HEAD)
+PROTO_DATE=$(git --git-dir ./brewblox/blox/proto/.git log -1 --format=%cd --date=short)
 
 PARTICLE_TAG=$(git --git-dir "./platform/spark/device-os/.git" fetch --tags --no-recurse-submodules && git --git-dir "./platform/spark/device-os/.git" describe --tags)
 PARTICLE_RELEASES=https://github.com/particle-iot/device-os/releases/download/${PARTICLE_TAG}
@@ -35,6 +36,7 @@ curl -fL -o ${SRC}/system-part2-photon.bin "${PARTICLE_RELEASES}/photon-system-p
     echo "[FIRMWARE]"
     echo "firmware_version=$FIRMWARE_VERSION"
     echo "firmware_date=$FIRMWARE_DATE"
+    echo "firmware_sha=$FIRMWARE_SHA"
     echo "proto_version=$PROTO_VERSION"
     echo "proto_date=$PROTO_DATE"
     echo "system_version=${PARTICLE_VERSION}"

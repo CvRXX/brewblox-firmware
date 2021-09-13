@@ -19,59 +19,57 @@
  */
 
 #include "../inc/DS2413.h"
-#include "../inc/Logger.h"
 #include "../inc/OneWire.h"
 
-bool
-DS2413::update()
+bool DS2413::update()
 {
 
     bool success = false;
-    if (!writeNeeded()) { // skip read if we need to write anyway, which also returns status
-        if (selectRom()) {
-            if (!oneWire.write(ACCESS_READ)) {
+    if (auto oneWire = selectRom()) {
+        if (!writeNeeded()) { // skip read if we need to write anyway, which also returns status
+            if (!oneWire->write(ACCESS_READ)) {
                 return false;
             }
             uint8_t status;
-            if (!oneWire.read(status)) {
+            if (!oneWire->read(status)) {
                 return false;
             }
             success = processStatus(status);
+            connected(success);
         }
-        connected(success);
-    }
-    if (writeNeeded()) { // check again
-        if (selectRom()) {
+
+        if (writeNeeded()) { // check again
+            oneWire->reset();
+            oneWire->select(m_address);
             uint8_t data = (desiredState & 0b1000) >> 2 | (desiredState & 0b0010) >> 1;
             uint8_t bytes[3] = {ACCESS_WRITE, data, uint8_t(~data)};
 
-            if (oneWire.write_bytes(bytes, 3)) {
+            if (oneWire->write_bytes(bytes, 3)) {
                 /* Acknowledgement byte, 0xAA for success, 0xFF for failure. */
 
-                if (oneWire.read(data) && data == ACK_SUCCESS) {
-                    if (oneWire.read(data)) {
+                if (oneWire->read(data) && data == ACK_SUCCESS) {
+                    if (oneWire->read(data)) {
                         success = processStatus(data);
                     }
                 }
             }
         }
+        oneWire->reset();
         connected(success);
+        return success;
     }
-    oneWire.reset();
-
-    return success;
+    connected(false);
+    return false;
 }
 
-bool
-DS2413::writeNeeded()
+bool DS2413::writeNeeded()
 {
     return !connected() || (desiredState & 0b1010) != (actualState & 0b1010);
 }
 
-bool
-DS2413::writeChannelImpl(uint8_t channel, ChannelConfig config)
+bool DS2413::writeChannelImpl(uint8_t channel, ChannelConfig config)
 {
-    bool latchEnabled = config == ChannelConfig::ACTIVE_HIGH;
+    bool latchEnabled = config == ChannelConfig::DRIVING_ON;
     uint8_t bitmask;
     if (channel == 1) {
         bitmask = 0b0010;
@@ -97,8 +95,7 @@ DS2413::writeChannelImpl(uint8_t channel, ChannelConfig config)
     return true;
 }
 
-bool
-DS2413::senseChannelImpl(uint8_t channel, State& result) const
+bool DS2413::senseChannelImpl(uint8_t channel, State& result) const
 {
     if (connected()) {
         // to reduce onewire communication, we assume the last read value in update() is correct
@@ -115,8 +112,7 @@ DS2413::senseChannelImpl(uint8_t channel, State& result) const
     return false;
 }
 
-bool
-DS2413::processStatus(uint8_t data)
+bool DS2413::processStatus(uint8_t data)
 {
     uint8_t newState = data & 0x0F;
     uint8_t verification = ((~data) >> 4) & 0xF;

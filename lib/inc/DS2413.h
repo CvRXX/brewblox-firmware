@@ -43,17 +43,15 @@ private:
     static constexpr uint8_t ACK_ERROR = 0xFF;
 
 public:
-    DS2413(OneWire& oneWire, OneWireAddress address = familyCode)
-        : OneWireDevice(oneWire, address)
+    DS2413(std::function<std::shared_ptr<OneWire>()>&& getBus, OneWireAddress address = familyCode)
+        : OneWireDevice(std::move(getBus), address)
         , IoArray(2)
     {
     }
 
     DS2413(const DS2413&) = delete;
 
-    DS2413&
-    operator=(const DS2413&)
-        = delete;
+    DS2413& operator=(const DS2413&) = delete;
 
     virtual ~DS2413() = default;
 
@@ -67,20 +65,17 @@ public:
      * @return					true on successful communication
      */
     bool update();
+    bool writeNeeded();
 
     // generic ArrayIO interface
-    virtual bool
-    senseChannelImpl(uint8_t channel, State& result) const override final;
+    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
 
-    virtual bool
-    writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
+    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
 
-    virtual bool
-    supportsFastIo() const override final
+    virtual bool supportsFastIo() const override final
     {
         return false;
     }
-    bool writeNeeded();
 
 private:
     bool processStatus(uint8_t data);

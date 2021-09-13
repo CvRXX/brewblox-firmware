@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "DataStream.h"
 #include "Object.h"
+#include "ObjectContainer.h"
 #include <functional>
 #include <memory>
 #include <tuple>
@@ -29,18 +29,52 @@
 
 namespace cbox {
 
+template <typename T, std::enable_if_t<std::is_constructible<T, ObjectContainer&>::value, std::nullptr_t> = nullptr>
+std::shared_ptr<Object> make(ObjectContainer& objects)
+{
+    return std::shared_ptr<Object>(new T(objects));
+}
+
+template <typename T, std::enable_if_t<std::is_constructible<T>::value, std::nullptr_t> = nullptr>
+std::shared_ptr<Object> make(ObjectContainer&)
+{
+    return std::shared_ptr<Object>(new T());
+}
+
 // An object factory combines the create function with a type ID.
 // They can be put in a container that can be walked to find the matching typeId
 // The container keeps the objects as shared pointer, so it can create weak pointers to them.
 // Therefore the factory creates a shared pointer right away to only have one allocation.
 struct ObjectFactoryEntry {
     obj_type_t typeId;
-    std::function<std::shared_ptr<Object>()> createFn;
+    std::shared_ptr<Object> (*createFn)(ObjectContainer&);
+
+    ObjectFactoryEntry(const obj_type_t& id, std::shared_ptr<Object> (*f)(ObjectContainer&))
+        : typeId(id)
+        , createFn(f)
+    {
+    }
+
+    template <class T>
+    ObjectFactoryEntry(const obj_type_t& id)
+        : typeId(id)
+        , createFn(make<T>)
+    {
+    }
 };
+
+template <typename T>
+ObjectFactoryEntry makeFactoryEntry()
+{
+    return ObjectFactoryEntry(T::staticTypeId(), make<T>);
+}
 
 class ObjectFactory {
 private:
     const std::vector<ObjectFactoryEntry> objTypes;
+
+    ObjectFactory(ObjectFactory&) = delete;
+    ObjectFactory& operator=(ObjectFactory&) = delete;
 
 public:
     ObjectFactory(std::initializer_list<ObjectFactoryEntry> _objTypes)
@@ -48,19 +82,7 @@ public:
     {
     }
 
-    std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t) const
-    {
-        auto factoryEntry = std::find_if(objTypes.begin(), objTypes.end(), [&t](const ObjectFactoryEntry& entry) { return entry.typeId == t; });
-        if (factoryEntry == objTypes.end()) {
-            return std::make_tuple(CboxError::OBJECT_NOT_CREATABLE, std::shared_ptr<Object>());
-        }
-        auto obj = (*factoryEntry).createFn();
-        if (!obj) {
-            return std::make_tuple(CboxError::INSUFFICIENT_HEAP, std::shared_ptr<Object>());
-        }
-
-        return std::make_tuple(CboxError::OK, std::move(obj));
-    }
+    std::tuple<CboxError, std::shared_ptr<Object>> make(ObjectContainer& objects, const obj_type_t& t) const;
 };
 
 } // end namespace cbox

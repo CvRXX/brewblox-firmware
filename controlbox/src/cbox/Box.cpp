@@ -31,7 +31,7 @@
 #include "ObjectContainer.h"
 #include "ObjectFactory.h"
 #include "ObjectStorage.h"
-#include "ScanningFactory.h"
+#include "ScanningFactory.hpp"
 #include "Tracing.h"
 #include <memory>
 #include <tuple>
@@ -42,26 +42,25 @@ handleReset(bool exit, uint8_t reason);
 
 namespace cbox {
 
-Box::Box(const ObjectFactory& _factory,
+Box::Box(const std::vector<std::reference_wrapper<const ObjectFactory>>& _factories,
          ObjectContainer& _objects,
          ObjectStorage& _storage,
          ConnectionPool& _connections,
-         std::vector<std::unique_ptr<ScanningFactory>>&& _scanners)
-    : factory(_factory)
+         const std::vector<std::reference_wrapper<ScanningFactory>>& _scanners)
+    : factories(_factories)
     , objects(_objects)
     , storage(_storage)
     , connections(_connections)
-    , scanners{std::move(_scanners)}
+    , scanners(_scanners)
 {
-    objects.add(std::make_unique<GroupsObject>(this), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
-    objects.setObjectsStartId(userStartId());                             // set startId for user objects to 100
+    objects.add(std::shared_ptr<Object>(new GroupsObject(this)), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
+    objects.setObjectsStartId(userStartId());                                        // set startId for user objects to 100
 }
 
 /**
  * The no-op command simply echoes the response until the end of stream.
  */
-void
-Box::noop(DataIn& in, EncodedDataOut& out)
+void Box::noop(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     out.writeResponseSeparator();
@@ -71,16 +70,14 @@ Box::noop(DataIn& in, EncodedDataOut& out)
 /**
  * The no-op command simply echoes the response until the end of stream.
  */
-void
-Box::invalidCommand(DataIn& in, EncodedDataOut& out)
+void Box::invalidCommand(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     out.writeResponseSeparator();
     out.write(asUint8(CboxError::INVALID_COMMAND));
 }
 
-void
-Box::readObject(DataIn& in, EncodedDataOut& out)
+void Box::readObject(DataIn& in, EncodedDataOut& out)
 {
     CboxError status = CboxError::OK;
     obj_id_t id = 0;
@@ -110,8 +107,7 @@ Box::readObject(DataIn& in, EncodedDataOut& out)
     }
 }
 
-void
-Box::writeObject(DataIn& in, EncodedDataOut& out)
+void Box::writeObject(DataIn& in, EncodedDataOut& out)
 {
     CboxError status = CboxError::OK;
     obj_id_t id = 0;
@@ -204,12 +200,16 @@ Box::createObjectFromStream(DataIn& in)
         return std::make_tuple(CboxError::INPUT_STREAM_READ_ERROR, std::shared_ptr<Object>(), uint8_t(0)); // LCOV_EXCL_LINE
     }
 
-    auto retv = factory.make(typeId);
-    auto result = std::get<0>(retv);
-    auto obj = std::get<1>(retv);
-
-    if (obj) {
-        obj->streamFrom(in);
+    std::shared_ptr<Object> obj;
+    CboxError result;
+    for (auto f_it = factories.begin(); f_it < factories.end(); f_it++) {
+        auto retv = f_it->get().make(objects, typeId);
+        result = std::get<0>(retv);
+        obj = std::get<1>(retv);
+        if (obj) {
+            obj->streamFrom(in);
+            break;
+        }
     }
     return std::make_tuple(std::move(result), std::move(obj), groups);
 }
@@ -217,8 +217,7 @@ Box::createObjectFromStream(DataIn& in)
 /**
  * Creates a new object and adds it to the container
  */
-void
-Box::createObject(DataIn& in, EncodedDataOut& out)
+void Box::createObject(DataIn& in, EncodedDataOut& out)
 {
     obj_id_t id;
     obj_type_t typeId;
@@ -278,8 +277,7 @@ Box::createObject(DataIn& in, EncodedDataOut& out)
  * Handles the delete object command.
  *
  */
-void
-Box::deleteObject(DataIn& in, EncodedDataOut& out)
+void Box::deleteObject(DataIn& in, EncodedDataOut& out)
 {
     CboxError status = CboxError::OK;
     obj_id_t id;
@@ -313,8 +311,7 @@ Box::deleteObject(DataIn& in, EncodedDataOut& out)
 /**
  * Walks the object container and lists all objects.
  */
-void
-Box::listActiveObjects(DataIn& in, EncodedDataOut& out)
+void Box::listActiveObjects(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     auto crc = out.crc();
@@ -336,8 +333,7 @@ Box::listActiveObjects(DataIn& in, EncodedDataOut& out)
 /**
  * Walks the object container and lists all objects that implement a certain interface
  */
-void
-Box::listCompatibleObjects(DataIn& in, EncodedDataOut& out)
+void Box::listCompatibleObjects(DataIn& in, EncodedDataOut& out)
 {
     CboxError status = CboxError::OK;
     obj_type_t interfaceType = 0;
@@ -363,8 +359,7 @@ Box::listCompatibleObjects(DataIn& in, EncodedDataOut& out)
     }
 }
 
-void
-Box::readStoredObject(DataIn& in, EncodedDataOut& out)
+void Box::readStoredObject(DataIn& in, EncodedDataOut& out)
 {
     CboxError status = CboxError::OK;
     obj_id_t id = 0;
@@ -393,7 +388,7 @@ Box::readStoredObject(DataIn& in, EncodedDataOut& out)
         out.put(id);
         handlerCalled = true;
         RegionDataIn objWithoutCrc(objInStorage, objInStorage.available() - 1);
-        if (!objWithoutCrc.push(out)) {
+        if (objWithoutCrc.push(out) != CboxError::OK) {
             return CboxError::OUTPUT_STREAM_WRITE_ERROR; // LCOV_EXCL_LINE;
         }
         return CboxError::OK;
@@ -406,8 +401,7 @@ Box::readStoredObject(DataIn& in, EncodedDataOut& out)
     }
 }
 
-void
-Box::listStoredObjects(DataIn& in, EncodedDataOut& out)
+void Box::listStoredObjects(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     auto crc = out.crc();
@@ -419,21 +413,20 @@ Box::listStoredObjects(DataIn& in, EncodedDataOut& out)
         return;
     }
     out.write(asUint8(CboxError::OK));
-    auto listObjectStreamer = [&out](const storage_id_t& id, DataIn& objInStorage) -> CboxError {
+    auto listObjectStreamer = [&out](const storage_id_t& id, RegionDataIn& objInStorage) -> CboxError {
         out.writeListSeparator();
         obj_id_t objId(id);
         RegionDataIn objWithoutCrc(objInStorage, objInStorage.available() - 1);
-        if (out.put(id) && objWithoutCrc.push(out)) {
-            return CboxError::OK;
+        if (!out.put(id)) {
+            return CboxError::OUTPUT_STREAM_WRITE_ERROR; // LCOV_EXCL_LINE
         }
-        return CboxError::OUTPUT_STREAM_WRITE_ERROR; // LCOV_EXCL_LINE
+        return objWithoutCrc.push(out);
     };
     storage.retrieveObjects(listObjectStreamer);
 }
 
 // load all objects from storage
-void
-Box::loadObjectsFromStorage()
+void Box::loadObjectsFromStorage()
 {
     // keep a list of deprecated objects so we can add them after all other objects
     // they get a new ID, if use the next free ID before all other objects are processed
@@ -487,15 +480,14 @@ Box::loadObjectsFromStorage()
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {
-        objects.add(std::make_shared<DeprecatedObject>(id), 0xFF);
+        objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)), 0xFF);
     }
 
     // finally, deactivate objects that should not be active based on the (possibly just loaded) active groups setting
     setActiveGroupsAndUpdateObjects(activeGroups);
 }
 
-void
-Box::reboot(DataIn& in, EncodedDataOut& out)
+void Box::reboot(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     auto crc = out.crc();
@@ -512,8 +504,7 @@ Box::reboot(DataIn& in, EncodedDataOut& out)
     ::handleReset(true, 2);
 }
 
-void
-Box::factoryReset(DataIn& in, EncodedDataOut& out)
+void Box::factoryReset(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     auto crc = out.crc();
@@ -535,8 +526,7 @@ Box::factoryReset(DataIn& in, EncodedDataOut& out)
  *
  */
 
-void
-Box::clearObjects(DataIn& in, EncodedDataOut& out)
+void Box::clearObjects(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     auto crc = out.crc();
@@ -568,8 +558,7 @@ Box::clearObjects(DataIn& in, EncodedDataOut& out)
  *
  */
 
-void
-Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
+void Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 {
     in.spool();
     auto crc = out.crc();
@@ -583,11 +572,11 @@ Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 
     out.write(asUint8(CboxError::OK));
 
-    for (auto& scanner : scanners) {
-        scanner->reset();
+    for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
+        auto& scanner = scanner_it->get();
         auto newId = obj_id_t(0);
         do {
-            newId = scanner->scanAndAdd();
+            newId = scanner.scanAndAdd(objects);
             if (newId) {
                 auto cobj = objects.fetchContained(newId);
 
@@ -605,27 +594,37 @@ Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
     }
 }
 
+void Box::discoverNewObjects()
+{
+    for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
+        auto newId = obj_id_t(0);
+        do {
+            newId = scanner_it->get().scanAndAdd(objects);
+        } while (newId);
+    }
+}
+
 /*
  * Processes the command request from a data stream.
  * @param dataIn The request data. The first byte is the command id. The stream is assumed to contain at least
  *   this data.
  */
-void
-Box::handleCommand(DataIn& dataIn, DataOut& dataOut)
+void Box::handleCommand(DataIn& dataIn, DataOut& dataOut)
 {
     HexTextToBinaryIn hexIn(dataIn);
     EncodedDataOut out(dataOut); // hex encodes and adds CRC after response, supports protocol special characters
     TeeDataIn in(hexIn, out);    // ensure command input is also echoed to output
     uint16_t msg_id;
-    in.get(msg_id);             // echo message id back
-    uint8_t cmd_id = in.next(); // get command type code
+    in.get(msg_id); // get and echo message id back
+
+    auto cmd_id = in.read(); // get command type code
 
     if (cmd_id < 100) {
         tracing::add(tracing::Action(cmd_id)); // non-custom commands trace that they are invoked
         switch (cmd_id) {
         case NONE:
-            connectionStarted(dataOut); // insert welcome message annotation
             noop(in, out);
+            connectionStarted(dataOut); // insert welcome message annotation
             break;
         case READ_OBJECT:
             readObject(in, out);
@@ -674,23 +673,26 @@ Box::handleCommand(DataIn& dataIn, DataOut& dataOut)
         }
     }
 
-    hexIn.unBlock(); // consumes any leftover \r or \n
+    hexIn.consumeNonHex(); // consumes any leftover \r or \n or non-hex characters blocking the stream
 
     out.endMessage();
 }
 
-void
-Box::hexCommunicate()
+void Box::hexCommunicate()
 {
     connections.process([this](DataIn& in, DataOut& out) {
-        while (in.hasNext()) {
+        while (in.peek() >= 0) {
             this->handleCommand(in, out);
         }
     });
 }
 
-void
-Box::setActiveGroupsAndUpdateObjects(const uint8_t newGroups)
+void Box::parseMessage(DataIn& in, DataOut& out)
+{
+    handleCommand(in, out);
+}
+
+void Box::setActiveGroupsAndUpdateObjects(const uint8_t newGroups)
 {
     activeGroups = newGroups | 0x80; // system group cannot be disabled
     for (auto cit = objects.userbegin(); cit != objects.cend(); cit++) {
@@ -746,52 +748,13 @@ Box::setActiveGroupsAndUpdateObjects(const uint8_t newGroups)
 CboxError
 Box::storeUpdatedObject(const obj_id_t& id) const
 {
-
-    auto cobj = objects.fetchContained(id);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
-    }
-
-    auto storeContained = [&cobj](DataOut& storage) -> CboxError {
-        return cobj->streamPersistedTo(storage);
-    };
-    return storage.storeObject(id, storeContained);
+    return objects.store(id);
 }
 
 CboxError
 Box::reloadStoredObject(const obj_id_t& id)
 {
-    ContainedObject* cobj = objects.fetchContained(id);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
-    }
-
-    bool handlerCalled = false;
-    auto streamHandler = [&cobj, &handlerCalled](RegionDataIn& objInStorage) -> CboxError {
-        handlerCalled = true;
-        RegionDataIn objWithoutCrc(objInStorage, objInStorage.available() - 1);
-
-        obj_type_t typeId;
-        uint8_t groups; // discarded
-
-        if (!objWithoutCrc.get(groups)) {
-            return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
-        }
-        if (!objWithoutCrc.get(typeId)) {
-            return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
-        }
-        if (typeId != cobj->object()->typeId()) {
-            return CboxError::INVALID_OBJECT_TYPE;
-        }
-
-        return cobj->object()->streamFrom(objWithoutCrc);
-    };
-    CboxError status = storage.retrieveObject(storage_id_t(id), streamHandler);
-    if (!handlerCalled) {
-        return CboxError::INVALID_OBJECT_ID; // write status if handler has not written it
-    }
-
-    return status;
+    return objects.reloadStored(id);
 }
 
 } // end namespace cbox

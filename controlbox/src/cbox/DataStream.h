@@ -21,42 +21,12 @@
 #pragma once
 
 #include "CboxError.h"
-#include <algorithm>
+
 #include <cstdint>
 #include <string>
 namespace cbox {
 
-typedef uint16_t stream_size_t;
-
-inline bool
-isdigit(char c)
-{
-    return c >= '0' && c <= '9';
-}
-
-inline bool
-isxdigit(char c)
-{
-    return isdigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
-}
-
-/**
- * Converts a hex digit to the corresponding binary value.
- */
-inline uint8_t
-h2d(unsigned char hex)
-{
-    if (hex > '9') {
-        hex -= 7; // 'A' is 0x41, 'a' is 0x61. -7 =  0x3A, 0x5A
-    }
-    return uint8_t(hex & 0xf);
-}
-
-inline uint8_t
-d2h(uint8_t bin)
-{
-    return uint8_t(bin + (bin > 9 ? 'A' - 10 : '0'));
-}
+using stream_size_t = size_t;
 
 /**
  * An output stream that supports writing data.
@@ -86,17 +56,9 @@ public:
 	 * @param len	The number of bytes to write.
 	 * @return {@code true} if the byte was successfully written, false otherwise.
 	 */
-    virtual bool writeBuffer(const uint8_t* data, stream_size_t len)
-    {
-        const uint8_t* d = data;
-        while (len-- > 0) {
-            if (!write(*d++))
-                return false;
-        }
-        return true;
-    }
+    virtual bool writeBuffer(const uint8_t* data, stream_size_t len);
 
-    bool writeBuffer(const char* data, stream_size_t len)
+    inline bool writeBuffer(const char* data, stream_size_t len)
     {
         return writeBuffer(reinterpret_cast<const uint8_t*>(data), len);
     }
@@ -211,99 +173,60 @@ enum class StreamType : uint8_t {
     Usb = 1,
     Tcp = 2,
     Eeprom = 3,
+    File = 4,
 };
 
 /**
- * A data input stream. The stream contents may be determined asynchronously.
- * hasNext() returns true if the stream may eventually produce a new item, false if the stream is closed.
- * next() fetches the next item from the stream. return value is undefined if available()==0.
- * peek() retrieves the next data in the stream without removing it. Result is undefined if
- * available() returns 0.
- * available() the number of times read can be called to retrieve valid data.
+ * A data input stream. Byte based, but returns int16_t to be able to return negative values for error conditions
  */
 class DataIn {
 public:
     virtual ~DataIn() = default;
-    /*
-	 * Determines if there is potentially more data in this stream.
-	 * Note that this is not dependent upon time and asynchronous delivery of data, but if the stream is still open.
+    /**
+	 * Retrieves the next byte of data. The return value is -1 if no data is available.
 	 */
-    virtual bool hasNext() = 0;
+    virtual int16_t read() = 0;
 
     /**
-	 * Retrieves the next byte of data. The return value is only valid when `hasNext()` returns true.
+	 * Retrieves the next byte of data without removing it from the stream. -1 when no data is availabe.
 	 */
-    virtual uint8_t next() = 0;
-
-    /**
-	 * Retrieves the next byte of data without removing it from the stream. The result is only valid if `available`
-	 * previously returned a non-zero value.
-	 */
-    virtual uint8_t peek() = 0;
-
-    /**
-	 * Determines how many bytes are available for reading from the stream without blocking.
-	 */
-    virtual stream_size_t available() = 0;
+    virtual int16_t peek() = 0;
 
     /**
 	 * Discards all data until no new data is available
 	 */
     void spool()
     {
-        while (hasNext()) {
-            next();
+        while (read() >= 0) {
+            ;
         }
     }
 
     /**
-	 * Unconditional read of {@code length} bytes.
+	 * Read of {@code length} bytes.
 	 */
-    bool read(uint8_t* t, stream_size_t length)
-    {
-        uint8_t* target = (uint8_t*)t;
-        while (length-- > 0) {
-            if (!hasNext()) {
-                return false;
-            }
-            *target++ = next();
-        }
-        return true;
-    }
+    bool readBytes(uint8_t* t, stream_size_t length);
 
     template <typename T>
     bool get(T& t)
     {
-        return read(reinterpret_cast<uint8_t*>(&t), sizeof(T));
+        return readBytes(reinterpret_cast<uint8_t*>(&t), sizeof(T));
     }
 
     /**
      * Writes the contents of this stream to an output stream.
      * @param out
      * @param length
-     * @return length was written
+     * @return CboxError
      */
-    bool push(DataOut& out, stream_size_t length)
-    {
-        while (length > 0 && hasNext()) {
-            out.write(next());
-            --length;
-        }
-        return length == 0;
-    }
+    CboxError push(DataOut& out, stream_size_t length);
 
     /**
      * Writes the contents of this stream to an output stream, until input stream is empty
      * @param out
+     * @return CboxError
      */
-    bool push(DataOut& out)
-    {
-        bool success = true;
-        while (hasNext()) {
-            success &= out.write(next());
-        }
-        return success;
-    }
+    CboxError push(DataOut& out);
 
     virtual StreamType streamType() const = 0;
 };
@@ -316,10 +239,8 @@ public:
     EmptyDataIn() = default;
     virtual ~EmptyDataIn() = default;
 
-    virtual bool hasNext() override { return false; }
-    virtual uint8_t next() override { return 0; }
-    virtual uint8_t peek() override { return 0; }
-    virtual stream_size_t available() override { return 0; }
+    virtual int16_t read() override { return -1; }
+    virtual int16_t peek() override { return -1; }
 
     virtual StreamType streamType() const override final
     {
@@ -333,30 +254,25 @@ public:
 class TeeDataIn : public DataIn {
     DataIn& in;
     DataOut& out;
-    bool success;
 
 public:
     TeeDataIn(DataIn& _in, DataOut& _out)
         : in(_in)
         , out(_out)
-        , success(true)
     {
     }
     virtual ~TeeDataIn() = default;
 
-    bool teeOk() { return success; }
-
-    virtual uint8_t next() override
+    virtual int16_t read() override
     {
-        uint8_t val = in.next();
-        bool result = out.write(val);
-        success = success && result;
+        auto val = in.read();
+        if (val >= 0) {
+            out.write(val);
+        }
         return val;
     }
 
-    virtual bool hasNext() override { return in.hasNext(); }
-    virtual uint8_t peek() override { return in.peek(); }
-    virtual stream_size_t available() override { return in.available(); }
+    virtual int16_t peek() override { return in.peek(); }
 
     virtual StreamType streamType() const override final
     {
@@ -404,10 +320,22 @@ public:
     {
     }
 
-    virtual uint8_t next() override { return data[pos++]; }
-    virtual bool hasNext() override { return pos < size; }
-    virtual uint8_t peek() override { return data[pos]; }
-    virtual stream_size_t available() override { return size - pos; }
+    virtual int16_t peek() override
+    {
+        if (pos < size) {
+            return data[pos];
+        }
+        return -1;
+    }
+
+    virtual int16_t read() override
+    {
+        if (pos < size) {
+            return data[pos++];
+        }
+        return -1;
+    }
+
     void reset() { pos = 0; }
     stream_size_t bytes_read() { return pos; }
 
@@ -420,7 +348,7 @@ public:
 /**
  * Limits reading from the stream to the given number of bytes.
  */
-class RegionDataIn final : public DataIn {
+class RegionDataIn : public DataIn {
     DataIn& in;
     stream_size_t len;
 
@@ -432,24 +360,24 @@ public:
     }
     virtual ~RegionDataIn() = default;
 
-    bool hasNext() override final
+    int16_t read() override final
     {
-        return len && in.hasNext();
+        int16_t v = -1;
+        if (len) {
+            v = in.read();
+            --len;
+        }
+        return v;
     }
 
-    uint8_t next() override final
-    {
-        return hasNext() ? --len, in.next() : 0;
-    }
-
-    uint8_t peek() override final
+    int16_t peek() override final
     {
         return in.peek();
     }
 
-    stream_size_t available() override final
+    stream_size_t available()
     {
-        return std::min(len, in.available());
+        return len;
     }
 
     void reduceLength(stream_size_t newLen)
@@ -499,26 +427,6 @@ public:
     }
 };
 
-// copied from OneWire class. Should be refactored to only define this one
-
-static const uint8_t dscrc_table[] = {
-    0, 94, 188, 226, 97, 63, 221, 131, 194, 156, 126, 32, 163, 253, 31, 65,
-    157, 195, 33, 127, 252, 162, 64, 30, 95, 1, 227, 189, 62, 96, 130, 220,
-    35, 125, 159, 193, 66, 28, 254, 160, 225, 191, 93, 3, 128, 222, 60, 98,
-    190, 224, 2, 92, 223, 129, 99, 61, 124, 34, 192, 158, 29, 67, 161, 255,
-    70, 24, 250, 164, 39, 121, 155, 197, 132, 218, 56, 102, 229, 187, 89, 7,
-    219, 133, 103, 57, 186, 228, 6, 88, 25, 71, 165, 251, 120, 38, 196, 154,
-    101, 59, 217, 135, 4, 90, 184, 230, 167, 249, 27, 69, 198, 152, 122, 36,
-    248, 166, 68, 26, 153, 199, 37, 123, 58, 100, 134, 216, 91, 5, 231, 185,
-    140, 210, 48, 110, 237, 179, 81, 15, 78, 16, 242, 172, 47, 113, 147, 205,
-    17, 79, 173, 243, 112, 46, 204, 146, 211, 141, 111, 49, 178, 236, 14, 80,
-    175, 241, 19, 77, 206, 144, 114, 44, 109, 51, 209, 143, 12, 82, 176, 238,
-    50, 108, 142, 208, 83, 13, 239, 177, 240, 174, 76, 18, 145, 207, 45, 115,
-    202, 148, 118, 40, 171, 245, 23, 73, 8, 86, 180, 234, 105, 55, 213, 139,
-    87, 9, 235, 181, 54, 104, 138, 212, 149, 203, 41, 119, 244, 170, 72, 22,
-    233, 183, 85, 11, 136, 214, 52, 106, 43, 117, 151, 201, 74, 20, 246, 168,
-    116, 42, 200, 150, 21, 75, 169, 247, 182, 232, 10, 84, 215, 137, 107, 53};
-
 /**
  * CRC data out. Sends running CRC of data on request
  */
@@ -534,11 +442,7 @@ public:
     }
     virtual ~CrcDataOut() = default;
 
-    virtual bool write(uint8_t data) override final
-    {
-        crcValue = *(dscrc_table + (crcValue ^ data));
-        return out.write(data);
-    }
+    virtual bool write(uint8_t data) override final;
 
     bool writeCrc()
     {
@@ -586,13 +490,7 @@ public:
     /**
 	 * Data is written as hex-encoded
 	 */
-    virtual bool write(uint8_t data) override final
-    {
-        crcValue = *(dscrc_table + (crcValue ^ data));
-        bool success = out.write(d2h(uint8_t(data & 0xF0) >> 4));
-        success = success && out.write(d2h(uint8_t(data & 0xF)));
-        return success;
-    }
+    virtual bool write(uint8_t data) override final;
 
     uint8_t crc()
     {
@@ -607,40 +505,13 @@ public:
     /**
 	 * Rather than closing the global stream, write a newline to signify the end of this command.
 	 */
-    void endMessage()
-    {
-        write(crcValue);
-        crcValue = 0;
-        out.write('\n');
-    }
+    void endMessage();
 
-    void writeAnnotation(std::string&& ann)
-    {
-        out.write('<');
-        for (auto c : ann) {
-            out.write(c);
-        }
-        out.write('>');
-    }
+    void writeAnnotation(std::string&& ann);
 
-    void writeEvent(std::string&& ann)
-    {
-        out.write('<');
-        out.write('!');
-        for (auto c : ann) {
-            out.write(c);
-        }
-        out.write('>');
-    }
+    void writeEvent(std::string&& ann);
 
-    void writeError(CboxError error)
-    {
-        std::string msg = "CBOXERROR:  ";
-        uint8_t asByte = uint8_t(error);
-        msg[10] = d2h(uint8_t(asByte & 0xF0) >> 4);
-        msg[11] = d2h(uint8_t(asByte & 0x0F));
-        writeEvent(std::move(msg));
-    }
+    void writeError(CboxError error);
 };
 
 } // end namespace cbox
