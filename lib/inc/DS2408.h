@@ -25,8 +25,6 @@
 #include "IoArray.h"
 #include "OneWireDevice.h"
 
-#define DS2408_FAMILY_ID 0x29
-
 /**
  * Provides access to a OneWire-addressable 8-channel I/O device.
  * Each output has a pull-down transistor, which can be enabled by writing 0 to the pio output latch.

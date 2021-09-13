@@ -65,6 +65,7 @@ public:
      * @return					true on successful communication
      */
     bool update();
+    bool writeNeeded();
 
     // generic ArrayIO interface
     virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
@@ -75,7 +76,6 @@ public:
     {
         return false;
     }
-    bool writeNeeded();
 
 private:
     bool processStatus(uint8_t data);

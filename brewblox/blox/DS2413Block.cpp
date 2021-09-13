@@ -27,7 +27,9 @@ DS2413Block::streamFrom(cbox::DataIn& in)
     cbox::CboxError res = streamProtoFrom(in, &newData, blox_DS2413_fields, blox_DS2413_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
-        owBus.setId(newData.oneWireBusId);
+        if (newData.oneWireBusId) {
+            owBus.setId(newData.oneWireBusId);
+        }
         device.address(OneWireAddress(newData.address));
     }
     return res;

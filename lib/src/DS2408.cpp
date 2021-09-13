@@ -39,6 +39,7 @@ bool DS2408::writeNeeded() const
 
 bool DS2408::update()
 {
+    bool success = false;
     if (auto oneWire = selectRom()) {
         // Compute the 1-Wire CRC16 and compare it against the received CRC.
         // Put everything in one buffer so we can compute the CRC easily.
@@ -53,7 +54,7 @@ bool DS2408::update()
         uint16_t crcCalculated = OneWireCrc16(buf, 11);
         // device sends CRC inverted
         uint16_t crcReceived = ~((uint16_t(buf[12]) << 8) | uint16_t(buf[11]));
-        bool success = crcCalculated == crcReceived;
+        success = crcCalculated == crcReceived;
 
         if (success) {
             pins = buf[3];
@@ -81,11 +82,9 @@ bool DS2408::update()
         }
 
         oneWire->reset();
-        connected(success);
-        return success;
     }
-    connected(false);
-    return false;
+    connected(success);
+    return success;
 }
 
 bool DS2408::senseChannelImpl(uint8_t channel, State& result) const
