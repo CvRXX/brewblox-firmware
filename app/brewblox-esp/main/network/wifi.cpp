@@ -119,6 +119,8 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         case WIFI_PROV_START:
             // Configure blue blinking
             spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 8);
+            /* enable wifi power saving to be able to use bluetooth*/
+            esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
             ESP_LOGI(TAG, "Provisioning started");
             break;
         case WIFI_PROV_CRED_RECV: {
@@ -146,6 +148,8 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         case WIFI_PROV_END:
             /* De-initialize manager once provisioning is finished */
             wifi_prov_mgr_deinit();
+            /* disable wifi power saving for better performance */
+            esp_wifi_set_ps(WIFI_PS_NONE);
             break;
         default:
             break;
@@ -165,17 +169,12 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         /* Signal main application to continue execution */
         xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT);
 
-        /* disable wifi power saving for better performance */
-        esp_wifi_set_ps(WIFI_PS_NONE);
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         connected = false;
         ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
         // Configure Green for blinking fast
         spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
         esp_wifi_connect();
-
-        /* enable wifi power saving */
-        esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
     }
 }
 
@@ -315,6 +314,8 @@ void init(PROVISION_METHOD method, bool forceProvision)
         /* We don't need the manager as device is already provisioned,
          * so let's release it's resources */
         wifi_prov_mgr_deinit();
+        /* disable wifi power saving for better performance */
+        esp_wifi_set_ps(WIFI_PS_NONE);
 
         /* Start Wi-Fi station */
         init_sta();
