@@ -26,7 +26,6 @@ cbox::CboxError TempSensorOneWireBlock::streamFrom(cbox::DataIn& in)
     cbox::CboxError res = streamProtoFrom(in, &newData, blox_TempSensorOneWire_fields, blox_TempSensorOneWire_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
-        owBus.setId(newData.oneWireBusId);
         sensor.address(OneWireAddress(newData.address));
         sensor.setCalibration(cnl::wrap<temp_t>(newData.offset));
     }
