@@ -126,9 +126,12 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
         result = pullDownStatus() & pins ? State::Active : State::Inactive;
         break;
     case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
-        if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
-            result = State::Reverse;
-        } else if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
+        if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
+            // result = State::Reverse;
+            // return Inactive for the reverse state to be compatible with digital actuator
+            // until we expand processing of reversed state in rest of blocks
+            result = State::Inactive;
+        } else if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
             result = State::Active;
         } else {
             result = State::Inactive;
