@@ -20,6 +20,7 @@
 #include "nvs_flash.h"
 #include <string.h>
 // #include "protocol_examples_common.h"
+#include "Spark4.hpp"
 #include "errno.h"
 #include "esp_wifi.h"
 #include "ota.hpp"
@@ -47,6 +48,9 @@ static void __attribute__((noreturn)) task_fatal_error(void)
 {
     ESP_LOGE(TAG, "Exiting task due to fatal error...");
 
+    // red blink
+    spark4::set_led(128, 0, 0, spark4::LED_MODE::BLINK, 4);
+
     vTaskDelay(3000);
     esp_restart();
 }
@@ -69,6 +73,9 @@ static void ota_task(void* pvParameter)
     const esp_partition_t* update_partition = NULL;
 
     ESP_LOGI(TAG, "Starting OTA");
+
+    // slow purple blink
+    spark4::set_led(64, 0, 128, spark4::LED_MODE::BLINK, 15);
 
     const esp_partition_t* configured = esp_ota_get_boot_partition();
     const esp_partition_t* running = esp_ota_get_running_partition();
@@ -111,6 +118,7 @@ static void ota_task(void* pvParameter)
     int binary_file_length = 0;
     /*deal with all receive packet*/
     bool image_header_was_checked = false;
+
     while (1) {
         int data_read = esp_http_client_read(client, ota_write_data, BUFFSIZE);
         if (data_read < 0) {
@@ -193,6 +201,10 @@ static void ota_task(void* pvParameter)
             }
         }
     }
+
+    // faster purple when receive is complete
+    spark4::set_led(64, 0, 128, spark4::LED_MODE::BLINK, 4);
+
     ESP_LOGI(TAG, "Total Write binary data length: %d", binary_file_length);
     if (esp_http_client_is_complete_data_received(client) != true) {
         ESP_LOGE(TAG, "Error in receiving complete file");

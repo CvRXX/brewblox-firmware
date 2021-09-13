@@ -26,6 +26,8 @@ echo "Sending POST to $POST_URL with firmware URL $SERVE_URL"
 
 python3 -m http.server $PORT --directory build & 
 
+sleep 2
+
 curl -X POST "$POST_URL" -d "$SERVE_URL"
 wait
 exit $?

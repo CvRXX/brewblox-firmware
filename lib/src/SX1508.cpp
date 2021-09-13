@@ -24,6 +24,11 @@ bool SX1508::write_reg(RegAddr addr, uint8_t data)
     return i2c_write({static_cast<uint8_t>(addr), data});
 }
 
+bool SX1508::write_regs(std::vector<uint8_t>&& data) // first byte is start address
+{
+    return i2c_write(data);
+}
+
 bool SX1508::read_reg(RegAddr addr, uint8_t& result)
 {
     if (i2c_write(static_cast<uint8_t>(addr), true)) {
