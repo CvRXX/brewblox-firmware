@@ -8,5 +8,5 @@ docker run \
     -it --rm --privileged \
     -v "$PWD":"$PWD" \
     -w "$PWD"/app/brewblox-esp \
-    espressif/idf:v4.3 \
+    espressif/idf:v4.3.1 \
     idf.py "$@"

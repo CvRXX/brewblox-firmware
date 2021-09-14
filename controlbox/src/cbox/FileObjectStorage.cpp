@@ -20,7 +20,9 @@
 #include "FileObjectStorage.h"
 #include "DataStreamIo.h"
 #include <cstdio>
+extern "C" {
 #include <dirent.h>
+}
 #include <fstream>
 
 namespace cbox {
