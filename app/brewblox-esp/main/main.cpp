@@ -72,10 +72,12 @@ int main(int /*argc*/, char** /*argv*/)
 #endif
 {
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
-    check_ota();
 
     spark4::hw_init();
+    check_ota();
+
     spark4::adc_init();
+
     hal_delay_ms(100);
 
     mount_blocks_spiff();
@@ -86,7 +88,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     Graphics::init(box);
 
-    static CboxServer server(io, 8332, box);
+    static CboxServer cboxServer(io, 8332, box);
 
     static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
                                                  RecurringTask::IntervalType::FROM_EXPIRY,
@@ -126,7 +128,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     systemCheck.start();
 
-    HttpHandler http(io, 80);
+    HttpHandler http(io, 80, cboxServer);
 
     io.run();
 

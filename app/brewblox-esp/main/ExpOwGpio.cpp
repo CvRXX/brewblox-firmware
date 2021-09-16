@@ -126,9 +126,12 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
         result = pullDownStatus() & pins ? State::Active : State::Inactive;
         break;
     case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
-        if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
-            result = State::Reverse;
-        } else if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
+        if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
+            // result = State::Reverse;
+            // return Inactive for the reverse state to be compatible with digital actuator
+            // until we expand processing of reversed state in rest of blocks
+            result = State::Inactive;
+        } else if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
             result = State::Active;
         } else {
             result = State::Inactive;
@@ -324,6 +327,7 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
         // clear old bits set by previous channel configuration
         when_active_mask.bits.all = when_active_mask.bits.all & exclude_old;
         when_inactive_mask.bits.all = when_inactive_mask.bits.all & exclude_old;
+        op_ctrl_desired.bits.all = op_ctrl_desired.bits.all & exclude_old;
 
         flexChannels[idx] = c;
 
@@ -382,8 +386,8 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
                 break;
             case blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL:  // pp,pp toggled 01 or 10
             case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
-                when_inactive_external.setBits(first, second);
-                when_active_external.setBits(second, first);
+                when_inactive_external.setBits(second, first);
+                when_active_external.setBits(first, second);
                 break;
             case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P:; // old, old
                 when_inactive_external.setBits(0x00, 0x00);

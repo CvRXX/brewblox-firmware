@@ -623,8 +623,8 @@ void Box::handleCommand(DataIn& dataIn, DataOut& dataOut)
         tracing::add(tracing::Action(cmd_id)); // non-custom commands trace that they are invoked
         switch (cmd_id) {
         case NONE:
-            connectionStarted(dataOut); // insert welcome message annotation
             noop(in, out);
+            connectionStarted(dataOut); // insert welcome message annotation
             break;
         case READ_OBJECT:
             readObject(in, out);
@@ -673,7 +673,7 @@ void Box::handleCommand(DataIn& dataIn, DataOut& dataOut)
         }
     }
 
-    hexIn.consumeLineEnd(); // consumes any leftover \r or \n
+    hexIn.consumeNonHex(); // consumes any leftover \r or \n or non-hex characters blocking the stream
 
     out.endMessage();
 }

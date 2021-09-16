@@ -12,11 +12,11 @@ git submodule update --init --depth 1 brewblox/blox/proto
 git submodule update --init --depth 1 platform/spark/device-os
 
 FIRMWARE_VERSION=$(git rev-parse --short=8 HEAD)
-FIRMWARE_DATE=$(git show -s --format=%ci)
+FIRMWARE_DATE=$(git log -1 --format=%cd --date=short)
 FIRMWARE_SHA="$(git rev-parse HEAD)"
 
 PROTO_VERSION=$(git --git-dir ./brewblox/blox/proto/.git rev-parse --short=8 HEAD)
-PROTO_DATE=$(git --git-dir ./brewblox/blox/proto/.git show -s --format=%ci)
+PROTO_DATE=$(git --git-dir ./brewblox/blox/proto/.git log -1 --format=%cd --date=short)
 
 PARTICLE_TAG=$(git --git-dir "./platform/spark/device-os/.git" fetch --tags --no-recurse-submodules && git --git-dir "./platform/spark/device-os/.git" describe --tags)
 PARTICLE_RELEASES=https://github.com/particle-iot/device-os/releases/download/${PARTICLE_TAG}

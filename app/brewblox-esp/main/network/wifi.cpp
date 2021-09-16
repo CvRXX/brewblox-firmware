@@ -20,7 +20,9 @@
 
 #include <wifi_provisioning/manager.h>
 
+#include "Spark4.hpp"
 #include "qrcode.h"
+#include <string>
 #include <wifi_provisioning/scheme_ble.h>
 #include <wifi_provisioning/scheme_softap.h>
 
@@ -53,10 +55,33 @@ void init_sta(void)
 void get_device_service_name(char* service_name, size_t max)
 {
     uint8_t eth_mac[6];
-    const char* ssid_prefix = "BREWBLOX_";
+    const char* ssid_prefix = "PROV_BREWBLOX_";
     esp_wifi_get_mac(WIFI_IF_STA, eth_mac);
     snprintf(service_name, max, "%s%02X%02X%02X",
              ssid_prefix, eth_mac[3], eth_mac[4], eth_mac[5]);
+}
+
+std::string qr_payload()
+{
+    char service_name[22];
+    get_device_service_name(service_name, sizeof(service_name));
+
+    std::string payload;
+    payload.append("{\"ver\":\"");
+    payload.append(PROV_QR_VERSION);
+    payload.append("\",\"name\":\"");
+    payload.append(service_name);
+    payload.append("\",\"transport\":\"");
+    payload.append(PROV_TRANSPORT_BLE);
+    payload.append("\"}");
+    return payload;
+}
+
+void append_qr_url(std::string& s)
+{
+    s.append(QRCODE_BASE_URL);
+    s.append("?data=");
+    s.append(qr_payload());
 }
 
 void prov_print_qr(const char* name, const char* pop, const char* transport)
@@ -92,9 +117,15 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     if (event_base == WIFI_PROV_EVENT) {
         switch (event_id) {
         case WIFI_PROV_START:
+            // Configure blue blinking
+            spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 8);
+            /* enable wifi power saving to be able to use bluetooth*/
+            esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
             ESP_LOGI(TAG, "Provisioning started");
             break;
         case WIFI_PROV_CRED_RECV: {
+            // Configure blue/green blinking
+            spark4::set_led(0, 128, 128, spark4::LED_MODE::BLINK, 8);
             wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
             ESP_LOGI(TAG,
                      "Received Wi-Fi credentials for SSID: %s\n",
@@ -102,6 +133,8 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             break;
         }
         case WIFI_PROV_CRED_FAIL: {
+            // Configure fast red blinking
+            spark4::set_led(128, 0, 0, spark4::LED_MODE::BLINK, 4);
             wifi_prov_sta_fail_reason_t* reason = (wifi_prov_sta_fail_reason_t*)event_data;
             ESP_LOGE(TAG,
                      "Provisioning failed!\n\tReason : %s"
@@ -115,22 +148,32 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         case WIFI_PROV_END:
             /* De-initialize manager once provisioning is finished */
             wifi_prov_mgr_deinit();
+            /* disable wifi power saving for better performance */
+            esp_wifi_set_ps(WIFI_PS_NONE);
             break;
         default:
             break;
         }
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+        // Configure Green for blinking fast
+        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
         esp_wifi_connect();
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+        // Configure Blue and Green for breathing
+        spark4::set_led(0, 128, 128, spark4::LED_MODE::BREATHE, 15);
+
         connected = true;
         ip_event_got_ip_t* event = (ip_event_got_ip_t*)event_data;
         ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
         ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
         /* Signal main application to continue execution */
         xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT);
+
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         connected = false;
         ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
+        // Configure Green for blinking fast
+        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
         esp_wifi_connect();
     }
 }
@@ -165,9 +208,6 @@ void init(PROVISION_METHOD method, bool forceProvision)
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    /* disable wifi power saving for better performance */
-    esp_wifi_set_ps(WIFI_PS_NONE);
-
     /* Initialize provisioning manager with the configuration parameters set above */
 
     auto& config = method == PROVISION_METHOD::BLE ? ble_config : softap_config;
@@ -186,7 +226,7 @@ void init(PROVISION_METHOD method, bool forceProvision)
          *     - Wi-Fi SSID when scheme is wifi_prov_scheme_softap
          *     - device name when scheme is wifi_prov_scheme_ble
          */
-        char service_name[16];
+        char service_name[22];
         get_device_service_name(service_name, sizeof(service_name));
 
         /* What is the security level that we want (0 or 1):
@@ -274,6 +314,8 @@ void init(PROVISION_METHOD method, bool forceProvision)
         /* We don't need the manager as device is already provisioned,
          * so let's release it's resources */
         wifi_prov_mgr_deinit();
+        /* disable wifi power saving for better performance */
+        esp_wifi_set_ps(WIFI_PS_NONE);
 
         /* Start Wi-Fi station */
         init_sta();
