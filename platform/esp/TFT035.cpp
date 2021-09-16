@@ -154,25 +154,17 @@ error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsign
     if (auto error = dmaWrite(0x2A, false))
         return error;
 
-    if (auto error = dmaWrite(uint8_t(xs >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(xs & 0xFF), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(xe >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(xe & 0xFF), true))
+    auto x = std::array<uint8_t, 4>{uint8_t(xs >> 8), uint8_t(xs & 0xFF), uint8_t(xe >> 8), uint8_t(xe & 0xFF)};
+
+    if (auto error = dmaWrite(x.data(), 4, true))
         return error;
 
     if (auto error = dmaWrite(0x2B, false))
         return error;
 
-    if (auto error = dmaWrite(uint8_t(ys >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(ys & 0xFF), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(ye >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(ye & 0xFF), true))
+    auto y = std::array<uint8_t, 4>{uint8_t(ys >> 8), uint8_t(ys & 0xFF), uint8_t(ye >> 8), uint8_t(ye & 0xFF)};
+
+    if (auto error = dmaWrite(y.data(), 4, true))
         return error;
 
     return dmaWrite(0x2C, false);
