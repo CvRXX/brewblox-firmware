@@ -247,6 +247,42 @@ SCENARIO("OneWire + GPIO module using mock hw")
         }
     }
 
+    WHEN("A 2 + only channels are created")
+    {
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00000001});
+        gpio->setupChannel(2, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00000010});
+
+        THEN("The masks are correct")
+        {
+            CHECK(gpio->pullUpWhenActive() == 0b11);
+            CHECK(gpio->pullDownWhenActive() == 0b00);
+            CHECK(gpio->pullUpWhenInactive() == 0b00);
+            CHECK(gpio->pullDownWhenInactive() == 0b11);
+            CHECK(gpio->pullDownStatus() == 0b11);
+            CHECK(gpio->pullUpStatus() == 0b00);
+            CHECK(gpio->pullUpDesired() == 0b00);
+            CHECK(gpio->pullDownDesired() == 0b11);
+        }
+
+        THEN("When toggled, the status is correct")
+        {
+            gpio->writeChannelImpl(1, IoArray::ChannelConfig::DRIVING_ON);
+            CHECK(gpio->pullUpDesired() == 0b01);
+            CHECK(gpio->pullDownDesired() == 0b10);
+
+            gpio->writeChannelImpl(2, IoArray::ChannelConfig::DRIVING_ON);
+            CHECK(gpio->pullUpDesired() == 0b11);
+            CHECK(gpio->pullDownDesired() == 0b00);
+
+            gpio->writeChannelImpl(2, IoArray::ChannelConfig::DRIVING_OFF);
+            CHECK(gpio->pullUpDesired() == 0b01);
+            CHECK(gpio->pullDownDesired() == 0b10);
+
+            gpio->writeChannelImpl(1, IoArray::ChannelConfig::DRIVING_OFF);
+            CHECK(gpio->pullUpDesired() == 0b00);
+            CHECK(gpio->pullDownDesired() == 0b11);
+        }
+    }
     removeMockI2CDevice(0x70);
     removeMockSpiDevice(-1);
 }
