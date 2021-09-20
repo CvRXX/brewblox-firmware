@@ -113,7 +113,7 @@ public:
         void apply(const ChanBitsInternal& mask, const ChanBitsInternal& state)
         {
             bits.all &= ~mask.bits.all;
-            bits.all |= state.bits.all;
+            bits.all |= (mask.bits.all & state.bits.all);
         }
     };
 
