@@ -61,6 +61,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, soundalarm_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, hardware_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::Spark2Pins)},
@@ -93,19 +94,20 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\025Spark2Pins_test.proto\022\004blox\032\023brewblox_"
       "test.proto\032\021nanopb_test.proto\032\022IoArray_t"
-      "est.proto\"\323\001\n\nSpark2Pins\022\022\n\nsoundAlarm\030\005"
+      "est.proto\"\356\001\n\nSpark2Pins\022\022\n\nsoundAlarm\030\005"
       " \001(\010\0223\n\010hardware\030\010 \001(\0162\031.blox.Spark2Pins"
       ".HardwareB\006\212\265\030\002(\001\0223\n\010channels\030\t \003(\0132\017.bl"
-      "ox.IoChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\"8\n\010Hardwa"
-      "re\022\016\n\nHW_UNKNOWN\020\000\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_"
-      "SPARK2\020\002:\r\212\265\030\003\030\300\002\212\265\030\002H\n*\214\001\n\020Spark2Channe"
-      "lIds\022\024\n\020SPARK2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHA"
-      "N_BOTTOM1\020\001\022\027\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023"
-      "SPARK2_CHAN_BOTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOT"
-      "TOM0\020\004b\006proto3"
+      "ox.IoChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z"
+      " \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"8\n\010Hardware\022\016\n\nHW_UNKN"
+      "OWN\020\000\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_SPARK2\020\002:\r\212\265\030"
+      "\003\030\300\002\212\265\030\002H\n*\214\001\n\020Spark2ChannelIds\022\024\n\020SPARK"
+      "2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHAN_BOTTOM1\020\001\022\027"
+      "\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023SPARK2_CHAN_B"
+      "OTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOTTOM0\020\004b\006proto"
+      "3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 454);
+      descriptor, 481);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark2Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -177,6 +179,7 @@ void Spark2Pins::clear_channels() {
 const int Spark2Pins::kSoundAlarmFieldNumber;
 const int Spark2Pins::kHardwareFieldNumber;
 const int Spark2Pins::kChannelsFieldNumber;
+const int Spark2Pins::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Spark2Pins::Spark2Pins()
@@ -191,16 +194,16 @@ Spark2Pins::Spark2Pins(const Spark2Pins& from)
       _internal_metadata_(NULL),
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&soundalarm_, &from.soundalarm_,
-    static_cast<size_t>(reinterpret_cast<char*>(&hardware_) -
-    reinterpret_cast<char*>(&soundalarm_)) + sizeof(hardware_));
+  ::memcpy(&hardware_, &from.hardware_,
+    static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
+    reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
   // @@protoc_insertion_point(copy_constructor:blox.Spark2Pins)
 }
 
 void Spark2Pins::SharedCtor() {
-  ::memset(&soundalarm_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&hardware_) -
-      reinterpret_cast<char*>(&soundalarm_)) + sizeof(hardware_));
+  ::memset(&hardware_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pins_) -
+      reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
 }
 
 Spark2Pins::~Spark2Pins() {
@@ -232,9 +235,9 @@ void Spark2Pins::Clear() {
   (void) cached_has_bits;
 
   channels_.Clear();
-  ::memset(&soundalarm_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&hardware_) -
-      reinterpret_cast<char*>(&soundalarm_)) + sizeof(hardware_));
+  ::memset(&hardware_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pins_) -
+      reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
   _internal_metadata_.Clear();
 }
 
@@ -244,7 +247,7 @@ bool Spark2Pins::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox.Spark2Pins)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -283,6 +286,20 @@ bool Spark2Pins::MergePartialFromCodedStream(
             static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                 input, add_channels()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &pins_)));
         } else {
           goto handle_unusual;
         }
@@ -335,6 +352,11 @@ void Spark2Pins::SerializeWithCachedSizes(
       output);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->pins(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -368,6 +390,11 @@ void Spark2Pins::SerializeWithCachedSizes(
         9, this->channels(static_cast<int>(i)), deterministic, target);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->pins(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -396,15 +423,20 @@ size_t Spark2Pins::ByteSizeLong() const {
     }
   }
 
+  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  if (this->hardware() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->hardware());
+  }
+
   // bool soundAlarm = 5;
   if (this->soundalarm() != 0) {
     total_size += 1 + 1;
   }
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
-  if (this->hardware() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->hardware());
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -435,11 +467,14 @@ void Spark2Pins::MergeFrom(const Spark2Pins& from) {
   (void) cached_has_bits;
 
   channels_.MergeFrom(from.channels_);
+  if (from.hardware() != 0) {
+    set_hardware(from.hardware());
+  }
   if (from.soundalarm() != 0) {
     set_soundalarm(from.soundalarm());
   }
-  if (from.hardware() != 0) {
-    set_hardware(from.hardware());
+  if (from.pins() != 0) {
+    set_pins(from.pins());
   }
 }
 
@@ -468,8 +503,9 @@ void Spark2Pins::Swap(Spark2Pins* other) {
 void Spark2Pins::InternalSwap(Spark2Pins* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
-  swap(soundalarm_, other->soundalarm_);
   swap(hardware_, other->hardware_);
+  swap(soundalarm_, other->soundalarm_);
+  swap(pins_, other->pins_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

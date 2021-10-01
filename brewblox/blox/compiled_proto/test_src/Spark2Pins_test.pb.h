@@ -236,25 +236,32 @@ class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
   const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
       channels() const;
 
-  // bool soundAlarm = 5;
-  void clear_soundalarm();
-  static const int kSoundAlarmFieldNumber = 5;
-  bool soundalarm() const;
-  void set_soundalarm(bool value);
-
   // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
   void clear_hardware();
   static const int kHardwareFieldNumber = 8;
   ::blox::Spark2Pins_Hardware hardware() const;
   void set_hardware(::blox::Spark2Pins_Hardware value);
 
+  // bool soundAlarm = 5;
+  void clear_soundalarm();
+  static const int kSoundAlarmFieldNumber = 5;
+  bool soundalarm() const;
+  void set_soundalarm(bool value);
+
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  static const int kPinsFieldNumber = 90;
+  bool pins() const;
+  void set_pins(bool value);
+
   // @@protoc_insertion_point(class_scope:blox.Spark2Pins)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
-  bool soundalarm_;
   int hardware_;
+  bool soundalarm_;
+  bool pins_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Spark2Pins_5ftest_2eproto::TableStruct;
 };
@@ -322,6 +329,20 @@ inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
 Spark2Pins::channels() const {
   // @@protoc_insertion_point(field_list:blox.Spark2Pins.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void Spark2Pins::clear_pins() {
+  pins_ = false;
+}
+inline bool Spark2Pins::pins() const {
+  // @@protoc_insertion_point(field_get:blox.Spark2Pins.pins)
+  return pins_;
+}
+inline void Spark2Pins::set_pins(bool value) {
+  
+  pins_ = value;
+  // @@protoc_insertion_point(field_set:blox.Spark2Pins.pins)
 }
 
 #ifdef __GNUC__

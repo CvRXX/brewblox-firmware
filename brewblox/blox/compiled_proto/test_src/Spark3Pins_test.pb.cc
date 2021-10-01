@@ -64,6 +64,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, voltage5_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, voltage12_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::Spark3Pins)},
@@ -96,20 +97,20 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\025Spark3Pins_test.proto\022\004blox\032\023brewblox_"
       "test.proto\032\021nanopb_test.proto\032\022IoArray_t"
-      "est.proto\"\346\001\n\nSpark3Pins\022\030\n\020enableIoSupp"
+      "est.proto\"\201\002\n\nSpark3Pins\022\030\n\020enableIoSupp"
       "ly5V\030\002 \001(\010\022\031\n\021enableIoSupply12V\030\003 \001(\010\022\022\n"
       "\nsoundAlarm\030\005 \001(\010\022$\n\010voltage5\030\006 \001(\rB\022\212\265\030"
       "\002(\001\222\?\0028\020\212\265\030\003\020\232\003\022%\n\tvoltage12\030\007 \001(\rB\022\212\265\030\002"
       "(\001\222\?\0028\020\212\265\030\003\020\225\001\0223\n\010channels\030\010 \003(\0132\017.blox."
-      "IoChannelB\020\222\?\002\020\005\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\277\002\212\265\030\002"
-      "H\n*\231\001\n\020Spark3ChannelIds\022\021\n\rSPARK3_NO_PIN"
-      "\020\000\022\024\n\020SPARK3_CHAN_TOP1\020\001\022\024\n\020SPARK3_CHAN_"
-      "TOP2\020\002\022\024\n\020SPARK3_CHAN_TOP3\020\003\022\027\n\023SPARK3_C"
-      "HAN_BOTTOM1\020\004\022\027\n\023SPARK3_CHAN_BOTTOM2\020\005b\006"
-      "proto3"
+      "IoChannelB\020\222\?\002\020\005\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001("
+      "\010B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\277\002\212\265\030\002H\n*\231\001\n\020Spark3"
+      "ChannelIds\022\021\n\rSPARK3_NO_PIN\020\000\022\024\n\020SPARK3_"
+      "CHAN_TOP1\020\001\022\024\n\020SPARK3_CHAN_TOP2\020\002\022\024\n\020SPA"
+      "RK3_CHAN_TOP3\020\003\022\027\n\023SPARK3_CHAN_BOTTOM1\020\004"
+      "\022\027\n\023SPARK3_CHAN_BOTTOM2\020\005b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 486);
+      descriptor, 513);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark3Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -162,6 +163,7 @@ const int Spark3Pins::kSoundAlarmFieldNumber;
 const int Spark3Pins::kVoltage5FieldNumber;
 const int Spark3Pins::kVoltage12FieldNumber;
 const int Spark3Pins::kChannelsFieldNumber;
+const int Spark3Pins::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Spark3Pins::Spark3Pins()
@@ -176,16 +178,16 @@ Spark3Pins::Spark3Pins(const Spark3Pins& from)
       _internal_metadata_(NULL),
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&enableiosupply5v_, &from.enableiosupply5v_,
-    static_cast<size_t>(reinterpret_cast<char*>(&voltage12_) -
-    reinterpret_cast<char*>(&enableiosupply5v_)) + sizeof(voltage12_));
+  ::memcpy(&voltage5_, &from.voltage5_,
+    static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
+    reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
   // @@protoc_insertion_point(copy_constructor:blox.Spark3Pins)
 }
 
 void Spark3Pins::SharedCtor() {
-  ::memset(&enableiosupply5v_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&voltage12_) -
-      reinterpret_cast<char*>(&enableiosupply5v_)) + sizeof(voltage12_));
+  ::memset(&voltage5_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pins_) -
+      reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
 }
 
 Spark3Pins::~Spark3Pins() {
@@ -217,9 +219,9 @@ void Spark3Pins::Clear() {
   (void) cached_has_bits;
 
   channels_.Clear();
-  ::memset(&enableiosupply5v_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&voltage12_) -
-      reinterpret_cast<char*>(&enableiosupply5v_)) + sizeof(voltage12_));
+  ::memset(&voltage5_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pins_) -
+      reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
   _internal_metadata_.Clear();
 }
 
@@ -229,7 +231,7 @@ bool Spark3Pins::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox.Spark3Pins)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -315,6 +317,20 @@ bool Spark3Pins::MergePartialFromCodedStream(
         break;
       }
 
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &pins_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -375,6 +391,11 @@ void Spark3Pins::SerializeWithCachedSizes(
       output);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->pins(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -422,6 +443,11 @@ void Spark3Pins::SerializeWithCachedSizes(
         8, this->channels(static_cast<int>(i)), deterministic, target);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->pins(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -450,6 +476,20 @@ size_t Spark3Pins::ByteSizeLong() const {
     }
   }
 
+  // uint32 voltage5 = 6 [(.nanopb_test) = {
+  if (this->voltage5() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->voltage5());
+  }
+
+  // uint32 voltage12 = 7 [(.nanopb_test) = {
+  if (this->voltage12() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->voltage12());
+  }
+
   // bool enableIoSupply5V = 2;
   if (this->enableiosupply5v() != 0) {
     total_size += 1 + 1;
@@ -465,18 +505,9 @@ size_t Spark3Pins::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // uint32 voltage5 = 6 [(.nanopb_test) = {
-  if (this->voltage5() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->voltage5());
-  }
-
-  // uint32 voltage12 = 7 [(.nanopb_test) = {
-  if (this->voltage12() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->voltage12());
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -507,6 +538,12 @@ void Spark3Pins::MergeFrom(const Spark3Pins& from) {
   (void) cached_has_bits;
 
   channels_.MergeFrom(from.channels_);
+  if (from.voltage5() != 0) {
+    set_voltage5(from.voltage5());
+  }
+  if (from.voltage12() != 0) {
+    set_voltage12(from.voltage12());
+  }
   if (from.enableiosupply5v() != 0) {
     set_enableiosupply5v(from.enableiosupply5v());
   }
@@ -516,11 +553,8 @@ void Spark3Pins::MergeFrom(const Spark3Pins& from) {
   if (from.soundalarm() != 0) {
     set_soundalarm(from.soundalarm());
   }
-  if (from.voltage5() != 0) {
-    set_voltage5(from.voltage5());
-  }
-  if (from.voltage12() != 0) {
-    set_voltage12(from.voltage12());
+  if (from.pins() != 0) {
+    set_pins(from.pins());
   }
 }
 
@@ -549,11 +583,12 @@ void Spark3Pins::Swap(Spark3Pins* other) {
 void Spark3Pins::InternalSwap(Spark3Pins* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
+  swap(voltage5_, other->voltage5_);
+  swap(voltage12_, other->voltage12_);
   swap(enableiosupply5v_, other->enableiosupply5v_);
   swap(enableiosupply12v_, other->enableiosupply12v_);
   swap(soundalarm_, other->soundalarm_);
-  swap(voltage5_, other->voltage5_);
-  swap(voltage12_, other->voltage12_);
+  swap(pins_, other->pins_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

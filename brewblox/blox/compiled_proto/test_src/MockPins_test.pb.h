@@ -190,11 +190,18 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
   const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
       channels() const;
 
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  static const int kPinsFieldNumber = 90;
+  bool pins() const;
+  void set_pins(bool value);
+
   // @@protoc_insertion_point(class_scope:blox.MockPins)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
+  bool pins_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_MockPins_5ftest_2eproto::TableStruct;
 };
@@ -234,6 +241,20 @@ inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
 MockPins::channels() const {
   // @@protoc_insertion_point(field_list:blox.MockPins.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void MockPins::clear_pins() {
+  pins_ = false;
+}
+inline bool MockPins::pins() const {
+  // @@protoc_insertion_point(field_get:blox.MockPins.pins)
+  return pins_;
+}
+inline void MockPins::set_pins(bool value) {
+  
+  pins_ = value;
+  // @@protoc_insertion_point(field_set:blox.MockPins.pins)
 }
 
 #ifdef __GNUC__

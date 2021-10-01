@@ -63,6 +63,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, connectmode_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, onewirebusid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::DS2408)},
@@ -95,24 +96,24 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\021DS2408_test.proto\022\004blox\032\023brewblox_test"
       ".proto\032\021nanopb_test.proto\032\022IoArray_test."
-      "proto\"\236\002\n\006DS2408\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 "
+      "proto\"\271\002\n\006DS2408\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 "
       "\001\022\031\n\tconnected\030\006 \001(\010B\006\212\265\030\002(\001\0220\n\013connectM"
       "ode\030\t \001(\0162\033.blox.DS2408.PinConnectMode\022("
       "\n\014oneWireBusId\030\n \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020\212\265\030\002(\001"
       "\022.\n\010channels\030\013 \003(\0132\017.blox.IoChannelB\013\222\?\002"
-      "\020\010\212\265\030\002(\001\"9\n\016PinConnectMode\022\021\n\rCONNECT_VA"
-      "LVE\020\000\022\024\n\020CONNECT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002"
-      "H\n\212\265\030\002H\013\212\265\030\002H\t*\203\002\n\020DS2408ChannelIds\022\024\n\020D"
-      "S2408_CHAN_NONE\020\000\022\021\n\rDS2408_CHAN_A\020\001\022\021\n\r"
-      "DS2408_CHAN_B\020\002\022\021\n\rDS2408_CHAN_C\020\003\022\021\n\rDS"
-      "2408_CHAN_D\020\004\022\021\n\rDS2408_CHAN_E\020\005\022\021\n\rDS24"
-      "08_CHAN_F\020\006\022\021\n\rDS2408_CHAN_G\020\007\022\021\n\rDS2408"
-      "_CHAN_H\020\010\022\025\n\021DS2408_VALVE_NONE\020\000\022\022\n\016DS24"
-      "08_VALVE_A\020\005\022\022\n\016DS2408_VALVE_B\020\001\032\002\020\001b\006pr"
-      "oto3"
+      "\020\010\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"9\n\016P"
+      "inConnectMode\022\021\n\rCONNECT_VALVE\020\000\022\024\n\020CONN"
+      "ECT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002H\n\212\265\030\002H\013\212\265\030\002H"
+      "\t*\203\002\n\020DS2408ChannelIds\022\024\n\020DS2408_CHAN_NO"
+      "NE\020\000\022\021\n\rDS2408_CHAN_A\020\001\022\021\n\rDS2408_CHAN_B"
+      "\020\002\022\021\n\rDS2408_CHAN_C\020\003\022\021\n\rDS2408_CHAN_D\020\004"
+      "\022\021\n\rDS2408_CHAN_E\020\005\022\021\n\rDS2408_CHAN_F\020\006\022\021"
+      "\n\rDS2408_CHAN_G\020\007\022\021\n\rDS2408_CHAN_H\020\010\022\025\n\021"
+      "DS2408_VALVE_NONE\020\000\022\022\n\016DS2408_VALVE_A\020\005\022"
+      "\022\n\016DS2408_VALVE_B\020\001\032\002\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 644);
+      descriptor, 671);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DS2408_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -188,6 +189,7 @@ const int DS2408::kConnectedFieldNumber;
 const int DS2408::kConnectModeFieldNumber;
 const int DS2408::kOneWireBusIdFieldNumber;
 const int DS2408::kChannelsFieldNumber;
+const int DS2408::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DS2408::DS2408()
@@ -203,15 +205,15 @@ DS2408::DS2408(const DS2408& from)
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&address_, &from.address_,
-    static_cast<size_t>(reinterpret_cast<char*>(&connectmode_) -
-    reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
+    static_cast<size_t>(reinterpret_cast<char*>(&onewirebusid_) -
+    reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
   // @@protoc_insertion_point(copy_constructor:blox.DS2408)
 }
 
 void DS2408::SharedCtor() {
   ::memset(&address_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&connectmode_) -
-      reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
+      reinterpret_cast<char*>(&onewirebusid_) -
+      reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
 }
 
 DS2408::~DS2408() {
@@ -244,8 +246,8 @@ void DS2408::Clear() {
 
   channels_.Clear();
   ::memset(&address_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&connectmode_) -
-      reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
+      reinterpret_cast<char*>(&onewirebusid_) -
+      reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
   _internal_metadata_.Clear();
 }
 
@@ -255,7 +257,7 @@ bool DS2408::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox.DS2408)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -328,6 +330,20 @@ bool DS2408::MergePartialFromCodedStream(
         break;
       }
 
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &pins_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -384,6 +400,11 @@ void DS2408::SerializeWithCachedSizes(
       output);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->pins(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -427,6 +448,11 @@ void DS2408::SerializeWithCachedSizes(
         11, this->channels(static_cast<int>(i)), deterministic, target);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->pins(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -460,22 +486,27 @@ size_t DS2408::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
-  // uint32 oneWireBusId = 10 [(.nanopb_test) = {
-  if (this->onewirebusid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->onewirebusid());
-  }
-
   // bool connected = 6 [(.brewblox_test) = {
   if (this->connected() != 0) {
     total_size += 1 + 1;
+  }
+
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    total_size += 2 + 1;
   }
 
   // .blox.DS2408.PinConnectMode connectMode = 9;
   if (this->connectmode() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->connectmode());
+  }
+
+  // uint32 oneWireBusId = 10 [(.nanopb_test) = {
+  if (this->onewirebusid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->onewirebusid());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -509,14 +540,17 @@ void DS2408::MergeFrom(const DS2408& from) {
   if (from.address() != 0) {
     set_address(from.address());
   }
-  if (from.onewirebusid() != 0) {
-    set_onewirebusid(from.onewirebusid());
-  }
   if (from.connected() != 0) {
     set_connected(from.connected());
   }
+  if (from.pins() != 0) {
+    set_pins(from.pins());
+  }
   if (from.connectmode() != 0) {
     set_connectmode(from.connectmode());
+  }
+  if (from.onewirebusid() != 0) {
+    set_onewirebusid(from.onewirebusid());
   }
 }
 
@@ -546,9 +580,10 @@ void DS2408::InternalSwap(DS2408* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   swap(address_, other->address_);
-  swap(onewirebusid_, other->onewirebusid_);
   swap(connected_, other->connected_);
+  swap(pins_, other->pins_);
   swap(connectmode_, other->connectmode_);
+  swap(onewirebusid_, other->onewirebusid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
