@@ -246,17 +246,17 @@ class DS2408 : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::uint64 address() const;
   void set_address(::google::protobuf::uint64 value);
 
-  // uint32 oneWireBusId = 10 [(.nanopb_test) = {
-  void clear_onewirebusid();
-  static const int kOneWireBusIdFieldNumber = 10;
-  ::google::protobuf::uint32 onewirebusid() const;
-  void set_onewirebusid(::google::protobuf::uint32 value);
-
   // bool connected = 6 [(.brewblox_test) = {
   void clear_connected();
   static const int kConnectedFieldNumber = 6;
   bool connected() const;
   void set_connected(bool value);
+
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  static const int kPinsFieldNumber = 90;
+  bool pins() const;
+  void set_pins(bool value);
 
   // .blox.DS2408.PinConnectMode connectMode = 9;
   void clear_connectmode();
@@ -264,15 +264,22 @@ class DS2408 : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::blox::DS2408_PinConnectMode connectmode() const;
   void set_connectmode(::blox::DS2408_PinConnectMode value);
 
+  // uint32 oneWireBusId = 10 [(.nanopb_test) = {
+  void clear_onewirebusid();
+  static const int kOneWireBusIdFieldNumber = 10;
+  ::google::protobuf::uint32 onewirebusid() const;
+  void set_onewirebusid(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox.DS2408)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
   ::google::protobuf::uint64 address_;
-  ::google::protobuf::uint32 onewirebusid_;
   bool connected_;
+  bool pins_;
   int connectmode_;
+  ::google::protobuf::uint32 onewirebusid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_DS2408_5ftest_2eproto::TableStruct;
 };
@@ -368,6 +375,20 @@ inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
 DS2408::channels() const {
   // @@protoc_insertion_point(field_list:blox.DS2408.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void DS2408::clear_pins() {
+  pins_ = false;
+}
+inline bool DS2408::pins() const {
+  // @@protoc_insertion_point(field_get:blox.DS2408.pins)
+  return pins_;
+}
+inline void DS2408::set_pins(bool value) {
+  
+  pins_ = value;
+  // @@protoc_insertion_point(field_set:blox.DS2408.pins)
 }
 
 #ifdef __GNUC__
