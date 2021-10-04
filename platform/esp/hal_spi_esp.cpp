@@ -161,6 +161,34 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
     return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
 }
 
+error_t dmaWrite(Settings& settings, const uint32_t data, size_t size, const CallbacksBase* callbacks)
+{
+    // Wait until there is space for the transaction in the static buffer.
+    spi_transaction_t* trans;
+    while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
+        // TODO: deadlock, no yield, add timeout and yield?
+        // return error on timeout?
+        // only works because platform transfer queue is equal to buffer queue?
+    };
+
+    *trans = spi_transaction_t{
+        .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
+        .cmd = 0,
+        .addr = 0,
+        .length = size * 8, // esp platform wants size in bits
+        .rxlength = 0,
+        .user = const_cast<CallbacksBase*>(callbacks),
+        .tx_data = {},
+        .rx_data = {},
+    };
+    trans->tx_data[0] = (data >> 24) & 0xFF;
+    trans->tx_data[1] = (data >> 16) & 0xFF;
+    trans->tx_data[2] = (data >> 8) & 0xFF;
+    trans->tx_data[3] = data & 0xFF;
+
+    return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+}
+
 error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize)
 {
     auto trans = spi_transaction_t{

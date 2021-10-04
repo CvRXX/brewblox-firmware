@@ -63,6 +63,20 @@ error_t write(Settings& settings, const uint8_t* data, size_t size);
  * @return If any error will occur a non zero result will indicate an error has happened.
  */
 error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const hal_spi::CallbacksBase* callbacks);
+
+/**
+ * Writes a n amount of bytes to the spi device
+ * 
+ * The user will be responsible for deallocating the data pointer.
+ * 
+ * @param settings The settings struct containing the configuration of the spi device.
+ * @param data The data in an uint32_t.
+ * @param size The amount of bytes contained in the uint32_t.
+ * @param callbacks The callbacks to be called before and after the transaction. 
+ * @return If any error will occur a non zero result will indicate an error has happened.
+ */
+error_t dmaWrite(Settings& settings, const uint32_t data, size_t size, const hal_spi::CallbacksBase* callbacks);
+
 /**
  * Writes a n amount of bytes to the spi device and reads the same amount of bytes.
  * 

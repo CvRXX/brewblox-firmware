@@ -86,9 +86,8 @@ private:
 
     hal_spi::error_t setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye);
 
-    hal_spi::error_t dmaWrite(uint8_t* tx_data, uint16_t tx_len, bool dc);
-    hal_spi::error_t dmaWrite(uint8_t tx_data, bool dc);
-
+    hal_spi::error_t dmaWrite(uint8_t* tx_data, size_t tx_len, bool dc);
+    hal_spi::error_t dmaWrite(uint32_t tx_val, size_t tx_len, bool dc);
     hal_spi::error_t writeCmd(const std::vector<uint8_t>& cmd);
     hal_spi::error_t write(const std::vector<uint8_t>& cmd);
     hal_spi::error_t writeCmd(uint8_t cmd);

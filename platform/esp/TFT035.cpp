@@ -151,26 +151,26 @@ void TFT035::init()
 
 error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye)
 {
-    if (auto error = dmaWrite(0x2A, false))
+    if (auto error = dmaWrite(0x2A, 1, false))
         return error;
 
-    auto x = std::array<uint8_t, 4>{uint8_t(xs >> 8), uint8_t(xs & 0xFF), uint8_t(xe >> 8), uint8_t(xe & 0xFF)};
+    auto x = (uint8_t(xs >> 8) << 24) + (uint8_t(xs & 0xFF) << 16) + (uint8_t(xe >> 8) << 8) + uint8_t(xe & 0xFF);
 
-    if (auto error = dmaWrite(x.data(), 4, true))
+    if (auto error = dmaWrite(x, 4, true))
         return error;
 
-    if (auto error = dmaWrite(0x2B, false))
+    if (auto error = dmaWrite(0x2B, 1, false))
         return error;
 
-    auto y = std::array<uint8_t, 4>{uint8_t(ys >> 8), uint8_t(ys & 0xFF), uint8_t(ye >> 8), uint8_t(ye & 0xFF)};
+    auto y = (uint8_t(ys >> 8) << 24) + (uint8_t(ys & 0xFF) << 16) + (uint8_t(ye >> 8) << 8) + uint8_t(ye & 0xFF);
 
-    if (auto error = dmaWrite(y.data(), 4, true))
+    if (auto error = dmaWrite(y, 4, true))
         return error;
 
-    return dmaWrite(0x2C, false);
+    return dmaWrite(0x2C, 1, false);
 }
 
-error_t TFT035::dmaWrite(uint8_t* tx_data, uint16_t tx_len, bool dc)
+error_t TFT035::dmaWrite(uint8_t* tx_data, size_t tx_len, bool dc)
 {
     if (dc) {
         return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
@@ -179,13 +179,13 @@ error_t TFT035::dmaWrite(uint8_t* tx_data, uint16_t tx_len, bool dc)
     }
 }
 
-error_t TFT035::dmaWrite(uint8_t tx_val, bool dc)
+error_t TFT035::dmaWrite(uint32_t tx_val, size_t tx_len, bool dc)
 {
-    auto alocatedVal = new uint8_t(tx_val);
+    assert(tx_len <= 4);
     if (dc) {
-        return spiDevice.dmaWrite(alocatedVal, 1, callbackDcPinOnWithFree);
+        return spiDevice.dmaWrite(tx_val << (32 - 8 * tx_len), tx_len, callbackDcPinOn);
     } else {
-        return spiDevice.dmaWrite(alocatedVal, 1, callbackDcPinOffWithFree);
+        return spiDevice.dmaWrite(tx_val << (32 - 8 * tx_len), tx_len, callbackDcPinOff);
     }
 }
 bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
