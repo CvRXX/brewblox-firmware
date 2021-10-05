@@ -190,8 +190,11 @@ error_t TFT035::dmaWrite(uint32_t tx_val, size_t tx_len, bool dc)
 }
 bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
 {
-    if (auto error = this->setPos(xs, xe, ys, ye))
-        return error;
+    if (this->setPos(xs, xe, ys, ye)){
+        if (auto error = this->setPos(xs, xe, ys, ye))
+            return error;
+    }
+        
 
     return spiDevice.dmaWrite(pixels, nPixels * 3,
                               Callbacks{[&](TransactionData& t) {
