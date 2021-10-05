@@ -33,7 +33,9 @@ file(GLOB lib_srcs ../../../lib/src/*.cpp)
 set(lib_inc "../../../lib/inc/")
 
 file(GLOB_RECURSE lvgl_srcs ../../../external_libs/lvgl/src/*.c)
-set(lvgl_inc "../../../external_libs/lvgl/")
+
+list(APPEND lvgl_inc "../../../external_libs/lvgl/")
+list(APPEND lvgl_inc "../../../external_libs/lvgl/src")
 
 set(cnl_inc "../../../lib/cnl/include")
 
@@ -72,5 +74,4 @@ idf_component_register(
     ${esp_inc}
     ${lvgl_inc}
     ${REPO_ROOT}/platform/all
-    ../../../external_libs/lvgl/src
 )
