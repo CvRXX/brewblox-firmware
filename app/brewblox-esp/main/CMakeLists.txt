@@ -32,6 +32,9 @@ set(esp_inc "../../../platform/esp/")
 file(GLOB lib_srcs ../../../lib/src/*.cpp)
 set(lib_inc "../../../lib/inc/")
 
+file(GLOB_RECURSE lvgl_srcs ../../../external_libs/lvgl/src/*.c)
+set(lvgl_inc "../../../external_libs/lvgl/")
+
 set(cnl_inc "../../../lib/cnl/include")
 
 file(GLOB nanopb_srcs ../../../platform/spark/device-os/third_party/nanopb/nanopb/*.c)
@@ -54,6 +57,7 @@ idf_component_register(
     ${brewblox_srcs}
     ${lib_srcs}
     ${esp_srcs}
+    ${lvgl_srcs}
     ${nanopb_srcs}
     ${network_srcs}
     ${http_srcs}
@@ -66,5 +70,7 @@ idf_component_register(
     ${lib_inc}
     ${cnl_inc}
     ${esp_inc}
+    ${lvgl_inc}
     ${REPO_ROOT}/platform/all
+    ../../../external_libs/lvgl/src
 )
