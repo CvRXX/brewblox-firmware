@@ -217,6 +217,7 @@ class MockPins final :
 
   enum : int {
     kChannelsFieldNumber = 2,
+    kPinsFieldNumber = 90,
   };
   // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
   int channels_size() const;
@@ -236,6 +237,15 @@ class MockPins final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
       channels() const;
 
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  bool pins() const;
+  void set_pins(bool value);
+  private:
+  bool _internal_pins() const;
+  void _internal_set_pins(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:blox.MockPins)
  private:
   class _Internal;
@@ -244,6 +254,7 @@ class MockPins final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel > channels_;
+  bool pins_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_MockPins_5ftest_2eproto;
 };
@@ -293,6 +304,26 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
 MockPins::channels() const {
   // @@protoc_insertion_point(field_list:blox.MockPins.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void MockPins::clear_pins() {
+  pins_ = false;
+}
+inline bool MockPins::_internal_pins() const {
+  return pins_;
+}
+inline bool MockPins::pins() const {
+  // @@protoc_insertion_point(field_get:blox.MockPins.pins)
+  return _internal_pins();
+}
+inline void MockPins::_internal_set_pins(bool value) {
+  
+  pins_ = value;
+}
+inline void MockPins::set_pins(bool value) {
+  _internal_set_pins(value);
+  // @@protoc_insertion_point(field_set:blox.MockPins.pins)
 }
 
 #ifdef __GNUC__

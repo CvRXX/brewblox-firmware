@@ -19,7 +19,8 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace blox {
 constexpr MockPins::MockPins(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : channels_(){}
+  : channels_()
+  , pins_(false){}
 struct MockPinsDefaultTypeInternal {
   constexpr MockPinsDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -41,6 +42,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_MockPins_5ftest_2eproto::offse
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::blox::MockPins, channels_),
+  PROTOBUF_FIELD_OFFSET(::blox::MockPins, pins_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::MockPins)},
@@ -53,14 +55,15 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_MockPins_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\023MockPins_test.proto\022\004blox\032\023brewblox_te"
   "st.proto\032\021nanopb_test.proto\032\022IoArray_tes"
-  "t.proto\"N\n\010MockPins\0223\n\010channels\030\002 \003(\0132\017."
-  "blox.IoChannelB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\303"
-  "\002\212\265\030\002H\n*\324\001\n\022MockPinsChannelIds\022\026\n\022MOCKPI"
-  "NS_CHAN_NONE\020\000\022\023\n\017MOCKPINS_CHAN_A\020\001\022\023\n\017M"
-  "OCKPINS_CHAN_B\020\002\022\023\n\017MOCKPINS_CHAN_C\020\003\022\023\n"
-  "\017MOCKPINS_CHAN_D\020\004\022\023\n\017MOCKPINS_CHAN_E\020\005\022"
-  "\023\n\017MOCKPINS_CHAN_F\020\006\022\023\n\017MOCKPINS_CHAN_G\020"
-  "\007\022\023\n\017MOCKPINS_CHAN_H\020\010b\006proto3"
+  "t.proto\"i\n\010MockPins\0223\n\010channels\030\002 \003(\0132\017."
+  "blox.IoChannelB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins"
+  "\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\303\002\212\265\030\002H\n*\324\001\n\022M"
+  "ockPinsChannelIds\022\026\n\022MOCKPINS_CHAN_NONE\020"
+  "\000\022\023\n\017MOCKPINS_CHAN_A\020\001\022\023\n\017MOCKPINS_CHAN_"
+  "B\020\002\022\023\n\017MOCKPINS_CHAN_C\020\003\022\023\n\017MOCKPINS_CHA"
+  "N_D\020\004\022\023\n\017MOCKPINS_CHAN_E\020\005\022\023\n\017MOCKPINS_C"
+  "HAN_F\020\006\022\023\n\017MOCKPINS_CHAN_G\020\007\022\023\n\017MOCKPINS"
+  "_CHAN_H\020\010b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_MockPins_5ftest_2eproto_deps[3] = {
   &::descriptor_table_IoArray_5ftest_2eproto,
@@ -69,7 +72,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_MockPins_5ftest_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MockPins_5ftest_2eproto = {
-  false, false, 390, descriptor_table_protodef_MockPins_5ftest_2eproto, "MockPins_test.proto", 
+  false, false, 417, descriptor_table_protodef_MockPins_5ftest_2eproto, "MockPins_test.proto", 
   &descriptor_table_MockPins_5ftest_2eproto_once, descriptor_table_MockPins_5ftest_2eproto_deps, 3, 1,
   schemas, file_default_instances, TableStruct_MockPins_5ftest_2eproto::offsets,
   file_level_metadata_MockPins_5ftest_2eproto, file_level_enum_descriptors_MockPins_5ftest_2eproto, file_level_service_descriptors_MockPins_5ftest_2eproto,
@@ -126,10 +129,12 @@ MockPins::MockPins(const MockPins& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  pins_ = from.pins_;
   // @@protoc_insertion_point(copy_constructor:blox.MockPins)
 }
 
 inline void MockPins::SharedCtor() {
+pins_ = false;
 }
 
 MockPins::~MockPins() {
@@ -160,6 +165,7 @@ void MockPins::Clear() {
   (void) cached_has_bits;
 
   channels_.Clear();
+  pins_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -179,6 +185,13 @@ const char* MockPins::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 208)) {
+          pins_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -218,6 +231,12 @@ failure:
       InternalWriteMessage(2, this->_internal_channels(i), target, stream);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(90, this->_internal_pins(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -239,6 +258,11 @@ size_t MockPins::ByteSizeLong() const {
   for (const auto& msg : this->channels_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    total_size += 2 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -270,6 +294,9 @@ void MockPins::MergeFrom(const MockPins& from) {
   (void) cached_has_bits;
 
   channels_.MergeFrom(from.channels_);
+  if (from._internal_pins() != 0) {
+    _internal_set_pins(from._internal_pins());
+  }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -288,6 +315,7 @@ void MockPins::InternalSwap(MockPins* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   channels_.InternalSwap(&other->channels_);
+  swap(pins_, other->pins_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MockPins::GetMetadata() const {

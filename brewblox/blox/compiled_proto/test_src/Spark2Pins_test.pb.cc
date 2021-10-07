@@ -20,9 +20,10 @@ namespace blox {
 constexpr Spark2Pins::Spark2Pins(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : channels_()
-  , soundalarm_(false)
   , hardware_(0)
-{}
+
+  , soundalarm_(false)
+  , pins_(false){}
 struct Spark2PinsDefaultTypeInternal {
   constexpr Spark2PinsDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -46,6 +47,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Spark2Pins_5ftest_2eproto::off
   PROTOBUF_FIELD_OFFSET(::blox::Spark2Pins, soundalarm_),
   PROTOBUF_FIELD_OFFSET(::blox::Spark2Pins, hardware_),
   PROTOBUF_FIELD_OFFSET(::blox::Spark2Pins, channels_),
+  PROTOBUF_FIELD_OFFSET(::blox::Spark2Pins, pins_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::Spark2Pins)},
@@ -58,16 +60,17 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_Spark2Pins_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\025Spark2Pins_test.proto\022\004blox\032\023brewblox_"
   "test.proto\032\021nanopb_test.proto\032\022IoArray_t"
-  "est.proto\"\323\001\n\nSpark2Pins\022\022\n\nsoundAlarm\030\005"
+  "est.proto\"\356\001\n\nSpark2Pins\022\022\n\nsoundAlarm\030\005"
   " \001(\010\0223\n\010hardware\030\010 \001(\0162\031.blox.Spark2Pins"
   ".HardwareB\006\212\265\030\002(\001\0223\n\010channels\030\t \003(\0132\017.bl"
-  "ox.IoChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\"8\n\010Hardwa"
-  "re\022\016\n\nHW_UNKNOWN\020\000\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_"
-  "SPARK2\020\002:\r\212\265\030\003\030\300\002\212\265\030\002H\n*\214\001\n\020Spark2Channe"
-  "lIds\022\024\n\020SPARK2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHA"
-  "N_BOTTOM1\020\001\022\027\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023"
-  "SPARK2_CHAN_BOTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOT"
-  "TOM0\020\004b\006proto3"
+  "ox.IoChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z"
+  " \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"8\n\010Hardware\022\016\n\nHW_UNKN"
+  "OWN\020\000\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_SPARK2\020\002:\r\212\265\030"
+  "\003\030\300\002\212\265\030\002H\n*\214\001\n\020Spark2ChannelIds\022\024\n\020SPARK"
+  "2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHAN_BOTTOM1\020\001\022\027"
+  "\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023SPARK2_CHAN_B"
+  "OTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOTTOM0\020\004b\006proto"
+  "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Spark2Pins_5ftest_2eproto_deps[3] = {
   &::descriptor_table_IoArray_5ftest_2eproto,
@@ -76,7 +79,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Spark2Pins_5ftest_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Spark2Pins_5ftest_2eproto = {
-  false, false, 454, descriptor_table_protodef_Spark2Pins_5ftest_2eproto, "Spark2Pins_test.proto", 
+  false, false, 481, descriptor_table_protodef_Spark2Pins_5ftest_2eproto, "Spark2Pins_test.proto", 
   &descriptor_table_Spark2Pins_5ftest_2eproto_once, descriptor_table_Spark2Pins_5ftest_2eproto_deps, 3, 1,
   schemas, file_default_instances, TableStruct_Spark2Pins_5ftest_2eproto::offsets,
   file_level_metadata_Spark2Pins_5ftest_2eproto, file_level_enum_descriptors_Spark2Pins_5ftest_2eproto, file_level_service_descriptors_Spark2Pins_5ftest_2eproto,
@@ -152,17 +155,17 @@ Spark2Pins::Spark2Pins(const Spark2Pins& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&soundalarm_, &from.soundalarm_,
-    static_cast<size_t>(reinterpret_cast<char*>(&hardware_) -
-    reinterpret_cast<char*>(&soundalarm_)) + sizeof(hardware_));
+  ::memcpy(&hardware_, &from.hardware_,
+    static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
+    reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
   // @@protoc_insertion_point(copy_constructor:blox.Spark2Pins)
 }
 
 inline void Spark2Pins::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&soundalarm_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&hardware_) -
-    reinterpret_cast<char*>(&soundalarm_)) + sizeof(hardware_));
+    reinterpret_cast<char*>(&hardware_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
+    reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
 }
 
 Spark2Pins::~Spark2Pins() {
@@ -193,9 +196,9 @@ void Spark2Pins::Clear() {
   (void) cached_has_bits;
 
   channels_.Clear();
-  ::memset(&soundalarm_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&hardware_) -
-      reinterpret_cast<char*>(&soundalarm_)) + sizeof(hardware_));
+  ::memset(&hardware_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pins_) -
+      reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -230,6 +233,13 @@ const char* Spark2Pins::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<74>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 208)) {
+          pins_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -282,6 +292,12 @@ failure:
       InternalWriteMessage(9, this->_internal_channels(i), target, stream);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(90, this->_internal_pins(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -305,15 +321,20 @@ size_t Spark2Pins::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
+  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  if (this->_internal_hardware() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_hardware());
+  }
+
   // bool soundAlarm = 5;
   if (this->_internal_soundalarm() != 0) {
     total_size += 1 + 1;
   }
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
-  if (this->_internal_hardware() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_hardware());
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    total_size += 2 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -345,11 +366,14 @@ void Spark2Pins::MergeFrom(const Spark2Pins& from) {
   (void) cached_has_bits;
 
   channels_.MergeFrom(from.channels_);
+  if (from._internal_hardware() != 0) {
+    _internal_set_hardware(from._internal_hardware());
+  }
   if (from._internal_soundalarm() != 0) {
     _internal_set_soundalarm(from._internal_soundalarm());
   }
-  if (from._internal_hardware() != 0) {
-    _internal_set_hardware(from._internal_hardware());
+  if (from._internal_pins() != 0) {
+    _internal_set_pins(from._internal_pins());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -370,11 +394,11 @@ void Spark2Pins::InternalSwap(Spark2Pins* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   channels_.InternalSwap(&other->channels_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Spark2Pins, hardware_)
-      + sizeof(Spark2Pins::hardware_)
-      - PROTOBUF_FIELD_OFFSET(Spark2Pins, soundalarm_)>(
-          reinterpret_cast<char*>(&soundalarm_),
-          reinterpret_cast<char*>(&other->soundalarm_));
+      PROTOBUF_FIELD_OFFSET(Spark2Pins, pins_)
+      + sizeof(Spark2Pins::pins_)
+      - PROTOBUF_FIELD_OFFSET(Spark2Pins, hardware_)>(
+          reinterpret_cast<char*>(&hardware_),
+          reinterpret_cast<char*>(&other->hardware_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Spark2Pins::GetMetadata() const {

@@ -212,8 +212,9 @@ class DS2413 final :
   enum : int {
     kChannelsFieldNumber = 9,
     kAddressFieldNumber = 1,
-    kConnectedFieldNumber = 6,
     kOneWireBusIdFieldNumber = 8,
+    kConnectedFieldNumber = 6,
+    kPinsFieldNumber = 90,
   };
   // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
   int channels_size() const;
@@ -242,6 +243,15 @@ class DS2413 final :
   void _internal_set_address(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
+  // uint32 oneWireBusId = 8 [(.nanopb_test) = {
+  void clear_onewirebusid();
+  ::PROTOBUF_NAMESPACE_ID::uint32 onewirebusid() const;
+  void set_onewirebusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_onewirebusid() const;
+  void _internal_set_onewirebusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // bool connected = 6 [(.brewblox_test) = {
   void clear_connected();
   bool connected() const;
@@ -251,13 +261,13 @@ class DS2413 final :
   void _internal_set_connected(bool value);
   public:
 
-  // uint32 oneWireBusId = 8 [(.nanopb_test) = {
-  void clear_onewirebusid();
-  ::PROTOBUF_NAMESPACE_ID::uint32 onewirebusid() const;
-  void set_onewirebusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  bool pins() const;
+  void set_pins(bool value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_onewirebusid() const;
-  void _internal_set_onewirebusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  bool _internal_pins() const;
+  void _internal_set_pins(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:blox.DS2413)
@@ -269,8 +279,9 @@ class DS2413 final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel > channels_;
   ::PROTOBUF_NAMESPACE_ID::uint64 address_;
-  bool connected_;
   ::PROTOBUF_NAMESPACE_ID::uint32 onewirebusid_;
+  bool connected_;
+  bool pins_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_DS2413_5ftest_2eproto;
 };
@@ -380,6 +391,26 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
 DS2413::channels() const {
   // @@protoc_insertion_point(field_list:blox.DS2413.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void DS2413::clear_pins() {
+  pins_ = false;
+}
+inline bool DS2413::_internal_pins() const {
+  return pins_;
+}
+inline bool DS2413::pins() const {
+  // @@protoc_insertion_point(field_get:blox.DS2413.pins)
+  return _internal_pins();
+}
+inline void DS2413::_internal_set_pins(bool value) {
+  
+  pins_ = value;
+}
+inline void DS2413::set_pins(bool value) {
+  _internal_set_pins(value);
+  // @@protoc_insertion_point(field_set:blox.DS2413.pins)
 }
 
 #ifdef __GNUC__

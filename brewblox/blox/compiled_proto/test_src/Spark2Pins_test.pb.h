@@ -271,8 +271,9 @@ class Spark2Pins final :
 
   enum : int {
     kChannelsFieldNumber = 9,
-    kSoundAlarmFieldNumber = 5,
     kHardwareFieldNumber = 8,
+    kSoundAlarmFieldNumber = 5,
+    kPinsFieldNumber = 90,
   };
   // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
   int channels_size() const;
@@ -292,6 +293,15 @@ class Spark2Pins final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
       channels() const;
 
+  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  void clear_hardware();
+  ::blox::Spark2Pins_Hardware hardware() const;
+  void set_hardware(::blox::Spark2Pins_Hardware value);
+  private:
+  ::blox::Spark2Pins_Hardware _internal_hardware() const;
+  void _internal_set_hardware(::blox::Spark2Pins_Hardware value);
+  public:
+
   // bool soundAlarm = 5;
   void clear_soundalarm();
   bool soundalarm() const;
@@ -301,13 +311,13 @@ class Spark2Pins final :
   void _internal_set_soundalarm(bool value);
   public:
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
-  void clear_hardware();
-  ::blox::Spark2Pins_Hardware hardware() const;
-  void set_hardware(::blox::Spark2Pins_Hardware value);
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  bool pins() const;
+  void set_pins(bool value);
   private:
-  ::blox::Spark2Pins_Hardware _internal_hardware() const;
-  void _internal_set_hardware(::blox::Spark2Pins_Hardware value);
+  bool _internal_pins() const;
+  void _internal_set_pins(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:blox.Spark2Pins)
@@ -318,8 +328,9 @@ class Spark2Pins final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel > channels_;
-  bool soundalarm_;
   int hardware_;
+  bool soundalarm_;
+  bool pins_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Spark2Pins_5ftest_2eproto;
 };
@@ -409,6 +420,26 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
 Spark2Pins::channels() const {
   // @@protoc_insertion_point(field_list:blox.Spark2Pins.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void Spark2Pins::clear_pins() {
+  pins_ = false;
+}
+inline bool Spark2Pins::_internal_pins() const {
+  return pins_;
+}
+inline bool Spark2Pins::pins() const {
+  // @@protoc_insertion_point(field_get:blox.Spark2Pins.pins)
+  return _internal_pins();
+}
+inline void Spark2Pins::_internal_set_pins(bool value) {
+  
+  pins_ = value;
+}
+inline void Spark2Pins::set_pins(bool value) {
+  _internal_set_pins(value);
+  // @@protoc_insertion_point(field_set:blox.Spark2Pins.pins)
 }
 
 #ifdef __GNUC__

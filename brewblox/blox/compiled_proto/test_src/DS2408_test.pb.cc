@@ -21,10 +21,11 @@ constexpr DS2408::DS2408(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : channels_()
   , address_(uint64_t{0u})
-  , onewirebusid_(0u)
   , connected_(false)
+  , pins_(false)
   , connectmode_(0)
-{}
+
+  , onewirebusid_(0u){}
 struct DS2408DefaultTypeInternal {
   constexpr DS2408DefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -50,6 +51,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_DS2408_5ftest_2eproto::offsets
   PROTOBUF_FIELD_OFFSET(::blox::DS2408, connectmode_),
   PROTOBUF_FIELD_OFFSET(::blox::DS2408, onewirebusid_),
   PROTOBUF_FIELD_OFFSET(::blox::DS2408, channels_),
+  PROTOBUF_FIELD_OFFSET(::blox::DS2408, pins_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::DS2408)},
@@ -62,21 +64,21 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_DS2408_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\021DS2408_test.proto\022\004blox\032\023brewblox_test"
   ".proto\032\021nanopb_test.proto\032\022IoArray_test."
-  "proto\"\236\002\n\006DS2408\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 "
+  "proto\"\271\002\n\006DS2408\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 "
   "\001\022\031\n\tconnected\030\006 \001(\010B\006\212\265\030\002(\001\0220\n\013connectM"
   "ode\030\t \001(\0162\033.blox.DS2408.PinConnectMode\022("
   "\n\014oneWireBusId\030\n \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020\212\265\030\002(\001"
   "\022.\n\010channels\030\013 \003(\0132\017.blox.IoChannelB\013\222\?\002"
-  "\020\010\212\265\030\002(\001\"9\n\016PinConnectMode\022\021\n\rCONNECT_VA"
-  "LVE\020\000\022\024\n\020CONNECT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002"
-  "H\n\212\265\030\002H\013\212\265\030\002H\t*\203\002\n\020DS2408ChannelIds\022\024\n\020D"
-  "S2408_CHAN_NONE\020\000\022\021\n\rDS2408_CHAN_A\020\001\022\021\n\r"
-  "DS2408_CHAN_B\020\002\022\021\n\rDS2408_CHAN_C\020\003\022\021\n\rDS"
-  "2408_CHAN_D\020\004\022\021\n\rDS2408_CHAN_E\020\005\022\021\n\rDS24"
-  "08_CHAN_F\020\006\022\021\n\rDS2408_CHAN_G\020\007\022\021\n\rDS2408"
-  "_CHAN_H\020\010\022\025\n\021DS2408_VALVE_NONE\020\000\022\022\n\016DS24"
-  "08_VALVE_A\020\005\022\022\n\016DS2408_VALVE_B\020\001\032\002\020\001b\006pr"
-  "oto3"
+  "\020\010\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"9\n\016P"
+  "inConnectMode\022\021\n\rCONNECT_VALVE\020\000\022\024\n\020CONN"
+  "ECT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002H\n\212\265\030\002H\013\212\265\030\002H"
+  "\t*\203\002\n\020DS2408ChannelIds\022\024\n\020DS2408_CHAN_NO"
+  "NE\020\000\022\021\n\rDS2408_CHAN_A\020\001\022\021\n\rDS2408_CHAN_B"
+  "\020\002\022\021\n\rDS2408_CHAN_C\020\003\022\021\n\rDS2408_CHAN_D\020\004"
+  "\022\021\n\rDS2408_CHAN_E\020\005\022\021\n\rDS2408_CHAN_F\020\006\022\021"
+  "\n\rDS2408_CHAN_G\020\007\022\021\n\rDS2408_CHAN_H\020\010\022\025\n\021"
+  "DS2408_VALVE_NONE\020\000\022\022\n\016DS2408_VALVE_A\020\005\022"
+  "\022\n\016DS2408_VALVE_B\020\001\032\002\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_DS2408_5ftest_2eproto_deps[3] = {
   &::descriptor_table_IoArray_5ftest_2eproto,
@@ -85,7 +87,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_DS2408_5ftest_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_DS2408_5ftest_2eproto = {
-  false, false, 644, descriptor_table_protodef_DS2408_5ftest_2eproto, "DS2408_test.proto", 
+  false, false, 671, descriptor_table_protodef_DS2408_5ftest_2eproto, "DS2408_test.proto", 
   &descriptor_table_DS2408_5ftest_2eproto_once, descriptor_table_DS2408_5ftest_2eproto_deps, 3, 1,
   schemas, file_default_instances, TableStruct_DS2408_5ftest_2eproto::offsets,
   file_level_metadata_DS2408_5ftest_2eproto, file_level_enum_descriptors_DS2408_5ftest_2eproto, file_level_service_descriptors_DS2408_5ftest_2eproto,
@@ -164,16 +166,16 @@ DS2408::DS2408(const DS2408& from)
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&address_, &from.address_,
-    static_cast<size_t>(reinterpret_cast<char*>(&connectmode_) -
-    reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
+    static_cast<size_t>(reinterpret_cast<char*>(&onewirebusid_) -
+    reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
   // @@protoc_insertion_point(copy_constructor:blox.DS2408)
 }
 
 inline void DS2408::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&address_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&connectmode_) -
-    reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&onewirebusid_) -
+    reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
 }
 
 DS2408::~DS2408() {
@@ -205,8 +207,8 @@ void DS2408::Clear() {
 
   channels_.Clear();
   ::memset(&address_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&connectmode_) -
-      reinterpret_cast<char*>(&address_)) + sizeof(connectmode_));
+      reinterpret_cast<char*>(&onewirebusid_) -
+      reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -255,6 +257,13 @@ const char* DS2408::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<90>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 208)) {
+          pins_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -319,6 +328,12 @@ failure:
       InternalWriteMessage(11, this->_internal_channels(i), target, stream);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(90, this->_internal_pins(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -347,22 +362,27 @@ size_t DS2408::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
-  // uint32 oneWireBusId = 10 [(.nanopb_test) = {
-  if (this->_internal_onewirebusid() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_onewirebusid());
-  }
-
   // bool connected = 6 [(.brewblox_test) = {
   if (this->_internal_connected() != 0) {
     total_size += 1 + 1;
+  }
+
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    total_size += 2 + 1;
   }
 
   // .blox.DS2408.PinConnectMode connectMode = 9;
   if (this->_internal_connectmode() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_connectmode());
+  }
+
+  // uint32 oneWireBusId = 10 [(.nanopb_test) = {
+  if (this->_internal_onewirebusid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_onewirebusid());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -397,14 +417,17 @@ void DS2408::MergeFrom(const DS2408& from) {
   if (from._internal_address() != 0) {
     _internal_set_address(from._internal_address());
   }
-  if (from._internal_onewirebusid() != 0) {
-    _internal_set_onewirebusid(from._internal_onewirebusid());
-  }
   if (from._internal_connected() != 0) {
     _internal_set_connected(from._internal_connected());
   }
+  if (from._internal_pins() != 0) {
+    _internal_set_pins(from._internal_pins());
+  }
   if (from._internal_connectmode() != 0) {
     _internal_set_connectmode(from._internal_connectmode());
+  }
+  if (from._internal_onewirebusid() != 0) {
+    _internal_set_onewirebusid(from._internal_onewirebusid());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -425,8 +448,8 @@ void DS2408::InternalSwap(DS2408* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   channels_.InternalSwap(&other->channels_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(DS2408, connectmode_)
-      + sizeof(DS2408::connectmode_)
+      PROTOBUF_FIELD_OFFSET(DS2408, onewirebusid_)
+      + sizeof(DS2408::onewirebusid_)
       - PROTOBUF_FIELD_OFFSET(DS2408, address_)>(
           reinterpret_cast<char*>(&address_),
           reinterpret_cast<char*>(&other->address_));

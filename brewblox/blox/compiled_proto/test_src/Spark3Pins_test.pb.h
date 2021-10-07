@@ -214,11 +214,12 @@ class Spark3Pins final :
 
   enum : int {
     kChannelsFieldNumber = 8,
+    kVoltage5FieldNumber = 6,
+    kVoltage12FieldNumber = 7,
     kEnableIoSupply5VFieldNumber = 2,
     kEnableIoSupply12VFieldNumber = 3,
     kSoundAlarmFieldNumber = 5,
-    kVoltage5FieldNumber = 6,
-    kVoltage12FieldNumber = 7,
+    kPinsFieldNumber = 90,
   };
   // repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
   int channels_size() const;
@@ -237,6 +238,24 @@ class Spark3Pins final :
   ::blox::IoChannel* add_channels();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
       channels() const;
+
+  // uint32 voltage5 = 6 [(.nanopb_test) = {
+  void clear_voltage5();
+  ::PROTOBUF_NAMESPACE_ID::uint32 voltage5() const;
+  void set_voltage5(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_voltage5() const;
+  void _internal_set_voltage5(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 voltage12 = 7 [(.nanopb_test) = {
+  void clear_voltage12();
+  ::PROTOBUF_NAMESPACE_ID::uint32 voltage12() const;
+  void set_voltage12(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_voltage12() const;
+  void _internal_set_voltage12(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
 
   // bool enableIoSupply5V = 2;
   void clear_enableiosupply5v();
@@ -265,22 +284,13 @@ class Spark3Pins final :
   void _internal_set_soundalarm(bool value);
   public:
 
-  // uint32 voltage5 = 6 [(.nanopb_test) = {
-  void clear_voltage5();
-  ::PROTOBUF_NAMESPACE_ID::uint32 voltage5() const;
-  void set_voltage5(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // bool pins = 90 [(.nanopb_test) = {
+  void clear_pins();
+  bool pins() const;
+  void set_pins(bool value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_voltage5() const;
-  void _internal_set_voltage5(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 voltage12 = 7 [(.nanopb_test) = {
-  void clear_voltage12();
-  ::PROTOBUF_NAMESPACE_ID::uint32 voltage12() const;
-  void set_voltage12(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_voltage12() const;
-  void _internal_set_voltage12(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  bool _internal_pins() const;
+  void _internal_set_pins(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:blox.Spark3Pins)
@@ -291,11 +301,12 @@ class Spark3Pins final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel > channels_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 voltage5_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 voltage12_;
   bool enableiosupply5v_;
   bool enableiosupply12v_;
   bool soundalarm_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 voltage5_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 voltage12_;
+  bool pins_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Spark3Pins_5ftest_2eproto;
 };
@@ -445,6 +456,26 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::blox::IoChannel >&
 Spark3Pins::channels() const {
   // @@protoc_insertion_point(field_list:blox.Spark3Pins.channels)
   return channels_;
+}
+
+// bool pins = 90 [(.nanopb_test) = {
+inline void Spark3Pins::clear_pins() {
+  pins_ = false;
+}
+inline bool Spark3Pins::_internal_pins() const {
+  return pins_;
+}
+inline bool Spark3Pins::pins() const {
+  // @@protoc_insertion_point(field_get:blox.Spark3Pins.pins)
+  return _internal_pins();
+}
+inline void Spark3Pins::_internal_set_pins(bool value) {
+  
+  pins_ = value;
+}
+inline void Spark3Pins::set_pins(bool value) {
+  _internal_set_pins(value);
+  // @@protoc_insertion_point(field_set:blox.Spark3Pins.pins)
 }
 
 #ifdef __GNUC__

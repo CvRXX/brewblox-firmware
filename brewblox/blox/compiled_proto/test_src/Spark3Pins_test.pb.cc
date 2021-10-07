@@ -20,11 +20,12 @@ namespace blox {
 constexpr Spark3Pins::Spark3Pins(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : channels_()
+  , voltage5_(0u)
+  , voltage12_(0u)
   , enableiosupply5v_(false)
   , enableiosupply12v_(false)
   , soundalarm_(false)
-  , voltage5_(0u)
-  , voltage12_(0u){}
+  , pins_(false){}
 struct Spark3PinsDefaultTypeInternal {
   constexpr Spark3PinsDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -51,6 +52,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Spark3Pins_5ftest_2eproto::off
   PROTOBUF_FIELD_OFFSET(::blox::Spark3Pins, voltage5_),
   PROTOBUF_FIELD_OFFSET(::blox::Spark3Pins, voltage12_),
   PROTOBUF_FIELD_OFFSET(::blox::Spark3Pins, channels_),
+  PROTOBUF_FIELD_OFFSET(::blox::Spark3Pins, pins_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::Spark3Pins)},
@@ -63,17 +65,17 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_Spark3Pins_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\025Spark3Pins_test.proto\022\004blox\032\023brewblox_"
   "test.proto\032\021nanopb_test.proto\032\022IoArray_t"
-  "est.proto\"\346\001\n\nSpark3Pins\022\030\n\020enableIoSupp"
+  "est.proto\"\201\002\n\nSpark3Pins\022\030\n\020enableIoSupp"
   "ly5V\030\002 \001(\010\022\031\n\021enableIoSupply12V\030\003 \001(\010\022\022\n"
   "\nsoundAlarm\030\005 \001(\010\022$\n\010voltage5\030\006 \001(\rB\022\212\265\030"
   "\002(\001\222\?\0028\020\212\265\030\003\020\232\003\022%\n\tvoltage12\030\007 \001(\rB\022\212\265\030\002"
   "(\001\222\?\0028\020\212\265\030\003\020\225\001\0223\n\010channels\030\010 \003(\0132\017.blox."
-  "IoChannelB\020\222\?\002\020\005\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\277\002\212\265\030\002"
-  "H\n*\231\001\n\020Spark3ChannelIds\022\021\n\rSPARK3_NO_PIN"
-  "\020\000\022\024\n\020SPARK3_CHAN_TOP1\020\001\022\024\n\020SPARK3_CHAN_"
-  "TOP2\020\002\022\024\n\020SPARK3_CHAN_TOP3\020\003\022\027\n\023SPARK3_C"
-  "HAN_BOTTOM1\020\004\022\027\n\023SPARK3_CHAN_BOTTOM2\020\005b\006"
-  "proto3"
+  "IoChannelB\020\222\?\002\020\005\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001("
+  "\010B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\277\002\212\265\030\002H\n*\231\001\n\020Spark3"
+  "ChannelIds\022\021\n\rSPARK3_NO_PIN\020\000\022\024\n\020SPARK3_"
+  "CHAN_TOP1\020\001\022\024\n\020SPARK3_CHAN_TOP2\020\002\022\024\n\020SPA"
+  "RK3_CHAN_TOP3\020\003\022\027\n\023SPARK3_CHAN_BOTTOM1\020\004"
+  "\022\027\n\023SPARK3_CHAN_BOTTOM2\020\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Spark3Pins_5ftest_2eproto_deps[3] = {
   &::descriptor_table_IoArray_5ftest_2eproto,
@@ -82,7 +84,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Spark3Pins_5ftest_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Spark3Pins_5ftest_2eproto = {
-  false, false, 486, descriptor_table_protodef_Spark3Pins_5ftest_2eproto, "Spark3Pins_test.proto", 
+  false, false, 513, descriptor_table_protodef_Spark3Pins_5ftest_2eproto, "Spark3Pins_test.proto", 
   &descriptor_table_Spark3Pins_5ftest_2eproto_once, descriptor_table_Spark3Pins_5ftest_2eproto_deps, 3, 1,
   schemas, file_default_instances, TableStruct_Spark3Pins_5ftest_2eproto::offsets,
   file_level_metadata_Spark3Pins_5ftest_2eproto, file_level_enum_descriptors_Spark3Pins_5ftest_2eproto, file_level_service_descriptors_Spark3Pins_5ftest_2eproto,
@@ -136,17 +138,17 @@ Spark3Pins::Spark3Pins(const Spark3Pins& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&enableiosupply5v_, &from.enableiosupply5v_,
-    static_cast<size_t>(reinterpret_cast<char*>(&voltage12_) -
-    reinterpret_cast<char*>(&enableiosupply5v_)) + sizeof(voltage12_));
+  ::memcpy(&voltage5_, &from.voltage5_,
+    static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
+    reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
   // @@protoc_insertion_point(copy_constructor:blox.Spark3Pins)
 }
 
 inline void Spark3Pins::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&enableiosupply5v_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&voltage12_) -
-    reinterpret_cast<char*>(&enableiosupply5v_)) + sizeof(voltage12_));
+    reinterpret_cast<char*>(&voltage5_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
+    reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
 }
 
 Spark3Pins::~Spark3Pins() {
@@ -177,9 +179,9 @@ void Spark3Pins::Clear() {
   (void) cached_has_bits;
 
   channels_.Clear();
-  ::memset(&enableiosupply5v_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&voltage12_) -
-      reinterpret_cast<char*>(&enableiosupply5v_)) + sizeof(voltage12_));
+  ::memset(&voltage5_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&pins_) -
+      reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -234,6 +236,13 @@ const char* Spark3Pins::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<66>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 208)) {
+          pins_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -303,6 +312,12 @@ failure:
       InternalWriteMessage(8, this->_internal_channels(i), target, stream);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(90, this->_internal_pins(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -326,6 +341,20 @@ size_t Spark3Pins::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
+  // uint32 voltage5 = 6 [(.nanopb_test) = {
+  if (this->_internal_voltage5() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_voltage5());
+  }
+
+  // uint32 voltage12 = 7 [(.nanopb_test) = {
+  if (this->_internal_voltage12() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_voltage12());
+  }
+
   // bool enableIoSupply5V = 2;
   if (this->_internal_enableiosupply5v() != 0) {
     total_size += 1 + 1;
@@ -341,18 +370,9 @@ size_t Spark3Pins::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // uint32 voltage5 = 6 [(.nanopb_test) = {
-  if (this->_internal_voltage5() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_voltage5());
-  }
-
-  // uint32 voltage12 = 7 [(.nanopb_test) = {
-  if (this->_internal_voltage12() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_voltage12());
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->_internal_pins() != 0) {
+    total_size += 2 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -384,6 +404,12 @@ void Spark3Pins::MergeFrom(const Spark3Pins& from) {
   (void) cached_has_bits;
 
   channels_.MergeFrom(from.channels_);
+  if (from._internal_voltage5() != 0) {
+    _internal_set_voltage5(from._internal_voltage5());
+  }
+  if (from._internal_voltage12() != 0) {
+    _internal_set_voltage12(from._internal_voltage12());
+  }
   if (from._internal_enableiosupply5v() != 0) {
     _internal_set_enableiosupply5v(from._internal_enableiosupply5v());
   }
@@ -393,11 +419,8 @@ void Spark3Pins::MergeFrom(const Spark3Pins& from) {
   if (from._internal_soundalarm() != 0) {
     _internal_set_soundalarm(from._internal_soundalarm());
   }
-  if (from._internal_voltage5() != 0) {
-    _internal_set_voltage5(from._internal_voltage5());
-  }
-  if (from._internal_voltage12() != 0) {
-    _internal_set_voltage12(from._internal_voltage12());
+  if (from._internal_pins() != 0) {
+    _internal_set_pins(from._internal_pins());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -418,11 +441,11 @@ void Spark3Pins::InternalSwap(Spark3Pins* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   channels_.InternalSwap(&other->channels_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Spark3Pins, voltage12_)
-      + sizeof(Spark3Pins::voltage12_)
-      - PROTOBUF_FIELD_OFFSET(Spark3Pins, enableiosupply5v_)>(
-          reinterpret_cast<char*>(&enableiosupply5v_),
-          reinterpret_cast<char*>(&other->enableiosupply5v_));
+      PROTOBUF_FIELD_OFFSET(Spark3Pins, pins_)
+      + sizeof(Spark3Pins::pins_)
+      - PROTOBUF_FIELD_OFFSET(Spark3Pins, voltage5_)>(
+          reinterpret_cast<char*>(&voltage5_),
+          reinterpret_cast<char*>(&other->voltage5_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Spark3Pins::GetMetadata() const {
