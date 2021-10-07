@@ -59,6 +59,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPins, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::MockPins, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox::MockPins)},
@@ -91,17 +92,18 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\023MockPins_test.proto\022\004blox\032\023brewblox_te"
       "st.proto\032\021nanopb_test.proto\032\022IoArray_tes"
-      "t.proto\"N\n\010MockPins\0223\n\010channels\030\002 \003(\0132\017."
-      "blox.IoChannelB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001:\r\212\265\030\003\030\303"
-      "\002\212\265\030\002H\n*\324\001\n\022MockPinsChannelIds\022\026\n\022MOCKPI"
-      "NS_CHAN_NONE\020\000\022\023\n\017MOCKPINS_CHAN_A\020\001\022\023\n\017M"
-      "OCKPINS_CHAN_B\020\002\022\023\n\017MOCKPINS_CHAN_C\020\003\022\023\n"
-      "\017MOCKPINS_CHAN_D\020\004\022\023\n\017MOCKPINS_CHAN_E\020\005\022"
-      "\023\n\017MOCKPINS_CHAN_F\020\006\022\023\n\017MOCKPINS_CHAN_G\020"
-      "\007\022\023\n\017MOCKPINS_CHAN_H\020\010b\006proto3"
+      "t.proto\"i\n\010MockPins\0223\n\010channels\030\002 \003(\0132\017."
+      "blox.IoChannelB\020\222\?\002\020\010\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins"
+      "\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\303\002\212\265\030\002H\n*\324\001\n\022M"
+      "ockPinsChannelIds\022\026\n\022MOCKPINS_CHAN_NONE\020"
+      "\000\022\023\n\017MOCKPINS_CHAN_A\020\001\022\023\n\017MOCKPINS_CHAN_"
+      "B\020\002\022\023\n\017MOCKPINS_CHAN_C\020\003\022\023\n\017MOCKPINS_CHA"
+      "N_D\020\004\022\023\n\017MOCKPINS_CHAN_E\020\005\022\023\n\017MOCKPINS_C"
+      "HAN_F\020\006\022\023\n\017MOCKPINS_CHAN_G\020\007\022\023\n\017MOCKPINS"
+      "_CHAN_H\020\010b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 390);
+      descriptor, 417);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MockPins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -152,6 +154,7 @@ void MockPins::clear_channels() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int MockPins::kChannelsFieldNumber;
+const int MockPins::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 MockPins::MockPins()
@@ -166,10 +169,12 @@ MockPins::MockPins(const MockPins& from)
       _internal_metadata_(NULL),
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  pins_ = from.pins_;
   // @@protoc_insertion_point(copy_constructor:blox.MockPins)
 }
 
 void MockPins::SharedCtor() {
+  pins_ = false;
 }
 
 MockPins::~MockPins() {
@@ -201,6 +206,7 @@ void MockPins::Clear() {
   (void) cached_has_bits;
 
   channels_.Clear();
+  pins_ = false;
   _internal_metadata_.Clear();
 }
 
@@ -210,7 +216,7 @@ bool MockPins::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox.MockPins)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -220,6 +226,20 @@ bool MockPins::MergePartialFromCodedStream(
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                 input, add_channels()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool pins = 90 [(.nanopb_test) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &pins_)));
         } else {
           goto handle_unusual;
         }
@@ -261,6 +281,11 @@ void MockPins::SerializeWithCachedSizes(
       output);
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->pins(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -281,6 +306,11 @@ void MockPins::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         2, this->channels(static_cast<int>(i)), deterministic, target);
+  }
+
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->pins(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -311,6 +341,11 @@ size_t MockPins::ByteSizeLong() const {
     }
   }
 
+  // bool pins = 90 [(.nanopb_test) = {
+  if (this->pins() != 0) {
+    total_size += 2 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -339,6 +374,9 @@ void MockPins::MergeFrom(const MockPins& from) {
   (void) cached_has_bits;
 
   channels_.MergeFrom(from.channels_);
+  if (from.pins() != 0) {
+    set_pins(from.pins());
+  }
 }
 
 void MockPins::CopyFrom(const ::google::protobuf::Message& from) {
@@ -366,6 +404,7 @@ void MockPins::Swap(MockPins* other) {
 void MockPins::InternalSwap(MockPins* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
+  swap(pins_, other->pins_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
