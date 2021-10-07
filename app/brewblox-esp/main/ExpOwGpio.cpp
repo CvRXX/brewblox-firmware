@@ -99,6 +99,11 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
 
     auto pins = flexChannels[idx].pins();
 
+    if (pins == 0) {
+        result = State::Unknown;
+        return false;
+    }
+
     if (flexChannels[idx].pwm_duty) {
         // for a non-zero pwm value, return Active regardless of pin state
         result = State::Active;
@@ -257,13 +262,13 @@ void ExpOwGpio::update(bool forceRefresh)
 
         if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
             // status is valid
-            if (true || drv_status.bits.openload) {
+            if (drv_status.bits.openload) {
                 // open load is detected
                 old_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OLD_STAT_1);
             } else {
                 old_status.bits.all = 0;
             }
-            if (true || drv_status.bits.overcurrent) {
+            if (drv_status.bits.overcurrent) {
                 // status is valid and overcurrent is detected
                 ocp_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OCP_STAT_1);
             } else {
