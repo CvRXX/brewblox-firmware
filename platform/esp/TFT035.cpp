@@ -179,8 +179,8 @@ error_t TFT035::dmaWrite(uint8_t* tx_data, size_t tx_len, bool dc)
     }
 }
 
-template <std::size_t n, typename T>
-error_t TFT035::dmaWrite(const std::array<T, n>& tx_val, bool dc)
+template <std::size_t n>
+error_t TFT035::dmaWrite(const std::array<uint8_t, n>& tx_val, bool dc)
 {
     if (dc) {
         return spiDevice.dmaWrite(tx_val, callbackDcPinOn);

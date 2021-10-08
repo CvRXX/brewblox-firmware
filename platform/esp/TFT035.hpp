@@ -86,8 +86,8 @@ private:
 
     hal_spi::error_t setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye);
 
-    template <std::size_t n, typename T>
-    hal_spi::error_t dmaWrite(const std::array<T, n>& tx_val, bool dc);
+    template <std::size_t n>
+    hal_spi::error_t dmaWrite(const std::array<uint8_t, n>& tx_val, bool dc);
     hal_spi::error_t dmaWrite(const uint8_t, bool dc);
     hal_spi::error_t dmaWrite(uint8_t* tx_data, size_t tx_len, bool dc);
     hal_spi::error_t writeCmd(const std::vector<uint8_t>& cmd);
