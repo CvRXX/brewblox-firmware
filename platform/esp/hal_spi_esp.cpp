@@ -2,8 +2,8 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
-#include "hal/hal_spi_impl.hpp"
 #include "hal/hal_delay.h"
+#include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
 #include <stdio.h>
@@ -142,10 +142,11 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
 {
     // Wait until there is space for the transaction in the static buffer.
     spi_transaction_t* trans;
-    uint8_t retryCount=20;
+    uint8_t retryCount = 20;
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
         hal_delay_ms(50);
-        if (!retryCount--) return 1;
+        if (!retryCount--)
+            return 1;
     };
 
     *trans = spi_transaction_t{
@@ -162,14 +163,15 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
     return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
 }
 
-error_t dmaWrite(Settings& settings, const uint32_t data, size_t size, const CallbacksBase* callbacks)
+error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
 {
-    // Wait until there is space for the transaction in the static buffer.
+    //Wait until there is space for the transaction in the static buffer.
     spi_transaction_t* trans;
-    uint8_t retryCount=20;
+    uint8_t retryCount = 20;
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
         hal_delay_ms(50);
-        if (!retryCount--) return 1;
+        if (!retryCount--)
+            return 1;
     };
 
     *trans = spi_transaction_t{
@@ -182,10 +184,8 @@ error_t dmaWrite(Settings& settings, const uint32_t data, size_t size, const Cal
         .tx_data = {},
         .rx_data = {},
     };
-    trans->tx_data[0] = (data >> 24) & 0xFF;
-    trans->tx_data[1] = (data >> 16) & 0xFF;
-    trans->tx_data[2] = (data >> 8) & 0xFF;
-    trans->tx_data[3] = data & 0xFF;
+
+    std::copy(data, data + size, &(trans->tx_data[0]));
 
     return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
 }
