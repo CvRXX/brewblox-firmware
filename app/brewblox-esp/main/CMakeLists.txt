@@ -34,7 +34,6 @@ set(lib_inc "../../../lib/inc/")
 
 file(GLOB_RECURSE lvgl_srcs ../../../external_libs/lvgl/src/*.c)
 
-list(APPEND lvgl_inc "../../../external_libs/lvgl/")
 list(APPEND lvgl_inc "../../../external_libs/lvgl/src")
 
 set(cnl_inc "../../../lib/cnl/include")
