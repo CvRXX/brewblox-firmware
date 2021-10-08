@@ -3,6 +3,7 @@
 #include "driver/spi_master.h"
 #include "esp_err.h"
 #include "hal/hal_spi_impl.hpp"
+#include "hal/hal_delay.h"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
 #include <stdio.h>
@@ -141,10 +142,10 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
 {
     // Wait until there is space for the transaction in the static buffer.
     spi_transaction_t* trans;
+    uint8_t retryCount=20;
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
-        // TODO: deadlock, no yield, add timeout and yield?
-        // return error on timeout?
-        // only works because platform transfer queue is equal to buffer queue?
+        hal_delay_ms(50);
+        if (!retryCount--) return 1;
     };
 
     *trans = spi_transaction_t{
@@ -165,10 +166,10 @@ error_t dmaWrite(Settings& settings, const uint32_t data, size_t size, const Cal
 {
     // Wait until there is space for the transaction in the static buffer.
     spi_transaction_t* trans;
+    uint8_t retryCount=20;
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
-        // TODO: deadlock, no yield, add timeout and yield?
-        // return error on timeout?
-        // only works because platform transfer queue is equal to buffer queue?
+        hal_delay_ms(50);
+        if (!retryCount--) return 1;
     };
 
     *trans = spi_transaction_t{
