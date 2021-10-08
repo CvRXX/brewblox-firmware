@@ -167,9 +167,9 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
 {
     //Wait until there is space for the transaction in the static buffer.
     spi_transaction_t* trans;
-    uint8_t retryCount = 20;
+    uint8_t retryCount = 10;
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
-        hal_delay_ms(50);
+        hal_delay_ms(1);
         if (!retryCount--)
             return 1;
     };
