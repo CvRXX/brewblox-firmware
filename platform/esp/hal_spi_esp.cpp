@@ -137,57 +137,63 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
 
     return spi_device_transmit(get_platform_ptr(settings), &trans);
 }
-// template <typename... T>
-error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+
+std::optional<spi_transaction_t*> getTransaction()
 {
+    spi_transaction_t* trans;
+
     // Wait until there is space for the transaction in the static buffer.
-    spi_transaction_t* trans;
-    uint8_t retryCount = 20;
-    while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
-        hal_delay_ms(50);
-        if (!retryCount--)
-            return 1;
-    };
-
-    *trans = spi_transaction_t{
-        .flags = uint32_t{0},
-        .cmd = 0,
-        .addr = 0,
-        .length = size * 8, // esp platform wants size in bits
-        .rxlength = 0,
-        .user = const_cast<CallbacksBase*>(callbacks),
-        .tx_buffer = data,
-        .rx_buffer = nullptr,
-    };
-
-    return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
-}
-
-error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
-{
-    //Wait until there is space for the transaction in the static buffer.
-    spi_transaction_t* trans;
     uint8_t retryCount = 10;
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
         hal_delay_ms(1);
         if (!retryCount--)
-            return 1;
+            return std::nullopt;
     };
+    return trans;
+}
 
-    *trans = spi_transaction_t{
-        .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
-        .cmd = 0,
-        .addr = 0,
-        .length = size * 8, // esp platform wants size in bits
-        .rxlength = 0,
-        .user = const_cast<CallbacksBase*>(callbacks),
-        .tx_data = {},
-        .rx_data = {},
-    };
+error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+{
+    if (auto trans = getTransaction()) {
 
-    std::copy(data, data + size, &(trans->tx_data[0]));
+        *trans.value() = spi_transaction_t{
+            .flags = uint32_t{0},
+            .cmd = 0,
+            .addr = 0,
+            .length = size * 8, // esp platform wants size in bits
+            .rxlength = 0,
+            .user = const_cast<CallbacksBase*>(callbacks),
+            .tx_buffer = data,
+            .rx_buffer = nullptr,
+        };
 
-    return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        return spi_device_queue_trans(get_platform_ptr(settings), trans.value(), portMAX_DELAY);
+    } else {
+        return 1;
+    }
+}
+
+error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+{
+    if (auto trans = getTransaction()) {
+
+        *trans.value() = spi_transaction_t{
+            .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
+            .cmd = 0,
+            .addr = 0,
+            .length = size * 8, // esp platform wants size in bits
+            .rxlength = 0,
+            .user = const_cast<CallbacksBase*>(callbacks),
+            .tx_data = {},
+            .rx_data = {},
+        };
+
+        std::copy(data, data + size, &(trans.value()->tx_data[0]));
+
+        return spi_device_queue_trans(get_platform_ptr(settings), trans.value(), portMAX_DELAY);
+    } else {
+        return 1;
+    }
 }
 
 error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize)
