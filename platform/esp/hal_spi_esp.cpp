@@ -138,7 +138,7 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
     return spi_device_transmit(get_platform_ptr(settings), &trans);
 }
 
-std::optional<spi_transaction_t*> getTransaction()
+spi_transaction_t* allocateTransaction()
 {
     spi_transaction_t* trans;
 
@@ -147,16 +147,16 @@ std::optional<spi_transaction_t*> getTransaction()
     while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
         hal_delay_ms(1);
         if (!retryCount--)
-            return std::nullopt;
+            return nullptr;
     };
     return trans;
 }
 
 error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
 {
-    if (auto trans = getTransaction()) {
+    if (auto trans = allocateTransaction()) {
 
-        *trans.value() = spi_transaction_t{
+        *trans = spi_transaction_t{
             .flags = uint32_t{0},
             .cmd = 0,
             .addr = 0,
@@ -167,7 +167,7 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
             .rx_buffer = nullptr,
         };
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans.value(), portMAX_DELAY);
+        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
     } else {
         return 1;
     }
@@ -175,9 +175,9 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
 
 error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
 {
-    if (auto trans = getTransaction()) {
+    if (auto trans = allocateTransaction()) {
 
-        *trans.value() = spi_transaction_t{
+        *trans = spi_transaction_t{
             .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
             .cmd = 0,
             .addr = 0,
@@ -188,9 +188,9 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
             .rx_data = {},
         };
 
-        std::copy(data, data + size, &(trans.value()->tx_data[0]));
+        std::copy(data, data + size, &(trans->tx_data[0]));
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans.value(), portMAX_DELAY);
+        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
     } else {
         return 1;
     }
