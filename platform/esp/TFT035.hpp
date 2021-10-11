@@ -56,7 +56,7 @@ public:
      * @param nPixels The number of pixels to be written.
      * @return Returns true if no error has occured, false if the write has failed.
      */
-    bool writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels);
+    bool writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, const uint8_t* pixels, uint16_t nPixels);
 
     /// A list of the commands of the TFT035
     enum command : uint8_t {

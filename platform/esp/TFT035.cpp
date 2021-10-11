@@ -189,12 +189,12 @@ error_t TFT035::dmaWrite(const std::array<uint8_t, n>& tx_val, bool dc)
     }
 }
 
-error_t TFT035::dmaWrite(const uint8_t tx_val, bool dc)
+error_t TFT035::dmaWrite(uint8_t tx_val, bool dc)
 {
     return dmaWrite(std::array<uint8_t, 1>{tx_val}, dc);
 }
 
-bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
+bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, const uint8_t* pixels, uint16_t nPixels)
 {
     if (this->setPos(xs, xe, ys, ye)) {
         ESP_LOGE("Display", "Set pos failed, retrying....");
