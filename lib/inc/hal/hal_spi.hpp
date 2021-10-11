@@ -188,7 +188,7 @@ struct SpiDevice {
     {
         static_assert(n > 0, "Data array must have at least one element.");
         static_assert(n <= 4, "A maximum of 4 bytes can be send in one go.");
-        return platform_spi::dmaWriteValue(settings, reinterpret_cast<const uint8_t*>(data.data()), data.size(), static_cast<const hal_spi::CallbacksBase*>(&callbacks));
+        return platform_spi::dmaWriteValue(settings, data.data(), data.size(), static_cast<const hal_spi::CallbacksBase*>(&callbacks));
     }
 
     /**
