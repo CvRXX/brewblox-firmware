@@ -177,7 +177,7 @@ struct SpiDevice {
     /**
     * Writes the data over the spi bus asynchronously using dma.
     *
-    * The caller will be responsible for deallocating the data pointer. One way to do this is to perform deallocation in the post function.
+    * The data array will be copied over to the spi transaction so the data array can safely be deallocated after return.
     * 
     * @param data The data to be send. 
     * @param callbacks The callbacks to be called before and after the transaction. 
@@ -194,7 +194,7 @@ struct SpiDevice {
     /**
     * Writes the data over the spi bus asynchronously using dma.
     *
-    * The caller will be responsible for deallocating the data pointer. One way to do this is to perform deallocation in the post function.
+    * The data array will be copied over to the spi transaction so the data array can safely be deallocated after return.
     * 
     * @param data The data to be send.
     * @param callbacks The callbacks to be called before and after the transaction. 
@@ -212,7 +212,7 @@ struct SpiDevice {
     /**
     * Writes the data over the spi bus asynchronously using dma.
     *
-    * The caller will be responsible for deallocating the data pointer. One way to do this is to perform deallocation in the post function.
+    * The data array will be copied over to the spi transaction so the data array can safely be deallocated after return.
     * 
     * @param data The data to be send.
     * @param callbacks The callbacks to be called before and after the transaction. 
