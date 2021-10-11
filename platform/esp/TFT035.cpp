@@ -170,7 +170,7 @@ error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsign
     return dmaWrite(0x2C, false);
 }
 
-error_t TFT035::dmaWrite(uint8_t* tx_data, size_t tx_len, bool dc)
+error_t TFT035::dmaWrite(const uint8_t* tx_data, size_t tx_len, bool dc)
 {
     if (dc) {
         return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
