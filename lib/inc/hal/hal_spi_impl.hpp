@@ -40,47 +40,45 @@ error_t init(Settings& settings);
 void deInit(Settings& settings);
 
 /**
- * Writes a n amount of bytes to the spi device
- * 
- * The user will be responsible for deallocating the data pointer.
+ * Writes an amount of bytes to the spi device
  * 
  * @param settings The settings struct containing the configuration of the spi device.
  * @param data A pointer to the bytes to be send.
  * @param size The amount of bytes to be send.
- * @return If any error will occur a non zero result will indicate an error has happened.
+ * @return If an error occurs, a non-zero value will be returned.
  */
 error_t write(Settings& settings, const uint8_t* data, size_t size);
 
 /**
- * Writes a n amount of bytes to the spi device
+ * Writes an amount of bytes to the spi device
  * 
- * The user will be responsible for deallocating the data pointer.
+ * It's required for the data pointer to remain valid until the spi transaction has been completed.
  * 
  * @param settings The settings struct containing the configuration of the spi device.
  * @param data A pointer to the bytes to be send.
  * @param size The amount of bytes to be send.
  * @param callbacks The callbacks to be called before and after the transaction. 
- * @return If any error will occur a non zero result will indicate an error has happened.
+ * @return If an error occurs, a non-zero value will be returned.
  */
 error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const hal_spi::CallbacksBase* callbacks);
 
 /**
- * Writes a n amount of bytes to the spi device
+ * Writes an amount of bytes to the spi device
  * 
- * The user will be responsible for deallocating the data pointer.
+ * It's required for the data pointer to remain valid until the spi transaction has been completed.
  * 
  * @param settings The settings struct containing the configuration of the spi device.
  * @param data A pointer to the data to be send.
  * @param size The amount of bytes to be send.
  * @param callbacks The callbacks to be called before and after the transaction. 
- * @return If any error will occur a non zero result will indicate an error has happened.
+ * @return If an error occurs, a non-zero value will be returned.
  */
 error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const hal_spi::CallbacksBase* callbacks);
 
 /**
- * Writes a n amount of bytes to the spi device and reads the same amount of bytes.
+ * Writes an amount of bytes to the spi device and reads the same amount of bytes.
  * 
- * The user will be responsible for deallocating the data pointers.
+ * It's required for the data pointer to remain valid until the spi transaction has been completed.
  * 
  * @param settings The settings struct containing the configuration of the spi device.
  * @param tx A pointer to the bytes to be send.
@@ -89,7 +87,7 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
  * @param rxSize The amount of bytes to be received.
  * @param pre A functionpointer to a function which will be called right before the transfer will take place. 
  * @param post A functionpointer to a function which will be called right after the transfer will take place. This can be used for example for deallocation purpuses.
- * @return If any error will occur a non zero result will indicate an error has happened.
+ * @return If an error occurs, a non-zero value will be returned.
  */
 error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize);
 
