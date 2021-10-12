@@ -140,16 +140,15 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
 
 spi_transaction_t* allocateTransaction()
 {
-    spi_transaction_t* trans;
-
     // Wait until there is space for the transaction in the static buffer.
-    uint8_t retryCount = 10;
-    while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
+    for (uint8_t retries = 0; retries<10; retries++) {
+        auto trans = new (transactionBuffer.get()) spi_transaction_t{};
+        if (trans) {
+            return trans;
+        }
         hal_delay_ms(1);
-        if (!retryCount--)
-            return nullptr;
     };
-    return trans;
+    return nullptr;
 }
 
 error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
