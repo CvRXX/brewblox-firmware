@@ -23,7 +23,6 @@
 
 bool DS2413::update()
 {
-
     bool success = false;
     if (auto oneWire = selectRom()) {
         if (!writeNeeded()) { // skip read if we need to write anyway, which also returns status
@@ -67,48 +66,55 @@ bool DS2413::writeNeeded()
     return !connected() || (desiredState & 0b1010) != (actualState & 0b1010);
 }
 
-bool DS2413::writeChannelImpl(uint8_t channel, ChannelConfig config)
+uint8_t bitMask(uint8_t channel)
 {
-    bool latchEnabled = config == ChannelConfig::DRIVING_ON;
-    uint8_t bitmask;
     if (channel == 1) {
-        bitmask = 0b0010;
-    } else if (channel == 2) {
-        bitmask = 0b1000;
-    } else {
-        return false;
+        return 0b0010;
     }
+    if (channel == 2) {
+        return 0b1000;
+    }
+    return 0x00;
+}
+
+IoArray::ChannelValue DS2413::writeChannelImpl(uint8_t channel, IoArray::ChannelValue val)
+{
+    bool latchEnabled = val && val.value() > 0;
 
     if (latchEnabled) {
-        desiredState &= ~bitmask;
+        desiredState &= ~bitMask(channel);
     } else {
-        desiredState |= bitmask;
-    }
-    if (!connected()) {
-        return false;
+        desiredState |= bitMask(channel);
     }
     if (writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
         // they will reconnect in the normal update tick, which should happen every second
-        return update();
+        update();
     }
-    return true;
+    return readChannelImpl(channel);
 }
 
-bool DS2413::senseChannelImpl(uint8_t channel, State& result) const
+IoArray::ChannelValue DS2413::readChannelImpl(uint8_t channel) const
 {
     if (connected()) {
         // to reduce onewire communication, we assume the last read value in update() is correct
         // only in update(), actual onewire communication will take place to get the latest state
         if (channel == 1) {
-            result = (actualState & 0b0001) == 0 ? State::Active : State::Inactive;
-            return true;
+            return (actualState & 0b0001) == 0 ? ChannelValue{1} : ChannelValue{0};
         } else if (channel == 2) {
-            result = (actualState & 0b0100) == 0 ? State::Active : State::Inactive;
-            return true;
+            return (actualState & 0b0100) == 0 ? ChannelValue{1} : ChannelValue{0};
         }
     }
-    result = State::Unknown;
+    return ChannelValue{};
+}
+
+bool DS2413::setChannelTypeImpl(uint8_t channel, ChannelType chanType)
+{
+    if (chanType == ChannelType::OUTPUT_DIGITAL || chanType == ChannelType::INPUT_DIGITAL) {
+        // disable latch. For inputs it stays disabled. For outputs it can be toggled later.
+        writeChannelImpl(channel, 0);
+        return true;
+    }
     return false;
 }
 

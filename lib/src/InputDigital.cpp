@@ -18,37 +18,22 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/ActuatorDigital.hpp"
-#include "control/ActuatorDigitalBase.hpp"
-#include "control/IoArray.hpp"
+#include "InputDigital.h"
+#include "IoArray.h"
 #include <functional>
 #include <memory>
 
-using State = ActuatorDigitalBase::State;
+using State = InputDigital::State;
 
-void ActuatorDigital::state(const State& v)
+State InputDigital::state() const
 {
     if (channelReady()) {
-        if (auto devPtr = m_target.lock()) {
-            auto newState = v;
-            if (m_invert) {
-                newState = invertState(v);
-            }
-            IoArray::ChannelValue val = newState == State::Active ? 1 : 0;
-            devPtr->writeChannel(m_channel, val);
-        }
-    }
-}
-
-State ActuatorDigital::state() const
-{
-    if (channelReady()) {
-        if (auto devPtr = m_target.lock()) {
+        if (auto devPtr = m_target()) {
             State result = State::Unknown;
             if (auto v = devPtr->readChannel(m_channel)) {
                 result = v.value() > 0 ? State::Active : State::Inactive;
                 if (m_invert) {
-                    result = invertState(result); // todo: handle pwm transitions for inversion
+                    result = invertState(result);
                 }
                 return result;
             }
@@ -58,9 +43,9 @@ State ActuatorDigital::state() const
     return State::Unknown;
 }
 
-void ActuatorDigital::claimChannel()
+void InputDigital::claimChannel()
 {
-    if (auto devPtr = m_target.lock()) {
+    if (auto devPtr = m_target()) {
         if (m_channel != 0) {
             // release old channel
             if (!devPtr->setChannelType(m_channel, IoArray::ChannelType::UNUSED, IoArray::ChannelType::UNKNOWN)) {
@@ -73,7 +58,7 @@ void ActuatorDigital::claimChannel()
             return;
         }
         // claim new channel
-        if (devPtr->setChannelType(m_desiredChannel, IoArray::ChannelType::OUTPUT_DIGITAL, IoArray::ChannelType::UNUSED)) {
+        if (devPtr->setChannelType(m_desiredChannel, IoArray::ChannelType::INPUT_DIGITAL, IoArray::ChannelType::UNUSED)) {
             m_channel = m_desiredChannel;
         }
     }

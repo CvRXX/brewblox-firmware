@@ -37,42 +37,69 @@ public:
 
     virtual ~MockIoArray() = default;
 
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final
+    virtual ChannelValue readChannelImpl(uint8_t channel) const override final
     {
-        // TODO
-        if (isConnected && validChannel(channel) && ((getMask(channel) & errorState) == 0)) {
-            result = (pinStates & getMask(channel)) != 0 ? State::Active : State::Inactive;
-            return true;
+        // valid channel check already performed in base class
+        if (isConnected && ((getMask(channel) & errorState) == 0)) {
+            switch (getChannelType(channel)) {
+            case ChannelType::OUTPUT_DIGITAL:
+            case ChannelType::INPUT_DIGITAL:
+                return pinStates & getMask(channel);
+            case ChannelType::OUTPUT_PWM:
+                // Return result of last write
+                return channels[channel - 1].value;
+            case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
+            case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
+            case ChannelType::UNKNOWN:
+            case ChannelType::UNUSED:
+                return ChannelValue{}; // not supported
+            }
         }
-        result = State::Unknown;
-        return false;
+        return ChannelValue{};
     }
 
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final
+    virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue val) override final
     {
-        if (isConnected && validChannel(channel)) {
+        // valid channel check already performed in base class
+        if (isConnected && val) {
             uint8_t mask = getMask(channel);
-            switch (config) {
-            case ChannelConfig::DRIVING_ON:
-                pinStates |= mask;
-                pinModes |= mask;
-                return true;
-            case ChannelConfig::DRIVING_OFF:
+            switch (getChannelType(channel)) {
+            case ChannelType::OUTPUT_DIGITAL:
+                if (val.value() > 0) {
+                    pinStates |= mask;
+                    return 1;
+                }
                 pinStates &= ~mask;
-                pinModes |= mask;
-                return true;
-            case ChannelConfig::INPUT:
-                pinModes &= mask;
-                return true;
-            case ChannelConfig::UNUSED:
-            case ChannelConfig::UNKNOWN:
-            case ChannelConfig::DRIVING_REVERSE:         // not supported
-            case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:  // not supported
-            case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE: // not supported
-            case ChannelConfig::DRIVING_PWM:             // not supported
-            case ChannelConfig::DRIVING_PWM_REVERSE:     // not supported
-                return false;
+                return 0;
+            case ChannelType::OUTPUT_PWM:
+                // just return val to indicate that pwm was successfully set
+                return val;
+            case ChannelType::INPUT_DIGITAL:
+            case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
+            case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
+            case ChannelType::UNKNOWN:
+            case ChannelType::UNUSED:
+                return ChannelValue{}; // write not supported
             }
+        }
+        return ChannelValue{};
+    }
+
+    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType chanType) override final
+    {
+        switch (chanType) {
+        case ChannelType::OUTPUT_DIGITAL:
+        case ChannelType::OUTPUT_PWM:
+            pinModes |= getMask(channel);
+            return true;
+        case ChannelType::INPUT_DIGITAL:
+            pinModes &= getMask(channel);
+            return true;
+        case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
+        case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
+        case ChannelType::UNKNOWN:
+        case ChannelType::UNUSED:
+            return false;
         }
         return false;
     }
@@ -90,11 +117,6 @@ public:
         } else {
             errorState &= mask;
         }
-    }
-
-    virtual bool supportsFastIo() const override final
-    {
-        return true;
     }
 
 private:

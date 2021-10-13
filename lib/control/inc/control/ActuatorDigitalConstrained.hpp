@@ -89,7 +89,6 @@ public:
     using ActuatorDigitalChangeLogged::activeDurations;
     using ActuatorDigitalChangeLogged::getLastStartEndTime;
     using ActuatorDigitalChangeLogged::setStateUnlogged;
-    using ActuatorDigitalChangeLogged::supportsFastIo;
 
     void addConstraint(std::unique_ptr<Constraint>&& newConstraint);
 

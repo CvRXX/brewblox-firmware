@@ -80,6 +80,4 @@ public:
     Durations activeDurations(const ticks_millis_t& now);
 
     void resetHistory();
-
-    bool supportsFastIo() const;
 };

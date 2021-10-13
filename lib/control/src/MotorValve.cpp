@@ -19,6 +19,8 @@
 
 #include "control/MotorValve.hpp"
 
+#if 0 // todo
+
 void MotorValve::state(const State& v)
 {
     auto oldState = m_desiredValveState;
@@ -161,3 +163,5 @@ void MotorValve::claimChannel()
         }
     }
 }
+
+#endif

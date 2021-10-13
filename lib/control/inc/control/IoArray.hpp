@@ -21,6 +21,7 @@
 
 #include "control/ActuatorDigitalBase.hpp"
 #include <inttypes.h>
+#include <optional>
 #include <vector>
 
 /*
@@ -30,7 +31,7 @@ class IoArray {
 public:
     using State = ActuatorDigitalBase::State;
     IoArray(uint8_t size)
-        : channels(size, {ChannelConfig::UNUSED, State::Unknown})
+        : channels(size, {ChannelType::UNUSED, 0, 0})
     {
     }
 
@@ -39,102 +40,81 @@ public:
 
     virtual ~IoArray() = default;
 
-    enum class ChannelConfig {
+    enum class ChannelType {
         UNUSED = 0,
-        DRIVING_OFF = 1,
-        DRIVING_ON = 2,
-        DRIVING_REVERSE = 3,
-        DRIVING_BRAKE_LOW_SIDE = 4,
-        DRIVING_BRAKE_HIGH_SIDE = 5,
-        DRIVING_PWM = 6,
-        DRIVING_PWM_REVERSE = 7,
-        INPUT = 10,
+        OUTPUT_DIGITAL = 1,
+        OUTPUT_PWM = 2,
+        OUTPUT_DIGITAL_BIDIRECTIONAL = 3,
+        OUTPUT_PWM_BIDIRECTIONAL = 4,
+        INPUT_DIGITAL = 10,
         UNKNOWN = 255,
     };
 
+    using ChannelValue = std::optional<int16_t>;
+
     bool validChannel(uint8_t channel) const
     {
+        // first channel is 1, because 0 is used as 'unconfigured'
         return channel > 0 && channel <= size();
     }
 
-    // returns the chached value for the pin state. The
-    bool senseChannel(uint8_t channel, ActuatorDigitalBase::State& result) const
+    ChannelType getChannelType(uint8_t channel) const
     {
-        // first channel is 1, because 0 is used as 'unconfigured'
         if (validChannel(channel)) {
-            if (senseChannelImpl(channel, channels[channel - 1].state)) {
-                result = channels[channel - 1].state;
-                return true;
+            return channels[channel - 1].type;
+        }
+        return ChannelType::UNKNOWN;
+    }
+
+    bool setChannelType(uint8_t channel, ChannelType chanType, ChannelType currentTypeCheck)
+    {
+        bool success = false;
+        if (currentTypeCheck == ChannelType::UNKNOWN || getChannelType(channel) == currentTypeCheck) {
+            success = setChannelTypeImpl(channel, chanType);
+            if (success) {
+                channels[channel - 1].type = chanType;
             }
         }
-        result = ActuatorDigitalBase::State::Unknown;
-        return false;
+        return success;
     }
 
-    // returns cached value for channel config, which is assumed to be equal to the last write
-    bool readChannelConfig(uint8_t channel, ChannelConfig& result) const
+    ChannelValue readChannel(uint8_t channel) const
     {
-        // first channel on external interface is 1, because 0 is unconfigured
         if (validChannel(channel)) {
-            result = channels[channel - 1].config;
-            return true;
+            return readChannelImpl(channel);
         }
-        return false;
+        return ChannelValue{};
     }
-    bool writeChannelConfig(uint8_t channel, ChannelConfig config)
+
+    // returns actual value after write, or nullopt if write failed
+    ChannelValue writeChannel(uint8_t channel, ChannelValue val)
     {
-        // first channel on external interface is 1, because 0 is unconfigured
         if (validChannel(channel)) {
-            channels[channel - 1].config = config;
-            writeChannelImpl(channel, config);
-            return true;
+            channels[channel - 1].desired = val;
+            channels[channel - 1].value = writeChannelImpl(channel, val);
         }
-        return false;
+        return ChannelValue{};
     }
 
-    bool claimChannel(uint8_t channel, ChannelConfig config)
-    {
-        ChannelConfig existingConfig;
-        if (readChannelConfig(channel, existingConfig)) {
-            if (existingConfig == ChannelConfig::UNUSED) {
-                writeChannelConfig(channel, config);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    bool releaseChannel(uint8_t channel)
-    {
-        if (!validChannel(channel) || writeChannelConfig(channel, ChannelConfig::UNUSED)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    const auto& readChannels() const
-    {
-        return channels;
-    }
+    // const auto& readChannels() const
+    // {
+    //     return channels;
+    // }
 
     uint8_t size() const
     {
         return channels.size();
     }
 
-    // virtual functions to be implemented by super class that perform actual hardware IO.
-    // most data and/or caching is stored in this class.
-    // the super class can choose to apply/read immediately or to implement no-op functions and sync in an update function
-    virtual bool supportsFastIo() const = 0;
-
 protected:
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const = 0;
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) = 0;
+    virtual ChannelValue readChannelImpl(uint8_t channel) const = 0;
+    virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue value) = 0;
+    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType type) = 0;
 
     struct Channel {
-        ChannelConfig config = ChannelConfig::UNUSED;
-        State state = State::Unknown;
+        ChannelType type = ChannelType::UNUSED;
+        ChannelValue desired = ChannelValue{};
+        ChannelValue value = ChannelValue{};
     };
 
     mutable std::vector<Channel> channels;

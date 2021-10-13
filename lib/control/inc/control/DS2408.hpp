@@ -67,12 +67,9 @@ public:
     bool writeNeeded() const;
 
     // generic ArrayIo interface
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
+    virtual ChannelValue readChannelImpl(uint8_t channel) const override final;
 
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
+    virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue val) override final;
 
-    virtual bool supportsFastIo() const override final
-    {
-        return false;
-    }
+    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType chanType) override final;
 };

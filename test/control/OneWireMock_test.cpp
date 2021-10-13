@@ -289,33 +289,26 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             DS2413 ds1(ow, addr3);
             ds1.update();
 
-            ActuatorDigitalBase::State result;
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            ds1->update();
+            CHECK(in1.state() == State::Inactive);
+            CHECK(in2.state() == State::Inactive);
 
             ds1mock->setExternalPullDownA(true);
+            ds1->update();
 
-            ds1.update();
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Active);
-
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            CHECK(in1.state() == State::Active);
+            CHECK(in2.state() == State::Inactive);
 
             ds1mock->setExternalPullDownA(false);
             ds1mock->setExternalPullDownB(true);
 
-            ds1.update();
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Active);
+            ds1->update();
+            auto v1 = ds1->readChannel(1);
+            CHECK(v1.has_value());
+            CHECK(v1.value() == 0);
+            auto v2 = ds1->readChannel(2);
+            CHECK(v2.has_value());
+            CHECK(v2.value() == 1);
         }
     }
 
@@ -391,30 +384,50 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             CHECK(ds1.writeChannelConfig(8, IoArray::ChannelConfig::INPUT));
 
             // bit index starts at 0
+        THEN("A DS2408 class can use it as input on some pins and output on others")
+        {
+            using State = InputDigital::State;
+            auto ds2 = std::make_shared<DS2408>([&ow]() { return ow; }, addr4);
+            InputDigital in1([ds2]() { return ds2; }, 1);
+            InputDigital in2([ds2]() { return ds2; }, 2);
+            ActuatorDigital act3([ds2]() { return ds2; }, 3);
+            ActuatorDigital act4([ds2]() { return ds2; }, 4);
+            InputDigital in5([ds2]() { return ds2; }, 5);
+            InputDigital in6([ds2]() { return ds2; }, 6);
+            ActuatorDigital act7([ds2]() { return ds2; }, 7);
+            ActuatorDigital act8([ds2]() { return ds2; }, 8);
+
+            ds2->update();
+            CHECK(ds2->connected() == true);
+            CHECK(in1.state() == State::Inactive);
+            CHECK(in2.state() == State::Inactive);
+            CHECK(act3.state() == State::Inactive);
+            CHECK(act4.state() == State::Inactive);
+            CHECK(in5.state() == State::Inactive);
+            CHECK(in6.state() == State::Inactive);
+            CHECK(act7.state() == State::Inactive);
+            CHECK(act8.state() == State::Inactive);
+
+            // bit index in mock starts at 0
             ds2408mock->setExternalPullDown(0, false);
-            ds2408mock->setExternalPullDown(3, true);
-
+            ds2408mock->setExternalPullDown(1, true);
             ds2408mock->setExternalPullDown(4, true);
-            ds2408mock->setExternalPullDown(7, false);
+            ds2408mock->setExternalPullDown(5, false);
 
-            ds1.update();
+            act3.state(State::Active);
+            act4.state(State::Inactive);
+            act7.state(State::Inactive);
+            act8.state(State::Active);
 
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // no external pulldown
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // internal latch enabled
-            CHECK(ds1.senseChannel(3, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // internal latch disabled
-            CHECK(ds1.senseChannel(4, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // external pulldown
-            CHECK(ds1.senseChannel(5, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // external pulldown
-            CHECK(ds1.senseChannel(6, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // internal latch disabled
-            CHECK(ds1.senseChannel(7, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // internal latch enabled
-            CHECK(ds1.senseChannel(8, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // no external pulldown
+            ds2->update();
+            CHECK(in1.state() == State::Inactive);
+            CHECK(in2.state() == State::Active);
+            CHECK(act3.state() == State::Active);
+            CHECK(act4.state() == State::Inactive);
+            CHECK(in5.state() == State::Active);
+            CHECK(in6.state() == State::Inactive);
+            CHECK(act7.state() == State::Inactive);
+            CHECK(act8.state() == State::Active);
         }
     }
 
