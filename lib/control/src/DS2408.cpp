@@ -104,7 +104,7 @@ IoArray::ChannelValue DS2408::readChannelImpl(uint8_t channel) const
 
 IoArray::ChannelValue DS2408::writeChannelImpl(uint8_t channel, IoArray::ChannelValue val)
 {
-    bool latchEnabled = val.has_value() && val.value() > 0;
+    bool latchEnabled = val.has_value() && *val > 0;
     uint8_t mask = uint8_t{0x01} << (channel - 1);
 
     if (latchEnabled) {

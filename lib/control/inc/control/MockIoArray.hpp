@@ -47,7 +47,7 @@ public:
                 return pinStates & getMask(channel);
             case ChannelType::OUTPUT_PWM:
                 // Return result of last write
-                return channels[channel - 1].value;
+                return channels[channel - 1].actual;
             case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
             case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
             case ChannelType::UNKNOWN:
@@ -61,11 +61,11 @@ public:
     virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue val) override final
     {
         // valid channel check already performed in base class
-        if (isConnected && val) {
+        if (isConnected && val.has_value()) {
             uint8_t mask = getMask(channel);
             switch (getChannelType(channel)) {
             case ChannelType::OUTPUT_DIGITAL:
-                if (val.value() > 0) {
+                if (*val > 0) {
                     pinStates |= mask;
                     return 1;
                 }

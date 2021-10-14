@@ -31,7 +31,7 @@ State InputDigital::state() const
         if (auto devPtr = m_target()) {
             State result = State::Unknown;
             if (auto v = devPtr->readChannel(m_channel)) {
-                result = v.value() > 0 ? State::Active : State::Inactive;
+                result = *v > 0 ? State::Active : State::Inactive;
                 if (m_invert) {
                     result = invertState(result);
                 }

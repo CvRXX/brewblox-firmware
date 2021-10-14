@@ -79,7 +79,7 @@ uint8_t bitMask(uint8_t channel)
 
 IoArray::ChannelValue DS2413::writeChannelImpl(uint8_t channel, IoArray::ChannelValue val)
 {
-    bool latchEnabled = val && val.value() > 0;
+    bool latchEnabled = val.has_value() && *val > 0;
 
     if (latchEnabled) {
         desiredState &= ~bitMask(channel);

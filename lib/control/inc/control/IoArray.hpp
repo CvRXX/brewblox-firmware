@@ -91,7 +91,7 @@ public:
     {
         if (validChannel(channel)) {
             channels[channel - 1].desired = val;
-            channels[channel - 1].value = writeChannelImpl(channel, val);
+            channels[channel - 1].actual = writeChannelImpl(channel, val);
         }
         return ChannelValue{};
     }
@@ -114,7 +114,7 @@ protected:
     struct Channel {
         ChannelType type = ChannelType::UNUSED;
         ChannelValue desired = ChannelValue{};
-        ChannelValue value = ChannelValue{};
+        ChannelValue actual = ChannelValue{};
     };
 
     mutable std::vector<Channel> channels;

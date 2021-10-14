@@ -46,7 +46,7 @@ State ActuatorDigital::state() const
         if (auto devPtr = m_target.lock()) {
             State result = State::Unknown;
             if (auto v = devPtr->readChannel(m_channel)) {
-                result = v.value() > 0 ? State::Active : State::Inactive;
+                result = *v > 0 ? State::Active : State::Inactive;
                 if (m_invert) {
                     result = invertState(result); // todo: handle pwm transitions for inversion
                 }
