@@ -20,7 +20,6 @@
 #include "catch.hpp"
 
 #include "../inc/Temperature.h"
-#include "../inc/future_std.h"
 #include "FpFilterChain.h"
 #include "TestMatchers.hpp"
 #include <iostream>
