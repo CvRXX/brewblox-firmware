@@ -2,6 +2,7 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
+#include "hal/hal_delay.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
@@ -136,29 +137,62 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
 
     return spi_device_transmit(get_platform_ptr(settings), &trans);
 }
-// template <typename... T>
-error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+
+spi_transaction_t* allocateTransaction()
 {
     // Wait until there is space for the transaction in the static buffer.
-    spi_transaction_t* trans;
-    while (!(trans = new (transactionBuffer.get()) spi_transaction_t{})) {
-        // TODO: deadlock, no yield, add timeout and yield?
-        // return error on timeout?
-        // only works because platform transfer queue is equal to buffer queue?
+    for (uint8_t retries = 0; retries<10; retries++) {
+        auto trans = new (transactionBuffer.get()) spi_transaction_t{};
+        if (trans) {
+            return trans;
+        }
+        hal_delay_ms(1);
     };
+    return nullptr;
+}
 
-    *trans = spi_transaction_t{
-        .flags = uint32_t{0},
-        .cmd = 0,
-        .addr = 0,
-        .length = size * 8, // esp platform wants size in bits
-        .rxlength = 0,
-        .user = const_cast<CallbacksBase*>(callbacks),
-        .tx_buffer = data,
-        .rx_buffer = nullptr,
-    };
+error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+{
+    if (auto trans = allocateTransaction()) {
 
-    return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        *trans = spi_transaction_t{
+            .flags = uint32_t{0},
+            .cmd = 0,
+            .addr = 0,
+            .length = size * 8, // esp platform wants size in bits
+            .rxlength = 0,
+            .user = const_cast<CallbacksBase*>(callbacks),
+            .tx_buffer = data,
+            .rx_buffer = nullptr,
+        };
+
+        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+    } else {
+        return 1;
+    }
+}
+
+error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+{
+    if (auto trans = allocateTransaction()) {
+
+        *trans = spi_transaction_t{
+            .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
+            .cmd = 0,
+            .addr = 0,
+            .length = size * 8, // esp platform wants size in bits
+            .rxlength = 0,
+            .user = const_cast<CallbacksBase*>(callbacks),
+            .tx_data = {},
+            .rx_data = {},
+        };
+
+        std::copy(data, data + size, &(trans->tx_data[0]));
+
+        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+    } else {
+        return 1;
+    }
 }
 
 error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize)
