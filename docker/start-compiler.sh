@@ -28,22 +28,5 @@ else
   echo "Using make args '$ENV_MAKE_ARGS'"
 fi
 
-ENV_UID="$(grep DOCKER_UID .env || true)"
-ENV_GID="$(grep DOCKER_GID .env || true)"
-if [ -z "$ENV_UID" ]; then
-  DOCKER_UID=$(id -u)
-  echo "Configuring DOCKER_UID=$DOCKER_UID"
-  echo "DOCKER_UID=$DOCKER_UID" >> .env
-else
-  echo "Using $ENV_UID"
-fi
-if [ -z "$ENV_GID" ]; then
-  DOCKER_GID=$(id -u)
-  echo "Configuring DOCKER_GID=$DOCKER_GID"
-  echo "DOCKER_GID=$DOCKER_GID" >> .env
-else
-  echo "Using $ENV_GID"
-fi
-
 docker-compose up -d "$@" compiler
 popd > /dev/null

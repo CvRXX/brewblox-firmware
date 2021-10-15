@@ -11,5 +11,5 @@ services:
         volumes:
             - ../:${MOUNTDIR}
         working_dir: ${MOUNTDIR}/build
-        user: ${DOCKER_UID}
+        user: ${DOCKER_UID}:${DOCKER_GID}
         command: tail -f /dev/null

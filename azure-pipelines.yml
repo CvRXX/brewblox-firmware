@@ -5,7 +5,7 @@ resources:
     - container: firmware-compiler
       image: brewblox/firmware-compiler:10.3
     - container: simulator-compiler
-      image: brewblox/simulator-compiler:latest
+      image: brewblox/simulator-compiler:10.3
     - container: idf
       image: espressif/idf:v4.3.1
 
