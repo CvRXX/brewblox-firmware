@@ -135,6 +135,9 @@ endif
 # keep temporary files for disassembly viewer in vscode
 CPPFLAGS += -save-temps=obj
 
+# use C++17 and disable warnings about the deprecated register storage class specifier
+CPPFLAGS += -std=gnu++17 -Wno-register 
+
 CSRC := $(filter-out $(CEXCLUDES),$(CSRC))
 CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC)) 
 
