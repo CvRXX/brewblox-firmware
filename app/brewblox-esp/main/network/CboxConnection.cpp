@@ -6,8 +6,8 @@
 CboxConnection::CboxConnection(
     CboxConnectionManager& connection_manager_,
     cbox::Box& box_)
-    : buffer_in(8192)
-    , buffer_out(8192)
+    : buffer_in(32768)
+    , buffer_out(32768)
     , connection_manager(connection_manager_)
     , box(box_)
 {
