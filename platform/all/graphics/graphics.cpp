@@ -1,12 +1,15 @@
 #include "graphics.hpp"
+#include "FT6236.hpp"
 #include "TFT035.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
 #include "layout.hpp"
 #include "lvgl.h"
+#include <esp_log.h>
 
 lv_disp_drv_t Graphics::disp_drv;
 std::unique_ptr<TFT035> Graphics::display;
+std::unique_ptr<FT6236> Graphics::touchscreen;
 std::unique_ptr<Layout> Graphics::layout;
 
 void Graphics::init(cbox::Box& box)
@@ -37,10 +40,14 @@ void Graphics::init(cbox::Box& box)
     layout = std::make_unique<Layout>(box);
 
     display->release_spi();
+
+    touchscreen = std::make_unique<FT6236>(0x00);
+    touchscreen->init();
 }
 
 void Graphics::update()
 {
+    checkForTouches();
     layout->update();
     display->aquire_spi();
     lv_task_handler();
@@ -71,4 +78,12 @@ void Graphics::monitor_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area, lv_
 void Graphics::tick(uint32_t millisElapsed)
 {
     lv_tick_inc(millisElapsed);
+}
+
+void Graphics::checkForTouches()
+{
+    auto touch = touchscreen->getTouch();
+    if (touch) {
+        ESP_LOGE("TOUCH", "TOUCH AT: (%i)", touch->x);
+    }
 }

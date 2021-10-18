@@ -8,6 +8,7 @@ class Box;
 }
 
 class TFT035;
+class FT6236;
 class Layout;
 class Bar;
 class BaseWidget;
@@ -41,7 +42,9 @@ public:
     static void tick(uint32_t millisElapsed);
 
 private:
+    static void checkForTouches();
     static lv_disp_drv_t disp_drv;
     static std::unique_ptr<TFT035> display;
+    static std::unique_ptr<FT6236> touchscreen;
     static std::unique_ptr<Layout> layout;
 };
