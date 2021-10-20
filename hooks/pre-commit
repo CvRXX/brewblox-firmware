@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This hook is not for everyone but can prevent breaking commits from happening.
+# It requires docker to run and will run every commit.
+# If a test breaks or can't be build commiting won't be possible.
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+bash $REPO_ROOT/docker/start-compiler.sh
+docker exec firmware-compiler bash ../build/build-tests.sh
+docker exec firmware-compiler  ../app/brewblox-particle/test/build/brewblox_test_runner
+docker exec firmware-compiler  ../controlbox/build/cbox_test_runner
+docker exec firmware-compiler  ../lib/test/build/lib_test_runner
