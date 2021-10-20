@@ -41,13 +41,18 @@ void Graphics::init(cbox::Box& box)
 
     display->release_spi();
 
+    static lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);
+
+    indev_drv.type = LV_INDEV_TYPE_POINTER;
+    indev_drv.read_cb = checkForTouches;
     touchscreen = std::make_unique<FT6236>(0x00);
     touchscreen->init();
+    lv_indev_drv_register(&indev_drv);
 }
 
 void Graphics::update()
 {
-    checkForTouches();
     layout->update();
     display->aquire_spi();
     lv_task_handler();
@@ -80,10 +85,17 @@ void Graphics::tick(uint32_t millisElapsed)
     lv_tick_inc(millisElapsed);
 }
 
-void Graphics::checkForTouches()
+bool Graphics::checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data)
 {
-    auto touch = touchscreen->getTouch();
-    if (touch) {
-        ESP_LOGE("TOUCH", "TOUCH AT: (%i)", touch->x);
+    if (auto touch = touchscreen->getTouch()) {
+        data->point.x = touch->x;
+        data->point.y = touch->y;
+        data->state = LV_INDEV_STATE_PR;
+    } else {
+        auto lastTouch = touchscreen->getLastTouch();
+        data->point.x = lastTouch.x;
+        data->point.y = lastTouch.y;
+        data->state = LV_INDEV_STATE_REL;
     }
+    return false;
 }
