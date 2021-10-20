@@ -17,21 +17,21 @@ public:
 
     void put(uint8_t v)
     {
-        buf.push_back(v);
+        buf.push_back(*reinterpret_cast<char*>(&v));
     }
 
     void put(uint16_t v)
     {
-        buf.push_back(uint8_t(v >> 8 & 0xff));
-        buf.push_back(uint8_t(v & 0xff));
+        put(uint8_t((v >> 8) & 0xff));
+        put(uint8_t(v & 0xff));
     }
 
     void put(uint32_t v)
     {
-        buf.push_back(uint8_t((v >> 24) & 0xff));
-        buf.push_back(uint8_t((v >> 16) & 0xff));
-        buf.push_back(uint8_t((v >> 8) & 0xff));
-        buf.push_back(uint8_t(v & 0xff));
+        put(uint8_t((v >> 24) & 0xff));
+        put(uint8_t((v >> 16) & 0xff));
+        put(uint8_t((v >> 8) & 0xff));
+        put(uint8_t(v & 0xff));
     }
 
     void put(const std::string& s)

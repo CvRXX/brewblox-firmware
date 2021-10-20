@@ -8,11 +8,6 @@
 #include <string>
 #include <vector>
 
-#define MDNS_ADDRESS IPAddress(224, 0, 0, 251)
-#define MDNS_PORT 5353
-
-#define BUFFER_SIZE 512
-
 class MDNS {
 public:
     enum class Protocol {
@@ -21,13 +16,11 @@ public:
     };
 
     MDNS(const std::string& hostname);
-    ~MDNS()
-    {
-    }
+    ~MDNS() = default;
 
     void addService(Protocol protocol, std::string serviceType, const std::string serviceName, uint16_t port,
-                    std::vector<std::string>&& txtEntries = std::vector<std::string>(),
-                    std::vector<std::string>&& subServices = std::vector<std::string>());
+                    std::vector<std::string>&& txtEntries,
+                    std::vector<std::string>&& subServices);
 
     bool begin(bool announce = false);
 
@@ -61,21 +54,44 @@ private:
         std::vector<Question> questions;
     };
 
-    UDP udp;
+    static UDP udp;
 
-    // meta records for re-using labels
-    std::shared_ptr<MetaRecord> metaLOCAL;
-    std::shared_ptr<MetaRecord> metaUDP;
-    std::shared_ptr<MetaRecord> metaTCP;
-    std::shared_ptr<MetaRecord> metaDNSSD;
-    std::shared_ptr<MetaRecord> metaSERVICES;
+    // static meta records to re-use labels
+    static std::shared_ptr<MetaRecord> metaLOCAL()
+    {
+        static auto record = std::make_shared<MetaRecord>(Label("local", {}));
+        return record;
+    }
+    static std::shared_ptr<MetaRecord> metaUDP()
+    {
+        static auto record = std::make_shared<MetaRecord>(Label("_udp", metaLOCAL()));
+        return record;
+    }
+    static std::shared_ptr<MetaRecord> metaTCP()
+    {
+        static auto record = std::make_shared<MetaRecord>(Label("_tcp", metaLOCAL()));
+        return record;
+    }
+    static std::shared_ptr<MetaRecord> metaDNSSD()
+    {
+        static auto record = std::make_shared<MetaRecord>(Label("_dns-sd", metaUDP()));
+        return record;
+    }
+    static std::shared_ptr<MetaRecord> metaSERVICES()
+    {
+        static auto record = std::make_shared<MetaRecord>(Label("_services", metaDNSSD()));
+        return record;
+    }
 
     // actual records that are checked
-    std::shared_ptr<ARecord> hostRecord;
+    static std::shared_ptr<ARecord> hostRecord;
 
     // vectors of records to iterate over them
-    std::vector<std::shared_ptr<Record>> records;
-    std::vector<std::shared_ptr<MetaRecord>> metaRecords;
+    static std::vector<std::shared_ptr<Record>> records;
+    static std::vector<std::shared_ptr<MetaRecord>> metaRecords;
+
+    static const IPAddress ip;
+    static const auto port = uint16_t{5353};
 
     Query getQuery();
 
@@ -88,12 +104,6 @@ private:
         if (udp.available() >= 1) {
             v = udp.read();
         }
-    }
-
-    void udpGet(char& v)
-    {
-        auto cptr = reinterpret_cast<uint8_t*>(&v);
-        udpGet(*cptr);
     }
 
     void udpGet(uint16_t& v)

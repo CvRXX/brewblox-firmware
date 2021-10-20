@@ -4,42 +4,41 @@
 #include <cctype> // for std::tolower
 #include <memory>
 
+std::shared_ptr<ARecord> MDNS::hostRecord;
+std::vector<std::shared_ptr<Record>> MDNS::records;
+std::vector<std::shared_ptr<MetaRecord>> MDNS::metaRecords;
+UDP MDNS::udp;
+
+const IPAddress MDNS::ip(224, 0, 0, 251);
+
 MDNS::MDNS(const std::string& hostname)
-    : metaLOCAL(new MetaRecord(Label("local", {})))
-    , metaUDP(new MetaRecord(Label("_udp", metaLOCAL)))
-    , metaTCP(new MetaRecord(Label("_tcp", metaLOCAL)))
-    , metaDNSSD(new MetaRecord(Label("_dns-sd", metaUDP)))
-    , metaSERVICES(new MetaRecord(Label("_services", metaDNSSD)))
-    , hostRecord(new ARecord(Label(hostname, metaLOCAL)))
 {
+    MDNS::hostRecord = std::shared_ptr<ARecord>(new ARecord(Label(hostname, metaLOCAL())));
     auto hostNSECRecord = std::shared_ptr<HostNSECRecord>(new HostNSECRecord(Label(hostRecord)));
     hostRecord->setNsecRecord(hostNSECRecord);
-    records = {hostRecord, std::move(hostNSECRecord)};
-    metaRecords = {metaLOCAL, metaUDP, metaTCP, metaDNSSD, metaSERVICES};
+    records.reserve(2);
+    records.push_back(hostRecord);
+    records.push_back(std::move(hostNSECRecord));
+    metaRecords.reserve(5);
+    metaRecords.push_back(metaLOCAL());
+    metaRecords.push_back(metaUDP());
+    metaRecords.push_back(metaTCP());
+    metaRecords.push_back(metaDNSSD());
+    metaRecords.push_back(metaSERVICES());
 }
 
 void MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
                       std::vector<std::string>&& txtEntries,
                       std::vector<std::string>&& subServices)
 {
-    std::shared_ptr<Record> protocolRecord;
-    if (protocol == Protocol::TCP) {
-        protocolRecord = this->metaTCP;
-    } else if (protocol == Protocol::UDP) {
-        protocolRecord = this->metaUDP;
-    } else {
-        return;
-    }
-
     records.reserve(records.size() + 5 + subServices.size());
 
     // A pointer record indicating where this service can be found
-    auto ptrRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(serviceType), std::move(protocolRecord))));
+    auto ptrRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(serviceType), protocol == Protocol::TCP ? metaTCP() : metaUDP())));
 
     // An enumeration record for DNS-SD
-    auto enumerationRecordRawPtr = new PTRRecord(Label(this->metaSERVICES), false);
-    enumerationRecordRawPtr->setTargetRecord(ptrRecord);
-    auto enumerationRecord = std::shared_ptr<Record>(std::move(enumerationRecordRawPtr));
+    auto enumerationRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(metaSERVICES()), false));
+    enumerationRecord->setTargetRecord(ptrRecord);
 
     // the service record indicating under which name/port this service is available
     auto srvRecord = std::shared_ptr<SRVRecord>(new SRVRecord(Label(std::move(serviceName), ptrRecord), port, ptrRecord, hostRecord));
@@ -100,8 +99,8 @@ bool MDNS::begin(bool announce)
         return false;
     }
 
-    udp.begin(MDNS_PORT);
-    udp.joinMulticast(MDNS_ADDRESS);
+    udp.begin(port);
+    udp.joinMulticast(ip);
 
     // TODO: Probing: check if host/SRV records we will announce are already in use
 
@@ -195,9 +194,7 @@ MDNS::getQuery()
                     std::string subname;
                     subname.reserve(strlen);
                     for (uint8_t len = 0; len < strlen && udp.available() > 0; len++) {
-                        char c = 0;
-                        udpGet(c);
-                        subname.push_back(std::tolower(c));
+                        subname.push_back(std::tolower(udp.read()));
                     }
                     question.qname.push_back(std::move(subname));
                     question.qnameOffset.push_back(offset);
@@ -239,6 +236,7 @@ void MDNS::processQuestion(const Query::Question& question)
 
 void MDNS::writeResponses()
 {
+    UDPMessage message;
     uint8_t answerCount = 0;
     uint8_t additionalCount = 0;
 
@@ -257,7 +255,6 @@ void MDNS::writeResponses()
     }
 
     if (answerCount > 0) {
-        UDPMessage message;
         message.put(uint16_t(0x0));
         message.put(uint16_t(0x8400));
         message.put(uint16_t(0x0));
@@ -276,7 +273,7 @@ void MDNS::writeResponses()
                 r->write(message);
             }
         }
-        message.send(udp, MDNS_ADDRESS, MDNS_PORT);
+        message.send(udp, ip, port);
     }
 
     for (auto& r : records) {
