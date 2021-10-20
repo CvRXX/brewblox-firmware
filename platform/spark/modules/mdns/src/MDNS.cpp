@@ -81,7 +81,7 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
 
     if (!subServices.empty()) {
         // create meta record to hold _sub prefix
-        auto subMetaRecord = std::shared_ptr<MetaRecord>(new MetaRecord(Label(std::string("_sub"), ptrRecord)));
+        auto subMetaRecord = std::make_shared<MetaRecord>(Label(std::string("_sub"), ptrRecord));
         metaRecords.push_back(subMetaRecord);
 
         for (auto&& s : subServices) {
