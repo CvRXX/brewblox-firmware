@@ -5,10 +5,10 @@
 namespace cbox {
 
 class StreamBufDataIn : public DataIn {
-    std::streambuf& in;
+    asio::streambuf& in;
 
 public:
-    StreamBufDataIn(std::streambuf& in_)
+    StreamBufDataIn(asio::streambuf& in_)
         : in(in_)
     {
     }
@@ -33,21 +33,25 @@ public:
  * Provides a DataOut stream by wrapping a std::ostream.
  */
 class StreamBufDataOut final : public DataOut {
-    std::streambuf& out;
+    asio::streambuf& out;
 
 public:
-    StreamBufDataOut(std::streambuf& out_)
+    StreamBufDataOut(asio::streambuf& out_)
         : out(out_)
     {
     }
 
     virtual bool write(uint8_t data) override final
     {
-        out.sputc(data);
-        if (data == '\n') {
-            out.pubsync();
+        if (out.size() < out.max_size()) {
+            out.sputc(data);
+            // flush output if \n or , has been written
+            if (data == '\n' || data == ',') {
+                out.pubsync();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 };
 

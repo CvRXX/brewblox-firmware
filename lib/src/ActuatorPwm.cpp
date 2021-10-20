@@ -1,5 +1,4 @@
 #include "ActuatorPwm.h"
-#include "future_std.h"
 #include <cstdint>
 
 #if PLATFORM_ID != PLATFORM_GCC
@@ -14,8 +13,7 @@ ActuatorPwm::ActuatorPwm(
     period(period_);
 }
 
-void
-ActuatorPwm::setting(const value_t& val)
+void ActuatorPwm::setting(const value_t& val)
 {
     if (val <= value_t{0}) {
         m_dutySetting = value_t{0};
@@ -47,8 +45,7 @@ ActuatorPwm::dutyFraction() const
 }
 
 #if PLATFORM_ID != PLATFORM_GCC
-void
-ActuatorPwm::manageTimerTask()
+void ActuatorPwm::manageTimerTask()
 {
     if (m_period < 1000 && m_enabled) {
         m_period = 100;
@@ -65,8 +62,7 @@ ActuatorPwm::manageTimerTask()
 }
 #endif
 
-void
-ActuatorPwm::period(const duration_millis_t& p)
+void ActuatorPwm::period(const duration_millis_t& p)
 {
     m_period = p;
     if (auto actPtr = m_target()) {
@@ -91,8 +87,7 @@ ActuatorPwm::period() const
 }
 
 #if PLATFORM_ID != PLATFORM_GCC
-void
-ActuatorPwm::timerTask()
+void ActuatorPwm::timerTask()
 {
 
     // timer clock is 10 kHz, 100 steps at 100Hz
@@ -387,20 +382,17 @@ ActuatorPwm::slowPwmUpdate(const update_t& now)
     return now + 1000;
 }
 
-bool
-ActuatorPwm::valueValid() const
+bool ActuatorPwm::valueValid() const
 {
     return m_valueValid;
 }
 
-bool
-ActuatorPwm::settingValid() const
+bool ActuatorPwm::settingValid() const
 {
     return m_settingValid;
 }
 
-void
-ActuatorPwm::settingValid(bool v)
+void ActuatorPwm::settingValid(bool v)
 {
     if (!v && m_enabled) {
         if (auto actPtr = m_target()) {

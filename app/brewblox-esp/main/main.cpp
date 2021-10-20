@@ -10,6 +10,8 @@
 #include "RecurringTask.hpp"
 #include "TempSensor.h"
 #include "brewblox_esp.hpp"
+// #include "esp_heap_caps.h"
+// #include "esp_heap_trace.h"
 #include "graphics/graphics.hpp"
 #include "graphics/widgets.hpp"
 #include "hal/hal_delay.h"
@@ -123,6 +125,7 @@ int main(int /*argc*/, char** /*argv*/)
                                             RecurringTask::IntervalType::FROM_EXPIRY,
                                             []() -> bool {
                                                 spark4::expander_check();
+                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
                                                 return true;
                                             });
 

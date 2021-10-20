@@ -18,10 +18,8 @@
  */
 
 #include "../inc/Pid.h"
-#include "../inc/future_std.h"
 
-void
-Pid::update()
+void Pid::update()
 {
     auto input = m_inputPtr();
     auto setpoint = in_t{0};
@@ -126,8 +124,7 @@ Pid::update()
     }
 }
 
-void
-Pid::kp(const in_t& arg)
+void Pid::kp(const in_t& arg)
 {
     if (arg != 0) {
         // scale integral history so integral action doesn't change
@@ -136,8 +133,7 @@ Pid::kp(const in_t& arg)
     m_kp = arg;
 }
 
-void
-Pid::ti(const uint16_t& arg)
+void Pid::ti(const uint16_t& arg)
 {
     if (m_ti != 0) {
         // scale integral history so integral action doesn't change
@@ -146,16 +142,14 @@ Pid::ti(const uint16_t& arg)
     m_ti = arg;
 }
 
-void
-Pid::td(const uint16_t& arg)
+void Pid::td(const uint16_t& arg)
 {
     m_td = arg;
     m_derivativeFilterNr = 0; // trigger automatic filter selection
     checkFilterLength();
 }
 
-void
-Pid::setIntegral(const out_t& newIntegratorPart)
+void Pid::setIntegral(const out_t& newIntegratorPart)
 {
     if (m_kp == 0) {
         return;
@@ -163,8 +157,7 @@ Pid::setIntegral(const out_t& newIntegratorPart)
     m_integral = m_ti * safe_elastic_fixed_point<14, 16>(cnl::quotient(newIntegratorPart, m_kp));
 }
 
-void
-Pid::checkFilterLength()
+void Pid::checkFilterLength()
 {
 
     // delay for each filter between input step and max derivative: 8, 34, 85, 188, 492, 1428

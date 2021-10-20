@@ -19,7 +19,6 @@
 
 #include "catch.hpp"
 
-#include "../inc/future_std.h"
 #include "FilterChain.h"
 #include "TestMatchers.hpp"
 #include <algorithm> // std::copy

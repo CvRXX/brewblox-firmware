@@ -46,23 +46,23 @@ TFT035::TFT035(void (*finishCallback)(void))
 {
 }
 
-error_t TFT035::writeCmd(const std::vector<uint8_t>& cmd)
+error_t TFT035::writeCommand(const std::vector<uint8_t>& cmd)
 {
     hal_gpio_write(2, false);
     return spiDevice.write(cmd);
 }
-error_t TFT035::write(const std::vector<uint8_t>& cmd)
+error_t TFT035::writeData(const std::vector<uint8_t>& cmd)
 {
     hal_gpio_write(2, true);
     return spiDevice.write(cmd);
 }
 
-error_t TFT035::writeCmd(uint8_t cmd)
+error_t TFT035::writeCommand(uint8_t cmd)
 {
     hal_gpio_write(2, false);
     return spiDevice.write(cmd);
 }
-error_t TFT035::write(uint8_t cmd)
+error_t TFT035::writeData(uint8_t cmd)
 {
     hal_gpio_write(2, true);
     return spiDevice.write(cmd);
@@ -70,8 +70,8 @@ error_t TFT035::write(uint8_t cmd)
 
 void TFT035::init()
 {
-    writeCmd(PGAMCTRL);
-    write({0x00,
+    writeCommand(PGAMCTRL);
+    writeData({0x00,
            0x03,
            0x09,
            0x08,
@@ -86,8 +86,8 @@ void TFT035::init()
            0x16,
            0x1A,
            0x0F});
-    writeCmd(NGAMCTRL);
-    write({0x00,
+    writeCommand(NGAMCTRL);
+    writeData({0x00,
            0x16,
            0x19,
            0x03,
@@ -103,103 +103,113 @@ void TFT035::init()
            0x37,
            0x0F});
 
-    writeCmd(PWCTRL1); //Power Control 1
-    write(0x17);       //Vreg1out
-    write(0x15);       //Verg2out
+    writeCommand(PWCTRL1); //Power Control 1
+    writeData(0x17);       //Vreg1out
+    writeData(0x15);       //Verg2out
 
-    writeCmd(PWCTRL2); //Power Control 2
-    write(0x41);       //VGH,VGL
+    writeCommand(PWCTRL2); //Power Control 2
+    writeData(0x41);       //VGH,VGL
 
-    writeCmd(PWCTRL3); //Power Control 3
-    write(0x00);
-    write(0x12); //Vcom
-    write(0x80);
+    writeCommand(PWCTRL3); //Power Control 3
+    writeData(0x00);
+    writeData(0x12); //Vcom
+    writeData(0x80);
 
-    writeCmd(MADCTL); //Memory Access
+    writeCommand(MADCTL); //Memory Access
 
-    write(0b00101000);
+    writeData(0b00101000);
 
-    writeCmd(COLMOD); // Interface Pixel Format
-    write(0x66);      //18 bit
+    writeCommand(COLMOD); // Interface Pixel Format
+    writeData(0x66);      //18 bit
 
-    writeCmd(IFMODE); // Interface Mode Control
-    write(0x00);
+    writeCommand(IFMODE); // Interface Mode Control
+    writeData(0x00);
 
-    writeCmd(FRMCTR1); //Frame rate
-    write(0xA0);       //60Hz
+    writeCommand(FRMCTR1); //Frame rate
+    writeData(0xA0);       //60Hz
 
-    writeCmd(INVTR); //Display Inversion Control
-    write(0x02);     //2-dot
+    writeCommand(INVTR); //Display Inversion Control
+    writeData(0x02);     //2-dot
 
-    writeCmd(DISCTRL); //Display Function Control  RGB/MCU Interface Control
-    write(0x02);       //MCU
-    write(0x02);       //Source,Gate scan direction
+    writeCommand(DISCTRL); //Display Function Control  RGB/MCU Interface Control
+    writeData(0x02);       //MCU
+    writeData(0x02);       //Source,Gate scan direction
 
-    writeCmd(SETIMAGE); // Set Image Function
-    write(0x00);        // Disable 24 bit data
+    writeCommand(SETIMAGE); // Set Image Function
+    writeData(0x00);        // Disable 24 bit data
 
-    writeCmd(ADJCTRL3); // Adjust Control
-    write(0xA9);
-    write(0x51);
-    write(0x2C);
-    write(0x82); // D7 stream, loose
+    writeCommand(ADJCTRL3); // Adjust Control
+    writeData(0xA9);
+    writeData(0x51);
+    writeData(0x2C);
+    writeData(0x82); // D7 stream, loose
 
-    writeCmd(SLPOUT); //Sleep out
+    writeCommand(SLPOUT); //Sleep out
     hal_delay_ms(120);
-    writeCmd(DISON);
+    writeCommand(DISON);
 }
 
 error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye)
 {
-    if (auto error = dmaWrite(0x2A, false))
+    if (auto error = dmaWriteCommand(0x2A))
         return error;
 
-    if (auto error = dmaWrite(uint8_t(xs >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(xs & 0xFF), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(xe >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(xe & 0xFF), true))
+    auto x = std::array<uint8_t, 4>{uint8_t(xs >> 8), uint8_t(xs & 0xFF), uint8_t(xe >> 8), uint8_t(xe & 0xFF)};
+
+    if (auto error = dmaWriteData(x))
         return error;
 
-    if (auto error = dmaWrite(0x2B, false))
+    if (auto error = dmaWriteCommand(0x2B))
         return error;
 
-    if (auto error = dmaWrite(uint8_t(ys >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(ys & 0xFF), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(ye >> 8), true))
-        return error;
-    if (auto error = dmaWrite(uint8_t(ye & 0xFF), true))
+    auto y = std::array<uint8_t, 4>{uint8_t(ys >> 8), uint8_t(ys & 0xFF), uint8_t(ye >> 8), uint8_t(ye & 0xFF)};
+
+    if (auto error = dmaWriteData(y))
         return error;
 
-    return dmaWrite(0x2C, false);
+    return dmaWriteCommand(0x2C);
 }
 
-error_t TFT035::dmaWrite(uint8_t* tx_data, uint16_t tx_len, bool dc)
+error_t TFT035::dmaWriteCommand(const uint8_t* tx_data, size_t tx_len) 
 {
-    if (dc) {
-        return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
-    } else {
         return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOff);
-    }
 }
 
-error_t TFT035::dmaWrite(uint8_t tx_val, bool dc)
+error_t TFT035::dmaWriteData(const uint8_t* tx_data, size_t tx_len) 
 {
-    auto alocatedVal = new uint8_t(tx_val);
-    if (dc) {
-        return spiDevice.dmaWrite(alocatedVal, 1, callbackDcPinOnWithFree);
-    } else {
-        return spiDevice.dmaWrite(alocatedVal, 1, callbackDcPinOffWithFree);
-    }
+        return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
 }
-bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
+
+template <std::size_t n>
+error_t TFT035::dmaWriteCommand(const std::array<uint8_t, n>& tx_val)
 {
-    if (auto error = this->setPos(xs, xe, ys, ye))
-        return error;
+    return spiDevice.dmaWrite(tx_val, callbackDcPinOff);
+}
+template <std::size_t n>
+error_t TFT035::dmaWriteData(const std::array<uint8_t, n>& tx_val)
+{
+    return spiDevice.dmaWrite(tx_val, callbackDcPinOn);
+}
+
+error_t TFT035::dmaWriteCommand(uint8_t tx_val)
+{
+    return dmaWriteCommand(std::array<uint8_t, 1>{tx_val});
+}
+
+error_t TFT035::dmaWriteData(uint8_t tx_val)
+{
+    return dmaWriteData(std::array<uint8_t, 1>{tx_val});
+}
+
+bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, const uint8_t* pixels, uint16_t nPixels)
+{
+    if (this->setPos(xs, xe, ys, ye)) {
+        ESP_LOGE("Display", "Set pos failed, retrying....");
+        if (auto error = this->setPos(xs, xe, ys, ye)) {
+            ESP_LOGE("Display", "Set pos failed.");
+            return error;
+        }
+    }
 
     return spiDevice.dmaWrite(pixels, nPixels * 3,
                               Callbacks{[&](TransactionData& t) {

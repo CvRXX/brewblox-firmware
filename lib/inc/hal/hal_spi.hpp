@@ -174,6 +174,62 @@ struct SpiDevice {
         return platform_spi::dmaWrite(settings, data, size, static_cast<hal_spi::CallbacksBase*>(callbacksToSend));
     }
 
+    /**
+    * Writes the data over the spi bus asynchronously using dma.
+    *
+    * The data array will be copied to the spi transaction so the data array can safely be deallocated after return. 
+    * The transaction will fit only 4 bytes so the size of data has to be less than 4.
+    * 
+    * @param data The data to be sent. 
+    * @param callbacks The callbacks to be called before and after the transaction. 
+    * @return If any error has occurred a non zero result will indicate an error has happened.
+    */
+    template <std::size_t N>
+    hal_spi::error_t dmaWrite(const std::array<uint8_t, N>& data, const hal_spi::StaticCallbacks& callbacks)
+    {
+        static_assert(N > 0, "Data array must have at least one element.");
+        static_assert(N <= 4, "A maximum of 4 bytes can be send in one go.");
+        return platform_spi::dmaWriteValue(settings, data.data(), data.size(), static_cast<const hal_spi::CallbacksBase*>(&callbacks));
+    }
+
+    /**
+    * Writes the data over the spi bus asynchronously using dma.
+    *
+    * The data array will be copied to the spi transaction so the data array can safely be deallocated after return. 
+    * The transaction will fit only 4 bytes so the size of data has to be less than 4.
+    * 
+    * @param data The data to be sent.
+    * @param callbacks The callbacks to be called before and after the transaction. 
+    * @return If any error has occurred a non zero result will indicate an error has happened.
+    */
+    template <typename Pre, typename Post, std::size_t N>
+    hal_spi::error_t dmaWrite(const std::array<uint8_t, N>& data, const hal_spi::Callbacks<Pre, Post>& callbacks)
+    {
+        static_assert(N > 0, "Data array must have at least one element.");
+        static_assert(N <= 4, "A maximum of 4 bytes can be send in one go.");
+        auto callbacksToSend = new (hal_spi::callBackArgsBuffer.get<hal_spi::Callbacks<Pre, Post>>()) hal_spi::Callbacks<Pre, Post>(callbacks);
+        return platform_spi::dmaWriteValue(settings, data.data(), data.size(), static_cast<hal_spi::CallbacksBase*>(callbacksToSend));
+    }
+
+    /**
+    * Writes the data over the spi bus asynchronously using dma.
+    *
+    * The data array will be copied to the spi transaction so the data array can safely be deallocated after return. 
+    * The transaction will fit only 4 bytes so the size of data has to be less than 4.
+    * 
+    * @param data The data to be sent.
+    * @param callbacks The callbacks to be called before and after the transaction. 
+    * @return If any error has occurred a non zero result will indicate an error has happened.
+    */
+    template <typename Pre, typename Post, std::size_t N> 
+    hal_spi::error_t dmaWrite(const std::array<uint8_t, N>& data, hal_spi::Callbacks<Pre, Post>&& callbacks) 
+    {
+        static_assert(N > 0, "Data array must have at least one element.");
+        static_assert(N <= 4, "A maximum of 4 bytes can be send in one go.");
+        auto callbacksToSend = new (hal_spi::callBackArgsBuffer.get<hal_spi::Callbacks<Pre, Post>>()) hal_spi::Callbacks<Pre, Post>(callbacks);
+        return platform_spi::dmaWriteValue(settings, data.data(), data.size(), static_cast<hal_spi::CallbacksBase*>(callbacksToSend));
+    }
+
     void aquire_bus()
     {
         platform_spi::aquire_bus(this->settings);
