@@ -4,19 +4,18 @@
 #include <cctype> // for std::tolower
 #include <memory>
 
-MDNS::MDNS(std::string hostname)
-    : LOCAL(new MetaRecord(Label(std::string{"local"}, {})))
-    , UDP(new MetaRecord(Label(std::string{"_udp"}, LOCAL)))
-    , TCP(new MetaRecord(Label(std::string{"_tcp"}, LOCAL)))
-    , DNSSD(new MetaRecord(Label("_dns-sd", UDP)))
-    , SERVICES(new MetaRecord(Label("_services", DNSSD)))
-    , hostRecord(new ARecord(Label(std::move(hostname), LOCAL)))
-    , records{hostRecord}
-    , metaRecords{LOCAL, UDP, TCP, DNSSD, SERVICES}
+MDNS::MDNS(const std::string& hostname)
+    : metaLOCAL(new MetaRecord(Label("local", {})))
+    , metaUDP(new MetaRecord(Label("_udp", metaLOCAL)))
+    , metaTCP(new MetaRecord(Label("_tcp", metaLOCAL)))
+    , metaDNSSD(new MetaRecord(Label("_dns-sd", metaUDP)))
+    , metaSERVICES(new MetaRecord(Label("_services", metaDNSSD)))
+    , hostRecord(new ARecord(Label(hostname, metaLOCAL)))
 {
     auto hostNSECRecord = std::shared_ptr<HostNSECRecord>(new HostNSECRecord(Label(hostRecord)));
     hostRecord->setNsecRecord(hostNSECRecord);
-    records.push_back(std::move(hostNSECRecord));
+    records = {hostRecord, std::move(hostNSECRecord)};
+    metaRecords = {metaLOCAL, metaUDP, metaTCP, metaDNSSD, metaSERVICES};
 }
 
 void MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
@@ -25,9 +24,9 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
 {
     std::shared_ptr<Record> protocolRecord;
     if (protocol == Protocol::TCP) {
-        protocolRecord = this->TCP;
+        protocolRecord = this->metaTCP;
     } else if (protocol == Protocol::UDP) {
-        protocolRecord = this->UDP;
+        protocolRecord = this->metaUDP;
     } else {
         return;
     }
@@ -38,7 +37,7 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
     auto ptrRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(serviceType), std::move(protocolRecord))));
 
     // An enumeration record for DNS-SD
-    auto enumerationRecordRawPtr = new PTRRecord(Label(this->SERVICES), false);
+    auto enumerationRecordRawPtr = new PTRRecord(Label(this->metaSERVICES), false);
     enumerationRecordRawPtr->setTargetRecord(ptrRecord);
     auto enumerationRecord = std::shared_ptr<Record>(std::move(enumerationRecordRawPtr));
 
@@ -144,12 +143,12 @@ MDNS::getQuery()
     auto bufferSize = udp.available(); // offset in udp is private, calculate from remaining
 
     if (udp.available() >= 12) {
-        udp.get(q.header.id);
-        udp.get(q.header.flags);
-        udp.get(q.header.qdcount);
-        udp.get(q.header.ancount);
-        udp.get(q.header.nscount);
-        udp.get(q.header.arcount);
+        udpGet(q.header.id);
+        udpGet(q.header.flags);
+        udpGet(q.header.qdcount);
+        udpGet(q.header.ancount);
+        udpGet(q.header.nscount);
+        udpGet(q.header.arcount);
     }
     if ((q.header.flags & 0x8000) == 0 && q.header.qdcount > 0) {
         q.questions.reserve(q.header.qdcount);
@@ -158,11 +157,11 @@ MDNS::getQuery()
             while (true) {
                 auto offset = bufferSize - udp.available();
                 uint8_t strlen = 0;
-                udp.get(strlen);
+                udpGet(strlen);
                 if (strlen & uint8_t(0xc0)) {
                     // pointer to earlier qname
                     uint8_t byte2 = 0;
-                    udp.get(byte2);
+                    udpGet(byte2);
                     uint16_t ptrVal = (uint16_t(strlen & uint8_t(0x3F)) << 8) + byte2;
                     // find earlier qname
                     bool found = false;
@@ -197,7 +196,7 @@ MDNS::getQuery()
                     subname.reserve(strlen);
                     for (uint8_t len = 0; len < strlen && udp.available() > 0; len++) {
                         char c = 0;
-                        udp.get(c);
+                        udpGet(c);
                         subname.push_back(std::tolower(c));
                     }
                     question.qname.push_back(std::move(subname));
@@ -207,8 +206,8 @@ MDNS::getQuery()
                 }
             }
             if (udp.available() >= 4) {
-                udp.get(question.qtype);
-                udp.get(question.qclass);
+                udpGet(question.qtype);
+                udpGet(question.qclass);
             } else {
                 // missing fields in question, ignore packet
                 q.header.qdcount = 0;
@@ -258,27 +257,26 @@ void MDNS::writeResponses()
     }
 
     if (answerCount > 0) {
-        udp.beginPacket(MDNS_ADDRESS, MDNS_PORT);
-
-        udp.put(uint16_t(0x0));
-        udp.put(uint16_t(0x8400));
-        udp.put(uint16_t(0x0));
-        udp.put(uint16_t(answerCount));
-        udp.put(uint16_t(0x0));
-        udp.put(uint16_t(additionalCount));
+        UDPMessage message;
+        message.put(uint16_t(0x0));
+        message.put(uint16_t(0x8400));
+        message.put(uint16_t(0x0));
+        message.put(uint16_t(answerCount));
+        message.put(uint16_t(0x0));
+        message.put(uint16_t(additionalCount));
 
         for (auto& r : records) {
             if (r->isAnswerRecord()) {
-                r->write(udp);
+                r->write(message);
             }
         }
 
         for (auto& r : records) {
             if (r->isAdditionalRecord()) {
-                r->write(udp);
+                r->write(message);
             }
         }
-        udp.endPacket();
+        message.send(udp, MDNS_ADDRESS, MDNS_PORT);
     }
 
     for (auto& r : records) {

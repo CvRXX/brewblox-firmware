@@ -2,13 +2,13 @@
 CFLAGS += -g -O0 -fno-inline
 CFLAGS += --coverage
 
-TEST_BUILD=y
 CFLAGS += -fprofile-arcs -ftest-coverage
+# to use with particle makefiles, temporarily add flags below to module.mk 
+# to break on asan errors, run this in the gdb console: -exec break *__asan_on_error
 LDFLAGS += --coverage -fsanitize=address,undefined
 
 # use asan to detect errors
 CFLAGS += -fno-omit-frame-pointer
-# LDFLAGS += -fsanitize=address,undefined  <-- moved to module.mk, because particle makefiles seem lose these somewhere
 
 # detect memory errors
 CFLAGS += -fsanitize=address

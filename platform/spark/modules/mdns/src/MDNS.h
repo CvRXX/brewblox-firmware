@@ -2,7 +2,7 @@
 // #include "Buffer.h"
 // #include "Label.h"
 #include "Record.h"
-#include "UDPExtended.h"
+#include "UDPMessage.h"
 #include <map>
 #include <memory>
 #include <string>
@@ -20,7 +20,7 @@ public:
         TCP,
     };
 
-    MDNS(std::string hostname);
+    MDNS(const std::string& hostname);
     ~MDNS()
     {
     }
@@ -61,14 +61,14 @@ private:
         std::vector<Question> questions;
     };
 
-    UDPExtended udp;
+    UDP udp;
 
     // meta records for re-using labels
-    std::shared_ptr<MetaRecord> LOCAL;
-    std::shared_ptr<MetaRecord> UDP;
-    std::shared_ptr<MetaRecord> TCP;
-    std::shared_ptr<MetaRecord> DNSSD;
-    std::shared_ptr<MetaRecord> SERVICES;
+    std::shared_ptr<MetaRecord> metaLOCAL;
+    std::shared_ptr<MetaRecord> metaUDP;
+    std::shared_ptr<MetaRecord> metaTCP;
+    std::shared_ptr<MetaRecord> metaDNSSD;
+    std::shared_ptr<MetaRecord> metaSERVICES;
 
     // actual records that are checked
     std::shared_ptr<ARecord> hostRecord;
@@ -82,4 +82,31 @@ private:
     void processQuery(const Query& q);
     void processQuestion(const Query::Question& question);
     void writeResponses();
+
+    void udpGet(uint8_t& v)
+    {
+        if (udp.available() >= 1) {
+            v = udp.read();
+        }
+    }
+
+    void udpGet(char& v)
+    {
+        auto cptr = reinterpret_cast<uint8_t*>(&v);
+        udpGet(*cptr);
+    }
+
+    void udpGet(uint16_t& v)
+    {
+        if (udp.available() >= 2) {
+            v = (uint16_t(udp.read()) << 8) + uint16_t(udp.read());
+        }
+    }
+
+    void udpGet(uint32_t& v)
+    {
+        if (udp.available() >= 4) {
+            v = (uint32_t(udp.read()) << 24) + (uint32_t(udp.read()) << 16) + (uint32_t(udp.read()) << 8) + uint32_t(udp.read());
+        }
+    }
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UDPExtended.h"
+#include "UDPMessage.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -39,27 +39,26 @@ public:
         , offset(0)
     {
         //  If string has extra room allocated, free it. String will not grow
-        name.shrink_to_fit();
+        this->name.shrink_to_fit();
     }
 
     // Label can have the exact same label as another record, in which case the own name is omitted
-    Label(std::shared_ptr<Record>&& _next)
-        : next(std::move(_next))
+    Label(std::shared_ptr<Record> _next)
+        : name{}
+        , next(std::move(_next))
         , offset(0)
     {
-        //  If string has extra room allocated, free it. String will not grow
-        name.shrink_to_fit();
     }
 
     Label(const Label&) = delete; // no copy
     Label(Label&&) = default;     // only move
     ~Label() = default;
 
-    void writeFull(UDPExtended& udp) const;
-    void writePtr(UDPExtended& udp) const;
+    void writeFull(UDPMessage& udp) const;
+    void writePtr(UDPMessage& udp) const;
     uint16_t writeSize() const;
 
-    void write(UDPExtended& udp) const;
+    void write(UDPMessage& udp) const;
     void reset()
     {
         offset = 0;
@@ -88,9 +87,9 @@ public:
 
     void setKnownRecord();
 
-    void write(UDPExtended& udp) const;
+    void write(UDPMessage& udp) const;
 
-    void writeLabel(UDPExtended& udp) const;
+    void writeLabel(UDPMessage& udp) const;
 
     const Label& getLabel() const;
     void reset();
@@ -103,8 +102,8 @@ public:
     virtual void matched(uint16_t qtype) = 0;
 
 protected:
-    virtual void writeSpecific(UDPExtended& udp) const = 0;
-    Label&& label;
+    virtual void writeSpecific(UDPMessage& udp) const = 0;
+    Label label;
     const uint16_t type;
     const uint16_t cls;
     const uint32_t ttl;
@@ -118,18 +117,20 @@ class MetaRecord : public Record {
 
 public:
     MetaRecord(Label&& label);
+    MetaRecord(const Label& label) = delete;
+
     void matched(uint16_t qtype) override final
     {
         // meta records are only used for labels and should not be sent in a response
     }
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
 };
 
 class HostNSECRecord;
 class ARecord : public Record {
 public:
     ARecord(Label&& label);
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
 
     void matched(uint16_t qtype) override final;
 
@@ -156,7 +157,7 @@ public:
         this->setAdditionalRecord();
     }
 
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
 };
 
 class ServiceNSECRecord : public NSECRecord {
@@ -169,7 +170,7 @@ public:
         // added to response by SRV record
     }
 
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
 };
 
 class PTRRecord : public Record {
@@ -177,7 +178,7 @@ class PTRRecord : public Record {
 public:
     PTRRecord(Label&& label, bool announce = true);
 
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
     void setTargetRecord(std::shared_ptr<Record> target);
 
     virtual void matched(uint16_t qtype) override final;
@@ -191,7 +192,7 @@ class TXTRecord : public Record {
 public:
     TXTRecord(Label&& label, std::vector<std::string>&& entries);
 
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
     virtual void matched(uint16_t qtype) override final
     {
         // will be included by SRV record
@@ -206,7 +207,7 @@ class SRVRecord : public Record {
 public:
     SRVRecord(Label&& label, uint16_t port, std::shared_ptr<PTRRecord> ptr, std::shared_ptr<ARecord> a);
 
-    virtual void writeSpecific(UDPExtended& udp) const;
+    virtual void writeSpecific(UDPMessage& udp) const;
 
     void setHostRecord(std::shared_ptr<Record> host);
     void setPort(uint16_t port);
