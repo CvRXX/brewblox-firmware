@@ -1,0 +1,38 @@
+idf_component_register(
+  SRCS
+    src/esp/ADS124S08.cpp
+    src/esp/ChemSense.cpp
+
+    src/ActuatorAnalogConstrained.cpp
+    src/ActuatorDigitalChangeLogged.cpp
+    src/ActuatorDigitalConstrained.cpp
+    src/ActuatorDigital.cpp
+    src/ActuatorPwm.cpp
+    src/Balancer.cpp
+    src/DS18B20.cpp
+    src/DS2408.cpp
+    src/DS2413.cpp
+    src/DS248x.cpp
+    src/FilterChain.cpp
+    src/FixedPoint.cpp
+    src/hal_spi.cpp
+    src/IirFilter.cpp
+    src/MotorValve.cpp
+    src/OneWireAddress.cpp
+    src/OneWire.cpp
+    src/OneWireCrc.cpp
+    src/OneWireDevice.cpp
+    src/OneWireMockDevice.cpp
+    src/OneWireMockDriver.cpp
+    src/Pid.cpp
+    src/SetpointProfile.cpp
+    src/SX1508.cpp
+    src/Temperature.cpp
+    src/TempSensorCombi.cpp
+    src/TempSensorMock.cpp
+    
+  INCLUDE_DIRS 
+    inc
+  REQUIRES
+    main
+)

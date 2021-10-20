@@ -1,7 +1,7 @@
 #include "ActuatorPwm.h"
 #include <cstdint>
 
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
 #include "TimerInterrupts.h"
 #endif
 
@@ -44,7 +44,7 @@ ActuatorPwm::dutyFraction() const
     return safe_elastic_fixed_point<2, 28>{cnl::quotient(m_dutySetting + rounder, maxDuty())};
 }
 
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
 void ActuatorPwm::manageTimerTask()
 {
     if (m_period < 1000 && m_enabled) {
@@ -70,7 +70,7 @@ void ActuatorPwm::period(const duration_millis_t& p)
             m_period = 1000;
         }
     }
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     manageTimerTask();
 #endif
 }
@@ -78,7 +78,7 @@ void ActuatorPwm::period(const duration_millis_t& p)
 duration_millis_t
 ActuatorPwm::period() const
 {
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     if (m_period < 1000) {
         return 10; // internally 100 is used for timer based pwm, but return 10ms, the actual period
     }
@@ -86,7 +86,7 @@ ActuatorPwm::period() const
     return m_period;
 }
 
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
 void ActuatorPwm::timerTask()
 {
 

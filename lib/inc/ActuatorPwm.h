@@ -29,6 +29,9 @@
 #ifndef PLATFORM_GCC
 #define PLATFORM_GCC 3
 #endif
+#ifndef PLATFORM_ESP
+#define PLATFORM_ESP 100
+#endif
 
 /**
 	ActuatorPWM drives a (change logged) digital actuator and makes it available as range actuator, by quickly turning it on and off repeatedly.
@@ -58,7 +61,7 @@ private:
     // separate flag for manually disabling the pwm actuator
     bool m_enabled = true;
 
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     uint8_t timerFuncId = 0;
     duration_millis_t m_fastPwmElapsed = 0;
 #endif
@@ -118,7 +121,7 @@ public:
      */
     update_t slowPwmUpdate(const update_t& now);
 
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     update_t fastUpdate(const update_t& now);
 
     /**
@@ -156,7 +159,7 @@ public:
             settingValid(false);
         }
         m_enabled = v;
-#if PLATFORM_ID != PLATFORM_GCC
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
         manageTimerTask();
 #endif
     }

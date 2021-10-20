@@ -104,7 +104,7 @@ constexpr bool equal(char const* lhs, char const* rhs)
     return true;
 }
 
-static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
+// static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
 
 std::string
 deviceIdStringInit()

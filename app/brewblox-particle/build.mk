@@ -11,10 +11,10 @@ endif
 
 ifeq ($(PLATFORM_ID),3)
 # cnl as system includes to suppress warnings
-CPPFLAGS += -isystem $(SOURCE_PATH)/lib/cnl/include
+CPPFLAGS += -isystem $(SOURCE_PATH)/external_libs/cnl/include
 else
 # arm compiler automatically includes system headers as external c, use normal include
-CPPFLAGS += -I $(SOURCE_PATH)/lib/cnl/include
+CPPFLAGS += -I $(SOURCE_PATH)/external_libs/cnl/include
 endif
 
 # add all controlbox source files
