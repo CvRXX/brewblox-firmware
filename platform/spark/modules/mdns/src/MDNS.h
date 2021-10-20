@@ -23,12 +23,6 @@ public:
     MDNS(std::string hostname);
     ~MDNS()
     {
-        for (auto r : records) {
-            delete r;
-        }
-        for (auto r : metaRecords) {
-            delete r;
-        }
     }
 
     void addService(Protocol protocol, std::string serviceType, const std::string serviceName, uint16_t port,
@@ -70,18 +64,18 @@ private:
     UDPExtended udp;
 
     // meta records for re-using labels
-    MetaRecord* LOCAL;
-    MetaRecord* UDP;
-    MetaRecord* TCP;
-    MetaRecord* DNSSD;
-    MetaRecord* SERVICES;
+    std::shared_ptr<MetaRecord> LOCAL;
+    std::shared_ptr<MetaRecord> UDP;
+    std::shared_ptr<MetaRecord> TCP;
+    std::shared_ptr<MetaRecord> DNSSD;
+    std::shared_ptr<MetaRecord> SERVICES;
 
     // actual records that are checked
-    ARecord* hostRecord;
+    std::shared_ptr<ARecord> hostRecord;
 
     // vectors of records to iterate over them
-    std::vector<Record*> records;
-    std::vector<MetaRecord*> metaRecords;
+    std::vector<std::shared_ptr<Record>> records;
+    std::vector<std::shared_ptr<MetaRecord>> metaRecords;
 
     Query getQuery();
 

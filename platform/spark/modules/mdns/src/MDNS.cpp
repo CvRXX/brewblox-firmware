@@ -5,23 +5,25 @@
 #include <memory>
 
 MDNS::MDNS(std::string hostname)
-    : LOCAL(new MetaRecord(Label(std::string{"local"}, nullptr)))
+    : LOCAL(new MetaRecord(Label(std::string{"local"}, {})))
     , UDP(new MetaRecord(Label(std::string{"_udp"}, LOCAL)))
     , TCP(new MetaRecord(Label(std::string{"_tcp"}, LOCAL)))
     , DNSSD(new MetaRecord(Label("_dns-sd", UDP)))
     , SERVICES(new MetaRecord(Label("_services", DNSSD)))
     , hostRecord(new ARecord(Label(std::move(hostname), LOCAL)))
-    , records{hostRecord, new HostNSECRecord(Label(hostRecord), hostRecord)}
+    , records{hostRecord}
     , metaRecords{LOCAL, UDP, TCP, DNSSD, SERVICES}
 {
+    auto hostNSECRecord = std::shared_ptr<HostNSECRecord>(new HostNSECRecord(Label(hostRecord)));
+    hostRecord->setNsecRecord(hostNSECRecord);
+    records.push_back(std::move(hostNSECRecord));
 }
 
-void
-MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
-                 std::vector<std::string>&& txtEntries,
-                 std::vector<std::string>&& subServices)
+void MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
+                      std::vector<std::string>&& txtEntries,
+                      std::vector<std::string>&& subServices)
 {
-    Record* protocolRecord;
+    std::shared_ptr<Record> protocolRecord;
     if (protocol == Protocol::TCP) {
         protocolRecord = this->TCP;
     } else if (protocol == Protocol::UDP) {
@@ -33,14 +35,15 @@ MDNS::addService(Protocol protocol, std::string serviceType, std::string service
     records.reserve(records.size() + 5 + subServices.size());
 
     // A pointer record indicating where this service can be found
-    auto ptrRecord = new PTRRecord(Label(std::move(serviceType), protocolRecord));
+    auto ptrRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(serviceType), std::move(protocolRecord))));
 
     // An enumeration record for DNS-SD
-    auto enumerationRecord = new PTRRecord(Label(this->SERVICES), false);
-    enumerationRecord->setTargetRecord(ptrRecord);
+    auto enumerationRecordRawPtr = new PTRRecord(Label(this->SERVICES), false);
+    enumerationRecordRawPtr->setTargetRecord(ptrRecord);
+    auto enumerationRecord = std::shared_ptr<Record>(std::move(enumerationRecordRawPtr));
 
     // the service record indicating under which name/port this service is available
-    auto srvRecord = new SRVRecord(Label(std::move(serviceName), ptrRecord), port, ptrRecord, hostRecord);
+    auto srvRecord = std::shared_ptr<SRVRecord>(new SRVRecord(Label(std::move(serviceName), ptrRecord), port, ptrRecord, hostRecord));
     ptrRecord->setTargetRecord(srvRecord);
 
     // RFC 6763 says:
@@ -59,9 +62,9 @@ MDNS::addService(Protocol protocol, std::string serviceType, std::string service
     if (txtEntries.empty()) {
         txtEntries.push_back("");
     }
-    auto txtRecord = new TXTRecord(Label(srvRecord), std::move(txtEntries));
+    auto txtRecord = std::shared_ptr<TXTRecord>(new TXTRecord(Label(srvRecord), std::move(txtEntries)));
 
-    auto nsecRecord = new ServiceNSECRecord(Label(srvRecord));
+    auto nsecRecord = std::shared_ptr<ServiceNSECRecord>(new ServiceNSECRecord(Label(srvRecord)));
     srvRecord->setTxtRecord(txtRecord);
     srvRecord->setNsecRecord(nsecRecord);
 
@@ -73,26 +76,25 @@ MDNS::addService(Protocol protocol, std::string serviceType, std::string service
     //    and rrclass.
     // So we include an NSEC record with the same label as the service record
     records.push_back(ptrRecord);
-    records.push_back(srvRecord);
-    records.push_back(txtRecord);
-    records.push_back(nsecRecord);
-    records.push_back(enumerationRecord);
+    records.push_back(std::move(srvRecord));
+    records.push_back(std::move(txtRecord));
+    records.push_back(std::move(nsecRecord));
+    records.push_back(std::move(enumerationRecord));
 
     if (!subServices.empty()) {
         // create meta record to hold _sub prefix
-        auto subMetaRecord = new MetaRecord(Label(std::string("_sub"), ptrRecord));
-        metaRecords.push_back(std::move(subMetaRecord));
+        auto subMetaRecord = std::shared_ptr<MetaRecord>(new MetaRecord(Label(std::string("_sub"), ptrRecord)));
+        metaRecords.push_back(subMetaRecord);
 
         for (auto&& s : subServices) {
-            auto subPTRRecord = new PTRRecord(Label(std::move(s), subMetaRecord));
+            auto subPTRRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(s), subMetaRecord)));
             subPTRRecord->setTargetRecord(ptrRecord);
             records.push_back(std::move(subPTRRecord));
         }
     }
 }
 
-bool
-MDNS::begin(bool announce)
+bool MDNS::begin(bool announce)
 {
     // Wait for spark::WiFi to connect
     if (!spark::WiFi.ready()) {
@@ -115,8 +117,7 @@ MDNS::begin(bool announce)
     return true;
 }
 
-bool
-MDNS::processQueries()
+bool MDNS::processQueries()
 {
     uint16_t n = udp.parsePacket();
 
@@ -219,16 +220,14 @@ MDNS::getQuery()
     return q;
 }
 
-void
-MDNS::processQuery(const Query& query)
+void MDNS::processQuery(const Query& query)
 {
     for (const auto& question : query.questions) {
         processQuestion(question);
     }
 }
 
-void
-MDNS::processQuestion(const Query::Question& question)
+void MDNS::processQuestion(const Query::Question& question)
 {
     if (question.qname.size() > 0) {
         for (const auto& r : records) {
@@ -239,8 +238,7 @@ MDNS::processQuestion(const Query::Question& question)
     }
 }
 
-void
-MDNS::writeResponses()
+void MDNS::writeResponses()
 {
     uint8_t answerCount = 0;
     uint8_t additionalCount = 0;

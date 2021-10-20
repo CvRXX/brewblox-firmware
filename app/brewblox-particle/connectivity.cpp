@@ -77,6 +77,9 @@ wifiSignal()
 
 bool wifiConnected()
 {
+    if (PLATFORM_ID == PLATFORM_GCC) {
+        return true;
+    }
     // WiFi.ready() ensures underlying wifi driver has been initialized correctly
     // wifiSignalRssi is set above an ensures an IP address is assigned and we have signal
     // checking ready() too ensures that a disconnect is detected immediately

@@ -33,9 +33,9 @@ class Record;
 
 class Label {
 public:
-    Label(std::string _name, Record* _next)
+    Label(std::string _name, std::shared_ptr<Record> _next)
         : name(std::move(_name))
-        , next(_next)
+        , next(std::move(_next))
         , offset(0)
     {
         //  If string has extra room allocated, free it. String will not grow
@@ -43,8 +43,8 @@ public:
     }
 
     // Label can have the exact same label as another record, in which case the own name is omitted
-    Label(Record* _next)
-        : next(_next)
+    Label(std::shared_ptr<Record>&& _next)
+        : next(std::move(_next))
         , offset(0)
     {
         //  If string has extra room allocated, free it. String will not grow
@@ -65,14 +65,14 @@ public:
         offset = 0;
     }
     std::string name;
-    Record* next;
+    std::shared_ptr<Record> next;
     mutable uint16_t offset; // offset in current query or answer
 };
 
 class Record {
 
 public:
-    Record(Label label, uint16_t type, uint16_t cls, uint32_t ttl, bool announce = true);
+    Record(Label&& label, uint16_t type, uint16_t cls, uint32_t ttl, bool announce = true);
     Record(const Record&) = delete; // no copy
     Record(Record&&) = default;     // only move
     virtual ~Record() = default;
@@ -104,7 +104,7 @@ public:
 
 protected:
     virtual void writeSpecific(UDPExtended& udp) const = 0;
-    Label label;
+    Label&& label;
     const uint16_t type;
     const uint16_t cls;
     const uint32_t ttl;
@@ -117,7 +117,7 @@ protected:
 class MetaRecord : public Record {
 
 public:
-    MetaRecord(Label label);
+    MetaRecord(Label&& label);
     void matched(uint16_t qtype) override final
     {
         // meta records are only used for labels and should not be sent in a response
@@ -128,28 +128,28 @@ public:
 class HostNSECRecord;
 class ARecord : public Record {
 public:
-    ARecord(Label label);
+    ARecord(Label&& label);
     virtual void writeSpecific(UDPExtended& udp) const;
 
     void matched(uint16_t qtype) override final;
 
-    void setNsecRecord(HostNSECRecord* nsec)
+    void setNsecRecord(std::shared_ptr<HostNSECRecord> nsec)
     {
-        nsecRecord = nsec;
+        nsecRecord = std::move(nsec);
     }
 
-    HostNSECRecord* nsecRecord;
+    std::shared_ptr<HostNSECRecord> nsecRecord;
 };
 
 class NSECRecord : public Record {
 public:
-    NSECRecord(Label label);
+    NSECRecord(Label&& label);
 };
 
 class HostNSECRecord : public NSECRecord {
 
 public:
-    HostNSECRecord(Label label, ARecord* hostRecord);
+    HostNSECRecord(Label&& label);
 
     void matched(uint16_t qtype) override final
     {
@@ -162,7 +162,7 @@ public:
 class ServiceNSECRecord : public NSECRecord {
 
 public:
-    ServiceNSECRecord(Label label);
+    ServiceNSECRecord(Label&& label);
 
     void matched(uint16_t qtype) override final
     {
@@ -175,21 +175,21 @@ public:
 class PTRRecord : public Record {
 
 public:
-    PTRRecord(Label label, bool announce = true);
+    PTRRecord(Label&& label, bool announce = true);
 
     virtual void writeSpecific(UDPExtended& udp) const;
-    void setTargetRecord(Record* target);
+    void setTargetRecord(std::shared_ptr<Record> target);
 
     virtual void matched(uint16_t qtype) override final;
 
 private:
-    Record* targetRecord;
+    std::shared_ptr<Record> targetRecord;
 };
 
 class TXTRecord : public Record {
 
 public:
-    TXTRecord(Label label, std::vector<std::string> entries);
+    TXTRecord(Label&& label, std::vector<std::string>&& entries);
 
     virtual void writeSpecific(UDPExtended& udp) const;
     virtual void matched(uint16_t qtype) override final
@@ -204,29 +204,29 @@ private:
 class SRVRecord : public Record {
 
 public:
-    SRVRecord(Label label, uint16_t port, PTRRecord* ptr, ARecord* a);
+    SRVRecord(Label&& label, uint16_t port, std::shared_ptr<PTRRecord> ptr, std::shared_ptr<ARecord> a);
 
     virtual void writeSpecific(UDPExtended& udp) const;
 
-    void setHostRecord(Record* host);
+    void setHostRecord(std::shared_ptr<Record> host);
     void setPort(uint16_t port);
     virtual void matched(uint16_t qtype) override final;
-  
+
     // TXT and NSEC record will use use this record for their label, so need to be set after construction
-    void setTxtRecord(TXTRecord* txt)
+    void setTxtRecord(std::shared_ptr<TXTRecord> txt)
     {
-        this->txtRecord = txt;
+        this->txtRecord = std::move(txt);
     }
 
-    void setNsecRecord(ServiceNSECRecord* nsec)
+    void setNsecRecord(std::shared_ptr<ServiceNSECRecord> nsec)
     {
-        this->nsecRecord = nsec;
+        this->nsecRecord = std::move(nsec);
     }
 
 private:
     uint16_t port;
-    PTRRecord* ptrRecord;
-    TXTRecord* txtRecord;
-    ServiceNSECRecord* nsecRecord;
-    ARecord* aRecord;
+    std::shared_ptr<PTRRecord> ptrRecord;
+    std::shared_ptr<TXTRecord> txtRecord;
+    std::shared_ptr<ServiceNSECRecord> nsecRecord;
+    std::shared_ptr<ARecord> aRecord;
 };
