@@ -33,7 +33,7 @@ class Record;
 
 class Label {
 public:
-    Label(std::string _name, std::shared_ptr<Record> _next)
+    Label(std::string _name, Record* _next)
         : name(std::move(_name))
         , next(std::move(_next))
         , offset(0)
@@ -43,7 +43,7 @@ public:
     }
 
     // Label can have the exact same label as another record, in which case the own name is omitted
-    Label(std::shared_ptr<Record> _next)
+    Label(Record* _next)
         : name{}
         , next(std::move(_next))
         , offset(0)
@@ -57,6 +57,10 @@ public:
     void writeFull(UDPMessage& udp) const;
     void writePtr(UDPMessage& udp) const;
     uint16_t writeSize() const;
+    void setName(const std::string& newName)
+    {
+        name = newName;
+    }
 
     void write(UDPMessage& udp) const;
     void reset()
@@ -64,7 +68,7 @@ public:
         offset = 0;
     }
     std::string name;
-    std::shared_ptr<Record> next;
+    Record* next;
     mutable uint16_t offset; // offset in current query or answer
 };
 
@@ -101,6 +105,11 @@ public:
 
     virtual void matched(uint16_t qtype) = 0;
 
+    void setLabelName(const std::string& name)
+    {
+        label.setName(name);
+    }
+
 protected:
     virtual void writeSpecific(UDPMessage& udp) const = 0;
     Label label;
@@ -129,17 +138,12 @@ public:
 class HostNSECRecord;
 class ARecord : public Record {
 public:
-    ARecord(Label&& label);
+    ARecord(Label&& label, HostNSECRecord* nsec);
     virtual void writeSpecific(UDPMessage& udp) const;
 
     void matched(uint16_t qtype) override final;
 
-    void setNsecRecord(std::shared_ptr<HostNSECRecord> nsec)
-    {
-        nsecRecord = std::move(nsec);
-    }
-
-    std::shared_ptr<HostNSECRecord> nsecRecord;
+    HostNSECRecord* nsecRecord;
 };
 
 class NSECRecord : public Record {
@@ -179,12 +183,12 @@ public:
     PTRRecord(Label&& label, bool announce = true);
 
     virtual void writeSpecific(UDPMessage& udp) const;
-    void setTargetRecord(std::shared_ptr<Record> target);
+    void setTargetRecord(Record* target);
 
     virtual void matched(uint16_t qtype) override final;
 
 private:
-    std::shared_ptr<Record> targetRecord;
+    Record* targetRecord = nullptr;
 };
 
 class TXTRecord : public Record {
@@ -205,29 +209,29 @@ private:
 class SRVRecord : public Record {
 
 public:
-    SRVRecord(Label&& label, uint16_t port, std::shared_ptr<PTRRecord> ptr, std::shared_ptr<ARecord> a);
+    SRVRecord(Label&& label, uint16_t port, PTRRecord* ptr, ARecord* a);
 
     virtual void writeSpecific(UDPMessage& udp) const;
 
-    void setHostRecord(std::shared_ptr<Record> host);
+    void setHostRecord(Record* host);
     void setPort(uint16_t port);
     virtual void matched(uint16_t qtype) override final;
 
     // TXT and NSEC record will use use this record for their label, so need to be set after construction
-    void setTxtRecord(std::shared_ptr<TXTRecord> txt)
+    void setTxtRecord(TXTRecord* txt)
     {
-        this->txtRecord = std::move(txt);
+        this->txtRecord = txt;
     }
 
-    void setNsecRecord(std::shared_ptr<ServiceNSECRecord> nsec)
+    void setNsecRecord(ServiceNSECRecord* nsec)
     {
-        this->nsecRecord = std::move(nsec);
+        this->nsecRecord = nsec;
     }
 
 private:
     uint16_t port;
-    std::shared_ptr<PTRRecord> ptrRecord;
-    std::shared_ptr<TXTRecord> txtRecord;
-    std::shared_ptr<ServiceNSECRecord> nsecRecord;
-    std::shared_ptr<ARecord> aRecord;
+    PTRRecord* ptrRecord;
+    TXTRecord* txtRecord;
+    ServiceNSECRecord* nsecRecord;
+    ARecord* aRecord;
 };

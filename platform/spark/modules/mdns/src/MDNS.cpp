@@ -4,27 +4,23 @@
 #include <cctype> // for std::tolower
 #include <memory>
 
-std::shared_ptr<ARecord> MDNS::hostRecord;
-std::vector<std::shared_ptr<Record>> MDNS::records;
-std::vector<std::shared_ptr<MetaRecord>> MDNS::metaRecords;
+MetaRecord MDNS::metaLOCAL(Label("local", nullptr));
+MetaRecord MDNS::metaUDP(Label("_udp", &MDNS::metaLOCAL));
+MetaRecord MDNS::metaTCP(Label("_tcp", &MDNS::metaLOCAL));
+MetaRecord MDNS::metaDNSSD(Label("_dns-sd", &MDNS::metaUDP));
+MetaRecord MDNS::metaSERVICES(Label("_services", &MDNS::metaDNSSD));
+HostNSECRecord MDNS::hostNSECRecord(Label(&MDNS::hostRecord));
+ARecord MDNS::hostRecord(Label("", &MDNS::metaLOCAL), &MDNS::hostNSECRecord);
+
+std::vector<std::unique_ptr<Record>> MDNS::records;
+std::vector<std::unique_ptr<MetaRecord>> MDNS::subMetaRecords;
 UDP MDNS::udp;
 
 const IPAddress MDNS::ip(224, 0, 0, 251);
 
 MDNS::MDNS(const std::string& hostname)
 {
-    MDNS::hostRecord = std::shared_ptr<ARecord>(new ARecord(Label(hostname, metaLOCAL())));
-    auto hostNSECRecord = std::shared_ptr<HostNSECRecord>(new HostNSECRecord(Label(hostRecord)));
-    hostRecord->setNsecRecord(hostNSECRecord);
-    records.reserve(2);
-    records.push_back(hostRecord);
-    records.push_back(std::move(hostNSECRecord));
-    metaRecords.reserve(5);
-    metaRecords.push_back(metaLOCAL());
-    metaRecords.push_back(metaUDP());
-    metaRecords.push_back(metaTCP());
-    metaRecords.push_back(metaDNSSD());
-    metaRecords.push_back(metaSERVICES());
+    hostRecord.setLabelName(hostname);
 }
 
 void MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
@@ -34,15 +30,15 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
     records.reserve(records.size() + 5 + subServices.size());
 
     // A pointer record indicating where this service can be found
-    auto ptrRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(serviceType), protocol == Protocol::TCP ? metaTCP() : metaUDP())));
+    auto ptrRecord = std::unique_ptr<PTRRecord>(new PTRRecord(Label(std::move(serviceType), protocol == Protocol::TCP ? &MDNS::metaTCP : &MDNS::metaUDP)));
 
     // An enumeration record for DNS-SD
-    auto enumerationRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(metaSERVICES()), false));
-    enumerationRecord->setTargetRecord(ptrRecord);
+    auto enumerationRecord = std::unique_ptr<PTRRecord>(new PTRRecord(Label(&MDNS::metaSERVICES), false));
+    enumerationRecord->setTargetRecord(ptrRecord.get());
 
     // the service record indicating under which name/port this service is available
-    auto srvRecord = std::shared_ptr<SRVRecord>(new SRVRecord(Label(std::move(serviceName), ptrRecord), port, ptrRecord, hostRecord));
-    ptrRecord->setTargetRecord(srvRecord);
+    auto srvRecord = std::unique_ptr<SRVRecord>(new SRVRecord(Label(std::move(serviceName), ptrRecord.get()), port, ptrRecord.get(), &MDNS::hostRecord));
+    ptrRecord->setTargetRecord(srvRecord.get());
 
     // RFC 6763 says:
     //    An empty TXT record containing zero strings is not allowed [RFC1035].
@@ -60,11 +56,23 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
     if (txtEntries.empty()) {
         txtEntries.push_back("");
     }
-    auto txtRecord = std::shared_ptr<TXTRecord>(new TXTRecord(Label(srvRecord), std::move(txtEntries)));
+    auto txtRecord = std::unique_ptr<TXTRecord>(new TXTRecord(Label(srvRecord.get()), std::move(txtEntries)));
 
-    auto nsecRecord = std::shared_ptr<ServiceNSECRecord>(new ServiceNSECRecord(Label(srvRecord)));
-    srvRecord->setTxtRecord(txtRecord);
-    srvRecord->setNsecRecord(nsecRecord);
+    auto nsecRecord = std::unique_ptr<ServiceNSECRecord>(new ServiceNSECRecord(Label(srvRecord.get())));
+    srvRecord->setTxtRecord(txtRecord.get());
+    srvRecord->setNsecRecord(nsecRecord.get());
+
+    if (!subServices.empty()) {
+        // create meta record to hold _sub prefix
+        auto subMetaRecord = std::make_unique<MetaRecord>(Label(std::string("_sub"), ptrRecord.get()));
+
+        for (auto&& s : subServices) {
+            auto subPTRRecord = std::unique_ptr<PTRRecord>(new PTRRecord(Label(std::move(s), subMetaRecord.get())));
+            subPTRRecord->setTargetRecord(ptrRecord.get());
+            records.push_back(std::move(subPTRRecord));
+        }
+        subMetaRecords.push_back(std::move(subMetaRecord));
+    }
 
     // From RFC6762:
     //    On receipt of a question for a particular name, rrtype, and rrclass,
@@ -73,23 +81,11 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
     //    Section indicating the nonexistence of other rrtypes for that name
     //    and rrclass.
     // So we include an NSEC record with the same label as the service record
-    records.push_back(ptrRecord);
+    records.push_back(std::move(ptrRecord));
     records.push_back(std::move(srvRecord));
     records.push_back(std::move(txtRecord));
     records.push_back(std::move(nsecRecord));
     records.push_back(std::move(enumerationRecord));
-
-    if (!subServices.empty()) {
-        // create meta record to hold _sub prefix
-        auto subMetaRecord = std::make_shared<MetaRecord>(Label(std::string("_sub"), ptrRecord));
-        metaRecords.push_back(subMetaRecord);
-
-        for (auto&& s : subServices) {
-            auto subPTRRecord = std::shared_ptr<PTRRecord>(new PTRRecord(Label(std::move(s), subMetaRecord)));
-            subPTRRecord->setTargetRecord(ptrRecord);
-            records.push_back(std::move(subPTRRecord));
-        }
-    }
 }
 
 bool MDNS::begin(bool announce)
@@ -105,6 +101,9 @@ bool MDNS::begin(bool announce)
     // TODO: Probing: check if host/SRV records we will announce are already in use
 
     if (announce) {
+        MDNS::hostRecord.announceRecord();
+        MDNS::hostNSECRecord.announceRecord();
+
         for (auto& r : records) {
             r->announceRecord();
         }
@@ -225,11 +224,17 @@ void MDNS::processQuery(const Query& query)
 
 void MDNS::processQuestion(const Query::Question& question)
 {
+    auto process = [&question](Record& r) {
+        if (r.match(question.qname.cbegin(), question.qname.cend(), question.qtype, question.qclass)) {
+            r.matched(question.qtype);
+        }
+    };
+
     if (question.qname.size() > 0) {
+        process(MDNS::hostRecord);
+        process(MDNS::hostNSECRecord);
         for (const auto& r : records) {
-            if (r->match(question.qname.cbegin(), question.qname.cend(), question.qtype, question.qclass)) {
-                r->matched(question.qtype);
-            }
+            process(*r);
         }
     }
 }
@@ -240,18 +245,30 @@ void MDNS::writeResponses()
     uint8_t answerCount = 0;
     uint8_t additionalCount = 0;
 
-    for (auto& r : metaRecords) {
+    metaLOCAL.resetLabelOffset();
+    metaUDP.resetLabelOffset();
+    metaTCP.resetLabelOffset();
+    metaDNSSD.resetLabelOffset();
+    metaSERVICES.resetLabelOffset();
+
+    for (auto& r : subMetaRecords) {
         r->resetLabelOffset();
     }
 
-    for (auto& r : records) {
-        if (r->isAnswerRecord()) {
+    auto processRecord = [&additionalCount, &answerCount](Record& r) {
+        if (r.isAnswerRecord()) {
             answerCount++;
         }
-        if (r->isAdditionalRecord()) {
+        if (r.isAdditionalRecord()) {
             additionalCount++;
         }
-        r->resetLabelOffset();
+        r.resetLabelOffset();
+    };
+
+    processRecord(MDNS::hostRecord);
+    processRecord(MDNS::hostNSECRecord);
+    for (auto& r : records) {
+        processRecord(*r);
     }
 
     if (answerCount > 0) {
@@ -262,10 +279,24 @@ void MDNS::writeResponses()
         message.put(uint16_t(0x0));
         message.put(uint16_t(additionalCount));
 
+        if (MDNS::hostRecord.isAnswerRecord()) {
+            MDNS::hostRecord.write(message);
+        }
+        if (MDNS::hostNSECRecord.isAnswerRecord()) {
+            MDNS::hostNSECRecord.write(message);
+        }
+
         for (auto& r : records) {
             if (r->isAnswerRecord()) {
                 r->write(message);
             }
+        }
+
+        if (MDNS::hostRecord.isAdditionalRecord()) {
+            MDNS::hostRecord.write(message);
+        }
+        if (MDNS::hostNSECRecord.isAdditionalRecord()) {
+            MDNS::hostNSECRecord.write(message);
         }
 
         for (auto& r : records) {
@@ -275,6 +306,9 @@ void MDNS::writeResponses()
         }
         message.send(udp, ip, port);
     }
+
+    MDNS::hostRecord.reset();
+    MDNS::hostNSECRecord.reset();
 
     for (auto& r : records) {
         r->reset();

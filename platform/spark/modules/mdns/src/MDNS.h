@@ -57,38 +57,19 @@ private:
     static UDP udp;
 
     // static meta records to re-use labels
-    static std::shared_ptr<MetaRecord> metaLOCAL()
-    {
-        static auto record = std::make_shared<MetaRecord>(Label("local", {}));
-        return record;
-    }
-    static std::shared_ptr<MetaRecord> metaUDP()
-    {
-        static auto record = std::make_shared<MetaRecord>(Label("_udp", metaLOCAL()));
-        return record;
-    }
-    static std::shared_ptr<MetaRecord> metaTCP()
-    {
-        static auto record = std::make_shared<MetaRecord>(Label("_tcp", metaLOCAL()));
-        return record;
-    }
-    static std::shared_ptr<MetaRecord> metaDNSSD()
-    {
-        static auto record = std::make_shared<MetaRecord>(Label("_dns-sd", metaUDP()));
-        return record;
-    }
-    static std::shared_ptr<MetaRecord> metaSERVICES()
-    {
-        static auto record = std::make_shared<MetaRecord>(Label("_services", metaDNSSD()));
-        return record;
-    }
+    static MetaRecord metaLOCAL;
+    static MetaRecord metaUDP;
+    static MetaRecord metaTCP;
+    static MetaRecord metaDNSSD;
+    static MetaRecord metaSERVICES;
 
     // actual records that are checked
-    static std::shared_ptr<ARecord> hostRecord;
+    static ARecord hostRecord;
+    static HostNSECRecord hostNSECRecord;
 
-    // vectors of records to iterate over them
-    static std::vector<std::shared_ptr<Record>> records;
-    static std::vector<std::shared_ptr<MetaRecord>> metaRecords;
+    // vectors of extra records to iterate over them
+    static std::vector<std::unique_ptr<Record>> records;
+    static std::vector<std::unique_ptr<MetaRecord>> subMetaRecords;
 
     static const IPAddress ip;
     static const auto port = uint16_t{5353};

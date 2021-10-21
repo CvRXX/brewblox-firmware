@@ -153,8 +153,9 @@ Record::getLabel() const
     return label;
 }
 
-ARecord::ARecord(Label&& label)
+ARecord::ARecord(Label&& label, HostNSECRecord* nsec)
     : Record(std::move(label), A_TYPE, IN_CLASS | CACHE_FLUSH, TTL_2MIN)
+    , nsecRecord(nsec)
 {
 }
 
@@ -232,15 +233,17 @@ PTRRecord::PTRRecord(Label&& label, bool announce)
 {
 }
 
-void PTRRecord::setTargetRecord(std::shared_ptr<Record> target)
+void PTRRecord::setTargetRecord(Record* target)
 {
-    targetRecord = std::move(target);
+    targetRecord = target;
 }
 
 void PTRRecord::writeSpecific(UDPMessage& udp) const
 {
-    udp.put(targetRecord->getLabel().writeSize());
-    targetRecord->writeLabel(udp);
+    if (targetRecord) {
+        udp.put(targetRecord->getLabel().writeSize());
+        targetRecord->writeLabel(udp);
+    }
 }
 
 void PTRRecord::matched(uint16_t qtype)
@@ -248,11 +251,11 @@ void PTRRecord::matched(uint16_t qtype)
     targetRecord->matched(qtype); // Let target record handle which records are included
 }
 
-SRVRecord::SRVRecord(Label&& label, uint16_t _port, std::shared_ptr<PTRRecord> ptr, std::shared_ptr<ARecord> a)
+SRVRecord::SRVRecord(Label&& label, uint16_t _port, PTRRecord* ptr, ARecord* a)
     : Record(std::move(label), SRV_TYPE, IN_CLASS | CACHE_FLUSH, TTL_2MIN)
     , port(_port)
-    , ptrRecord(std::move(ptr))
-    , aRecord(std::move(a))
+    , ptrRecord(ptr)
+    , aRecord(a)
 {
 }
 
