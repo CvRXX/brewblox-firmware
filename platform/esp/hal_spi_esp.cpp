@@ -169,7 +169,11 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
             .rx_buffer = nullptr,
         };
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        if (error != ESP_OK) {
+            transactionBuffer.free(trans);
+        }
+        return error;
     } else {
         return 1;
     }
@@ -192,7 +196,12 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
 
         std::copy(data, data + size, &(trans->tx_data[0]));
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        if (error != ESP_OK) {
+            transactionBuffer.free(trans);
+        }
+        return error;
+
     } else {
         return 1;
     }
