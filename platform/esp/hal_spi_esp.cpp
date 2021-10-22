@@ -2,12 +2,15 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
 #include "hal/hal_delay.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
 #include <stdio.h>
 #include <string.h>
+
+#include "freertos/task.h"
 
 using namespace hal_spi;
 
@@ -224,7 +227,7 @@ bool transactionBufferEmpty()
 void release_bus(Settings& settings)
 {
     while (!transactionBufferEmpty()) {
-        hal_delay_ms(1);
+        taskYIELD();
     }
     spi_device_release_bus(get_platform_ptr(settings));
 }
