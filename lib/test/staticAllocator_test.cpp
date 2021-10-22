@@ -90,3 +90,17 @@ TEST_CASE("countFreeElements returns the right amount of free elements", "[Stati
     buffer.free(thing5);
     buffer.free(thing6);
 }
+
+TEST_CASE("countFreeElements returns correctly if it's empty", "[StaticAllocator]")
+{
+    auto buffer = StaticAllocator<uint8_t, 2>();
+    REQUIRE(buffer.isEmpty());
+    auto thing1 = buffer.get();
+    REQUIRE(!buffer.isEmpty());
+    auto thing2 = buffer.get();
+    REQUIRE(!buffer.isEmpty());
+    buffer.free(thing1);
+    REQUIRE(!buffer.isEmpty());
+    buffer.free(thing2);
+    REQUIRE(buffer.isEmpty());
+}

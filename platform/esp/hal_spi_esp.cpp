@@ -219,14 +219,9 @@ void aquire_bus(Settings& settings)
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }
 
-bool transactionBufferEmpty()
-{
-    return (transactionBuffer.countFreeElements() == 10);
-}
-
 void release_bus(Settings& settings)
 {
-    while (!transactionBufferEmpty()) {
+    while (!transactionBuffer.isEmpty()) {
         taskYIELD();
     }
     spi_device_release_bus(get_platform_ptr(settings));

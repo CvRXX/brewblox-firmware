@@ -62,6 +62,16 @@ public:
         });
     }
 
+    /**
+     * Returns if the buffer is empty
+     */
+    bool isEmpty()
+    {
+        return !std::any_of(data.begin(), data.end(), [](const Element& ele) {
+            return ele.inUse.load();
+        });
+    }
+
 private:
     struct Element {
         T data;
