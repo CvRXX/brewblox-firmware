@@ -40,13 +40,15 @@ execute_process (
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_VERSION=\\\"${GIT_VERSION}\\\"")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGIT_DATE=\\\"${GIT_DATE}\\\"")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_VERSION=\\\"${PROTO_VERSION}\\\"")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROTO_DATE=\\\"${PROTO_DATE}\\\"")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLATFORM_ID=100")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSYSTEM_VERSION_STRING=${SYSTEM_VERSION_STRING}") # not quoted for compatibility with particle
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DLV_LVGL_H_INCLUDE_SIMPLE")
+add_compile_definitions(GIT_VERSION=\"${GIT_VERSION}\")
+add_compile_definitions(GIT_DATE=\"${GIT_DATE}\")
+add_compile_definitions(PROTO_VERSION=\"${PROTO_VERSION}\")
+add_compile_definitions(PROTO_DATE=\"${PROTO_DATE}\")
+add_compile_definitions(PLATFORM_ID=100)
+add_compile_definitions(SYSTEM_VERSION_STRING="${SYSTEM_VERSION_STRING}")
+add_compile_definitions(LV_LVGL_H_INCLUDE_SIMPLE)
+
+
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
