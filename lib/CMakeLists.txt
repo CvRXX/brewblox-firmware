@@ -1,6 +1,5 @@
 idf_component_register(
   SRCS
-    src/esp/ADS124S08.cpp
     src/esp/ChemSense.cpp
 
     src/ActuatorAnalogConstrained.cpp
