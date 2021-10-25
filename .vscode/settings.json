@@ -29,5 +29,6 @@
   "disasexpl.associations": {
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/brewblox/${relativeFileDir}/${fileBasenameNoExtension}.s"
   },
-  "C_Cpp.formatting": "clangFormat"
+  "C_Cpp.formatting": "clangFormat",
+  "git.detectSubmodules": false,
 }

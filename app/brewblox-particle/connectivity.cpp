@@ -77,6 +77,9 @@ wifiSignal()
 
 bool wifiConnected()
 {
+    if (PLATFORM_ID == PLATFORM_GCC) {
+        return true;
+    }
     // WiFi.ready() ensures underlying wifi driver has been initialized correctly
     // wifiSignalRssi is set above an ensures an IP address is assigned and we have signal
     // checking ready() too ensures that a disconnect is detected immediately
@@ -107,9 +110,36 @@ bool listeningModeEnabled()
     return spark::WiFi.listening();
 }
 
+MDNS* initMdns()
+{
+    MDNS* mdns = new MDNS(deviceIdString());
+    mdns->addService(MDNS::Protocol::TCP, "_http", deviceIdString(), 80, {}, {});
+
+    std::string hwEntry("HW=Spark ");
+    switch (getSparkVersion()) {
+    case SparkVersion::V1:
+        hwEntry.push_back('1');
+        break;
+    case SparkVersion::V2:
+        hwEntry.push_back('2');
+        break;
+    case SparkVersion::V3:
+        hwEntry.push_back('3');
+        break;
+    }
+
+    mdns->addService(MDNS::Protocol::TCP, "_brewblox", deviceIdString(), 8332,
+                     {std::string("VERSION=" GIT_VERSION),
+                      std::string("ID=") + deviceIdString(),
+                      std::string("PLATFORM=" stringify(PLATFORM_ID)),
+                      std::move(hwEntry)},
+                     {});
+    return mdns;
+}
+
 MDNS& theMdns()
 {
-    static MDNS* theStaticMDNS = new MDNS(deviceIdString());
+    static MDNS* theStaticMDNS = initMdns();
     return *theStaticMDNS;
 }
 
@@ -181,35 +211,9 @@ void manageConnections(uint32_t now)
     }
 }
 
-void initMdns()
-{
-    MDNS& mdns = theMdns();
-    mdns.addService(MDNS::Protocol::TCP, "_http", deviceIdString(), 80);
-
-    std::string hwEntry("HW=Spark ");
-    switch (getSparkVersion()) {
-    case SparkVersion::V1:
-        hwEntry += "1";
-        break;
-    case SparkVersion::V2:
-        hwEntry += "2";
-        break;
-    case SparkVersion::V3:
-        hwEntry += "3";
-        break;
-    }
-
-    mdns.addService(MDNS::Protocol::TCP, "_brewblox", deviceIdString(), 8332,
-                    {"VERSION=" GIT_VERSION,
-                     std::string("ID=") + deviceIdString(),
-                     "PLATFORM=" stringify(PLATFORM_ID),
-                     hwEntry});
-}
-
 void wifiInit()
 {
     System.disable(SYSTEM_FLAG_RESET_NETWORK_ON_CLOUD_ERRORS);
     spark::WiFi.setListenTimeout(45);
     spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
-    initMdns();
 }
