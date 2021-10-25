@@ -1,12 +1,15 @@
 #include "graphics.hpp"
+#include "FT6236.hpp"
 #include "TFT035.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
 #include "layout.hpp"
 #include "lvgl.h"
+#include <esp_log.h>
 
 lv_disp_drv_t Graphics::disp_drv;
 std::unique_ptr<TFT035> Graphics::display;
+std::unique_ptr<FT6236> Graphics::touchscreen;
 std::unique_ptr<Layout> Graphics::layout;
 
 void Graphics::init(cbox::Box& box)
@@ -37,6 +40,15 @@ void Graphics::init(cbox::Box& box)
     layout = std::make_unique<Layout>(box);
 
     display->release_spi();
+
+    static lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);
+
+    indev_drv.type = LV_INDEV_TYPE_POINTER;
+    indev_drv.read_cb = checkForTouches;
+    touchscreen = std::make_unique<FT6236>(0x00);
+    touchscreen->init();
+    lv_indev_drv_register(&indev_drv);
 }
 
 void Graphics::update()
@@ -71,4 +83,19 @@ void Graphics::monitor_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area, lv_
 void Graphics::tick(uint32_t millisElapsed)
 {
     lv_tick_inc(millisElapsed);
+}
+
+bool Graphics::checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data)
+{
+    if (auto touch = touchscreen->getTouch()) {
+        data->point.x = touch->x;
+        data->point.y = touch->y;
+        data->state = LV_INDEV_STATE_PR;
+    } else {
+        auto lastTouch = touchscreen->getLastTouch();
+        data->point.x = lastTouch.x;
+        data->point.y = lastTouch.y;
+        data->state = LV_INDEV_STATE_REL;
+    }
+    return false;
 }
