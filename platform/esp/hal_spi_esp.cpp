@@ -2,12 +2,15 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
 #include "hal/hal_delay.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
 #include "staticAllocator.hpp"
 #include <stdio.h>
 #include <string.h>
+
+#include "freertos/task.h"
 
 using namespace hal_spi;
 
@@ -141,7 +144,7 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
 spi_transaction_t* allocateTransaction()
 {
     // Wait until there is space for the transaction in the static buffer.
-    for (uint8_t retries = 0; retries<10; retries++) {
+    for (uint8_t retries = 0; retries < 10; retries++) {
         auto trans = new (transactionBuffer.get()) spi_transaction_t{};
         if (trans) {
             return trans;
@@ -166,7 +169,11 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
             .rx_buffer = nullptr,
         };
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        if (error != ESP_OK) {
+            transactionBuffer.free(trans);
+        }
+        return error;
     } else {
         return 1;
     }
@@ -189,7 +196,12 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
 
         std::copy(data, data + size, &(trans->tx_data[0]));
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        if (error != ESP_OK) {
+            transactionBuffer.free(trans);
+        }
+        return error;
+
     } else {
         return 1;
     }
@@ -215,8 +227,12 @@ void aquire_bus(Settings& settings)
 {
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }
+
 void release_bus(Settings& settings)
 {
+    while (!transactionBuffer.isEmpty()) {
+        taskYIELD();
+    }
     spi_device_release_bus(get_platform_ptr(settings));
 }
 }
