@@ -67,7 +67,7 @@ public:
      */
     bool isEmpty()
     {
-        return !std::any_of(data.begin(), data.end(), [](const Element& ele) {
+        return std::none_of(data.begin(), data.end(), [](const Element& ele) {
             return ele.inUse.load();
         });
     }
