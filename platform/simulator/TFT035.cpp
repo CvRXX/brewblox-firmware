@@ -13,7 +13,7 @@ void TFT035::init()
 {
 }
 
-void TFT035::aquire_spi()
+void TFT035::acquire_spi()
 {
 }
 
@@ -21,7 +21,7 @@ void TFT035::release_spi()
 {
 }
 extern std::shared_ptr<listener> webSocketServer;
-bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
+bool TFT035::writePixels(int16_t xs, int16_t xe, int16_t ys, int16_t ye, uint8_t* pixels, uint16_t nPixels)
 {
     graphicsBuffer.resize(320 * 480);
     for (uint32_t y = ys; y <= ye; y++) {

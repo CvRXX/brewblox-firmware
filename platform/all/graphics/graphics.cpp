@@ -1,19 +1,16 @@
 #include "graphics.hpp"
-#include "TFT035.hpp"
 #include "blox/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
+#include "hal/hal_display.hpp"
 #include "layout.hpp"
 #include "lvgl.h"
 
 lv_disp_drv_t Graphics::disp_drv;
-std::unique_ptr<TFT035> Graphics::display;
 std::unique_ptr<Layout> Graphics::layout;
 
 void Graphics::init(cbox::Box& box)
 {
-    display = std::make_unique<TFT035>([]() { lv_disp_flush_ready(&disp_drv); });
-    display->aquire_spi();
-    display->init();
+    platform_display::init([]() { lv_disp_flush_ready(&disp_drv); });
     lv_init();
     static lv_disp_buf_t disp_buf1;
     static lv_color_t buf1_1[960];
@@ -23,10 +20,10 @@ void Graphics::init(cbox::Box& box)
     lv_disp_drv_init(&disp_drv);
 
     disp_drv.buffer = &disp_buf1;
-    disp_drv.flush_cb = monitor_flush;
-    disp_drv.hor_res = 320;
-    disp_drv.ver_res = 480;
-    disp_drv.rotated = LV_DISP_ROT_270;
+    disp_drv.flush_cb = platform_display::monitor_flush;
+    disp_drv.hor_res = platform_display::getHorResolution();
+    disp_drv.ver_res = platform_display::getVerResolution();
+    disp_drv.rotated = platform_display::getRotation();
 
     static lv_disp_t* disp;
     disp = lv_disp_drv_register(&disp_drv);
@@ -35,37 +32,14 @@ void Graphics::init(cbox::Box& box)
     style::init();
 
     layout = std::make_unique<Layout>(box);
-
-    display->release_spi();
 }
 
 void Graphics::update()
 {
     layout->update();
-    display->aquire_spi();
+    platform_display::acquire();
     lv_task_handler();
-    display->release_spi();
-}
-
-void Graphics::monitor_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area, lv_color_t* color_p)
-{
-    auto nPixels = (area->x2 - area->x1 + 1) * (area->y2 - area->y1 + 1);
-    if (!nPixels) {
-        // Log here when a better debug log is available.
-    }
-
-    uint8_t* readPtr = reinterpret_cast<uint8_t*>(color_p);
-    uint8_t* writePtr = reinterpret_cast<uint8_t*>(color_p);
-
-    for (auto index = 0; index < nPixels; index++) {
-        *writePtr = *(readPtr + 2);
-        *(writePtr + 1) = *(readPtr + 1);
-        *(writePtr + 2) = *readPtr;
-
-        readPtr += 4;
-        writePtr += 3;
-    }
-    display->writePixels(area->x1, area->x2, area->y1, area->y2, reinterpret_cast<uint8_t*>(color_p), nPixels);
+    platform_display::release();
 }
 
 void Graphics::tick(uint32_t millisElapsed)

@@ -37,7 +37,7 @@ public:
     void init();
 
     /// Aquire the spi bus for writing to the display.
-    void aquire_spi();
+    void acquire_spi();
 
     /// Releases the spi bus after writing to the display.
     void release_spi();
@@ -53,7 +53,7 @@ public:
      * @param nPixels The number of pixels to be written.
      * @return Returns true if no error has occured, false if the write has failed.
      */
-    bool writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels);
+    bool writePixels(int16_t xs, int16_t xe, int16_t ys, int16_t ye, uint8_t* pixels, uint16_t nPixels);
 
     /// A list of the commands of the TFT035
     enum command : uint8_t {
