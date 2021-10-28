@@ -268,7 +268,7 @@ public:
 private:
     void assert_cs()
     {
-        spi.aquire_bus();
+        spi.acquire_bus();
         // always set both configuration registers of the expander
         // in case the IC has reset, this will ensure a correct state.
 

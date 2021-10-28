@@ -30,7 +30,7 @@ uint32_t getRotation()
 
 void acquire()
 {
-    display->aquire_spi();
+    display->acquire_spi();
 }
 
 void release()

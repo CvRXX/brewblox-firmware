@@ -221,8 +221,8 @@ struct SpiDevice {
     * @param callbacks The callbacks to be called before and after the transaction. 
     * @return If any error has occurred a non zero result will indicate an error has happened.
     */
-    template <typename Pre, typename Post, std::size_t N> 
-    hal_spi::error_t dmaWrite(const std::array<uint8_t, N>& data, hal_spi::Callbacks<Pre, Post>&& callbacks) 
+    template <typename Pre, typename Post, std::size_t N>
+    hal_spi::error_t dmaWrite(const std::array<uint8_t, N>& data, hal_spi::Callbacks<Pre, Post>&& callbacks)
     {
         static_assert(N > 0, "Data array must have at least one element.");
         static_assert(N <= 4, "A maximum of 4 bytes can be send in one go.");
@@ -230,9 +230,9 @@ struct SpiDevice {
         return platform_spi::dmaWriteValue(settings, data.data(), data.size(), static_cast<hal_spi::CallbacksBase*>(callbacksToSend));
     }
 
-    void aquire_bus()
+    void acquire_bus()
     {
-        platform_spi::aquire_bus(this->settings);
+        platform_spi::acquire_bus(this->settings);
     }
 
     void release_bus()

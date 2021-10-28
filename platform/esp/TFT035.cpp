@@ -72,36 +72,36 @@ void TFT035::init()
 {
     writeCommand(PGAMCTRL);
     writeData({0x00,
-           0x03,
-           0x09,
-           0x08,
-           0x16,
-           0x0A,
-           0x3F,
-           0x78,
-           0x4C,
-           0x09,
-           0x0A,
-           0x08,
-           0x16,
-           0x1A,
-           0x0F});
+               0x03,
+               0x09,
+               0x08,
+               0x16,
+               0x0A,
+               0x3F,
+               0x78,
+               0x4C,
+               0x09,
+               0x0A,
+               0x08,
+               0x16,
+               0x1A,
+               0x0F});
     writeCommand(NGAMCTRL);
     writeData({0x00,
-           0x16,
-           0x19,
-           0x03,
-           0x0F,
-           0x05,
-           0x32,
-           0x45,
-           0x46,
-           0x04,
-           0x0E,
-           0x0D,
-           0x35,
-           0x37,
-           0x0F});
+               0x16,
+               0x19,
+               0x03,
+               0x0F,
+               0x05,
+               0x32,
+               0x45,
+               0x46,
+               0x04,
+               0x0E,
+               0x0D,
+               0x35,
+               0x37,
+               0x0F});
 
     writeCommand(PWCTRL1); //Power Control 1
     writeData(0x17);       //Vreg1out
@@ -170,14 +170,14 @@ error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsign
     return dmaWriteCommand(0x2C);
 }
 
-error_t TFT035::dmaWriteCommand(const uint8_t* tx_data, size_t tx_len) 
+error_t TFT035::dmaWriteCommand(const uint8_t* tx_data, size_t tx_len)
 {
-        return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOff);
+    return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOff);
 }
 
-error_t TFT035::dmaWriteData(const uint8_t* tx_data, size_t tx_len) 
+error_t TFT035::dmaWriteData(const uint8_t* tx_data, size_t tx_len)
 {
-        return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
+    return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
 }
 
 template <std::size_t n>
@@ -220,9 +220,9 @@ bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsi
                                         }});
 }
 
-void TFT035::aquire_spi()
+void TFT035::acquire_spi()
 {
-    spiDevice.aquire_bus();
+    spiDevice.acquire_bus();
 }
 
 void TFT035::release_spi()

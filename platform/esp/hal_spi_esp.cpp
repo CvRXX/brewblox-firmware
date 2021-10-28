@@ -141,7 +141,7 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
 spi_transaction_t* allocateTransaction()
 {
     // Wait until there is space for the transaction in the static buffer.
-    for (uint8_t retries = 0; retries<10; retries++) {
+    for (uint8_t retries = 0; retries < 10; retries++) {
         auto trans = new (transactionBuffer.get()) spi_transaction_t{};
         if (trans) {
             return trans;
@@ -211,7 +211,7 @@ error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8
     return spi_device_transmit(get_platform_ptr(settings), &trans);
 }
 
-void aquire_bus(Settings& settings)
+void acquire_bus(Settings& settings)
 {
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }

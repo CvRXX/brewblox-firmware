@@ -39,8 +39,8 @@ public:
     /// Initialises the display driver.
     void init();
 
-    /// Aquire the spi bus for writing to the display.
-    void aquire_spi();
+    /// Acquire the spi bus for writing to the display.
+    void acquire_spi();
 
     /// Releases the spi bus after writing to the display.
     void release_spi();

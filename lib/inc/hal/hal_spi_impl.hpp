@@ -91,6 +91,6 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
  */
 error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize);
 
-void aquire_bus(Settings& settings);
+void acquire_bus(Settings& settings);
 void release_bus(Settings& settings);
 }
