@@ -48,7 +48,6 @@ struct SpiDevice {
     SpiDevice(hal_spi::Settings&& settings)
         : settings{settings}
     {
-        init();
     }
 
     ~SpiDevice()

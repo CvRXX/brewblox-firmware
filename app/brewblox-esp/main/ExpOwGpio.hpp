@@ -28,6 +28,7 @@ public:
     {
     }
 
+    void init();
     ExpOwGpio(const ExpOwGpio&) = delete;
     ExpOwGpio& operator=(const ExpOwGpio&) = delete;
 

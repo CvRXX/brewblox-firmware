@@ -33,6 +33,7 @@ public:
     ExpOwGpioBlock(uint8_t lower_address = 0xFF)
         : drivers(lower_address)
     {
+        drivers.init();
     }
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;

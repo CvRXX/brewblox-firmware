@@ -1,6 +1,5 @@
 idf_component_register(
   SRCS
-   graphics.cpp
    layout.cpp
    styles.cpp
    widgets/BaseWidget.cpp

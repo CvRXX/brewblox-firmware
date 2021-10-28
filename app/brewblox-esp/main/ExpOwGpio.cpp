@@ -80,6 +80,10 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
     bits.all = result;
 }
 
+void ExpOwGpio::init()
+{
+    this->spi.init();
+}
 void ExpOwGpio::init_driver()
 {
     // set overvoltage threshold to 33V and clear all faults

@@ -1,5 +1,5 @@
 #include "Spark4.hpp"
-#include "TFT035.hpp"
+#include "hal_display_esp.hpp"
 
 // #include "SDCard.hpp"
 #include "DS248x.hpp"
@@ -88,6 +88,7 @@ int main(int /*argc*/, char** /*argv*/)
     asio::io_context io;
     static auto& box = makeBrewBloxBox(io);
 
+    typedef Graphics<DisplayEsp> Graphics;
     Graphics::init(box);
 
     static CboxServer cboxServer(io, 8332, box);

@@ -33,7 +33,7 @@ public:
     * 
     * @param finishCallback The callback to be called when the pixels are transfered to the screen.
     */
-    TFT035(void (*finishCallback)(void));
+    TFT035(void (*finishCallback)(hal_spi::TransactionData& transaction));
     ~TFT035() = default;
 
     /// Initialises the display driver.
@@ -81,7 +81,6 @@ public:
 
 private:
     SpiDevice spiDevice;
-    void (*finishCallback)(void);
     const hal_pin_t dc;
 
     hal_spi::error_t setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye);
@@ -98,4 +97,6 @@ private:
     hal_spi::error_t writeData(const std::vector<uint8_t>& cmd);
     hal_spi::error_t writeCommand(uint8_t cmd);
     hal_spi::error_t writeData(uint8_t cmd);
+
+    hal_spi::StaticCallbacks writePixelsCallback{[](hal_spi::TransactionData&) {}, [](hal_spi::TransactionData&) {}};
 };

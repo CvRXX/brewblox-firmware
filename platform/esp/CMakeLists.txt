@@ -10,7 +10,6 @@ idf_component_register(
     TFT035.cpp
     TicksEsp.cpp
     esp_eth_phy_lan8742.c
-    hal_display_esp.cpp
   INCLUDE_DIRS 
     .
   REQUIRES
