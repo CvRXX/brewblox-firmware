@@ -14,7 +14,7 @@
 
 using namespace hal_spi;
 
-auto transactionBuffer = StaticAllocator<spi_transaction_t, 10>();
+DMA_ATTR auto transactionBuffer = StaticAllocator<spi_transaction_t, 10>();
 
 namespace platform_spi {
 struct SpiHost {
@@ -83,7 +83,7 @@ error_t init(Settings& settings)
         .dummy_bits = 0,
         .mode = settings.mode,
         .duty_cycle_pos = 0,
-        .cs_ena_pretrans = 0,
+        .cs_ena_pretrans = 2,
         .cs_ena_posttrans = 0,
         .clock_speed_hz = settings.speed,
         .input_delay_ns = 0,
@@ -184,17 +184,17 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
     if (auto trans = allocateTransaction()) {
 
         *trans = spi_transaction_t{
-            .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
+            .flags = SPI_TRANS_USE_TXDATA,
             .cmd = 0,
             .addr = 0,
             .length = size * 8, // esp platform wants size in bits
             .rxlength = 0,
             .user = const_cast<CallbacksBase*>(callbacks),
-            .tx_data = {},
-            .rx_data = {},
+            .tx_data = {0},
+            .rx_buffer = nullptr,
         };
 
-        std::copy(data, data + size, &(trans->tx_data[0]));
+        memcpy(trans->tx_data, data, size);
 
         auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
         if (error != ESP_OK) {

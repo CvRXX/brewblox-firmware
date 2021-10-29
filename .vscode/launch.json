@@ -136,9 +136,9 @@
         "/usr/local/share/openocd/scripts/interface/stlink.cfg",
         "/usr/local/share/openocd/scripts/target/stm32f2x.cfg"
       ],
-      "armToolchainPath": "/home/elco/opt/gcc-arm-none-eabi-9-2020-q2-update/bin",
+      "armToolchainPath": "/home/elco/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
       // sudo apt-get install libpython2.7:i386 for the line below to work
-      "gdbpath": "/home/elco/opt/gcc-arm-none-eabi-9-2020-q2-update/bin/arm-none-eabi-gdb-py", // hidden setting
+      "gdbpath": "/home/elco/opt/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py", // hidden setting
       // "showDevDebugOutput": true,
       "svdFile": "./tools/STM32F215.svd",
     },
@@ -157,8 +157,8 @@
         "/home/elco/opt/openocd/tcl/interface/stlink.cfg",
         "/home/elco/opt/openocd/tcl/target/stm32f2x.cfg"
       ],
-      "armToolchainPath": "~/opt/gcc-arm-none-eabi-9-2020-q2-update/bin/",
-      "gdbpath": "~/opt/gcc-arm-none-eabi-9-2020-q2-update/bin/arm-none-eabi-gdb-py", // hidden setting
+      "armToolchainPath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
+      "gdbpath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py", // hidden setting
       // "showDevDebugOutput": true,
       "svdFile": "./tools/STM32F215.svd",
       "rtos": "FreeRTOS",
@@ -176,7 +176,7 @@
         "/usr/local/share/openocd/scripts/interface/stlink.cfg",
         "/usr/local/share/openocd/scripts/target/stm32f2x.cfg"
       ],
-      "armToolchainPath": "~/opt/gcc-arm-none-eabi-9-2020-q2-update/bin",
+      "armToolchainPath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
       "showDevDebugOutput": true,
       "runToMain": true,
       "rtos": "FreeRTOS",

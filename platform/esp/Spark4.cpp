@@ -23,7 +23,7 @@ namespace spark4 {
 constexpr auto PIN_NUM_MISO = GPIO_NUM_12;
 constexpr auto PIN_NUM_MOSI = GPIO_NUM_13;
 constexpr auto PIN_NUM_CLK = GPIO_NUM_14;
-constexpr auto PIN_NUM_DC = GPIO_NUM_2;
+constexpr auto PIN_NUM_TFT_DC = GPIO_NUM_2;
 constexpr auto PIN_NUM_SD_CS = GPIO_NUM_5;
 constexpr auto PIN_NUM_TFT_CS = GPIO_NUM_4;
 constexpr auto PIN_NUM_I2C_IRQ = GPIO_NUM_35;
@@ -57,7 +57,7 @@ void hw_init()
     gpio_set_direction(PIN_NUM_SD_CS, GPIO_MODE_OUTPUT);
     gpio_set_direction(PIN_NUM_TFT_CS, GPIO_MODE_OUTPUT);
     gpio_set_direction(PIN_NUM_CLK, GPIO_MODE_OUTPUT);
-    gpio_set_direction(PIN_NUM_DC, GPIO_MODE_OUTPUT);
+    gpio_set_direction(PIN_NUM_TFT_DC, GPIO_MODE_OUTPUT);
     gpio_set_direction(PIN_NUM_I2C_IRQ, GPIO_MODE_INPUT);
     gpio_set_pull_mode(PIN_NUM_MISO, GPIO_PULLUP_ONLY);
     gpio_pullup_en(PIN_NUM_MISO);
@@ -68,10 +68,12 @@ void hw_init()
     // using normal drive strength creates overshoot and clamping
     // weakest strength gives a nicer oscillation and much better EMC
     gpio_set_drive_capability(GPIO_NUM_0, GPIO_DRIVE_CAP_0);
-    // use low drive strenght for SPI.
-    // Fast rise time will bypass mux that disconnects external SPI
+    // use low drive strength for SPI.
+    // Fast rise time gives ringing and can bypass mux that disconnects external SPI
     gpio_set_drive_capability(PIN_NUM_MOSI, GPIO_DRIVE_CAP_0);
     gpio_set_drive_capability(PIN_NUM_CLK, GPIO_DRIVE_CAP_0);
+    gpio_set_drive_capability(PIN_NUM_TFT_CS, GPIO_DRIVE_CAP_0);
+    gpio_set_drive_capability(PIN_NUM_TFT_DC, GPIO_DRIVE_CAP_0);
 
     hal_i2c_master_init();
     hal_spi_host_init(0);
@@ -88,9 +90,11 @@ void expander_check()
             // device is not in default state
             return;
         }
+        // device has reset and needs to be configured again
+        ESP_LOGE("Spark4", "Re-initializing on-board port expander");
+        expander_init();
     }
-    ESP_LOGE("Spark4", "Re-initializing on-board port expander");
-    expander_init(); // device has reset
+    ESP_LOGE("Spark4", "I2c error in expander_check");
 }
 
 void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)

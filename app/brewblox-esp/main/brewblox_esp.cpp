@@ -49,12 +49,14 @@
 unsigned get_device_id(uint8_t* dest, unsigned max_len)
 {
     uint8_t mac[6];
-    esp_wifi_get_mac(WIFI_IF_STA, mac);
-    uint8_t i;
-    for (i = 0; i < max_len && i < 6; i++) {
-        dest[i] = mac[i];
+    if (esp_wifi_get_mac(WIFI_IF_STA, mac) == ESP_OK) {
+        uint8_t i;
+        for (i = 0; i < max_len && i < 6; i++) {
+            dest[i] = mac[i];
+        }
+        return i;
     }
-    return i;
+    return 0;
 }
 
 int resetReason()

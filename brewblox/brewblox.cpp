@@ -123,7 +123,11 @@ deviceIdStringInit()
 const std::string&
 deviceIdString()
 {
-    static auto hexId = deviceIdStringInit();
+    static std::string hexId;
+    if (hexId.empty()) {
+        // device ID can be unknown before wifi is initialized
+        hexId = deviceIdStringInit();
+    }
     return hexId;
 }
 
