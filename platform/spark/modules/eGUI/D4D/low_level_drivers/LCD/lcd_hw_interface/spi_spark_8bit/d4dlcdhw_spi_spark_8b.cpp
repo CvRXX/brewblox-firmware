@@ -53,6 +53,8 @@ extern "C" {
 }
 #include "SPIArbiter.h"
 
+#include "concurrent_hal.h"
+
 // compilation enable preprocessor condition
 // the string d4dtch_spi_spark_8b_ID must be replaced by define created one line up
 #if (D4D_MK_STR(D4D_LLD_LCD_HW) == d4dlcdhw_spi_spark_8b_ID)
@@ -154,15 +156,15 @@ hasPendingDataToSend()
 inline void
 waitForTransferToComplete()
 {
-    while (dma_buffer_idx >= 0)
-        ;
+    while (dma_buffer_idx >= 0) {
+        os_thread_yield();
+    }
 }
 
 /**
  * Notification that the DMA transfer was complete.
  */
-void
-transferComplete()
+void transferComplete()
 {
     SpiLCD.end();
     dma_buffer_idx = -1;

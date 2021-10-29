@@ -19,6 +19,7 @@
 
 #pragma once
 #include "hal/hal_i2c.h"
+#include <array>
 #include <initializer_list>
 #include <vector>
 
@@ -69,6 +70,17 @@ public:
             return values;
         }
         return {};
+    }
+
+    template <size_t N>
+    bool i2c_read(std::array<uint8_t, N>& data, bool stop = true)
+    {
+        if (addr == 0xFF) {
+            return {};
+        }
+
+        lastError = hal_i2c_read(addr, data.data(), data.size(), stop);
+        return lastError == 0;
     }
 
     hal_i2c_err_t i2c_last_error()

@@ -10,13 +10,14 @@
 
 using namespace hal_spi;
 
-auto callbackDcPinOn = StaticCallbacks{
+DMA_ATTR auto callbacksData = StaticCallbacks{
     [](TransactionData& t) {
         hal_gpio_write(2, true);
     },
-    nullptr};
+    [](TransactionData& t) {
+    }};
 
-auto callbackDcPinOnWithFree = StaticCallbacks{
+DMA_ATTR auto callbacksDataWithFree = StaticCallbacks{
     [](TransactionData& t) {
         hal_gpio_write(2, true);
     },
@@ -24,25 +25,24 @@ auto callbackDcPinOnWithFree = StaticCallbacks{
         delete t.tx_data;
     }};
 
-auto callbackDcPinOffWithFree = StaticCallbacks{
+DMA_ATTR auto callbacksCommand = StaticCallbacks{
+    [](TransactionData& t) {
+        hal_gpio_write(2, false);
+    },
+    nullptr};
+
+DMA_ATTR auto callbacksCommandWithFree = StaticCallbacks{
     [](TransactionData& t) {
         hal_gpio_write(2, false);
     },
     [](TransactionData& t) {
         delete t.tx_data;
     }};
-
-auto callbackDcPinOff = StaticCallbacks{
-    [](TransactionData& t) {
-        hal_gpio_write(2, false);
-    },
-    nullptr};
 
 TFT035::TFT035(void (*finishCallback)(void))
-    : spiDevice(Settings{.spi_idx = 0, .speed = 20'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE0, .bitOrder = Settings::BitOrder::MSBFIRST})
+    : spiDevice(Settings{.spi_idx = 0, .speed = 16'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE3, .bitOrder = Settings::BitOrder::MSBFIRST})
     , finishCallback(finishCallback)
     , dc(2)
-
 {
 }
 
@@ -51,6 +51,7 @@ error_t TFT035::writeCommand(const std::vector<uint8_t>& cmd)
     hal_gpio_write(2, false);
     return spiDevice.write(cmd);
 }
+
 error_t TFT035::writeData(const std::vector<uint8_t>& cmd)
 {
     hal_gpio_write(2, true);
@@ -72,36 +73,36 @@ void TFT035::init()
 {
     writeCommand(PGAMCTRL);
     writeData({0x00,
-           0x03,
-           0x09,
-           0x08,
-           0x16,
-           0x0A,
-           0x3F,
-           0x78,
-           0x4C,
-           0x09,
-           0x0A,
-           0x08,
-           0x16,
-           0x1A,
-           0x0F});
+               0x03,
+               0x09,
+               0x08,
+               0x16,
+               0x0A,
+               0x3F,
+               0x78,
+               0x4C,
+               0x09,
+               0x0A,
+               0x08,
+               0x16,
+               0x1A,
+               0x0F});
     writeCommand(NGAMCTRL);
     writeData({0x00,
-           0x16,
-           0x19,
-           0x03,
-           0x0F,
-           0x05,
-           0x32,
-           0x45,
-           0x46,
-           0x04,
-           0x0E,
-           0x0D,
-           0x35,
-           0x37,
-           0x0F});
+               0x16,
+               0x19,
+               0x03,
+               0x0F,
+               0x05,
+               0x32,
+               0x45,
+               0x46,
+               0x04,
+               0x0E,
+               0x0D,
+               0x35,
+               0x37,
+               0x0F});
 
     writeCommand(PWCTRL1); //Power Control 1
     writeData(0x17);       //Vreg1out
@@ -156,7 +157,7 @@ error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsign
 
     auto x = std::array<uint8_t, 4>{uint8_t(xs >> 8), uint8_t(xs & 0xFF), uint8_t(xe >> 8), uint8_t(xe & 0xFF)};
 
-    if (auto error = dmaWriteData(x))
+    if (auto error = dmaWriteData(std::move(x)))
         return error;
 
     if (auto error = dmaWriteCommand(0x2B))
@@ -164,31 +165,31 @@ error_t TFT035::setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsign
 
     auto y = std::array<uint8_t, 4>{uint8_t(ys >> 8), uint8_t(ys & 0xFF), uint8_t(ye >> 8), uint8_t(ye & 0xFF)};
 
-    if (auto error = dmaWriteData(y))
+    if (auto error = dmaWriteData(std::move(y)))
         return error;
 
     return dmaWriteCommand(0x2C);
 }
 
-error_t TFT035::dmaWriteCommand(const uint8_t* tx_data, size_t tx_len) 
+error_t TFT035::dmaWriteCommand(const uint8_t* tx_data, size_t tx_len)
 {
-        return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOff);
+    return spiDevice.dmaWrite(tx_data, tx_len, callbacksCommand);
 }
 
-error_t TFT035::dmaWriteData(const uint8_t* tx_data, size_t tx_len) 
+error_t TFT035::dmaWriteData(const uint8_t* tx_data, size_t tx_len)
 {
-        return spiDevice.dmaWrite(tx_data, tx_len, callbackDcPinOn);
+    return spiDevice.dmaWrite(tx_data, tx_len, callbacksData);
 }
 
 template <std::size_t n>
-error_t TFT035::dmaWriteCommand(const std::array<uint8_t, n>& tx_val)
+error_t TFT035::dmaWriteCommand(std::array<uint8_t, n>&& tx_val)
 {
-    return spiDevice.dmaWrite(tx_val, callbackDcPinOff);
+    return spiDevice.dmaWrite(std::move(tx_val), callbacksCommand);
 }
 template <std::size_t n>
-error_t TFT035::dmaWriteData(const std::array<uint8_t, n>& tx_val)
+error_t TFT035::dmaWriteData(std::array<uint8_t, n>&& tx_val)
 {
-    return spiDevice.dmaWrite(tx_val, callbackDcPinOn);
+    return spiDevice.dmaWrite(std::move(tx_val), callbacksData);
 }
 
 error_t TFT035::dmaWriteCommand(uint8_t tx_val)

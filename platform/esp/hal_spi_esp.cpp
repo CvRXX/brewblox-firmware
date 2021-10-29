@@ -2,6 +2,7 @@
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
+#include "freertos/FreeRTOS.h"
 #include "hal/hal_delay.h"
 #include "hal/hal_spi_impl.hpp"
 #include "hal/hal_spi_types.h"
@@ -9,9 +10,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "freertos/task.h"
+
 using namespace hal_spi;
 
-auto transactionBuffer = StaticAllocator<spi_transaction_t, 10>();
+DMA_ATTR auto transactionBuffer = StaticAllocator<spi_transaction_t, 10>();
 
 namespace platform_spi {
 struct SpiHost {
@@ -80,7 +83,7 @@ error_t init(Settings& settings)
         .dummy_bits = 0,
         .mode = settings.mode,
         .duty_cycle_pos = 0,
-        .cs_ena_pretrans = 0,
+        .cs_ena_pretrans = 2,
         .cs_ena_posttrans = 0,
         .clock_speed_hz = settings.speed,
         .input_delay_ns = 0,
@@ -141,7 +144,7 @@ error_t write(Settings& settings, const uint8_t* data, size_t size)
 spi_transaction_t* allocateTransaction()
 {
     // Wait until there is space for the transaction in the static buffer.
-    for (uint8_t retries = 0; retries<10; retries++) {
+    for (uint8_t retries = 0; retries < 10; retries++) {
         auto trans = new (transactionBuffer.get()) spi_transaction_t{};
         if (trans) {
             return trans;
@@ -166,7 +169,11 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
             .rx_buffer = nullptr,
         };
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        if (error != ESP_OK) {
+            transactionBuffer.free(trans);
+        }
+        return error;
     } else {
         return 1;
     }
@@ -177,19 +184,24 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
     if (auto trans = allocateTransaction()) {
 
         *trans = spi_transaction_t{
-            .flags = SPI_TRANS_USE_TXDATA | SPI_TRANS_USE_RXDATA,
+            .flags = SPI_TRANS_USE_TXDATA,
             .cmd = 0,
             .addr = 0,
             .length = size * 8, // esp platform wants size in bits
             .rxlength = 0,
             .user = const_cast<CallbacksBase*>(callbacks),
-            .tx_data = {},
-            .rx_data = {},
+            .tx_data = {0},
+            .rx_buffer = nullptr,
         };
 
-        std::copy(data, data + size, &(trans->tx_data[0]));
+        memcpy(trans->tx_data, data, size);
 
-        return spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        if (error != ESP_OK) {
+            transactionBuffer.free(trans);
+        }
+        return error;
+
     } else {
         return 1;
     }
@@ -215,8 +227,12 @@ void aquire_bus(Settings& settings)
 {
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }
+
 void release_bus(Settings& settings)
 {
+    while (!transactionBuffer.isEmpty()) {
+        taskYIELD();
+    }
     spi_device_release_bus(get_platform_ptr(settings));
 }
 }

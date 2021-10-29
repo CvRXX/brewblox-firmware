@@ -2,16 +2,11 @@
 // #include "Buffer.h"
 // #include "Label.h"
 #include "Record.h"
-#include "UDPExtended.h"
+#include "UDPMessage.h"
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
-
-#define MDNS_ADDRESS IPAddress(224, 0, 0, 251)
-#define MDNS_PORT 5353
-
-#define BUFFER_SIZE 512
 
 class MDNS {
 public:
@@ -20,20 +15,12 @@ public:
         TCP,
     };
 
-    MDNS(std::string hostname);
-    ~MDNS()
-    {
-        for (auto r : records) {
-            delete r;
-        }
-        for (auto r : metaRecords) {
-            delete r;
-        }
-    }
+    MDNS(const std::string& hostname);
+    ~MDNS() = default;
 
     void addService(Protocol protocol, std::string serviceType, const std::string serviceName, uint16_t port,
-                    std::vector<std::string>&& txtEntries = std::vector<std::string>(),
-                    std::vector<std::string>&& subServices = std::vector<std::string>());
+                    std::vector<std::string>&& txtEntries,
+                    std::vector<std::string>&& subServices);
 
     bool begin(bool announce = false);
 
@@ -67,25 +54,50 @@ private:
         std::vector<Question> questions;
     };
 
-    UDPExtended udp;
+    static UDP udp;
 
-    // meta records for re-using labels
-    MetaRecord* LOCAL;
-    MetaRecord* UDP;
-    MetaRecord* TCP;
-    MetaRecord* DNSSD;
-    MetaRecord* SERVICES;
+    // static meta records to re-use labels
+    static MetaRecord metaLOCAL;
+    static MetaRecord metaUDP;
+    static MetaRecord metaTCP;
+    static MetaRecord metaDNSSD;
+    static MetaRecord metaSERVICES;
 
     // actual records that are checked
-    ARecord* hostRecord;
+    static ARecord hostRecord;
+    static HostNSECRecord hostNSECRecord;
 
-    // vectors of records to iterate over them
-    std::vector<Record*> records;
-    std::vector<MetaRecord*> metaRecords;
+    // vectors of extra records to iterate over them
+    static std::vector<std::unique_ptr<Record>> records;
+    static std::vector<std::unique_ptr<MetaRecord>> subMetaRecords;
+
+    static const IPAddress ip;
+    static const auto port = uint16_t{5353};
 
     Query getQuery();
 
     void processQuery(const Query& q);
     void processQuestion(const Query::Question& question);
     void writeResponses();
+
+    void udpGet(uint8_t& v)
+    {
+        if (udp.available() >= 1) {
+            v = udp.read();
+        }
+    }
+
+    void udpGet(uint16_t& v)
+    {
+        if (udp.available() >= 2) {
+            v = (uint16_t(udp.read()) << 8) + uint16_t(udp.read());
+        }
+    }
+
+    void udpGet(uint32_t& v)
+    {
+        if (udp.available() >= 4) {
+            v = (uint32_t(udp.read()) << 24) + (uint32_t(udp.read()) << 16) + (uint32_t(udp.read()) << 8) + uint32_t(udp.read());
+        }
+    }
 };

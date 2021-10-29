@@ -5,8 +5,7 @@
 
 constexpr const uint16_t LABEL_PTR_MASK = 0xc000;
 
-void
-Label::writeFull(UDPExtended& udp) const
+void Label::writeFull(UDPMessage& udp) const
 {
     // number of writes written so far is the offset, because no reads are since packet start
     if (name.size()) {
@@ -22,14 +21,12 @@ Label::writeFull(UDPExtended& udp) const
     }
 }
 
-void
-Label::writePtr(UDPExtended& udp) const
+void Label::writePtr(UDPMessage& udp) const
 {
     udp.put(uint16_t(LABEL_PTR_MASK | this->offset));
 }
 
-void
-Label::write(UDPExtended& udp) const
+void Label::write(UDPMessage& udp) const
 {
     if (offset) {
         writePtr(udp);
@@ -45,7 +42,7 @@ Label::writeSize() const
         return 2;
     }
     uint16_t size = 0;
-    if (name.size() != 0) {
+    if (name.size()) {
         // has own string
         size = 1 + name.size();
     }
@@ -55,8 +52,8 @@ Label::writeSize() const
     return size + 1; // add closing zero
 }
 
-Record::Record(Label label, uint16_t type, uint16_t cls, uint32_t ttl, bool announce)
-    : label(std::move(label))
+Record::Record(Label&& label_, uint16_t type, uint16_t cls, uint32_t ttl, bool announce)
+    : label(std::move(label_))
     , type(type)
     , cls(cls)
     , ttl(ttl)
@@ -64,52 +61,44 @@ Record::Record(Label label, uint16_t type, uint16_t cls, uint32_t ttl, bool anno
 {
 }
 
-void
-Record::announceRecord()
+void Record::announceRecord()
 {
     if (this->announce) {
         this->answerRecord = true;
     }
 }
 
-void
-Record::setAnswerRecord()
+void Record::setAnswerRecord()
 {
     this->answerRecord = true;
 }
 
-bool
-Record::isAnswerRecord()
+bool Record::isAnswerRecord()
 {
     return answerRecord && !knownRecord;
 }
 
-void
-Record::setAdditionalRecord()
+void Record::setAdditionalRecord()
 {
     this->additionalRecord = true;
 }
 
-bool
-Record::isAdditionalRecord()
+bool Record::isAdditionalRecord()
 {
     return additionalRecord && !answerRecord && !knownRecord;
 }
 
-void
-Record::setKnownRecord()
+void Record::setKnownRecord()
 {
     this->knownRecord = true;
 }
 
-void
-Record::writeLabel(UDPExtended& udp) const
+void Record::writeLabel(UDPMessage& udp) const
 {
     label.write(udp);
 }
 
-void
-Record::write(UDPExtended& udp) const
+void Record::write(UDPMessage& udp) const
 {
     writeLabel(udp);
     udp.put(type);
@@ -118,8 +107,7 @@ Record::write(UDPExtended& udp) const
     writeSpecific(udp);
 }
 
-bool
-Record::match(std::vector<std::string>::const_iterator qnameBegin, std::vector<std::string>::const_iterator qnameEnd, uint16_t qtype, uint16_t qclass) const
+bool Record::match(std::vector<std::string>::const_iterator qnameBegin, std::vector<std::string>::const_iterator qnameEnd, uint16_t qtype, uint16_t qclass) const
 {
     if (!(qtype == type || qtype == ANY_TYPE || type == ANY_TYPE) || (qclass != (cls & ~uint16_t(CACHE_FLUSH)))) {
         return false;
@@ -146,14 +134,12 @@ Record::match(std::vector<std::string>::const_iterator qnameBegin, std::vector<s
     return false;
 }
 
-void
-Record::resetLabelOffset()
+void Record::resetLabelOffset()
 {
     this->label.reset();
 }
 
-void
-Record::reset()
+void Record::reset()
 {
     this->label.reset();
     this->answerRecord = false;
@@ -167,13 +153,13 @@ Record::getLabel() const
     return label;
 }
 
-ARecord::ARecord(Label label)
+ARecord::ARecord(Label&& label, HostNSECRecord* nsec)
     : Record(std::move(label), A_TYPE, IN_CLASS | CACHE_FLUSH, TTL_2MIN)
+    , nsecRecord(nsec)
 {
 }
 
-void
-ARecord::writeSpecific(UDPExtended& udp) const
+void ARecord::writeSpecific(UDPMessage& udp) const
 {
     udp.put(uint16_t(4));
     IPAddress ip = spark::WiFi.localIP();
@@ -183,8 +169,7 @@ ARecord::writeSpecific(UDPExtended& udp) const
     udp.put(uint8_t(ip[3]));
 }
 
-void
-ARecord::matched(uint16_t qtype)
+void ARecord::matched(uint16_t qtype)
 {
     if (qtype == A_TYPE || qtype == ANY_TYPE) {
         this->setAnswerRecord();
@@ -195,29 +180,26 @@ ARecord::matched(uint16_t qtype)
     }
 }
 
-MetaRecord::MetaRecord(Label label)
+MetaRecord::MetaRecord(Label&& label)
     : Record(std::move(label), ANY_TYPE, IN_CLASS, 0, false)
 {
 }
 
-void
-MetaRecord::writeSpecific(UDPExtended& udp) const
+void MetaRecord::writeSpecific(UDPMessage& udp) const
 {
 }
 
-NSECRecord::NSECRecord(Label label)
+NSECRecord::NSECRecord(Label&& label)
     : Record(std::move(label), NSEC_TYPE, IN_CLASS | CACHE_FLUSH, TTL_2MIN)
 {
 }
 
-HostNSECRecord::HostNSECRecord(Label label, ARecord* hostRecord)
+HostNSECRecord::HostNSECRecord(Label&& label)
     : NSECRecord(std::move(label))
 {
-    hostRecord->setNsecRecord(this);
 }
 
-void
-HostNSECRecord::writeSpecific(UDPExtended& udp) const
+void HostNSECRecord::writeSpecific(UDPMessage& udp) const
 {
     uint16_t labelSize = label.writeSize();
     udp.put(uint16_t(3 + labelSize));
@@ -227,13 +209,12 @@ HostNSECRecord::writeSpecific(UDPExtended& udp) const
     udp.put(uint8_t(0x40));
 }
 
-ServiceNSECRecord::ServiceNSECRecord(Label label)
+ServiceNSECRecord::ServiceNSECRecord(Label&& label)
     : NSECRecord(std::move(label))
 {
 }
 
-void
-ServiceNSECRecord::writeSpecific(UDPExtended& udp) const
+void ServiceNSECRecord::writeSpecific(UDPMessage& udp) const
 {
     uint16_t labelSize = label.writeSize();
     udp.put(uint16_t(7 + labelSize));
@@ -247,31 +228,30 @@ ServiceNSECRecord::writeSpecific(UDPExtended& udp) const
     udp.put(uint8_t(0x40));
 }
 
-PTRRecord::PTRRecord(Label label, bool announce)
+PTRRecord::PTRRecord(Label&& label, bool announce)
     : Record(std::move(label), PTR_TYPE, IN_CLASS, TTL_75MIN, announce)
 {
 }
 
-void
-PTRRecord::setTargetRecord(Record* target)
+void PTRRecord::setTargetRecord(Record* target)
 {
     targetRecord = target;
 }
 
-void
-PTRRecord::writeSpecific(UDPExtended& udp) const
+void PTRRecord::writeSpecific(UDPMessage& udp) const
 {
-    udp.put(targetRecord->getLabel().writeSize());
-    targetRecord->writeLabel(udp);
+    if (targetRecord) {
+        udp.put(targetRecord->getLabel().writeSize());
+        targetRecord->writeLabel(udp);
+    }
 }
 
-void
-PTRRecord::matched(uint16_t qtype)
+void PTRRecord::matched(uint16_t qtype)
 {
     targetRecord->matched(qtype); // Let target record handle which records are included
 }
 
-SRVRecord::SRVRecord(Label label, uint16_t _port, PTRRecord* ptr, ARecord* a)
+SRVRecord::SRVRecord(Label&& label, uint16_t _port, PTRRecord* ptr, ARecord* a)
     : Record(std::move(label), SRV_TYPE, IN_CLASS | CACHE_FLUSH, TTL_2MIN)
     , port(_port)
     , ptrRecord(ptr)
@@ -279,8 +259,7 @@ SRVRecord::SRVRecord(Label label, uint16_t _port, PTRRecord* ptr, ARecord* a)
 {
 }
 
-void
-SRVRecord::matched(uint16_t qtype)
+void SRVRecord::matched(uint16_t qtype)
 {
     switch (qtype) {
     case PTR_TYPE:
@@ -318,8 +297,7 @@ SRVRecord::matched(uint16_t qtype)
     }
 }
 
-void
-SRVRecord::writeSpecific(UDPExtended& udp) const
+void SRVRecord::writeSpecific(UDPMessage& udp) const
 {
     uint16_t ptrLabelSize = aRecord->getLabel().writeSize();
     udp.put(uint16_t(6 + ptrLabelSize));
@@ -329,14 +307,13 @@ SRVRecord::writeSpecific(UDPExtended& udp) const
     aRecord->writeLabel(udp);
 }
 
-TXTRecord::TXTRecord(Label label, std::vector<std::string> entries)
+TXTRecord::TXTRecord(Label&& label, std::vector<std::string>&& entries)
     : Record(std::move(label), TXT_TYPE, IN_CLASS | CACHE_FLUSH, TTL_75MIN)
     , data(std::move(entries))
 {
 }
 
-void
-TXTRecord::writeSpecific(UDPExtended& udp) const
+void TXTRecord::writeSpecific(UDPMessage& udp) const
 {
     uint16_t size = 0;
 
