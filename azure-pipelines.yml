@@ -232,7 +232,7 @@ jobs:
         displayName: Export build variables
 
       - bash: |
-          curl -fsSL https://raw.githubusercontent.com/BrewBlox/deployed-images/develop/prepare_buildx.sh | bash
+          bash docker/prepare-buildx.sh
         displayName: Prepare buildx
         condition: and(succeeded(), variables.BRANCH)
 

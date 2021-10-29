@@ -1,11 +1,12 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
 pushd "$(dirname "$0")" > /dev/null
 
 # The compiler image is expected to remain relatively stable
 # It does not contain any firmware code - just the software required to compile the firmware
 
-TAG=${TAG:-latest}
+TAG="${1:?}"
+shift
 
 bash ../prepare-buildx.sh
 
