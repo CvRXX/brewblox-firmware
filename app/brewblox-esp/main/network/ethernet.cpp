@@ -11,7 +11,7 @@
 #pragma GCC diagnostic pop
 
 extern "C" {
-esp_eth_phy_t* esp_eth_phy_new_lan8742(const eth_phy_config_t* config);
+esp_eth_phy_t* esp_eth_phy_new_lan87xx(const eth_phy_config_t* config);
 }
 
 namespace ethernet {
@@ -33,7 +33,20 @@ void init()
 {
     esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
     interface = esp_netif_new(&cfg);
-    esp_eth_set_default_handlers(interface);
+
+    eth_mac_config_t mac_config = ETH_MAC_DEFAULT_CONFIG();
+    eth_phy_config_t phy_config = ETH_PHY_DEFAULT_CONFIG();
+    phy_config.phy_addr = 0;
+    phy_config.reset_gpio_num = -1;
+    phy_config.reset_timeout_ms = 2000;
+    mac_config.smi_mdc_gpio_num = 23;
+    mac_config.smi_mdio_gpio_num = 18;
+    mac = esp_eth_mac_new_esp32(&mac_config);
+    phy = esp_eth_phy_new_lan87xx(&phy_config);
+    esp_eth_config_t config = ETH_DEFAULT_CONFIG(mac, phy);
+    esp_eth_driver_install(&config, &eth_handle);
+
+    auto err = esp_netif_attach(interface, esp_eth_new_netif_glue(eth_handle));
 
     esp_event_handler_instance_register(ETH_EVENT,
                                         ESP_EVENT_ANY_ID,
@@ -46,24 +59,6 @@ void init()
                                         &eth_event_handler,
                                         nullptr,
                                         &instance_ip_event);
-
-    eth_mac_config_t mac_config = ETH_MAC_DEFAULT_CONFIG();
-    eth_phy_config_t phy_config = ETH_PHY_DEFAULT_CONFIG();
-    phy_config.phy_addr = 0;
-    phy_config.reset_gpio_num = -1;
-    phy_config.reset_timeout_ms = 2000;
-    mac_config.smi_mdc_gpio_num = 23;
-    mac_config.smi_mdio_gpio_num = 18;
-    mac = esp_eth_mac_new_esp32(&mac_config);
-#if CONFIG_SMOOTH_ETH_PHY_MOCK
-    phy = esp_eth_phy_new_mock(&phy_config);
-#else
-    phy = esp_eth_phy_new_lan8742(&phy_config);
-#endif
-    esp_eth_config_t config = ETH_DEFAULT_CONFIG(mac, phy);
-    esp_eth_driver_install(&config, &eth_handle);
-
-    auto err = esp_netif_attach(interface, esp_eth_new_netif_glue(eth_handle));
 
     if (err == ESP_OK) {
         /* start Ethernet driver state machine */
