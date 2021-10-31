@@ -1,4 +1,5 @@
 #include "TFT035.hpp"
+#include "Spark4.hpp"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "hal/hal_delay.h"
@@ -10,16 +11,34 @@
 
 using namespace hal_spi;
 
+void dcPinData()
+{
+
+    hal_gpio_write(spark4::PIN_NUM_TFT_DC, true);
+    // ensure CS pin is toggled so that DC pin is read on next falling edge of CLK
+    hal_gpio_write(spark4::PIN_NUM_TFT_CS, true);
+    hal_gpio_write(spark4::PIN_NUM_TFT_CS, false);
+}
+
+void dcPinCommand()
+{
+
+    hal_gpio_write(spark4::PIN_NUM_TFT_DC, false);
+    // ensure CS pin is toggled so that DC pin is read on next falling edge of CLK
+    hal_gpio_write(spark4::PIN_NUM_TFT_CS, true);
+    hal_gpio_write(spark4::PIN_NUM_TFT_CS, false);
+}
+
 DMA_ATTR auto callbacksData = StaticCallbacks{
     [](TransactionData& t) {
-        hal_gpio_write(2, true);
+        dcPinData();
     },
     [](TransactionData& t) {
     }};
 
 DMA_ATTR auto callbacksDataWithFree = StaticCallbacks{
     [](TransactionData& t) {
-        hal_gpio_write(2, true);
+        dcPinData();
     },
     [](TransactionData& t) {
         delete t.tx_data;
@@ -27,45 +46,44 @@ DMA_ATTR auto callbacksDataWithFree = StaticCallbacks{
 
 DMA_ATTR auto callbacksCommand = StaticCallbacks{
     [](TransactionData& t) {
-        hal_gpio_write(2, false);
+        dcPinCommand();
     },
     nullptr};
 
 DMA_ATTR auto callbacksCommandWithFree = StaticCallbacks{
     [](TransactionData& t) {
-        hal_gpio_write(2, false);
+        dcPinCommand();
     },
     [](TransactionData& t) {
         delete t.tx_data;
     }};
 
 TFT035::TFT035(void (*finishCallback)(void))
-    : spiDevice(Settings{.spi_idx = 0, .speed = 16'000'000UL, .queueSize = 10, .ssPin = 4, .mode = Settings::Mode::SPI_MODE3, .bitOrder = Settings::BitOrder::MSBFIRST})
+    : spiDevice(Settings{.spi_idx = 0, .speed = 16'000'000UL, .queueSize = 10, .ssPin = spark4::PIN_NUM_TFT_CS, .mode = Settings::Mode::SPI_MODE3, .bitOrder = Settings::BitOrder::MSBFIRST})
     , finishCallback(finishCallback)
-    , dc(2)
 {
 }
 
 error_t TFT035::writeCommand(const std::vector<uint8_t>& cmd)
 {
-    hal_gpio_write(2, false);
+    dcPinCommand();
     return spiDevice.write(cmd);
 }
 
 error_t TFT035::writeData(const std::vector<uint8_t>& cmd)
 {
-    hal_gpio_write(2, true);
+    dcPinData();
     return spiDevice.write(cmd);
 }
 
 error_t TFT035::writeCommand(uint8_t cmd)
 {
-    hal_gpio_write(2, false);
+    dcPinCommand();
     return spiDevice.write(cmd);
 }
 error_t TFT035::writeData(uint8_t cmd)
 {
-    hal_gpio_write(2, true);
+    dcPinData();
     return spiDevice.write(cmd);
 }
 
