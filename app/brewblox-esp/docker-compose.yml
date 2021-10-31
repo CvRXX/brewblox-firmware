@@ -1,5 +1,5 @@
 compiler:
-  image: espressif/idf:v4.3.1
+  image: espressif/idf:release-v4.4
   volumes:
     - .:/project
   working_dir: /project 
