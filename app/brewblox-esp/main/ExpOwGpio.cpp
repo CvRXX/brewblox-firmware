@@ -92,7 +92,7 @@ void ExpOwGpio::init_driver()
 
 bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
 {
-    if (!channel || channel > 8) {
+    if (!connected || !channel || channel > 8) {
         return false;
     }
     uint8_t idx = channel - 1;
@@ -165,7 +165,7 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
 
 bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
 {
-    if (!channel || channel > 8) {
+    if (!connected || !channel || channel > 8) {
         return false;
     }
     uint8_t idx = channel - 1;
@@ -208,9 +208,10 @@ void ExpOwGpio::writeDrvRegister(DRV8908::RegAddr addr, uint8_t value)
 {
     // CS must be toggled for every transfer!
     // don't use drv.writeRegister directly
-    assert_cs();
-    drv.writeRegister(addr, value);
-    deassert_cs();
+    if (assert_cs()) {
+        drv.writeRegister(addr, value);
+        deassert_cs();
+    }
 }
 
 // reads 2 consecutive registers
@@ -219,9 +220,10 @@ uint8_t ExpOwGpio::readDrvRegister(DRV8908::RegAddr addr)
     // CS must be toggled for every transfer!
     // don't use drv.writeRegister directly
     uint8_t value = 0xFF;
-    assert_cs();
-    drv.readRegister(addr, value);
-    deassert_cs();
+    if (assert_cs()) {
+        drv.readRegister(addr, value);
+        deassert_cs();
+    }
     return value;
 }
 
@@ -245,6 +247,18 @@ uint16_t ExpOwGpio::read2DrvRegisters(DRV8908::RegAddr addr)
 
 void ExpOwGpio::update(bool forceRefresh)
 {
+    if (!connected) {
+        // try to reconnect
+        connected = hal_i2c_detect(expander.address()) == 0;
+        if (connected) {
+            init_driver();
+            owDriver.init();
+        }
+    }
+    if (!connected) {
+        return;
+    }
+
     auto drv_status = status();
 
     bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
