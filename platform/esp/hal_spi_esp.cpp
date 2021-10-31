@@ -113,7 +113,7 @@ void deInit(Settings& settings)
 error_t write(Settings& settings, const uint8_t* data, size_t size)
 {
     auto trans = spi_transaction_t{};
-    if (size < 4) {
+    if (size <= 4) {
         trans = spi_transaction_t{
             .flags = uint32_t{SPI_TRANS_USE_TXDATA},
             .cmd = 0,

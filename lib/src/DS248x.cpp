@@ -27,14 +27,14 @@ constexpr const uint8_t PTR_PORTCONFIG = 0xb4; //DS2484 only
 
 bool DS248x::busyWait()
 {
-    if (i2c_write({DS248X_SRP, PTR_STATUS})) {
+    if (i2c_write(std::array<uint8_t, 2>({DS248X_SRP, PTR_STATUS}))) {
         for (uint8_t retries = 0; retries < 5; retries++) {
-            auto result = i2c_read(1);
-            if (result.size()) {
-                bool ready = (result[0] & DS248X_STATUS_BUSY) == 0;
+            uint8_t result;
+            if (i2c_read(result)) {
+                bool ready = (result & DS248X_STATUS_BUSY) == 0;
                 if (ready) {
-                    mStatus = result[0];
-                    shortDetectedFlag |= (result[0] & 0x4);
+                    mStatus = result;
+                    shortDetectedFlag |= (result & 0x4);
                     failedWaits = 0;
                     return true;
                 }
@@ -67,10 +67,11 @@ bool DS248x::configure(uint8_t config)
     // when writing, upper bits should be inverse of lower bits
     // when reading, upper bits read as zero
     uint8_t config_byte = config + (~config << 4U);
-    i2c_write({DS248X_WCFG, config_byte});
-    auto result = i2c_read(1);
-    if (result.size()) {
-        return result[0] == config;
+    if (i2c_write(std::array<uint8_t, 2>({DS248X_WCFG, config_byte}))) {
+        uint8_t result;
+        if (i2c_read(result)) {
+            return result == config;
+        }
     }
     return false;
 }
@@ -116,10 +117,10 @@ bool DS248x::selectChannel(uint8_t channel)
     };
 
     if (busyWait()) {
-        if (i2c_write({DS248X_CHSL, ch})) {
-            auto result = i2c_read(1);
-            if (result.size()) {
-                return ch_read == result[0];
+        if (i2c_write(std::array<uint8_t, 2>({DS248X_CHSL, ch}))) {
+            uint8_t result;
+            if (i2c_read(result)) {
+                return ch_read == result;
             }
         }
     }
@@ -134,14 +135,14 @@ bool DS248x::reset()
             // read status until ready
             // todo: use repeated start condition ?
             for (uint8_t retries = 0; retries < 10; retries++) {
-                auto result = i2c_read(1);
-                if (result.size() == 0) {
+                uint8_t result;
+                if (!i2c_read(result)) {
                     // i2c error
                     return false;
                 }
-                if ((result[0] & DS248X_STATUS_BUSY) == 0) {
-                    mStatus = result[0];
-                    shortDetectedFlag |= (result[0] & 0x4);
+                if ((result & DS248X_STATUS_BUSY) == 0) {
+                    mStatus = result;
+                    shortDetectedFlag |= (result & 0x4);
                     return (mStatus & DS248X_STATUS_PPD) > 0;
                 }
                 hal_delay_ms(1);
@@ -154,7 +155,7 @@ bool DS248x::reset()
 bool DS248x::write(uint8_t b)
 {
     if (busyWait()) {
-        return i2c_write({{DS248X_1WWB, b}});
+        return i2c_write(std::array<uint8_t, 2>({{DS248X_1WWB, b}}));
     }
     return false;
 }
@@ -167,18 +168,17 @@ bool DS248x::read(uint8_t& b)
         }
 
         for (uint8_t retries = 0; retries < 5; retries++) {
-            auto result = i2c_read(1);
-            if (result.size() == 0) {
+            uint8_t result;
+            if (!i2c_read(result)) {
                 // i2c error
                 return false;
             }
-            bool ready = (result[0] & DS248X_STATUS_BUSY) == 0;
+            bool ready = (result & DS248X_STATUS_BUSY) == 0;
             if (ready) {
-                mStatus = result[0];
-                if (i2c_write({DS248X_SRP, PTR_READ})) {
-                    auto result = i2c_read(1);
-                    if (result.size()) {
-                        b = result[0];
+                mStatus = result;
+                if (i2c_write(std::array<uint8_t, 2>({DS248X_SRP, PTR_READ}))) {
+                    if (i2c_read(result)) {
+                        b = result;
                         return true;
                     }
                 }
@@ -192,7 +192,7 @@ bool DS248x::read(uint8_t& b)
 bool DS248x::write_bit(bool bit)
 {
     if (busyWait()) {
-        return i2c_write({DS248X_1WSB, bit ? uint8_t{0x80} : uint8_t{0}});
+        return i2c_write(std::array<uint8_t, 2>({DS248X_1WSB, bit ? uint8_t{0x80} : uint8_t{0}}));
     }
     return false;
 }
@@ -216,7 +216,7 @@ DS248x::search_triplet(bool search_direction)
     //  [] indicates from slave
     //  SS indicates byte containing search direction bit value in msbit
     if (busyWait()) {
-        if (i2c_write({DS248X_1WT, search_direction ? uint8_t{0x80} : uint8_t{0x00}})) {
+        if (i2c_write(std::array<uint8_t, 2>({DS248X_1WT, search_direction ? uint8_t{0x80} : uint8_t{0x00}}))) {
             // success, TODO handle fail?
         };
     }

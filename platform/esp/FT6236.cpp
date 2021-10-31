@@ -28,7 +28,7 @@ void FT6236::init()
 
 bool FT6236::writeRegister(Register reg, uint8_t value)
 {
-    return i2c_write({static_cast<uint8_t>(reg), value});
+    return i2c_write(std::array<uint8_t, 2>({static_cast<uint8_t>(reg), value}));
 }
 
 FT6236::Touch FT6236::getLastTouch()
@@ -38,14 +38,13 @@ FT6236::Touch FT6236::getLastTouch()
 
 std::optional<uint8_t> FT6236::readRegister(Register reg)
 {
-    auto value = std::array<uint8_t, 1>{};
-    i2c_write(static_cast<uint8_t>(reg));
-    auto read = i2c_read(value);
-    if (read) {
-        return value[0];
-    } else {
-        return std::nullopt;
+    if (i2c_write(static_cast<uint8_t>(reg))) {
+        uint8_t v;
+        if (i2c_read(v)) {
+            return v;
+        }
     }
+    return std::nullopt;
 }
 
 std::optional<FT6236::Touch> FT6236::getTouch()

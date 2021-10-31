@@ -122,7 +122,7 @@ void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
         off7 = 0b00001010; // period off, intensity 2
     }
 
-    expander.write_regs({
+    expander.i2c_write(std::array<uint8_t, 16>({
         uint8_t(SX1508::RegAddr::tOn3), // start address
         tOn3,                           // tOn3
         B,                              // iOn3
@@ -139,7 +139,7 @@ void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
         off7,                           // off7
         tRise7,                         // tRise7
         tFall7,                         // tFall7
-    });
+    }));
 }
 
 void expander_init()
