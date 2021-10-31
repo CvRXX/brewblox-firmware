@@ -50,6 +50,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 {
     OneWireMockDriver owMock;
     auto ow = std::make_shared<OneWire>(owMock);
+    ow->init();
 
     WHEN("No devices are on the bus, reset returns false")
     {

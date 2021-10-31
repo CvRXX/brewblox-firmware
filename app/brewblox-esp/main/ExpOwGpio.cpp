@@ -251,8 +251,8 @@ void ExpOwGpio::update(bool forceRefresh)
         // try to reconnect
         connected = hal_i2c_detect(expander.address()) == 0;
         if (connected) {
-            init_driver();
-            owDriver.init();
+            init_driver(); // init io driver
+            ow.init();     // init OneWire bus
         }
     }
     if (!connected) {
@@ -295,7 +295,7 @@ void ExpOwGpio::update(bool forceRefresh)
         expander.set_output(ExpanderPins::oneWirePowerEnable, false);
         hal_delay_ms(200);
         expander.set_output(ExpanderPins::oneWirePowerEnable, true);
-        owDriver.init();
+        ow.init();
     }
 }
 
