@@ -12,7 +12,7 @@ public:
     void set_outputs(uint8_t bits)
     {
         outputs = bits;
-        i2c_write({0x01, outputs});
+        i2c_write(std::array<uint8_t, 2>({0x01, outputs}));
     }
 
     void set_output(uint8_t pin, bool state)
@@ -28,16 +28,15 @@ public:
     // 1 for input, 0 for output
     void set_config(uint8_t inputs_mask)
     {
-        i2c_write({0x03, inputs_mask});
+        i2c_write(std::array<uint8_t, 2>({0x03, inputs_mask}));
     }
 
     bool get_outputs(uint8_t& result)
     {
-        i2c_write({0x1});
-        auto v = i2c_read(1);
-        if (v.size()) {
-            result = v[0];
-            return true;
+        if (i2c_write(uint8_t(0x1))) {
+            if (i2c_read(result)) {
+                return true;
+            }
         }
         return false;
     }

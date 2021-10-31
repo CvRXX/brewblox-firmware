@@ -38,7 +38,16 @@ public:
         addr = (lower_bits < 4) ? lower_bits + family_address() : 0xFF;
     }
 
-    bool i2c_write(const std::vector<uint8_t>& values, bool stop = true)
+    bool i2c_write(uint8_t value, bool stop = true)
+    {
+        lastError = hal_i2c_write(addr, &value, 1, stop);
+        return lastError == 0;
+    }
+
+    bool i2c_write(uint8_t value, uint8_t value2) = delete;
+
+    template <size_t N>
+    bool i2c_write(const std::array<uint8_t, N>& values, bool stop = true)
     {
         if (addr == 0xFF) {
             return false;
@@ -47,39 +56,24 @@ public:
         return lastError == 0;
     }
 
-    bool i2c_write(std::initializer_list<uint8_t> values, bool stop = true)
-    {
-        return i2c_write(std::vector<uint8_t>{values}, stop);
-    }
-
-    bool i2c_write(uint8_t value, bool stop = true)
-    {
-        return i2c_write(std::vector<uint8_t>{value}, stop);
-    }
-
-    bool i2c_write(uint8_t value, uint8_t value2) = delete;
-
-    std::vector<uint8_t> i2c_read(size_t n, bool stop = true)
-    {
-        if (addr == 0xFF) {
-            return {};
-        }
-        std::vector<uint8_t> values(n);
-        lastError = hal_i2c_read(addr, values.data(), values.size(), stop);
-        if (lastError == 0) {
-            return values;
-        }
-        return {};
-    }
-
     template <size_t N>
-    bool i2c_read(std::array<uint8_t, N>& data, bool stop = true)
+    bool i2c_read(std::array<uint8_t, N>& values, bool stop = true)
     {
         if (addr == 0xFF) {
-            return {};
+            return false;
         }
 
-        lastError = hal_i2c_read(addr, data.data(), data.size(), stop);
+        lastError = hal_i2c_read(addr, values.data(), values.size(), stop);
+        return lastError == 0;
+    }
+
+    bool i2c_read(uint8_t& value, bool stop = true)
+    {
+        if (addr == 0xFF) {
+            return false;
+        }
+
+        lastError = hal_i2c_read(addr, &value, 1, stop);
         return lastError == 0;
     }
 

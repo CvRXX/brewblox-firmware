@@ -93,7 +93,5 @@ public:
 
     void reset();
     bool write_reg(RegAddr addr, uint8_t data);
-    bool write_regs(std::vector<uint8_t>&& data); // first byte is start address
-    // void write_regs(RegAddr addr, const uint8_t* data, size_t len);
     bool read_reg(RegAddr addr, uint8_t& result);
 };
