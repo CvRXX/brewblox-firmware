@@ -245,15 +245,20 @@ uint16_t ExpOwGpio::read2DrvRegisters(DRV8908::RegAddr addr)
     return (uint16_t(upper) << 8) + lower;
 }
 
+void ExpOwGpio::init()
+{
+    // try to reconnect
+    connected = hal_i2c_detect(expander.address()) == 0;
+    if (connected) {
+        init_driver(); // init io driver
+        ow.init();     // init OneWire bus
+    }
+}
+
 void ExpOwGpio::update(bool forceRefresh)
 {
     if (!connected) {
-        // try to reconnect
-        connected = hal_i2c_detect(expander.address()) == 0;
-        if (connected) {
-            init_driver(); // init io driver
-            ow.init();     // init OneWire bus
-        }
+        init();
     }
     if (!connected) {
         return;
