@@ -18,6 +18,11 @@ fi
 # -m64 is not supported for ARM
 sed -i 's/-m64//g' platform/spark/device-os/build/gcc-tools.mk
 
+# remove debug info and optimize for size
+sed -i 's/-g3//g' platform/spark/device-os/build/gcc-tools.mk
+sed -i 's/-gdwarf-2//g' platform/spark/device-os/build/gcc-tools.mk
+sed -i 's/-O$(GCC_OPTIMIZE)/-Os/g' platform/spark/device-os/build/gcc-tools.mk
+
 # Pull compiler image for target arch
 docker pull \
     --platform=linux/arm/v7 \

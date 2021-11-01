@@ -7,7 +7,7 @@ resources:
     - container: simulator-compiler
       image: brewblox/simulator-compiler:10.3
     - container: idf
-      image: espressif/idf:v4.3.1
+      image: espressif/idf:release-v4.4
 
 pool:
   vmImage: "Ubuntu-20.04"
@@ -232,7 +232,7 @@ jobs:
         displayName: Export build variables
 
       - bash: |
-          curl -fsSL https://raw.githubusercontent.com/BrewBlox/deployed-images/develop/prepare_buildx.sh | bash
+          bash docker/prepare-buildx.sh
         displayName: Prepare buildx
         condition: and(succeeded(), variables.BRANCH)
 

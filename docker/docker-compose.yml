@@ -14,7 +14,7 @@ services:
         user: ${DOCKER_UID}:${DOCKER_GID}
         command: tail -f /dev/null
     compiler_esp:
-        image: espressif/idf:v4.3.1
+        image: espressif/idf:release-v4.4
         container_name: firmware-compiler-esp
         init: true
         privileged: true

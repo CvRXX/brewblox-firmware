@@ -9,7 +9,6 @@ idf_component_register(
     Spark4.cpp
     TFT035.cpp
     TicksEsp.cpp
-    esp_eth_phy_lan8742.c
   INCLUDE_DIRS 
     .
   REQUIRES

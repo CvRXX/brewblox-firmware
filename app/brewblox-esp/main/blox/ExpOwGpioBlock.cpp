@@ -135,7 +135,7 @@ void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
     }
     if (iface == cbox::interfaceId<OneWire>()) {
         // return the member that implements the interface in this case
-        return &drivers.oneWireBus();
+        return drivers.oneWireBus();
     }
 
     if (iface == cbox::interfaceId<IoModule>()) {

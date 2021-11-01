@@ -61,8 +61,8 @@ list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs)
 
 set(SYSTEM_VERSION_STRING ${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR}.${IDF_VERSION_PATCH})
 
-if(NOT SYSTEM_VERSION_STRING STREQUAL "4.3.1")
-    message ( FATAL_ERROR "Please check out tag v4.3.1 for esp-idf")
+if(NOT SYSTEM_VERSION_STRING STREQUAL "4.4.0")
+    message ( FATAL_ERROR "Found esp-idf ${SYSTEM_VERSION_STRING}, Please check out release 4.4 for esp-idf")
 endif()
 
 message(STATUS "Git version: " ${GIT_VERSION})

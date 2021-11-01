@@ -47,7 +47,7 @@ pushd release
 tar -czf "/tmp/${archive_filename}" ./*
 popd
 
-echo "Publishing brewblox/firmware-bin:${TAG} as "
+echo "Publishing brewblox/firmware-bin:${TAG} as ${archive_filename}"
 
 # Upload files
 # - This requires Azure CLI to be installed

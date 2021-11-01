@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run --rm -v "$PWD":/project -w /project espressif/idf:v4.3.1 idf.py build
+docker run --rm -v "$PWD":/project -w /project espressif/idf:release-v4.4 idf.py build

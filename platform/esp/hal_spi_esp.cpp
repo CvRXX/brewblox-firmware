@@ -29,6 +29,10 @@ SpiHost spiHosts[1] = {{
      .sclk_io_num = 14,
      .quadwp_io_num = -1,
      .quadhd_io_num = -1,
+     .data4_io_num = -1,
+     .data5_io_num = -1,
+     .data6_io_num = -1,
+     .data7_io_num = -1,
      .max_transfer_sz = 0,
      .flags = SPICOMMON_BUSFLAG_MASTER,
      .intr_flags = 0},
@@ -113,7 +117,7 @@ void deInit(Settings& settings)
 error_t write(Settings& settings, const uint8_t* data, size_t size)
 {
     auto trans = spi_transaction_t{};
-    if (size < 4) {
+    if (size <= 4) {
         trans = spi_transaction_t{
             .flags = uint32_t{SPI_TRANS_USE_TXDATA},
             .cmd = 0,

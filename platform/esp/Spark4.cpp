@@ -20,16 +20,6 @@
 
 namespace spark4 {
 
-constexpr auto PIN_NUM_MISO = GPIO_NUM_12;
-constexpr auto PIN_NUM_MOSI = GPIO_NUM_13;
-constexpr auto PIN_NUM_CLK = GPIO_NUM_14;
-constexpr auto PIN_NUM_TFT_DC = GPIO_NUM_2;
-constexpr auto PIN_NUM_SD_CS = GPIO_NUM_5;
-constexpr auto PIN_NUM_TFT_CS = GPIO_NUM_4;
-constexpr auto PIN_NUM_I2C_IRQ = GPIO_NUM_35;
-constexpr auto PIN_NUM_I2C_SDA = GPIO_NUM_32;
-constexpr auto PIN_NUM_I2C_SCL = GPIO_NUM_33;
-
 SX1508 expander(0);
 uint8_t backLightPwm = 128;
 
@@ -122,7 +112,7 @@ void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
         off7 = 0b00001010; // period off, intensity 2
     }
 
-    expander.write_regs({
+    expander.i2c_write(std::array<uint8_t, 16>({
         uint8_t(SX1508::RegAddr::tOn3), // start address
         tOn3,                           // tOn3
         B,                              // iOn3
@@ -139,7 +129,7 @@ void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
         off7,                           // off7
         tRise7,                         // tRise7
         tFall7,                         // tFall7
-    });
+    }));
 }
 
 void expander_init()
