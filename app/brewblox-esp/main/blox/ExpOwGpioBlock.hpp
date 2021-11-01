@@ -30,9 +30,12 @@ private:
     ExpOwGpio drivers;
 
 public:
-    ExpOwGpioBlock(uint8_t lower_address = 0xFF)
+    ExpOwGpioBlock(uint8_t lower_address = 0xFF, bool init = false)
         : drivers(lower_address)
     {
+        if (init) {
+            drivers.init();
+        }
     }
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
