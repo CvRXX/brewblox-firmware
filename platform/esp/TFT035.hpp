@@ -82,7 +82,6 @@ public:
 private:
     SpiDevice spiDevice;
     void (*finishCallback)(void);
-    const hal_pin_t dc;
 
     hal_spi::error_t setPos(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye);
 

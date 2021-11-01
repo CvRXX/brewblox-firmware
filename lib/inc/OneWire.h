@@ -8,9 +8,6 @@ public:
     explicit OneWire(OneWireLowLevelInterface& driverImpl)
         : driver(driverImpl)
     {
-        // base class OneWireLowLevelInterface configures pin or bus master IC
-        init();
-        reset_search();
     }
     OneWire(const OneWire&) = delete;
     OneWire(OneWire&&) = default;
@@ -29,7 +26,11 @@ public:
     // wrappers for low level functions
     bool init()
     {
-        return driver.init();
+        if (driver.init()) {
+            reset_search();
+            return true;
+        }
+        return false;
     }
 
     bool read(uint8_t& v)

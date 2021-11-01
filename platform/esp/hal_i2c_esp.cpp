@@ -1,4 +1,5 @@
 #include "driver/i2c.h"
+#include "esp_debug_helpers.h"
 #include "esp_log.h"
 #include "hal/hal_i2c.h"
 #include <mutex>
@@ -6,20 +7,21 @@
 namespace detail {
 std::mutex i2c_mutex;
 
-hal_i2c_err_t to_hal_err(esp_err_t err)
+hal_i2c_err_t to_hal_err(esp_err_t err, bool print_error = true)
 {
-    if (err) {
+    if (print_error && err) {
         ESP_LOGE("I2C", "Error %d", err);
+        esp_backtrace_print(10);
     }
     return err; // TODO: convert errors to platform independent enum
 }
 
-hal_i2c_err_t cmd_link_send(i2c_cmd_handle_t cmd)
+hal_i2c_err_t cmd_link_send(i2c_cmd_handle_t cmd, bool print_error = true)
 {
     std::lock_guard<std::mutex> guard(detail::i2c_mutex);
     auto err = i2c_master_cmd_begin(I2C_NUM_0, cmd, 1000 / portTICK_RATE_MS);
     i2c_cmd_link_delete(cmd);
-    return to_hal_err(err);
+    return to_hal_err(err, print_error);
 }
 }
 
@@ -72,5 +74,5 @@ hal_i2c_err_t hal_i2c_detect(uint8_t address)
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, address << 1U, true);
     i2c_master_stop(cmd);
-    return detail::cmd_link_send(cmd);
+    return detail::cmd_link_send(cmd, false);
 }

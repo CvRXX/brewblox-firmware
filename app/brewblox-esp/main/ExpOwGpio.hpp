@@ -250,9 +250,12 @@ public:
         }
     }
 
-    OneWire& oneWireBus()
+    OneWire* oneWireBus()
     {
-        return ow;
+        if (connected) {
+            return &ow;
+        }
+        return nullptr;
     }
 
     void externalPowerEnabled(bool isEnabled)
@@ -266,19 +269,27 @@ public:
     }
 
 private:
-    void assert_cs()
+    bool assert_cs()
     {
-        spi.aquire_bus();
-        // always set both configuration registers of the expander
-        // in case the IC has reset, this will ensure a correct state.
-
-        expander.set_outputs(externalPower ? 0xFE : 0xFC);
-        expander.set_config(0b11101000); // pin 4, 2, 1, 0 output, others input
+        if (connected) {
+            // if not connected, wait until device is re-discovered in update to reduce communication
+            spi.aquire_bus();
+            // always set both configuration registers of the expander
+            // in case the IC has reset, this will ensure a correct state.
+            // pin 4, 2, 1, 0 output, others input
+            connected = expander.set_outputs(externalPower ? 0xFE : 0xFC) && expander.set_config(0b11101000);
+            return true;
+        }
+        return false;
     }
 
     void deassert_cs()
     {
-        expander.set_outputs(externalPower ? 0xFF : 0xFD);
+        if (connected) {
+            // if device couldn't be found, there is no point in trying to communicate with the expander
+            expander.set_outputs(externalPower ? 0xFF : 0xFD);
+        }
+        // the spi bus lock still has to be freed
         spi.release_bus();
     }
 
@@ -301,6 +312,7 @@ private:
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
     bool externalPower = false;
+    bool connected = false;
 
     enum ExpanderPins : uint8_t {
         spiCsPin = 0,

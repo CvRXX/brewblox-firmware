@@ -9,26 +9,26 @@ public:
     }
     ~TCA9538() = default;
 
-    void set_outputs(uint8_t bits)
+    bool set_outputs(uint8_t bits)
     {
         outputs = bits;
-        i2c_write(std::array<uint8_t, 2>({0x01, outputs}));
+        return i2c_write(std::array<uint8_t, 2>({0x01, outputs}));
     }
 
-    void set_output(uint8_t pin, bool state)
+    bool set_output(uint8_t pin, bool state)
     {
         uint8_t mask = uint8_t(0x1) << pin;
         if (state) {
-            set_outputs(outputs | mask);
+            return set_outputs(outputs | mask);
         } else {
-            set_outputs(outputs & ~mask);
+            return set_outputs(outputs & ~mask);
         }
     }
 
     // 1 for input, 0 for output
-    void set_config(uint8_t inputs_mask)
+    bool set_config(uint8_t inputs_mask)
     {
-        i2c_write(std::array<uint8_t, 2>({0x03, inputs_mask}));
+        return i2c_write(std::array<uint8_t, 2>({0x03, inputs_mask}));
     }
 
     bool get_outputs(uint8_t& result)
