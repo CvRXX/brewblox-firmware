@@ -1,12 +1,13 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
 pushd "$(dirname "$0")" > /dev/null
 
 # Prerequisite steps:
 # - Build all desired binary/executable firmware files
 # - Run before_build.sh to add dependency files
 
-TAG=${TAG:-local}
+TAG="${1:?}"
+shift
 
 # don't forget to call with --push
 docker buildx build \

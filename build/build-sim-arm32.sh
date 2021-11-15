@@ -26,7 +26,7 @@ sed -i 's/-O$(GCC_OPTIMIZE)/-Os/g' platform/spark/device-os/build/gcc-tools.mk
 # Pull compiler image for target arch
 docker pull \
     --platform=linux/arm/v7 \
-    brewblox/simulator-compiler:10.3
+    brewblox/simulator-compiler:8
 
 # Build
 docker run \
@@ -34,7 +34,7 @@ docker run \
     --rm \
     --platform=linux/arm/v7 \
     -v "$(pwd)/":/firmware/ \
-    brewblox/simulator-compiler:10.3 \
+    brewblox/simulator-compiler:8 \
     make APP=brewblox PLATFORM=gcc
 
 # reset modified file
