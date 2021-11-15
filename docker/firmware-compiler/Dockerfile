@@ -1,4 +1,4 @@
-FROM gcc:10.3
+FROM gcc:8
 
 ENV TZ=Europe/Amsterdam \
   DEBIAN_FRONTEND=noninteractive \
@@ -16,8 +16,8 @@ RUN apt-get update -q \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # install arm compiler
-ENV GCC_ARM_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-x86_64-linux.tar.bz2" \
-  GCC_ARM_VERSION="10.3-2021.07"
+ENV GCC_ARM_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2019q3/RC1.1/gcc-arm-none-eabi-8-2019-q3-update-linux.tar.bz2" \
+  GCC_ARM_VERSION="8-2019-q3-update"
 
 RUN dpkg --add-architecture i386 \
   && apt-get update -q \
@@ -48,8 +48,8 @@ RUN mkdir -p /boost && curl -sSL https://s3.amazonaws.com/spark-assets/boost_$BO
   && export DYLD_LIBRARY_PATH="$BOOST_ROOT/stage/lib:$DYLD_LIBRARY_PATH" \
   && export LD_LIBRARY_PATH="$BOOST_ROOT/stage/lib:$LD_LIBRARY_PATH" \
   && cd $BOOST_ROOT \
-  && ./bootstrap.sh \  
-  && ./b2  --with-thread --with-system --with-program_options --with-random --with-regex --threading=multi link=static runtime-link=static
+  && ./bootstrap.sh \
+  && ./b2 --with-thread --with-system --with-program_options --with-random --with-regex --threading=multi link=static runtime-link=static
 
 WORKDIR /firmware/build
 CMD bash

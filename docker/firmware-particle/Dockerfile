@@ -1,30 +1,29 @@
-FROM node:14-buster-slim
+FROM node:14-bullseye-slim
 
 WORKDIR /app
+
+ENV PIP_EXTRA_INDEX_URL=https://www.piwheels.org/simple
 
 RUN set -ex \
   && apt-get update \
   && apt-get install -y \
-    make \
-    gcc \
-    g++ \
+    build-essential \
     udev \
     libudev-dev \
-    python \
-    python-pip \
+    libffi-dev \
+    python3-dev \
+    python3-pip \
     usbutils \
     curl \
     dfu-util \
-  && python -m pip install \
+  && python3 -m pip install \
     esptool \
   && npm install --production --build-from-source --unsafe-perm \
     serialport \
     particle-cli \
     particle-usb \
   && apt-get remove -y \
-    make \
-    gcc \
-    g++ \
+    build-essential \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/*
 

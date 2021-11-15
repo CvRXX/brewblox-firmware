@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     compiler:
-        image: brewblox/firmware-compiler:10.3
+        image: brewblox/firmware-compiler:8
         container_name: firmware-compiler
         init: true
         privileged: true

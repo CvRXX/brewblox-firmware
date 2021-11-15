@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
 pushd "$(dirname "$0")/../.." > /dev/null # Run from repo root
 
 SRC=docker/firmware-bin/source

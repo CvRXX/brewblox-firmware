@@ -3,9 +3,9 @@ resources:
     - repository: self
   containers:
     - container: firmware-compiler
-      image: brewblox/firmware-compiler:10.3
+      image: brewblox/firmware-compiler:8
     - container: simulator-compiler
-      image: brewblox/simulator-compiler:10.3
+      image: brewblox/simulator-compiler:8
     - container: idf
       image: espressif/idf:release-v4.4
 
@@ -261,7 +261,6 @@ jobs:
           SRC: docker/firmware-bin/source
 
       - bash: |
-          export TAG=$(TAG)
-          bash docker/firmware-bin/build.sh --push
+          bash docker/firmware-bin/build.sh $(TAG) --push
         displayName: Build firmware-bin image
         condition: and(succeeded(), variables['BRANCH'])
