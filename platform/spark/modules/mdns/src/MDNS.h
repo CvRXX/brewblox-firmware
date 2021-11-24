@@ -16,7 +16,10 @@ public:
     };
 
     MDNS(const std::string& hostname);
-    ~MDNS() = default;
+    ~MDNS()
+    {
+        delete udp;
+    };
 
     void addService(Protocol protocol, std::string serviceType, const std::string serviceName, uint16_t port,
                     std::vector<std::string>&& txtEntries,
@@ -54,7 +57,7 @@ private:
         std::vector<Question> questions;
     };
 
-    static UDP udp;
+    static UDP* udp;
 
     // static meta records to re-use labels
     static MetaRecord metaLOCAL;
@@ -82,22 +85,22 @@ private:
 
     void udpGet(uint8_t& v)
     {
-        if (udp.available() >= 1) {
-            v = udp.read();
+        if (udp->available() >= 1) {
+            v = udp->read();
         }
     }
 
     void udpGet(uint16_t& v)
     {
-        if (udp.available() >= 2) {
-            v = (uint16_t(udp.read()) << 8) + uint16_t(udp.read());
+        if (udp->available() >= 2) {
+            v = (uint16_t(udp->read()) << 8) + uint16_t(udp->read());
         }
     }
 
     void udpGet(uint32_t& v)
     {
-        if (udp.available() >= 4) {
-            v = (uint32_t(udp.read()) << 24) + (uint32_t(udp.read()) << 16) + (uint32_t(udp.read()) << 8) + uint32_t(udp.read());
+        if (udp->available() >= 4) {
+            v = (uint32_t(udp->read()) << 24) + (uint32_t(udp->read()) << 16) + (uint32_t(udp->read()) << 8) + uint32_t(udp->read());
         }
     }
 };
