@@ -21,7 +21,6 @@
 #include "hal/hal_i2c.h"
 #include <array>
 #include <initializer_list>
-#include <vector>
 
 class I2CDevice {
 public:
