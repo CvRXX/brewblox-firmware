@@ -126,7 +126,7 @@ public:
     virtual int16_t peek() override
     {
         fetch();
-        if (upper < '0' || lower < '0' || lower > 'F' || upper > 'F') {
+        if (!isxdigit(upper) || !isxdigit(lower)) {
             return -1;
         }
         return h2d(upper) * 16 + h2d(lower);
@@ -145,18 +145,20 @@ public:
 
     void consumeNonHex()
     {
+        // reset nibbles, because we want a fresh hex char after this function
+        upper = -1;
+        lower = -1;
         while (true) {
             auto v = textIn.peek();
-            if (v < 0) {
-                break;
+            if (isxdigit(v)) {
+                return; // next char is in hex range
             }
-            if (!isxdigit(v)) {
-                textIn.read();
-                upper = -1;
-                lower = -1;
-            } else {
+            if (v < 0) {
+                // stream is empty
                 return;
             }
+            // consume
+            textIn.read();
         }
     }
 
