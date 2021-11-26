@@ -68,6 +68,7 @@ std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& ob
                 return std::shared_ptr<cbox::Object>(new ExpOwGpioBlock(lower_bits));
             }
         }
+        hal_yield();
     };
     return nullptr;
 }

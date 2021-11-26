@@ -24,6 +24,7 @@
 #include "brewblox_particle.hpp"
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
+#include "hal/hal_delay.h"
 #include "reset.h"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
@@ -193,6 +194,7 @@ void manageConnections(uint32_t now)
                 } else {
                     break;
                 }
+                hal_yield();
             }
         }
     } else {

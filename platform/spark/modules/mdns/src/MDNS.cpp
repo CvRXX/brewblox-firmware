@@ -1,4 +1,5 @@
 #include "MDNS.h"
+#include "hal/hal_delay.h"
 #include "spark_wiring_wifi.h"
 #include <algorithm>
 #include <cctype> // for std::tolower
@@ -201,6 +202,7 @@ MDNS::getQuery()
                 } else {
                     break;
                 }
+                hal_yield();
             }
             if (udp->available() >= 4) {
                 udpGet(question.qtype);

@@ -13,3 +13,8 @@ void hal_delay_ms(uint32_t duration)
 {
     vTaskDelay(duration / portTICK_PERIOD_MS);
 }
+
+void hal_yield()
+{
+    taskYIELD();
+}
