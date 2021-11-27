@@ -28,6 +28,10 @@ public:
     bool begin(bool announce = false);
 
     bool processQueries();
+    void flush()
+    {
+        udp->flush_buffer();
+    }
 
 private:
     struct QueryHeader {
