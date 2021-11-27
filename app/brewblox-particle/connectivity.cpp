@@ -32,12 +32,12 @@
 #include "spark_wiring_wifi.h"
 #include <cstdio>
 
-uint32_t localIp = 0;
-bool mdns_started = false;
-bool http_started = false;
-
 constexpr uint16_t webPort = PLATFORM_ID == PLATFORM_GCC ? 8380 : 80;
 static TCPServer httpserver(webPort); // Serve a simple page with instructions
+// these values are only set on initial connect to avoid thread unsafe calls into the wifi stack
+uint32_t localIp = 0;
+int8_t wifiSignalRssi = 2;
+char currentSsid[32] = "";
 
 void printWiFiIp(char dest[16])
 {
@@ -45,29 +45,27 @@ void printWiFiIp(char dest[16])
     snprintf(dest, 16, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
 }
 
-int8_t wifiSignalRssi = 2;
-
 // only update signal strength periodically to reduce number of calls into wifi driver
 void updateWifiSignal()
 {
-    if (spark::WiFi.ready()) {
-        // From a particle issue #1967:
-        // avtolstoy: As a workaround for now I might suggest trying to make sure that WiFi.ready() is true
-        // before any WiFi.xxx() calls that rely on wifi_config(), so localIP, macAddress, subnetMask, gatewayIP,
-        // dnsServerIP, dhcpServerIP, BSSID, SSID.
+    if (!spark::WiFi.ready()) {
+        localIp = 0;
+        wifiSignalRssi = 2;
+        currentSsid[0] = 0;
+    }
 
-        auto rssi = wlan_connected_rssi();
-        if (rssi == 0) {
-            // means caller should retry, wait until next update for retry
-            return;
-        }
-        IPAddress ip = spark::WiFi.localIP();
-        localIp = ip.raw().ipv4;
-        wifiSignalRssi = rssi;
+    // From a particle issue #1967:
+    // avtolstoy: As a workaround for now I might suggest trying to make sure that WiFi.ready() is true
+    // before any WiFi.xxx() calls that rely on wifi_config(), so localIP, macAddress, subnetMask, gatewayIP,
+    // dnsServerIP, dhcpServerIP, BSSID, SSID.
+
+    auto rssi = wlan_connected_rssi();
+    if (rssi == 0) {
+        // means caller should retry, wait until next update for retry
         return;
     }
-    localIp = 0;
-    wifiSignalRssi = 2;
+
+    wifiSignalRssi = rssi;
 }
 
 int8_t
@@ -99,11 +97,7 @@ bool setWifiCredentials(const char* ssid, const char* password, uint8_t security
 
 void printWifiSSID(char* dest, const uint8_t& maxLen)
 {
-    if (wifiConnected()) {
-        strncpy(dest, spark::WiFi.SSID(), maxLen);
-    } else {
-        dest[0] = 0;
-    }
+    strncpy(dest, currentSsid, maxLen);
 }
 
 bool listeningModeEnabled()
@@ -146,76 +140,66 @@ MDNS& theMdns()
 
 void manageConnections(uint32_t now)
 {
-    static uint32_t lastConnected = 0;
     static uint32_t lastChecked = 0;
-    static uint32_t lastAnnounce = 0;
     cbox::tracing::add(AppTrace::MANAGE_CONNECTIVITY);
     if (now - lastChecked >= 1000) {
         updateWifiSignal();
         lastChecked = now;
     }
-    if (wifiConnected()) {
-        lastConnected = now;
-        if ((!mdns_started) || ((now - lastAnnounce) > 300000)) {
-            cbox::tracing::add(AppTrace::MDNS_START);
-            // explicit announce every 5 minutes
-            mdns_started = theMdns().begin(true);
-            lastAnnounce = now;
-        }
-        if (!http_started) {
-            cbox::tracing::add(AppTrace::HTTP_START);
-            http_started = httpserver.begin();
-        }
 
-        if (mdns_started) {
-            cbox::tracing::add(AppTrace::MDNS_PROCESS);
-            theMdns().processQueries();
-        }
-        if (http_started) {
-            while (true) {
-                TCPClient client = httpserver.available();
-                if (client) {
-                    cbox::tracing::add(AppTrace::HTTP_RESPONSE);
-                    const uint8_t start[] =
-                        "HTTP/1.1 200 Ok\n\n<html><body>"
-                        "<p>Your BrewBlox Spark is online but it does not run its own web server. "
-                        "Please install a BrewBlox server to connect to it using the BrewBlox protocol.</p>"
-                        "<p>Device ID = ";
-                    const uint8_t end[] = "</p></body></html>\n\n";
+    cbox::tracing::add(AppTrace::MDNS_PROCESS);
+    theMdns().processQueries();
 
-                    client.write(start, sizeof(start), 10);
-                    if (!client.getWriteError() && client.status()) {
-                        client.write(reinterpret_cast<const uint8_t*>(deviceIdString().data()), 24, 10);
-                    }
-                    if (!client.getWriteError() && client.status()) {
-                        client.write(end, sizeof(end), 10);
-                    }
-                    client.stop();
-                } else {
-                    break;
-                }
-                hal_yield();
-            }
-        }
-    } else {
-        mdns_started = false;
-        http_started = false;
+    while (auto client = httpserver.available()) {
+        cbox::tracing::add(AppTrace::HTTP_RESPONSE);
+        const uint8_t start[] =
+            "HTTP/1.1 200 Ok\n\n<html><body>"
+            "<p>Your BrewBlox Spark is online but it does not run its own web server. "
+            "Please install a BrewBlox server to connect to it using the BrewBlox protocol.</p>"
+            "<p>Device ID = ";
+        const uint8_t end[] = "</p></body></html>\n\n";
 
-        if (now - lastConnected > 60000) {
-            // after 60 seconds without WiFi, trigger reconnect
-            // wifi is expected to reconnect automatically. This is a failsafe in case it does not
-            cbox::tracing::add(AppTrace::WIFI_CONNECT);
-            if (!spark::WiFi.connecting()) {
-                spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
-            }
-            lastConnected = now; // retry again after 60s
+        client.write(start, sizeof(start), 10);
+        if (!client.getWriteError() && client.status()) {
+            client.write(reinterpret_cast<const uint8_t*>(deviceIdString().data()), 24, 10);
         }
+        if (!client.getWriteError() && client.status()) {
+            client.write(end, sizeof(end), 10);
+        }
+        client.stop();
+        hal_yield();
+    }
+}
+
+void handleNetworkEvent(system_event_t event, int param)
+{
+    switch (param) {
+    case network_status_connected:
+        // store ip
+        localIp = spark::WiFi.localIP().raw().ipv4;
+        // store ssid
+        strncpy(currentSsid, spark::WiFi.SSID(), sizeof(currentSsid));
+        // announce MDNS services
+        cbox::tracing::add(AppTrace::MDNS_START);
+        theMdns().begin(true);
+        break;
+    case network_status_disconnected:
+    case network_status_off:
+        localIp = 0;
+        wifiSignalRssi = 2;
+        currentSsid[0] = 0;
+        // explicit reconnect. WiFi channel switch would otherwise not reconnect
+        spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
+        break;
+    default:
+        break;
     }
 }
 
 void wifiInit()
 {
     System.disable(SYSTEM_FLAG_RESET_NETWORK_ON_CLOUD_ERRORS);
+    System.on(network_status, handleNetworkEvent);
     spark::WiFi.setListenTimeout(45);
     spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
 }
