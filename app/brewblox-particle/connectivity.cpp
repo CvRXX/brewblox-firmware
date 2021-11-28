@@ -149,7 +149,9 @@ void manageConnections(uint32_t now)
 
     if (wifiConnected()) {
         cbox::tracing::add(AppTrace::MDNS_PROCESS);
-        theMdns().processQueries();
+        theMdns().process();
+    } else {
+        theMdns().stop();
     }
 
     while (auto client = httpserver.available()) {
@@ -181,16 +183,12 @@ void handleNetworkEvent(system_event_t event, int param)
         localIp = spark::WiFi.localIP().raw().ipv4;
         // store ssid
         strncpy(currentSsid, spark::WiFi.SSID(), sizeof(currentSsid));
-        // announce MDNS services
-        cbox::tracing::add(AppTrace::MDNS_START);
-        theMdns().begin(true);
         break;
     case network_status_disconnected:
     case network_status_off:
         localIp = 0;
         wifiSignalRssi = 2;
         currentSsid[0] = 0;
-        theMdns().flush();
         // explicit reconnect. WiFi channel switch would otherwise not reconnect
         spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
         break;

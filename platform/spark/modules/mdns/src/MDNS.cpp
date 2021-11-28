@@ -16,6 +16,7 @@ ARecord MDNS::hostRecord(Label("", &MDNS::metaLOCAL), &MDNS::hostNSECRecord);
 std::vector<std::unique_ptr<Record>> MDNS::records;
 std::vector<std::unique_ptr<MetaRecord>> MDNS::subMetaRecords;
 UDP* MDNS::udp = nullptr;
+bool running = false;
 
 const IPAddress MDNS::ip(224, 0, 0, 251);
 
@@ -23,6 +24,11 @@ MDNS::MDNS(const std::string& hostname)
 {
     udp = new UDP;
     hostRecord.setLabelName(hostname);
+}
+
+MDNS::~MDNS()
+{
+    delete udp;
 }
 
 void MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
@@ -90,30 +96,38 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
     records.push_back(std::move(enumerationRecord));
 }
 
-bool MDNS::begin(bool announce)
+bool MDNS::begin()
 {
-    // Wait for spark::WiFi to connect
-    if (!spark::WiFi.ready()) {
-        return false;
+    if (udp->begin(port)) {
+        udp->joinMulticast(ip);
+        // announce on first start
+        announce();
+        return true;
     }
-    udp = new UDP;
-    udp->begin(port);
-    udp->joinMulticast(ip);
 
+    return false;
+}
+
+void MDNS::announce()
+{
     // TODO: Probing: check if host/SRV records we will announce are already in use
+    MDNS::hostRecord.announceRecord();
+    MDNS::hostNSECRecord.announceRecord();
 
-    if (announce) {
-        MDNS::hostRecord.announceRecord();
-        MDNS::hostNSECRecord.announceRecord();
-
-        for (auto& r : records) {
-            r->announceRecord();
-        }
-
-        writeResponses();
+    for (auto& r : records) {
+        r->announceRecord();
     }
 
-    return true;
+    writeResponses();
+}
+
+void MDNS::process()
+{
+    if (running) {
+        processQueries();
+    } else {
+        running = begin();
+    }
 }
 
 bool MDNS::processQueries()
@@ -316,6 +330,12 @@ void MDNS::writeResponses()
     for (auto& r : records) {
         r->reset();
     }
+}
+
+void MDNS::stop()
+{
+    udp->stop();
+    running = false;
 }
 
 /*

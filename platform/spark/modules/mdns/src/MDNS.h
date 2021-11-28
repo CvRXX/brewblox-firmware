@@ -16,22 +16,17 @@ public:
     };
 
     MDNS(const std::string& hostname);
-    ~MDNS()
-    {
-        delete udp;
-    };
+    ~MDNS();
 
-    void addService(Protocol protocol, std::string serviceType, const std::string serviceName, uint16_t port,
-                    std::vector<std::string>&& txtEntries,
-                    std::vector<std::string>&& subServices);
+    static void addService(Protocol protocol, std::string serviceType, const std::string serviceName, uint16_t port,
+                           std::vector<std::string>&& txtEntries,
+                           std::vector<std::string>&& subServices);
 
-    bool begin(bool announce = false);
-
-    bool processQueries();
-    void flush()
-    {
-        udp->flush_buffer();
-    }
+    static bool begin();
+    static void announce();
+    static void process();
+    static bool processQueries();
+    static void stop();
 
 private:
     struct QueryHeader {
@@ -81,27 +76,27 @@ private:
     static const IPAddress ip;
     static const auto port = uint16_t{5353};
 
-    Query getQuery();
+    static Query getQuery();
 
-    void processQuery(const Query& q);
-    void processQuestion(const Query::Question& question);
-    void writeResponses();
+    static void processQuery(const Query& q);
+    static void processQuestion(const Query::Question& question);
+    static void writeResponses();
 
-    void udpGet(uint8_t& v)
+    static void udpGet(uint8_t& v)
     {
         if (udp->available() >= 1) {
             v = udp->read();
         }
     }
 
-    void udpGet(uint16_t& v)
+    static void udpGet(uint16_t& v)
     {
         if (udp->available() >= 2) {
             v = (uint16_t(udp->read()) << 8) + uint16_t(udp->read());
         }
     }
 
-    void udpGet(uint32_t& v)
+    static void udpGet(uint32_t& v)
     {
         if (udp->available() >= 4) {
             v = (uint32_t(udp->read()) << 24) + (uint32_t(udp->read()) << 16) + (uint32_t(udp->read()) << 8) + uint32_t(udp->read());
