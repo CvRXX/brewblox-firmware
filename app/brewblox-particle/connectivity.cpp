@@ -52,6 +52,7 @@ void updateWifiSignal()
         localIp = 0;
         wifiSignalRssi = 2;
         currentSsid[0] = 0;
+        return;
     }
 
     // From a particle issue #1967:
@@ -59,13 +60,17 @@ void updateWifiSignal()
     // before any WiFi.xxx() calls that rely on wifi_config(), so localIP, macAddress, subnetMask, gatewayIP,
     // dnsServerIP, dhcpServerIP, BSSID, SSID.
 
-    auto rssi = wlan_connected_rssi();
-    if (rssi == 0) {
-        // means caller should retry, wait until next update for retry
-        return;
+    // store ip, only once.
+    // we cannot do this on the network_connected event, because sometimes, it seems, it does not have an IP immediately
+    if (!localIp) {
+        localIp = spark::WiFi.localIP().raw().ipv4;
     }
 
-    wifiSignalRssi = rssi;
+    auto rssi = wlan_connected_rssi();
+    if (rssi != 0) {
+        // 0 means caller should retry and we will wait until next update for the retry
+        wifiSignalRssi = rssi;
+    }
 }
 
 int8_t
@@ -179,8 +184,6 @@ void handleNetworkEvent(system_event_t event, int param)
 {
     switch (param) {
     case network_status_connected:
-        // store ip
-        localIp = spark::WiFi.localIP().raw().ipv4;
         // store ssid
         strncpy(currentSsid, spark::WiFi.SSID(), sizeof(currentSsid));
         break;
