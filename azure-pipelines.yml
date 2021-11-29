@@ -219,8 +219,7 @@ jobs:
 
     variables:
       # Variables imported from brewblox group:
-      # DOCKER_USER
-      # DOCKER_PASSWORD
+      # FIRMWARE_SAS_TOKEN
       - group: brewblox
 
     steps:
@@ -231,36 +230,26 @@ jobs:
           echo "##vso[task.setvariable variable=TAG]$TAG"
         displayName: Export build variables
 
-      - bash: |
-          bash docker/prepare-buildx.sh
-        displayName: Prepare buildx
-        condition: and(succeeded(), variables.BRANCH)
-
-      - bash: |
-          echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USER) --password-stdin
-        displayName: Docker login
-        condition: and(succeeded(), variables.BRANCH)
-
-      # Download all published artifacts
       - download: current
 
       - bash: |
-          set -e
-          mkdir -p ${SRC}
-          cp "$(Pipeline.Workspace)"/AMD64/brewblox-gcc ${SRC}/brewblox-amd64.sim
-          cp "$(Pipeline.Workspace)"/ARM32/brewblox-gcc ${SRC}/brewblox-arm32.sim
-          cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ${SRC}/brewblox-arm64.sim
-          cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ${SRC}/brewblox-p1.bin
-          cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ${SRC}/brewblox-photon.bin
-          cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.bin ${SRC}/brewblox-esp32.bin
-          cp "$(Pipeline.Workspace)"/ESP32/bootloader-esp32.bin ${SRC}/bootloader-esp32.bin
-          cp "$(Pipeline.Workspace)"/ESP32/partition-table-esp32.bin ${SRC}/partition-table-esp32.bin
-          bash docker/firmware-bin/before_build.sh
-        displayName: Prepare firmware-bin source files
-        env:
-          SRC: docker/firmware-bin/source
+          set -euo pipefail
+          mkdir -p ./release
+          cp ./runtime_scripts/* ./release/
+          cp "$(Pipeline.Workspace)"/AMD64/brewblox-gcc ./release/brewblox-amd64.sim
+          cp "$(Pipeline.Workspace)"/ARM32/brewblox-gcc ./release/brewblox-arm32.sim
+          cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ./release/brewblox-arm64.sim
+          cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ./release/brewblox-p1.bin
+          cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ./release/brewblox-photon.bin
+          cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.bin ./release/brewblox-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/bootloader-esp32.bin ./release/bootloader-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/partition-table-esp32.bin ./release/partition-table-esp32.bin
+        displayName: Copy release files
 
       - bash: |
-          bash docker/firmware-bin/build.sh $(TAG) --push
-        displayName: Build firmware-bin image
+          bash build/release.sh
+        displayName: Upload release
         condition: and(succeeded(), variables['BRANCH'])
+        env:
+          AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
+          TAG: $(TAG)
