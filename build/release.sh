@@ -34,7 +34,7 @@ proto_version=$(git --git-dir ./brewblox/blox/proto/.git rev-parse --short=8 HEA
 proto_date=$(git --git-dir ./brewblox/blox/proto/.git log -1 --format=%cd --date=short)
 
 particle_tag=$(git --git-dir "./platform/spark/device-os/.git" fetch --tags --no-recurse-submodules && git --git-dir "./platform/spark/device-os/.git" describe --tags)
-particle_releases=https://github.com/particle-iot/device-os/releases/download/${PARTICLE_TAG}
+particle_releases=https://github.com/particle-iot/device-os/releases/download/${particle_tag}
 particle_version=${particle_tag:1} # remove the 'v' prefix
 
 curl -fL -o ./release/bootloader-p1.bin "${particle_releases}/p1-bootloader@${particle_version}+lto.bin"
