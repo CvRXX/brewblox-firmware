@@ -41,13 +41,13 @@ public:
         }
     }
 
-    int send(UDP& udp, IPAddress ip, uint16_t port)
+    int send(UDP* udp, IPAddress ip, uint16_t port)
     {
         if (buf.empty()) {
             return 0;
         }
         const uint8_t* data = reinterpret_cast<const uint8_t*>(buf.data());
         size_t size = buf.size();
-        return udp.sendPacket(data, size, ip, port);
+        return udp->sendPacket(data, size, ip, port);
     }
 };

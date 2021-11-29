@@ -104,7 +104,7 @@ void onSetupModeEnd()
 
 void onOutOfMemory(system_event_t event, int param)
 {
-    // reboot when out of memory, beter than undefined behavior
+    // reboot when out of memory, better than undefined behavior
     System.reset(RESET_USER_REASON::OUT_OF_MEMORY, RESET_NO_WAIT);
 }
 
