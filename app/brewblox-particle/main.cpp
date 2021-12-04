@@ -37,6 +37,19 @@
 #include "spark_wiring_startup.h"
 #include "spark_wiring_system.h"
 #include "spark_wiring_timer.h"
+#if PLATFORM_ID == PLATFORM_GCC
+#include <csignal>
+#endif
+
+#if PLATFORM_THREADING
+#include "spark_wiring_watchdog.h"
+#else
+class ApplicationWatchdog {
+public:
+    ApplicationWatchdog(unsigned /*timeout_ms*/, std::function<void(void)> /*fn*/, unsigned /*stack_size*/) {}
+    void checkin() {}
+};
+#endif
 
 SYSTEM_THREAD(ENABLED);
 SYSTEM_MODE(SEMI_AUTOMATIC);
@@ -46,34 +59,25 @@ STARTUP(
     System.disableFeature(FEATURE_WIFI_POWERSAVE_CLOCK););
 
 #if PLATFORM_ID == PLATFORM_GCC
-#include <csignal>
 void signal_handler(int signal)
 {
-
     exit(signal);
 }
 #endif
+
+ApplicationWatchdog* appWatchdog = nullptr;
 
 void watchdogReset()
 {
     System.reset(RESET_USER_REASON::WATCHDOG, RESET_NO_WAIT);
 }
 
-#if PLATFORM_THREADING
-#include "spark_wiring_watchdog.h"
-static ApplicationWatchdog appWatchdog(60000, watchdogReset, 256);
-inline void
-watchdogCheckin()
+inline void watchdogCheckin()
 {
-    appWatchdog.checkin();
+    if (appWatchdog) {
+        appWatchdog->checkin();
+    }
 }
-#else
-// define dummy watchdog checkin for when the watchdog is not available
-inline void
-watchdogCheckin()
-{
-}
-#endif
 
 void displayTick()
 {
@@ -122,6 +126,7 @@ void setup()
     Buzzer.beep(2, 50);
     HAL_Delay_Milliseconds(1);
 #endif
+    appWatchdog = new ApplicationWatchdog(60000, watchdogReset, 256);
     hal_i2c_master_init();
     cbox::tracing::pause(); // ensure tracing is paused until service resumes it
 
