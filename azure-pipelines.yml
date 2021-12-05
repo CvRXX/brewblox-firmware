@@ -254,6 +254,6 @@ jobs:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
 
       - bash: |
-          bash build/release.sh $(TAG)
+          bash build/release.sh $(System.PullRequest.TargetBranch)
         displayName: Upload release (dry run)
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
