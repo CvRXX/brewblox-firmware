@@ -247,9 +247,8 @@ jobs:
         displayName: Copy release files
 
       - bash: |
-          bash build/release.sh
+          bash build/release.sh $(TAG)
         displayName: Upload release
         condition: and(succeeded(), variables['BRANCH'])
         env:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
-          TAG: $(TAG)
