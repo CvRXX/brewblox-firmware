@@ -164,34 +164,28 @@ jobs:
 
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
-              
-      - bash: |
-          BRANCH=$(echo $(Build.SourceBranch) | grep -oP "^refs/heads/\K.*")
-          TAG=$(echo $BRANCH | tr '/' '-' | tr '[:upper:]' '[:lower:]')
-          echo "##vso[task.setvariable variable=BRANCH]$BRANCH"
-          echo "##vso[task.setvariable variable=TAG]$TAG"
-        displayName: Export build variables
 
       - task: DownloadSecureFile@1
         name: espSigningKey
         displayName: "Download ESP binary signing certificate"
         inputs:
           secureFile: "esp32_secure_boot_signing_key.pem"
-        condition: and(succeeded(), variables.BRANCH)
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
       - bash: |
           cp -f PLACEHOLDER_SIGNING_KEY.pem secure_boot_signing_key.pem
         displayName: Use placeholder signing key
         workingDirectory: app/brewblox-esp/
-        condition: and(succeeded(), not(variables.BRANCH))
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
       - bash: |
           echo "Using secure boot signing key $(espSigningKey.secureFilePath)"
           sudo chown root:root $(espSigningKey.secureFilePath)
           chmod a+r $(espSigningKey.secureFilePath)
-          sudo ln -s -t app/brewblox-esp/secure_boot_signing_key.pwm $(espSigningKey.secureFilePath)
+          sudo ln -s -t secure_boot_signing_key.pwm $(espSigningKey.secureFilePath)
         displayName: Use real signing key
-        condition: and(succeeded(), variables.BRANCH)
+        workingDirectory: app/brewblox-esp/
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
       - script: /opt/esp/entrypoint.sh idf.py build
         target: idf
@@ -255,11 +249,11 @@ jobs:
       - bash: |
           bash build/release.sh $(TAG)
         displayName: Upload release
-        condition: and(succeeded(), variables.BRANCH)
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         env:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
 
       - bash: |
           bash build/release.sh $(TAG)
         displayName: Upload release (dry run)
-        condition: and(succeeded(), not(variables.BRANCH))
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
