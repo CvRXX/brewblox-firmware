@@ -181,7 +181,7 @@ jobs:
       - bash: |
           echo "Using secure boot signing key $(espSigningKey.secureFilePath)"
           sudo chmod a+r $(espSigningKey.secureFilePath)
-          sudo ln -s $(espSigningKey.secureFilePath) secure_boot_signing_key.pem
+          cp -f $(espSigningKey.secureFilePath) secure_boot_signing_key.pem
           ls -l secure_boot_signing_key.pem
         displayName: Use real signing key
         workingDirectory: app/brewblox-esp/
