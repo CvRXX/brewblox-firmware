@@ -186,12 +186,11 @@ jobs:
         condition: and(succeeded(), not(variables.BRANCH))
 
       - bash: |
-          echo "Using actual secure boot signing key"
+          echo "Using secure boot signing key $(espSigningKey.secureFilePath)"
           sudo chown root:root $(espSigningKey.secureFilePath)
           chmod a+r $(espSigningKey.secureFilePath)
-          sudo ln -s -t ./secure_boot_signing_key.pwm $(espSigningKey.secureFilePath)
+          sudo ln -s -t app/brewblox-esp/secure_boot_signing_key.pwm $(espSigningKey.secureFilePath)
         displayName: Use real signing key
-        workingDirectory: app/brewblox-esp/
         condition: and(succeeded(), variables.BRANCH)
 
       - script: /opt/esp/entrypoint.sh idf.py build
