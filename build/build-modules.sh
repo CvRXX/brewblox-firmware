@@ -1,29 +1,13 @@
 #!/bin/bash
-MY_DIR=$(dirname $(readlink -f $0))
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
-function status()
-{
-if [[ "$1" -eq 0 ]]; then
-  echo "✓ SUCCESS"
-else
-  echo "✗ FAILED"
-fi
-}
-
-pushd "$MY_DIR/../platform/spark/device-os/modules" > /dev/null
+cd platform/spark/device-os/modules
 
 echo "Building system modules for P1"
-make -s all PLATFORM=p1 PARTICLE_DEVELOP=y
-(( result = $? ))
-status $result
-(( exit_status = exit_status || result ))
+subtask make -s all PLATFORM=p1 PARTICLE_DEVELOP=y
 
 echo "Building system modules for Photon"
-make -s all PLATFORM=photon PARTICLE_DEVELOP=y
-(( result = $? ))
-status $result
-(( exit_status = exit_status || result ))
+subtask make -s all PLATFORM=photon PARTICLE_DEVELOP=y
 
-popd > /dev/null
-
-exit $exit_status
+exit $SUBTASK_STATUS

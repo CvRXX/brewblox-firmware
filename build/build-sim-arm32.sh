@@ -1,8 +1,6 @@
 #! /usr/bin/env bash
-set -ex
-
-# Use repository root
-pushd "$(dirname "$0")/.." > /dev/null
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
 # Only use TTY flags if possible
 test -t 1 && USE_TTY="-it"

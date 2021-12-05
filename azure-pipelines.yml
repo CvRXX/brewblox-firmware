@@ -252,3 +252,8 @@ jobs:
         condition: and(succeeded(), variables['BRANCH'])
         env:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
+
+      - bash: |
+          bash build/release.sh $(TAG)
+        displayName: Upload release (dry run)
+        condition: and(succeeded(), not(variables['BRANCH']))

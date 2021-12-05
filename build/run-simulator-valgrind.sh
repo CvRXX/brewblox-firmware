@@ -1,8 +1,10 @@
 #!/bin/bash
-MY_DIR=$(dirname $(readlink -f $0))
-EXECUTABLE_DIR="$MY_DIR/target/brewblox-gcc"
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
+
+EXECUTABLE_DIR="build/target/brewblox-gcc"
 EXECUTABLE="$EXECUTABLE_DIR/brewblox-gcc"
-OUTPUT_DIR="$MY_DIR/coverage"
+OUTPUT_DIR="build/coverage"
 DEVICE_KEY="$EXECUTABLE_DIR/device_key.der"
 SERVER_KEY="$EXECUTABLE_DIR/server_key.der"
 # EEPROM_FILE="$EXECUTABLE_DIR/eeprom.bin"

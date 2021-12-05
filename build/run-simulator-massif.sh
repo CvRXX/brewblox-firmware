@@ -1,9 +1,11 @@
 #!/bin/bash
-MY_DIR=$(dirname $(readlink -f $0))
-BUILD_DIR="$MY_DIR/target/user/platform-3/firmware/brewblox"
-EXECUTABLE_DIR="$MY_DIR/target/brewblox-gcc"
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
+
+# BUILD_DIR="build/target/user/platform-3/firmware/brewblox"
+EXECUTABLE_DIR="build/target/brewblox-gcc"
 EXECUTABLE="$EXECUTABLE_DIR/brewblox-gcc"
-OUTPUT_DIR="$MY_DIR/coverage"
+OUTPUT_DIR="build/coverage"
 DEVICE_KEY="$EXECUTABLE_DIR/device_key.der"
 SERVER_KEY="$EXECUTABLE_DIR/server_key.der"
 STATE_DIR="$EXECUTABLE_DIR/state"
@@ -15,7 +17,7 @@ if [ ! -f "$EXECUTABLE" ]; then
     exit 1
 fi
 
-pushd "$EXECUTABLE_DIR" || exit
+pushd "$EXECUTABLE_DIR"
 
 # eeprom file writes cause a lot of memory allocation. Import blocks manually after start for a less polluted
 touch "$DEVICE_KEY" "$SERVER_KEY" "$EEPROM_FILE"
@@ -31,9 +33,9 @@ valgrind --tool=massif --threshold=0.1 \
 --ignore-fn=_IO_file_doallocate \
 --massif-out-file="$EXECUTABLE_DIR/massif.out" "$EXECUTABLE" --device_id 123456789012345678901234 --device_key="$DEVICE_KEY" --server_key="$SERVER_KEY"
 
-popd || exit
+popd
 
 # open massif.out with massif-visualizer
 massif-visualizer "$EXECUTABLE_DIR/massif.out" &
 # open xtmemory.kcg with kcachegrind
-kcachegrind "$EXECUTABLE_DIR/xtmemory.kcg" 
+kcachegrind "$EXECUTABLE_DIR/xtmemory.kcg"

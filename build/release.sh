@@ -1,18 +1,10 @@
 #! /usr/bin/env bash
-set -euo pipefail
-pushd "$(dirname "$0")/.." > /dev/null # Run from repo root
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
 # This script does not build various binary and executable files.
 # They are assumed to be present in {root}/release already.
 # Particle binaries are downloaded into {root}/release.
-
-# Azure SAS token must have been set to upload to Azure
-if [[ -z "${AZURE_STORAGE_SAS_TOKEN:-}" ]]
-then
-    echo "ERROR: AZURE_STORAGE_SAS_TOKEN variable was not set."
-    echo "You can generate a SAS token at https://portal.azure.com -> brewblox -> containers -> firmware -> Shared access tokens"
-    exit 1
-fi
 
 # A duplicate firmware.ini is uploaded to a tag.
 # This lets clients get firmware version/date associated with a tag.
@@ -21,8 +13,8 @@ shift
 
 # Fetch git index for submodules
 git submodule sync --quiet
-git submodule update --init --depth 1 brewblox/blox/proto
-git submodule update --init --depth 1 platform/spark/device-os
+git submodule update --quiet --init --depth 1 brewblox/blox/proto
+git submodule update --quiet --init --depth 1 platform/spark/device-os
 git --git-dir platform/spark/device-os/.git fetch --quiet --tags --no-recurse-submodules
 
 # Get firmware metadata
@@ -74,9 +66,16 @@ cat ./release/firmware.ini
 echo "==========release/=========="
 ls -Ahl ./release
 
-# Upload files
-# - This requires Azure CLI to be installed
-# - This requires the environment variable AZURE_STORAGE_SAS_TOKEN to be set
+# Azure SAS token must have been set to upload to Azure
+# Exit without error to allow for dry runs
+if [[ -z "${AZURE_STORAGE_SAS_TOKEN:-}" ]]
+then
+    echo ""
+    echo "WARNING: AZURE_STORAGE_SAS_TOKEN variable was not set."
+    echo "WARNING: Skipping release upload."
+    echo "WARNING: You can generate a SAS token at https://portal.azure.com -> brewblox -> containers -> firmware -> Shared access tokens"
+    exit 0
+fi
 
 az storage blob upload \
     --output none \
