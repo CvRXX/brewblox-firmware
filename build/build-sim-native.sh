@@ -10,6 +10,8 @@ fi
 # remove debug info and optimize for size
 sed -i 's/-g3//g' ../platform/spark/device-os/build/gcc-tools.mk
 sed -i 's/-gdwarf-2//g' ../platform/spark/device-os/build/gcc-tools.mk
+# We want to match the shell expression, not expand it before matching
+# shellcheck disable=SC2016
 sed -i 's/-O$(GCC_OPTIMIZE)/-Os/g' ../platform/spark/device-os/build/gcc-tools.mk
 
 make APP=brewblox PLATFORM=gcc

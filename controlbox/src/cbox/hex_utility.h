@@ -13,7 +13,7 @@ isdigit(char c)
 inline bool
 isxdigit(char c)
 {
-    return isdigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+    return isdigit(c) || (c >= 'A' && c <= 'F');
 }
 
 /**

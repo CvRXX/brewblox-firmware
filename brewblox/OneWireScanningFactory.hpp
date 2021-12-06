@@ -29,6 +29,7 @@
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include "cbox/ScanningFactory.hpp"
+#include "hal/hal_delay.h"
 #include <memory>
 
 class OneWireScanningFactory : public cbox::ScanningFactory {
@@ -86,6 +87,7 @@ public:
                             break;
                         }
                     }
+                    hal_yield();
                 } else {
                     return {};
                 }

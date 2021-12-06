@@ -1,4 +1,5 @@
 #include "MDNS.h"
+#include "hal/hal_delay.h"
 #include "spark_wiring_wifi.h"
 #include <algorithm>
 #include <cctype> // for std::tolower
@@ -14,13 +15,20 @@ ARecord MDNS::hostRecord(Label("", &MDNS::metaLOCAL), &MDNS::hostNSECRecord);
 
 std::vector<std::unique_ptr<Record>> MDNS::records;
 std::vector<std::unique_ptr<MetaRecord>> MDNS::subMetaRecords;
-UDP MDNS::udp;
+UDP* MDNS::udp = nullptr;
+bool running = false;
 
 const IPAddress MDNS::ip(224, 0, 0, 251);
 
 MDNS::MDNS(const std::string& hostname)
 {
+    udp = new UDP;
     hostRecord.setLabelName(hostname);
+}
+
+MDNS::~MDNS()
+{
+    delete udp;
 }
 
 void MDNS::addService(Protocol protocol, std::string serviceType, std::string serviceName, uint16_t port,
@@ -88,35 +96,43 @@ void MDNS::addService(Protocol protocol, std::string serviceType, std::string se
     records.push_back(std::move(enumerationRecord));
 }
 
-bool MDNS::begin(bool announce)
+bool MDNS::begin()
 {
-    // Wait for spark::WiFi to connect
-    if (!spark::WiFi.ready()) {
-        return false;
+    if (udp->begin(port)) {
+        udp->joinMulticast(ip);
+        // announce on first start
+        announce();
+        return true;
     }
 
-    udp.begin(port);
-    udp.joinMulticast(ip);
+    return false;
+}
 
+void MDNS::announce()
+{
     // TODO: Probing: check if host/SRV records we will announce are already in use
+    MDNS::hostRecord.announceRecord();
+    MDNS::hostNSECRecord.announceRecord();
 
-    if (announce) {
-        MDNS::hostRecord.announceRecord();
-        MDNS::hostNSECRecord.announceRecord();
-
-        for (auto& r : records) {
-            r->announceRecord();
-        }
-
-        writeResponses();
+    for (auto& r : records) {
+        r->announceRecord();
     }
 
-    return true;
+    writeResponses();
+}
+
+void MDNS::process()
+{
+    if (running) {
+        processQueries();
+    } else {
+        running = begin();
+    }
 }
 
 bool MDNS::processQueries()
 {
-    uint16_t n = udp.parsePacket();
+    uint16_t n = udp->parsePacket();
 
     if (n > 0) {
         auto q = getQuery();
@@ -125,7 +141,7 @@ bool MDNS::processQueries()
             processQuery(q);
         }
 
-        udp.flush_buffer();
+        udp->flush_buffer();
 
         writeResponses();
     }
@@ -138,9 +154,9 @@ MDNS::getQuery()
 {
     Query q;
 
-    auto bufferSize = udp.available(); // offset in udp is private, calculate from remaining
+    auto bufferSize = udp->available(); // offset in udp is private, calculate from remaining
 
-    if (udp.available() >= 12) {
+    if (udp->available() >= 12) {
         udpGet(q.header.id);
         udpGet(q.header.flags);
         udpGet(q.header.qdcount);
@@ -150,10 +166,10 @@ MDNS::getQuery()
     }
     if ((q.header.flags & 0x8000) == 0 && q.header.qdcount > 0) {
         q.questions.reserve(q.header.qdcount);
-        while (q.questions.size() < q.header.qdcount && udp.available() > 4) {
+        while (q.questions.size() < q.header.qdcount && udp->available() > 4) {
             Query::Question question;
             while (true) {
-                auto offset = bufferSize - udp.available();
+                auto offset = bufferSize - udp->available();
                 uint8_t strlen = 0;
                 udpGet(strlen);
                 if (strlen & uint8_t(0xc0)) {
@@ -192,16 +208,17 @@ MDNS::getQuery()
                     // new (part of) qname
                     std::string subname;
                     subname.reserve(strlen);
-                    for (uint8_t len = 0; len < strlen && udp.available() > 0; len++) {
-                        subname.push_back(std::tolower(udp.read()));
+                    for (uint8_t len = 0; len < strlen && udp->available() > 0; len++) {
+                        subname.push_back(std::tolower(udp->read()));
                     }
                     question.qname.push_back(std::move(subname));
                     question.qnameOffset.push_back(offset);
                 } else {
                     break;
                 }
+                hal_yield();
             }
-            if (udp.available() >= 4) {
+            if (udp->available() >= 4) {
                 udpGet(question.qtype);
                 udpGet(question.qclass);
             } else {
@@ -313,6 +330,12 @@ void MDNS::writeResponses()
     for (auto& r : records) {
         r->reset();
     }
+}
+
+void MDNS::stop()
+{
+    udp->stop();
+    running = false;
 }
 
 /*

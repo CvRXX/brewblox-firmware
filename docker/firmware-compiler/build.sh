@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -e
+set -euo pipefail
 pushd "$(dirname "$0")" > /dev/null
 
 # The compiler image is expected to remain relatively stable
@@ -8,7 +8,10 @@ pushd "$(dirname "$0")" > /dev/null
 # Multi-platform support is handled by simulator-compiler
 # We only need the default amd64
 
-if [ -z "$TAG" ]; then echo "Error: TAG is not set"; exit 1; else echo "building brewblox/firmware-compiler:$TAG"; fi
+TAG="${1:?}"
+shift
+
+echo "building brewblox/firmware-compiler:$TAG"
 
 # don't forget to call with --push
 docker buildx build \

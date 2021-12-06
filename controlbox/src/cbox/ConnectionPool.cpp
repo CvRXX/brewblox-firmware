@@ -41,20 +41,21 @@ void ConnectionPool::updateConnections()
     for (auto& source : connectionSources) {
         while (true) {
             auto con = source.get().newConnection();
-            if (con) {
-                if (connections.size() >= 4) {
-                    auto oldest = connections.begin();
-                    auto& out = (*oldest)->getDataOut();
-                    const char message[] = "<!Max connections exceeded, closing oldest>";
-                    out.writeBuffer(message, sizeof(message) / sizeof(message[0]));
-                    connections.erase(oldest);
-                }
-                auto& out = con->getDataOut();
-                connectionStarted(out);
-                connections.push_back(std::move(con));
-            } else {
+            if (!con) {
                 break;
             }
+
+            if (connections.size() >= 4) {
+                auto oldest = connections.begin();
+                auto& out = (*oldest)->getDataOut();
+                const char message[] = "<!Max connections exceeded, closing oldest>";
+                out.writeBuffer(message, sizeof(message) / sizeof(message[0]));
+                connections.erase(oldest);
+            }
+
+            auto& out = con->getDataOut();
+            connectionStarted(out);
+            connections.push_back(std::move(con));
         }
     }
 }

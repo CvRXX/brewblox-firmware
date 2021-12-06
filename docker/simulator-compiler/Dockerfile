@@ -1,4 +1,4 @@
-FROM gcc:10.3
+FROM gcc:8
 
 ENV DEBIAN_FRONTEND=noninteractive \
   DEBCONF_NONINTERACTIVE_SEEN=true

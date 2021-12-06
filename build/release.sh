@@ -1,15 +1,13 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 set -euo pipefail
+pushd "$(dirname "$0")/.." > /dev/null # Run from repo root
 
-# Args
-TAG=${1:-"develop"}
+# This script does not build various binary and executable files.
+# They are assumed to be present in {root}/release already.
 
-# Push repo root
-pushd "$(dirname "$0")/.." > /dev/null
-
-if ! command -v az &> /dev/null
+if [[ -z "${TAG:-}" ]]
 then
-    echo "ERROR: Azure CLI could not be found. To install: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt"
+    echo "ERROR: TAG variable was not set."
     exit 1
 fi
 
@@ -21,37 +19,54 @@ then
     exit 1
 fi
 
-echo "Pulling brewblox/firmware-bin:${TAG} docker image"
+# Determine ini variables
+git submodule sync
+git submodule update --init --depth 1 brewblox/blox/proto
+git submodule update --init --depth 1 platform/spark/device-os
 
-# Pull image
-docker rm bin-box 2> /dev/null || true
-docker pull brewblox/firmware-bin:"${TAG}" > /dev/null
-docker create --name bin-box brewblox/firmware-bin:"${TAG}" > /dev/null
-
-# Copy files
-rm -rf ./release
-docker cp bin-box:/firmware ./release
-
-# Remove image
-docker rm bin-box > /dev/null
-
-# Get release SHA from firmware.ini
-firmware_version=$(awk -F "=" '/firmware_version/ {print $2}' ./release/firmware.ini)
-firmware_date=$(awk -F "=" '/firmware_date/ {print $2}' ./release/firmware.ini)
+firmware_version=$(git rev-parse --short=8 HEAD)
+firmware_date=$(git log -1 --format=%cd --date=short)
+firmware_sha="$(git rev-parse HEAD)"
 firmware_name="${firmware_date}-${firmware_version}"
+firmware_tarball="${firmware_name}-all.tar.gz"
 
-archive_filename="${firmware_name}-all.tar.gz"
+proto_version=$(git --git-dir ./brewblox/blox/proto/.git rev-parse --short=8 HEAD)
+proto_date=$(git --git-dir ./brewblox/blox/proto/.git log -1 --format=%cd --date=short)
 
-echo "Creating archive /tmp/${archive_filename}"
-pushd release
-tar -czf "/tmp/${archive_filename}" ./*
+particle_tag=$(git --git-dir "./platform/spark/device-os/.git" fetch --tags --no-recurse-submodules && git --git-dir "./platform/spark/device-os/.git" describe --tags)
+particle_releases=https://github.com/particle-iot/device-os/releases/download/${particle_tag}
+particle_version=${particle_tag:1} # remove the 'v' prefix
+
+curl -fL -o ./release/bootloader-p1.bin "${particle_releases}/p1-bootloader@${particle_version}+lto.bin"
+curl -fL -o ./release/system-part1-p1.bin "${particle_releases}/p1-system-part1@${particle_version}.bin"
+curl -fL -o ./release/system-part2-p1.bin "${particle_releases}/p1-system-part2@${particle_version}.bin"
+
+curl -fL -o ./release/bootloader-photon.bin "${particle_releases}/photon-bootloader@${particle_version}+lto.bin"
+curl -fL -o ./release/system-part1-photon.bin "${particle_releases}/photon-system-part1@${particle_version}.bin"
+curl -fL -o ./release/system-part2-photon.bin "${particle_releases}/photon-system-part2@${particle_version}.bin"
+
+# Write to firmware.ini
+{
+    echo "[FIRMWARE]"
+    echo "firmware_version=${firmware_version}"
+    echo "firmware_date=${firmware_date}"
+    echo "firmware_sha=${firmware_sha}"
+    echo "proto_version=${proto_version}"
+    echo "proto_date=${proto_date}"
+    echo "system_version=${particle_version}"
+} | tee "./release/firmware.ini"
+
+# Create tarball archive
+echo "Creating archive /tmp/${firmware_tarball}"
+pushd ./release
+tar -czf "/tmp/${firmware_tarball}" ./*
 popd
-
-echo "Publishing brewblox/firmware-bin:${TAG} as ${archive_filename}"
 
 # Upload files
 # - This requires Azure CLI to be installed
 # - This requires the environment variable AZURE_STORAGE_SAS_TOKEN to be set
+echo "Publishing ${firmware_tarball} to Azure, tag=${TAG}"
+
 az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
@@ -68,9 +83,9 @@ az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
     --name "${firmware_name}/brewblox-release.tar.gz" \
-    --file "/tmp/${archive_filename}"
+    --file "/tmp/${firmware_tarball}"
 
-# Also upload a ini file named with current branch
+# Also upload a ini file named with $TAG
 az storage blob upload \
     --account-name brewblox \
     --container-name firmware \
