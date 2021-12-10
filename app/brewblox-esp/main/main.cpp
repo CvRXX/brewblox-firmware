@@ -17,9 +17,7 @@
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
-#include "network/ethernet.hpp"
-#include "network/mdns.hpp"
-#include "network/wifi.hpp"
+#include "network/network.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -82,7 +80,7 @@ int main(int /*argc*/, char** /*argv*/)
     hal_delay_ms(100);
 
     mount_blocks_spiff();
-    ethernet::init();
+    network::init();
 
     asio::io_context io;
 
@@ -118,9 +116,9 @@ int main(int /*argc*/, char** /*argv*/)
                                                              return true;
                                                          }
                                                      }
-                                                     bool resetProvision = count >= 5;
-                                                     wifi::init(wifi::PROVISION_METHOD::BLE, resetProvision);
-                                                     mdns::start();
+                                                     if (count >= 5) {
+                                                         network::resetProvisioning();
+                                                     }
                                                      return false;
                                                  });
 

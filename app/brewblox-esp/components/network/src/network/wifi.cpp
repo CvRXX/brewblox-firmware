@@ -9,48 +9,27 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <freertos/FreeRTOS.h>
-#include <freertos/event_groups.h>
-#include <freertos/task.h>
-
-#include <esp_event.h>
 #include <esp_log.h>
 #include <esp_wifi.h>
 #include <nvs_flash.h>
 
-#include <wifi_provisioning/manager.h>
-
-#include "Spark4.hpp"
-#include "qrcode.h"
+#include "network.hpp"
 #include <string>
+#include <wifi_provisioning/manager.h>
 #include <wifi_provisioning/scheme_ble.h>
 #include <wifi_provisioning/scheme_softap.h>
 
 namespace wifi {
 constexpr auto TAG = "WIFI";
 
-/* Signal Wi-Fi events on this event-group */
-constexpr int WIFI_CONNECTED_EVENT = BIT0;
-EventGroupHandle_t wifi_event_group;
-
 esp_event_handler_instance_t instance_wifi_prov_event{};
 esp_event_handler_instance_t instance_wifi_event{};
 esp_event_handler_instance_t instance_ip_event{};
 
-#define PROV_QR_VERSION "v1"
-#define PROV_TRANSPORT_SOFTAP "softap"
-#define PROV_TRANSPORT_BLE "ble"
-#define QRCODE_BASE_URL "https://espressif.github.io/esp-jumpstart/qrcode.html"
+// #define PROV_TRANSPORT_SOFTAP "softap"
+// #define PROV_TRANSPORT_BLE "ble"
 
 esp_ip4_addr ip{0};
-bool connected{false};
-
-void init_sta(void)
-{
-    /* Start Wi-Fi in station mode */
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_start());
-}
 
 void get_device_service_name(char* service_name, size_t max)
 {
@@ -61,55 +40,6 @@ void get_device_service_name(char* service_name, size_t max)
              ssid_prefix, eth_mac[3], eth_mac[4], eth_mac[5]);
 }
 
-std::string qr_payload()
-{
-    char service_name[22];
-    get_device_service_name(service_name, sizeof(service_name));
-
-    std::string payload;
-    payload.append("{\"ver\":\"");
-    payload.append(PROV_QR_VERSION);
-    payload.append("\",\"name\":\"");
-    payload.append(service_name);
-    payload.append("\",\"transport\":\"");
-    payload.append(PROV_TRANSPORT_BLE);
-    payload.append("\"}");
-    return payload;
-}
-
-void append_qr_url(std::string& s)
-{
-    s.append(QRCODE_BASE_URL);
-    s.append("?data=");
-    s.append(qr_payload());
-}
-
-void prov_print_qr(const char* name, const char* pop, const char* transport)
-{
-    if (!name || !transport) {
-        ESP_LOGW(TAG, "Cannot generate QR code payload. Data missing.");
-        return;
-    }
-    char payload[150] = {0};
-    if (pop) {
-        snprintf(payload, sizeof(payload),
-                 "{\"ver\":\"%s\",\"name\":\"%s\""
-                 ",\"pop\":\"%s\",\"transport\":\"%s\"}",
-                 PROV_QR_VERSION, name, pop, transport);
-    } else {
-        snprintf(payload, sizeof(payload),
-                 "{\"ver\":\"%s\",\"name\":\"%s\""
-                 ",\"transport\":\"%s\"}",
-                 PROV_QR_VERSION, name, transport);
-    }
-
-    ESP_LOGI(TAG, "Scan this QR code with the app 'ESP BLE Provisioning'.");
-    esp_qrcode_config_t cfg = ESP_QRCODE_CONFIG_DEFAULT();
-    esp_qrcode_generate(&cfg, payload);
-
-    ESP_LOGI(TAG, "If QR code is not visible, copy paste the below URL in a browser.\n%s?data=%s", QRCODE_BASE_URL, payload);
-}
-
 /* Event handler for catching system events */
 static void event_handler(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data)
@@ -117,15 +47,12 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     if (event_base == WIFI_PROV_EVENT) {
         switch (event_id) {
         case WIFI_PROV_START:
-            // Configure blue blinking
-            spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 8);
             /* enable wifi power saving to be able to use bluetooth*/
             esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
             ESP_LOGI(TAG, "Provisioning started");
+            xEventGroupSetBits(network::eventGroup(), network::WIFI_IS_PROVISIONING);
             break;
         case WIFI_PROV_CRED_RECV: {
-            // Configure blue/green blinking
-            spark4::set_led(0, 128, 128, spark4::LED_MODE::BLINK, 8);
             wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
             ESP_LOGI(TAG,
                      "Received Wi-Fi credentials for SSID: %s\n",
@@ -133,8 +60,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             break;
         }
         case WIFI_PROV_CRED_FAIL: {
-            // Configure fast red blinking
-            spark4::set_led(128, 0, 0, spark4::LED_MODE::BLINK, 4);
             wifi_prov_sta_fail_reason_t* reason = (wifi_prov_sta_fail_reason_t*)event_data;
             ESP_LOGE(TAG,
                      "Provisioning failed!\n\tReason : %s"
@@ -148,79 +73,55 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         case WIFI_PROV_END:
             /* De-initialize manager once provisioning is finished */
             wifi_prov_mgr_deinit();
-            /* disable wifi power saving for better performance */
-            esp_wifi_set_ps(WIFI_PS_NONE);
+            xEventGroupClearBits(network::eventGroup(), network::WIFI_IS_PROVISIONING);
             break;
         default:
             break;
         }
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
-        // Configure Green for blinking fast
-        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
+        /* disable wifi power saving for better performance */
+        esp_wifi_set_ps(WIFI_PS_NONE);
         esp_wifi_connect();
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
-        // Configure Blue and Green for breathing
-        spark4::set_led(0, 128, 128, spark4::LED_MODE::BREATHE, 15);
-
-        connected = true;
-        ip_event_got_ip_t* event = (ip_event_got_ip_t*)event_data;
         ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
-        ESP_LOGI(TAG, "Connected with IP Address:" IPSTR, IP2STR(&event->ip_info.ip));
-        /* Signal main application to continue execution */
-        xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_EVENT);
+        xEventGroupSetBits(network::eventGroup(), network::WIFI_CONNECTED_EVENT | network::WIFI_IS_CONNECTED);
 
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-        connected = false;
-        ESP_LOGI(TAG, "Disconnected. Connecting to the AP again...");
-        // Configure Green for blinking fast
-        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
+        xEventGroupClearBits(network::eventGroup(), network::WIFI_IS_CONNECTED);
+        xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
         esp_wifi_connect();
     }
 }
 
-void init(PROVISION_METHOD method, bool forceProvision)
+void init()
+{
+    /* Initialize Wi-Fi including netif with default config */
+    esp_netif_create_default_wifi_sta();
+
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    /* Register our event handler for Wi-Fi, IP and Provisioning related events */
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_event));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr, &instance_ip_event));
+}
+
+void start()
 {
     /* Configuration for the provisioning manager */
     static const wifi_prov_mgr_config_t ble_config{
         .scheme = wifi_prov_scheme_ble,
         .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM,
         .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
-    static const wifi_prov_mgr_config_t softap_config{
-        .scheme = wifi_prov_scheme_softap,
-        .scheme_event_handler = WIFI_PROV_EVENT_HANDLER_NONE,
-        .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
 
-    wifi_event_group = xEventGroupCreate();
-
-    /* Register our event handler for Wi-Fi, IP and Provisioning related events */
-
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_event));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr, &instance_ip_event));
-
-    /* Initialize Wi-Fi including netif with default config */
-    esp_netif_create_default_wifi_sta();
-
-    if (method == PROVISION_METHOD::SOFTAP) {
-        esp_netif_create_default_wifi_ap();
-    }
-
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-
-    /* Initialize provisioning manager with the configuration parameters set above */
-
-    auto& config = method == PROVISION_METHOD::BLE ? ble_config : softap_config;
-    ESP_ERROR_CHECK(wifi_prov_mgr_init(config));
-
+    ESP_ERROR_CHECK(wifi_prov_mgr_init(ble_config));
     bool provisioned = false;
     /* Let's find out if the device is provisioned */
     ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
 
     /* If device is not yet provisioned start provisioning service */
-    if (!provisioned || forceProvision) {
-        ESP_LOGI(TAG, "Starting provisioning");
-
+    if (!provisioned) {
         /* What is the Device Service Name that we want
          * This translates to :
          *     - Wi-Fi SSID when scheme is wifi_prov_scheme_softap
@@ -250,8 +151,7 @@ void init(PROVISION_METHOD method, bool forceProvision)
          */
         const char* service_key = nullptr;
 
-        if (method == PROVISION_METHOD::BLE) {
-            /* This step is only useful when scheme is wifi_prov_scheme_ble. This will
+        /* This step is only useful when scheme is wifi_prov_scheme_ble. This will
          * set a custom 128 bit UUID which will be included in the BLE advertisement
          * and will correspond to the primary GATT service that provides provisioning
          * endpoints as GATT characteristics. Each GATT characteristic will be
@@ -260,28 +160,27 @@ void init(PROVISION_METHOD method, bool forceProvision)
          * applications must identify the endpoints by reading the User Characteristic
          * Description descriptor (0x2901) for each characteristic, which contains the
          * endpoint name of the characteristic */
-            uint8_t custom_service_uuid[] = {
-                /* LSB <---------------------------------------
+        uint8_t custom_service_uuid[] = {
+            /* LSB <---------------------------------------
              * ---------------------------------------> MSB */
-                0xb4,
-                0xdf,
-                0x5a,
-                0x1c,
-                0x3f,
-                0x6b,
-                0xf4,
-                0xbf,
-                0xea,
-                0x4a,
-                0x82,
-                0x03,
-                0x04,
-                0x90,
-                0x1a,
-                0x02,
-            };
-            wifi_prov_scheme_ble_set_service_uuid(custom_service_uuid);
-        }
+            0xb4,
+            0xdf,
+            0x5a,
+            0x1c,
+            0x3f,
+            0x6b,
+            0xf4,
+            0xbf,
+            0xea,
+            0x4a,
+            0x82,
+            0x03,
+            0x04,
+            0x90,
+            0x1a,
+            0x02,
+        };
+        wifi_prov_scheme_ble_set_service_uuid(custom_service_uuid);
 
         /* An optional endpoint that applications can create if they expect to
          * get some additional custom data during provisioning workflow.
@@ -304,25 +203,20 @@ void init(PROVISION_METHOD method, bool forceProvision)
          * by the default event loop handler, we don't need to call the following */
         // wifi_prov_mgr_wait();
         // wifi_prov_mgr_deinit();
-        /* Print QR code for provisioning */
-
-        prov_print_qr(service_name, pop, (method == PROVISION_METHOD::BLE) ? PROV_TRANSPORT_BLE : PROV_TRANSPORT_SOFTAP);
 
     } else {
-        ESP_LOGI(TAG, "Already provisioned, starting Wi-Fi STA");
-
         /* We don't need the manager as device is already provisioned,
          * so let's release it's resources */
         wifi_prov_mgr_deinit();
-        /* disable wifi power saving for better performance */
-        esp_wifi_set_ps(WIFI_PS_NONE);
 
-        /* Start Wi-Fi station */
-        init_sta();
+        ESP_ERROR_CHECK(esp_wifi_start());
     }
+}
 
-    /* Wait for Wi-Fi connection */
-    // xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_EVENT, false, true, portMAX_DELAY);
+void stop()
+{
+    wifi_prov_mgr_deinit();
+    esp_wifi_stop();
 }
 
 esp_ip4_addr ip4()
@@ -330,17 +224,19 @@ esp_ip4_addr ip4()
     return ip;
 }
 
-bool isConnected()
-{
-    return connected;
-}
-
-int8_t getRssi()
+int8_t rssi()
 {
     wifi_ap_record_t wifidata;
     if (esp_wifi_sta_get_ap_info(&wifidata) == 0) {
         return wifidata.rssi;
     }
     return 0;
+}
+
+void resetProvisioning()
+{
+    wifi_prov_mgr_reset_provisioning();
+    // trigger network state machine to restart provisioning if ethernet is not connected
+    xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
 }
 }

@@ -1,4 +1,5 @@
 #include "ethernet.hpp"
+#include "network.hpp"
 #include <cstring>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -17,7 +18,9 @@ esp_eth_phy_t* esp_eth_phy_new_lan87xx(const eth_phy_config_t* config);
 namespace ethernet {
 esp_event_handler_instance_t instance_eth_event{};
 esp_event_handler_instance_t instance_ip_event{};
-esp_netif_t* interface{nullptr};
+esp_netif_t* interface {
+    nullptr
+};
 bool connected{false};
 esp_eth_mac_t* mac{nullptr};
 esp_eth_phy_t* phy{nullptr};
@@ -94,11 +97,14 @@ void eth_event_handler(void* event_handler_arg,
         case ETHERNET_EVENT_DISCONNECTED: {
             ip.addr = 0;
             connected = false;
+            xEventGroupClearBits(network::eventGroup(), network::ETH_IS_CONNECTED);
+            xEventGroupSetBits(network::eventGroup(), network::ETH_CONNECTED_EVENT);
         } break;
         }
     } else if (event_base == IP_EVENT) {
         if (event_id == IP_EVENT_ETH_GOT_IP) {
             ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
+            xEventGroupSetBits(network::eventGroup(), network::ETH_CONNECTED_EVENT | network::ETH_IS_CONNECTED);
         }
     }
 }

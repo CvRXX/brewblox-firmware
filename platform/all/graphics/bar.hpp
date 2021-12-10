@@ -1,7 +1,6 @@
 #include "fonts/fonts.hpp"
 #include "lvgl.h"
-#include "network/ethernet.hpp"
-#include "network/wifi.hpp"
+#include "network/network.hpp"
 #include "styles.hpp"
 #include <ctime>
 #include <string>
@@ -43,36 +42,30 @@ public:
 
     void updateNetworks()
     {
-        std::string networks;
-        if (wifi::isConnected()) {
-            networks.push_back(' ');
-            auto rssi = wifi::getRssi();
-            if (rssi < -80) {
-                networks.append(symbols::wifi_strength1);
-            } else if (rssi < -70) {
-                networks.append(symbols::wifi_strength2);
-            } else if (rssi < -67) {
-                networks.append(symbols::wifi_strength3);
+        std::string networkState = " ";
+        if (network::state() == network::NetworkState::ETHERNET_CONNECTED) {
+            networkState.append(symbols::ethernet);
+        } else if (network::state() == network::NetworkState::WIFI_CONNECTED) {
+            auto signal = network::wifiStrength();
+            if (signal < -80) {
+                networkState.append(symbols::wifi_strength1);
+            } else if (signal < -70) {
+                networkState.append(symbols::wifi_strength2);
+            } else if (signal < -67) {
+                networkState.append(symbols::wifi_strength3);
             } else {
-                networks.append(symbols::wifi_strength4);
+                networkState.append(symbols::wifi_strength4);
             }
-            networks.push_back(' ');
-            networks.append(formatIp(wifi::ip4().addr));
+            networkState.push_back(' ');
 
         } else {
-            if (!ethernet::isConnected()) {
-                networks.append(symbols::wifi_off);
-            }
+            networkState.append(symbols::wifi_off);
         }
 
-        if (ethernet::isConnected()) {
-            networks.push_back(' ');
-            networks.append(symbols::ethernet);
-            networks.push_back(' ');
-            networks.append(formatIp(ethernet::ip4().addr));
-        }
+        networkState.push_back(' ');
+        networkState.append(formatIp(network::ip4().addr));
 
-        lv_label_set_text(this->networksLabel, networks.c_str());
+        lv_label_set_text(this->networksLabel, networkState.c_str());
     }
 
     void update()
