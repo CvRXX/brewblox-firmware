@@ -11,11 +11,12 @@ constexpr int WIFI_CONNECTED_EVENT = BIT0;
 constexpr int WIFI_DISCONNECTED_EVENT = BIT1;
 constexpr int ETH_CONNECTED_EVENT = BIT2;
 constexpr int ETH_DISCONNECTED_EVENT = BIT3;
+constexpr int PROV_EVENT = BIT4;
 
 // use these bits as flags for status without triggering events:
-constexpr int ETH_IS_CONNECTED = BIT4;
-constexpr int WIFI_IS_CONNECTED = BIT5;
-constexpr int WIFI_IS_PROVISIONING = BIT6;
+constexpr int ETH_IS_CONNECTED = BIT5;
+constexpr int WIFI_IS_CONNECTED = BIT6;
+constexpr int WIFI_IS_PROVISIONING = BIT7;
 
 enum class NetworkState : uint8_t {
     NO_CONNECTION,

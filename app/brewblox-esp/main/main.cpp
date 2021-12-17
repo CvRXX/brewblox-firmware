@@ -105,24 +105,42 @@ int main(int /*argc*/, char** /*argv*/)
 
     static CboxServer cboxServer(io, 8332);
 
-    static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
-                                                 RecurringTask::IntervalType::FROM_EXPIRY,
-                                                 []() -> bool {
-                                                     static uint8_t count = 0;
-                                                     if (spark4::adcRead5V() < 2000u) {
-                                                         ++count;
-                                                         if (count < 5) {
-                                                             // still pressed
-                                                             return true;
-                                                         }
-                                                     }
-                                                     if (count >= 5) {
-                                                         network::resetProvisioning();
-                                                     }
-                                                     return false;
-                                                 });
+    static auto adcReader = RecurringTask(io, asio::chrono::milliseconds(30),
+                                          RecurringTask::IntervalType::FROM_EXPIRY,
+                                          []() -> bool {
+                                              static asio::chrono::steady_clock::time_point lowToHigh{asio::chrono::steady_clock::now()};
+                                              static asio::chrono::steady_clock::time_point highToLow{asio::chrono::steady_clock::now()};
+                                              static asio::chrono::steady_clock::time_point lastBeep{asio::chrono::steady_clock::now()};
 
-    provisionTimeout.start();
+                                              auto voltage = spark4::adcRead5V();
+                                              auto now = asio::chrono::steady_clock::now();
+
+                                              if (voltage < 2000u) {
+                                                  if (lowToHigh >= highToLow) {
+                                                      // high to low transition
+                                                      lastBeep = now;
+                                                      highToLow = now;
+                                                  } else {
+                                                      // low hold
+                                                      auto now = asio::chrono::steady_clock::now();
+                                                      auto sinceBeep = asio::chrono::duration_cast<asio::chrono::milliseconds>(now - lastBeep).count();
+                                                      if (sinceBeep >= 5000) {
+                                                          spark4::startup_beep();
+                                                          lastBeep = now;
+                                                      }
+                                                  }
+                                              } else if (lowToHigh <= highToLow) {
+                                                  // low to high transition
+                                                  lowToHigh = asio::chrono::steady_clock::now();
+                                                  auto duration = asio::chrono::duration_cast<asio::chrono::milliseconds>(lowToHigh - highToLow).count();
+
+                                                  if (duration >= 5000) {
+                                                      network::resetProvisioning();
+                                                  }
+                                              }
+                                              return true;
+                                          });
+    adcReader.start();
 
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,

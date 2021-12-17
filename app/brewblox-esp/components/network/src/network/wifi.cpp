@@ -46,11 +46,13 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 {
     if (event_base == WIFI_PROV_EVENT) {
         switch (event_id) {
-        case WIFI_PROV_START:
+        case WIFI_PROV_INIT:
             /* enable wifi power saving to be able to use bluetooth*/
             esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
+            break;
+        case WIFI_PROV_START:
             ESP_LOGI(TAG, "Provisioning started");
-            xEventGroupSetBits(network::eventGroup(), network::WIFI_IS_PROVISIONING);
+            xEventGroupSetBits(network::eventGroup(), network::WIFI_IS_PROVISIONING | network::PROV_EVENT);
             break;
         case WIFI_PROV_CRED_RECV: {
             wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
@@ -74,14 +76,18 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             /* De-initialize manager once provisioning is finished */
             wifi_prov_mgr_deinit();
             xEventGroupClearBits(network::eventGroup(), network::WIFI_IS_PROVISIONING);
+            xEventGroupSetBits(network::eventGroup(), network::PROV_EVENT);
+            break;
+        case WIFI_PROV_DEINIT:
+            /* disable wifi power saving for better performance */
+            esp_wifi_set_ps(WIFI_PS_NONE);
             break;
         default:
             break;
         }
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
-        /* disable wifi power saving for better performance */
-        esp_wifi_set_ps(WIFI_PS_NONE);
-        esp_wifi_connect();
+        // send disconnected event to trigger start
+        xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
         xEventGroupSetBits(network::eventGroup(), network::WIFI_CONNECTED_EVENT | network::WIFI_IS_CONNECTED);
@@ -89,7 +95,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         xEventGroupClearBits(network::eventGroup(), network::WIFI_IS_CONNECTED);
         xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
-        esp_wifi_connect();
     }
 }
 
@@ -117,6 +122,7 @@ void start()
 
     ESP_ERROR_CHECK(wifi_prov_mgr_init(ble_config));
     bool provisioned = false;
+
     /* Let's find out if the device is provisioned */
     ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
 
@@ -205,17 +211,13 @@ void start()
         // wifi_prov_mgr_deinit();
 
     } else {
-        /* We don't need the manager as device is already provisioned,
-         * so let's release it's resources */
-        wifi_prov_mgr_deinit();
-
-        ESP_ERROR_CHECK(esp_wifi_start());
+        wifi_prov_mgr_stop_provisioning();
     }
 }
 
 void stop()
 {
-    wifi_prov_mgr_deinit();
+    wifi_prov_mgr_stop_provisioning();
     esp_wifi_stop();
 }
 
@@ -235,8 +237,9 @@ int8_t rssi()
 
 void resetProvisioning()
 {
+    // wipe credentials
     wifi_prov_mgr_reset_provisioning();
-    // trigger network state machine to restart provisioning if ethernet is not connected
-    xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
+    // provisioning will be started by event handler if needed
+    xEventGroupSetBits(network::eventGroup(), network::PROV_EVENT);
 }
 }

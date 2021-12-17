@@ -55,11 +55,11 @@ void networkTask(void* pvParameters)
 {
     while (true) {
         auto uxBits = xEventGroupWaitBits(
-            _eventGroup,                                                                                   /* The event group being tested. */
-            WIFI_CONNECTED_EVENT | WIFI_DISCONNECTED_EVENT | ETH_CONNECTED_EVENT | ETH_DISCONNECTED_EVENT, /* The bits within the event group to wait for. */
-            true,                                                                                          /* Bits should be cleared before returning. */
-            false,                                                                                         /* Don't wait for all bits, any bit will do. */
-            portMAX_DELAY);                                                                                /* Wait a maximum of 100ms for either bit to be set. */
+            _eventGroup,                                                                                                /* The event group being tested. */
+            WIFI_CONNECTED_EVENT | WIFI_DISCONNECTED_EVENT | ETH_CONNECTED_EVENT | ETH_DISCONNECTED_EVENT | PROV_EVENT, /* The bits within the event group to wait for. */
+            true,                                                                                                       /* Bits should be cleared before returning. */
+            false,                                                                                                      /* Don't wait for all bits, any bit will do. */
+            portMAX_DELAY);                                                                                             /* Wait a maximum of 100ms for either bit to be set. */
 
         if (uxBits & ETH_IS_CONNECTED) {
             // set connection to ethernet
@@ -81,12 +81,14 @@ void networkTask(void* pvParameters)
             // clear ip
             _ip.addr = 0;
             ESP_LOGI(TAG, "Connection lost");
-            // enable wifi
-            wifi::start();
         }
 
         if (uxBits & ETH_CONNECTED_EVENT || uxBits & WIFI_CONNECTED_EVENT) {
             mdns::start();
+        }
+
+        if (_state == NetworkState::NO_CONNECTION) {
+            wifi::start();
         }
 
         setLed(_state);
