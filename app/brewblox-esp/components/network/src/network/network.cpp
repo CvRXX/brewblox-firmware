@@ -62,28 +62,33 @@ void networkTask(void* pvParameters)
             portMAX_DELAY);                                                                                             /* Wait a maximum of 100ms for either bit to be set. */
 
         if (uxBits & ETH_IS_CONNECTED) {
-            // set connection to ethernet
             _state = NetworkState::ETHERNET_CONNECTED;
-            // set ip to ethernet ip
             _ip = ethernet::ip4();
             ESP_LOGI(TAG, "Ethernet connected with IP Address:" IPSTR, IP2STR(&_ip));
-            // disable wifi
-            wifi::stop();
+
         } else if (uxBits & WIFI_IS_CONNECTED) {
-            // set connection wifi
             _state = NetworkState::WIFI_CONNECTED;
             _ip = wifi::ip4();
             ESP_LOGI(TAG, "Wifi connected with IP Address:" IPSTR, IP2STR(&_ip));
-            // set ip to wifi ip
+        } else if (uxBits & WIFI_IS_PROVISIONING) {
+            _state = NetworkState::WIFI_PROVISIONING;
         } else {
-            // set connection to none
-            _state = (uxBits & WIFI_IS_PROVISIONING) ? NetworkState::WIFI_PROVISIONING : NetworkState::NO_CONNECTION;
-            // clear ip
+            _state = NetworkState::NO_CONNECTION;
             _ip.addr = 0;
             ESP_LOGI(TAG, "Connection lost");
         }
 
-        if (uxBits & ETH_CONNECTED_EVENT || uxBits & WIFI_CONNECTED_EVENT) {
+        if (uxBits & ETH_CONNECTED_EVENT) {
+            // disable wifi
+            wifi::stop();
+            mdns::start();
+        }
+
+        if (uxBits & WIFI_CONNECTED_EVENT) {
+            // wait 2000ms to allow bluetooth to shut down first
+            vTaskDelay(2000 / portTICK_PERIOD_MS);
+            // disable wifi power saving for better performance
+            wifi::disablePowerSaving();
             mdns::start();
         }
 

@@ -49,10 +49,10 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         case WIFI_PROV_INIT:
             /* enable wifi power saving to be able to use bluetooth*/
             esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
+            xEventGroupSetBits(network::eventGroup(), network::WIFI_IS_PROVISIONING | network::PROV_EVENT);
             break;
         case WIFI_PROV_START:
             ESP_LOGI(TAG, "Provisioning started");
-            xEventGroupSetBits(network::eventGroup(), network::WIFI_IS_PROVISIONING | network::PROV_EVENT);
             break;
         case WIFI_PROV_CRED_RECV: {
             wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
@@ -79,8 +79,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             xEventGroupSetBits(network::eventGroup(), network::PROV_EVENT);
             break;
         case WIFI_PROV_DEINIT:
-            /* disable wifi power saving for better performance */
-            esp_wifi_set_ps(WIFI_PS_NONE);
             break;
         default:
             break;
@@ -212,6 +210,7 @@ void start()
 
     } else {
         wifi_prov_mgr_stop_provisioning();
+        ESP_ERROR_CHECK(esp_wifi_start());
     }
 }
 
@@ -241,5 +240,10 @@ void resetProvisioning()
     wifi_prov_mgr_reset_provisioning();
     // provisioning will be started by event handler if needed
     xEventGroupSetBits(network::eventGroup(), network::PROV_EVENT);
+}
+
+void disablePowerSaving()
+{
+    esp_wifi_set_ps(WIFI_PS_NONE);
 }
 }

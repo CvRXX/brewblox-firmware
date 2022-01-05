@@ -15,5 +15,6 @@ esp_ip4_addr ip4();
  */
 int8_t rssi();
 void resetProvisioning();
+void disablePowerSaving();
 
 };
