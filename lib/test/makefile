@@ -42,7 +42,7 @@ CPPSRC += $(call here_files,lib/src,*.cpp)
 CPPSRC += $(call here_files,platform/stub,*.cpp)
 
 # set cnl as system includes to suppress warnings
-CPPFLAGS += -isystem $(SOURCE_PATH)/lib/cnl/include
+CPPFLAGS += -isystem $(SOURCE_PATH)/external_libs/cnl/include
 
 #  catch 2
 INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/device-os/third_party/catch2/catch2/single_include/catch2

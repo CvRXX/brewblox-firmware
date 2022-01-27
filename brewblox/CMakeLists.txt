@@ -1,0 +1,38 @@
+file(GLOB compiled_proto blox/compiled_proto/src/*.c) 
+
+idf_component_register(
+  SRCS
+    nanopb_callbacks.cpp
+    brewblox.cpp
+    
+
+    blox/ActuatorAnalogConstraintsProto.cpp
+    blox/ActuatorAnalogMockBlock.cpp
+    blox/ActuatorDigitalConstraintsProto.cpp
+    blox/ActuatorLogicBlock.cpp
+    blox/ActuatorOffsetBlock.cpp
+    blox/ActuatorPwmBlock.cpp
+    blox/BalancerBlock.cpp
+    blox/Block.cpp
+    blox/BlockInterfaces.cpp
+    blox/DigitalActuatorBlock.cpp
+    blox/DisplaySettingsBlock.cpp
+    blox/DS2408Block.cpp
+    blox/DS2413Block.cpp
+    blox/MockPinsBlock.cpp
+    blox/MotorValveBlock.cpp
+    blox/MutexBlock.cpp
+    blox/OneWireBusBlock.cpp
+    blox/PidBlock.cpp
+    blox/SetpointProfileBlock.cpp
+    blox/SetpointSensorPairBlock.cpp
+    blox/SysInfoBlock.cpp
+    blox/TempSensorCombiBlock.cpp
+    blox/TempSensorOneWireBlock.cpp
+
+    ${compiled_proto}
+  INCLUDE_DIRS 
+    .
+  REQUIRES
+    main
+)

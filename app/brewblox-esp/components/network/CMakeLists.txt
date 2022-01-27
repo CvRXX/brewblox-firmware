@@ -1,0 +1,14 @@
+idf_component_register(
+  SRCS
+    src/network/CboxConnection.cpp
+    src/network/CboxConnectionManager.cpp
+    src/network/CboxStdioConnection.cpp
+    src/network/CboxTcpConnection.cpp
+    src/network/ethernet.cpp
+    src/network/wifi.cpp
+  INCLUDE_DIRS 
+    src
+  REQUIRES
+    main
+    controlbox
+)

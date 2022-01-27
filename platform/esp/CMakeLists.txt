@@ -1,0 +1,17 @@
+idf_component_register(
+  SRCS
+    DRV8908.cpp
+    FT6236.cpp
+    hal_delay_esp.cpp
+    hal_gpio_esp.cpp
+    hal_i2c_esp.cpp
+    hal_spi_esp.cpp
+    Spark4.cpp
+    TFT035.cpp
+    TicksEsp.cpp
+  INCLUDE_DIRS 
+    .
+  REQUIRES
+    main
+    graphics
+)

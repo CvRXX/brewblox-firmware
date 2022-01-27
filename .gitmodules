@@ -1,5 +1,5 @@
 [submodule "lib/cnl"]
-	path = lib/cnl
+	path = external_libs/cnl
 	url = https://github.com/johnmcfarlane/cnl.git
 	branch = develop
 [submodule "platform/spark/device-os"]
@@ -15,3 +15,6 @@
 [submodule "external_libs/lv_lib_qrcode"]
 	path = external_libs/lv_lib_qrcode
 	url = https://github.com/lvgl/lv_lib_qrcode.git
+[submodule "external_libs/nanopb"]
+	path = external_libs/nanopb
+	url = https://github.com/particle-iot/nanopb.git

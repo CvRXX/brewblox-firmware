@@ -1,0 +1,14 @@
+idf_component_register(
+  SRCS
+    src/httpserver/connection_manager.cpp
+    src/httpserver/connection.cpp
+    src/httpserver/mime_types.cpp
+    src/httpserver/reply.cpp
+    src/httpserver/request_handler.cpp
+    src/httpserver/request_parser.cpp
+    src/httpserver/server.cpp
+  INCLUDE_DIRS 
+    src
+  REQUIRES
+    main
+)

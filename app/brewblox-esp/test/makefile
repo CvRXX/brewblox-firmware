@@ -128,7 +128,7 @@ include $(SOURCE_PATH)/build/checkers.mk # sanitizer and gcov
 # CPPFLAGS += -Wsuggest-final-methods
 
 # set cnl as system includes to suppress warnings
-CPPFLAGS += -isystem $(SOURCE_PATH)/lib/cnl/include
+CPPFLAGS += -isystem $(SOURCE_PATH)/external_libs/cnl/include
 
 # include google protobuf dependencies
 # CPPFLAGS += $(shell pkg-config --cflags protobuf)

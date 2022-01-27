@@ -13,3 +13,16 @@ services:
         working_dir: ${MOUNTDIR}/build
         user: ${DOCKER_UID}:${DOCKER_GID}
         command: tail -f /dev/null
+    compiler_esp:
+        image: espressif/idf:release-v4.4
+        container_name: firmware-compiler-esp
+        init: true
+        privileged: true
+        environment:
+            - MOUNTDIR=/firmware
+            - MAKE_ARGS
+        volumes:
+            - ../:${MOUNTDIR}
+        working_dir: ${MOUNTDIR}/app/brewblox-esp
+        user: ${DOCKER_UID}:${DOCKER_GID}
+        command: tail -f /dev/null

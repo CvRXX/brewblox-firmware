@@ -11,8 +11,7 @@ struct FuncEntry {
 
 static std::vector<FuncEntry> funcs;
 
-void
-timerIsrHandler()
+void timerIsrHandler()
 {
     if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) {
         TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
@@ -23,8 +22,7 @@ timerIsrHandler()
     }
 }
 
-void
-TimerInterrupts::init()
+void TimerInterrupts::init()
 {
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
@@ -71,8 +69,7 @@ TimerInterrupts::add(std::function<void()>&& func)
     return 0;
 }
 
-void
-TimerInterrupts::remove(uint8_t id)
+void TimerInterrupts::remove(uint8_t id)
 {
     funcs.erase(std::remove_if(funcs.begin(), funcs.end(), [&id](const FuncEntry& fe) { return fe.id == id; }), funcs.end());
     if (funcs.empty()) {
