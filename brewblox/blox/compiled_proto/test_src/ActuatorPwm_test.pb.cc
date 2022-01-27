@@ -19,60 +19,62 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_AnalogConstraints_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_AnalogConstraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_AnalogConstraints;
-}  // namespace protobuf_AnalogConstraints_5ftest_2eproto
+namespace protobuf_Constraints_5ftest_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_Constraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_AnalogConstraints;
+}  // namespace protobuf_Constraints_5ftest_2eproto
 namespace blox {
-class ActuatorPwmDefaultTypeInternal {
+namespace ActuatorPwm {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ActuatorPwm>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _ActuatorPwm_default_instance_;
+} _Block_default_instance_;
+}  // namespace ActuatorPwm
 }  // namespace blox
 namespace protobuf_ActuatorPwm_5ftest_2eproto {
-static void InitDefaultsActuatorPwm() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_ActuatorPwm_default_instance_;
-    new (ptr) ::blox::ActuatorPwm();
+    void* ptr = &::blox::ActuatorPwm::_Block_default_instance_;
+    new (ptr) ::blox::ActuatorPwm::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::ActuatorPwm::InitAsDefaultInstance();
+  ::blox::ActuatorPwm::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_ActuatorPwm =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsActuatorPwm}, {
-      &protobuf_AnalogConstraints_5ftest_2eproto::scc_info_AnalogConstraints.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
+      &protobuf_Constraints_5ftest_2eproto::scc_info_AnalogConstraints.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_ActuatorPwm.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, actuatorid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, period_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, setting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, drivenactuatorid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, enabled_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, desiredsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, actuatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, period_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, constrainedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, drivenactuatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorPwm::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::ActuatorPwm)},
+  { 0, -1, sizeof(::blox::ActuatorPwm::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_ActuatorPwm_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::ActuatorPwm::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -96,27 +98,27 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\026ActuatorPwm_test.proto\022\004blox\032\023brewblox"
-      "_test.proto\032\021nanopb_test.proto\032\034AnalogCo"
-      "nstraints_test.proto\"\200\003\n\013ActuatorPwm\022\037\n\n"
+      "\n\026ActuatorPwm_test.proto\022\020blox.ActuatorP"
+      "wm\032\023brewblox_test.proto\032\021nanopb_test.pro"
+      "to\032\026Constraints_test.proto\"\206\003\n\005Block\022\037\n\n"
       "actuatorId\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022\035\n\006period\030"
       "\003 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022)\n\007setting\030\004 \001(\021B\030\212"
       "\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\005 \001(\021B\030"
-      "\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022.\n\rconstrainedB"
-      "y\030\006 \001(\0132\027.blox.AnalogConstraints\0221\n\020driv"
-      "enActuatorId\030\007 \001(\rB\027\212\265\030\002\030\006\212\265\030\002@\001\222\?\0028\020\212\265\030"
-      "\002(\001\022\017\n\007enabled\030\010 \001(\010\022*\n\016desiredSetting\030\t"
-      " \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022(\n\016strippedFiel"
-      "ds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002:\023\212\265\030\003\030\263\002\212\265\030\002H"
-      "\001\212\265\030\002H\005b\006proto3"
+      "\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022:\n\rconstrainedB"
+      "y\030\006 \001(\0132#.blox.Constraints.AnalogConstra"
+      "ints\0221\n\020drivenActuatorId\030\007 \001(\rB\027\212\265\030\002\030\006\212\265"
+      "\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n\007enabled\030\010 \001(\010\022*\n\016desi"
+      "redSetting\030\t \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022(\n\016"
+      "strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002:\023"
+      "\212\265\030\003\030\263\002\212\265\030\002H\001\212\265\030\002H\005b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 495);
+      descriptor, 507);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
   ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-  ::protobuf_AnalogConstraints_5ftest_2eproto::AddDescriptors();
+  ::protobuf_Constraints_5ftest_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -131,85 +133,86 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_ActuatorPwm_5ftest_2eproto
 namespace blox {
+namespace ActuatorPwm {
 
 // ===================================================================
 
-void ActuatorPwm::InitAsDefaultInstance() {
-  ::blox::_ActuatorPwm_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::AnalogConstraints*>(
-      ::blox::AnalogConstraints::internal_default_instance());
+void Block::InitAsDefaultInstance() {
+  ::blox::ActuatorPwm::_Block_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::Constraints::AnalogConstraints*>(
+      ::blox::Constraints::AnalogConstraints::internal_default_instance());
 }
-void ActuatorPwm::clear_constrainedby() {
+void Block::clear_constrainedby() {
   if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
     delete constrainedby_;
   }
   constrainedby_ = NULL;
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ActuatorPwm::kActuatorIdFieldNumber;
-const int ActuatorPwm::kPeriodFieldNumber;
-const int ActuatorPwm::kSettingFieldNumber;
-const int ActuatorPwm::kValueFieldNumber;
-const int ActuatorPwm::kConstrainedByFieldNumber;
-const int ActuatorPwm::kDrivenActuatorIdFieldNumber;
-const int ActuatorPwm::kEnabledFieldNumber;
-const int ActuatorPwm::kDesiredSettingFieldNumber;
-const int ActuatorPwm::kStrippedFieldsFieldNumber;
+const int Block::kActuatorIdFieldNumber;
+const int Block::kPeriodFieldNumber;
+const int Block::kSettingFieldNumber;
+const int Block::kValueFieldNumber;
+const int Block::kConstrainedByFieldNumber;
+const int Block::kDrivenActuatorIdFieldNumber;
+const int Block::kEnabledFieldNumber;
+const int Block::kDesiredSettingFieldNumber;
+const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ActuatorPwm::ActuatorPwm()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_ActuatorPwm_5ftest_2eproto::scc_info_ActuatorPwm.base);
+      &protobuf_ActuatorPwm_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.ActuatorPwm)
+  // @@protoc_insertion_point(constructor:blox.ActuatorPwm.Block)
 }
-ActuatorPwm::ActuatorPwm(const ActuatorPwm& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       strippedfields_(from.strippedfields_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_constrainedby()) {
-    constrainedby_ = new ::blox::AnalogConstraints(*from.constrainedby_);
+    constrainedby_ = new ::blox::Constraints::AnalogConstraints(*from.constrainedby_);
   } else {
     constrainedby_ = NULL;
   }
   ::memcpy(&actuatorid_, &from.actuatorid_,
     static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
     reinterpret_cast<char*>(&actuatorid_)) + sizeof(desiredsetting_));
-  // @@protoc_insertion_point(copy_constructor:blox.ActuatorPwm)
+  // @@protoc_insertion_point(copy_constructor:blox.ActuatorPwm.Block)
 }
 
-void ActuatorPwm::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&desiredsetting_) -
       reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
 }
 
-ActuatorPwm::~ActuatorPwm() {
-  // @@protoc_insertion_point(destructor:blox.ActuatorPwm)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox.ActuatorPwm.Block)
   SharedDtor();
 }
 
-void ActuatorPwm::SharedDtor() {
+void Block::SharedDtor() {
   if (this != internal_default_instance()) delete constrainedby_;
 }
 
-void ActuatorPwm::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ActuatorPwm::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_ActuatorPwm_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_ActuatorPwm_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ActuatorPwm& ActuatorPwm::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorPwm_5ftest_2eproto::scc_info_ActuatorPwm.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorPwm_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void ActuatorPwm::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.ActuatorPwm)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox.ActuatorPwm.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -225,11 +228,11 @@ void ActuatorPwm::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool ActuatorPwm::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.ActuatorPwm)
+  // @@protoc_insertion_point(parse_start:blox.ActuatorPwm.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
@@ -291,7 +294,7 @@ bool ActuatorPwm::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.AnalogConstraints constrainedBy = 6;
+      // .blox.Constraints.AnalogConstraints constrainedBy = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
@@ -376,17 +379,17 @@ bool ActuatorPwm::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.ActuatorPwm)
+  // @@protoc_insertion_point(parse_success:blox.ActuatorPwm.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.ActuatorPwm)
+  // @@protoc_insertion_point(parse_failure:blox.ActuatorPwm.Block)
   return false;
 #undef DO_
 }
 
-void ActuatorPwm::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.ActuatorPwm)
+  // @@protoc_insertion_point(serialize_start:blox.ActuatorPwm.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -410,7 +413,7 @@ void ActuatorPwm::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(5, this->value(), output);
   }
 
-  // .blox.AnalogConstraints constrainedBy = 6;
+  // .blox.Constraints.AnalogConstraints constrainedBy = 6;
   if (this->has_constrainedby()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       6, this->_internal_constrainedby(), output);
@@ -446,13 +449,13 @@ void ActuatorPwm::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.ActuatorPwm)
+  // @@protoc_insertion_point(serialize_end:blox.ActuatorPwm.Block)
 }
 
-::google::protobuf::uint8* ActuatorPwm::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorPwm)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorPwm.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -476,7 +479,7 @@ void ActuatorPwm::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->value(), target);
   }
 
-  // .blox.AnalogConstraints constrainedBy = 6;
+  // .blox.Constraints.AnalogConstraints constrainedBy = 6;
   if (this->has_constrainedby()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
@@ -515,12 +518,12 @@ void ActuatorPwm::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.ActuatorPwm)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.ActuatorPwm.Block)
   return target;
 }
 
-size_t ActuatorPwm::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.ActuatorPwm)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox.ActuatorPwm.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -544,7 +547,7 @@ size_t ActuatorPwm::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // .blox.AnalogConstraints constrainedBy = 6;
+  // .blox.Constraints.AnalogConstraints constrainedBy = 6;
   if (this->has_constrainedby()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -603,23 +606,23 @@ size_t ActuatorPwm::ByteSizeLong() const {
   return total_size;
 }
 
-void ActuatorPwm::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.ActuatorPwm)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.ActuatorPwm.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const ActuatorPwm* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ActuatorPwm>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.ActuatorPwm)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.ActuatorPwm.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.ActuatorPwm)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.ActuatorPwm.Block)
     MergeFrom(*source);
   }
 }
 
-void ActuatorPwm::MergeFrom(const ActuatorPwm& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.ActuatorPwm)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.ActuatorPwm.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -627,7 +630,7 @@ void ActuatorPwm::MergeFrom(const ActuatorPwm& from) {
 
   strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_constrainedby()) {
-    mutable_constrainedby()->::blox::AnalogConstraints::MergeFrom(from.constrainedby());
+    mutable_constrainedby()->::blox::Constraints::AnalogConstraints::MergeFrom(from.constrainedby());
   }
   if (from.actuatorid() != 0) {
     set_actuatorid(from.actuatorid());
@@ -652,29 +655,29 @@ void ActuatorPwm::MergeFrom(const ActuatorPwm& from) {
   }
 }
 
-void ActuatorPwm::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.ActuatorPwm)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.ActuatorPwm.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ActuatorPwm::CopyFrom(const ActuatorPwm& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.ActuatorPwm)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.ActuatorPwm.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ActuatorPwm::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void ActuatorPwm::Swap(ActuatorPwm* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ActuatorPwm::InternalSwap(ActuatorPwm* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   strippedfields_.InternalSwap(&other->strippedfields_);
   swap(constrainedby_, other->constrainedby_);
@@ -688,18 +691,19 @@ void ActuatorPwm::InternalSwap(ActuatorPwm* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ActuatorPwm::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_ActuatorPwm_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_ActuatorPwm_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace ActuatorPwm
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::ActuatorPwm* Arena::CreateMaybeMessage< ::blox::ActuatorPwm >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::ActuatorPwm >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::ActuatorPwm::Block* Arena::CreateMaybeMessage< ::blox::ActuatorPwm::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::ActuatorPwm::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

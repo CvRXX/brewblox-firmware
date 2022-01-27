@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "blox/SysInfoBlock.h"
 #include "blox/compiled_proto/src/proto_version.h"
 #include "blox/compiled_proto/test_src/SysInfo_test.pb.h"
@@ -44,7 +44,7 @@ SCENARIO("SysInfo Block")
 
     WHEN("The SysInfo block is read")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
 
         testBox.reset();
 
@@ -64,7 +64,7 @@ SCENARIO("SysInfo Block")
 
     SECTION("Tracing")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
 
         auto sendCmd = [&testBox](blox::SysInfo::SysInfoCommand cmd) {
             testBox.reset();

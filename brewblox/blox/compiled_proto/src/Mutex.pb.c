@@ -9,9 +9,9 @@
 
 
 
-const pb_field_t blox_Mutex_fields[3] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Mutex, differentActuatorWait, differentActuatorWait, 0),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_Mutex, waitRemaining, differentActuatorWait, 0),
+const pb_field_t blox_Mutex_Block_fields[3] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Mutex_Block, differentActuatorWait, differentActuatorWait, 0),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_Mutex_Block, waitRemaining, differentActuatorWait, 0),
     PB_LAST_FIELD
 };
 

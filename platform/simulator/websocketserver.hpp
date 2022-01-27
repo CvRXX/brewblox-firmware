@@ -84,7 +84,7 @@ public:
         // Set a decorator to change the Server of the handshake
         ws_.set_option(
             websocket::stream_base::decorator([](websocket::response_type& res) {
-                res.set(http::field::server, "BrewBlox - simulater interface");
+                res.set(http::field::server, "Brewblox - simulator interface");
             }));
         // Accept the websocket handshake
         ws_.async_accept(

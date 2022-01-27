@@ -23,30 +23,32 @@ namespace protobuf_IoArray_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel;
 }  // namespace protobuf_IoArray_5ftest_2eproto
 namespace blox {
-class Spark2PinsDefaultTypeInternal {
+namespace Spark2Pins {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Spark2Pins>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _Spark2Pins_default_instance_;
+} _Block_default_instance_;
+}  // namespace Spark2Pins
 }  // namespace blox
 namespace protobuf_Spark2Pins_5ftest_2eproto {
-static void InitDefaultsSpark2Pins() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_Spark2Pins_default_instance_;
-    new (ptr) ::blox::Spark2Pins();
+    void* ptr = &::blox::Spark2Pins::_Block_default_instance_;
+    new (ptr) ::blox::Spark2Pins::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::Spark2Pins::InitAsDefaultInstance();
+  ::blox::Spark2Pins::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_Spark2Pins =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsSpark2Pins}, {
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
       &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Spark2Pins.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
@@ -54,21 +56,21 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, soundalarm_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, hardware_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, channels_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins, pins_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins::Block, soundalarm_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins::Block, hardware_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins::Block, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark2Pins::Block, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Spark2Pins)},
+  { 0, -1, sizeof(::blox::Spark2Pins::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Spark2Pins_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::Spark2Pins::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -92,22 +94,22 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\025Spark2Pins_test.proto\022\004blox\032\023brewblox_"
-      "test.proto\032\021nanopb_test.proto\032\022IoArray_t"
-      "est.proto\"\356\001\n\nSpark2Pins\022\022\n\nsoundAlarm\030\005"
-      " \001(\010\0223\n\010hardware\030\010 \001(\0162\031.blox.Spark2Pins"
-      ".HardwareB\006\212\265\030\002(\001\0223\n\010channels\030\t \003(\0132\017.bl"
-      "ox.IoChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z"
-      " \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"8\n\010Hardware\022\016\n\nHW_UNKN"
-      "OWN\020\000\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_SPARK2\020\002:\r\212\265\030"
-      "\003\030\300\002\212\265\030\002H\n*\214\001\n\020Spark2ChannelIds\022\024\n\020SPARK"
-      "2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHAN_BOTTOM1\020\001\022\027"
-      "\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023SPARK2_CHAN_B"
-      "OTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOTTOM0\020\004b\006proto"
-      "3"
+      "\n\025Spark2Pins_test.proto\022\017blox.Spark2Pins"
+      "\032\023brewblox_test.proto\032\021nanopb_test.proto"
+      "\032\022IoArray_test.proto\"\367\001\n\005Block\022\022\n\nsoundA"
+      "larm\030\005 \001(\010\0229\n\010hardware\030\010 \001(\0162\037.blox.Spar"
+      "k2Pins.Block.HardwareB\006\212\265\030\002(\001\022;\n\010channel"
+      "s\030\t \003(\0132\027.blox.IoArray.IoChannelB\020\222\?\002\020\004\222"
+      "\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"8\n"
+      "\010Hardware\022\016\n\nHW_UNKNOWN\020\000\022\r\n\tHW_SPARK1\020\001"
+      "\022\r\n\tHW_SPARK2\020\002:\r\212\265\030\003\030\300\002\212\265\030\002H\n*\205\001\n\tChann"
+      "elId\022\024\n\020SPARK2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHA"
+      "N_BOTTOM1\020\001\022\027\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023"
+      "SPARK2_CHAN_BOTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOT"
+      "TOM0\020\004b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 481);
+      descriptor, 494);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark2Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -127,11 +129,12 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_Spark2Pins_5ftest_2eproto
 namespace blox {
-const ::google::protobuf::EnumDescriptor* Spark2Pins_Hardware_descriptor() {
+namespace Spark2Pins {
+const ::google::protobuf::EnumDescriptor* Block_Hardware_descriptor() {
   protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[0];
 }
-bool Spark2Pins_Hardware_IsValid(int value) {
+bool Block_Hardware_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -143,18 +146,18 @@ bool Spark2Pins_Hardware_IsValid(int value) {
 }
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const Spark2Pins_Hardware Spark2Pins::HW_UNKNOWN;
-const Spark2Pins_Hardware Spark2Pins::HW_SPARK1;
-const Spark2Pins_Hardware Spark2Pins::HW_SPARK2;
-const Spark2Pins_Hardware Spark2Pins::Hardware_MIN;
-const Spark2Pins_Hardware Spark2Pins::Hardware_MAX;
-const int Spark2Pins::Hardware_ARRAYSIZE;
+const Block_Hardware Block::HW_UNKNOWN;
+const Block_Hardware Block::HW_SPARK1;
+const Block_Hardware Block::HW_SPARK2;
+const Block_Hardware Block::Hardware_MIN;
+const Block_Hardware Block::Hardware_MAX;
+const int Block::Hardware_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* Spark2ChannelIds_descriptor() {
+const ::google::protobuf::EnumDescriptor* ChannelId_descriptor() {
   protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[1];
 }
-bool Spark2ChannelIds_IsValid(int value) {
+bool ChannelId_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -170,26 +173,26 @@ bool Spark2ChannelIds_IsValid(int value) {
 
 // ===================================================================
 
-void Spark2Pins::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
-void Spark2Pins::clear_channels() {
+void Block::clear_channels() {
   channels_.Clear();
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Spark2Pins::kSoundAlarmFieldNumber;
-const int Spark2Pins::kHardwareFieldNumber;
-const int Spark2Pins::kChannelsFieldNumber;
-const int Spark2Pins::kPinsFieldNumber;
+const int Block::kSoundAlarmFieldNumber;
+const int Block::kHardwareFieldNumber;
+const int Block::kChannelsFieldNumber;
+const int Block::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Spark2Pins::Spark2Pins()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_Spark2Pins_5ftest_2eproto::scc_info_Spark2Pins.base);
+      &protobuf_Spark2Pins_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Spark2Pins)
+  // @@protoc_insertion_point(constructor:blox.Spark2Pins.Block)
 }
-Spark2Pins::Spark2Pins(const Spark2Pins& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       channels_(from.channels_) {
@@ -197,39 +200,39 @@ Spark2Pins::Spark2Pins(const Spark2Pins& from)
   ::memcpy(&hardware_, &from.hardware_,
     static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
     reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
-  // @@protoc_insertion_point(copy_constructor:blox.Spark2Pins)
+  // @@protoc_insertion_point(copy_constructor:blox.Spark2Pins.Block)
 }
 
-void Spark2Pins::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&hardware_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&pins_) -
       reinterpret_cast<char*>(&hardware_)) + sizeof(pins_));
 }
 
-Spark2Pins::~Spark2Pins() {
-  // @@protoc_insertion_point(destructor:blox.Spark2Pins)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox.Spark2Pins.Block)
   SharedDtor();
 }
 
-void Spark2Pins::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void Spark2Pins::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Spark2Pins::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Spark2Pins_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const Spark2Pins& Spark2Pins::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_Spark2Pins_5ftest_2eproto::scc_info_Spark2Pins.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_Spark2Pins_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void Spark2Pins::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Spark2Pins)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox.Spark2Pins.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -241,11 +244,11 @@ void Spark2Pins::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool Spark2Pins::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Spark2Pins)
+  // @@protoc_insertion_point(parse_start:blox.Spark2Pins.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
@@ -265,7 +268,7 @@ bool Spark2Pins::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+      // .blox.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox_test) = {
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
@@ -273,14 +276,14 @@ bool Spark2Pins::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_hardware(static_cast< ::blox::Spark2Pins_Hardware >(value));
+          set_hardware(static_cast< ::blox::Spark2Pins::Block_Hardware >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
+      // repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
@@ -318,17 +321,17 @@ bool Spark2Pins::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.Spark2Pins)
+  // @@protoc_insertion_point(parse_success:blox.Spark2Pins.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.Spark2Pins)
+  // @@protoc_insertion_point(parse_failure:blox.Spark2Pins.Block)
   return false;
 #undef DO_
 }
 
-void Spark2Pins::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Spark2Pins)
+  // @@protoc_insertion_point(serialize_start:blox.Spark2Pins.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -337,13 +340,13 @@ void Spark2Pins::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->soundalarm(), output);
   }
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  // .blox.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox_test) = {
   if (this->hardware() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       8, this->hardware(), output);
   }
 
-  // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -361,13 +364,13 @@ void Spark2Pins::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.Spark2Pins)
+  // @@protoc_insertion_point(serialize_end:blox.Spark2Pins.Block)
 }
 
-::google::protobuf::uint8* Spark2Pins::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Spark2Pins)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.Spark2Pins.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -376,13 +379,13 @@ void Spark2Pins::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->soundalarm(), target);
   }
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  // .blox.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox_test) = {
   if (this->hardware() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       8, this->hardware(), target);
   }
 
-  // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -399,12 +402,12 @@ void Spark2Pins::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Spark2Pins)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.Spark2Pins.Block)
   return target;
 }
 
-size_t Spark2Pins::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Spark2Pins)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox.Spark2Pins.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -412,7 +415,7 @@ size_t Spark2Pins::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
   {
     unsigned int count = static_cast<unsigned int>(this->channels_size());
     total_size += 1UL * count;
@@ -423,7 +426,7 @@ size_t Spark2Pins::ByteSizeLong() const {
     }
   }
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  // .blox.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox_test) = {
   if (this->hardware() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->hardware());
@@ -444,23 +447,23 @@ size_t Spark2Pins::ByteSizeLong() const {
   return total_size;
 }
 
-void Spark2Pins::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Spark2Pins)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.Spark2Pins.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const Spark2Pins* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Spark2Pins>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Spark2Pins)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Spark2Pins.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Spark2Pins)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Spark2Pins.Block)
     MergeFrom(*source);
   }
 }
 
-void Spark2Pins::MergeFrom(const Spark2Pins& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Spark2Pins)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.Spark2Pins.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -478,29 +481,29 @@ void Spark2Pins::MergeFrom(const Spark2Pins& from) {
   }
 }
 
-void Spark2Pins::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Spark2Pins)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.Spark2Pins.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Spark2Pins::CopyFrom(const Spark2Pins& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Spark2Pins)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.Spark2Pins.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Spark2Pins::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void Spark2Pins::Swap(Spark2Pins* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void Spark2Pins::InternalSwap(Spark2Pins* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   swap(hardware_, other->hardware_);
@@ -509,18 +512,19 @@ void Spark2Pins::InternalSwap(Spark2Pins* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata Spark2Pins::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Spark2Pins_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace Spark2Pins
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Spark2Pins* Arena::CreateMaybeMessage< ::blox::Spark2Pins >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Spark2Pins >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Spark2Pins::Block* Arena::CreateMaybeMessage< ::blox::Spark2Pins::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::Spark2Pins::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

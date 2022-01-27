@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "blox/ActuatorPwmBlock.h"
 #include "blox/BalancerBlock.h"
 #include "blox/DigitalActuatorBlock.h"
@@ -31,7 +31,7 @@
 
 SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     auto mutexId = cbox::obj_id_t(101);

@@ -32,7 +32,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
-#include "AnalogConstraints_test.pb.h"
+#include "Constraints_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_ActuatorAnalogMock_5ftest_2eproto 
 
@@ -49,37 +49,40 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_ActuatorAnalogMock_5ftest_2eproto
 namespace blox {
-class ActuatorAnalogMock;
-class ActuatorAnalogMockDefaultTypeInternal;
-extern ActuatorAnalogMockDefaultTypeInternal _ActuatorAnalogMock_default_instance_;
+namespace ActuatorAnalogMock {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace ActuatorAnalogMock
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::ActuatorAnalogMock* Arena::CreateMaybeMessage<::blox::ActuatorAnalogMock>(Arena*);
+template<> ::blox::ActuatorAnalogMock::Block* Arena::CreateMaybeMessage<::blox::ActuatorAnalogMock::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace ActuatorAnalogMock {
 
 // ===================================================================
 
-class ActuatorAnalogMock : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorAnalogMock) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorAnalogMock.Block) */ {
  public:
-  ActuatorAnalogMock();
-  virtual ~ActuatorAnalogMock();
+  Block();
+  virtual ~Block();
 
-  ActuatorAnalogMock(const ActuatorAnalogMock& from);
+  Block(const Block& from);
 
-  inline ActuatorAnalogMock& operator=(const ActuatorAnalogMock& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ActuatorAnalogMock(ActuatorAnalogMock&& from) noexcept
-    : ActuatorAnalogMock() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline ActuatorAnalogMock& operator=(ActuatorAnalogMock&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -89,34 +92,34 @@ class ActuatorAnalogMock : public ::google::protobuf::Message /* @@protoc_insert
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ActuatorAnalogMock& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ActuatorAnalogMock* internal_default_instance() {
-    return reinterpret_cast<const ActuatorAnalogMock*>(
-               &_ActuatorAnalogMock_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(ActuatorAnalogMock* other);
-  friend void swap(ActuatorAnalogMock& a, ActuatorAnalogMock& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ActuatorAnalogMock* New() const final {
-    return CreateMaybeMessage<ActuatorAnalogMock>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  ActuatorAnalogMock* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<ActuatorAnalogMock>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const ActuatorAnalogMock& from);
-  void MergeFrom(const ActuatorAnalogMock& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -133,7 +136,7 @@ class ActuatorAnalogMock : public ::google::protobuf::Message /* @@protoc_insert
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ActuatorAnalogMock* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -161,17 +164,17 @@ class ActuatorAnalogMock : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // .blox.AnalogConstraints constrainedBy = 8;
+  // .blox.Constraints.AnalogConstraints constrainedBy = 8;
   bool has_constrainedby() const;
   void clear_constrainedby();
   static const int kConstrainedByFieldNumber = 8;
   private:
-  const ::blox::AnalogConstraints& _internal_constrainedby() const;
+  const ::blox::Constraints::AnalogConstraints& _internal_constrainedby() const;
   public:
-  const ::blox::AnalogConstraints& constrainedby() const;
-  ::blox::AnalogConstraints* release_constrainedby();
-  ::blox::AnalogConstraints* mutable_constrainedby();
-  void set_allocated_constrainedby(::blox::AnalogConstraints* constrainedby);
+  const ::blox::Constraints::AnalogConstraints& constrainedby() const;
+  ::blox::Constraints::AnalogConstraints* release_constrainedby();
+  ::blox::Constraints::AnalogConstraints* mutable_constrainedby();
+  void set_allocated_constrainedby(::blox::Constraints::AnalogConstraints* constrainedby);
 
   // sint32 setting = 1 [(.nanopb_test) = {
   void clear_setting();
@@ -215,13 +218,13 @@ class ActuatorAnalogMock : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::int32 desiredsetting() const;
   void set_desiredsetting(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.ActuatorAnalogMock)
+  // @@protoc_insertion_point(class_scope:blox.ActuatorAnalogMock.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
-  ::blox::AnalogConstraints* constrainedby_;
+  ::blox::Constraints::AnalogConstraints* constrainedby_;
   ::google::protobuf::int32 setting_;
   ::google::protobuf::int32 value_;
   ::google::protobuf::int32 minsetting_;
@@ -241,122 +244,122 @@ class ActuatorAnalogMock : public ::google::protobuf::Message /* @@protoc_insert
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ActuatorAnalogMock
+// Block
 
 // sint32 setting = 1 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_setting() {
+inline void Block::clear_setting() {
   setting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::setting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.setting)
+inline ::google::protobuf::int32 Block::setting() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.setting)
   return setting_;
 }
-inline void ActuatorAnalogMock::set_setting(::google::protobuf::int32 value) {
+inline void Block::set_setting(::google::protobuf::int32 value) {
   
   setting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.setting)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.setting)
 }
 
 // sint32 value = 2 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_value() {
+inline void Block::clear_value() {
   value_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::value() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.value)
+inline ::google::protobuf::int32 Block::value() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.value)
   return value_;
 }
-inline void ActuatorAnalogMock::set_value(::google::protobuf::int32 value) {
+inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.value)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.value)
 }
 
 // sint32 minSetting = 4 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_minsetting() {
+inline void Block::clear_minsetting() {
   minsetting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::minsetting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.minSetting)
+inline ::google::protobuf::int32 Block::minsetting() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.minSetting)
   return minsetting_;
 }
-inline void ActuatorAnalogMock::set_minsetting(::google::protobuf::int32 value) {
+inline void Block::set_minsetting(::google::protobuf::int32 value) {
   
   minsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.minSetting)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.minSetting)
 }
 
 // sint32 maxSetting = 5 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_maxsetting() {
+inline void Block::clear_maxsetting() {
   maxsetting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::maxsetting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.maxSetting)
+inline ::google::protobuf::int32 Block::maxsetting() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.maxSetting)
   return maxsetting_;
 }
-inline void ActuatorAnalogMock::set_maxsetting(::google::protobuf::int32 value) {
+inline void Block::set_maxsetting(::google::protobuf::int32 value) {
   
   maxsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.maxSetting)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.maxSetting)
 }
 
 // sint32 minValue = 6 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_minvalue() {
+inline void Block::clear_minvalue() {
   minvalue_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::minvalue() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.minValue)
+inline ::google::protobuf::int32 Block::minvalue() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.minValue)
   return minvalue_;
 }
-inline void ActuatorAnalogMock::set_minvalue(::google::protobuf::int32 value) {
+inline void Block::set_minvalue(::google::protobuf::int32 value) {
   
   minvalue_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.minValue)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.minValue)
 }
 
 // sint32 maxValue = 7 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_maxvalue() {
+inline void Block::clear_maxvalue() {
   maxvalue_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::maxvalue() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.maxValue)
+inline ::google::protobuf::int32 Block::maxvalue() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.maxValue)
   return maxvalue_;
 }
-inline void ActuatorAnalogMock::set_maxvalue(::google::protobuf::int32 value) {
+inline void Block::set_maxvalue(::google::protobuf::int32 value) {
   
   maxvalue_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.maxValue)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.maxValue)
 }
 
-// .blox.AnalogConstraints constrainedBy = 8;
-inline bool ActuatorAnalogMock::has_constrainedby() const {
+// .blox.Constraints.AnalogConstraints constrainedBy = 8;
+inline bool Block::has_constrainedby() const {
   return this != internal_default_instance() && constrainedby_ != NULL;
 }
-inline const ::blox::AnalogConstraints& ActuatorAnalogMock::_internal_constrainedby() const {
+inline const ::blox::Constraints::AnalogConstraints& Block::_internal_constrainedby() const {
   return *constrainedby_;
 }
-inline const ::blox::AnalogConstraints& ActuatorAnalogMock::constrainedby() const {
-  const ::blox::AnalogConstraints* p = constrainedby_;
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.constrainedBy)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::AnalogConstraints*>(
-      &::blox::_AnalogConstraints_default_instance_);
+inline const ::blox::Constraints::AnalogConstraints& Block::constrainedby() const {
+  const ::blox::Constraints::AnalogConstraints* p = constrainedby_;
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.constrainedBy)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox::Constraints::AnalogConstraints*>(
+      &::blox::Constraints::_AnalogConstraints_default_instance_);
 }
-inline ::blox::AnalogConstraints* ActuatorAnalogMock::release_constrainedby() {
-  // @@protoc_insertion_point(field_release:blox.ActuatorAnalogMock.constrainedBy)
+inline ::blox::Constraints::AnalogConstraints* Block::release_constrainedby() {
+  // @@protoc_insertion_point(field_release:blox.ActuatorAnalogMock.Block.constrainedBy)
   
-  ::blox::AnalogConstraints* temp = constrainedby_;
+  ::blox::Constraints::AnalogConstraints* temp = constrainedby_;
   constrainedby_ = NULL;
   return temp;
 }
-inline ::blox::AnalogConstraints* ActuatorAnalogMock::mutable_constrainedby() {
+inline ::blox::Constraints::AnalogConstraints* Block::mutable_constrainedby() {
   
   if (constrainedby_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::AnalogConstraints>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox::Constraints::AnalogConstraints>(GetArenaNoVirtual());
     constrainedby_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.ActuatorAnalogMock.constrainedBy)
+  // @@protoc_insertion_point(field_mutable:blox.ActuatorAnalogMock.Block.constrainedBy)
   return constrainedby_;
 }
-inline void ActuatorAnalogMock::set_allocated_constrainedby(::blox::AnalogConstraints* constrainedby) {
+inline void Block::set_allocated_constrainedby(::blox::Constraints::AnalogConstraints* constrainedby) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(constrainedby_);
@@ -372,50 +375,50 @@ inline void ActuatorAnalogMock::set_allocated_constrainedby(::blox::AnalogConstr
     
   }
   constrainedby_ = constrainedby;
-  // @@protoc_insertion_point(field_set_allocated:blox.ActuatorAnalogMock.constrainedBy)
+  // @@protoc_insertion_point(field_set_allocated:blox.ActuatorAnalogMock.Block.constrainedBy)
 }
 
 // sint32 desiredSetting = 9 [(.nanopb_test) = {
-inline void ActuatorAnalogMock::clear_desiredsetting() {
+inline void Block::clear_desiredsetting() {
   desiredsetting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorAnalogMock::desiredsetting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.desiredSetting)
+inline ::google::protobuf::int32 Block::desiredsetting() const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.desiredSetting)
   return desiredsetting_;
 }
-inline void ActuatorAnalogMock::set_desiredsetting(::google::protobuf::int32 value) {
+inline void Block::set_desiredsetting(::google::protobuf::int32 value) {
   
   desiredsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.desiredSetting)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.desiredSetting)
 }
 
 // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int ActuatorAnalogMock::strippedfields_size() const {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void ActuatorAnalogMock::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 ActuatorAnalogMock::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox.ActuatorAnalogMock.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void ActuatorAnalogMock::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.strippedFields)
+  // @@protoc_insertion_point(field_set:blox.ActuatorAnalogMock.Block.strippedFields)
 }
-inline void ActuatorAnalogMock::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.ActuatorAnalogMock.strippedFields)
+  // @@protoc_insertion_point(field_add:blox.ActuatorAnalogMock.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-ActuatorAnalogMock::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.ActuatorAnalogMock.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox.ActuatorAnalogMock.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-ActuatorAnalogMock::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.ActuatorAnalogMock.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox.ActuatorAnalogMock.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -425,6 +428,7 @@ ActuatorAnalogMock::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace ActuatorAnalogMock
 }  // namespace blox
 
 // @@protoc_insertion_point(global_scope)

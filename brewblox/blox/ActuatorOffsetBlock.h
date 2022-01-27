@@ -5,7 +5,7 @@
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class ActuatorOffsetBlock : public Block<BrewBloxTypes_BlockType_ActuatorOffset> {
+class ActuatorOffsetBlock : public Block<BlockType_ActuatorOffset> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<SetpointSensorPair> target;

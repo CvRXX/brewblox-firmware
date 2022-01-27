@@ -23,81 +23,83 @@ namespace protobuf_TempSensorMock_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_TempSensorMock_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Fluctuation;
 }  // namespace protobuf_TempSensorMock_5ftest_2eproto
 namespace blox {
+namespace TempSensorMock {
 class FluctuationDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Fluctuation>
       _instance;
 } _Fluctuation_default_instance_;
-class TempSensorMockDefaultTypeInternal {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<TempSensorMock>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _TempSensorMock_default_instance_;
+} _Block_default_instance_;
+}  // namespace TempSensorMock
 }  // namespace blox
 namespace protobuf_TempSensorMock_5ftest_2eproto {
 static void InitDefaultsFluctuation() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_Fluctuation_default_instance_;
-    new (ptr) ::blox::Fluctuation();
+    void* ptr = &::blox::TempSensorMock::_Fluctuation_default_instance_;
+    new (ptr) ::blox::TempSensorMock::Fluctuation();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::Fluctuation::InitAsDefaultInstance();
+  ::blox::TempSensorMock::Fluctuation::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_Fluctuation =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsFluctuation}, {}};
 
-static void InitDefaultsTempSensorMock() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_TempSensorMock_default_instance_;
-    new (ptr) ::blox::TempSensorMock();
+    void* ptr = &::blox::TempSensorMock::_Block_default_instance_;
+    new (ptr) ::blox::TempSensorMock::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::TempSensorMock::InitAsDefaultInstance();
+  ::blox::TempSensorMock::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_TempSensorMock =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsTempSensorMock}, {
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
       &protobuf_TempSensorMock_5ftest_2eproto::scc_info_Fluctuation.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_Fluctuation.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_TempSensorMock.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Fluctuation, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Fluctuation, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Fluctuation, amplitude_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Fluctuation, period_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Fluctuation, amplitude_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Fluctuation, period_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock, connected_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock, setting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock, fluctuations_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Block, connected_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Block, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Block, fluctuations_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorMock::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Fluctuation)},
-  { 7, -1, sizeof(::blox::TempSensorMock)},
+  { 0, -1, sizeof(::blox::TempSensorMock::Fluctuation)},
+  { 7, -1, sizeof(::blox::TempSensorMock::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Fluctuation_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_TempSensorMock_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::TempSensorMock::_Fluctuation_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::TempSensorMock::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -121,20 +123,20 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\031TempSensorMock_test.proto\022\004blox\032\023brewb"
-      "lox_test.proto\032\021nanopb_test.proto\"^\n\013Flu"
-      "ctuation\022+\n\tamplitude\030\001 \001(\021B\030\212\265\030\0020\001\212\265\030\002\010"
-      "\006\212\265\030\003\020\200 \222\?\0028 \022\"\n\006period\030\002 \001(\rB\022\212\265\030\002\010\003\212\265\030"
-      "\003\020\350\007\222\?\0028 \"\341\001\n\016TempSensorMock\022-\n\005value\030\001 "
-      "\001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030\002(\001\222\?\0028 \022\031\n\tc"
-      "onnected\030\003 \001(\010B\006\212\265\030\0020\001\022#\n\007setting\030\004 \001(\021B"
-      "\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\014fluctuations\030\005 \003("
-      "\0132\021.blox.Fluctuation\022(\n\016strippedFields\030c"
-      " \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\001:\r\212\265\030\003\030\255\002\212\265\030\002H\002b\006p"
-      "roto3"
+      "\n\031TempSensorMock_test.proto\022\023blox.TempSe"
+      "nsorMock\032\023brewblox_test.proto\032\021nanopb_te"
+      "st.proto\"^\n\013Fluctuation\022+\n\tamplitude\030\001 \001"
+      "(\021B\030\212\265\030\0020\001\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \022\"\n\006period\030\002"
+      " \001(\rB\022\212\265\030\002\010\003\212\265\030\003\020\350\007\222\?\0028 \"\347\001\n\005Block\022-\n\005va"
+      "lue\030\001 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030\002(\001\222\?\0028"
+      " \022\031\n\tconnected\030\003 \001(\010B\006\212\265\030\0020\001\022#\n\007setting\030"
+      "\004 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \0226\n\014fluctuation"
+      "s\030\005 \003(\0132 .blox.TempSensorMock.Fluctuatio"
+      "n\022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?"
+      "\002\020\001:\r\212\265\030\003\030\255\002\212\265\030\002H\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 405);
+      descriptor, 426);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TempSensorMock_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -153,6 +155,7 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_TempSensorMock_5ftest_2eproto
 namespace blox {
+namespace TempSensorMock {
 
 // ===================================================================
 
@@ -168,7 +171,7 @@ Fluctuation::Fluctuation()
   ::google::protobuf::internal::InitSCC(
       &protobuf_TempSensorMock_5ftest_2eproto::scc_info_Fluctuation.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Fluctuation)
+  // @@protoc_insertion_point(constructor:blox.TempSensorMock.Fluctuation)
 }
 Fluctuation::Fluctuation(const Fluctuation& from)
   : ::google::protobuf::Message(),
@@ -177,7 +180,7 @@ Fluctuation::Fluctuation(const Fluctuation& from)
   ::memcpy(&amplitude_, &from.amplitude_,
     static_cast<size_t>(reinterpret_cast<char*>(&period_) -
     reinterpret_cast<char*>(&amplitude_)) + sizeof(period_));
-  // @@protoc_insertion_point(copy_constructor:blox.Fluctuation)
+  // @@protoc_insertion_point(copy_constructor:blox.TempSensorMock.Fluctuation)
 }
 
 void Fluctuation::SharedCtor() {
@@ -187,7 +190,7 @@ void Fluctuation::SharedCtor() {
 }
 
 Fluctuation::~Fluctuation() {
-  // @@protoc_insertion_point(destructor:blox.Fluctuation)
+  // @@protoc_insertion_point(destructor:blox.TempSensorMock.Fluctuation)
   SharedDtor();
 }
 
@@ -209,7 +212,7 @@ const Fluctuation& Fluctuation::default_instance() {
 
 
 void Fluctuation::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Fluctuation)
+// @@protoc_insertion_point(message_clear_start:blox.TempSensorMock.Fluctuation)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -224,7 +227,7 @@ bool Fluctuation::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Fluctuation)
+  // @@protoc_insertion_point(parse_start:blox.TempSensorMock.Fluctuation)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -270,17 +273,17 @@ bool Fluctuation::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.Fluctuation)
+  // @@protoc_insertion_point(parse_success:blox.TempSensorMock.Fluctuation)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.Fluctuation)
+  // @@protoc_insertion_point(parse_failure:blox.TempSensorMock.Fluctuation)
   return false;
 #undef DO_
 }
 
 void Fluctuation::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Fluctuation)
+  // @@protoc_insertion_point(serialize_start:blox.TempSensorMock.Fluctuation)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -298,13 +301,13 @@ void Fluctuation::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.Fluctuation)
+  // @@protoc_insertion_point(serialize_end:blox.TempSensorMock.Fluctuation)
 }
 
 ::google::protobuf::uint8* Fluctuation::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Fluctuation)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.TempSensorMock.Fluctuation)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -322,12 +325,12 @@ void Fluctuation::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Fluctuation)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.TempSensorMock.Fluctuation)
   return target;
 }
 
 size_t Fluctuation::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Fluctuation)
+// @@protoc_insertion_point(message_byte_size_start:blox.TempSensorMock.Fluctuation)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -355,22 +358,22 @@ size_t Fluctuation::ByteSizeLong() const {
 }
 
 void Fluctuation::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Fluctuation)
+// @@protoc_insertion_point(generalized_merge_from_start:blox.TempSensorMock.Fluctuation)
   GOOGLE_DCHECK_NE(&from, this);
   const Fluctuation* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const Fluctuation>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Fluctuation)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TempSensorMock.Fluctuation)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Fluctuation)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TempSensorMock.Fluctuation)
     MergeFrom(*source);
   }
 }
 
 void Fluctuation::MergeFrom(const Fluctuation& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Fluctuation)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.TempSensorMock.Fluctuation)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -385,14 +388,14 @@ void Fluctuation::MergeFrom(const Fluctuation& from) {
 }
 
 void Fluctuation::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Fluctuation)
+// @@protoc_insertion_point(generalized_copy_from_start:blox.TempSensorMock.Fluctuation)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Fluctuation::CopyFrom(const Fluctuation& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Fluctuation)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.TempSensorMock.Fluctuation)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -421,24 +424,24 @@ void Fluctuation::InternalSwap(Fluctuation* other) {
 
 // ===================================================================
 
-void TempSensorMock::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int TempSensorMock::kValueFieldNumber;
-const int TempSensorMock::kConnectedFieldNumber;
-const int TempSensorMock::kSettingFieldNumber;
-const int TempSensorMock::kFluctuationsFieldNumber;
-const int TempSensorMock::kStrippedFieldsFieldNumber;
+const int Block::kValueFieldNumber;
+const int Block::kConnectedFieldNumber;
+const int Block::kSettingFieldNumber;
+const int Block::kFluctuationsFieldNumber;
+const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-TempSensorMock::TempSensorMock()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_TempSensorMock_5ftest_2eproto::scc_info_TempSensorMock.base);
+      &protobuf_TempSensorMock_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.TempSensorMock)
+  // @@protoc_insertion_point(constructor:blox.TempSensorMock.Block)
 }
-TempSensorMock::TempSensorMock(const TempSensorMock& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       fluctuations_(from.fluctuations_),
@@ -447,39 +450,39 @@ TempSensorMock::TempSensorMock(const TempSensorMock& from)
   ::memcpy(&value_, &from.value_,
     static_cast<size_t>(reinterpret_cast<char*>(&setting_) -
     reinterpret_cast<char*>(&value_)) + sizeof(setting_));
-  // @@protoc_insertion_point(copy_constructor:blox.TempSensorMock)
+  // @@protoc_insertion_point(copy_constructor:blox.TempSensorMock.Block)
 }
 
-void TempSensorMock::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&value_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&setting_) -
       reinterpret_cast<char*>(&value_)) + sizeof(setting_));
 }
 
-TempSensorMock::~TempSensorMock() {
-  // @@protoc_insertion_point(destructor:blox.TempSensorMock)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox.TempSensorMock.Block)
   SharedDtor();
 }
 
-void TempSensorMock::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void TempSensorMock::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* TempSensorMock::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_TempSensorMock_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_TempSensorMock_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const TempSensorMock& TempSensorMock::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_TempSensorMock_5ftest_2eproto::scc_info_TempSensorMock.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_TempSensorMock_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void TempSensorMock::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.TempSensorMock)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox.TempSensorMock.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -492,11 +495,11 @@ void TempSensorMock::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool TempSensorMock::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.TempSensorMock)
+  // @@protoc_insertion_point(parse_start:blox.TempSensorMock.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
@@ -544,7 +547,7 @@ bool TempSensorMock::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .blox.Fluctuation fluctuations = 5;
+      // repeated .blox.TempSensorMock.Fluctuation fluctuations = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
@@ -587,17 +590,17 @@ bool TempSensorMock::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.TempSensorMock)
+  // @@protoc_insertion_point(parse_success:blox.TempSensorMock.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.TempSensorMock)
+  // @@protoc_insertion_point(parse_failure:blox.TempSensorMock.Block)
   return false;
 #undef DO_
 }
 
-void TempSensorMock::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.TempSensorMock)
+  // @@protoc_insertion_point(serialize_start:blox.TempSensorMock.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -616,7 +619,7 @@ void TempSensorMock::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(4, this->setting(), output);
   }
 
-  // repeated .blox.Fluctuation fluctuations = 5;
+  // repeated .blox.TempSensorMock.Fluctuation fluctuations = 5;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->fluctuations_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -640,13 +643,13 @@ void TempSensorMock::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.TempSensorMock)
+  // @@protoc_insertion_point(serialize_end:blox.TempSensorMock.Block)
 }
 
-::google::protobuf::uint8* TempSensorMock::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.TempSensorMock)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.TempSensorMock.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -665,7 +668,7 @@ void TempSensorMock::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(4, this->setting(), target);
   }
 
-  // repeated .blox.Fluctuation fluctuations = 5;
+  // repeated .blox.TempSensorMock.Fluctuation fluctuations = 5;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->fluctuations_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -690,12 +693,12 @@ void TempSensorMock::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.TempSensorMock)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.TempSensorMock.Block)
   return target;
 }
 
-size_t TempSensorMock::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.TempSensorMock)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox.TempSensorMock.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -703,7 +706,7 @@ size_t TempSensorMock::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.Fluctuation fluctuations = 5;
+  // repeated .blox.TempSensorMock.Fluctuation fluctuations = 5;
   {
     unsigned int count = static_cast<unsigned int>(this->fluctuations_size());
     total_size += 1UL * count;
@@ -754,23 +757,23 @@ size_t TempSensorMock::ByteSizeLong() const {
   return total_size;
 }
 
-void TempSensorMock::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.TempSensorMock)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.TempSensorMock.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const TempSensorMock* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const TempSensorMock>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TempSensorMock)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TempSensorMock.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TempSensorMock)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TempSensorMock.Block)
     MergeFrom(*source);
   }
 }
 
-void TempSensorMock::MergeFrom(const TempSensorMock& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.TempSensorMock)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.TempSensorMock.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -789,29 +792,29 @@ void TempSensorMock::MergeFrom(const TempSensorMock& from) {
   }
 }
 
-void TempSensorMock::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.TempSensorMock)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.TempSensorMock.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void TempSensorMock::CopyFrom(const TempSensorMock& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.TempSensorMock)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.TempSensorMock.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool TempSensorMock::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void TempSensorMock::Swap(TempSensorMock* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void TempSensorMock::InternalSwap(TempSensorMock* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&fluctuations_)->InternalSwap(CastToBase(&other->fluctuations_));
   strippedfields_.InternalSwap(&other->strippedfields_);
@@ -821,21 +824,22 @@ void TempSensorMock::InternalSwap(TempSensorMock* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata TempSensorMock::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_TempSensorMock_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_TempSensorMock_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace TempSensorMock
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Fluctuation* Arena::CreateMaybeMessage< ::blox::Fluctuation >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Fluctuation >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TempSensorMock::Fluctuation* Arena::CreateMaybeMessage< ::blox::TempSensorMock::Fluctuation >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::TempSensorMock::Fluctuation >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TempSensorMock* Arena::CreateMaybeMessage< ::blox::TempSensorMock >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::TempSensorMock >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TempSensorMock::Block* Arena::CreateMaybeMessage< ::blox::TempSensorMock::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::TempSensorMock::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

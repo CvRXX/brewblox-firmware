@@ -22,7 +22,7 @@
 #include "blox/Block.h"
 #include "blox/SparkIoBase.h"
 
-class Spark3PinsBlock : public SparkIoBase, public Block<BrewBloxTypes_BlockType_Spark3Pins> {
+class Spark3PinsBlock : public SparkIoBase, public Block<BlockType_Spark3Pins> {
 private:
     static const uint8_t numPins = 5;
     virtual pin_t channelToPin(uint8_t channel) const override final;

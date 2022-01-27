@@ -71,7 +71,7 @@ cbox::update_t TempSensorOneWireBlock::update(const cbox::update_t& now)
 
 void* TempSensorOneWireBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_TempSensorOneWire) {
+    if (iface == BlockType_TempSensorOneWire) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<TempSensor>()) {

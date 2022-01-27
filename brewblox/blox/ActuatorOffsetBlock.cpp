@@ -1,14 +1,14 @@
 #include "ActuatorOffsetBlock.h"
-#include "ActuatorAnalogConstraintsProto.h"
+#include "ConstraintsProto.h"
 #include "blox/FieldTags.h"
 #include "compiled_proto/src/ActuatorOffset.pb.h"
-#include "compiled_proto/src/AnalogConstraints.pb.h"
+#include "compiled_proto/src/Constraints.pb.h"
 
 cbox::CboxError
 ActuatorOffsetBlock::streamFrom(cbox::DataIn& dataIn)
 {
-    blox_ActuatorOffset newData = blox_ActuatorOffset_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorOffset_fields, blox_ActuatorOffset_size);
+    blox_ActuatorOffset_Block newData = blox_ActuatorOffset_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorOffset_Block_fields, blox_ActuatorOffset_Block_size);
     if (result == cbox::CboxError::OK) {
         target.setId(newData.targetId);
         reference.setId(newData.referenceId);
@@ -23,7 +23,7 @@ ActuatorOffsetBlock::streamFrom(cbox::DataIn& dataIn)
 cbox::CboxError
 ActuatorOffsetBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_ActuatorOffset message = blox_ActuatorOffset_init_zero;
+    blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
 
     FieldTags stripped;
 
@@ -35,7 +35,7 @@ ActuatorOffsetBlock::streamTo(cbox::DataOut& out) const
     if (constrained.valueValid()) {
         message.value = cnl::unwrap(constrained.value());
     } else {
-        stripped.add(blox_ActuatorOffset_value_tag);
+        stripped.add(blox_ActuatorOffset_Block_value_tag);
     }
     if (constrained.settingValid()) {
         message.setting = cnl::unwrap(constrained.setting());
@@ -43,7 +43,7 @@ ActuatorOffsetBlock::streamTo(cbox::DataOut& out) const
             message.drivenTargetId = message.targetId;
         }
     } else {
-        stripped.add(blox_ActuatorOffset_setting_tag);
+        stripped.add(blox_ActuatorOffset_Block_setting_tag);
     };
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
 
@@ -51,13 +51,13 @@ ActuatorOffsetBlock::streamTo(cbox::DataOut& out) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
-    return streamProtoTo(out, &message, blox_ActuatorOffset_fields, blox_ActuatorOffset_size);
+    return streamProtoTo(out, &message, blox_ActuatorOffset_Block_fields, blox_ActuatorOffset_Block_size);
 }
 
 cbox::CboxError
 ActuatorOffsetBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_ActuatorOffset persisted = blox_ActuatorOffset_init_zero;
+    blox_ActuatorOffset_Block persisted = blox_ActuatorOffset_Block_init_zero;
 
     persisted.targetId = target.getId();
     persisted.referenceId = reference.getId();
@@ -66,7 +66,7 @@ ActuatorOffsetBlock::streamPersistedTo(cbox::DataOut& out) const
     persisted.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(persisted.constrainedBy, constrained);
 
-    return streamProtoTo(out, &persisted, blox_ActuatorOffset_fields, blox_ActuatorOffset_size);
+    return streamProtoTo(out, &persisted, blox_ActuatorOffset_Block_fields, blox_ActuatorOffset_Block_size);
 }
 
 cbox::update_t
@@ -79,7 +79,7 @@ ActuatorOffsetBlock::update(const cbox::update_t& now)
 
 void* ActuatorOffsetBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_ActuatorOffset) {
+    if (iface == BlockType_ActuatorOffset) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {

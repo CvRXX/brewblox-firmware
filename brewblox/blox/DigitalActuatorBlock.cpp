@@ -1,5 +1,5 @@
 #include "DigitalActuatorBlock.h"
-#include "ActuatorDigitalConstraintsProto.h"
+#include "ConstraintsProto.h"
 #include "FieldTags.h"
 
 DigitalActuatorBlock::DigitalActuatorBlock(cbox::ObjectContainer& objects)
@@ -13,8 +13,8 @@ DigitalActuatorBlock::DigitalActuatorBlock(cbox::ObjectContainer& objects)
 cbox::CboxError
 DigitalActuatorBlock::streamFrom(cbox::DataIn& dataIn)
 {
-    blox_DigitalActuator message = blox_DigitalActuator_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &message, blox_DigitalActuator_fields, blox_DigitalActuator_size);
+    blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(dataIn, &message, blox_DigitalActuator_Block_fields, blox_DigitalActuator_Block_size);
 
     if (result == cbox::CboxError::OK) {
         if (hwDevice.getId() != message.hwDevice) {
@@ -30,12 +30,12 @@ DigitalActuatorBlock::streamFrom(cbox::DataIn& dataIn)
     return result;
 }
 
-void DigitalActuatorBlock::writePersistedStateToMessage(blox_DigitalActuator& message) const
+void DigitalActuatorBlock::writePersistedStateToMessage(blox_DigitalActuator_Block& message) const
 {
     message.hwDevice = hwDevice.getId();
     message.channel = actuator.channel();
     message.invert = actuator.invert();
-    message.desiredState = blox_DigitalState(constrained.desiredState());
+    message.desiredState = blox_IoArray_DigitalState(constrained.desiredState());
 
     getDigitalConstraints(message.constrainedBy, constrained);
 }
@@ -43,27 +43,27 @@ void DigitalActuatorBlock::writePersistedStateToMessage(blox_DigitalActuator& me
 cbox::CboxError
 DigitalActuatorBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_DigitalActuator message = blox_DigitalActuator_init_zero;
+    blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
     FieldTags stripped;
 
     writePersistedStateToMessage(message);
     auto state = actuator.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
-        stripped.add(blox_DigitalActuator_state_tag);
+        stripped.add(blox_DigitalActuator_Block_state_tag);
     } else {
-        message.state = blox_DigitalState(actuator.state());
+        message.state = blox_IoArray_DigitalState(actuator.state());
     }
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-    return streamProtoTo(out, &message, blox_DigitalActuator_fields, blox_DigitalActuator_size);
+    return streamProtoTo(out, &message, blox_DigitalActuator_Block_fields, blox_DigitalActuator_Block_size);
 }
 
 cbox::CboxError
 DigitalActuatorBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_DigitalActuator message = blox_DigitalActuator_init_zero;
+    blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
     writePersistedStateToMessage(message);
-    return streamProtoTo(out, &message, blox_DigitalActuator_fields, blox_DigitalActuator_size);
+    return streamProtoTo(out, &message, blox_DigitalActuator_Block_fields, blox_DigitalActuator_Block_size);
 }
 
 cbox::update_t
@@ -75,7 +75,7 @@ DigitalActuatorBlock::update(const cbox::update_t& now)
 
 void* DigitalActuatorBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_DigitalActuator) {
+    if (iface == BlockType_DigitalActuator) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {

@@ -48,16 +48,19 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_IoArray_5ftest_2eproto
 namespace blox {
+namespace IoArray {
 class IoChannel;
 class IoChannelDefaultTypeInternal;
 extern IoChannelDefaultTypeInternal _IoChannel_default_instance_;
+}  // namespace IoArray
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::IoChannel* Arena::CreateMaybeMessage<::blox::IoChannel>(Arena*);
+template<> ::blox::IoArray::IoChannel* Arena::CreateMaybeMessage<::blox::IoArray::IoChannel>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace IoArray {
 
 enum DigitalState {
   STATE_INACTIVE = 0,
@@ -87,7 +90,7 @@ inline bool DigitalState_Parse(
 }
 // ===================================================================
 
-class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.IoChannel) */ {
+class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.IoArray.IoChannel) */ {
  public:
   IoChannel();
   virtual ~IoChannel();
@@ -180,7 +183,7 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.IoChannel)
+  // @@protoc_insertion_point(class_scope:blox.IoArray.IoChannel)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -204,13 +207,13 @@ inline void IoChannel::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 IoChannel::id() const {
-  // @@protoc_insertion_point(field_get:blox.IoChannel.id)
+  // @@protoc_insertion_point(field_get:blox.IoArray.IoChannel.id)
   return id_;
 }
 inline void IoChannel::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.IoChannel.id)
+  // @@protoc_insertion_point(field_set:blox.IoArray.IoChannel.id)
 }
 
 #ifdef __GNUC__
@@ -219,15 +222,16 @@ inline void IoChannel::set_id(::google::protobuf::uint32 value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace IoArray
 }  // namespace blox
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::DigitalState> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox::IoArray::DigitalState> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::DigitalState>() {
-  return ::blox::DigitalState_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::IoArray::DigitalState>() {
+  return ::blox::IoArray::DigitalState_descriptor();
 }
 
 }  // namespace protobuf

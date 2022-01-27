@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Elco Jacobs / BrewBlox
+ * Copyright 2020 Elco Jacobs / Brewblox
  *
  * This file is part of ControlBox
  *

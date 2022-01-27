@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "OneWireAddress.h"
 #include "blox/DS2413Block.h"
 #include "blox/DigitalActuatorBlock.h"
@@ -45,7 +45,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 {
     WHEN("a DS2413 block is created")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
         using commands = cbox::Box::CommandID;
         auto ds2413Id = cbox::obj_id_t(100);
         auto actId = cbox::obj_id_t(101);
@@ -170,7 +170,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
 {
     WHEN("a MockPins block is created")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
         using commands = cbox::Box::CommandID;
         auto arrayId = cbox::obj_id_t(100);
         auto actId = cbox::obj_id_t(101);

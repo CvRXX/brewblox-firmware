@@ -6,7 +6,7 @@
 #include "blox/FieldTags.h"
 #include "compiled_proto/src/TempSensorMock.pb.h"
 
-class TempSensorMockBlock : public Block<BrewBloxTypes_BlockType_TempSensorMock> {
+class TempSensorMockBlock : public Block<BlockType_TempSensorMock> {
 private:
     TempSensorMock sensor;
 
@@ -106,7 +106,7 @@ public:
 
     virtual void* implements(const cbox::obj_type_t& iface) override final
     {
-        if (iface == BrewBloxTypes_BlockType_TempSensorMock) {
+        if (iface == BlockType_TempSensorMock) {
             return this; // me!
         }
         if (iface == cbox::interfaceId<TempSensor>()) {

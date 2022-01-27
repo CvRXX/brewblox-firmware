@@ -1,9 +1,9 @@
 /*
  * Copyright 2020 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "TempSensorCombiBlock.h"
@@ -83,7 +83,7 @@ cbox::update_t TempSensorCombiBlock::update(const cbox::update_t& now)
 
 void* TempSensorCombiBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_TempSensorCombi) {
+    if (iface == BlockType_TempSensorCombi) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<TempSensor>()) {

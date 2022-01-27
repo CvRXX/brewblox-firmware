@@ -9,31 +9,31 @@
 
 
 
-const pb_field_t blox_GpioModuleChannel_fields[6] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_GpioModuleChannel, id, id, 0),
-    PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, deviceType, id, 0),
-    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, pinsMask, deviceType, 0),
-    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, width, pinsMask, 0),
-    PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_GpioModuleChannel, name, width, 0),
+const pb_field_t blox_OneWireGpioModule_GpioModuleChannel_fields[6] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_OneWireGpioModule_GpioModuleChannel, id, id, 0),
+    PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, deviceType, id, 0),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, pinsMask, deviceType, 0),
+    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, width, pinsMask, 0),
+    PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, name, width, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_OneWireGpioModule_fields[16] = {
-    PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_OneWireGpioModule, channels, channels, &blox_GpioModuleChannel_fields),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, modulePosition, channels, 0),
-    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatus, modulePosition, 0),
-    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpDesired, moduleStatus, 0),
-    PB_FIELD(  5, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpStatus, pullUpDesired, 0),
-    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpWhenActive, pullUpStatus, 0),
-    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullUpWhenInactive, pullUpWhenActive, 0),
-    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownDesired, pullUpWhenInactive, 0),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownStatus, pullDownDesired, 0),
-    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenActive, pullDownStatus, 0),
-    PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, pullDownWhenInactive, pullDownWhenActive, 0),
-    PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, overCurrent, pullDownWhenInactive, 0),
-    PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, openLoad, overCurrent, 0),
-    PB_FIELD( 14, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, useExternalPower, openLoad, 0),
-    PB_FIELD( 32, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule, moduleStatusClear, useExternalPower, 0),
+const pb_field_t blox_OneWireGpioModule_Block_fields[16] = {
+    PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_OneWireGpioModule_Block, channels, channels, &blox_OneWireGpioModule_GpioModuleChannel_fields),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, modulePosition, channels, 0),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, moduleStatus, modulePosition, 0),
+    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullUpDesired, moduleStatus, 0),
+    PB_FIELD(  5, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullUpStatus, pullUpDesired, 0),
+    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullUpWhenActive, pullUpStatus, 0),
+    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullUpWhenInactive, pullUpWhenActive, 0),
+    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullDownDesired, pullUpWhenInactive, 0),
+    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullDownStatus, pullDownDesired, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullDownWhenActive, pullDownStatus, 0),
+    PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, pullDownWhenInactive, pullDownWhenActive, 0),
+    PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, overCurrent, pullDownWhenInactive, 0),
+    PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, openLoad, overCurrent, 0),
+    PB_FIELD( 14, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, useExternalPower, openLoad, 0),
+    PB_FIELD( 32, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, moduleStatusClear, useExternalPower, 0),
     PB_LAST_FIELD
 };
 
@@ -49,7 +49,7 @@ const pb_field_t blox_OneWireGpioModule_fields[16] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_OneWireGpioModule, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_GpioModuleChannel_blox_OneWireGpioModule)
+PB_STATIC_ASSERT((pb_membersize(blox_OneWireGpioModule_Block, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_OneWireGpioModule_GpioModuleChannel_blox_OneWireGpioModule_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -60,7 +60,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_OneWireGpioModule, channels[0]) < 65536), Y
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_OneWireGpioModule, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_GpioModuleChannel_blox_OneWireGpioModule)
+PB_STATIC_ASSERT((pb_membersize(blox_OneWireGpioModule_Block, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_OneWireGpioModule_GpioModuleChannel_blox_OneWireGpioModule_Block)
 #endif
 
 

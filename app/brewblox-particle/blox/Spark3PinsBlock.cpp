@@ -115,7 +115,7 @@ Spark3PinsBlock::streamPersistedTo(cbox::DataOut& out) const
 
 void* Spark3PinsBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_Spark3Pins) {
+    if (iface == BlockType_Spark3Pins) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

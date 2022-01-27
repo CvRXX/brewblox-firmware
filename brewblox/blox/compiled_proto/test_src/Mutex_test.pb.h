@@ -48,37 +48,40 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_Mutex_5ftest_2eproto
 namespace blox {
-class Mutex;
-class MutexDefaultTypeInternal;
-extern MutexDefaultTypeInternal _Mutex_default_instance_;
+namespace Mutex {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace Mutex
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::Mutex* Arena::CreateMaybeMessage<::blox::Mutex>(Arena*);
+template<> ::blox::Mutex::Block* Arena::CreateMaybeMessage<::blox::Mutex::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace Mutex {
 
 // ===================================================================
 
-class Mutex : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Mutex) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Mutex.Block) */ {
  public:
-  Mutex();
-  virtual ~Mutex();
+  Block();
+  virtual ~Block();
 
-  Mutex(const Mutex& from);
+  Block(const Block& from);
 
-  inline Mutex& operator=(const Mutex& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  Mutex(Mutex&& from) noexcept
-    : Mutex() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline Mutex& operator=(Mutex&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -88,34 +91,34 @@ class Mutex : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Mutex& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Mutex* internal_default_instance() {
-    return reinterpret_cast<const Mutex*>(
-               &_Mutex_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(Mutex* other);
-  friend void swap(Mutex& a, Mutex& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Mutex* New() const final {
-    return CreateMaybeMessage<Mutex>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  Mutex* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Mutex>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Mutex& from);
-  void MergeFrom(const Mutex& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -132,7 +135,7 @@ class Mutex : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Mutex* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -160,7 +163,7 @@ class Mutex : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 waitremaining() const;
   void set_waitremaining(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Mutex)
+  // @@protoc_insertion_point(class_scope:blox.Mutex.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -178,34 +181,34 @@ class Mutex : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Mutex
+// Block
 
 // uint32 differentActuatorWait = 1 [(.brewblox_test) = {
-inline void Mutex::clear_differentactuatorwait() {
+inline void Block::clear_differentactuatorwait() {
   differentactuatorwait_ = 0u;
 }
-inline ::google::protobuf::uint32 Mutex::differentactuatorwait() const {
-  // @@protoc_insertion_point(field_get:blox.Mutex.differentActuatorWait)
+inline ::google::protobuf::uint32 Block::differentactuatorwait() const {
+  // @@protoc_insertion_point(field_get:blox.Mutex.Block.differentActuatorWait)
   return differentactuatorwait_;
 }
-inline void Mutex::set_differentactuatorwait(::google::protobuf::uint32 value) {
+inline void Block::set_differentactuatorwait(::google::protobuf::uint32 value) {
   
   differentactuatorwait_ = value;
-  // @@protoc_insertion_point(field_set:blox.Mutex.differentActuatorWait)
+  // @@protoc_insertion_point(field_set:blox.Mutex.Block.differentActuatorWait)
 }
 
 // uint32 waitRemaining = 2 [(.nanopb_test) = {
-inline void Mutex::clear_waitremaining() {
+inline void Block::clear_waitremaining() {
   waitremaining_ = 0u;
 }
-inline ::google::protobuf::uint32 Mutex::waitremaining() const {
-  // @@protoc_insertion_point(field_get:blox.Mutex.waitRemaining)
+inline ::google::protobuf::uint32 Block::waitremaining() const {
+  // @@protoc_insertion_point(field_get:blox.Mutex.Block.waitRemaining)
   return waitremaining_;
 }
-inline void Mutex::set_waitremaining(::google::protobuf::uint32 value) {
+inline void Block::set_waitremaining(::google::protobuf::uint32 value) {
   
   waitremaining_ = value;
-  // @@protoc_insertion_point(field_set:blox.Mutex.waitRemaining)
+  // @@protoc_insertion_point(field_set:blox.Mutex.Block.waitRemaining)
 }
 
 #ifdef __GNUC__
@@ -214,6 +217,7 @@ inline void Mutex::set_waitremaining(::google::protobuf::uint32 value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace Mutex
 }  // namespace blox
 
 // @@protoc_insertion_point(global_scope)

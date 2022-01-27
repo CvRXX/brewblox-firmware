@@ -50,83 +50,86 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_Spark2Pins_5ftest_2eproto
 namespace blox {
-class Spark2Pins;
-class Spark2PinsDefaultTypeInternal;
-extern Spark2PinsDefaultTypeInternal _Spark2Pins_default_instance_;
+namespace Spark2Pins {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace Spark2Pins
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::Spark2Pins* Arena::CreateMaybeMessage<::blox::Spark2Pins>(Arena*);
+template<> ::blox::Spark2Pins::Block* Arena::CreateMaybeMessage<::blox::Spark2Pins::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace Spark2Pins {
 
-enum Spark2Pins_Hardware {
-  Spark2Pins_Hardware_HW_UNKNOWN = 0,
-  Spark2Pins_Hardware_HW_SPARK1 = 1,
-  Spark2Pins_Hardware_HW_SPARK2 = 2,
-  Spark2Pins_Hardware_Spark2Pins_Hardware_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Spark2Pins_Hardware_Spark2Pins_Hardware_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum Block_Hardware {
+  Block_Hardware_HW_UNKNOWN = 0,
+  Block_Hardware_HW_SPARK1 = 1,
+  Block_Hardware_HW_SPARK2 = 2,
+  Block_Hardware_Block_Hardware_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Block_Hardware_Block_Hardware_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Spark2Pins_Hardware_IsValid(int value);
-const Spark2Pins_Hardware Spark2Pins_Hardware_Hardware_MIN = Spark2Pins_Hardware_HW_UNKNOWN;
-const Spark2Pins_Hardware Spark2Pins_Hardware_Hardware_MAX = Spark2Pins_Hardware_HW_SPARK2;
-const int Spark2Pins_Hardware_Hardware_ARRAYSIZE = Spark2Pins_Hardware_Hardware_MAX + 1;
+bool Block_Hardware_IsValid(int value);
+const Block_Hardware Block_Hardware_Hardware_MIN = Block_Hardware_HW_UNKNOWN;
+const Block_Hardware Block_Hardware_Hardware_MAX = Block_Hardware_HW_SPARK2;
+const int Block_Hardware_Hardware_ARRAYSIZE = Block_Hardware_Hardware_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Spark2Pins_Hardware_descriptor();
-inline const ::std::string& Spark2Pins_Hardware_Name(Spark2Pins_Hardware value) {
+const ::google::protobuf::EnumDescriptor* Block_Hardware_descriptor();
+inline const ::std::string& Block_Hardware_Name(Block_Hardware value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Spark2Pins_Hardware_descriptor(), value);
+    Block_Hardware_descriptor(), value);
 }
-inline bool Spark2Pins_Hardware_Parse(
-    const ::std::string& name, Spark2Pins_Hardware* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Spark2Pins_Hardware>(
-    Spark2Pins_Hardware_descriptor(), name, value);
+inline bool Block_Hardware_Parse(
+    const ::std::string& name, Block_Hardware* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Block_Hardware>(
+    Block_Hardware_descriptor(), name, value);
 }
-enum Spark2ChannelIds {
+enum ChannelId {
   SPARK2_CHAN_NONE = 0,
   SPARK2_CHAN_BOTTOM1 = 1,
   SPARK2_CHAN_BOTTOM2 = 2,
   SPARK2_CHAN_BOTTOM3 = 3,
   SPARK2_CHAN_BOTTOM0 = 4,
-  Spark2ChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Spark2ChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  ChannelId_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ChannelId_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Spark2ChannelIds_IsValid(int value);
-const Spark2ChannelIds Spark2ChannelIds_MIN = SPARK2_CHAN_NONE;
-const Spark2ChannelIds Spark2ChannelIds_MAX = SPARK2_CHAN_BOTTOM0;
-const int Spark2ChannelIds_ARRAYSIZE = Spark2ChannelIds_MAX + 1;
+bool ChannelId_IsValid(int value);
+const ChannelId ChannelId_MIN = SPARK2_CHAN_NONE;
+const ChannelId ChannelId_MAX = SPARK2_CHAN_BOTTOM0;
+const int ChannelId_ARRAYSIZE = ChannelId_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Spark2ChannelIds_descriptor();
-inline const ::std::string& Spark2ChannelIds_Name(Spark2ChannelIds value) {
+const ::google::protobuf::EnumDescriptor* ChannelId_descriptor();
+inline const ::std::string& ChannelId_Name(ChannelId value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Spark2ChannelIds_descriptor(), value);
+    ChannelId_descriptor(), value);
 }
-inline bool Spark2ChannelIds_Parse(
-    const ::std::string& name, Spark2ChannelIds* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Spark2ChannelIds>(
-    Spark2ChannelIds_descriptor(), name, value);
+inline bool ChannelId_Parse(
+    const ::std::string& name, ChannelId* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ChannelId>(
+    ChannelId_descriptor(), name, value);
 }
 // ===================================================================
 
-class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Spark2Pins) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Spark2Pins.Block) */ {
  public:
-  Spark2Pins();
-  virtual ~Spark2Pins();
+  Block();
+  virtual ~Block();
 
-  Spark2Pins(const Spark2Pins& from);
+  Block(const Block& from);
 
-  inline Spark2Pins& operator=(const Spark2Pins& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  Spark2Pins(Spark2Pins&& from) noexcept
-    : Spark2Pins() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline Spark2Pins& operator=(Spark2Pins&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -136,34 +139,34 @@ class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Spark2Pins& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Spark2Pins* internal_default_instance() {
-    return reinterpret_cast<const Spark2Pins*>(
-               &_Spark2Pins_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(Spark2Pins* other);
-  friend void swap(Spark2Pins& a, Spark2Pins& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Spark2Pins* New() const final {
-    return CreateMaybeMessage<Spark2Pins>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  Spark2Pins* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Spark2Pins>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Spark2Pins& from);
-  void MergeFrom(const Spark2Pins& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -180,7 +183,7 @@ class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Spark2Pins* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -194,53 +197,53 @@ class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // nested types ----------------------------------------------------
 
-  typedef Spark2Pins_Hardware Hardware;
+  typedef Block_Hardware Hardware;
   static const Hardware HW_UNKNOWN =
-    Spark2Pins_Hardware_HW_UNKNOWN;
+    Block_Hardware_HW_UNKNOWN;
   static const Hardware HW_SPARK1 =
-    Spark2Pins_Hardware_HW_SPARK1;
+    Block_Hardware_HW_SPARK1;
   static const Hardware HW_SPARK2 =
-    Spark2Pins_Hardware_HW_SPARK2;
+    Block_Hardware_HW_SPARK2;
   static inline bool Hardware_IsValid(int value) {
-    return Spark2Pins_Hardware_IsValid(value);
+    return Block_Hardware_IsValid(value);
   }
   static const Hardware Hardware_MIN =
-    Spark2Pins_Hardware_Hardware_MIN;
+    Block_Hardware_Hardware_MIN;
   static const Hardware Hardware_MAX =
-    Spark2Pins_Hardware_Hardware_MAX;
+    Block_Hardware_Hardware_MAX;
   static const int Hardware_ARRAYSIZE =
-    Spark2Pins_Hardware_Hardware_ARRAYSIZE;
+    Block_Hardware_Hardware_ARRAYSIZE;
   static inline const ::google::protobuf::EnumDescriptor*
   Hardware_descriptor() {
-    return Spark2Pins_Hardware_descriptor();
+    return Block_Hardware_descriptor();
   }
   static inline const ::std::string& Hardware_Name(Hardware value) {
-    return Spark2Pins_Hardware_Name(value);
+    return Block_Hardware_Name(value);
   }
   static inline bool Hardware_Parse(const ::std::string& name,
       Hardware* value) {
-    return Spark2Pins_Hardware_Parse(name, value);
+    return Block_Hardware_Parse(name, value);
   }
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
   int channels_size() const;
   void clear_channels();
   static const int kChannelsFieldNumber = 9;
-  ::blox::IoChannel* mutable_channels(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+  ::blox::IoArray::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >*
       mutable_channels();
-  const ::blox::IoChannel& channels(int index) const;
-  ::blox::IoChannel* add_channels();
-  const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+  const ::blox::IoArray::IoChannel& channels(int index) const;
+  ::blox::IoArray::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >&
       channels() const;
 
-  // .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
+  // .blox.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox_test) = {
   void clear_hardware();
   static const int kHardwareFieldNumber = 8;
-  ::blox::Spark2Pins_Hardware hardware() const;
-  void set_hardware(::blox::Spark2Pins_Hardware value);
+  ::blox::Spark2Pins::Block_Hardware hardware() const;
+  void set_hardware(::blox::Spark2Pins::Block_Hardware value);
 
   // bool soundAlarm = 5;
   void clear_soundalarm();
@@ -254,11 +257,11 @@ class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
   bool pins() const;
   void set_pins(bool value);
 
-  // @@protoc_insertion_point(class_scope:blox.Spark2Pins)
+  // @@protoc_insertion_point(class_scope:blox.Spark2Pins.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
+  ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel > channels_;
   int hardware_;
   bool soundalarm_;
   bool pins_;
@@ -274,75 +277,75 @@ class Spark2Pins : public ::google::protobuf::Message /* @@protoc_insertion_poin
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Spark2Pins
+// Block
 
 // bool soundAlarm = 5;
-inline void Spark2Pins::clear_soundalarm() {
+inline void Block::clear_soundalarm() {
   soundalarm_ = false;
 }
-inline bool Spark2Pins::soundalarm() const {
-  // @@protoc_insertion_point(field_get:blox.Spark2Pins.soundAlarm)
+inline bool Block::soundalarm() const {
+  // @@protoc_insertion_point(field_get:blox.Spark2Pins.Block.soundAlarm)
   return soundalarm_;
 }
-inline void Spark2Pins::set_soundalarm(bool value) {
+inline void Block::set_soundalarm(bool value) {
   
   soundalarm_ = value;
-  // @@protoc_insertion_point(field_set:blox.Spark2Pins.soundAlarm)
+  // @@protoc_insertion_point(field_set:blox.Spark2Pins.Block.soundAlarm)
 }
 
-// .blox.Spark2Pins.Hardware hardware = 8 [(.brewblox_test) = {
-inline void Spark2Pins::clear_hardware() {
+// .blox.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox_test) = {
+inline void Block::clear_hardware() {
   hardware_ = 0;
 }
-inline ::blox::Spark2Pins_Hardware Spark2Pins::hardware() const {
-  // @@protoc_insertion_point(field_get:blox.Spark2Pins.hardware)
-  return static_cast< ::blox::Spark2Pins_Hardware >(hardware_);
+inline ::blox::Spark2Pins::Block_Hardware Block::hardware() const {
+  // @@protoc_insertion_point(field_get:blox.Spark2Pins.Block.hardware)
+  return static_cast< ::blox::Spark2Pins::Block_Hardware >(hardware_);
 }
-inline void Spark2Pins::set_hardware(::blox::Spark2Pins_Hardware value) {
+inline void Block::set_hardware(::blox::Spark2Pins::Block_Hardware value) {
   
   hardware_ = value;
-  // @@protoc_insertion_point(field_set:blox.Spark2Pins.hardware)
+  // @@protoc_insertion_point(field_set:blox.Spark2Pins.Block.hardware)
 }
 
-// repeated .blox.IoChannel channels = 9 [(.nanopb_test) = {
-inline int Spark2Pins::channels_size() const {
+// repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
+inline int Block::channels_size() const {
   return channels_.size();
 }
-inline ::blox::IoChannel* Spark2Pins::mutable_channels(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.Spark2Pins.channels)
+inline ::blox::IoArray::IoChannel* Block::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox.Spark2Pins.Block.channels)
   return channels_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
-Spark2Pins::mutable_channels() {
-  // @@protoc_insertion_point(field_mutable_list:blox.Spark2Pins.channels)
+inline ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >*
+Block::mutable_channels() {
+  // @@protoc_insertion_point(field_mutable_list:blox.Spark2Pins.Block.channels)
   return &channels_;
 }
-inline const ::blox::IoChannel& Spark2Pins::channels(int index) const {
-  // @@protoc_insertion_point(field_get:blox.Spark2Pins.channels)
+inline const ::blox::IoArray::IoChannel& Block::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox.Spark2Pins.Block.channels)
   return channels_.Get(index);
 }
-inline ::blox::IoChannel* Spark2Pins::add_channels() {
-  // @@protoc_insertion_point(field_add:blox.Spark2Pins.channels)
+inline ::blox::IoArray::IoChannel* Block::add_channels() {
+  // @@protoc_insertion_point(field_add:blox.Spark2Pins.Block.channels)
   return channels_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
-Spark2Pins::channels() const {
-  // @@protoc_insertion_point(field_list:blox.Spark2Pins.channels)
+inline const ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >&
+Block::channels() const {
+  // @@protoc_insertion_point(field_list:blox.Spark2Pins.Block.channels)
   return channels_;
 }
 
 // bool pins = 90 [(.nanopb_test) = {
-inline void Spark2Pins::clear_pins() {
+inline void Block::clear_pins() {
   pins_ = false;
 }
-inline bool Spark2Pins::pins() const {
-  // @@protoc_insertion_point(field_get:blox.Spark2Pins.pins)
+inline bool Block::pins() const {
+  // @@protoc_insertion_point(field_get:blox.Spark2Pins.Block.pins)
   return pins_;
 }
-inline void Spark2Pins::set_pins(bool value) {
+inline void Block::set_pins(bool value) {
   
   pins_ = value;
-  // @@protoc_insertion_point(field_set:blox.Spark2Pins.pins)
+  // @@protoc_insertion_point(field_set:blox.Spark2Pins.Block.pins)
 }
 
 #ifdef __GNUC__
@@ -351,20 +354,21 @@ inline void Spark2Pins::set_pins(bool value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace Spark2Pins
 }  // namespace blox
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::Spark2Pins_Hardware> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox::Spark2Pins::Block_Hardware> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2Pins_Hardware>() {
-  return ::blox::Spark2Pins_Hardware_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2Pins::Block_Hardware>() {
+  return ::blox::Spark2Pins::Block_Hardware_descriptor();
 }
-template <> struct is_proto_enum< ::blox::Spark2ChannelIds> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox::Spark2Pins::ChannelId> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2ChannelIds>() {
-  return ::blox::Spark2ChannelIds_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::Spark2Pins::ChannelId>() {
+  return ::blox::Spark2Pins::ChannelId_descriptor();
 }
 
 }  // namespace protobuf

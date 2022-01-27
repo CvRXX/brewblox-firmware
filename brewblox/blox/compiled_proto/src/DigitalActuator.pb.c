@@ -9,14 +9,14 @@
 
 
 
-const pb_field_t blox_DigitalActuator_fields[8] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_DigitalActuator, hwDevice, hwDevice, 0),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator, channel, hwDevice, 0),
-    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator, state, channel, 0),
-    PB_FIELD(  4, BOOL    , SINGULAR, STATIC  , OTHER, blox_DigitalActuator, invert, state, 0),
-    PB_FIELD(  5, MESSAGE , SINGULAR, STATIC  , OTHER, blox_DigitalActuator, constrainedBy, invert, &blox_DigitalConstraints_fields),
-    PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator, desiredState, constrainedBy, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_DigitalActuator, strippedFields, desiredState, 0),
+const pb_field_t blox_DigitalActuator_Block_fields[8] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_DigitalActuator_Block, hwDevice, hwDevice, 0),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, channel, hwDevice, 0),
+    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, state, channel, 0),
+    PB_FIELD(  4, BOOL    , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, invert, state, 0),
+    PB_FIELD(  5, MESSAGE , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, constrainedBy, invert, &blox_Constraints_DigitalConstraints_fields),
+    PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, desiredState, constrainedBy, 0),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_DigitalActuator_Block, strippedFields, desiredState, 0),
     PB_LAST_FIELD
 };
 
@@ -30,7 +30,7 @@ const pb_field_t blox_DigitalActuator_fields[8] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_DigitalActuator, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_DigitalActuator)
+PB_STATIC_ASSERT((pb_membersize(blox_DigitalActuator_Block, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_DigitalActuator_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -41,7 +41,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_DigitalActuator, constrainedBy) < 65536), Y
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_DigitalActuator, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_DigitalActuator)
+PB_STATIC_ASSERT((pb_membersize(blox_DigitalActuator_Block, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_DigitalActuator_Block)
 #endif
 
 

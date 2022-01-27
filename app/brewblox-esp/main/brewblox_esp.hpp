@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace asio {
 class io_context;
 }
 
-cbox::Box& makeBrewBloxBox(asio::io_context& io_context);
+cbox::Box& makeBrewbloxBox(asio::io_context& io_context);
 
 void logEvent(const std::string& event);
 

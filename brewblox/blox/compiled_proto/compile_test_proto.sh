@@ -17,11 +17,10 @@ do
   testfile="$MY_DIR/test_proto/${file%.proto}_test.proto"
   cp -f "$file" "$testfile"
   sed -i 's/brewblox/brewblox_test/g' "$testfile"
-  sed -i 's/BrewBlox/BrewBlox_test/g' "$testfile"
+  sed -i 's/Brewblox/Brewblox_test/g' "$testfile"
   sed -i 's/nanopb/nanopb_test/g' "$testfile"
   sed -i 's/ActuatorDigital.proto/ActuatorDigital_test.proto/g' "$testfile"
-  sed -i 's/AnalogConstraints.proto/AnalogConstraints_test.proto/g' "$testfile"
-  sed -i 's/DigitalConstraints.proto/DigitalConstraints_test.proto/g' "$testfile"
+  sed -i 's/Constraints.proto/Constraints_test.proto/g' "$testfile"
   sed -i 's/IoArray.proto/IoArray_test.proto/g' "$testfile"
   sed -i 's/SetpointSensorPair.proto/SetpointSensorPair_test.proto/g' "$testfile"
 done

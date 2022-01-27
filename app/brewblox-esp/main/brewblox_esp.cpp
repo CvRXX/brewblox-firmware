@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ void handleReset(bool, uint8_t)
 }
 
 cbox::Box&
-makeBrewBloxBox(asio::io_context& io)
+makeBrewbloxBox(asio::io_context& io)
 {
     static cbox::FileObjectStorage objectStore{"/blocks/"};
 

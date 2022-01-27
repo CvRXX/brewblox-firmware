@@ -1,6 +1,6 @@
 /*
  * Copyright 2014-2015 Matthew McGowan.
- * Copyright 2018 BrewBlox / Elco Jacobs
+ * Copyright 2018 Brewblox / Elco Jacobs
  * This file is part of Controlbox.
  *
  * Controlbox is free software: you can redistribute it and/or modify

@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "blox/ActuatorPwmBlock.h"
 #include "blox/DigitalActuatorBlock.h"
 #include "blox/compiled_proto/test_src/ActuatorPwm_test.pb.h"
@@ -27,7 +27,7 @@
 
 SCENARIO("A Blox ActuatorPwm object can be created from streamed protobuf data")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();

@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 #include <memory>
 #include <sstream>
 
-class BrewBloxTestBox {
+class BrewbloxTestBox {
 public:
     static std::shared_ptr<std::stringstream> in;
     static std::shared_ptr<std::stringstream> out;
@@ -40,8 +40,8 @@ public:
     bool lastReplyOk = false;
     TicksClass& ticks;
 
-    BrewBloxTestBox();
-    ~BrewBloxTestBox() = default;
+    BrewbloxTestBox();
+    ~BrewbloxTestBox() = default;
 
     void clearStreams();
 

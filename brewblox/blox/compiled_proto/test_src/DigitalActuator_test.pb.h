@@ -32,7 +32,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
-#include "DigitalConstraints_test.pb.h"
+#include "Constraints_test.pb.h"
 #include "IoArray_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_DigitalActuator_5ftest_2eproto 
@@ -50,37 +50,40 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_DigitalActuator_5ftest_2eproto
 namespace blox {
-class DigitalActuator;
-class DigitalActuatorDefaultTypeInternal;
-extern DigitalActuatorDefaultTypeInternal _DigitalActuator_default_instance_;
+namespace DigitalActuator {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace DigitalActuator
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::DigitalActuator* Arena::CreateMaybeMessage<::blox::DigitalActuator>(Arena*);
+template<> ::blox::DigitalActuator::Block* Arena::CreateMaybeMessage<::blox::DigitalActuator::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace DigitalActuator {
 
 // ===================================================================
 
-class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.DigitalActuator) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.DigitalActuator.Block) */ {
  public:
-  DigitalActuator();
-  virtual ~DigitalActuator();
+  Block();
+  virtual ~Block();
 
-  DigitalActuator(const DigitalActuator& from);
+  Block(const Block& from);
 
-  inline DigitalActuator& operator=(const DigitalActuator& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  DigitalActuator(DigitalActuator&& from) noexcept
-    : DigitalActuator() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline DigitalActuator& operator=(DigitalActuator&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -90,34 +93,34 @@ class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const DigitalActuator& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DigitalActuator* internal_default_instance() {
-    return reinterpret_cast<const DigitalActuator*>(
-               &_DigitalActuator_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(DigitalActuator* other);
-  friend void swap(DigitalActuator& a, DigitalActuator& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline DigitalActuator* New() const final {
-    return CreateMaybeMessage<DigitalActuator>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  DigitalActuator* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<DigitalActuator>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const DigitalActuator& from);
-  void MergeFrom(const DigitalActuator& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -134,7 +137,7 @@ class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(DigitalActuator* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -162,17 +165,17 @@ class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // .blox.DigitalConstraints constrainedBy = 5;
+  // .blox.Constraints.DigitalConstraints constrainedBy = 5;
   bool has_constrainedby() const;
   void clear_constrainedby();
   static const int kConstrainedByFieldNumber = 5;
   private:
-  const ::blox::DigitalConstraints& _internal_constrainedby() const;
+  const ::blox::Constraints::DigitalConstraints& _internal_constrainedby() const;
   public:
-  const ::blox::DigitalConstraints& constrainedby() const;
-  ::blox::DigitalConstraints* release_constrainedby();
-  ::blox::DigitalConstraints* mutable_constrainedby();
-  void set_allocated_constrainedby(::blox::DigitalConstraints* constrainedby);
+  const ::blox::Constraints::DigitalConstraints& constrainedby() const;
+  ::blox::Constraints::DigitalConstraints* release_constrainedby();
+  ::blox::Constraints::DigitalConstraints* mutable_constrainedby();
+  void set_allocated_constrainedby(::blox::Constraints::DigitalConstraints* constrainedby);
 
   // uint32 hwDevice = 1 [(.nanopb_test) = {
   void clear_hwdevice();
@@ -186,11 +189,11 @@ class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint32 channel() const;
   void set_channel(::google::protobuf::uint32 value);
 
-  // .blox.DigitalState state = 3 [(.brewblox_test) = {
+  // .blox.IoArray.DigitalState state = 3 [(.brewblox_test) = {
   void clear_state();
   static const int kStateFieldNumber = 3;
-  ::blox::DigitalState state() const;
-  void set_state(::blox::DigitalState value);
+  ::blox::IoArray::DigitalState state() const;
+  void set_state(::blox::IoArray::DigitalState value);
 
   // bool invert = 4;
   void clear_invert();
@@ -198,19 +201,19 @@ class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion
   bool invert() const;
   void set_invert(bool value);
 
-  // .blox.DigitalState desiredState = 6 [(.brewblox_test) = {
+  // .blox.IoArray.DigitalState desiredState = 6 [(.brewblox_test) = {
   void clear_desiredstate();
   static const int kDesiredStateFieldNumber = 6;
-  ::blox::DigitalState desiredstate() const;
-  void set_desiredstate(::blox::DigitalState value);
+  ::blox::IoArray::DigitalState desiredstate() const;
+  void set_desiredstate(::blox::IoArray::DigitalState value);
 
-  // @@protoc_insertion_point(class_scope:blox.DigitalActuator)
+  // @@protoc_insertion_point(class_scope:blox.DigitalActuator.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
-  ::blox::DigitalConstraints* constrainedby_;
+  ::blox::Constraints::DigitalConstraints* constrainedby_;
   ::google::protobuf::uint32 hwdevice_;
   ::google::protobuf::uint32 channel_;
   int state_;
@@ -228,94 +231,94 @@ class DigitalActuator : public ::google::protobuf::Message /* @@protoc_insertion
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// DigitalActuator
+// Block
 
 // uint32 hwDevice = 1 [(.nanopb_test) = {
-inline void DigitalActuator::clear_hwdevice() {
+inline void Block::clear_hwdevice() {
   hwdevice_ = 0u;
 }
-inline ::google::protobuf::uint32 DigitalActuator::hwdevice() const {
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.hwDevice)
+inline ::google::protobuf::uint32 Block::hwdevice() const {
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.hwDevice)
   return hwdevice_;
 }
-inline void DigitalActuator::set_hwdevice(::google::protobuf::uint32 value) {
+inline void Block::set_hwdevice(::google::protobuf::uint32 value) {
   
   hwdevice_ = value;
-  // @@protoc_insertion_point(field_set:blox.DigitalActuator.hwDevice)
+  // @@protoc_insertion_point(field_set:blox.DigitalActuator.Block.hwDevice)
 }
 
 // uint32 channel = 2 [(.nanopb_test) = {
-inline void DigitalActuator::clear_channel() {
+inline void Block::clear_channel() {
   channel_ = 0u;
 }
-inline ::google::protobuf::uint32 DigitalActuator::channel() const {
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.channel)
+inline ::google::protobuf::uint32 Block::channel() const {
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.channel)
   return channel_;
 }
-inline void DigitalActuator::set_channel(::google::protobuf::uint32 value) {
+inline void Block::set_channel(::google::protobuf::uint32 value) {
   
   channel_ = value;
-  // @@protoc_insertion_point(field_set:blox.DigitalActuator.channel)
+  // @@protoc_insertion_point(field_set:blox.DigitalActuator.Block.channel)
 }
 
-// .blox.DigitalState state = 3 [(.brewblox_test) = {
-inline void DigitalActuator::clear_state() {
+// .blox.IoArray.DigitalState state = 3 [(.brewblox_test) = {
+inline void Block::clear_state() {
   state_ = 0;
 }
-inline ::blox::DigitalState DigitalActuator::state() const {
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.state)
-  return static_cast< ::blox::DigitalState >(state_);
+inline ::blox::IoArray::DigitalState Block::state() const {
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.state)
+  return static_cast< ::blox::IoArray::DigitalState >(state_);
 }
-inline void DigitalActuator::set_state(::blox::DigitalState value) {
+inline void Block::set_state(::blox::IoArray::DigitalState value) {
   
   state_ = value;
-  // @@protoc_insertion_point(field_set:blox.DigitalActuator.state)
+  // @@protoc_insertion_point(field_set:blox.DigitalActuator.Block.state)
 }
 
 // bool invert = 4;
-inline void DigitalActuator::clear_invert() {
+inline void Block::clear_invert() {
   invert_ = false;
 }
-inline bool DigitalActuator::invert() const {
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.invert)
+inline bool Block::invert() const {
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.invert)
   return invert_;
 }
-inline void DigitalActuator::set_invert(bool value) {
+inline void Block::set_invert(bool value) {
   
   invert_ = value;
-  // @@protoc_insertion_point(field_set:blox.DigitalActuator.invert)
+  // @@protoc_insertion_point(field_set:blox.DigitalActuator.Block.invert)
 }
 
-// .blox.DigitalConstraints constrainedBy = 5;
-inline bool DigitalActuator::has_constrainedby() const {
+// .blox.Constraints.DigitalConstraints constrainedBy = 5;
+inline bool Block::has_constrainedby() const {
   return this != internal_default_instance() && constrainedby_ != NULL;
 }
-inline const ::blox::DigitalConstraints& DigitalActuator::_internal_constrainedby() const {
+inline const ::blox::Constraints::DigitalConstraints& Block::_internal_constrainedby() const {
   return *constrainedby_;
 }
-inline const ::blox::DigitalConstraints& DigitalActuator::constrainedby() const {
-  const ::blox::DigitalConstraints* p = constrainedby_;
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.constrainedBy)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::DigitalConstraints*>(
-      &::blox::_DigitalConstraints_default_instance_);
+inline const ::blox::Constraints::DigitalConstraints& Block::constrainedby() const {
+  const ::blox::Constraints::DigitalConstraints* p = constrainedby_;
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.constrainedBy)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox::Constraints::DigitalConstraints*>(
+      &::blox::Constraints::_DigitalConstraints_default_instance_);
 }
-inline ::blox::DigitalConstraints* DigitalActuator::release_constrainedby() {
-  // @@protoc_insertion_point(field_release:blox.DigitalActuator.constrainedBy)
+inline ::blox::Constraints::DigitalConstraints* Block::release_constrainedby() {
+  // @@protoc_insertion_point(field_release:blox.DigitalActuator.Block.constrainedBy)
   
-  ::blox::DigitalConstraints* temp = constrainedby_;
+  ::blox::Constraints::DigitalConstraints* temp = constrainedby_;
   constrainedby_ = NULL;
   return temp;
 }
-inline ::blox::DigitalConstraints* DigitalActuator::mutable_constrainedby() {
+inline ::blox::Constraints::DigitalConstraints* Block::mutable_constrainedby() {
   
   if (constrainedby_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::DigitalConstraints>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox::Constraints::DigitalConstraints>(GetArenaNoVirtual());
     constrainedby_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.DigitalActuator.constrainedBy)
+  // @@protoc_insertion_point(field_mutable:blox.DigitalActuator.Block.constrainedBy)
   return constrainedby_;
 }
-inline void DigitalActuator::set_allocated_constrainedby(::blox::DigitalConstraints* constrainedby) {
+inline void Block::set_allocated_constrainedby(::blox::Constraints::DigitalConstraints* constrainedby) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(constrainedby_);
@@ -331,50 +334,50 @@ inline void DigitalActuator::set_allocated_constrainedby(::blox::DigitalConstrai
     
   }
   constrainedby_ = constrainedby;
-  // @@protoc_insertion_point(field_set_allocated:blox.DigitalActuator.constrainedBy)
+  // @@protoc_insertion_point(field_set_allocated:blox.DigitalActuator.Block.constrainedBy)
 }
 
-// .blox.DigitalState desiredState = 6 [(.brewblox_test) = {
-inline void DigitalActuator::clear_desiredstate() {
+// .blox.IoArray.DigitalState desiredState = 6 [(.brewblox_test) = {
+inline void Block::clear_desiredstate() {
   desiredstate_ = 0;
 }
-inline ::blox::DigitalState DigitalActuator::desiredstate() const {
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.desiredState)
-  return static_cast< ::blox::DigitalState >(desiredstate_);
+inline ::blox::IoArray::DigitalState Block::desiredstate() const {
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.desiredState)
+  return static_cast< ::blox::IoArray::DigitalState >(desiredstate_);
 }
-inline void DigitalActuator::set_desiredstate(::blox::DigitalState value) {
+inline void Block::set_desiredstate(::blox::IoArray::DigitalState value) {
   
   desiredstate_ = value;
-  // @@protoc_insertion_point(field_set:blox.DigitalActuator.desiredState)
+  // @@protoc_insertion_point(field_set:blox.DigitalActuator.Block.desiredState)
 }
 
 // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int DigitalActuator::strippedfields_size() const {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void DigitalActuator::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 DigitalActuator::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.DigitalActuator.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox.DigitalActuator.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void DigitalActuator::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.DigitalActuator.strippedFields)
+  // @@protoc_insertion_point(field_set:blox.DigitalActuator.Block.strippedFields)
 }
-inline void DigitalActuator::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.DigitalActuator.strippedFields)
+  // @@protoc_insertion_point(field_add:blox.DigitalActuator.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-DigitalActuator::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.DigitalActuator.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox.DigitalActuator.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-DigitalActuator::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.DigitalActuator.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox.DigitalActuator.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -384,6 +387,7 @@ DigitalActuator::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace DigitalActuator
 }  // namespace blox
 
 // @@protoc_insertion_point(global_scope)

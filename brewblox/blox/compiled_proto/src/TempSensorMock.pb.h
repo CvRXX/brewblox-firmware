@@ -1,7 +1,7 @@
 /* Automatically generated nanopb header */
 
-#ifndef PB_BLOX_TEMPSENSORMOCK_PB_H_INCLUDED
-#define PB_BLOX_TEMPSENSORMOCK_PB_H_INCLUDED
+#ifndef PB_BLOX_TEMPSENSORMOCK_TEMPSENSORMOCK_PB_H_INCLUDED
+#define PB_BLOX_TEMPSENSORMOCK_TEMPSENSORMOCK_PB_H_INCLUDED
 #include <pb.h>
 
 #include "brewblox.pb.h"
@@ -16,46 +16,46 @@ extern "C" {
 #endif
 
 /* Struct definitions */
-typedef struct _blox_Fluctuation {
-    int32_t amplitude;
-    uint32_t period;
-/* @@protoc_insertion_point(struct:blox_Fluctuation) */
-} blox_Fluctuation;
-
-typedef struct _blox_TempSensorMock {
+typedef struct _blox_TempSensorMock_Block {
     int32_t value;
     bool connected;
     int32_t setting;
     pb_callback_t fluctuations;
     pb_size_t strippedFields_count;
     uint16_t strippedFields[1];
-/* @@protoc_insertion_point(struct:blox_TempSensorMock) */
-} blox_TempSensorMock;
+/* @@protoc_insertion_point(struct:blox_TempSensorMock_Block) */
+} blox_TempSensorMock_Block;
+
+typedef struct _blox_TempSensorMock_Fluctuation {
+    int32_t amplitude;
+    uint32_t period;
+/* @@protoc_insertion_point(struct:blox_TempSensorMock_Fluctuation) */
+} blox_TempSensorMock_Fluctuation;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_Fluctuation_init_default            {0, 0}
-#define blox_TempSensorMock_init_default         {0, 0, 0, {{NULL}, NULL}, 0, {0}}
-#define blox_Fluctuation_init_zero               {0, 0}
-#define blox_TempSensorMock_init_zero            {0, 0, 0, {{NULL}, NULL}, 0, {0}}
+#define blox_TempSensorMock_Fluctuation_init_default {0, 0}
+#define blox_TempSensorMock_Block_init_default   {0, 0, 0, {{NULL}, NULL}, 0, {0}}
+#define blox_TempSensorMock_Fluctuation_init_zero {0, 0}
+#define blox_TempSensorMock_Block_init_zero      {0, 0, 0, {{NULL}, NULL}, 0, {0}}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define blox_Fluctuation_amplitude_tag           1
-#define blox_Fluctuation_period_tag              2
-#define blox_TempSensorMock_value_tag            1
-#define blox_TempSensorMock_connected_tag        3
-#define blox_TempSensorMock_setting_tag          4
-#define blox_TempSensorMock_fluctuations_tag     5
-#define blox_TempSensorMock_strippedFields_tag   99
+#define blox_TempSensorMock_Block_value_tag      1
+#define blox_TempSensorMock_Block_connected_tag  3
+#define blox_TempSensorMock_Block_setting_tag    4
+#define blox_TempSensorMock_Block_fluctuations_tag 5
+#define blox_TempSensorMock_Block_strippedFields_tag 99
+#define blox_TempSensorMock_Fluctuation_amplitude_tag 1
+#define blox_TempSensorMock_Fluctuation_period_tag 2
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_Fluctuation_fields[3];
-extern const pb_field_t blox_TempSensorMock_fields[6];
+extern const pb_field_t blox_TempSensorMock_Fluctuation_fields[3];
+extern const pb_field_t blox_TempSensorMock_Block_fields[6];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_Fluctuation_size                    12
-/* blox_TempSensorMock_size depends on runtime parameters */
+#define blox_TempSensorMock_Fluctuation_size     12
+/* blox_TempSensorMock_Block_size depends on runtime parameters */
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

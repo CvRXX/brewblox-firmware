@@ -20,51 +20,53 @@
 // @@protoc_insertion_point(includes)
 
 namespace blox {
-class TempSensorOneWireDefaultTypeInternal {
+namespace TempSensorOneWire {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<TempSensorOneWire>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _TempSensorOneWire_default_instance_;
+} _Block_default_instance_;
+}  // namespace TempSensorOneWire
 }  // namespace blox
 namespace protobuf_TempSensorOneWire_5ftest_2eproto {
-static void InitDefaultsTempSensorOneWire() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_TempSensorOneWire_default_instance_;
-    new (ptr) ::blox::TempSensorOneWire();
+    void* ptr = &::blox::TempSensorOneWire::_Block_default_instance_;
+    new (ptr) ::blox::TempSensorOneWire::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::TempSensorOneWire::InitAsDefaultInstance();
+  ::blox::TempSensorOneWire::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_TempSensorOneWire =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsTempSensorOneWire}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBlock}, {}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_TempSensorOneWire.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire, offset_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire, address_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire, onewirebusid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire::Block, offset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire::Block, address_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire::Block, onewirebusid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorOneWire::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::TempSensorOneWire)},
+  { 0, -1, sizeof(::blox::TempSensorOneWire::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_TempSensorOneWire_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::TempSensorOneWire::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -88,17 +90,18 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\034TempSensorOneWire_test.proto\022\004blox\032\023br"
-      "ewblox_test.proto\032\021nanopb_test.proto\"\350\001\n"
-      "\021TempSensorOneWire\022-\n\005value\030\001 \001(\021B\036\212\265\030\0020"
-      "\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\"\n\006offset\030\003 \001("
-      "\021B\022\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \022\027\n\007address\030\004 \001(\006B\006"
-      "\212\265\030\002 \001\022(\n\014oneWireBusId\030\005 \001(\rB\022\212\265\030\003\030\202\002\222\?\002"
-      "8\020\212\265\030\002(\001\022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002(\001"
-      "\222\?\0028\020\222\?\002\020\001:\023\212\265\030\003\030\256\002\212\265\030\002H\002\212\265\030\002H\tb\006proto3"
+      "\n\034TempSensorOneWire_test.proto\022\026blox.Tem"
+      "pSensorOneWire\032\023brewblox_test.proto\032\021nan"
+      "opb_test.proto\"\334\001\n\005Block\022-\n\005value\030\001 \001(\021B"
+      "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\"\n\006offse"
+      "t\030\003 \001(\021B\022\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \022\027\n\007address\030\004"
+      " \001(\006B\006\212\265\030\002 \001\022(\n\014oneWireBusId\030\005 \001(\rB\022\212\265\030\003"
+      "\030\202\002\222\?\0028\020\212\265\030\002(\001\022(\n\016strippedFields\030c \003(\rB\020"
+      "\212\265\030\002(\001\222\?\0028\020\222\?\002\020\001:\023\212\265\030\003\030\256\002\212\265\030\002H\002\212\265\030\002H\tb\006p"
+      "roto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 319);
+      descriptor, 325);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TempSensorOneWire_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -117,27 +120,28 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_TempSensorOneWire_5ftest_2eproto
 namespace blox {
+namespace TempSensorOneWire {
 
 // ===================================================================
 
-void TempSensorOneWire::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int TempSensorOneWire::kValueFieldNumber;
-const int TempSensorOneWire::kOffsetFieldNumber;
-const int TempSensorOneWire::kAddressFieldNumber;
-const int TempSensorOneWire::kOneWireBusIdFieldNumber;
-const int TempSensorOneWire::kStrippedFieldsFieldNumber;
+const int Block::kValueFieldNumber;
+const int Block::kOffsetFieldNumber;
+const int Block::kAddressFieldNumber;
+const int Block::kOneWireBusIdFieldNumber;
+const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-TempSensorOneWire::TempSensorOneWire()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_TempSensorOneWire_5ftest_2eproto::scc_info_TempSensorOneWire.base);
+      &protobuf_TempSensorOneWire_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(constructor:blox.TempSensorOneWire.Block)
 }
-TempSensorOneWire::TempSensorOneWire(const TempSensorOneWire& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       strippedfields_(from.strippedfields_) {
@@ -145,39 +149,39 @@ TempSensorOneWire::TempSensorOneWire(const TempSensorOneWire& from)
   ::memcpy(&value_, &from.value_,
     static_cast<size_t>(reinterpret_cast<char*>(&onewirebusid_) -
     reinterpret_cast<char*>(&value_)) + sizeof(onewirebusid_));
-  // @@protoc_insertion_point(copy_constructor:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(copy_constructor:blox.TempSensorOneWire.Block)
 }
 
-void TempSensorOneWire::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&value_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&onewirebusid_) -
       reinterpret_cast<char*>(&value_)) + sizeof(onewirebusid_));
 }
 
-TempSensorOneWire::~TempSensorOneWire() {
-  // @@protoc_insertion_point(destructor:blox.TempSensorOneWire)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox.TempSensorOneWire.Block)
   SharedDtor();
 }
 
-void TempSensorOneWire::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void TempSensorOneWire::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* TempSensorOneWire::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_TempSensorOneWire_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_TempSensorOneWire_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const TempSensorOneWire& TempSensorOneWire::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_TempSensorOneWire_5ftest_2eproto::scc_info_TempSensorOneWire.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_TempSensorOneWire_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void TempSensorOneWire::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.TempSensorOneWire)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox.TempSensorOneWire.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -189,11 +193,11 @@ void TempSensorOneWire::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool TempSensorOneWire::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(parse_start:blox.TempSensorOneWire.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
@@ -286,17 +290,17 @@ bool TempSensorOneWire::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(parse_success:blox.TempSensorOneWire.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(parse_failure:blox.TempSensorOneWire.Block)
   return false;
 #undef DO_
 }
 
-void TempSensorOneWire::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(serialize_start:blox.TempSensorOneWire.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -335,13 +339,13 @@ void TempSensorOneWire::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(serialize_end:blox.TempSensorOneWire.Block)
 }
 
-::google::protobuf::uint8* TempSensorOneWire::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.TempSensorOneWire.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -382,12 +386,12 @@ void TempSensorOneWire::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.TempSensorOneWire.Block)
   return target;
 }
 
-size_t TempSensorOneWire::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.TempSensorOneWire)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox.TempSensorOneWire.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -442,23 +446,23 @@ size_t TempSensorOneWire::ByteSizeLong() const {
   return total_size;
 }
 
-void TempSensorOneWire::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.TempSensorOneWire)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.TempSensorOneWire.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const TempSensorOneWire* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const TempSensorOneWire>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TempSensorOneWire.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TempSensorOneWire)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TempSensorOneWire.Block)
     MergeFrom(*source);
   }
 }
 
-void TempSensorOneWire::MergeFrom(const TempSensorOneWire& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.TempSensorOneWire)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.TempSensorOneWire.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -479,29 +483,29 @@ void TempSensorOneWire::MergeFrom(const TempSensorOneWire& from) {
   }
 }
 
-void TempSensorOneWire::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.TempSensorOneWire)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.TempSensorOneWire.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void TempSensorOneWire::CopyFrom(const TempSensorOneWire& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.TempSensorOneWire)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.TempSensorOneWire.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool TempSensorOneWire::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void TempSensorOneWire::Swap(TempSensorOneWire* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void TempSensorOneWire::InternalSwap(TempSensorOneWire* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   strippedfields_.InternalSwap(&other->strippedfields_);
   swap(value_, other->value_);
@@ -511,18 +515,19 @@ void TempSensorOneWire::InternalSwap(TempSensorOneWire* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata TempSensorOneWire::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_TempSensorOneWire_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_TempSensorOneWire_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace TempSensorOneWire
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TempSensorOneWire* Arena::CreateMaybeMessage< ::blox::TempSensorOneWire >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::TempSensorOneWire >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TempSensorOneWire::Block* Arena::CreateMaybeMessage< ::blox::TempSensorOneWire::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::TempSensorOneWire::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

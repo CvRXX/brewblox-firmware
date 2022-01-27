@@ -23,30 +23,32 @@ namespace protobuf_IoArray_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel;
 }  // namespace protobuf_IoArray_5ftest_2eproto
 namespace blox {
-class DS2408DefaultTypeInternal {
+namespace DS2408 {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<DS2408>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _DS2408_default_instance_;
+} _Block_default_instance_;
+}  // namespace DS2408
 }  // namespace blox
 namespace protobuf_DS2408_5ftest_2eproto {
-static void InitDefaultsDS2408() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_DS2408_default_instance_;
-    new (ptr) ::blox::DS2408();
+    void* ptr = &::blox::DS2408::_Block_default_instance_;
+    new (ptr) ::blox::DS2408::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::DS2408::InitAsDefaultInstance();
+  ::blox::DS2408::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_DS2408 =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsDS2408}, {
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
       &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_DS2408.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
@@ -54,23 +56,23 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, address_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, connected_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, connectmode_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, onewirebusid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, channels_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408, pins_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, address_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, connected_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, connectmode_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, onewirebusid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DS2408::Block, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::DS2408)},
+  { 0, -1, sizeof(::blox::DS2408::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_DS2408_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::DS2408::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -94,26 +96,26 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021DS2408_test.proto\022\004blox\032\023brewblox_test"
-      ".proto\032\021nanopb_test.proto\032\022IoArray_test."
-      "proto\"\271\002\n\006DS2408\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 "
-      "\001\022\031\n\tconnected\030\006 \001(\010B\006\212\265\030\002(\001\0220\n\013connectM"
-      "ode\030\t \001(\0162\033.blox.DS2408.PinConnectMode\022("
-      "\n\014oneWireBusId\030\n \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020\212\265\030\002(\001"
-      "\022.\n\010channels\030\013 \003(\0132\017.blox.IoChannelB\013\222\?\002"
-      "\020\010\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\"9\n\016P"
-      "inConnectMode\022\021\n\rCONNECT_VALVE\020\000\022\024\n\020CONN"
-      "ECT_ACTUATOR\020\001:\031\212\265\030\003\030\275\002\212\265\030\002H\n\212\265\030\002H\013\212\265\030\002H"
-      "\t*\203\002\n\020DS2408ChannelIds\022\024\n\020DS2408_CHAN_NO"
-      "NE\020\000\022\021\n\rDS2408_CHAN_A\020\001\022\021\n\rDS2408_CHAN_B"
-      "\020\002\022\021\n\rDS2408_CHAN_C\020\003\022\021\n\rDS2408_CHAN_D\020\004"
-      "\022\021\n\rDS2408_CHAN_E\020\005\022\021\n\rDS2408_CHAN_F\020\006\022\021"
-      "\n\rDS2408_CHAN_G\020\007\022\021\n\rDS2408_CHAN_H\020\010\022\025\n\021"
-      "DS2408_VALVE_NONE\020\000\022\022\n\016DS2408_VALVE_A\020\005\022"
-      "\022\n\016DS2408_VALVE_B\020\001\032\002\020\001b\006proto3"
+      "\n\021DS2408_test.proto\022\013blox.DS2408\032\023brewbl"
+      "ox_test.proto\032\021nanopb_test.proto\032\022IoArra"
+      "y_test.proto\"\205\002\n\005Block\022\027\n\007address\030\001 \001(\006B"
+      "\006\212\265\030\002 \001\022\031\n\tconnected\030\006 \001(\010B\006\212\265\030\002(\001\0220\n\013co"
+      "nnectMode\030\t \001(\0162\033.blox.DS2408.PinConnect"
+      "Mode\022(\n\014oneWireBusId\030\n \001(\rB\022\212\265\030\003\030\202\002\222\?\0028\020"
+      "\212\265\030\002(\001\0226\n\010channels\030\013 \003(\0132\027.blox.IoArray."
+      "IoChannelB\013\222\?\002\020\010\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265"
+      "\030\002H\001\222\?\002\030\003:\031\212\265\030\003\030\275\002\212\265\030\002H\n\212\265\030\002H\013\212\265\030\002H\t*\374\001\n"
+      "\tChannelId\022\024\n\020DS2408_CHAN_NONE\020\000\022\021\n\rDS24"
+      "08_CHAN_A\020\001\022\021\n\rDS2408_CHAN_B\020\002\022\021\n\rDS2408"
+      "_CHAN_C\020\003\022\021\n\rDS2408_CHAN_D\020\004\022\021\n\rDS2408_C"
+      "HAN_E\020\005\022\021\n\rDS2408_CHAN_F\020\006\022\021\n\rDS2408_CHA"
+      "N_G\020\007\022\021\n\rDS2408_CHAN_H\020\010\022\025\n\021DS2408_VALVE"
+      "_NONE\020\000\022\022\n\016DS2408_VALVE_A\020\005\022\022\n\016DS2408_VA"
+      "LVE_B\020\001\032\002\020\001*9\n\016PinConnectMode\022\021\n\rCONNECT"
+      "_VALVE\020\000\022\024\n\020CONNECT_ACTUATOR\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 671);
+      descriptor, 678);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DS2408_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -133,32 +135,12 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_DS2408_5ftest_2eproto
 namespace blox {
-const ::google::protobuf::EnumDescriptor* DS2408_PinConnectMode_descriptor() {
+namespace DS2408 {
+const ::google::protobuf::EnumDescriptor* ChannelId_descriptor() {
   protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_DS2408_5ftest_2eproto::file_level_enum_descriptors[0];
 }
-bool DS2408_PinConnectMode_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-      return true;
-    default:
-      return false;
-  }
-}
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const DS2408_PinConnectMode DS2408::CONNECT_VALVE;
-const DS2408_PinConnectMode DS2408::CONNECT_ACTUATOR;
-const DS2408_PinConnectMode DS2408::PinConnectMode_MIN;
-const DS2408_PinConnectMode DS2408::PinConnectMode_MAX;
-const int DS2408::PinConnectMode_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* DS2408ChannelIds_descriptor() {
-  protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_DS2408_5ftest_2eproto::file_level_enum_descriptors[1];
-}
-bool DS2408ChannelIds_IsValid(int value) {
+bool ChannelId_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -175,31 +157,45 @@ bool DS2408ChannelIds_IsValid(int value) {
   }
 }
 
+const ::google::protobuf::EnumDescriptor* PinConnectMode_descriptor() {
+  protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_DS2408_5ftest_2eproto::file_level_enum_descriptors[1];
+}
+bool PinConnectMode_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
-void DS2408::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
-void DS2408::clear_channels() {
+void Block::clear_channels() {
   channels_.Clear();
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int DS2408::kAddressFieldNumber;
-const int DS2408::kConnectedFieldNumber;
-const int DS2408::kConnectModeFieldNumber;
-const int DS2408::kOneWireBusIdFieldNumber;
-const int DS2408::kChannelsFieldNumber;
-const int DS2408::kPinsFieldNumber;
+const int Block::kAddressFieldNumber;
+const int Block::kConnectedFieldNumber;
+const int Block::kConnectModeFieldNumber;
+const int Block::kOneWireBusIdFieldNumber;
+const int Block::kChannelsFieldNumber;
+const int Block::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-DS2408::DS2408()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_DS2408_5ftest_2eproto::scc_info_DS2408.base);
+      &protobuf_DS2408_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.DS2408)
+  // @@protoc_insertion_point(constructor:blox.DS2408.Block)
 }
-DS2408::DS2408(const DS2408& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       channels_(from.channels_) {
@@ -207,39 +203,39 @@ DS2408::DS2408(const DS2408& from)
   ::memcpy(&address_, &from.address_,
     static_cast<size_t>(reinterpret_cast<char*>(&onewirebusid_) -
     reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
-  // @@protoc_insertion_point(copy_constructor:blox.DS2408)
+  // @@protoc_insertion_point(copy_constructor:blox.DS2408.Block)
 }
 
-void DS2408::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&address_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&onewirebusid_) -
       reinterpret_cast<char*>(&address_)) + sizeof(onewirebusid_));
 }
 
-DS2408::~DS2408() {
-  // @@protoc_insertion_point(destructor:blox.DS2408)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox.DS2408.Block)
   SharedDtor();
 }
 
-void DS2408::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void DS2408::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* DS2408::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_DS2408_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const DS2408& DS2408::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_DS2408_5ftest_2eproto::scc_info_DS2408.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_DS2408_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void DS2408::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.DS2408)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox.DS2408.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -251,11 +247,11 @@ void DS2408::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool DS2408::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.DS2408)
+  // @@protoc_insertion_point(parse_start:blox.DS2408.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
@@ -297,7 +293,7 @@ bool DS2408::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_connectmode(static_cast< ::blox::DS2408_PinConnectMode >(value));
+          set_connectmode(static_cast< ::blox::DS2408::PinConnectMode >(value));
         } else {
           goto handle_unusual;
         }
@@ -318,7 +314,7 @@ bool DS2408::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+      // repeated .blox.IoArray.IoChannel channels = 11 [(.nanopb_test) = {
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
@@ -356,17 +352,17 @@ bool DS2408::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.DS2408)
+  // @@protoc_insertion_point(parse_success:blox.DS2408.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.DS2408)
+  // @@protoc_insertion_point(parse_failure:blox.DS2408.Block)
   return false;
 #undef DO_
 }
 
-void DS2408::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.DS2408)
+  // @@protoc_insertion_point(serialize_start:blox.DS2408.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -391,7 +387,7 @@ void DS2408::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->onewirebusid(), output);
   }
 
-  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 11 [(.nanopb_test) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -409,13 +405,13 @@ void DS2408::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.DS2408)
+  // @@protoc_insertion_point(serialize_end:blox.DS2408.Block)
 }
 
-::google::protobuf::uint8* DS2408::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.DS2408)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.DS2408.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -440,7 +436,7 @@ void DS2408::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->onewirebusid(), target);
   }
 
-  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 11 [(.nanopb_test) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -457,12 +453,12 @@ void DS2408::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.DS2408)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.DS2408.Block)
   return target;
 }
 
-size_t DS2408::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.DS2408)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox.DS2408.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -470,7 +466,7 @@ size_t DS2408::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.IoChannel channels = 11 [(.nanopb_test) = {
+  // repeated .blox.IoArray.IoChannel channels = 11 [(.nanopb_test) = {
   {
     unsigned int count = static_cast<unsigned int>(this->channels_size());
     total_size += 1UL * count;
@@ -514,23 +510,23 @@ size_t DS2408::ByteSizeLong() const {
   return total_size;
 }
 
-void DS2408::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.DS2408)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.DS2408.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const DS2408* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const DS2408>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.DS2408)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.DS2408.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.DS2408)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.DS2408.Block)
     MergeFrom(*source);
   }
 }
 
-void DS2408::MergeFrom(const DS2408& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.DS2408)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.DS2408.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -554,29 +550,29 @@ void DS2408::MergeFrom(const DS2408& from) {
   }
 }
 
-void DS2408::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.DS2408)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.DS2408.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void DS2408::CopyFrom(const DS2408& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.DS2408)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.DS2408.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool DS2408::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void DS2408::Swap(DS2408* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void DS2408::InternalSwap(DS2408* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   swap(address_, other->address_);
@@ -587,18 +583,19 @@ void DS2408::InternalSwap(DS2408* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata DS2408::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_DS2408_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_DS2408_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace DS2408
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::DS2408* Arena::CreateMaybeMessage< ::blox::DS2408 >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::DS2408 >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::DS2408::Block* Arena::CreateMaybeMessage< ::blox::DS2408::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::DS2408::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

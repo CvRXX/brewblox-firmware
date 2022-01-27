@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Temperature.h"
 #include "blox/SetpointSensorPairBlock.h"
 #include "blox/TempSensorMockBlock.h"
@@ -36,7 +36,7 @@
 
 SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf data")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();

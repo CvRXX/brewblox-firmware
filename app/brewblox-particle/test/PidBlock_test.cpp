@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Temperature.h"
 #include "blox/ActuatorAnalogMockBlock.h"
 #include "blox/PidBlock.h"
@@ -31,11 +31,11 @@
 #include "blox/compiled_proto/test_src/TempSensorMock_test.pb.h"
 
 extern cbox::Box&
-makeBrewBloxBox();
+makeBrewbloxBox();
 
 SCENARIO("A Blox Pid object with mock analog actuator")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();

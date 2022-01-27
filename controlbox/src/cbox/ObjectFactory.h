@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2018 Elco Jacobs / BrewBlox, based on earlier work of Matthew McGowan
+ * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
  * This file is part of ControlBox.
  *

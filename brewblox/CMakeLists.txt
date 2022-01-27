@@ -6,9 +6,8 @@ idf_component_register(
     brewblox.cpp
     
 
-    blox/ActuatorAnalogConstraintsProto.cpp
+    blox/ConstraintsProto.cpp
     blox/ActuatorAnalogMockBlock.cpp
-    blox/ActuatorDigitalConstraintsProto.cpp
     blox/ActuatorLogicBlock.cpp
     blox/ActuatorOffsetBlock.cpp
     blox/ActuatorPwmBlock.cpp

@@ -9,10 +9,6 @@
 
 
 
-const pb_field_t BrewBloxTypes_fields[1] = {
-    PB_LAST_FIELD
-};
-
 
 
 

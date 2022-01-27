@@ -1,9 +1,9 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -24,7 +24,7 @@
 #include "compiled_proto/src/DisplaySettings.pb.h"
 
 // provides a protobuf interface to the read only system info
-class DisplaySettingsBlock : public cbox::ObjectBase<BrewBloxTypes_BlockType_DisplaySettings> {
+class DisplaySettingsBlock : public cbox::ObjectBase<BlockType_DisplaySettings> {
 public:
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
 
@@ -37,7 +37,7 @@ public:
         return update_never(now);
     }
 
-    static blox_DisplaySettings& settings()
+    static blox_DisplaySettings_Block& settings()
     {
         m_newSettingsReceived = false;
         return m_settings;
@@ -49,6 +49,6 @@ public:
     }
 
 private:
-    static blox_DisplaySettings m_settings;
+    static blox_DisplaySettings_Block m_settings;
     static bool m_newSettingsReceived;
 };

@@ -49,16 +49,19 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_TempSensorCombi_5ftest_2eproto
 namespace blox {
-class TempSensorCombi;
-class TempSensorCombiDefaultTypeInternal;
-extern TempSensorCombiDefaultTypeInternal _TempSensorCombi_default_instance_;
+namespace TempSensorCombi {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace TempSensorCombi
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::TempSensorCombi* Arena::CreateMaybeMessage<::blox::TempSensorCombi>(Arena*);
+template<> ::blox::TempSensorCombi::Block* Arena::CreateMaybeMessage<::blox::TempSensorCombi::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace TempSensorCombi {
 
 enum SensorCombiFunc {
   SENSOR_COMBI_FUNC_AVG = 0,
@@ -84,24 +87,24 @@ inline bool SensorCombiFunc_Parse(
 }
 // ===================================================================
 
-class TempSensorCombi : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.TempSensorCombi) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.TempSensorCombi.Block) */ {
  public:
-  TempSensorCombi();
-  virtual ~TempSensorCombi();
+  Block();
+  virtual ~Block();
 
-  TempSensorCombi(const TempSensorCombi& from);
+  Block(const Block& from);
 
-  inline TempSensorCombi& operator=(const TempSensorCombi& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  TempSensorCombi(TempSensorCombi&& from) noexcept
-    : TempSensorCombi() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline TempSensorCombi& operator=(TempSensorCombi&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -111,34 +114,34 @@ class TempSensorCombi : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const TempSensorCombi& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TempSensorCombi* internal_default_instance() {
-    return reinterpret_cast<const TempSensorCombi*>(
-               &_TempSensorCombi_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(TempSensorCombi* other);
-  friend void swap(TempSensorCombi& a, TempSensorCombi& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TempSensorCombi* New() const final {
-    return CreateMaybeMessage<TempSensorCombi>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  TempSensorCombi* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<TempSensorCombi>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const TempSensorCombi& from);
-  void MergeFrom(const TempSensorCombi& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -155,7 +158,7 @@ class TempSensorCombi : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(TempSensorCombi* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -201,13 +204,13 @@ class TempSensorCombi : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // .blox.SensorCombiFunc combineFunc = 2;
+  // .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
   void clear_combinefunc();
   static const int kCombineFuncFieldNumber = 2;
-  ::blox::SensorCombiFunc combinefunc() const;
-  void set_combinefunc(::blox::SensorCombiFunc value);
+  ::blox::TempSensorCombi::SensorCombiFunc combinefunc() const;
+  void set_combinefunc(::blox::TempSensorCombi::SensorCombiFunc value);
 
-  // @@protoc_insertion_point(class_scope:blox.TempSensorCombi)
+  // @@protoc_insertion_point(class_scope:blox.TempSensorCombi.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -229,93 +232,93 @@ class TempSensorCombi : public ::google::protobuf::Message /* @@protoc_insertion
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// TempSensorCombi
+// Block
 
 // sint32 value = 1 [(.nanopb_test) = {
-inline void TempSensorCombi::clear_value() {
+inline void Block::clear_value() {
   value_ = 0;
 }
-inline ::google::protobuf::int32 TempSensorCombi::value() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.value)
+inline ::google::protobuf::int32 Block::value() const {
+  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.value)
   return value_;
 }
-inline void TempSensorCombi::set_value(::google::protobuf::int32 value) {
+inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.value)
+  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.value)
 }
 
-// .blox.SensorCombiFunc combineFunc = 2;
-inline void TempSensorCombi::clear_combinefunc() {
+// .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+inline void Block::clear_combinefunc() {
   combinefunc_ = 0;
 }
-inline ::blox::SensorCombiFunc TempSensorCombi::combinefunc() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.combineFunc)
-  return static_cast< ::blox::SensorCombiFunc >(combinefunc_);
+inline ::blox::TempSensorCombi::SensorCombiFunc Block::combinefunc() const {
+  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.combineFunc)
+  return static_cast< ::blox::TempSensorCombi::SensorCombiFunc >(combinefunc_);
 }
-inline void TempSensorCombi::set_combinefunc(::blox::SensorCombiFunc value) {
+inline void Block::set_combinefunc(::blox::TempSensorCombi::SensorCombiFunc value) {
   
   combinefunc_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.combineFunc)
+  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.combineFunc)
 }
 
 // repeated uint32 sensors = 3 [(.nanopb_test) = {
-inline int TempSensorCombi::sensors_size() const {
+inline int Block::sensors_size() const {
   return sensors_.size();
 }
-inline void TempSensorCombi::clear_sensors() {
+inline void Block::clear_sensors() {
   sensors_.Clear();
 }
-inline ::google::protobuf::uint32 TempSensorCombi::sensors(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.sensors)
+inline ::google::protobuf::uint32 Block::sensors(int index) const {
+  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.sensors)
   return sensors_.Get(index);
 }
-inline void TempSensorCombi::set_sensors(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_sensors(int index, ::google::protobuf::uint32 value) {
   sensors_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.sensors)
+  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.sensors)
 }
-inline void TempSensorCombi::add_sensors(::google::protobuf::uint32 value) {
+inline void Block::add_sensors(::google::protobuf::uint32 value) {
   sensors_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.TempSensorCombi.sensors)
+  // @@protoc_insertion_point(field_add:blox.TempSensorCombi.Block.sensors)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-TempSensorCombi::sensors() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorCombi.sensors)
+Block::sensors() const {
+  // @@protoc_insertion_point(field_list:blox.TempSensorCombi.Block.sensors)
   return sensors_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-TempSensorCombi::mutable_sensors() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorCombi.sensors)
+Block::mutable_sensors() {
+  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorCombi.Block.sensors)
   return &sensors_;
 }
 
 // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int TempSensorCombi::strippedfields_size() const {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void TempSensorCombi::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 TempSensorCombi::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void TempSensorCombi::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.strippedFields)
+  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.strippedFields)
 }
-inline void TempSensorCombi::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.TempSensorCombi.strippedFields)
+  // @@protoc_insertion_point(field_add:blox.TempSensorCombi.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-TempSensorCombi::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorCombi.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox.TempSensorCombi.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-TempSensorCombi::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorCombi.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorCombi.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -325,15 +328,16 @@ TempSensorCombi::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace TempSensorCombi
 }  // namespace blox
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::SensorCombiFunc> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox::TempSensorCombi::SensorCombiFunc> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::SensorCombiFunc>() {
-  return ::blox::SensorCombiFunc_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox::TempSensorCombi::SensorCombiFunc>() {
+  return ::blox::TempSensorCombi::SensorCombiFunc_descriptor();
 }
 
 }  // namespace protobuf

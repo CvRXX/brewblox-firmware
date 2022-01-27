@@ -1,7 +1,4 @@
-[![Build Status](https://travis-ci.org/BrewBlox/brewblox-firmware.svg?branch=feature%2Ftravis-ci)](https://travis-ci.org/BrewBlox/brewblox-firmware)
-
-This is the main source code repository for the firmware on the BrewBlox brewery controller.
-
+This is the main source code repository for the firmware on the Brewblox brewery controller.
 
 ## Getting started
 End users will not have to compile the firmware themselves.

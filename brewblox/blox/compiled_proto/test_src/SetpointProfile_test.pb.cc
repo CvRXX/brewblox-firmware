@@ -23,83 +23,85 @@ namespace protobuf_SetpointProfile_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_SetpointProfile_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Point;
 }  // namespace protobuf_SetpointProfile_5ftest_2eproto
 namespace blox {
+namespace SetpointProfile {
 class PointDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Point>
       _instance;
   ::google::protobuf::int32 temperature_;
 } _Point_default_instance_;
-class SetpointProfileDefaultTypeInternal {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<SetpointProfile>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _SetpointProfile_default_instance_;
+} _Block_default_instance_;
+}  // namespace SetpointProfile
 }  // namespace blox
 namespace protobuf_SetpointProfile_5ftest_2eproto {
 static void InitDefaultsPoint() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_Point_default_instance_;
-    new (ptr) ::blox::Point();
+    void* ptr = &::blox::SetpointProfile::_Point_default_instance_;
+    new (ptr) ::blox::SetpointProfile::Point();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::Point::InitAsDefaultInstance();
+  ::blox::SetpointProfile::Point::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_Point =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPoint}, {}};
 
-static void InitDefaultsSetpointProfile() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_SetpointProfile_default_instance_;
-    new (ptr) ::blox::SetpointProfile();
+    void* ptr = &::blox::SetpointProfile::_Block_default_instance_;
+    new (ptr) ::blox::SetpointProfile::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::SetpointProfile::InitAsDefaultInstance();
+  ::blox::SetpointProfile::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_SetpointProfile =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsSetpointProfile}, {
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
       &protobuf_SetpointProfile_5ftest_2eproto::scc_info_Point.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_Point.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_SetpointProfile.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Point, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Point, _internal_metadata_),
   ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Point, _oneof_case_[0]),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Point, _oneof_case_[0]),
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Point, time_),
-  offsetof(::blox::PointDefaultTypeInternal, temperature_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Point, temperature_oneof_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Point, time_),
+  offsetof(::blox::SetpointProfile::PointDefaultTypeInternal, temperature_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Point, temperature_oneof_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile, points_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile, enabled_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile, targetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile, driventargetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile, start_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Block, points_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Block, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Block, targetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Block, driventargetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::SetpointProfile::Block, start_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Point)},
-  { 8, -1, sizeof(::blox::SetpointProfile)},
+  { 0, -1, sizeof(::blox::SetpointProfile::Point)},
+  { 8, -1, sizeof(::blox::SetpointProfile::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Point_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_SetpointProfile_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::SetpointProfile::_Point_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::SetpointProfile::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -123,18 +125,19 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\032SetpointProfile_test.proto\022\004blox\032\023brew"
-      "blox_test.proto\032\021nanopb_test.proto\"U\n\005Po"
-      "int\022\014\n\004time\030\001 \001(\r\022)\n\013temperature\030\002 \001(\005B\022"
-      "\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneo"
-      "f\"\251\001\n\017SetpointProfile\022\033\n\006points\030\001 \003(\0132\013."
-      "blox.Point\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targetId\030"
-      "\004 \001(\rB\014\212\265\030\003\030\257\002\222\?\0028\020\0220\n\016drivenTargetId\030\005 "
-      "\001(\rB\030\212\265\030\003\030\257\002\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\r\n\005start\030\006"
-      " \001(\r:\007\212\265\030\003\030\267\002b\006proto3"
+      "\n\032SetpointProfile_test.proto\022\024blox.Setpo"
+      "intProfile\032\023brewblox_test.proto\032\021nanopb_"
+      "test.proto\"U\n\005Point\022\014\n\004time\030\001 \001(\r\022)\n\013tem"
+      "perature\030\002 \001(\005B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021"
+      "temperature_oneof\"\257\001\n\005Block\022+\n\006points\030\001 "
+      "\003(\0132\033.blox.SetpointProfile.Point\022\017\n\007enab"
+      "led\030\003 \001(\010\022\036\n\010targetId\030\004 \001(\rB\014\212\265\030\003\030\257\002\222\?\0028"
+      "\020\0220\n\016drivenTargetId\030\005 \001(\rB\030\212\265\030\003\030\257\002\212\265\030\002@\001"
+      "\222\?\0028\020\212\265\030\002(\001\022\r\n\005start\030\006 \001(\r:\007\212\265\030\003\030\267\002b\006pro"
+      "to3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 341);
+      descriptor, 363);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointProfile_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -153,11 +156,12 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_SetpointProfile_5ftest_2eproto
 namespace blox {
+namespace SetpointProfile {
 
 // ===================================================================
 
 void Point::InitAsDefaultInstance() {
-  ::blox::_Point_default_instance_.temperature_ = 0;
+  ::blox::SetpointProfile::_Point_default_instance_.temperature_ = 0;
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Point::kTimeFieldNumber;
@@ -169,7 +173,7 @@ Point::Point()
   ::google::protobuf::internal::InitSCC(
       &protobuf_SetpointProfile_5ftest_2eproto::scc_info_Point.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Point)
+  // @@protoc_insertion_point(constructor:blox.SetpointProfile.Point)
 }
 Point::Point(const Point& from)
   : ::google::protobuf::Message(),
@@ -186,7 +190,7 @@ Point::Point(const Point& from)
       break;
     }
   }
-  // @@protoc_insertion_point(copy_constructor:blox.Point)
+  // @@protoc_insertion_point(copy_constructor:blox.SetpointProfile.Point)
 }
 
 void Point::SharedCtor() {
@@ -195,7 +199,7 @@ void Point::SharedCtor() {
 }
 
 Point::~Point() {
-  // @@protoc_insertion_point(destructor:blox.Point)
+  // @@protoc_insertion_point(destructor:blox.SetpointProfile.Point)
   SharedDtor();
 }
 
@@ -220,7 +224,7 @@ const Point& Point::default_instance() {
 
 
 void Point::clear_temperature_oneof() {
-// @@protoc_insertion_point(one_of_clear_start:blox.Point)
+// @@protoc_insertion_point(one_of_clear_start:blox.SetpointProfile.Point)
   switch (temperature_oneof_case()) {
     case kTemperature: {
       // No need to clear
@@ -235,7 +239,7 @@ void Point::clear_temperature_oneof() {
 
 
 void Point::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Point)
+// @@protoc_insertion_point(message_clear_start:blox.SetpointProfile.Point)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -249,7 +253,7 @@ bool Point::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Point)
+  // @@protoc_insertion_point(parse_start:blox.SetpointProfile.Point)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -296,17 +300,17 @@ bool Point::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.Point)
+  // @@protoc_insertion_point(parse_success:blox.SetpointProfile.Point)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.Point)
+  // @@protoc_insertion_point(parse_failure:blox.SetpointProfile.Point)
   return false;
 #undef DO_
 }
 
 void Point::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Point)
+  // @@protoc_insertion_point(serialize_start:blox.SetpointProfile.Point)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -324,13 +328,13 @@ void Point::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.Point)
+  // @@protoc_insertion_point(serialize_end:blox.SetpointProfile.Point)
 }
 
 ::google::protobuf::uint8* Point::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Point)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.SetpointProfile.Point)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -348,12 +352,12 @@ void Point::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Point)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.SetpointProfile.Point)
   return target;
 }
 
 size_t Point::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Point)
+// @@protoc_insertion_point(message_byte_size_start:blox.SetpointProfile.Point)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -386,22 +390,22 @@ size_t Point::ByteSizeLong() const {
 }
 
 void Point::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Point)
+// @@protoc_insertion_point(generalized_merge_from_start:blox.SetpointProfile.Point)
   GOOGLE_DCHECK_NE(&from, this);
   const Point* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const Point>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Point)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.SetpointProfile.Point)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Point)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.SetpointProfile.Point)
     MergeFrom(*source);
   }
 }
 
 void Point::MergeFrom(const Point& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Point)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.SetpointProfile.Point)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -422,14 +426,14 @@ void Point::MergeFrom(const Point& from) {
 }
 
 void Point::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Point)
+// @@protoc_insertion_point(generalized_copy_from_start:blox.SetpointProfile.Point)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Point::CopyFrom(const Point& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Point)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.SetpointProfile.Point)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -459,24 +463,24 @@ void Point::InternalSwap(Point* other) {
 
 // ===================================================================
 
-void SetpointProfile::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int SetpointProfile::kPointsFieldNumber;
-const int SetpointProfile::kEnabledFieldNumber;
-const int SetpointProfile::kTargetIdFieldNumber;
-const int SetpointProfile::kDrivenTargetIdFieldNumber;
-const int SetpointProfile::kStartFieldNumber;
+const int Block::kPointsFieldNumber;
+const int Block::kEnabledFieldNumber;
+const int Block::kTargetIdFieldNumber;
+const int Block::kDrivenTargetIdFieldNumber;
+const int Block::kStartFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-SetpointProfile::SetpointProfile()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_SetpointProfile_5ftest_2eproto::scc_info_SetpointProfile.base);
+      &protobuf_SetpointProfile_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.SetpointProfile)
+  // @@protoc_insertion_point(constructor:blox.SetpointProfile.Block)
 }
-SetpointProfile::SetpointProfile(const SetpointProfile& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       points_(from.points_) {
@@ -484,39 +488,39 @@ SetpointProfile::SetpointProfile(const SetpointProfile& from)
   ::memcpy(&enabled_, &from.enabled_,
     static_cast<size_t>(reinterpret_cast<char*>(&start_) -
     reinterpret_cast<char*>(&enabled_)) + sizeof(start_));
-  // @@protoc_insertion_point(copy_constructor:blox.SetpointProfile)
+  // @@protoc_insertion_point(copy_constructor:blox.SetpointProfile.Block)
 }
 
-void SetpointProfile::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&enabled_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&start_) -
       reinterpret_cast<char*>(&enabled_)) + sizeof(start_));
 }
 
-SetpointProfile::~SetpointProfile() {
-  // @@protoc_insertion_point(destructor:blox.SetpointProfile)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox.SetpointProfile.Block)
   SharedDtor();
 }
 
-void SetpointProfile::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void SetpointProfile::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* SetpointProfile::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_SetpointProfile_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_SetpointProfile_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const SetpointProfile& SetpointProfile::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_SetpointProfile_5ftest_2eproto::scc_info_SetpointProfile.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_SetpointProfile_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void SetpointProfile::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.SetpointProfile)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox.SetpointProfile.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -528,17 +532,17 @@ void SetpointProfile::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool SetpointProfile::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.SetpointProfile)
+  // @@protoc_insertion_point(parse_start:blox.SetpointProfile.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .blox.Point points = 1;
+      // repeated .blox.SetpointProfile.Point points = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -618,21 +622,21 @@ bool SetpointProfile::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.SetpointProfile)
+  // @@protoc_insertion_point(parse_success:blox.SetpointProfile.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.SetpointProfile)
+  // @@protoc_insertion_point(parse_failure:blox.SetpointProfile.Block)
   return false;
 #undef DO_
 }
 
-void SetpointProfile::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.SetpointProfile)
+  // @@protoc_insertion_point(serialize_start:blox.SetpointProfile.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .blox.Point points = 1;
+  // repeated .blox.SetpointProfile.Point points = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->points_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -665,17 +669,17 @@ void SetpointProfile::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.SetpointProfile)
+  // @@protoc_insertion_point(serialize_end:blox.SetpointProfile.Block)
 }
 
-::google::protobuf::uint8* SetpointProfile::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.SetpointProfile)
+  // @@protoc_insertion_point(serialize_to_array_start:blox.SetpointProfile.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .blox.Point points = 1;
+  // repeated .blox.SetpointProfile.Point points = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->points_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -707,12 +711,12 @@ void SetpointProfile::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.SetpointProfile)
+  // @@protoc_insertion_point(serialize_to_array_end:blox.SetpointProfile.Block)
   return target;
 }
 
-size_t SetpointProfile::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.SetpointProfile)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox.SetpointProfile.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -720,7 +724,7 @@ size_t SetpointProfile::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.Point points = 1;
+  // repeated .blox.SetpointProfile.Point points = 1;
   {
     unsigned int count = static_cast<unsigned int>(this->points_size());
     total_size += 1UL * count;
@@ -762,23 +766,23 @@ size_t SetpointProfile::ByteSizeLong() const {
   return total_size;
 }
 
-void SetpointProfile::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.SetpointProfile)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox.SetpointProfile.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const SetpointProfile* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SetpointProfile>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.SetpointProfile)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.SetpointProfile.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.SetpointProfile)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.SetpointProfile.Block)
     MergeFrom(*source);
   }
 }
 
-void SetpointProfile::MergeFrom(const SetpointProfile& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.SetpointProfile)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox.SetpointProfile.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -799,29 +803,29 @@ void SetpointProfile::MergeFrom(const SetpointProfile& from) {
   }
 }
 
-void SetpointProfile::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.SetpointProfile)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox.SetpointProfile.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void SetpointProfile::CopyFrom(const SetpointProfile& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.SetpointProfile)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox.SetpointProfile.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool SetpointProfile::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void SetpointProfile::Swap(SetpointProfile* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void SetpointProfile::InternalSwap(SetpointProfile* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&points_)->InternalSwap(CastToBase(&other->points_));
   swap(enabled_, other->enabled_);
@@ -831,21 +835,22 @@ void SetpointProfile::InternalSwap(SetpointProfile* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata SetpointProfile::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_SetpointProfile_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_SetpointProfile_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace SetpointProfile
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Point* Arena::CreateMaybeMessage< ::blox::Point >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Point >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::SetpointProfile::Point* Arena::CreateMaybeMessage< ::blox::SetpointProfile::Point >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::SetpointProfile::Point >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::SetpointProfile* Arena::CreateMaybeMessage< ::blox::SetpointProfile >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::SetpointProfile >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::SetpointProfile::Block* Arena::CreateMaybeMessage< ::blox::SetpointProfile::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox::SetpointProfile::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

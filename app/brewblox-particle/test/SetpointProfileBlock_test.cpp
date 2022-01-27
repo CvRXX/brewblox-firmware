@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "MockTicks.h"
 #include "blox/SetpointProfileBlock.h"
 #include "blox/SetpointSensorPairBlock.h"
@@ -37,7 +37,7 @@ SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
         using commands = cbox::Box::CommandID;
 
         testBox.reset();

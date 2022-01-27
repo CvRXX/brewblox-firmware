@@ -48,24 +48,27 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_SetpointProfile_5ftest_2eproto
 namespace blox {
+namespace SetpointProfile {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
 class Point;
 class PointDefaultTypeInternal;
 extern PointDefaultTypeInternal _Point_default_instance_;
-class SetpointProfile;
-class SetpointProfileDefaultTypeInternal;
-extern SetpointProfileDefaultTypeInternal _SetpointProfile_default_instance_;
+}  // namespace SetpointProfile
 }  // namespace blox
 namespace google {
 namespace protobuf {
-template<> ::blox::Point* Arena::CreateMaybeMessage<::blox::Point>(Arena*);
-template<> ::blox::SetpointProfile* Arena::CreateMaybeMessage<::blox::SetpointProfile>(Arena*);
+template<> ::blox::SetpointProfile::Block* Arena::CreateMaybeMessage<::blox::SetpointProfile::Block>(Arena*);
+template<> ::blox::SetpointProfile::Point* Arena::CreateMaybeMessage<::blox::SetpointProfile::Point>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox {
+namespace SetpointProfile {
 
 // ===================================================================
 
-class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Point) */ {
+class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.SetpointProfile.Point) */ {
  public:
   Point();
   virtual ~Point();
@@ -174,7 +177,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   void clear_temperature_oneof();
   TemperatureOneofCase temperature_oneof_case() const;
-  // @@protoc_insertion_point(class_scope:blox.Point)
+  // @@protoc_insertion_point(class_scope:blox.SetpointProfile.Point)
  private:
   void set_has_temperature();
 
@@ -194,24 +197,24 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class SetpointProfile : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.SetpointProfile) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.SetpointProfile.Block) */ {
  public:
-  SetpointProfile();
-  virtual ~SetpointProfile();
+  Block();
+  virtual ~Block();
 
-  SetpointProfile(const SetpointProfile& from);
+  Block(const Block& from);
 
-  inline SetpointProfile& operator=(const SetpointProfile& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  SetpointProfile(SetpointProfile&& from) noexcept
-    : SetpointProfile() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline SetpointProfile& operator=(SetpointProfile&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -221,34 +224,34 @@ class SetpointProfile : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const SetpointProfile& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SetpointProfile* internal_default_instance() {
-    return reinterpret_cast<const SetpointProfile*>(
-               &_SetpointProfile_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  void Swap(SetpointProfile* other);
-  friend void swap(SetpointProfile& a, SetpointProfile& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline SetpointProfile* New() const final {
-    return CreateMaybeMessage<SetpointProfile>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  SetpointProfile* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SetpointProfile>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const SetpointProfile& from);
-  void MergeFrom(const SetpointProfile& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -265,7 +268,7 @@ class SetpointProfile : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(SetpointProfile* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -281,16 +284,16 @@ class SetpointProfile : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.Point points = 1;
+  // repeated .blox.SetpointProfile.Point points = 1;
   int points_size() const;
   void clear_points();
   static const int kPointsFieldNumber = 1;
-  ::blox::Point* mutable_points(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::Point >*
+  ::blox::SetpointProfile::Point* mutable_points(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox::SetpointProfile::Point >*
       mutable_points();
-  const ::blox::Point& points(int index) const;
-  ::blox::Point* add_points();
-  const ::google::protobuf::RepeatedPtrField< ::blox::Point >&
+  const ::blox::SetpointProfile::Point& points(int index) const;
+  ::blox::SetpointProfile::Point* add_points();
+  const ::google::protobuf::RepeatedPtrField< ::blox::SetpointProfile::Point >&
       points() const;
 
   // bool enabled = 3;
@@ -317,11 +320,11 @@ class SetpointProfile : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint32 start() const;
   void set_start(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.SetpointProfile)
+  // @@protoc_insertion_point(class_scope:blox.SetpointProfile.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::Point > points_;
+  ::google::protobuf::RepeatedPtrField< ::blox::SetpointProfile::Point > points_;
   bool enabled_;
   ::google::protobuf::uint32 targetid_;
   ::google::protobuf::uint32 driventargetid_;
@@ -345,13 +348,13 @@ inline void Point::clear_time() {
   time_ = 0u;
 }
 inline ::google::protobuf::uint32 Point::time() const {
-  // @@protoc_insertion_point(field_get:blox.Point.time)
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Point.time)
   return time_;
 }
 inline void Point::set_time(::google::protobuf::uint32 value) {
   
   time_ = value;
-  // @@protoc_insertion_point(field_set:blox.Point.time)
+  // @@protoc_insertion_point(field_set:blox.SetpointProfile.Point.time)
 }
 
 // int32 temperature = 2 [(.nanopb_test) = {
@@ -368,7 +371,7 @@ inline void Point::clear_temperature() {
   }
 }
 inline ::google::protobuf::int32 Point::temperature() const {
-  // @@protoc_insertion_point(field_get:blox.Point.temperature)
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Point.temperature)
   if (has_temperature()) {
     return temperature_oneof_.temperature_;
   }
@@ -380,7 +383,7 @@ inline void Point::set_temperature(::google::protobuf::int32 value) {
     set_has_temperature();
   }
   temperature_oneof_.temperature_ = value;
-  // @@protoc_insertion_point(field_set:blox.Point.temperature)
+  // @@protoc_insertion_point(field_set:blox.SetpointProfile.Point.temperature)
 }
 
 inline bool Point::has_temperature_oneof() const {
@@ -394,92 +397,92 @@ inline Point::TemperatureOneofCase Point::temperature_oneof_case() const {
 }
 // -------------------------------------------------------------------
 
-// SetpointProfile
+// Block
 
-// repeated .blox.Point points = 1;
-inline int SetpointProfile::points_size() const {
+// repeated .blox.SetpointProfile.Point points = 1;
+inline int Block::points_size() const {
   return points_.size();
 }
-inline void SetpointProfile::clear_points() {
+inline void Block::clear_points() {
   points_.Clear();
 }
-inline ::blox::Point* SetpointProfile::mutable_points(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.SetpointProfile.points)
+inline ::blox::SetpointProfile::Point* Block::mutable_points(int index) {
+  // @@protoc_insertion_point(field_mutable:blox.SetpointProfile.Block.points)
   return points_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::Point >*
-SetpointProfile::mutable_points() {
-  // @@protoc_insertion_point(field_mutable_list:blox.SetpointProfile.points)
+inline ::google::protobuf::RepeatedPtrField< ::blox::SetpointProfile::Point >*
+Block::mutable_points() {
+  // @@protoc_insertion_point(field_mutable_list:blox.SetpointProfile.Block.points)
   return &points_;
 }
-inline const ::blox::Point& SetpointProfile::points(int index) const {
-  // @@protoc_insertion_point(field_get:blox.SetpointProfile.points)
+inline const ::blox::SetpointProfile::Point& Block::points(int index) const {
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Block.points)
   return points_.Get(index);
 }
-inline ::blox::Point* SetpointProfile::add_points() {
-  // @@protoc_insertion_point(field_add:blox.SetpointProfile.points)
+inline ::blox::SetpointProfile::Point* Block::add_points() {
+  // @@protoc_insertion_point(field_add:blox.SetpointProfile.Block.points)
   return points_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::Point >&
-SetpointProfile::points() const {
-  // @@protoc_insertion_point(field_list:blox.SetpointProfile.points)
+inline const ::google::protobuf::RepeatedPtrField< ::blox::SetpointProfile::Point >&
+Block::points() const {
+  // @@protoc_insertion_point(field_list:blox.SetpointProfile.Block.points)
   return points_;
 }
 
 // bool enabled = 3;
-inline void SetpointProfile::clear_enabled() {
+inline void Block::clear_enabled() {
   enabled_ = false;
 }
-inline bool SetpointProfile::enabled() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointProfile.enabled)
+inline bool Block::enabled() const {
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Block.enabled)
   return enabled_;
 }
-inline void SetpointProfile::set_enabled(bool value) {
+inline void Block::set_enabled(bool value) {
   
   enabled_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointProfile.enabled)
+  // @@protoc_insertion_point(field_set:blox.SetpointProfile.Block.enabled)
 }
 
 // uint32 targetId = 4 [(.nanopb_test) = {
-inline void SetpointProfile::clear_targetid() {
+inline void Block::clear_targetid() {
   targetid_ = 0u;
 }
-inline ::google::protobuf::uint32 SetpointProfile::targetid() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointProfile.targetId)
+inline ::google::protobuf::uint32 Block::targetid() const {
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Block.targetId)
   return targetid_;
 }
-inline void SetpointProfile::set_targetid(::google::protobuf::uint32 value) {
+inline void Block::set_targetid(::google::protobuf::uint32 value) {
   
   targetid_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointProfile.targetId)
+  // @@protoc_insertion_point(field_set:blox.SetpointProfile.Block.targetId)
 }
 
 // uint32 drivenTargetId = 5 [(.nanopb_test) = {
-inline void SetpointProfile::clear_driventargetid() {
+inline void Block::clear_driventargetid() {
   driventargetid_ = 0u;
 }
-inline ::google::protobuf::uint32 SetpointProfile::driventargetid() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointProfile.drivenTargetId)
+inline ::google::protobuf::uint32 Block::driventargetid() const {
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Block.drivenTargetId)
   return driventargetid_;
 }
-inline void SetpointProfile::set_driventargetid(::google::protobuf::uint32 value) {
+inline void Block::set_driventargetid(::google::protobuf::uint32 value) {
   
   driventargetid_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointProfile.drivenTargetId)
+  // @@protoc_insertion_point(field_set:blox.SetpointProfile.Block.drivenTargetId)
 }
 
 // uint32 start = 6;
-inline void SetpointProfile::clear_start() {
+inline void Block::clear_start() {
   start_ = 0u;
 }
-inline ::google::protobuf::uint32 SetpointProfile::start() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointProfile.start)
+inline ::google::protobuf::uint32 Block::start() const {
+  // @@protoc_insertion_point(field_get:blox.SetpointProfile.Block.start)
   return start_;
 }
-inline void SetpointProfile::set_start(::google::protobuf::uint32 value) {
+inline void Block::set_start(::google::protobuf::uint32 value) {
   
   start_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointProfile.start)
+  // @@protoc_insertion_point(field_set:blox.SetpointProfile.Block.start)
 }
 
 #ifdef __GNUC__
@@ -490,6 +493,7 @@ inline void SetpointProfile::set_start(::google::protobuf::uint32 value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace SetpointProfile
 }  // namespace blox
 
 // @@protoc_insertion_point(global_scope)

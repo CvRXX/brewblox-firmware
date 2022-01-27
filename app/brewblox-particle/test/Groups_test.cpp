@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "cbox/GroupsObject.h"
 #include "testHelpers.h"
 #include <catch.hpp>
@@ -25,7 +25,7 @@
 
 SCENARIO("Active groups can written through the groups object at ID 1")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();
