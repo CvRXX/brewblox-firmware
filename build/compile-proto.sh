@@ -1,7 +1,7 @@
 #!/bin/bash
 
 handle_error() {
-  echo "Encountered error when executing $(basename $0)!" >&2
+  echo "Encountered error when executing $(basename "$0")!" >&2
   echo "Error on line $(caller)" >&2
   exit 1
 }

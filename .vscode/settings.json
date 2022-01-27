@@ -31,4 +31,7 @@
   },
   "C_Cpp.formatting": "clangFormat",
   "git.detectSubmodules": false,
+  "files.exclude": {
+    "**/.gitmodules": false
+  },
 }

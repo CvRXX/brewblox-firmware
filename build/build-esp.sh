@@ -1,8 +1,6 @@
-#! /usr/bin/env bash
-set -ex
-
-# Use repository root
-pushd "$(dirname "$0")/.." > /dev/null
+#!/bin/bash
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
 # clean target dir
 sudo rm -rf build/target

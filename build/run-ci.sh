@@ -1,10 +1,6 @@
 #!/bin/bash
-set -e
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
-MY_DIR=$(dirname "$(readlink -f "$0")")
-pushd "$MY_DIR" > /dev/null
-
-bash build-tests.sh || exit 1
-bash run-tests.sh || exit 1
-
-popd > /dev/null
+bash build/build-tests.sh || exit 1
+bash build/run-tests.sh || exit 1

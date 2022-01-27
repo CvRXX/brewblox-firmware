@@ -1,35 +1,34 @@
 #!/bin/bash
-MY_DIR=$(dirname "$(readlink -f "$0")")
-ROOT_DIR=$(dirname "$(readlink -f "$MY_DIR")")
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
-bash "$MY_DIR/run-tests.sh"
-TEST_RESULT=$?
+TEST_RESULT=0
+bash build/run-tests.sh || TEST_RESULT=$?
 
-mkdir -p "$ROOT_DIR/build/coverage/html"
-if [ "$1" = "html" ]
+if [ "${1:-}" = "html" ]
 then
     FORMAT="html-details"
     FORMAT_ARGS='--html-title coverage'
-    OUTPUT="$ROOT_DIR/build/coverage/index.html"
+    OUTPUT="build/coverage/index.html"
 else
     FORMAT="xml"
     FORMAT_ARGS=
-    OUTPUT="$ROOT_DIR/build/coverage/coverage.xml"
+    OUTPUT="build/coverage/coverage.xml"
 fi
 
-
-gcovr --root "$ROOT_DIR" \
-  "$ROOT_DIR/controlbox/build/" \
-  "$ROOT_DIR/lib/test/build/" \
-  "$ROOT_DIR/app/brewblox-particle/test/build/" \
+mkdir -p build/coverage/html
+gcovr --root "$PWD" \
+  "$PWD/controlbox/build/" \
+  "$PWD/lib/test/build/" \
+  "$PWD/app/brewblox-particle/test/build/" \
   -e '.*/boost/.*' \
   -e '^/usr/.*' \
-  -e "$ROOT_DIR/platform/spark/device-os/.*" \
-  -e "$ROOT_DIR/brewblox/blox/proto/.*" \
-  -e "$ROOT_DIR/lib/cnl/.*" \
-  -e "$ROOT_DIR/controlbox/test/.*" \
-  -e "$ROOT_DIR/lib/test/" \
-  -e "$ROOT_DIR/app/brewblox-particle/test/" \
+  -e "$PWD/platform/spark/device-os/.*" \
+  -e "$PWD/brewblox/blox/proto/.*" \
+  -e "$PWD/lib/cnl/.*" \
+  -e "$PWD/controlbox/test/.*" \
+  -e "$PWD/lib/test/" \
+  -e "$PWD/app/brewblox-particle/test/" \
   --$FORMAT \
   --output "$OUTPUT" \
   $FORMAT_ARGS \

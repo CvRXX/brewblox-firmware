@@ -170,22 +170,22 @@ jobs:
         displayName: "Download ESP binary signing certificate"
         inputs:
           secureFile: "esp32_secure_boot_signing_key.pem"
-        condition: and(succeeded(), variables.BRANCH)
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
       - bash: |
           cp -f PLACEHOLDER_SIGNING_KEY.pem secure_boot_signing_key.pem
         displayName: Use placeholder signing key
         workingDirectory: app/brewblox-esp/
-        condition: and(succeeded(), not(variables.BRANCH))
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
       - bash: |
-          echo "Using actual secure boot signing key"
-          sudo chown root:root $(espSigningKey.secureFilePath)
-          chmod a+r $(espSigningKey.secureFilePath)
-          sudo ln -s -t ./secure_boot_signing_key.pwm $(espSigningKey.secureFilePath)
+          echo "Using secure boot signing key $(espSigningKey.secureFilePath)"
+          sudo chmod a+r $(espSigningKey.secureFilePath)
+          cp -f $(espSigningKey.secureFilePath) secure_boot_signing_key.pem
+          ls -l secure_boot_signing_key.pem
         displayName: Use real signing key
         workingDirectory: app/brewblox-esp/
-        condition: and(succeeded(), variables.BRANCH)
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
       - script: /opt/esp/entrypoint.sh idf.py build
         target: idf
@@ -247,9 +247,13 @@ jobs:
         displayName: Copy release files
 
       - bash: |
-          bash build/release.sh
+          bash build/release.sh $(TAG)
         displayName: Upload release
-        condition: and(succeeded(), variables['BRANCH'])
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         env:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
-          TAG: $(TAG)
+
+      - bash: |
+          bash build/release.sh $(System.PullRequest.TargetBranch)
+        displayName: Upload release (dry run)
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))

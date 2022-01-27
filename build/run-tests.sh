@@ -1,38 +1,20 @@
 #!/bin/bash
-MY_DIR=$(dirname "$(readlink -f "$0")")
-
-function status()
-{
-if [[ "$1" -eq 0 ]]; then
-  echo "✓ SUCCESS"
-else
-  echo "✗ FAILED"
-fi
-}
+# shellcheck source=./_init.sh
+source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
 echo "Running lib unit tests"
-pushd "$MY_DIR/../lib/test/build" > /dev/null
-./lib_test_runner --durations yes;
-(( result = $? ))
-status $result
-(( exit_status = exit_status || result ))
-popd > /dev/null
+pushd lib/test/build/
+subtask ./lib_test_runner --durations yes
+popd
 
 echo "Running ControlBox unit tests"
-pushd "$MY_DIR/../controlbox/build/" > /dev/null
-./cbox_test_runner --durations yes;
-(( result = $? ))
-status $result
-(( exit_status = exit_status || result ))
-popd > /dev/null
+pushd controlbox/build/
+subtask ./cbox_test_runner --durations yes
+popd
 
+echo "Running Brewblox unit tests"
+pushd app/brewblox-particle/test/build/
+subtask ./brewblox_test_runner --durations yes
+popd
 
-echo "Running BrewBlox unit tests"
-pushd "$MY_DIR/../app/brewblox-particle/test/build" > /dev/null
-./brewblox_test_runner --durations yes;
-(( result = $? ))
-status $result
-(( exit_status = exit_status || result ))
-popd > /dev/null
-
-exit $exit_status
+exit $SUBTASK_STATUS
