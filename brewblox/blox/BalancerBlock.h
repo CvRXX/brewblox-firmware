@@ -5,7 +5,7 @@
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class BalancerBlock : public Block<BlockType_Balancer> {
+class BalancerBlock : public Block<brewblox_BlockType_Balancer> {
 public:
     using Balancer_t = Balancer<blox_Constraints_AnalogConstraint_balanced_tag>;
 

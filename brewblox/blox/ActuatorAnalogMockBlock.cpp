@@ -66,7 +66,7 @@ ActuatorAnalogMockBlock::streamPersistedTo(cbox::DataOut& out) const
 
 void* ActuatorAnalogMockBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_ActuatorAnalogMock) {
+    if (iface == brewblox_BlockType_ActuatorAnalogMock) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {

@@ -46,7 +46,7 @@ SCENARIO("A TempSensorMock block")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto newSensor = blox::TempSensorMock();
+    auto newSensor = blox_test::TempSensorMock::Block();
     newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
     newSensor.set_connected(true);
     testBox.put(newSensor);
@@ -71,7 +71,7 @@ SCENARIO("A TempSensorMock block")
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(100));
 
-            auto decoded = blox::TempSensorMock();
+            auto decoded = blox_test::TempSensorMock::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());
@@ -88,7 +88,7 @@ SCENARIO("A TempSensorMock block")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto newSensor = blox::TempSensorMock();
+        auto newSensor = blox_test::TempSensorMock::Block();
         newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
         newSensor.set_connected(true);
 
@@ -118,7 +118,7 @@ SCENARIO("A TempSensorMock block")
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(100));
 
-            auto decoded = blox::TempSensorMock();
+            auto decoded = blox_test::TempSensorMock::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());

@@ -23,7 +23,7 @@
 cbox::CboxError
 MockPinsBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_MockPins message = blox_MockPins_init_zero;
+    blox_MockPins_Block message = blox_MockPins_Block_init_zero;
     // looks a bit silly, but this way it is implemented the same as teh Spark2 and Spark3 blocks
     message.channels_count = 8;
     message.channels[0].id = 1;
@@ -35,12 +35,12 @@ MockPinsBlock::streamTo(cbox::DataOut& out) const
     message.channels[6].id = 7;
     message.channels[7].id = 8;
 
-    return streamProtoTo(out, &message, blox_MockPins_fields, blox_MockPins_size);
+    return streamProtoTo(out, &message, blox_MockPins_Block_fields, blox_MockPins_Block_size);
 }
 
 void* MockPinsBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_MockPins) {
+    if (iface == brewblox_BlockType_MockPins) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

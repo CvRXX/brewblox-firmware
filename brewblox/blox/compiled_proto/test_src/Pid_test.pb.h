@@ -48,24 +48,24 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_Pid_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace Pid {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace Pid
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::Pid::Block* Arena::CreateMaybeMessage<::blox::Pid::Block>(Arena*);
+template<> ::blox_test::Pid::Block* Arena::CreateMaybeMessage<::blox_test::Pid::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace Pid {
 
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Pid.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Pid.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -152,7 +152,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -164,145 +164,145 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // uint32 inputId = 1 [(.nanopb_test) = {
+  // uint32 inputId = 1 [(.nanopb) = {
   void clear_inputid();
   static const int kInputIdFieldNumber = 1;
   ::google::protobuf::uint32 inputid() const;
   void set_inputid(::google::protobuf::uint32 value);
 
-  // uint32 outputId = 2 [(.nanopb_test) = {
+  // uint32 outputId = 2 [(.nanopb) = {
   void clear_outputid();
   static const int kOutputIdFieldNumber = 2;
   ::google::protobuf::uint32 outputid() const;
   void set_outputid(::google::protobuf::uint32 value);
 
-  // sint32 inputValue = 5 [(.nanopb_test) = {
+  // sint32 inputValue = 5 [(.nanopb) = {
   void clear_inputvalue();
   static const int kInputValueFieldNumber = 5;
   ::google::protobuf::int32 inputvalue() const;
   void set_inputvalue(::google::protobuf::int32 value);
 
-  // sint32 inputSetting = 6 [(.nanopb_test) = {
+  // sint32 inputSetting = 6 [(.nanopb) = {
   void clear_inputsetting();
   static const int kInputSettingFieldNumber = 6;
   ::google::protobuf::int32 inputsetting() const;
   void set_inputsetting(::google::protobuf::int32 value);
 
-  // sint32 outputValue = 7 [(.nanopb_test) = {
+  // sint32 outputValue = 7 [(.nanopb) = {
   void clear_outputvalue();
   static const int kOutputValueFieldNumber = 7;
   ::google::protobuf::int32 outputvalue() const;
   void set_outputvalue(::google::protobuf::int32 value);
 
-  // sint32 outputSetting = 8 [(.nanopb_test) = {
+  // sint32 outputSetting = 8 [(.nanopb) = {
   void clear_outputsetting();
   static const int kOutputSettingFieldNumber = 8;
   ::google::protobuf::int32 outputsetting() const;
   void set_outputsetting(::google::protobuf::int32 value);
 
-  // sint32 kp = 13 [(.nanopb_test) = {
+  // sint32 kp = 13 [(.nanopb) = {
   void clear_kp();
   static const int kKpFieldNumber = 13;
   ::google::protobuf::int32 kp() const;
   void set_kp(::google::protobuf::int32 value);
 
-  // uint32 ti = 14 [(.nanopb_test) = {
+  // uint32 ti = 14 [(.nanopb) = {
   void clear_ti();
   static const int kTiFieldNumber = 14;
   ::google::protobuf::uint32 ti() const;
   void set_ti(::google::protobuf::uint32 value);
 
-  // uint32 td = 15 [(.nanopb_test) = {
+  // uint32 td = 15 [(.nanopb) = {
   void clear_td();
   static const int kTdFieldNumber = 15;
   ::google::protobuf::uint32 td() const;
   void set_td(::google::protobuf::uint32 value);
 
-  // sint32 p = 16 [(.nanopb_test) = {
+  // sint32 p = 16 [(.nanopb) = {
   void clear_p();
   static const int kPFieldNumber = 16;
   ::google::protobuf::int32 p() const;
   void set_p(::google::protobuf::int32 value);
 
-  // bool enabled = 11 [(.brewblox_test) = {
+  // bool enabled = 11 [(.brewblox.field) = {
   void clear_enabled();
   static const int kEnabledFieldNumber = 11;
   bool enabled() const;
   void set_enabled(bool value);
 
-  // bool active = 12 [(.brewblox_test) = {
+  // bool active = 12 [(.brewblox.field) = {
   void clear_active();
   static const int kActiveFieldNumber = 12;
   bool active() const;
   void set_active(bool value);
 
-  // bool boilModeActive = 26 [(.brewblox_test) = {
+  // bool boilModeActive = 26 [(.brewblox.field) = {
   void clear_boilmodeactive();
   static const int kBoilModeActiveFieldNumber = 26;
   bool boilmodeactive() const;
   void set_boilmodeactive(bool value);
 
-  // sint32 i = 17 [(.nanopb_test) = {
+  // sint32 i = 17 [(.nanopb) = {
   void clear_i();
   static const int kIFieldNumber = 17;
   ::google::protobuf::int32 i() const;
   void set_i(::google::protobuf::int32 value);
 
-  // sint32 d = 18 [(.nanopb_test) = {
+  // sint32 d = 18 [(.nanopb) = {
   void clear_d();
   static const int kDFieldNumber = 18;
   ::google::protobuf::int32 d() const;
   void set_d(::google::protobuf::int32 value);
 
-  // sint32 error = 19 [(.nanopb_test) = {
+  // sint32 error = 19 [(.nanopb) = {
   void clear_error();
   static const int kErrorFieldNumber = 19;
   ::google::protobuf::int32 error() const;
   void set_error(::google::protobuf::int32 value);
 
-  // sint32 integral = 20 [(.nanopb_test) = {
+  // sint32 integral = 20 [(.nanopb) = {
   void clear_integral();
   static const int kIntegralFieldNumber = 20;
   ::google::protobuf::int32 integral() const;
   void set_integral(::google::protobuf::int32 value);
 
-  // sint32 derivative = 21 [(.nanopb_test) = {
+  // sint32 derivative = 21 [(.nanopb) = {
   void clear_derivative();
   static const int kDerivativeFieldNumber = 21;
   ::google::protobuf::int32 derivative() const;
   void set_derivative(::google::protobuf::int32 value);
 
-  // uint32 drivenOutputId = 22 [(.nanopb_test) = {
+  // uint32 drivenOutputId = 22 [(.nanopb) = {
   void clear_drivenoutputid();
   static const int kDrivenOutputIdFieldNumber = 22;
   ::google::protobuf::uint32 drivenoutputid() const;
   void set_drivenoutputid(::google::protobuf::uint32 value);
 
-  // sint32 integralReset = 23 [(.nanopb_test) = {
+  // sint32 integralReset = 23 [(.nanopb) = {
   void clear_integralreset();
   static const int kIntegralResetFieldNumber = 23;
   ::google::protobuf::int32 integralreset() const;
   void set_integralreset(::google::protobuf::int32 value);
 
-  // sint32 boilPointAdjust = 24 [(.nanopb_test) = {
+  // sint32 boilPointAdjust = 24 [(.nanopb) = {
   void clear_boilpointadjust();
   static const int kBoilPointAdjustFieldNumber = 24;
   ::google::protobuf::int32 boilpointadjust() const;
   void set_boilpointadjust(::google::protobuf::int32 value);
 
-  // sint32 boilMinOutput = 25 [(.nanopb_test) = {
+  // sint32 boilMinOutput = 25 [(.nanopb) = {
   void clear_boilminoutput();
   static const int kBoilMinOutputFieldNumber = 25;
   ::google::protobuf::int32 boilminoutput() const;
   void set_boilminoutput(::google::protobuf::int32 value);
 
-  // .blox.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox_test) = {
+  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
   void clear_derivativefilter();
   static const int kDerivativeFilterFieldNumber = 27;
-  ::blox::SetpointSensorPair::FilterChoice derivativefilter() const;
-  void set_derivativefilter(::blox::SetpointSensorPair::FilterChoice value);
+  ::blox_test::SetpointSensorPair::FilterChoice derivativefilter() const;
+  void set_derivativefilter(::blox_test::SetpointSensorPair::FilterChoice value);
 
-  // @@protoc_insertion_point(class_scope:blox.Pid.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.Pid.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -345,329 +345,329 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// uint32 inputId = 1 [(.nanopb_test) = {
+// uint32 inputId = 1 [(.nanopb) = {
 inline void Block::clear_inputid() {
   inputid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::inputid() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.inputId)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.inputId)
   return inputid_;
 }
 inline void Block::set_inputid(::google::protobuf::uint32 value) {
   
   inputid_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.inputId)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.inputId)
 }
 
-// uint32 outputId = 2 [(.nanopb_test) = {
+// uint32 outputId = 2 [(.nanopb) = {
 inline void Block::clear_outputid() {
   outputid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::outputid() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.outputId)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.outputId)
   return outputid_;
 }
 inline void Block::set_outputid(::google::protobuf::uint32 value) {
   
   outputid_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.outputId)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.outputId)
 }
 
-// sint32 inputValue = 5 [(.nanopb_test) = {
+// sint32 inputValue = 5 [(.nanopb) = {
 inline void Block::clear_inputvalue() {
   inputvalue_ = 0;
 }
 inline ::google::protobuf::int32 Block::inputvalue() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.inputValue)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.inputValue)
   return inputvalue_;
 }
 inline void Block::set_inputvalue(::google::protobuf::int32 value) {
   
   inputvalue_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.inputValue)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.inputValue)
 }
 
-// sint32 inputSetting = 6 [(.nanopb_test) = {
+// sint32 inputSetting = 6 [(.nanopb) = {
 inline void Block::clear_inputsetting() {
   inputsetting_ = 0;
 }
 inline ::google::protobuf::int32 Block::inputsetting() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.inputSetting)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.inputSetting)
   return inputsetting_;
 }
 inline void Block::set_inputsetting(::google::protobuf::int32 value) {
   
   inputsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.inputSetting)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.inputSetting)
 }
 
-// sint32 outputValue = 7 [(.nanopb_test) = {
+// sint32 outputValue = 7 [(.nanopb) = {
 inline void Block::clear_outputvalue() {
   outputvalue_ = 0;
 }
 inline ::google::protobuf::int32 Block::outputvalue() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.outputValue)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.outputValue)
   return outputvalue_;
 }
 inline void Block::set_outputvalue(::google::protobuf::int32 value) {
   
   outputvalue_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.outputValue)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.outputValue)
 }
 
-// sint32 outputSetting = 8 [(.nanopb_test) = {
+// sint32 outputSetting = 8 [(.nanopb) = {
 inline void Block::clear_outputsetting() {
   outputsetting_ = 0;
 }
 inline ::google::protobuf::int32 Block::outputsetting() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.outputSetting)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.outputSetting)
   return outputsetting_;
 }
 inline void Block::set_outputsetting(::google::protobuf::int32 value) {
   
   outputsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.outputSetting)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.outputSetting)
 }
 
-// bool enabled = 11 [(.brewblox_test) = {
+// bool enabled = 11 [(.brewblox.field) = {
 inline void Block::clear_enabled() {
   enabled_ = false;
 }
 inline bool Block::enabled() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.enabled)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.enabled)
   return enabled_;
 }
 inline void Block::set_enabled(bool value) {
   
   enabled_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.enabled)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.enabled)
 }
 
-// bool active = 12 [(.brewblox_test) = {
+// bool active = 12 [(.brewblox.field) = {
 inline void Block::clear_active() {
   active_ = false;
 }
 inline bool Block::active() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.active)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.active)
   return active_;
 }
 inline void Block::set_active(bool value) {
   
   active_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.active)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.active)
 }
 
-// sint32 kp = 13 [(.nanopb_test) = {
+// sint32 kp = 13 [(.nanopb) = {
 inline void Block::clear_kp() {
   kp_ = 0;
 }
 inline ::google::protobuf::int32 Block::kp() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.kp)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.kp)
   return kp_;
 }
 inline void Block::set_kp(::google::protobuf::int32 value) {
   
   kp_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.kp)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.kp)
 }
 
-// uint32 ti = 14 [(.nanopb_test) = {
+// uint32 ti = 14 [(.nanopb) = {
 inline void Block::clear_ti() {
   ti_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::ti() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.ti)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.ti)
   return ti_;
 }
 inline void Block::set_ti(::google::protobuf::uint32 value) {
   
   ti_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.ti)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.ti)
 }
 
-// uint32 td = 15 [(.nanopb_test) = {
+// uint32 td = 15 [(.nanopb) = {
 inline void Block::clear_td() {
   td_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::td() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.td)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.td)
   return td_;
 }
 inline void Block::set_td(::google::protobuf::uint32 value) {
   
   td_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.td)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.td)
 }
 
-// sint32 p = 16 [(.nanopb_test) = {
+// sint32 p = 16 [(.nanopb) = {
 inline void Block::clear_p() {
   p_ = 0;
 }
 inline ::google::protobuf::int32 Block::p() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.p)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.p)
   return p_;
 }
 inline void Block::set_p(::google::protobuf::int32 value) {
   
   p_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.p)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.p)
 }
 
-// sint32 i = 17 [(.nanopb_test) = {
+// sint32 i = 17 [(.nanopb) = {
 inline void Block::clear_i() {
   i_ = 0;
 }
 inline ::google::protobuf::int32 Block::i() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.i)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.i)
   return i_;
 }
 inline void Block::set_i(::google::protobuf::int32 value) {
   
   i_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.i)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.i)
 }
 
-// sint32 d = 18 [(.nanopb_test) = {
+// sint32 d = 18 [(.nanopb) = {
 inline void Block::clear_d() {
   d_ = 0;
 }
 inline ::google::protobuf::int32 Block::d() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.d)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.d)
   return d_;
 }
 inline void Block::set_d(::google::protobuf::int32 value) {
   
   d_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.d)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.d)
 }
 
-// sint32 error = 19 [(.nanopb_test) = {
+// sint32 error = 19 [(.nanopb) = {
 inline void Block::clear_error() {
   error_ = 0;
 }
 inline ::google::protobuf::int32 Block::error() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.error)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.error)
   return error_;
 }
 inline void Block::set_error(::google::protobuf::int32 value) {
   
   error_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.error)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.error)
 }
 
-// sint32 integral = 20 [(.nanopb_test) = {
+// sint32 integral = 20 [(.nanopb) = {
 inline void Block::clear_integral() {
   integral_ = 0;
 }
 inline ::google::protobuf::int32 Block::integral() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.integral)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.integral)
   return integral_;
 }
 inline void Block::set_integral(::google::protobuf::int32 value) {
   
   integral_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.integral)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.integral)
 }
 
-// sint32 derivative = 21 [(.nanopb_test) = {
+// sint32 derivative = 21 [(.nanopb) = {
 inline void Block::clear_derivative() {
   derivative_ = 0;
 }
 inline ::google::protobuf::int32 Block::derivative() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.derivative)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.derivative)
   return derivative_;
 }
 inline void Block::set_derivative(::google::protobuf::int32 value) {
   
   derivative_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.derivative)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.derivative)
 }
 
-// uint32 drivenOutputId = 22 [(.nanopb_test) = {
+// uint32 drivenOutputId = 22 [(.nanopb) = {
 inline void Block::clear_drivenoutputid() {
   drivenoutputid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::drivenoutputid() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.drivenOutputId)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.drivenOutputId)
   return drivenoutputid_;
 }
 inline void Block::set_drivenoutputid(::google::protobuf::uint32 value) {
   
   drivenoutputid_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.drivenOutputId)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.drivenOutputId)
 }
 
-// sint32 integralReset = 23 [(.nanopb_test) = {
+// sint32 integralReset = 23 [(.nanopb) = {
 inline void Block::clear_integralreset() {
   integralreset_ = 0;
 }
 inline ::google::protobuf::int32 Block::integralreset() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.integralReset)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.integralReset)
   return integralreset_;
 }
 inline void Block::set_integralreset(::google::protobuf::int32 value) {
   
   integralreset_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.integralReset)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.integralReset)
 }
 
-// sint32 boilPointAdjust = 24 [(.nanopb_test) = {
+// sint32 boilPointAdjust = 24 [(.nanopb) = {
 inline void Block::clear_boilpointadjust() {
   boilpointadjust_ = 0;
 }
 inline ::google::protobuf::int32 Block::boilpointadjust() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.boilPointAdjust)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.boilPointAdjust)
   return boilpointadjust_;
 }
 inline void Block::set_boilpointadjust(::google::protobuf::int32 value) {
   
   boilpointadjust_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.boilPointAdjust)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.boilPointAdjust)
 }
 
-// sint32 boilMinOutput = 25 [(.nanopb_test) = {
+// sint32 boilMinOutput = 25 [(.nanopb) = {
 inline void Block::clear_boilminoutput() {
   boilminoutput_ = 0;
 }
 inline ::google::protobuf::int32 Block::boilminoutput() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.boilMinOutput)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.boilMinOutput)
   return boilminoutput_;
 }
 inline void Block::set_boilminoutput(::google::protobuf::int32 value) {
   
   boilminoutput_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.boilMinOutput)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.boilMinOutput)
 }
 
-// bool boilModeActive = 26 [(.brewblox_test) = {
+// bool boilModeActive = 26 [(.brewblox.field) = {
 inline void Block::clear_boilmodeactive() {
   boilmodeactive_ = false;
 }
 inline bool Block::boilmodeactive() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.boilModeActive)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.boilModeActive)
   return boilmodeactive_;
 }
 inline void Block::set_boilmodeactive(bool value) {
   
   boilmodeactive_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.boilModeActive)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.boilModeActive)
 }
 
-// .blox.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox_test) = {
+// .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
 inline void Block::clear_derivativefilter() {
   derivativefilter_ = 0;
 }
-inline ::blox::SetpointSensorPair::FilterChoice Block::derivativefilter() const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.derivativeFilter)
-  return static_cast< ::blox::SetpointSensorPair::FilterChoice >(derivativefilter_);
+inline ::blox_test::SetpointSensorPair::FilterChoice Block::derivativefilter() const {
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.derivativeFilter)
+  return static_cast< ::blox_test::SetpointSensorPair::FilterChoice >(derivativefilter_);
 }
-inline void Block::set_derivativefilter(::blox::SetpointSensorPair::FilterChoice value) {
+inline void Block::set_derivativefilter(::blox_test::SetpointSensorPair::FilterChoice value) {
   
   derivativefilter_ = value;
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.derivativeFilter)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.derivativeFilter)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
 inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
@@ -675,25 +675,25 @@ inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
 inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.Pid.Block.strippedFields)
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.strippedFields)
   return strippedfields_.Get(index);
 }
 inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.Pid.Block.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.strippedFields)
 }
 inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.Pid.Block.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.Pid.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.Pid.Block.strippedFields)
+  // @@protoc_insertion_point(field_list:blox_test.Pid.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.Pid.Block.strippedFields)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.Pid.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -704,7 +704,7 @@ Block::mutable_strippedfields() {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Pid
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

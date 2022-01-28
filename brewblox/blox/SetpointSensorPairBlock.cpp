@@ -24,8 +24,8 @@
 cbox::CboxError
 SetpointSensorPairBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_SetpointSensorPair newData = blox_SetpointSensorPair_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_SetpointSensorPair_fields, blox_SetpointSensorPair_size);
+    blox_SetpointSensorPair_Block newData = blox_SetpointSensorPair_Block_init_zero;
+    cbox::CboxError res = streamProtoFrom(in, &newData, blox_SetpointSensorPair_Block_fields, blox_SetpointSensorPair_Block_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         pair.setting(cnl::wrap<temp_t>(newData.storedSetting));
@@ -45,7 +45,7 @@ SetpointSensorPairBlock::streamFrom(cbox::DataIn& in)
 cbox::CboxError
 SetpointSensorPairBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_SetpointSensorPair message = blox_SetpointSensorPair_init_zero;
+    blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
     FieldTags stripped;
     message.sensorId = sensor.getId();
     message.settingEnabled = pair.settingValid();
@@ -53,38 +53,38 @@ SetpointSensorPairBlock::streamTo(cbox::DataOut& out) const
     if (pair.valueValid()) {
         message.value = cnl::unwrap(pair.value());
     } else {
-        stripped.add(blox_SetpointSensorPair_value_tag);
+        stripped.add(blox_SetpointSensorPair_Block_value_tag);
     }
     if (pair.settingValid()) {
         message.setting = cnl::unwrap(pair.setting());
     } else {
-        stripped.add(blox_SetpointSensorPair_setting_tag);
+        stripped.add(blox_SetpointSensorPair_Block_setting_tag);
     };
     if (pair.sensorValid()) {
         message.valueUnfiltered = cnl::unwrap(pair.valueUnfiltered());
     } else {
-        stripped.add(blox_SetpointSensorPair_valueUnfiltered_tag);
+        stripped.add(blox_SetpointSensorPair_Block_valueUnfiltered_tag);
     }
 
-    message.filter = blox_FilterChoice(pair.filterChoice());
+    message.filter = blox_SetpointSensorPair_FilterChoice(pair.filterChoice());
     message.filterThreshold = cnl::unwrap(pair.filterThreshold());
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 3);
 
-    return streamProtoTo(out, &message, blox_SetpointSensorPair_fields, blox_SetpointSensorPair_size);
+    return streamProtoTo(out, &message, blox_SetpointSensorPair_Block_fields, blox_SetpointSensorPair_Block_size);
 }
 
 cbox::CboxError
 SetpointSensorPairBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_SetpointSensorPair message = blox_SetpointSensorPair_init_zero;
+    blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
     message.sensorId = sensor.getId();
     message.storedSetting = cnl::unwrap(pair.setting());
     message.settingEnabled = pair.settingValid();
-    message.filter = blox_FilterChoice(pair.filterChoice());
+    message.filter = blox_SetpointSensorPair_FilterChoice(pair.filterChoice());
     message.filterThreshold = cnl::unwrap(pair.filterThreshold());
 
-    return streamProtoTo(out, &message, blox_SetpointSensorPair_fields, blox_SetpointSensorPair_size);
+    return streamProtoTo(out, &message, blox_SetpointSensorPair_Block_fields, blox_SetpointSensorPair_Block_size);
 }
 
 cbox::update_t
@@ -101,7 +101,7 @@ SetpointSensorPairBlock::update(const cbox::update_t& now)
 
 void* SetpointSensorPairBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_SetpointSensorPair) {
+    if (iface == brewblox_BlockType_SetpointSensorPair) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ProcessValue<temp_t>>()) {

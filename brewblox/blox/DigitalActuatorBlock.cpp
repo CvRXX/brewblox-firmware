@@ -75,7 +75,7 @@ DigitalActuatorBlock::update(const cbox::update_t& now)
 
 void* DigitalActuatorBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_DigitalActuator) {
+    if (iface == brewblox_BlockType_DigitalActuator) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {

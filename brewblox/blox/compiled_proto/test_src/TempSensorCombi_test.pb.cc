@@ -19,7 +19,7 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace blox {
+namespace blox_test {
 namespace TempSensorCombi {
 class BlockDefaultTypeInternal {
  public:
@@ -27,17 +27,17 @@ class BlockDefaultTypeInternal {
       _instance;
 } _Block_default_instance_;
 }  // namespace TempSensorCombi
-}  // namespace blox
+}  // namespace blox_test
 namespace protobuf_TempSensorCombi_5ftest_2eproto {
 static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::TempSensorCombi::_Block_default_instance_;
-    new (ptr) ::blox::TempSensorCombi::Block();
+    void* ptr = &::blox_test::TempSensorCombi::_Block_default_instance_;
+    new (ptr) ::blox_test::TempSensorCombi::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::TempSensorCombi::Block::InitAsDefaultInstance();
+  ::blox_test::TempSensorCombi::Block::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_Block =
@@ -52,21 +52,21 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorCombi::Block, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorCombi::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorCombi::Block, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorCombi::Block, combinefunc_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorCombi::Block, sensors_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TempSensorCombi::Block, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorCombi::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorCombi::Block, combinefunc_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorCombi::Block, sensors_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorCombi::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::TempSensorCombi::Block)},
+  { 0, -1, sizeof(::blox_test::TempSensorCombi::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::TempSensorCombi::_Block_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::TempSensorCombi::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -90,20 +90,20 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\032TempSensorCombi_test.proto\022\024blox.TempS"
-      "ensorCombi\032\023brewblox_test.proto\032\021nanopb_"
-      "test.proto\"\316\001\n\005Block\022-\n\005value\030\001 \001(\021B\036\212\265\030"
-      "\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030\002(\001\222\?\0028 \022:\n\013combineFu"
-      "nc\030\002 \001(\0162%.blox.TempSensorCombi.SensorCo"
-      "mbiFunc\022!\n\007sensors\030\003 \003(\rB\020\212\265\030\002\030\002\222\?\0028\020\222\?\002"
-      "\020\010\022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222"
-      "\?\002\020\001:\r\212\265\030\003\030\304\002\212\265\030\002H\002*b\n\017SensorCombiFunc\022\031"
-      "\n\025SENSOR_COMBI_FUNC_AVG\020\000\022\031\n\025SENSOR_COMB"
-      "I_FUNC_MIN\020\001\022\031\n\025SENSOR_COMBI_FUNC_MAX\020\002b"
-      "\006proto3"
+      "\n\032TempSensorCombi_test.proto\022\031blox_test."
+      "TempSensorCombi\032\023brewblox_test.proto\032\021na"
+      "nopb_test.proto\"\323\001\n\005Block\022-\n\005value\030\001 \001(\021"
+      "B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030\002(\001\222\?\0028 \022\?\n\013comb"
+      "ineFunc\030\002 \001(\0162*.blox_test.TempSensorComb"
+      "i.SensorCombiFunc\022!\n\007sensors\030\003 \003(\rB\020\212\265\030\002"
+      "\030\002\222\?\0028\020\222\?\002\020\010\022(\n\016strippedFields\030c \003(\rB\020\212\265"
+      "\030\002(\001\222\?\0028\020\222\?\002\020\001:\r\212\265\030\003\030\304\002\212\265\030\002H\002*b\n\017SensorC"
+      "ombiFunc\022\031\n\025SENSOR_COMBI_FUNC_AVG\020\000\022\031\n\025S"
+      "ENSOR_COMBI_FUNC_MIN\020\001\022\031\n\025SENSOR_COMBI_F"
+      "UNC_MAX\020\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 407);
+      descriptor, 417);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TempSensorCombi_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -121,7 +121,7 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_TempSensorCombi_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace TempSensorCombi {
 const ::google::protobuf::EnumDescriptor* SensorCombiFunc_descriptor() {
   protobuf_TempSensorCombi_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
@@ -155,7 +155,7 @@ Block::Block()
   ::google::protobuf::internal::InitSCC(
       &protobuf_TempSensorCombi_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(constructor:blox_test.TempSensorCombi.Block)
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
@@ -166,7 +166,7 @@ Block::Block(const Block& from)
   ::memcpy(&value_, &from.value_,
     static_cast<size_t>(reinterpret_cast<char*>(&combinefunc_) -
     reinterpret_cast<char*>(&value_)) + sizeof(combinefunc_));
-  // @@protoc_insertion_point(copy_constructor:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(copy_constructor:blox_test.TempSensorCombi.Block)
 }
 
 void Block::SharedCtor() {
@@ -176,7 +176,7 @@ void Block::SharedCtor() {
 }
 
 Block::~Block() {
-  // @@protoc_insertion_point(destructor:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(destructor:blox_test.TempSensorCombi.Block)
   SharedDtor();
 }
 
@@ -198,7 +198,7 @@ const Block& Block::default_instance() {
 
 
 void Block::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.TempSensorCombi.Block)
+// @@protoc_insertion_point(message_clear_start:blox_test.TempSensorCombi.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -215,13 +215,13 @@ bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(parse_start:blox_test.TempSensorCombi.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // sint32 value = 1 [(.nanopb_test) = {
+      // sint32 value = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -235,7 +235,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+      // .blox_test.TempSensorCombi.SensorCombiFunc combineFunc = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -243,14 +243,14 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_combinefunc(static_cast< ::blox::TempSensorCombi::SensorCombiFunc >(value));
+          set_combinefunc(static_cast< ::blox_test::TempSensorCombi::SensorCombiFunc >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated uint32 sensors = 3 [(.nanopb_test) = {
+      // repeated uint32 sensors = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
@@ -269,7 +269,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+      // repeated uint32 strippedFields = 99 [(.nanopb) = {
       case 99: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
@@ -300,32 +300,32 @@ bool Block::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(parse_success:blox_test.TempSensorCombi.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(parse_failure:blox_test.TempSensorCombi.Block)
   return false;
 #undef DO_
 }
 
 void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(serialize_start:blox_test.TempSensorCombi.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // sint32 value = 1 [(.nanopb_test) = {
+  // sint32 value = 1 [(.nanopb) = {
   if (this->value() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(1, this->value(), output);
   }
 
-  // .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+  // .blox_test.TempSensorCombi.SensorCombiFunc combineFunc = 2;
   if (this->combinefunc() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       2, this->combinefunc(), output);
   }
 
-  // repeated uint32 sensors = 3 [(.nanopb_test) = {
+  // repeated uint32 sensors = 3 [(.nanopb) = {
   if (this->sensors_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(3, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -336,7 +336,7 @@ void Block::SerializeWithCachedSizes(
       this->sensors(i), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -351,28 +351,28 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(serialize_end:blox_test.TempSensorCombi.Block)
 }
 
 ::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.TempSensorCombi.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // sint32 value = 1 [(.nanopb_test) = {
+  // sint32 value = 1 [(.nanopb) = {
   if (this->value() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->value(), target);
   }
 
-  // .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+  // .blox_test.TempSensorCombi.SensorCombiFunc combineFunc = 2;
   if (this->combinefunc() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       2, this->combinefunc(), target);
   }
 
-  // repeated uint32 sensors = 3 [(.nanopb_test) = {
+  // repeated uint32 sensors = 3 [(.nanopb) = {
   if (this->sensors_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       3,
@@ -385,7 +385,7 @@ void Block::SerializeWithCachedSizes(
       WriteUInt32NoTagToArray(this->sensors_, target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       99,
@@ -402,12 +402,12 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.TempSensorCombi.Block)
   return target;
 }
 
 size_t Block::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.TempSensorCombi.Block)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.TempSensorCombi.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -415,7 +415,7 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 sensors = 3 [(.nanopb_test) = {
+  // repeated uint32 sensors = 3 [(.nanopb) = {
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->sensors_);
@@ -431,7 +431,7 @@ size_t Block::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
@@ -447,14 +447,14 @@ size_t Block::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // sint32 value = 1 [(.nanopb_test) = {
+  // sint32 value = 1 [(.nanopb) = {
   if (this->value() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->value());
   }
 
-  // .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+  // .blox_test.TempSensorCombi.SensorCombiFunc combineFunc = 2;
   if (this->combinefunc() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->combinefunc());
@@ -466,22 +466,22 @@ size_t Block::ByteSizeLong() const {
 }
 
 void Block::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.TempSensorCombi.Block)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.TempSensorCombi.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.TempSensorCombi.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.TempSensorCombi.Block)
     MergeFrom(*source);
   }
 }
 
 void Block::MergeFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.TempSensorCombi.Block)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.TempSensorCombi.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -498,14 +498,14 @@ void Block::MergeFrom(const Block& from) {
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.TempSensorCombi.Block)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.TempSensorCombi.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Block::CopyFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.TempSensorCombi.Block)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.TempSensorCombi.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -536,11 +536,11 @@ void Block::InternalSwap(Block* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace TempSensorCombi
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TempSensorCombi::Block* Arena::CreateMaybeMessage< ::blox::TempSensorCombi::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::TempSensorCombi::Block >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::TempSensorCombi::Block* Arena::CreateMaybeMessage< ::blox_test::TempSensorCombi::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::TempSensorCombi::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

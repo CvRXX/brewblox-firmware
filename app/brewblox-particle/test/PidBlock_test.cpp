@@ -51,7 +51,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto newSensor = blox::TempSensorMock();
+    auto newSensor = blox_test::TempSensorMock::Block();
     newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
     newSensor.set_connected(true);
     testBox.put(newSensor);
@@ -66,11 +66,11 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     testBox.put(uint8_t(0xFF));
     testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-    blox::SetpointSensorPair newPair;
+    blox_test::SetpointSensorPair::Block newPair;
     newPair.set_sensorid(sensorId);
     newPair.set_storedsetting(cnl::unwrap(temp_t(21)));
     newPair.set_settingenabled(true);
-    newPair.set_filter(blox::FilterChoice::FILTER_15s);
+    newPair.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_15s);
     newPair.set_filterthreshold(cnl::unwrap(temp_t(1)));
     testBox.put(newPair);
 
@@ -84,7 +84,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     testBox.put(uint8_t(0xFF));
     testBox.put(ActuatorAnalogMockBlock::staticTypeId());
 
-    blox::ActuatorAnalogMock newActuator;
+    blox_test::ActuatorAnalogMock::Block newActuator;
     newActuator.set_setting(cnl::unwrap(ActuatorAnalog::value_t(0)));
     newActuator.set_minsetting(cnl::unwrap(ActuatorAnalog::value_t(0)));
     newActuator.set_maxsetting(cnl::unwrap(ActuatorAnalog::value_t(100)));
@@ -102,7 +102,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     testBox.put(uint8_t(0xFF));
     testBox.put(PidBlock::staticTypeId());
 
-    blox::Pid newPid;
+    blox_test::Pid::Block newPid;
     newPid.set_inputid(setpointId);
     newPid.set_outputid(actuatorId);
     newPid.set_enabled(true);
@@ -129,7 +129,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     testBox.put(commands::READ_OBJECT);
     testBox.put(cbox::obj_id_t(pidId));
 
-    auto decoded = blox::Pid();
+    auto decoded = blox_test::Pid::Block();
     testBox.processInputToProto(decoded);
     CHECK(testBox.lastReplyHasStatusOk());
 
@@ -167,7 +167,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         newPid.set_integralreset(cnl::unwrap(Pid::out_t(20)));
         testBox.put(newPid);
 
-        auto decoded = blox::Pid();
+        auto decoded = blox_test::Pid::Block();
         testBox.processInputToProto(decoded);
 
         CHECK(testBox.lastReplyHasStatusOk());
@@ -195,7 +195,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         newPair.set_settingenabled(false);
         testBox.put(newPair);
 
-        auto decoded = blox::SetpointSensorPair();
+        auto decoded = blox_test::SetpointSensorPair::Block();
         testBox.processInputToProto(decoded);
 
         CHECK(testBox.lastReplyHasStatusOk());
@@ -225,7 +225,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto newSensor = blox::TempSensorMock();
+        auto newSensor = blox_test::TempSensorMock::Block();
         newSensor.set_setting(cnl::unwrap(temp_t(99.5)));
         newSensor.set_connected(true);
         testBox.put(newSensor);
@@ -241,10 +241,10 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         testBox.put(SetpointSensorPairBlock::staticTypeId());
         newPair.set_settingenabled(true);
         newPair.set_storedsetting(cnl::unwrap(Pid::in_t(99.5)));
-        newPair.set_filter(blox::FilterChoice::FILTER_NONE);
+        newPair.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
         testBox.put(newPair);
 
-        auto decoded = blox::SetpointSensorPair();
+        auto decoded = blox_test::SetpointSensorPair::Block();
         testBox.processInputToProto(decoded);
 
         CHECK(testBox.lastReplyHasStatusOk());
@@ -258,7 +258,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
             testBox.put(uint8_t(0xFF));
             testBox.put(PidBlock::staticTypeId());
 
-            auto decoded = blox::Pid();
+            auto decoded = blox_test::Pid::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());

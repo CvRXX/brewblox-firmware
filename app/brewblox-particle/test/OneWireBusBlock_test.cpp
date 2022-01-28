@@ -59,7 +59,7 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
         WHEN("a family search command is streamed in")
         {
 
-            blox_OneWireBus message = blox_OneWireBus_init_zero;
+            blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
             message.command.opcode = 2;  // OneWire search
             message.command.data = 0x28; // family code for onewire temp sensor
             message.address.funcs.encode = nullptr;
@@ -69,7 +69,7 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
 
             BufferDataOut tempOut(inbuf, sizeof(inbuf));
 
-            CboxError res = streamProtoTo(tempOut, &message, blox_OneWireBus_fields, sizeof(inbuf));
+            CboxError res = streamProtoTo(tempOut, &message, blox_OneWireBus_Block_fields, sizeof(inbuf));
             CHECK(res == CboxError::OK);
 
             BufferDataIn in(inbuf, sizeof(inbuf));

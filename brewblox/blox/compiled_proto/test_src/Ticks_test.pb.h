@@ -47,24 +47,24 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_Ticks_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace Ticks {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace Ticks
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::Ticks::Block* Arena::CreateMaybeMessage<::blox::Ticks::Block>(Arena*);
+template<> ::blox_test::Ticks::Block* Arena::CreateMaybeMessage<::blox_test::Ticks::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace Ticks {
 
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Ticks.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Ticks.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -151,43 +151,43 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // uint32 millisSinceBoot = 1 [(.nanopb_test) = {
+  // uint32 millisSinceBoot = 1 [(.nanopb) = {
   void clear_millissinceboot();
   static const int kMillisSinceBootFieldNumber = 1;
   ::google::protobuf::uint32 millissinceboot() const;
   void set_millissinceboot(::google::protobuf::uint32 value);
 
-  // uint32 secondsSinceEpoch = 2 [(.nanopb_test) = {
+  // uint32 secondsSinceEpoch = 2 [(.nanopb) = {
   void clear_secondssinceepoch();
   static const int kSecondsSinceEpochFieldNumber = 2;
   ::google::protobuf::uint32 secondssinceepoch() const;
   void set_secondssinceepoch(::google::protobuf::uint32 value);
 
-  // uint32 avgCommunicationTask = 3 [(.nanopb_test) = {
+  // uint32 avgCommunicationTask = 3 [(.nanopb) = {
   void clear_avgcommunicationtask();
   static const int kAvgCommunicationTaskFieldNumber = 3;
   ::google::protobuf::uint32 avgcommunicationtask() const;
   void set_avgcommunicationtask(::google::protobuf::uint32 value);
 
-  // uint32 avgBlocksUpdateTask = 4 [(.nanopb_test) = {
+  // uint32 avgBlocksUpdateTask = 4 [(.nanopb) = {
   void clear_avgblocksupdatetask();
   static const int kAvgBlocksUpdateTaskFieldNumber = 4;
   ::google::protobuf::uint32 avgblocksupdatetask() const;
   void set_avgblocksupdatetask(::google::protobuf::uint32 value);
 
-  // uint32 avgDisplayTask = 5 [(.nanopb_test) = {
+  // uint32 avgDisplayTask = 5 [(.nanopb) = {
   void clear_avgdisplaytask();
   static const int kAvgDisplayTaskFieldNumber = 5;
   ::google::protobuf::uint32 avgdisplaytask() const;
   void set_avgdisplaytask(::google::protobuf::uint32 value);
 
-  // uint32 avgSystemTask = 6 [(.nanopb_test) = {
+  // uint32 avgSystemTask = 6 [(.nanopb) = {
   void clear_avgsystemtask();
   static const int kAvgSystemTaskFieldNumber = 6;
   ::google::protobuf::uint32 avgsystemtask() const;
   void set_avgsystemtask(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Ticks.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.Ticks.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -211,88 +211,88 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// uint32 millisSinceBoot = 1 [(.nanopb_test) = {
+// uint32 millisSinceBoot = 1 [(.nanopb) = {
 inline void Block::clear_millissinceboot() {
   millissinceboot_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::millissinceboot() const {
-  // @@protoc_insertion_point(field_get:blox.Ticks.Block.millisSinceBoot)
+  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.millisSinceBoot)
   return millissinceboot_;
 }
 inline void Block::set_millissinceboot(::google::protobuf::uint32 value) {
   
   millissinceboot_ = value;
-  // @@protoc_insertion_point(field_set:blox.Ticks.Block.millisSinceBoot)
+  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.millisSinceBoot)
 }
 
-// uint32 secondsSinceEpoch = 2 [(.nanopb_test) = {
+// uint32 secondsSinceEpoch = 2 [(.nanopb) = {
 inline void Block::clear_secondssinceepoch() {
   secondssinceepoch_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::secondssinceepoch() const {
-  // @@protoc_insertion_point(field_get:blox.Ticks.Block.secondsSinceEpoch)
+  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.secondsSinceEpoch)
   return secondssinceepoch_;
 }
 inline void Block::set_secondssinceepoch(::google::protobuf::uint32 value) {
   
   secondssinceepoch_ = value;
-  // @@protoc_insertion_point(field_set:blox.Ticks.Block.secondsSinceEpoch)
+  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.secondsSinceEpoch)
 }
 
-// uint32 avgCommunicationTask = 3 [(.nanopb_test) = {
+// uint32 avgCommunicationTask = 3 [(.nanopb) = {
 inline void Block::clear_avgcommunicationtask() {
   avgcommunicationtask_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::avgcommunicationtask() const {
-  // @@protoc_insertion_point(field_get:blox.Ticks.Block.avgCommunicationTask)
+  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.avgCommunicationTask)
   return avgcommunicationtask_;
 }
 inline void Block::set_avgcommunicationtask(::google::protobuf::uint32 value) {
   
   avgcommunicationtask_ = value;
-  // @@protoc_insertion_point(field_set:blox.Ticks.Block.avgCommunicationTask)
+  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.avgCommunicationTask)
 }
 
-// uint32 avgBlocksUpdateTask = 4 [(.nanopb_test) = {
+// uint32 avgBlocksUpdateTask = 4 [(.nanopb) = {
 inline void Block::clear_avgblocksupdatetask() {
   avgblocksupdatetask_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::avgblocksupdatetask() const {
-  // @@protoc_insertion_point(field_get:blox.Ticks.Block.avgBlocksUpdateTask)
+  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.avgBlocksUpdateTask)
   return avgblocksupdatetask_;
 }
 inline void Block::set_avgblocksupdatetask(::google::protobuf::uint32 value) {
   
   avgblocksupdatetask_ = value;
-  // @@protoc_insertion_point(field_set:blox.Ticks.Block.avgBlocksUpdateTask)
+  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.avgBlocksUpdateTask)
 }
 
-// uint32 avgDisplayTask = 5 [(.nanopb_test) = {
+// uint32 avgDisplayTask = 5 [(.nanopb) = {
 inline void Block::clear_avgdisplaytask() {
   avgdisplaytask_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::avgdisplaytask() const {
-  // @@protoc_insertion_point(field_get:blox.Ticks.Block.avgDisplayTask)
+  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.avgDisplayTask)
   return avgdisplaytask_;
 }
 inline void Block::set_avgdisplaytask(::google::protobuf::uint32 value) {
   
   avgdisplaytask_ = value;
-  // @@protoc_insertion_point(field_set:blox.Ticks.Block.avgDisplayTask)
+  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.avgDisplayTask)
 }
 
-// uint32 avgSystemTask = 6 [(.nanopb_test) = {
+// uint32 avgSystemTask = 6 [(.nanopb) = {
 inline void Block::clear_avgsystemtask() {
   avgsystemtask_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::avgsystemtask() const {
-  // @@protoc_insertion_point(field_get:blox.Ticks.Block.avgSystemTask)
+  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.avgSystemTask)
   return avgsystemtask_;
 }
 inline void Block::set_avgsystemtask(::google::protobuf::uint32 value) {
   
   avgsystemtask_ = value;
-  // @@protoc_insertion_point(field_set:blox.Ticks.Block.avgSystemTask)
+  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.avgSystemTask)
 }
 
 #ifdef __GNUC__
@@ -302,7 +302,7 @@ inline void Block::set_avgsystemtask(::google::protobuf::uint32 value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Ticks
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

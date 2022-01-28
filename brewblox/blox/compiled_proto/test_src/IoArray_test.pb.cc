@@ -19,7 +19,7 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace blox {
+namespace blox_test {
 namespace IoArray {
 class IoChannelDefaultTypeInternal {
  public:
@@ -27,17 +27,17 @@ class IoChannelDefaultTypeInternal {
       _instance;
 } _IoChannel_default_instance_;
 }  // namespace IoArray
-}  // namespace blox
+}  // namespace blox_test
 namespace protobuf_IoArray_5ftest_2eproto {
 static void InitDefaultsIoChannel() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::IoArray::_IoChannel_default_instance_;
-    new (ptr) ::blox::IoArray::IoChannel();
+    void* ptr = &::blox_test::IoArray::_IoChannel_default_instance_;
+    new (ptr) ::blox_test::IoArray::IoChannel();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::IoArray::IoChannel::InitAsDefaultInstance();
+  ::blox_test::IoArray::IoChannel::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel =
@@ -52,18 +52,18 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::IoArray::IoChannel, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::IoArray::IoChannel, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::IoArray::IoChannel, id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::IoArray::IoChannel, id_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::IoArray::IoChannel)},
+  { 0, -1, sizeof(::blox_test::IoArray::IoChannel)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::IoArray::_IoChannel_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::IoArray::_IoChannel_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -87,15 +87,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\022IoArray_test.proto\022\014blox.IoArray\032\021nano"
-      "pb_test.proto\"\036\n\tIoChannel\022\021\n\002id\030\001 \001(\rB\005"
-      "\222\?\0028\010*\205\001\n\014DigitalState\022\022\n\016STATE_INACTIVE"
-      "\020\000\022\020\n\014STATE_ACTIVE\020\001\022\021\n\rSTATE_UNKNOWN\020\002\022"
-      "\021\n\rSTATE_REVERSE\020\003\022\014\n\010Inactive\020\000\022\n\n\006Acti"
-      "ve\020\001\022\013\n\007Unknown\020\002\032\002\020\001b\006proto3"
+      "\n\022IoArray_test.proto\022\021blox_test.IoArray\032"
+      "\021nanopb_test.proto\"\036\n\tIoChannel\022\021\n\002id\030\001 "
+      "\001(\rB\005\222\?\0028\010*\205\001\n\014DigitalState\022\022\n\016STATE_INA"
+      "CTIVE\020\000\022\020\n\014STATE_ACTIVE\020\001\022\021\n\rSTATE_UNKNO"
+      "WN\020\002\022\021\n\rSTATE_REVERSE\020\003\022\014\n\010Inactive\020\000\022\n\n"
+      "\006Active\020\001\022\013\n\007Unknown\020\002\032\002\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 229);
+      descriptor, 234);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "IoArray_test.proto", &protobuf_RegisterTypes);
   ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
@@ -112,7 +112,7 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_IoArray_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace IoArray {
 const ::google::protobuf::EnumDescriptor* DigitalState_descriptor() {
   protobuf_IoArray_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
@@ -144,14 +144,14 @@ IoChannel::IoChannel()
   ::google::protobuf::internal::InitSCC(
       &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(constructor:blox_test.IoArray.IoChannel)
 }
 IoChannel::IoChannel(const IoChannel& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   id_ = from.id_;
-  // @@protoc_insertion_point(copy_constructor:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(copy_constructor:blox_test.IoArray.IoChannel)
 }
 
 void IoChannel::SharedCtor() {
@@ -159,7 +159,7 @@ void IoChannel::SharedCtor() {
 }
 
 IoChannel::~IoChannel() {
-  // @@protoc_insertion_point(destructor:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(destructor:blox_test.IoArray.IoChannel)
   SharedDtor();
 }
 
@@ -181,7 +181,7 @@ const IoChannel& IoChannel::default_instance() {
 
 
 void IoChannel::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.IoArray.IoChannel)
+// @@protoc_insertion_point(message_clear_start:blox_test.IoArray.IoChannel)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -194,13 +194,13 @@ bool IoChannel::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(parse_start:blox_test.IoArray.IoChannel)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 id = 1 [(.nanopb_test) = {
+      // uint32 id = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -226,21 +226,21 @@ bool IoChannel::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(parse_success:blox_test.IoArray.IoChannel)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(parse_failure:blox_test.IoArray.IoChannel)
   return false;
 #undef DO_
 }
 
 void IoChannel::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(serialize_start:blox_test.IoArray.IoChannel)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 id = 1 [(.nanopb_test) = {
+  // uint32 id = 1 [(.nanopb) = {
   if (this->id() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->id(), output);
   }
@@ -249,17 +249,17 @@ void IoChannel::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(serialize_end:blox_test.IoArray.IoChannel)
 }
 
 ::google::protobuf::uint8* IoChannel::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.IoArray.IoChannel)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 id = 1 [(.nanopb_test) = {
+  // uint32 id = 1 [(.nanopb) = {
   if (this->id() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->id(), target);
   }
@@ -268,12 +268,12 @@ void IoChannel::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.IoArray.IoChannel)
   return target;
 }
 
 size_t IoChannel::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.IoArray.IoChannel)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.IoArray.IoChannel)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -281,7 +281,7 @@ size_t IoChannel::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint32 id = 1 [(.nanopb_test) = {
+  // uint32 id = 1 [(.nanopb) = {
   if (this->id() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -294,22 +294,22 @@ size_t IoChannel::ByteSizeLong() const {
 }
 
 void IoChannel::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.IoArray.IoChannel)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.IoArray.IoChannel)
   GOOGLE_DCHECK_NE(&from, this);
   const IoChannel* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const IoChannel>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.IoArray.IoChannel)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.IoArray.IoChannel)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.IoArray.IoChannel)
     MergeFrom(*source);
   }
 }
 
 void IoChannel::MergeFrom(const IoChannel& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.IoArray.IoChannel)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.IoArray.IoChannel)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -321,14 +321,14 @@ void IoChannel::MergeFrom(const IoChannel& from) {
 }
 
 void IoChannel::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.IoArray.IoChannel)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.IoArray.IoChannel)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void IoChannel::CopyFrom(const IoChannel& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.IoArray.IoChannel)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.IoArray.IoChannel)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -356,11 +356,11 @@ void IoChannel::InternalSwap(IoChannel* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace IoArray
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::IoArray::IoChannel* Arena::CreateMaybeMessage< ::blox::IoArray::IoChannel >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::IoArray::IoChannel >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::IoArray::IoChannel* Arena::CreateMaybeMessage< ::blox_test::IoArray::IoChannel >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::IoArray::IoChannel >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

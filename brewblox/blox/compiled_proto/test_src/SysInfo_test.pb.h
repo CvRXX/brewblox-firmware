@@ -48,7 +48,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_SysInfo_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace SysInfo {
 class Block;
 class BlockDefaultTypeInternal;
@@ -57,14 +57,14 @@ class Trace;
 class TraceDefaultTypeInternal;
 extern TraceDefaultTypeInternal _Trace_default_instance_;
 }  // namespace SysInfo
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::SysInfo::Block* Arena::CreateMaybeMessage<::blox::SysInfo::Block>(Arena*);
-template<> ::blox::SysInfo::Trace* Arena::CreateMaybeMessage<::blox::SysInfo::Trace>(Arena*);
+template<> ::blox_test::SysInfo::Block* Arena::CreateMaybeMessage<::blox_test::SysInfo::Block>(Arena*);
+template<> ::blox_test::SysInfo::Trace* Arena::CreateMaybeMessage<::blox_test::SysInfo::Trace>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace SysInfo {
 
 enum Trace_Action {
@@ -166,7 +166,7 @@ inline bool Command_Parse(
 }
 // ===================================================================
 
-class Trace : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.SysInfo.Trace) */ {
+class Trace : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.SysInfo.Trace) */ {
  public:
   Trace();
   virtual ~Trace();
@@ -339,25 +339,25 @@ class Trace : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // .blox.SysInfo.Trace.Action action = 1;
+  // .blox_test.SysInfo.Trace.Action action = 1;
   void clear_action();
   static const int kActionFieldNumber = 1;
-  ::blox::SysInfo::Trace_Action action() const;
-  void set_action(::blox::SysInfo::Trace_Action value);
+  ::blox_test::SysInfo::Trace_Action action() const;
+  void set_action(::blox_test::SysInfo::Trace_Action value);
 
-  // uint32 id = 2 [(.nanopb_test) = {
+  // uint32 id = 2 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 2;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // uint32 type = 3 [(.nanopb_test) = {
+  // uint32 type = 3 [(.nanopb) = {
   void clear_type();
   static const int kTypeFieldNumber = 3;
   ::google::protobuf::uint32 type() const;
   void set_type(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.SysInfo.Trace)
+  // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Trace)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -369,7 +369,7 @@ class Trace : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.SysInfo.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.SysInfo.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -456,19 +456,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.SysInfo.Trace trace = 11 [(.nanopb_test) = {
+  // repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
   int trace_size() const;
   void clear_trace();
   static const int kTraceFieldNumber = 11;
-  ::blox::SysInfo::Trace* mutable_trace(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::SysInfo::Trace >*
+  ::blox_test::SysInfo::Trace* mutable_trace(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >*
       mutable_trace();
-  const ::blox::SysInfo::Trace& trace(int index) const;
-  ::blox::SysInfo::Trace* add_trace();
-  const ::google::protobuf::RepeatedPtrField< ::blox::SysInfo::Trace >&
+  const ::blox_test::SysInfo::Trace& trace(int index) const;
+  ::blox_test::SysInfo::Trace* add_trace();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >&
       trace() const;
 
-  // bytes deviceId = 1 [(.nanopb_test) = {
+  // bytes deviceId = 1 [(.nanopb) = {
   void clear_deviceid();
   static const int kDeviceIdFieldNumber = 1;
   const ::std::string& deviceid() const;
@@ -482,7 +482,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_deviceid();
   void set_allocated_deviceid(::std::string* deviceid);
 
-  // string version = 2 [(.nanopb_test) = {
+  // string version = 2 [(.nanopb) = {
   void clear_version();
   static const int kVersionFieldNumber = 2;
   const ::std::string& version() const;
@@ -496,7 +496,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_version();
   void set_allocated_version(::std::string* version);
 
-  // string protocolVersion = 7 [(.nanopb_test) = {
+  // string protocolVersion = 7 [(.nanopb) = {
   void clear_protocolversion();
   static const int kProtocolVersionFieldNumber = 7;
   const ::std::string& protocolversion() const;
@@ -510,7 +510,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_protocolversion();
   void set_allocated_protocolversion(::std::string* protocolversion);
 
-  // string releaseDate = 8 [(.nanopb_test) = {
+  // string releaseDate = 8 [(.nanopb) = {
   void clear_releasedate();
   static const int kReleaseDateFieldNumber = 8;
   const ::std::string& releasedate() const;
@@ -524,7 +524,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_releasedate();
   void set_allocated_releasedate(::std::string* releasedate);
 
-  // string protocolDate = 9 [(.nanopb_test) = {
+  // string protocolDate = 9 [(.nanopb) = {
   void clear_protocoldate();
   static const int kProtocolDateFieldNumber = 9;
   const ::std::string& protocoldate() const;
@@ -538,23 +538,23 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_protocoldate();
   void set_allocated_protocoldate(::std::string* protocoldate);
 
-  // .blox.SysInfo.Platform platform = 3 [(.brewblox_test) = {
+  // .blox_test.SysInfo.Platform platform = 3 [(.brewblox.field) = {
   void clear_platform();
   static const int kPlatformFieldNumber = 3;
-  ::blox::SysInfo::Platform platform() const;
-  void set_platform(::blox::SysInfo::Platform value);
+  ::blox_test::SysInfo::Platform platform() const;
+  void set_platform(::blox_test::SysInfo::Platform value);
 
-  // .blox.SysInfo.Command command = 10;
+  // .blox_test.SysInfo.Command command = 10;
   void clear_command();
   static const int kCommandFieldNumber = 10;
-  ::blox::SysInfo::Command command() const;
-  void set_command(::blox::SysInfo::Command value);
+  ::blox_test::SysInfo::Command command() const;
+  void set_command(::blox_test::SysInfo::Command value);
 
-  // @@protoc_insertion_point(class_scope:blox.SysInfo.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::SysInfo::Trace > trace_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace > trace_;
   ::google::protobuf::internal::ArenaStringPtr deviceid_;
   ::google::protobuf::internal::ArenaStringPtr version_;
   ::google::protobuf::internal::ArenaStringPtr protocolversion_;
@@ -576,92 +576,92 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Trace
 
-// .blox.SysInfo.Trace.Action action = 1;
+// .blox_test.SysInfo.Trace.Action action = 1;
 inline void Trace::clear_action() {
   action_ = 0;
 }
-inline ::blox::SysInfo::Trace_Action Trace::action() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Trace.action)
-  return static_cast< ::blox::SysInfo::Trace_Action >(action_);
+inline ::blox_test::SysInfo::Trace_Action Trace::action() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Trace.action)
+  return static_cast< ::blox_test::SysInfo::Trace_Action >(action_);
 }
-inline void Trace::set_action(::blox::SysInfo::Trace_Action value) {
+inline void Trace::set_action(::blox_test::SysInfo::Trace_Action value) {
   
   action_ = value;
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Trace.action)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Trace.action)
 }
 
-// uint32 id = 2 [(.nanopb_test) = {
+// uint32 id = 2 [(.nanopb) = {
 inline void Trace::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 Trace::id() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Trace.id)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Trace.id)
   return id_;
 }
 inline void Trace::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Trace.id)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Trace.id)
 }
 
-// uint32 type = 3 [(.nanopb_test) = {
+// uint32 type = 3 [(.nanopb) = {
 inline void Trace::clear_type() {
   type_ = 0u;
 }
 inline ::google::protobuf::uint32 Trace::type() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Trace.type)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Trace.type)
   return type_;
 }
 inline void Trace::set_type(::google::protobuf::uint32 value) {
   
   type_ = value;
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Trace.type)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Trace.type)
 }
 
 // -------------------------------------------------------------------
 
 // Block
 
-// bytes deviceId = 1 [(.nanopb_test) = {
+// bytes deviceId = 1 [(.nanopb) = {
 inline void Block::clear_deviceid() {
   deviceid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::deviceid() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.deviceId)
   return deviceid_.GetNoArena();
 }
 inline void Block::set_deviceid(const ::std::string& value) {
   
   deviceid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.deviceId)
 }
 #if LANG_CXX11
 inline void Block::set_deviceid(::std::string&& value) {
   
   deviceid_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.SysInfo.Block.deviceId)
 }
 #endif
 inline void Block::set_deviceid(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   deviceid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_set_char:blox_test.SysInfo.Block.deviceId)
 }
 inline void Block::set_deviceid(const void* value, size_t size) {
   
   deviceid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.SysInfo.Block.deviceId)
 }
 inline ::std::string* Block::mutable_deviceid() {
   
-  // @@protoc_insertion_point(field_mutable:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.deviceId)
   return deviceid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_deviceid() {
-  // @@protoc_insertion_point(field_release:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_release:blox_test.SysInfo.Block.deviceId)
   
   return deviceid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -672,49 +672,49 @@ inline void Block::set_allocated_deviceid(::std::string* deviceid) {
     
   }
   deviceid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), deviceid);
-  // @@protoc_insertion_point(field_set_allocated:blox.SysInfo.Block.deviceId)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.deviceId)
 }
 
-// string version = 2 [(.nanopb_test) = {
+// string version = 2 [(.nanopb) = {
 inline void Block::clear_version() {
   version_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::version() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.version)
   return version_.GetNoArena();
 }
 inline void Block::set_version(const ::std::string& value) {
   
   version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.version)
 }
 #if LANG_CXX11
 inline void Block::set_version(::std::string&& value) {
   
   version_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.SysInfo.Block.version)
 }
 #endif
 inline void Block::set_version(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_set_char:blox_test.SysInfo.Block.version)
 }
 inline void Block::set_version(const char* value, size_t size) {
   
   version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.SysInfo.Block.version)
 }
 inline ::std::string* Block::mutable_version() {
   
-  // @@protoc_insertion_point(field_mutable:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.version)
   return version_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_version() {
-  // @@protoc_insertion_point(field_release:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_release:blox_test.SysInfo.Block.version)
   
   return version_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -725,63 +725,63 @@ inline void Block::set_allocated_version(::std::string* version) {
     
   }
   version_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), version);
-  // @@protoc_insertion_point(field_set_allocated:blox.SysInfo.Block.version)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.version)
 }
 
-// .blox.SysInfo.Platform platform = 3 [(.brewblox_test) = {
+// .blox_test.SysInfo.Platform platform = 3 [(.brewblox.field) = {
 inline void Block::clear_platform() {
   platform_ = 0;
 }
-inline ::blox::SysInfo::Platform Block::platform() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.platform)
-  return static_cast< ::blox::SysInfo::Platform >(platform_);
+inline ::blox_test::SysInfo::Platform Block::platform() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.platform)
+  return static_cast< ::blox_test::SysInfo::Platform >(platform_);
 }
-inline void Block::set_platform(::blox::SysInfo::Platform value) {
+inline void Block::set_platform(::blox_test::SysInfo::Platform value) {
   
   platform_ = value;
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.platform)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.platform)
 }
 
-// string protocolVersion = 7 [(.nanopb_test) = {
+// string protocolVersion = 7 [(.nanopb) = {
 inline void Block::clear_protocolversion() {
   protocolversion_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::protocolversion() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.protocolVersion)
   return protocolversion_.GetNoArena();
 }
 inline void Block::set_protocolversion(const ::std::string& value) {
   
   protocolversion_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.protocolVersion)
 }
 #if LANG_CXX11
 inline void Block::set_protocolversion(::std::string&& value) {
   
   protocolversion_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.SysInfo.Block.protocolVersion)
 }
 #endif
 inline void Block::set_protocolversion(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   protocolversion_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_set_char:blox_test.SysInfo.Block.protocolVersion)
 }
 inline void Block::set_protocolversion(const char* value, size_t size) {
   
   protocolversion_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.SysInfo.Block.protocolVersion)
 }
 inline ::std::string* Block::mutable_protocolversion() {
   
-  // @@protoc_insertion_point(field_mutable:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.protocolVersion)
   return protocolversion_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_protocolversion() {
-  // @@protoc_insertion_point(field_release:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_release:blox_test.SysInfo.Block.protocolVersion)
   
   return protocolversion_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -792,49 +792,49 @@ inline void Block::set_allocated_protocolversion(::std::string* protocolversion)
     
   }
   protocolversion_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), protocolversion);
-  // @@protoc_insertion_point(field_set_allocated:blox.SysInfo.Block.protocolVersion)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.protocolVersion)
 }
 
-// string releaseDate = 8 [(.nanopb_test) = {
+// string releaseDate = 8 [(.nanopb) = {
 inline void Block::clear_releasedate() {
   releasedate_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::releasedate() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.releaseDate)
   return releasedate_.GetNoArena();
 }
 inline void Block::set_releasedate(const ::std::string& value) {
   
   releasedate_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.releaseDate)
 }
 #if LANG_CXX11
 inline void Block::set_releasedate(::std::string&& value) {
   
   releasedate_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.SysInfo.Block.releaseDate)
 }
 #endif
 inline void Block::set_releasedate(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   releasedate_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_set_char:blox_test.SysInfo.Block.releaseDate)
 }
 inline void Block::set_releasedate(const char* value, size_t size) {
   
   releasedate_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.SysInfo.Block.releaseDate)
 }
 inline ::std::string* Block::mutable_releasedate() {
   
-  // @@protoc_insertion_point(field_mutable:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.releaseDate)
   return releasedate_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_releasedate() {
-  // @@protoc_insertion_point(field_release:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_release:blox_test.SysInfo.Block.releaseDate)
   
   return releasedate_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -845,49 +845,49 @@ inline void Block::set_allocated_releasedate(::std::string* releasedate) {
     
   }
   releasedate_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), releasedate);
-  // @@protoc_insertion_point(field_set_allocated:blox.SysInfo.Block.releaseDate)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.releaseDate)
 }
 
-// string protocolDate = 9 [(.nanopb_test) = {
+// string protocolDate = 9 [(.nanopb) = {
 inline void Block::clear_protocoldate() {
   protocoldate_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::protocoldate() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.protocolDate)
   return protocoldate_.GetNoArena();
 }
 inline void Block::set_protocoldate(const ::std::string& value) {
   
   protocoldate_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.protocolDate)
 }
 #if LANG_CXX11
 inline void Block::set_protocoldate(::std::string&& value) {
   
   protocoldate_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.SysInfo.Block.protocolDate)
 }
 #endif
 inline void Block::set_protocoldate(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   protocoldate_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_set_char:blox_test.SysInfo.Block.protocolDate)
 }
 inline void Block::set_protocoldate(const char* value, size_t size) {
   
   protocoldate_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.SysInfo.Block.protocolDate)
 }
 inline ::std::string* Block::mutable_protocoldate() {
   
-  // @@protoc_insertion_point(field_mutable:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.protocolDate)
   return protocoldate_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_protocoldate() {
-  // @@protoc_insertion_point(field_release:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_release:blox_test.SysInfo.Block.protocolDate)
   
   return protocoldate_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -898,50 +898,50 @@ inline void Block::set_allocated_protocoldate(::std::string* protocoldate) {
     
   }
   protocoldate_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), protocoldate);
-  // @@protoc_insertion_point(field_set_allocated:blox.SysInfo.Block.protocolDate)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.protocolDate)
 }
 
-// .blox.SysInfo.Command command = 10;
+// .blox_test.SysInfo.Command command = 10;
 inline void Block::clear_command() {
   command_ = 0;
 }
-inline ::blox::SysInfo::Command Block::command() const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.command)
-  return static_cast< ::blox::SysInfo::Command >(command_);
+inline ::blox_test::SysInfo::Command Block::command() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.command)
+  return static_cast< ::blox_test::SysInfo::Command >(command_);
 }
-inline void Block::set_command(::blox::SysInfo::Command value) {
+inline void Block::set_command(::blox_test::SysInfo::Command value) {
   
   command_ = value;
-  // @@protoc_insertion_point(field_set:blox.SysInfo.Block.command)
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.command)
 }
 
-// repeated .blox.SysInfo.Trace trace = 11 [(.nanopb_test) = {
+// repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
 inline int Block::trace_size() const {
   return trace_.size();
 }
 inline void Block::clear_trace() {
   trace_.Clear();
 }
-inline ::blox::SysInfo::Trace* Block::mutable_trace(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.SysInfo.Block.trace)
+inline ::blox_test::SysInfo::Trace* Block::mutable_trace(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.trace)
   return trace_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::SysInfo::Trace >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >*
 Block::mutable_trace() {
-  // @@protoc_insertion_point(field_mutable_list:blox.SysInfo.Block.trace)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.SysInfo.Block.trace)
   return &trace_;
 }
-inline const ::blox::SysInfo::Trace& Block::trace(int index) const {
-  // @@protoc_insertion_point(field_get:blox.SysInfo.Block.trace)
+inline const ::blox_test::SysInfo::Trace& Block::trace(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.trace)
   return trace_.Get(index);
 }
-inline ::blox::SysInfo::Trace* Block::add_trace() {
-  // @@protoc_insertion_point(field_add:blox.SysInfo.Block.trace)
+inline ::blox_test::SysInfo::Trace* Block::add_trace() {
+  // @@protoc_insertion_point(field_add:blox_test.SysInfo.Block.trace)
   return trace_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::SysInfo::Trace >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >&
 Block::trace() const {
-  // @@protoc_insertion_point(field_list:blox.SysInfo.Block.trace)
+  // @@protoc_insertion_point(field_list:blox_test.SysInfo.Block.trace)
   return trace_;
 }
 
@@ -954,25 +954,25 @@ Block::trace() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace SysInfo
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::SysInfo::Trace_Action> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::SysInfo::Trace_Action> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::SysInfo::Trace_Action>() {
-  return ::blox::SysInfo::Trace_Action_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::Trace_Action>() {
+  return ::blox_test::SysInfo::Trace_Action_descriptor();
 }
-template <> struct is_proto_enum< ::blox::SysInfo::Platform> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::SysInfo::Platform> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::SysInfo::Platform>() {
-  return ::blox::SysInfo::Platform_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::Platform>() {
+  return ::blox_test::SysInfo::Platform_descriptor();
 }
-template <> struct is_proto_enum< ::blox::SysInfo::Command> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::SysInfo::Command> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::SysInfo::Command>() {
-  return ::blox::SysInfo::Command_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::Command>() {
+  return ::blox_test::SysInfo::Command_descriptor();
 }
 
 }  // namespace protobuf

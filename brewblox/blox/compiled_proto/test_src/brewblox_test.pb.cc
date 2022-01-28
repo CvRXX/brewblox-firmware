@@ -23,6 +23,7 @@ namespace protobuf_brewblox_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_brewblox_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_FieldOpts;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_brewblox_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_MessageOpts;
 }  // namespace protobuf_brewblox_5ftest_2eproto
+namespace brewblox {
 class MessageOptsDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<MessageOpts>
@@ -33,16 +34,17 @@ class FieldOptsDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<FieldOpts>
       _instance;
 } _FieldOpts_default_instance_;
+}  // namespace brewblox
 namespace protobuf_brewblox_5ftest_2eproto {
 static void InitDefaultsMessageOpts() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_MessageOpts_default_instance_;
-    new (ptr) ::MessageOpts();
+    void* ptr = &::brewblox::_MessageOpts_default_instance_;
+    new (ptr) ::brewblox::MessageOpts();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::MessageOpts::InitAsDefaultInstance();
+  ::brewblox::MessageOpts::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_MessageOpts =
@@ -52,11 +54,11 @@ static void InitDefaultsFieldOpts() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_FieldOpts_default_instance_;
-    new (ptr) ::FieldOpts();
+    void* ptr = &::brewblox::_FieldOpts_default_instance_;
+    new (ptr) ::brewblox::FieldOpts();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::FieldOpts::InitAsDefaultInstance();
+  ::brewblox::FieldOpts::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_FieldOpts =
@@ -72,37 +74,37 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MessageOpts, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::MessageOpts, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MessageOpts, objtype_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MessageOpts, impl_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::MessageOpts, subtype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::MessageOpts, objtype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::MessageOpts, impl_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::MessageOpts, subtype_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, unit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, scale_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, objtype_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, hexed_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, readonly_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, logged_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, hexstr_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, driven_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, ignored_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::FieldOpts, bitfield_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, unit_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, scale_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, objtype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, hexed_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, readonly_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, logged_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, hexstr_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, driven_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, ignored_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, bitfield_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::MessageOpts)},
-  { 8, -1, sizeof(::FieldOpts)},
+  { 0, -1, sizeof(::brewblox::MessageOpts)},
+  { 8, -1, sizeof(::brewblox::FieldOpts)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_MessageOpts_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_FieldOpts_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::brewblox::_MessageOpts_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::brewblox::_FieldOpts_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -126,53 +128,54 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\023brewblox_test.proto\032 google/protobuf/d"
-      "escriptor.proto\032\021nanopb_test.proto\"j\n\013Me"
-      "ssageOpts\022\033\n\007objtype\030\003 \001(\0162\n.BlockType\022\037"
-      "\n\004impl\030\t \003(\0162\n.BlockTypeB\005\222\?\002\020\005\022\026\n\007subty"
-      "pe\030\013 \001(\rB\005\222\?\0028\020:\005\222\?\0020\001\"\313\001\n\tFieldOpts\022\027\n\004"
-      "unit\030\001 \001(\0162\t.UnitType\022\r\n\005scale\030\002 \001(\r\022\033\n\007"
-      "objtype\030\003 \001(\0162\n.BlockType\022\r\n\005hexed\030\004 \001(\010"
-      "\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001(\010\022\016\n\006he"
-      "xstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007ignored\030\t "
-      "\001(\010\022\020\n\010bitfield\030\n \001(\010:\005\222\?\0020\001*\214\002\n\010UnitTyp"
-      "e\022\n\n\006NotSet\020\000\022\013\n\007Celsius\020\001\022\022\n\016InverseCel"
-      "sius\020\002\022\n\n\006Second\020\003\022\n\n\006Minute\020\004\022\010\n\004Hour\020\005"
-      "\022\020\n\014DeltaCelsius\020\006\022\031\n\025DeltaCelsiusPerSec"
-      "ond\020\007\022\031\n\025DeltaCelsiusPerMinute\020\010\022\027\n\023Delt"
-      "aCelsiusPerHour\020\t\022\032\n\026DeltaCelsiusMultSec"
-      "ond\020\n\022\032\n\026DeltaCelsiusMultMinute\020\013\022\030\n\024Del"
-      "taCelsiusMultHour\020\014*\212\007\n\tBlockType\022\013\n\007Inv"
-      "alid\020\000\022\031\n\025ProcessValueInterface\020\001\022\027\n\023Tem"
-      "pSensorInterface\020\002\022\037\n\033SetpointSensorPair"
-      "Interface\020\004\022\033\n\027ActuatorAnalogInterface\020\005"
-      "\022\034\n\030ActuatorDigitalInterface\020\006\022\025\n\021Balanc"
-      "erInterface\020\007\022\022\n\016MutexInterface\020\010\022\032\n\026One"
-      "WireDeviceInterface\020\t\022\024\n\020IoArrayInterfac"
-      "e\020\n\022\023\n\017DS2408Interface\020\013\022\027\n\023OneWireBusIn"
-      "terface\020\014\022\025\n\021IoModuleInterface\020\r\022\037\n\033OneW"
-      "ireDeviceBlockInterface\020\016\022\010\n\003Any\020\377\001\022\014\n\007S"
-      "ysInfo\020\200\002\022\n\n\005Ticks\020\201\002\022\017\n\nOneWireBus\020\202\002\022\016"
-      "\n\tBoardPins\020\203\002\022\023\n\016TempSensorMock\020\255\002\022\026\n\021T"
-      "empSensorOneWire\020\256\002\022\027\n\022SetpointSensorPai"
-      "r\020\257\002\022\010\n\003Pid\020\260\002\022\027\n\022ActuatorAnalogMock\020\261\002\022"
-      "\020\n\013ActuatorPin\020\262\002\022\020\n\013ActuatorPwm\020\263\002\022\023\n\016A"
-      "ctuatorOffset\020\264\002\022\r\n\010Balancer\020\265\002\022\n\n\005Mutex"
-      "\020\266\002\022\024\n\017SetpointProfile\020\267\002\022\021\n\014WiFiSetting"
-      "s\020\270\002\022\022\n\rTouchSettings\020\271\002\022\024\n\017DisplaySetti"
-      "ngs\020\272\002\022\013\n\006DS2413\020\273\002\022\024\n\017ActuatorOneWire\020\274"
-      "\002\022\013\n\006DS2408\020\275\002\022\024\n\017DigitalActuator\020\276\002\022\017\n\n"
-      "Spark3Pins\020\277\002\022\017\n\nSpark2Pins\020\300\002\022\017\n\nMotorV"
-      "alve\020\301\002\022\022\n\rActuatorLogic\020\302\002\022\r\n\010MockPins\020"
-      "\303\002\022\024\n\017TempSensorCombi\020\304\002\022\026\n\021OneWireGpioM"
-      "odule\020\305\002:I\n\rbrewblox_test\022\035.google.proto"
-      "buf.FieldOptions\030\321\206\003 \001(\0132\n.FieldOptsB\005\222\?"
-      "\002\030\003:Q\n\021brewblox_test_msg\022\037.google.protob"
-      "uf.MessageOptions\030\321\206\003 \001(\0132\014.MessageOptsB"
-      "\005\222\?\002\030\003b\006proto3"
+      "\n\023brewblox_test.proto\022\010brewblox\032 google/"
+      "protobuf/descriptor.proto\032\021nanopb_test.p"
+      "roto\"|\n\013MessageOpts\022$\n\007objtype\030\003 \001(\0162\023.b"
+      "rewblox.BlockType\022(\n\004impl\030\t \003(\0162\023.brewbl"
+      "ox.BlockTypeB\005\222\?\002\020\005\022\026\n\007subtype\030\013 \001(\rB\005\222\?"
+      "\0028\020:\005\222\?\0020\001\"\335\001\n\tFieldOpts\022 \n\004unit\030\001 \001(\0162\022"
+      ".brewblox.UnitType\022\r\n\005scale\030\002 \001(\r\022$\n\007obj"
+      "type\030\003 \001(\0162\023.brewblox.BlockType\022\r\n\005hexed"
+      "\030\004 \001(\010\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001(\010"
+      "\022\016\n\006hexstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007igno"
+      "red\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010:\005\222\?\0020\001*\214\002\n\010U"
+      "nitType\022\n\n\006NotSet\020\000\022\013\n\007Celsius\020\001\022\022\n\016Inve"
+      "rseCelsius\020\002\022\n\n\006Second\020\003\022\n\n\006Minute\020\004\022\010\n\004"
+      "Hour\020\005\022\020\n\014DeltaCelsius\020\006\022\031\n\025DeltaCelsius"
+      "PerSecond\020\007\022\031\n\025DeltaCelsiusPerMinute\020\010\022\027"
+      "\n\023DeltaCelsiusPerHour\020\t\022\032\n\026DeltaCelsiusM"
+      "ultSecond\020\n\022\032\n\026DeltaCelsiusMultMinute\020\013\022"
+      "\030\n\024DeltaCelsiusMultHour\020\014*\212\007\n\tBlockType\022"
+      "\013\n\007Invalid\020\000\022\031\n\025ProcessValueInterface\020\001\022"
+      "\027\n\023TempSensorInterface\020\002\022\037\n\033SetpointSens"
+      "orPairInterface\020\004\022\033\n\027ActuatorAnalogInter"
+      "face\020\005\022\034\n\030ActuatorDigitalInterface\020\006\022\025\n\021"
+      "BalancerInterface\020\007\022\022\n\016MutexInterface\020\010\022"
+      "\032\n\026OneWireDeviceInterface\020\t\022\024\n\020IoArrayIn"
+      "terface\020\n\022\023\n\017DS2408Interface\020\013\022\027\n\023OneWir"
+      "eBusInterface\020\014\022\025\n\021IoModuleInterface\020\r\022\037"
+      "\n\033OneWireDeviceBlockInterface\020\016\022\010\n\003Any\020\377"
+      "\001\022\014\n\007SysInfo\020\200\002\022\n\n\005Ticks\020\201\002\022\017\n\nOneWireBu"
+      "s\020\202\002\022\016\n\tBoardPins\020\203\002\022\023\n\016TempSensorMock\020\255"
+      "\002\022\026\n\021TempSensorOneWire\020\256\002\022\027\n\022SetpointSen"
+      "sorPair\020\257\002\022\010\n\003Pid\020\260\002\022\027\n\022ActuatorAnalogMo"
+      "ck\020\261\002\022\020\n\013ActuatorPin\020\262\002\022\020\n\013ActuatorPwm\020\263"
+      "\002\022\023\n\016ActuatorOffset\020\264\002\022\r\n\010Balancer\020\265\002\022\n\n"
+      "\005Mutex\020\266\002\022\024\n\017SetpointProfile\020\267\002\022\021\n\014WiFiS"
+      "ettings\020\270\002\022\022\n\rTouchSettings\020\271\002\022\024\n\017Displa"
+      "ySettings\020\272\002\022\013\n\006DS2413\020\273\002\022\024\n\017ActuatorOne"
+      "Wire\020\274\002\022\013\n\006DS2408\020\275\002\022\024\n\017DigitalActuator\020"
+      "\276\002\022\017\n\nSpark3Pins\020\277\002\022\017\n\nSpark2Pins\020\300\002\022\017\n\n"
+      "MotorValve\020\301\002\022\022\n\rActuatorLogic\020\302\002\022\r\n\010Moc"
+      "kPins\020\303\002\022\024\n\017TempSensorCombi\020\304\002\022\026\n\021OneWir"
+      "eGpioModule\020\305\002:J\n\005field\022\035.google.protobu"
+      "f.FieldOptions\030\321\206\003 \001(\0132\023.brewblox.FieldO"
+      "ptsB\005\222\?\002\030\003:L\n\003msg\022\037.google.protobuf.Mess"
+      "ageOptions\030\321\206\003 \001(\0132\025.brewblox.MessageOpt"
+      "sB\005\222\?\002\030\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1734);
+      descriptor, 1776);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "brewblox_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -190,6 +193,7 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_brewblox_5ftest_2eproto
+namespace brewblox {
 const ::google::protobuf::EnumDescriptor* UnitType_descriptor() {
   protobuf_brewblox_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_brewblox_5ftest_2eproto::file_level_enum_descriptors[0];
@@ -287,7 +291,7 @@ MessageOpts::MessageOpts()
   ::google::protobuf::internal::InitSCC(
       &protobuf_brewblox_5ftest_2eproto::scc_info_MessageOpts.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:MessageOpts)
+  // @@protoc_insertion_point(constructor:brewblox.MessageOpts)
 }
 MessageOpts::MessageOpts(const MessageOpts& from)
   : ::google::protobuf::Message(),
@@ -297,7 +301,7 @@ MessageOpts::MessageOpts(const MessageOpts& from)
   ::memcpy(&objtype_, &from.objtype_,
     static_cast<size_t>(reinterpret_cast<char*>(&subtype_) -
     reinterpret_cast<char*>(&objtype_)) + sizeof(subtype_));
-  // @@protoc_insertion_point(copy_constructor:MessageOpts)
+  // @@protoc_insertion_point(copy_constructor:brewblox.MessageOpts)
 }
 
 void MessageOpts::SharedCtor() {
@@ -307,7 +311,7 @@ void MessageOpts::SharedCtor() {
 }
 
 MessageOpts::~MessageOpts() {
-  // @@protoc_insertion_point(destructor:MessageOpts)
+  // @@protoc_insertion_point(destructor:brewblox.MessageOpts)
   SharedDtor();
 }
 
@@ -329,7 +333,7 @@ const MessageOpts& MessageOpts::default_instance() {
 
 
 void MessageOpts::Clear() {
-// @@protoc_insertion_point(message_clear_start:MessageOpts)
+// @@protoc_insertion_point(message_clear_start:brewblox.MessageOpts)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -345,13 +349,13 @@ bool MessageOpts::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:MessageOpts)
+  // @@protoc_insertion_point(parse_start:brewblox.MessageOpts)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .BlockType objtype = 3;
+      // .brewblox.BlockType objtype = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -359,14 +363,14 @@ bool MessageOpts::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_objtype(static_cast< ::BlockType >(value));
+          set_objtype(static_cast< ::brewblox::BlockType >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated .BlockType impl = 9 [(.nanopb_test) = {
+      // repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
@@ -378,7 +382,7 @@ bool MessageOpts::MergePartialFromCodedStream(
             DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-            add_impl(static_cast< ::BlockType >(value));
+            add_impl(static_cast< ::brewblox::BlockType >(value));
           }
           input->PopLimit(limit);
         } else if (
@@ -388,14 +392,14 @@ bool MessageOpts::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          add_impl(static_cast< ::BlockType >(value));
+          add_impl(static_cast< ::brewblox::BlockType >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // uint32 subtype = 11 [(.nanopb_test) = {
+      // uint32 subtype = 11 [(.nanopb) = {
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
@@ -421,27 +425,27 @@ bool MessageOpts::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:MessageOpts)
+  // @@protoc_insertion_point(parse_success:brewblox.MessageOpts)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:MessageOpts)
+  // @@protoc_insertion_point(parse_failure:brewblox.MessageOpts)
   return false;
 #undef DO_
 }
 
 void MessageOpts::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:MessageOpts)
+  // @@protoc_insertion_point(serialize_start:brewblox.MessageOpts)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   if (this->objtype() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->objtype(), output);
   }
 
-  // repeated .BlockType impl = 9 [(.nanopb_test) = {
+  // repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
   if (this->impl_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(
       9,
@@ -455,7 +459,7 @@ void MessageOpts::SerializeWithCachedSizes(
       this->impl(i), output);
   }
 
-  // uint32 subtype = 11 [(.nanopb_test) = {
+  // uint32 subtype = 11 [(.nanopb) = {
   if (this->subtype() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->subtype(), output);
   }
@@ -464,23 +468,23 @@ void MessageOpts::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:MessageOpts)
+  // @@protoc_insertion_point(serialize_end:brewblox.MessageOpts)
 }
 
 ::google::protobuf::uint8* MessageOpts::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:MessageOpts)
+  // @@protoc_insertion_point(serialize_to_array_start:brewblox.MessageOpts)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   if (this->objtype() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       3, this->objtype(), target);
   }
 
-  // repeated .BlockType impl = 9 [(.nanopb_test) = {
+  // repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
   if (this->impl_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       9,
@@ -492,7 +496,7 @@ void MessageOpts::SerializeWithCachedSizes(
       this->impl_, target);
   }
 
-  // uint32 subtype = 11 [(.nanopb_test) = {
+  // uint32 subtype = 11 [(.nanopb) = {
   if (this->subtype() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->subtype(), target);
   }
@@ -501,12 +505,12 @@ void MessageOpts::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:MessageOpts)
+  // @@protoc_insertion_point(serialize_to_array_end:brewblox.MessageOpts)
   return target;
 }
 
 size_t MessageOpts::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:MessageOpts)
+// @@protoc_insertion_point(message_byte_size_start:brewblox.MessageOpts)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -514,7 +518,7 @@ size_t MessageOpts::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .BlockType impl = 9 [(.nanopb_test) = {
+  // repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
   {
     size_t data_size = 0;
     unsigned int count = static_cast<unsigned int>(this->impl_size());for (unsigned int i = 0; i < count; i++) {
@@ -533,13 +537,13 @@ size_t MessageOpts::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   if (this->objtype() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->objtype());
   }
 
-  // uint32 subtype = 11 [(.nanopb_test) = {
+  // uint32 subtype = 11 [(.nanopb) = {
   if (this->subtype() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -552,22 +556,22 @@ size_t MessageOpts::ByteSizeLong() const {
 }
 
 void MessageOpts::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:MessageOpts)
+// @@protoc_insertion_point(generalized_merge_from_start:brewblox.MessageOpts)
   GOOGLE_DCHECK_NE(&from, this);
   const MessageOpts* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const MessageOpts>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:MessageOpts)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:brewblox.MessageOpts)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:MessageOpts)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:brewblox.MessageOpts)
     MergeFrom(*source);
   }
 }
 
 void MessageOpts::MergeFrom(const MessageOpts& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:MessageOpts)
+// @@protoc_insertion_point(class_specific_merge_from_start:brewblox.MessageOpts)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -583,14 +587,14 @@ void MessageOpts::MergeFrom(const MessageOpts& from) {
 }
 
 void MessageOpts::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:MessageOpts)
+// @@protoc_insertion_point(generalized_copy_from_start:brewblox.MessageOpts)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void MessageOpts::CopyFrom(const MessageOpts& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:MessageOpts)
+// @@protoc_insertion_point(class_specific_copy_from_start:brewblox.MessageOpts)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -640,7 +644,7 @@ FieldOpts::FieldOpts()
   ::google::protobuf::internal::InitSCC(
       &protobuf_brewblox_5ftest_2eproto::scc_info_FieldOpts.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:FieldOpts)
+  // @@protoc_insertion_point(constructor:brewblox.FieldOpts)
 }
 FieldOpts::FieldOpts(const FieldOpts& from)
   : ::google::protobuf::Message(),
@@ -649,7 +653,7 @@ FieldOpts::FieldOpts(const FieldOpts& from)
   ::memcpy(&unit_, &from.unit_,
     static_cast<size_t>(reinterpret_cast<char*>(&bitfield_) -
     reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
-  // @@protoc_insertion_point(copy_constructor:FieldOpts)
+  // @@protoc_insertion_point(copy_constructor:brewblox.FieldOpts)
 }
 
 void FieldOpts::SharedCtor() {
@@ -659,7 +663,7 @@ void FieldOpts::SharedCtor() {
 }
 
 FieldOpts::~FieldOpts() {
-  // @@protoc_insertion_point(destructor:FieldOpts)
+  // @@protoc_insertion_point(destructor:brewblox.FieldOpts)
   SharedDtor();
 }
 
@@ -681,7 +685,7 @@ const FieldOpts& FieldOpts::default_instance() {
 
 
 void FieldOpts::Clear() {
-// @@protoc_insertion_point(message_clear_start:FieldOpts)
+// @@protoc_insertion_point(message_clear_start:brewblox.FieldOpts)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -696,13 +700,13 @@ bool FieldOpts::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:FieldOpts)
+  // @@protoc_insertion_point(parse_start:brewblox.FieldOpts)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .UnitType unit = 1;
+      // .brewblox.UnitType unit = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -710,7 +714,7 @@ bool FieldOpts::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_unit(static_cast< ::UnitType >(value));
+          set_unit(static_cast< ::brewblox::UnitType >(value));
         } else {
           goto handle_unusual;
         }
@@ -731,7 +735,7 @@ bool FieldOpts::MergePartialFromCodedStream(
         break;
       }
 
-      // .BlockType objtype = 3;
+      // .brewblox.BlockType objtype = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -739,7 +743,7 @@ bool FieldOpts::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_objtype(static_cast< ::BlockType >(value));
+          set_objtype(static_cast< ::brewblox::BlockType >(value));
         } else {
           goto handle_unusual;
         }
@@ -856,21 +860,21 @@ bool FieldOpts::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:FieldOpts)
+  // @@protoc_insertion_point(parse_success:brewblox.FieldOpts)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:FieldOpts)
+  // @@protoc_insertion_point(parse_failure:brewblox.FieldOpts)
   return false;
 #undef DO_
 }
 
 void FieldOpts::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:FieldOpts)
+  // @@protoc_insertion_point(serialize_start:brewblox.FieldOpts)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .UnitType unit = 1;
+  // .brewblox.UnitType unit = 1;
   if (this->unit() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->unit(), output);
@@ -881,7 +885,7 @@ void FieldOpts::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->scale(), output);
   }
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   if (this->objtype() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->objtype(), output);
@@ -926,17 +930,17 @@ void FieldOpts::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:FieldOpts)
+  // @@protoc_insertion_point(serialize_end:brewblox.FieldOpts)
 }
 
 ::google::protobuf::uint8* FieldOpts::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:FieldOpts)
+  // @@protoc_insertion_point(serialize_to_array_start:brewblox.FieldOpts)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .UnitType unit = 1;
+  // .brewblox.UnitType unit = 1;
   if (this->unit() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->unit(), target);
@@ -947,7 +951,7 @@ void FieldOpts::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->scale(), target);
   }
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   if (this->objtype() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       3, this->objtype(), target);
@@ -992,12 +996,12 @@ void FieldOpts::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:FieldOpts)
+  // @@protoc_insertion_point(serialize_to_array_end:brewblox.FieldOpts)
   return target;
 }
 
 size_t FieldOpts::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:FieldOpts)
+// @@protoc_insertion_point(message_byte_size_start:brewblox.FieldOpts)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1005,7 +1009,7 @@ size_t FieldOpts::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .UnitType unit = 1;
+  // .brewblox.UnitType unit = 1;
   if (this->unit() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->unit());
@@ -1018,7 +1022,7 @@ size_t FieldOpts::ByteSizeLong() const {
         this->scale());
   }
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   if (this->objtype() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->objtype());
@@ -1065,22 +1069,22 @@ size_t FieldOpts::ByteSizeLong() const {
 }
 
 void FieldOpts::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:FieldOpts)
+// @@protoc_insertion_point(generalized_merge_from_start:brewblox.FieldOpts)
   GOOGLE_DCHECK_NE(&from, this);
   const FieldOpts* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const FieldOpts>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:FieldOpts)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:brewblox.FieldOpts)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:FieldOpts)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:brewblox.FieldOpts)
     MergeFrom(*source);
   }
 }
 
 void FieldOpts::MergeFrom(const FieldOpts& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:FieldOpts)
+// @@protoc_insertion_point(class_specific_merge_from_start:brewblox.FieldOpts)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1119,14 +1123,14 @@ void FieldOpts::MergeFrom(const FieldOpts& from) {
 }
 
 void FieldOpts::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:FieldOpts)
+// @@protoc_insertion_point(generalized_copy_from_start:brewblox.FieldOpts)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void FieldOpts::CopyFrom(const FieldOpts& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:FieldOpts)
+// @@protoc_insertion_point(class_specific_copy_from_start:brewblox.FieldOpts)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1161,20 +1165,21 @@ void FieldOpts::InternalSwap(FieldOpts* other) {
 }
 
 ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::FieldOpts >, 11, false >
-  brewblox_test(kBrewbloxTestFieldNumber, *::FieldOpts::internal_default_instance());
+    ::google::protobuf::internal::MessageTypeTraits< ::brewblox::FieldOpts >, 11, false >
+  field(kFieldFieldNumber, *::brewblox::FieldOpts::internal_default_instance());
 ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::MessageOpts >, 11, false >
-  brewblox_test_msg(kBrewbloxTestMsgFieldNumber, *::MessageOpts::internal_default_instance());
+    ::google::protobuf::internal::MessageTypeTraits< ::brewblox::MessageOpts >, 11, false >
+  msg(kMsgFieldNumber, *::brewblox::MessageOpts::internal_default_instance());
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace brewblox
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::MessageOpts* Arena::CreateMaybeMessage< ::MessageOpts >(Arena* arena) {
-  return Arena::CreateInternal< ::MessageOpts >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::brewblox::MessageOpts* Arena::CreateMaybeMessage< ::brewblox::MessageOpts >(Arena* arena) {
+  return Arena::CreateInternal< ::brewblox::MessageOpts >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::FieldOpts* Arena::CreateMaybeMessage< ::FieldOpts >(Arena* arena) {
-  return Arena::CreateInternal< ::FieldOpts >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::brewblox::FieldOpts* Arena::CreateMaybeMessage< ::brewblox::FieldOpts >(Arena* arena) {
+  return Arena::CreateInternal< ::brewblox::FieldOpts >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

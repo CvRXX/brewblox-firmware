@@ -58,7 +58,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
         testBox.put(uint8_t(0xFF));
         testBox.put(DS2413Block::staticTypeId());
 
-        auto message = blox::DS2413();
+        auto message = blox_test::DS2413::Block();
         message.set_address(0x0644'4444'4444'443A);
         message.set_onewirebusid(4);
 
@@ -70,7 +70,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
         testBox.put(commands::READ_OBJECT);
         testBox.put(cbox::obj_id_t(ds2413Id));
 
-        auto decoded = blox::DS2413();
+        auto decoded = blox_test::DS2413::Block();
         testBox.processInputToProto(decoded);
 
         THEN("The returned protobuf data is as expected")
@@ -95,10 +95,10 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
             testBox.put(uint8_t(0xFF));
             testBox.put(DigitalActuatorBlock::staticTypeId());
 
-            auto message = blox::DigitalActuator();
+            auto message = blox_test::DigitalActuator::Block();
             message.set_hwdevice(ds2413Id);
             message.set_channel(1);
-            message.set_desiredstate(blox::DigitalState::Active);
+            message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
             testBox.put(message);
 
@@ -111,7 +111,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(actId));
 
-                auto decoded = blox::DigitalActuator();
+                auto decoded = blox_test::DigitalActuator::Block();
                 testBox.processInputToProto(decoded);
 
                 CHECK(decoded.ShortDebugString() == "hwDevice: 100 channel: 1 state: STATE_ACTIVE desiredState: STATE_ACTIVE");
@@ -122,7 +122,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(ds2413Id));
 
-                auto decoded = blox::DS2413();
+                auto decoded = blox_test::DS2413::Block();
                 testBox.processInputToProto(decoded);
 
                 // DS2413 proto doesn't change when channels are used, but leaving this here for when we change our mind
@@ -140,10 +140,10 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
             testBox.put(uint8_t(0xFF));
             testBox.put(DigitalActuatorBlock::staticTypeId());
 
-            auto message = blox::DigitalActuator();
+            auto message = blox_test::DigitalActuator::Block();
             message.set_hwdevice(ds2413Id2);
             message.set_channel(1);
-            message.set_desiredstate(blox::DigitalState::Active);
+            message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
             testBox.put(message);
 
@@ -156,7 +156,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(actId));
 
-                auto decoded = blox::DigitalActuator();
+                auto decoded = blox_test::DigitalActuator::Block();
                 testBox.processInputToProto(decoded);
 
                 // in simulation, the hw device will not work and therefore the state will be unknown
@@ -183,7 +183,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
         testBox.put(uint8_t(0xFF));
         testBox.put(MockPinsBlock::staticTypeId());
 
-        auto message = blox::MockPins();
+        auto message = blox_test::MockPins::Block();
 
         testBox.put(message);
 
@@ -193,7 +193,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
         testBox.put(commands::READ_OBJECT);
         testBox.put(cbox::obj_id_t(arrayId));
 
-        auto decoded = blox::MockPins();
+        auto decoded = blox_test::MockPins::Block();
         testBox.processInputToProto(decoded);
 
         THEN("The returned mock protobuf data is as expected")
@@ -210,10 +210,10 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
             testBox.put(uint8_t(0xFF));
             testBox.put(DigitalActuatorBlock::staticTypeId());
 
-            auto message = blox::DigitalActuator();
+            auto message = blox_test::DigitalActuator::Block();
             message.set_hwdevice(arrayId);
             message.set_channel(1);
-            message.set_desiredstate(blox::DigitalState::Active);
+            message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
             testBox.put(message);
 
@@ -226,7 +226,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(actId));
 
-                auto decoded = blox::DigitalActuator();
+                auto decoded = blox_test::DigitalActuator::Block();
                 testBox.processInputToProto(decoded);
 
                 CHECK(decoded.ShortDebugString() == "hwDevice: 100 channel: 1 state: STATE_ACTIVE desiredState: STATE_ACTIVE");
@@ -237,7 +237,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(arrayId));
 
-                auto decoded = blox::MockPins();
+                auto decoded = blox_test::MockPins::Block();
                 testBox.processInputToProto(decoded);
 
                 // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind

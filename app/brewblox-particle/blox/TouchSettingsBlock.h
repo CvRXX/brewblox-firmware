@@ -24,7 +24,7 @@
 #include "cbox/DataStream.h"
 
 // provides a protobuf interface to the read only system info
-class TouchSettingsBlock : public cbox::ObjectBase<BlockType_TouchSettings> {
+class TouchSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_TouchSettings> {
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;

@@ -25,7 +25,7 @@
 
 class OneWire;
 
-class DS2413Block : public Block<BlockType_DS2413>, public OneWireDeviceBlock {
+class DS2413Block : public Block<brewblox_BlockType_DS2413>, public OneWireDeviceBlock {
 private:
     DS2413 device;
 

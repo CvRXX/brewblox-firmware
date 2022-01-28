@@ -22,7 +22,7 @@
 namespace protobuf_Constraints_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Constraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_AnalogConstraints;
 }  // namespace protobuf_Constraints_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace ActuatorAnalogMock {
 class BlockDefaultTypeInternal {
  public:
@@ -30,17 +30,17 @@ class BlockDefaultTypeInternal {
       _instance;
 } _Block_default_instance_;
 }  // namespace ActuatorAnalogMock
-}  // namespace blox
+}  // namespace blox_test
 namespace protobuf_ActuatorAnalogMock_5ftest_2eproto {
 static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::ActuatorAnalogMock::_Block_default_instance_;
-    new (ptr) ::blox::ActuatorAnalogMock::Block();
+    void* ptr = &::blox_test::ActuatorAnalogMock::_Block_default_instance_;
+    new (ptr) ::blox_test::ActuatorAnalogMock::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::ActuatorAnalogMock::Block::InitAsDefaultInstance();
+  ::blox_test::ActuatorAnalogMock::Block::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_Block =
@@ -55,26 +55,26 @@ void InitDefaults() {
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, setting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, minsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, maxsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, minvalue_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, maxvalue_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, desiredsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorAnalogMock::Block, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, minsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, maxsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, minvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, maxvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, constrainedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::ActuatorAnalogMock::Block)},
+  { 0, -1, sizeof(::blox_test::ActuatorAnalogMock::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::ActuatorAnalogMock::_Block_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::ActuatorAnalogMock::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -98,23 +98,23 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\035ActuatorAnalogMock_test.proto\022\027blox.Ac"
-      "tuatorAnalogMock\032\023brewblox_test.proto\032\021n"
-      "anopb_test.proto\032\026Constraints_test.proto"
-      "\"\206\003\n\005Block\022)\n\007setting\030\001 \001(\021B\030\212\265\030\0020\001\212\265\030\002("
-      "\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\002 \001(\021B\030\212\265\030\0020\001\212\265\030\003"
-      "\020\200 \222\?\0028 \212\265\030\002(\001\022 \n\nminSetting\030\004 \001(\021B\014\212\265\030\003"
-      "\020\200 \222\?\0028 \022 \n\nmaxSetting\030\005 \001(\021B\014\212\265\030\003\020\200 \222\?\002"
-      "8 \022\036\n\010minValue\030\006 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022\036\n\010ma"
-      "xValue\030\007 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022:\n\rconstraine"
-      "dBy\030\010 \001(\0132#.blox.Constraints.AnalogConst"
-      "raints\022*\n\016desiredSetting\030\t \001(\021B\022\212\265\030\0020\001\212\265"
-      "\030\003\020\200 \222\?\0028 \022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002"
-      "(\001\222\?\0028\020\222\?\002\020\002:\023\212\265\030\003\030\261\002\212\265\030\002H\005\212\265\030\002H\001b\006proto"
-      "3"
+      "\n\035ActuatorAnalogMock_test.proto\022\034blox_te"
+      "st.ActuatorAnalogMock\032\023brewblox_test.pro"
+      "to\032\021nanopb_test.proto\032\026Constraints_test."
+      "proto\"\213\003\n\005Block\022)\n\007setting\030\001 \001(\021B\030\212\265\030\0020\001"
+      "\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\002 \001(\021B\030\212\265\030\0020"
+      "\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022 \n\nminSetting\030\004 \001(\021B"
+      "\014\212\265\030\003\020\200 \222\?\0028 \022 \n\nmaxSetting\030\005 \001(\021B\014\212\265\030\003\020"
+      "\200 \222\?\0028 \022\036\n\010minValue\030\006 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022"
+      "\036\n\010maxValue\030\007 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022\?\n\rconst"
+      "rainedBy\030\010 \001(\0132(.blox_test.Constraints.A"
+      "nalogConstraints\022*\n\016desiredSetting\030\t \001(\021"
+      "B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022(\n\016strippedFields\030c"
+      " \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002:\023\212\265\030\003\030\261\002\212\265\030\002H\005\212\265\030"
+      "\002H\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 521);
+      descriptor, 531);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorAnalogMock_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -133,14 +133,14 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_ActuatorAnalogMock_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace ActuatorAnalogMock {
 
 // ===================================================================
 
 void Block::InitAsDefaultInstance() {
-  ::blox::ActuatorAnalogMock::_Block_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::Constraints::AnalogConstraints*>(
-      ::blox::Constraints::AnalogConstraints::internal_default_instance());
+  ::blox_test::ActuatorAnalogMock::_Block_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox_test::Constraints::AnalogConstraints*>(
+      ::blox_test::Constraints::AnalogConstraints::internal_default_instance());
 }
 void Block::clear_constrainedby() {
   if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
@@ -165,7 +165,7 @@ Block::Block()
   ::google::protobuf::internal::InitSCC(
       &protobuf_ActuatorAnalogMock_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(constructor:blox_test.ActuatorAnalogMock.Block)
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
@@ -173,14 +173,14 @@ Block::Block(const Block& from)
       strippedfields_(from.strippedfields_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_constrainedby()) {
-    constrainedby_ = new ::blox::Constraints::AnalogConstraints(*from.constrainedby_);
+    constrainedby_ = new ::blox_test::Constraints::AnalogConstraints(*from.constrainedby_);
   } else {
     constrainedby_ = NULL;
   }
   ::memcpy(&setting_, &from.setting_,
     static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
     reinterpret_cast<char*>(&setting_)) + sizeof(desiredsetting_));
-  // @@protoc_insertion_point(copy_constructor:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorAnalogMock.Block)
 }
 
 void Block::SharedCtor() {
@@ -190,7 +190,7 @@ void Block::SharedCtor() {
 }
 
 Block::~Block() {
-  // @@protoc_insertion_point(destructor:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(destructor:blox_test.ActuatorAnalogMock.Block)
   SharedDtor();
 }
 
@@ -213,7 +213,7 @@ const Block& Block::default_instance() {
 
 
 void Block::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.ActuatorAnalogMock.Block)
+// @@protoc_insertion_point(message_clear_start:blox_test.ActuatorAnalogMock.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -233,13 +233,13 @@ bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(parse_start:blox_test.ActuatorAnalogMock.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // sint32 setting = 1 [(.nanopb_test) = {
+      // sint32 setting = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -253,7 +253,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 value = 2 [(.nanopb_test) = {
+      // sint32 value = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -267,7 +267,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 minSetting = 4 [(.nanopb_test) = {
+      // sint32 minSetting = 4 [(.nanopb) = {
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -281,7 +281,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 maxSetting = 5 [(.nanopb_test) = {
+      // sint32 maxSetting = 5 [(.nanopb) = {
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
@@ -295,7 +295,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 minValue = 6 [(.nanopb_test) = {
+      // sint32 minValue = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
@@ -309,7 +309,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 maxValue = 7 [(.nanopb_test) = {
+      // sint32 maxValue = 7 [(.nanopb) = {
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
@@ -323,7 +323,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.Constraints.AnalogConstraints constrainedBy = 8;
+      // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
@@ -335,7 +335,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 desiredSetting = 9 [(.nanopb_test) = {
+      // sint32 desiredSetting = 9 [(.nanopb) = {
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
@@ -349,7 +349,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+      // repeated uint32 strippedFields = 99 [(.nanopb) = {
       case 99: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
@@ -380,62 +380,62 @@ bool Block::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(parse_success:blox_test.ActuatorAnalogMock.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(parse_failure:blox_test.ActuatorAnalogMock.Block)
   return false;
 #undef DO_
 }
 
 void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(serialize_start:blox_test.ActuatorAnalogMock.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // sint32 setting = 1 [(.nanopb_test) = {
+  // sint32 setting = 1 [(.nanopb) = {
   if (this->setting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(1, this->setting(), output);
   }
 
-  // sint32 value = 2 [(.nanopb_test) = {
+  // sint32 value = 2 [(.nanopb) = {
   if (this->value() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(2, this->value(), output);
   }
 
-  // sint32 minSetting = 4 [(.nanopb_test) = {
+  // sint32 minSetting = 4 [(.nanopb) = {
   if (this->minsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(4, this->minsetting(), output);
   }
 
-  // sint32 maxSetting = 5 [(.nanopb_test) = {
+  // sint32 maxSetting = 5 [(.nanopb) = {
   if (this->maxsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(5, this->maxsetting(), output);
   }
 
-  // sint32 minValue = 6 [(.nanopb_test) = {
+  // sint32 minValue = 6 [(.nanopb) = {
   if (this->minvalue() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->minvalue(), output);
   }
 
-  // sint32 maxValue = 7 [(.nanopb_test) = {
+  // sint32 maxValue = 7 [(.nanopb) = {
   if (this->maxvalue() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(7, this->maxvalue(), output);
   }
 
-  // .blox.Constraints.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   if (this->has_constrainedby()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       8, this->_internal_constrainedby(), output);
   }
 
-  // sint32 desiredSetting = 9 [(.nanopb_test) = {
+  // sint32 desiredSetting = 9 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(9, this->desiredsetting(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -450,59 +450,59 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(serialize_end:blox_test.ActuatorAnalogMock.Block)
 }
 
 ::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.ActuatorAnalogMock.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // sint32 setting = 1 [(.nanopb_test) = {
+  // sint32 setting = 1 [(.nanopb) = {
   if (this->setting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->setting(), target);
   }
 
-  // sint32 value = 2 [(.nanopb_test) = {
+  // sint32 value = 2 [(.nanopb) = {
   if (this->value() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->value(), target);
   }
 
-  // sint32 minSetting = 4 [(.nanopb_test) = {
+  // sint32 minSetting = 4 [(.nanopb) = {
   if (this->minsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(4, this->minsetting(), target);
   }
 
-  // sint32 maxSetting = 5 [(.nanopb_test) = {
+  // sint32 maxSetting = 5 [(.nanopb) = {
   if (this->maxsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->maxsetting(), target);
   }
 
-  // sint32 minValue = 6 [(.nanopb_test) = {
+  // sint32 minValue = 6 [(.nanopb) = {
   if (this->minvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->minvalue(), target);
   }
 
-  // sint32 maxValue = 7 [(.nanopb_test) = {
+  // sint32 maxValue = 7 [(.nanopb) = {
   if (this->maxvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(7, this->maxvalue(), target);
   }
 
-  // .blox.Constraints.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   if (this->has_constrainedby()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         8, this->_internal_constrainedby(), deterministic, target);
   }
 
-  // sint32 desiredSetting = 9 [(.nanopb_test) = {
+  // sint32 desiredSetting = 9 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(9, this->desiredsetting(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       99,
@@ -519,12 +519,12 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.ActuatorAnalogMock.Block)
   return target;
 }
 
 size_t Block::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.ActuatorAnalogMock.Block)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.ActuatorAnalogMock.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -532,7 +532,7 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
@@ -548,56 +548,56 @@ size_t Block::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // .blox.Constraints.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   if (this->has_constrainedby()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *constrainedby_);
   }
 
-  // sint32 setting = 1 [(.nanopb_test) = {
+  // sint32 setting = 1 [(.nanopb) = {
   if (this->setting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->setting());
   }
 
-  // sint32 value = 2 [(.nanopb_test) = {
+  // sint32 value = 2 [(.nanopb) = {
   if (this->value() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->value());
   }
 
-  // sint32 minSetting = 4 [(.nanopb_test) = {
+  // sint32 minSetting = 4 [(.nanopb) = {
   if (this->minsetting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->minsetting());
   }
 
-  // sint32 maxSetting = 5 [(.nanopb_test) = {
+  // sint32 maxSetting = 5 [(.nanopb) = {
   if (this->maxsetting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->maxsetting());
   }
 
-  // sint32 minValue = 6 [(.nanopb_test) = {
+  // sint32 minValue = 6 [(.nanopb) = {
   if (this->minvalue() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->minvalue());
   }
 
-  // sint32 maxValue = 7 [(.nanopb_test) = {
+  // sint32 maxValue = 7 [(.nanopb) = {
   if (this->maxvalue() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->maxvalue());
   }
 
-  // sint32 desiredSetting = 9 [(.nanopb_test) = {
+  // sint32 desiredSetting = 9 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
@@ -610,22 +610,22 @@ size_t Block::ByteSizeLong() const {
 }
 
 void Block::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.ActuatorAnalogMock.Block)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.ActuatorAnalogMock.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.ActuatorAnalogMock.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.ActuatorAnalogMock.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.ActuatorAnalogMock.Block)
     MergeFrom(*source);
   }
 }
 
 void Block::MergeFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.ActuatorAnalogMock.Block)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.ActuatorAnalogMock.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -633,7 +633,7 @@ void Block::MergeFrom(const Block& from) {
 
   strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_constrainedby()) {
-    mutable_constrainedby()->::blox::Constraints::AnalogConstraints::MergeFrom(from.constrainedby());
+    mutable_constrainedby()->::blox_test::Constraints::AnalogConstraints::MergeFrom(from.constrainedby());
   }
   if (from.setting() != 0) {
     set_setting(from.setting());
@@ -659,14 +659,14 @@ void Block::MergeFrom(const Block& from) {
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.ActuatorAnalogMock.Block)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.ActuatorAnalogMock.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Block::CopyFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.ActuatorAnalogMock.Block)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.ActuatorAnalogMock.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -702,11 +702,11 @@ void Block::InternalSwap(Block* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace ActuatorAnalogMock
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::ActuatorAnalogMock::Block* Arena::CreateMaybeMessage< ::blox::ActuatorAnalogMock::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::ActuatorAnalogMock::Block >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::ActuatorAnalogMock::Block* Arena::CreateMaybeMessage< ::blox_test::ActuatorAnalogMock::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::ActuatorAnalogMock::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

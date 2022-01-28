@@ -5,7 +5,11 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "PROTO_VERSION=\"ddccbbaa\"",
+                "GIT_VERSION=\"aabbccdd\"",
+                "GIT_DATE=\"2000-01-01\"",
+                "PLATFORM_ID=3" // gcc=3, photon=6, p1=8, esp32=100
             ],
             "intelliSenseMode": "clang-x64",
             "includePath": [

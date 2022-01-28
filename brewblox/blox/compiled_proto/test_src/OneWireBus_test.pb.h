@@ -47,7 +47,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_OneWireBus_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace OneWireBus {
 class Block;
 class BlockDefaultTypeInternal;
@@ -56,19 +56,19 @@ class Command;
 class CommandDefaultTypeInternal;
 extern CommandDefaultTypeInternal _Command_default_instance_;
 }  // namespace OneWireBus
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::OneWireBus::Block* Arena::CreateMaybeMessage<::blox::OneWireBus::Block>(Arena*);
-template<> ::blox::OneWireBus::Command* Arena::CreateMaybeMessage<::blox::OneWireBus::Command>(Arena*);
+template<> ::blox_test::OneWireBus::Block* Arena::CreateMaybeMessage<::blox_test::OneWireBus::Block>(Arena*);
+template<> ::blox_test::OneWireBus::Command* Arena::CreateMaybeMessage<::blox_test::OneWireBus::Command>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace OneWireBus {
 
 // ===================================================================
 
-class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.OneWireBus.Command) */ {
+class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.OneWireBus.Command) */ {
  public:
   Command();
   virtual ~Command();
@@ -155,19 +155,19 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // uint32 opcode = 1 [(.nanopb_test) = {
+  // uint32 opcode = 1 [(.nanopb) = {
   void clear_opcode();
   static const int kOpcodeFieldNumber = 1;
   ::google::protobuf::uint32 opcode() const;
   void set_opcode(::google::protobuf::uint32 value);
 
-  // uint32 data = 2 [(.nanopb_test) = {
+  // uint32 data = 2 [(.nanopb) = {
   void clear_data();
   static const int kDataFieldNumber = 2;
   ::google::protobuf::uint32 data() const;
   void set_data(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.OneWireBus.Command)
+  // @@protoc_insertion_point(class_scope:blox_test.OneWireBus.Command)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -178,7 +178,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 };
 // -------------------------------------------------------------------
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.OneWireBus.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.OneWireBus.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -265,7 +265,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated fixed64 address = 2 [(.brewblox_test) = {
+  // repeated fixed64 address = 2 [(.brewblox.field) = {
   int address_size() const;
   void clear_address();
   static const int kAddressFieldNumber = 2;
@@ -277,25 +277,25 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
       mutable_address();
 
-  // .blox.OneWireBus.Command command = 1;
+  // .blox_test.OneWireBus.Command command = 1;
   bool has_command() const;
   void clear_command();
   static const int kCommandFieldNumber = 1;
   private:
-  const ::blox::OneWireBus::Command& _internal_command() const;
+  const ::blox_test::OneWireBus::Command& _internal_command() const;
   public:
-  const ::blox::OneWireBus::Command& command() const;
-  ::blox::OneWireBus::Command* release_command();
-  ::blox::OneWireBus::Command* mutable_command();
-  void set_allocated_command(::blox::OneWireBus::Command* command);
+  const ::blox_test::OneWireBus::Command& command() const;
+  ::blox_test::OneWireBus::Command* release_command();
+  ::blox_test::OneWireBus::Command* mutable_command();
+  void set_allocated_command(::blox_test::OneWireBus::Command* command);
 
-  // @@protoc_insertion_point(class_scope:blox.OneWireBus.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.OneWireBus.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > address_;
   mutable int _address_cached_byte_size_;
-  ::blox::OneWireBus::Command* command_;
+  ::blox_test::OneWireBus::Command* command_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireBus_5ftest_2eproto::TableStruct;
 };
@@ -310,39 +310,39 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Command
 
-// uint32 opcode = 1 [(.nanopb_test) = {
+// uint32 opcode = 1 [(.nanopb) = {
 inline void Command::clear_opcode() {
   opcode_ = 0u;
 }
 inline ::google::protobuf::uint32 Command::opcode() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireBus.Command.opcode)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireBus.Command.opcode)
   return opcode_;
 }
 inline void Command::set_opcode(::google::protobuf::uint32 value) {
   
   opcode_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireBus.Command.opcode)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireBus.Command.opcode)
 }
 
-// uint32 data = 2 [(.nanopb_test) = {
+// uint32 data = 2 [(.nanopb) = {
 inline void Command::clear_data() {
   data_ = 0u;
 }
 inline ::google::protobuf::uint32 Command::data() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireBus.Command.data)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireBus.Command.data)
   return data_;
 }
 inline void Command::set_data(::google::protobuf::uint32 value) {
   
   data_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireBus.Command.data)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireBus.Command.data)
 }
 
 // -------------------------------------------------------------------
 
 // Block
 
-// .blox.OneWireBus.Command command = 1;
+// .blox_test.OneWireBus.Command command = 1;
 inline bool Block::has_command() const {
   return this != internal_default_instance() && command_ != NULL;
 }
@@ -352,32 +352,32 @@ inline void Block::clear_command() {
   }
   command_ = NULL;
 }
-inline const ::blox::OneWireBus::Command& Block::_internal_command() const {
+inline const ::blox_test::OneWireBus::Command& Block::_internal_command() const {
   return *command_;
 }
-inline const ::blox::OneWireBus::Command& Block::command() const {
-  const ::blox::OneWireBus::Command* p = command_;
-  // @@protoc_insertion_point(field_get:blox.OneWireBus.Block.command)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::OneWireBus::Command*>(
-      &::blox::OneWireBus::_Command_default_instance_);
+inline const ::blox_test::OneWireBus::Command& Block::command() const {
+  const ::blox_test::OneWireBus::Command* p = command_;
+  // @@protoc_insertion_point(field_get:blox_test.OneWireBus.Block.command)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::OneWireBus::Command*>(
+      &::blox_test::OneWireBus::_Command_default_instance_);
 }
-inline ::blox::OneWireBus::Command* Block::release_command() {
-  // @@protoc_insertion_point(field_release:blox.OneWireBus.Block.command)
+inline ::blox_test::OneWireBus::Command* Block::release_command() {
+  // @@protoc_insertion_point(field_release:blox_test.OneWireBus.Block.command)
   
-  ::blox::OneWireBus::Command* temp = command_;
+  ::blox_test::OneWireBus::Command* temp = command_;
   command_ = NULL;
   return temp;
 }
-inline ::blox::OneWireBus::Command* Block::mutable_command() {
+inline ::blox_test::OneWireBus::Command* Block::mutable_command() {
   
   if (command_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::OneWireBus::Command>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox_test::OneWireBus::Command>(GetArenaNoVirtual());
     command_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.OneWireBus.Block.command)
+  // @@protoc_insertion_point(field_mutable:blox_test.OneWireBus.Block.command)
   return command_;
 }
-inline void Block::set_allocated_command(::blox::OneWireBus::Command* command) {
+inline void Block::set_allocated_command(::blox_test::OneWireBus::Command* command) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete command_;
@@ -393,10 +393,10 @@ inline void Block::set_allocated_command(::blox::OneWireBus::Command* command) {
     
   }
   command_ = command;
-  // @@protoc_insertion_point(field_set_allocated:blox.OneWireBus.Block.command)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.OneWireBus.Block.command)
 }
 
-// repeated fixed64 address = 2 [(.brewblox_test) = {
+// repeated fixed64 address = 2 [(.brewblox.field) = {
 inline int Block::address_size() const {
   return address_.size();
 }
@@ -404,25 +404,25 @@ inline void Block::clear_address() {
   address_.Clear();
 }
 inline ::google::protobuf::uint64 Block::address(int index) const {
-  // @@protoc_insertion_point(field_get:blox.OneWireBus.Block.address)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireBus.Block.address)
   return address_.Get(index);
 }
 inline void Block::set_address(int index, ::google::protobuf::uint64 value) {
   address_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.OneWireBus.Block.address)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireBus.Block.address)
 }
 inline void Block::add_address(::google::protobuf::uint64 value) {
   address_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.OneWireBus.Block.address)
+  // @@protoc_insertion_point(field_add:blox_test.OneWireBus.Block.address)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
 Block::address() const {
-  // @@protoc_insertion_point(field_list:blox.OneWireBus.Block.address)
+  // @@protoc_insertion_point(field_list:blox_test.OneWireBus.Block.address)
   return address_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
 Block::mutable_address() {
-  // @@protoc_insertion_point(field_mutable_list:blox.OneWireBus.Block.address)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.OneWireBus.Block.address)
   return &address_;
 }
 
@@ -435,7 +435,7 @@ Block::mutable_address() {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace OneWireBus
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

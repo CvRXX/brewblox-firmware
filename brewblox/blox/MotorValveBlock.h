@@ -26,7 +26,7 @@
 #include "cbox/CboxPtr.h"
 #include "compiled_proto/src/MotorValve.pb.h"
 
-class MotorValveBlock : public Block<BlockType_MotorValve> {
+class MotorValveBlock : public Block<brewblox_BlockType_MotorValve> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<DS2408> hwDevice;
@@ -59,5 +59,5 @@ public:
     }
 
 private:
-    void writePersistedStateToMessage(blox_MotorValve& message) const;
+    void writePersistedStateToMessage(blox_MotorValve_Block& message) const;
 };

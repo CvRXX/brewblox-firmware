@@ -34,7 +34,7 @@ BalancerBlock::streamTo(cbox::DataOut& out) const
 
 void* BalancerBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_Balancer) {
+    if (iface == brewblox_BlockType_Balancer) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<Balancer_t>()) {

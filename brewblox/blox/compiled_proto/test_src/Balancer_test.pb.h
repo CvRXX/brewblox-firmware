@@ -47,7 +47,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_Balancer_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace Balancer {
 class BalancedActuator;
 class BalancedActuatorDefaultTypeInternal;
@@ -56,19 +56,19 @@ class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace Balancer
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::Balancer::BalancedActuator* Arena::CreateMaybeMessage<::blox::Balancer::BalancedActuator>(Arena*);
-template<> ::blox::Balancer::Block* Arena::CreateMaybeMessage<::blox::Balancer::Block>(Arena*);
+template<> ::blox_test::Balancer::BalancedActuator* Arena::CreateMaybeMessage<::blox_test::Balancer::BalancedActuator>(Arena*);
+template<> ::blox_test::Balancer::Block* Arena::CreateMaybeMessage<::blox_test::Balancer::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace Balancer {
 
 // ===================================================================
 
-class BalancedActuator : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Balancer.BalancedActuator) */ {
+class BalancedActuator : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Balancer.BalancedActuator) */ {
  public:
   BalancedActuator();
   virtual ~BalancedActuator();
@@ -155,25 +155,25 @@ class BalancedActuator : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // uint32 id = 1 [(.nanopb_test) = {
+  // uint32 id = 1 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 1;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // sint32 requested = 2 [(.nanopb_test) = {
+  // sint32 requested = 2 [(.nanopb) = {
   void clear_requested();
   static const int kRequestedFieldNumber = 2;
   ::google::protobuf::int32 requested() const;
   void set_requested(::google::protobuf::int32 value);
 
-  // sint32 granted = 3 [(.nanopb_test) = {
+  // sint32 granted = 3 [(.nanopb) = {
   void clear_granted();
   static const int kGrantedFieldNumber = 3;
   ::google::protobuf::int32 granted() const;
   void set_granted(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Balancer.BalancedActuator)
+  // @@protoc_insertion_point(class_scope:blox_test.Balancer.BalancedActuator)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -185,7 +185,7 @@ class BalancedActuator : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Balancer.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Balancer.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -272,23 +272,23 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.Balancer.BalancedActuator clients = 1 [(.brewblox_test) = {
+  // repeated .blox_test.Balancer.BalancedActuator clients = 1 [(.brewblox.field) = {
   int clients_size() const;
   void clear_clients();
   static const int kClientsFieldNumber = 1;
-  ::blox::Balancer::BalancedActuator* mutable_clients(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::Balancer::BalancedActuator >*
+  ::blox_test::Balancer::BalancedActuator* mutable_clients(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::Balancer::BalancedActuator >*
       mutable_clients();
-  const ::blox::Balancer::BalancedActuator& clients(int index) const;
-  ::blox::Balancer::BalancedActuator* add_clients();
-  const ::google::protobuf::RepeatedPtrField< ::blox::Balancer::BalancedActuator >&
+  const ::blox_test::Balancer::BalancedActuator& clients(int index) const;
+  ::blox_test::Balancer::BalancedActuator* add_clients();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::Balancer::BalancedActuator >&
       clients() const;
 
-  // @@protoc_insertion_point(class_scope:blox.Balancer.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.Balancer.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::Balancer::BalancedActuator > clients_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::Balancer::BalancedActuator > clients_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Balancer_5ftest_2eproto::TableStruct;
 };
@@ -303,79 +303,79 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // BalancedActuator
 
-// uint32 id = 1 [(.nanopb_test) = {
+// uint32 id = 1 [(.nanopb) = {
 inline void BalancedActuator::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 BalancedActuator::id() const {
-  // @@protoc_insertion_point(field_get:blox.Balancer.BalancedActuator.id)
+  // @@protoc_insertion_point(field_get:blox_test.Balancer.BalancedActuator.id)
   return id_;
 }
 inline void BalancedActuator::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.Balancer.BalancedActuator.id)
+  // @@protoc_insertion_point(field_set:blox_test.Balancer.BalancedActuator.id)
 }
 
-// sint32 requested = 2 [(.nanopb_test) = {
+// sint32 requested = 2 [(.nanopb) = {
 inline void BalancedActuator::clear_requested() {
   requested_ = 0;
 }
 inline ::google::protobuf::int32 BalancedActuator::requested() const {
-  // @@protoc_insertion_point(field_get:blox.Balancer.BalancedActuator.requested)
+  // @@protoc_insertion_point(field_get:blox_test.Balancer.BalancedActuator.requested)
   return requested_;
 }
 inline void BalancedActuator::set_requested(::google::protobuf::int32 value) {
   
   requested_ = value;
-  // @@protoc_insertion_point(field_set:blox.Balancer.BalancedActuator.requested)
+  // @@protoc_insertion_point(field_set:blox_test.Balancer.BalancedActuator.requested)
 }
 
-// sint32 granted = 3 [(.nanopb_test) = {
+// sint32 granted = 3 [(.nanopb) = {
 inline void BalancedActuator::clear_granted() {
   granted_ = 0;
 }
 inline ::google::protobuf::int32 BalancedActuator::granted() const {
-  // @@protoc_insertion_point(field_get:blox.Balancer.BalancedActuator.granted)
+  // @@protoc_insertion_point(field_get:blox_test.Balancer.BalancedActuator.granted)
   return granted_;
 }
 inline void BalancedActuator::set_granted(::google::protobuf::int32 value) {
   
   granted_ = value;
-  // @@protoc_insertion_point(field_set:blox.Balancer.BalancedActuator.granted)
+  // @@protoc_insertion_point(field_set:blox_test.Balancer.BalancedActuator.granted)
 }
 
 // -------------------------------------------------------------------
 
 // Block
 
-// repeated .blox.Balancer.BalancedActuator clients = 1 [(.brewblox_test) = {
+// repeated .blox_test.Balancer.BalancedActuator clients = 1 [(.brewblox.field) = {
 inline int Block::clients_size() const {
   return clients_.size();
 }
 inline void Block::clear_clients() {
   clients_.Clear();
 }
-inline ::blox::Balancer::BalancedActuator* Block::mutable_clients(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.Balancer.Block.clients)
+inline ::blox_test::Balancer::BalancedActuator* Block::mutable_clients(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.Balancer.Block.clients)
   return clients_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::Balancer::BalancedActuator >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::Balancer::BalancedActuator >*
 Block::mutable_clients() {
-  // @@protoc_insertion_point(field_mutable_list:blox.Balancer.Block.clients)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.Balancer.Block.clients)
   return &clients_;
 }
-inline const ::blox::Balancer::BalancedActuator& Block::clients(int index) const {
-  // @@protoc_insertion_point(field_get:blox.Balancer.Block.clients)
+inline const ::blox_test::Balancer::BalancedActuator& Block::clients(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.Balancer.Block.clients)
   return clients_.Get(index);
 }
-inline ::blox::Balancer::BalancedActuator* Block::add_clients() {
-  // @@protoc_insertion_point(field_add:blox.Balancer.Block.clients)
+inline ::blox_test::Balancer::BalancedActuator* Block::add_clients() {
+  // @@protoc_insertion_point(field_add:blox_test.Balancer.Block.clients)
   return clients_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::Balancer::BalancedActuator >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::Balancer::BalancedActuator >&
 Block::clients() const {
-  // @@protoc_insertion_point(field_list:blox.Balancer.Block.clients)
+  // @@protoc_insertion_point(field_list:blox_test.Balancer.Block.clients)
   return clients_;
 }
 
@@ -388,7 +388,7 @@ Block::clients() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Balancer
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

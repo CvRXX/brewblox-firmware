@@ -26,7 +26,7 @@
 #include "compiled_proto/src/TempSensorCombi.pb.h"
 #include <vector>
 
-class TempSensorCombiBlock : public Block<BlockType_TempSensorCombi> {
+class TempSensorCombiBlock : public Block<brewblox_BlockType_TempSensorCombi> {
 private:
     TempSensorCombi sensor;
     cbox::ObjectContainer& objectsRef; // remember object container reference to create CboxPtrs
@@ -56,5 +56,5 @@ public:
     }
 
 private:
-    void writeMessage(blox_TempSensorCombi& message, bool includeReadOnly) const;
+    void writeMessage(blox_TempSensorCombi_Block& message, bool includeReadOnly) const;
 };

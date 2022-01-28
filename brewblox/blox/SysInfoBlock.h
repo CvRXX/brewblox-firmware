@@ -24,7 +24,7 @@
 #include "compiled_proto/src/SysInfo.pb.h"
 
 // provides a protobuf interface to the read only system info
-class SysInfoBlock : public cbox::ObjectBase<BlockType_SysInfo> {
+class SysInfoBlock : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {
 public:
     SysInfoBlock(unsigned (&device_id_func_)(uint8_t*, unsigned len))
         : device_id_func(device_id_func_)

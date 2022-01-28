@@ -26,7 +26,7 @@
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class SetpointProfileBlock : public Block<BlockType_SetpointProfile> {
+class SetpointProfileBlock : public Block<brewblox_BlockType_SetpointProfile> {
 private:
     cbox::CboxPtr<TicksBlock<TicksClass>> ticksPtr;
     cbox::CboxPtr<SetpointSensorPair> target;

@@ -47,7 +47,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_Constraints_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace Constraints {
 class AnalogConstraint;
 class AnalogConstraintDefaultTypeInternal;
@@ -68,23 +68,23 @@ class Mutexed;
 class MutexedDefaultTypeInternal;
 extern MutexedDefaultTypeInternal _Mutexed_default_instance_;
 }  // namespace Constraints
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::Constraints::AnalogConstraint* Arena::CreateMaybeMessage<::blox::Constraints::AnalogConstraint>(Arena*);
-template<> ::blox::Constraints::AnalogConstraints* Arena::CreateMaybeMessage<::blox::Constraints::AnalogConstraints>(Arena*);
-template<> ::blox::Constraints::Balanced* Arena::CreateMaybeMessage<::blox::Constraints::Balanced>(Arena*);
-template<> ::blox::Constraints::DigitalConstraint* Arena::CreateMaybeMessage<::blox::Constraints::DigitalConstraint>(Arena*);
-template<> ::blox::Constraints::DigitalConstraints* Arena::CreateMaybeMessage<::blox::Constraints::DigitalConstraints>(Arena*);
-template<> ::blox::Constraints::Mutexed* Arena::CreateMaybeMessage<::blox::Constraints::Mutexed>(Arena*);
+template<> ::blox_test::Constraints::AnalogConstraint* Arena::CreateMaybeMessage<::blox_test::Constraints::AnalogConstraint>(Arena*);
+template<> ::blox_test::Constraints::AnalogConstraints* Arena::CreateMaybeMessage<::blox_test::Constraints::AnalogConstraints>(Arena*);
+template<> ::blox_test::Constraints::Balanced* Arena::CreateMaybeMessage<::blox_test::Constraints::Balanced>(Arena*);
+template<> ::blox_test::Constraints::DigitalConstraint* Arena::CreateMaybeMessage<::blox_test::Constraints::DigitalConstraint>(Arena*);
+template<> ::blox_test::Constraints::DigitalConstraints* Arena::CreateMaybeMessage<::blox_test::Constraints::DigitalConstraints>(Arena*);
+template<> ::blox_test::Constraints::Mutexed* Arena::CreateMaybeMessage<::blox_test::Constraints::Mutexed>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace Constraints {
 
 // ===================================================================
 
-class Balanced : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Constraints.Balanced) */ {
+class Balanced : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Constraints.Balanced) */ {
  public:
   Balanced();
   virtual ~Balanced();
@@ -171,25 +171,25 @@ class Balanced : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // uint32 balancerId = 1 [(.nanopb_test) = {
+  // uint32 balancerId = 1 [(.nanopb) = {
   void clear_balancerid();
   static const int kBalancerIdFieldNumber = 1;
   ::google::protobuf::uint32 balancerid() const;
   void set_balancerid(::google::protobuf::uint32 value);
 
-  // uint32 granted = 2 [(.brewblox_test) = {
+  // uint32 granted = 2 [(.brewblox.field) = {
   void clear_granted();
   static const int kGrantedFieldNumber = 2;
   ::google::protobuf::uint32 granted() const;
   void set_granted(::google::protobuf::uint32 value);
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 3;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Constraints.Balanced)
+  // @@protoc_insertion_point(class_scope:blox_test.Constraints.Balanced)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -201,7 +201,7 @@ class Balanced : public ::google::protobuf::Message /* @@protoc_insertion_point(
 };
 // -------------------------------------------------------------------
 
-class Mutexed : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Constraints.Mutexed) */ {
+class Mutexed : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Constraints.Mutexed) */ {
  public:
   Mutexed();
   virtual ~Mutexed();
@@ -288,13 +288,13 @@ class Mutexed : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // uint32 mutexId = 1 [(.nanopb_test) = {
+  // uint32 mutexId = 1 [(.nanopb) = {
   void clear_mutexid();
   static const int kMutexIdFieldNumber = 1;
   ::google::protobuf::uint32 mutexid() const;
   void set_mutexid(::google::protobuf::uint32 value);
 
-  // uint32 extraHoldTime = 2 [(.nanopb_test) = {
+  // uint32 extraHoldTime = 2 [(.nanopb) = {
   void clear_extraholdtime();
   static const int kExtraHoldTimeFieldNumber = 2;
   ::google::protobuf::uint32 extraholdtime() const;
@@ -306,13 +306,13 @@ class Mutexed : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   bool hascustomholdtime() const;
   void set_hascustomholdtime(bool value);
 
-  // bool hasLock = 4 [(.brewblox_test) = {
+  // bool hasLock = 4 [(.brewblox.field) = {
   void clear_haslock();
   static const int kHasLockFieldNumber = 4;
   bool haslock() const;
   void set_haslock(bool value);
 
-  // @@protoc_insertion_point(class_scope:blox.Constraints.Mutexed)
+  // @@protoc_insertion_point(class_scope:blox_test.Constraints.Mutexed)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -325,7 +325,7 @@ class Mutexed : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 };
 // -------------------------------------------------------------------
 
-class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Constraints.AnalogConstraint) */ {
+class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Constraints.AnalogConstraint) */ {
  public:
   AnalogConstraint();
   virtual ~AnalogConstraint();
@@ -419,13 +419,13 @@ class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // bool limiting = 100 [(.brewblox_test) = {
+  // bool limiting = 100 [(.brewblox.field) = {
   void clear_limiting();
   static const int kLimitingFieldNumber = 100;
   bool limiting() const;
   void set_limiting(bool value);
 
-  // sint32 min = 1 [(.nanopb_test) = {
+  // sint32 min = 1 [(.nanopb) = {
   private:
   bool has_min() const;
   public:
@@ -434,7 +434,7 @@ class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::int32 min() const;
   void set_min(::google::protobuf::int32 value);
 
-  // sint32 max = 2 [(.nanopb_test) = {
+  // sint32 max = 2 [(.nanopb) = {
   private:
   bool has_max() const;
   public:
@@ -443,21 +443,21 @@ class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::int32 max() const;
   void set_max(::google::protobuf::int32 value);
 
-  // .blox.Constraints.Balanced balanced = 3;
+  // .blox_test.Constraints.Balanced balanced = 3;
   bool has_balanced() const;
   void clear_balanced();
   static const int kBalancedFieldNumber = 3;
   private:
-  const ::blox::Constraints::Balanced& _internal_balanced() const;
+  const ::blox_test::Constraints::Balanced& _internal_balanced() const;
   public:
-  const ::blox::Constraints::Balanced& balanced() const;
-  ::blox::Constraints::Balanced* release_balanced();
-  ::blox::Constraints::Balanced* mutable_balanced();
-  void set_allocated_balanced(::blox::Constraints::Balanced* balanced);
+  const ::blox_test::Constraints::Balanced& balanced() const;
+  ::blox_test::Constraints::Balanced* release_balanced();
+  ::blox_test::Constraints::Balanced* mutable_balanced();
+  void set_allocated_balanced(::blox_test::Constraints::Balanced* balanced);
 
   void clear_constraint();
   ConstraintCase constraint_case() const;
-  // @@protoc_insertion_point(class_scope:blox.Constraints.AnalogConstraint)
+  // @@protoc_insertion_point(class_scope:blox_test.Constraints.AnalogConstraint)
  private:
   void set_has_min();
   void set_has_max();
@@ -472,7 +472,7 @@ class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertio
     ConstraintUnion() {}
     ::google::protobuf::int32 min_;
     ::google::protobuf::int32 max_;
-    ::blox::Constraints::Balanced* balanced_;
+    ::blox_test::Constraints::Balanced* balanced_;
   } constraint_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -481,7 +481,7 @@ class AnalogConstraint : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class AnalogConstraints : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Constraints.AnalogConstraints) */ {
+class AnalogConstraints : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Constraints.AnalogConstraints) */ {
  public:
   AnalogConstraints();
   virtual ~AnalogConstraints();
@@ -568,29 +568,29 @@ class AnalogConstraints : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.Constraints.AnalogConstraint constraints = 1 [(.nanopb_test) = {
+  // repeated .blox_test.Constraints.AnalogConstraint constraints = 1 [(.nanopb) = {
   int constraints_size() const;
   void clear_constraints();
   static const int kConstraintsFieldNumber = 1;
-  ::blox::Constraints::AnalogConstraint* mutable_constraints(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::Constraints::AnalogConstraint >*
+  ::blox_test::Constraints::AnalogConstraint* mutable_constraints(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::AnalogConstraint >*
       mutable_constraints();
-  const ::blox::Constraints::AnalogConstraint& constraints(int index) const;
-  ::blox::Constraints::AnalogConstraint* add_constraints();
-  const ::google::protobuf::RepeatedPtrField< ::blox::Constraints::AnalogConstraint >&
+  const ::blox_test::Constraints::AnalogConstraint& constraints(int index) const;
+  ::blox_test::Constraints::AnalogConstraint* add_constraints();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::AnalogConstraint >&
       constraints() const;
 
-  // @@protoc_insertion_point(class_scope:blox.Constraints.AnalogConstraints)
+  // @@protoc_insertion_point(class_scope:blox_test.Constraints.AnalogConstraints)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::Constraints::AnalogConstraint > constraints_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::AnalogConstraint > constraints_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Constraints_5ftest_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Constraints.DigitalConstraint) */ {
+class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Constraints.DigitalConstraint) */ {
  public:
   DigitalConstraint();
   virtual ~DigitalConstraint();
@@ -687,19 +687,19 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // uint32 limiting = 100 [(.nanopb_test) = {
+  // uint32 limiting = 100 [(.nanopb) = {
   void clear_limiting();
   static const int kLimitingFieldNumber = 100;
   ::google::protobuf::uint32 limiting() const;
   void set_limiting(::google::protobuf::uint32 value);
 
-  // uint32 remaining = 101 [(.nanopb_test) = {
+  // uint32 remaining = 101 [(.nanopb) = {
   void clear_remaining();
   static const int kRemainingFieldNumber = 101;
   ::google::protobuf::uint32 remaining() const;
   void set_remaining(::google::protobuf::uint32 value);
 
-  // uint32 minOff = 1 [(.nanopb_test) = {
+  // uint32 minOff = 1 [(.nanopb) = {
   private:
   bool has_minoff() const;
   public:
@@ -708,7 +708,7 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 minoff() const;
   void set_minoff(::google::protobuf::uint32 value);
 
-  // uint32 minOn = 2 [(.nanopb_test) = {
+  // uint32 minOn = 2 [(.nanopb) = {
   private:
   bool has_minon() const;
   public:
@@ -717,19 +717,19 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 minon() const;
   void set_minon(::google::protobuf::uint32 value);
 
-  // .blox.Constraints.Mutexed mutexed = 4;
+  // .blox_test.Constraints.Mutexed mutexed = 4;
   bool has_mutexed() const;
   void clear_mutexed();
   static const int kMutexedFieldNumber = 4;
   private:
-  const ::blox::Constraints::Mutexed& _internal_mutexed() const;
+  const ::blox_test::Constraints::Mutexed& _internal_mutexed() const;
   public:
-  const ::blox::Constraints::Mutexed& mutexed() const;
-  ::blox::Constraints::Mutexed* release_mutexed();
-  ::blox::Constraints::Mutexed* mutable_mutexed();
-  void set_allocated_mutexed(::blox::Constraints::Mutexed* mutexed);
+  const ::blox_test::Constraints::Mutexed& mutexed() const;
+  ::blox_test::Constraints::Mutexed* release_mutexed();
+  ::blox_test::Constraints::Mutexed* mutable_mutexed();
+  void set_allocated_mutexed(::blox_test::Constraints::Mutexed* mutexed);
 
-  // uint32 delayedOff = 5 [(.nanopb_test) = {
+  // uint32 delayedOff = 5 [(.nanopb) = {
   private:
   bool has_delayedoff() const;
   public:
@@ -738,7 +738,7 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 delayedoff() const;
   void set_delayedoff(::google::protobuf::uint32 value);
 
-  // uint32 delayedOn = 6 [(.nanopb_test) = {
+  // uint32 delayedOn = 6 [(.nanopb) = {
   private:
   bool has_delayedon() const;
   public:
@@ -747,7 +747,7 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 delayedon() const;
   void set_delayedon(::google::protobuf::uint32 value);
 
-  // uint32 mutex = 3 [(.nanopb_test) = {
+  // uint32 mutex = 3 [(.nanopb) = {
   private:
   bool has_mutex() const;
   public:
@@ -758,7 +758,7 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
 
   void clear_constraint();
   ConstraintCase constraint_case() const;
-  // @@protoc_insertion_point(class_scope:blox.Constraints.DigitalConstraint)
+  // @@protoc_insertion_point(class_scope:blox_test.Constraints.DigitalConstraint)
  private:
   void set_has_minoff();
   void set_has_minon();
@@ -777,7 +777,7 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
     ConstraintUnion() {}
     ::google::protobuf::uint32 minoff_;
     ::google::protobuf::uint32 minon_;
-    ::blox::Constraints::Mutexed* mutexed_;
+    ::blox_test::Constraints::Mutexed* mutexed_;
     ::google::protobuf::uint32 delayedoff_;
     ::google::protobuf::uint32 delayedon_;
     ::google::protobuf::uint32 mutex_;
@@ -789,7 +789,7 @@ class DigitalConstraint : public ::google::protobuf::Message /* @@protoc_inserti
 };
 // -------------------------------------------------------------------
 
-class DigitalConstraints : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Constraints.DigitalConstraints) */ {
+class DigitalConstraints : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Constraints.DigitalConstraints) */ {
  public:
   DigitalConstraints();
   virtual ~DigitalConstraints();
@@ -876,23 +876,23 @@ class DigitalConstraints : public ::google::protobuf::Message /* @@protoc_insert
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.Constraints.DigitalConstraint constraints = 1 [(.nanopb_test) = {
+  // repeated .blox_test.Constraints.DigitalConstraint constraints = 1 [(.nanopb) = {
   int constraints_size() const;
   void clear_constraints();
   static const int kConstraintsFieldNumber = 1;
-  ::blox::Constraints::DigitalConstraint* mutable_constraints(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::Constraints::DigitalConstraint >*
+  ::blox_test::Constraints::DigitalConstraint* mutable_constraints(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::DigitalConstraint >*
       mutable_constraints();
-  const ::blox::Constraints::DigitalConstraint& constraints(int index) const;
-  ::blox::Constraints::DigitalConstraint* add_constraints();
-  const ::google::protobuf::RepeatedPtrField< ::blox::Constraints::DigitalConstraint >&
+  const ::blox_test::Constraints::DigitalConstraint& constraints(int index) const;
+  ::blox_test::Constraints::DigitalConstraint* add_constraints();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::DigitalConstraint >&
       constraints() const;
 
-  // @@protoc_insertion_point(class_scope:blox.Constraints.DigitalConstraints)
+  // @@protoc_insertion_point(class_scope:blox_test.Constraints.DigitalConstraints)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::Constraints::DigitalConstraint > constraints_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::DigitalConstraint > constraints_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Constraints_5ftest_2eproto::TableStruct;
 };
@@ -907,78 +907,78 @@ class DigitalConstraints : public ::google::protobuf::Message /* @@protoc_insert
 #endif  // __GNUC__
 // Balanced
 
-// uint32 balancerId = 1 [(.nanopb_test) = {
+// uint32 balancerId = 1 [(.nanopb) = {
 inline void Balanced::clear_balancerid() {
   balancerid_ = 0u;
 }
 inline ::google::protobuf::uint32 Balanced::balancerid() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Balanced.balancerId)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Balanced.balancerId)
   return balancerid_;
 }
 inline void Balanced::set_balancerid(::google::protobuf::uint32 value) {
   
   balancerid_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Balanced.balancerId)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Balanced.balancerId)
 }
 
-// uint32 granted = 2 [(.brewblox_test) = {
+// uint32 granted = 2 [(.brewblox.field) = {
 inline void Balanced::clear_granted() {
   granted_ = 0u;
 }
 inline ::google::protobuf::uint32 Balanced::granted() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Balanced.granted)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Balanced.granted)
   return granted_;
 }
 inline void Balanced::set_granted(::google::protobuf::uint32 value) {
   
   granted_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Balanced.granted)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Balanced.granted)
 }
 
-// uint32 id = 3 [(.nanopb_test) = {
+// uint32 id = 3 [(.nanopb) = {
 inline void Balanced::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 Balanced::id() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Balanced.id)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Balanced.id)
   return id_;
 }
 inline void Balanced::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Balanced.id)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Balanced.id)
 }
 
 // -------------------------------------------------------------------
 
 // Mutexed
 
-// uint32 mutexId = 1 [(.nanopb_test) = {
+// uint32 mutexId = 1 [(.nanopb) = {
 inline void Mutexed::clear_mutexid() {
   mutexid_ = 0u;
 }
 inline ::google::protobuf::uint32 Mutexed::mutexid() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Mutexed.mutexId)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Mutexed.mutexId)
   return mutexid_;
 }
 inline void Mutexed::set_mutexid(::google::protobuf::uint32 value) {
   
   mutexid_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Mutexed.mutexId)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Mutexed.mutexId)
 }
 
-// uint32 extraHoldTime = 2 [(.nanopb_test) = {
+// uint32 extraHoldTime = 2 [(.nanopb) = {
 inline void Mutexed::clear_extraholdtime() {
   extraholdtime_ = 0u;
 }
 inline ::google::protobuf::uint32 Mutexed::extraholdtime() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Mutexed.extraHoldTime)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Mutexed.extraHoldTime)
   return extraholdtime_;
 }
 inline void Mutexed::set_extraholdtime(::google::protobuf::uint32 value) {
   
   extraholdtime_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Mutexed.extraHoldTime)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Mutexed.extraHoldTime)
 }
 
 // bool hasCustomHoldTime = 3;
@@ -986,34 +986,34 @@ inline void Mutexed::clear_hascustomholdtime() {
   hascustomholdtime_ = false;
 }
 inline bool Mutexed::hascustomholdtime() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Mutexed.hasCustomHoldTime)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Mutexed.hasCustomHoldTime)
   return hascustomholdtime_;
 }
 inline void Mutexed::set_hascustomholdtime(bool value) {
   
   hascustomholdtime_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Mutexed.hasCustomHoldTime)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Mutexed.hasCustomHoldTime)
 }
 
-// bool hasLock = 4 [(.brewblox_test) = {
+// bool hasLock = 4 [(.brewblox.field) = {
 inline void Mutexed::clear_haslock() {
   haslock_ = false;
 }
 inline bool Mutexed::haslock() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.Mutexed.hasLock)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.Mutexed.hasLock)
   return haslock_;
 }
 inline void Mutexed::set_haslock(bool value) {
   
   haslock_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.Mutexed.hasLock)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.Mutexed.hasLock)
 }
 
 // -------------------------------------------------------------------
 
 // AnalogConstraint
 
-// sint32 min = 1 [(.nanopb_test) = {
+// sint32 min = 1 [(.nanopb) = {
 inline bool AnalogConstraint::has_min() const {
   return constraint_case() == kMin;
 }
@@ -1027,7 +1027,7 @@ inline void AnalogConstraint::clear_min() {
   }
 }
 inline ::google::protobuf::int32 AnalogConstraint::min() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.AnalogConstraint.min)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.AnalogConstraint.min)
   if (has_min()) {
     return constraint_.min_;
   }
@@ -1039,10 +1039,10 @@ inline void AnalogConstraint::set_min(::google::protobuf::int32 value) {
     set_has_min();
   }
   constraint_.min_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.AnalogConstraint.min)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.AnalogConstraint.min)
 }
 
-// sint32 max = 2 [(.nanopb_test) = {
+// sint32 max = 2 [(.nanopb) = {
 inline bool AnalogConstraint::has_max() const {
   return constraint_case() == kMax;
 }
@@ -1056,7 +1056,7 @@ inline void AnalogConstraint::clear_max() {
   }
 }
 inline ::google::protobuf::int32 AnalogConstraint::max() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.AnalogConstraint.max)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.AnalogConstraint.max)
   if (has_max()) {
     return constraint_.max_;
   }
@@ -1068,10 +1068,10 @@ inline void AnalogConstraint::set_max(::google::protobuf::int32 value) {
     set_has_max();
   }
   constraint_.max_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.AnalogConstraint.max)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.AnalogConstraint.max)
 }
 
-// .blox.Constraints.Balanced balanced = 3;
+// .blox_test.Constraints.Balanced balanced = 3;
 inline bool AnalogConstraint::has_balanced() const {
   return constraint_case() == kBalanced;
 }
@@ -1084,49 +1084,49 @@ inline void AnalogConstraint::clear_balanced() {
     clear_has_constraint();
   }
 }
-inline const ::blox::Constraints::Balanced& AnalogConstraint::_internal_balanced() const {
+inline const ::blox_test::Constraints::Balanced& AnalogConstraint::_internal_balanced() const {
   return *constraint_.balanced_;
 }
-inline ::blox::Constraints::Balanced* AnalogConstraint::release_balanced() {
-  // @@protoc_insertion_point(field_release:blox.Constraints.AnalogConstraint.balanced)
+inline ::blox_test::Constraints::Balanced* AnalogConstraint::release_balanced() {
+  // @@protoc_insertion_point(field_release:blox_test.Constraints.AnalogConstraint.balanced)
   if (has_balanced()) {
     clear_has_constraint();
-      ::blox::Constraints::Balanced* temp = constraint_.balanced_;
+      ::blox_test::Constraints::Balanced* temp = constraint_.balanced_;
     constraint_.balanced_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox::Constraints::Balanced& AnalogConstraint::balanced() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.AnalogConstraint.balanced)
+inline const ::blox_test::Constraints::Balanced& AnalogConstraint::balanced() const {
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.AnalogConstraint.balanced)
   return has_balanced()
       ? *constraint_.balanced_
-      : *reinterpret_cast< ::blox::Constraints::Balanced*>(&::blox::Constraints::_Balanced_default_instance_);
+      : *reinterpret_cast< ::blox_test::Constraints::Balanced*>(&::blox_test::Constraints::_Balanced_default_instance_);
 }
-inline ::blox::Constraints::Balanced* AnalogConstraint::mutable_balanced() {
+inline ::blox_test::Constraints::Balanced* AnalogConstraint::mutable_balanced() {
   if (!has_balanced()) {
     clear_constraint();
     set_has_balanced();
-    constraint_.balanced_ = CreateMaybeMessage< ::blox::Constraints::Balanced >(
+    constraint_.balanced_ = CreateMaybeMessage< ::blox_test::Constraints::Balanced >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox.Constraints.AnalogConstraint.balanced)
+  // @@protoc_insertion_point(field_mutable:blox_test.Constraints.AnalogConstraint.balanced)
   return constraint_.balanced_;
 }
 
-// bool limiting = 100 [(.brewblox_test) = {
+// bool limiting = 100 [(.brewblox.field) = {
 inline void AnalogConstraint::clear_limiting() {
   limiting_ = false;
 }
 inline bool AnalogConstraint::limiting() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.AnalogConstraint.limiting)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.AnalogConstraint.limiting)
   return limiting_;
 }
 inline void AnalogConstraint::set_limiting(bool value) {
   
   limiting_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.AnalogConstraint.limiting)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.AnalogConstraint.limiting)
 }
 
 inline bool AnalogConstraint::has_constraint() const {
@@ -1142,33 +1142,33 @@ inline AnalogConstraint::ConstraintCase AnalogConstraint::constraint_case() cons
 
 // AnalogConstraints
 
-// repeated .blox.Constraints.AnalogConstraint constraints = 1 [(.nanopb_test) = {
+// repeated .blox_test.Constraints.AnalogConstraint constraints = 1 [(.nanopb) = {
 inline int AnalogConstraints::constraints_size() const {
   return constraints_.size();
 }
 inline void AnalogConstraints::clear_constraints() {
   constraints_.Clear();
 }
-inline ::blox::Constraints::AnalogConstraint* AnalogConstraints::mutable_constraints(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.Constraints.AnalogConstraints.constraints)
+inline ::blox_test::Constraints::AnalogConstraint* AnalogConstraints::mutable_constraints(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.Constraints.AnalogConstraints.constraints)
   return constraints_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::Constraints::AnalogConstraint >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::AnalogConstraint >*
 AnalogConstraints::mutable_constraints() {
-  // @@protoc_insertion_point(field_mutable_list:blox.Constraints.AnalogConstraints.constraints)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.Constraints.AnalogConstraints.constraints)
   return &constraints_;
 }
-inline const ::blox::Constraints::AnalogConstraint& AnalogConstraints::constraints(int index) const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.AnalogConstraints.constraints)
+inline const ::blox_test::Constraints::AnalogConstraint& AnalogConstraints::constraints(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.AnalogConstraints.constraints)
   return constraints_.Get(index);
 }
-inline ::blox::Constraints::AnalogConstraint* AnalogConstraints::add_constraints() {
-  // @@protoc_insertion_point(field_add:blox.Constraints.AnalogConstraints.constraints)
+inline ::blox_test::Constraints::AnalogConstraint* AnalogConstraints::add_constraints() {
+  // @@protoc_insertion_point(field_add:blox_test.Constraints.AnalogConstraints.constraints)
   return constraints_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::Constraints::AnalogConstraint >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::AnalogConstraint >&
 AnalogConstraints::constraints() const {
-  // @@protoc_insertion_point(field_list:blox.Constraints.AnalogConstraints.constraints)
+  // @@protoc_insertion_point(field_list:blox_test.Constraints.AnalogConstraints.constraints)
   return constraints_;
 }
 
@@ -1176,7 +1176,7 @@ AnalogConstraints::constraints() const {
 
 // DigitalConstraint
 
-// uint32 minOff = 1 [(.nanopb_test) = {
+// uint32 minOff = 1 [(.nanopb) = {
 inline bool DigitalConstraint::has_minoff() const {
   return constraint_case() == kMinOff;
 }
@@ -1190,7 +1190,7 @@ inline void DigitalConstraint::clear_minoff() {
   }
 }
 inline ::google::protobuf::uint32 DigitalConstraint::minoff() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.minOff)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.minOff)
   if (has_minoff()) {
     return constraint_.minoff_;
   }
@@ -1202,10 +1202,10 @@ inline void DigitalConstraint::set_minoff(::google::protobuf::uint32 value) {
     set_has_minoff();
   }
   constraint_.minoff_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.minOff)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.minOff)
 }
 
-// uint32 minOn = 2 [(.nanopb_test) = {
+// uint32 minOn = 2 [(.nanopb) = {
 inline bool DigitalConstraint::has_minon() const {
   return constraint_case() == kMinOn;
 }
@@ -1219,7 +1219,7 @@ inline void DigitalConstraint::clear_minon() {
   }
 }
 inline ::google::protobuf::uint32 DigitalConstraint::minon() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.minOn)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.minOn)
   if (has_minon()) {
     return constraint_.minon_;
   }
@@ -1231,10 +1231,10 @@ inline void DigitalConstraint::set_minon(::google::protobuf::uint32 value) {
     set_has_minon();
   }
   constraint_.minon_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.minOn)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.minOn)
 }
 
-// .blox.Constraints.Mutexed mutexed = 4;
+// .blox_test.Constraints.Mutexed mutexed = 4;
 inline bool DigitalConstraint::has_mutexed() const {
   return constraint_case() == kMutexed;
 }
@@ -1247,38 +1247,38 @@ inline void DigitalConstraint::clear_mutexed() {
     clear_has_constraint();
   }
 }
-inline const ::blox::Constraints::Mutexed& DigitalConstraint::_internal_mutexed() const {
+inline const ::blox_test::Constraints::Mutexed& DigitalConstraint::_internal_mutexed() const {
   return *constraint_.mutexed_;
 }
-inline ::blox::Constraints::Mutexed* DigitalConstraint::release_mutexed() {
-  // @@protoc_insertion_point(field_release:blox.Constraints.DigitalConstraint.mutexed)
+inline ::blox_test::Constraints::Mutexed* DigitalConstraint::release_mutexed() {
+  // @@protoc_insertion_point(field_release:blox_test.Constraints.DigitalConstraint.mutexed)
   if (has_mutexed()) {
     clear_has_constraint();
-      ::blox::Constraints::Mutexed* temp = constraint_.mutexed_;
+      ::blox_test::Constraints::Mutexed* temp = constraint_.mutexed_;
     constraint_.mutexed_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox::Constraints::Mutexed& DigitalConstraint::mutexed() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.mutexed)
+inline const ::blox_test::Constraints::Mutexed& DigitalConstraint::mutexed() const {
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.mutexed)
   return has_mutexed()
       ? *constraint_.mutexed_
-      : *reinterpret_cast< ::blox::Constraints::Mutexed*>(&::blox::Constraints::_Mutexed_default_instance_);
+      : *reinterpret_cast< ::blox_test::Constraints::Mutexed*>(&::blox_test::Constraints::_Mutexed_default_instance_);
 }
-inline ::blox::Constraints::Mutexed* DigitalConstraint::mutable_mutexed() {
+inline ::blox_test::Constraints::Mutexed* DigitalConstraint::mutable_mutexed() {
   if (!has_mutexed()) {
     clear_constraint();
     set_has_mutexed();
-    constraint_.mutexed_ = CreateMaybeMessage< ::blox::Constraints::Mutexed >(
+    constraint_.mutexed_ = CreateMaybeMessage< ::blox_test::Constraints::Mutexed >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox.Constraints.DigitalConstraint.mutexed)
+  // @@protoc_insertion_point(field_mutable:blox_test.Constraints.DigitalConstraint.mutexed)
   return constraint_.mutexed_;
 }
 
-// uint32 delayedOff = 5 [(.nanopb_test) = {
+// uint32 delayedOff = 5 [(.nanopb) = {
 inline bool DigitalConstraint::has_delayedoff() const {
   return constraint_case() == kDelayedOff;
 }
@@ -1292,7 +1292,7 @@ inline void DigitalConstraint::clear_delayedoff() {
   }
 }
 inline ::google::protobuf::uint32 DigitalConstraint::delayedoff() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.delayedOff)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.delayedOff)
   if (has_delayedoff()) {
     return constraint_.delayedoff_;
   }
@@ -1304,10 +1304,10 @@ inline void DigitalConstraint::set_delayedoff(::google::protobuf::uint32 value) 
     set_has_delayedoff();
   }
   constraint_.delayedoff_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.delayedOff)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.delayedOff)
 }
 
-// uint32 delayedOn = 6 [(.nanopb_test) = {
+// uint32 delayedOn = 6 [(.nanopb) = {
 inline bool DigitalConstraint::has_delayedon() const {
   return constraint_case() == kDelayedOn;
 }
@@ -1321,7 +1321,7 @@ inline void DigitalConstraint::clear_delayedon() {
   }
 }
 inline ::google::protobuf::uint32 DigitalConstraint::delayedon() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.delayedOn)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.delayedOn)
   if (has_delayedon()) {
     return constraint_.delayedon_;
   }
@@ -1333,10 +1333,10 @@ inline void DigitalConstraint::set_delayedon(::google::protobuf::uint32 value) {
     set_has_delayedon();
   }
   constraint_.delayedon_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.delayedOn)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.delayedOn)
 }
 
-// uint32 mutex = 3 [(.nanopb_test) = {
+// uint32 mutex = 3 [(.nanopb) = {
 inline bool DigitalConstraint::has_mutex() const {
   return constraint_case() == kMutex;
 }
@@ -1350,7 +1350,7 @@ inline void DigitalConstraint::clear_mutex() {
   }
 }
 inline ::google::protobuf::uint32 DigitalConstraint::mutex() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.mutex)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.mutex)
   if (has_mutex()) {
     return constraint_.mutex_;
   }
@@ -1362,35 +1362,35 @@ inline void DigitalConstraint::set_mutex(::google::protobuf::uint32 value) {
     set_has_mutex();
   }
   constraint_.mutex_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.mutex)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.mutex)
 }
 
-// uint32 limiting = 100 [(.nanopb_test) = {
+// uint32 limiting = 100 [(.nanopb) = {
 inline void DigitalConstraint::clear_limiting() {
   limiting_ = 0u;
 }
 inline ::google::protobuf::uint32 DigitalConstraint::limiting() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.limiting)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.limiting)
   return limiting_;
 }
 inline void DigitalConstraint::set_limiting(::google::protobuf::uint32 value) {
   
   limiting_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.limiting)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.limiting)
 }
 
-// uint32 remaining = 101 [(.nanopb_test) = {
+// uint32 remaining = 101 [(.nanopb) = {
 inline void DigitalConstraint::clear_remaining() {
   remaining_ = 0u;
 }
 inline ::google::protobuf::uint32 DigitalConstraint::remaining() const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraint.remaining)
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraint.remaining)
   return remaining_;
 }
 inline void DigitalConstraint::set_remaining(::google::protobuf::uint32 value) {
   
   remaining_ = value;
-  // @@protoc_insertion_point(field_set:blox.Constraints.DigitalConstraint.remaining)
+  // @@protoc_insertion_point(field_set:blox_test.Constraints.DigitalConstraint.remaining)
 }
 
 inline bool DigitalConstraint::has_constraint() const {
@@ -1406,33 +1406,33 @@ inline DigitalConstraint::ConstraintCase DigitalConstraint::constraint_case() co
 
 // DigitalConstraints
 
-// repeated .blox.Constraints.DigitalConstraint constraints = 1 [(.nanopb_test) = {
+// repeated .blox_test.Constraints.DigitalConstraint constraints = 1 [(.nanopb) = {
 inline int DigitalConstraints::constraints_size() const {
   return constraints_.size();
 }
 inline void DigitalConstraints::clear_constraints() {
   constraints_.Clear();
 }
-inline ::blox::Constraints::DigitalConstraint* DigitalConstraints::mutable_constraints(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.Constraints.DigitalConstraints.constraints)
+inline ::blox_test::Constraints::DigitalConstraint* DigitalConstraints::mutable_constraints(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.Constraints.DigitalConstraints.constraints)
   return constraints_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::Constraints::DigitalConstraint >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::DigitalConstraint >*
 DigitalConstraints::mutable_constraints() {
-  // @@protoc_insertion_point(field_mutable_list:blox.Constraints.DigitalConstraints.constraints)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.Constraints.DigitalConstraints.constraints)
   return &constraints_;
 }
-inline const ::blox::Constraints::DigitalConstraint& DigitalConstraints::constraints(int index) const {
-  // @@protoc_insertion_point(field_get:blox.Constraints.DigitalConstraints.constraints)
+inline const ::blox_test::Constraints::DigitalConstraint& DigitalConstraints::constraints(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.Constraints.DigitalConstraints.constraints)
   return constraints_.Get(index);
 }
-inline ::blox::Constraints::DigitalConstraint* DigitalConstraints::add_constraints() {
-  // @@protoc_insertion_point(field_add:blox.Constraints.DigitalConstraints.constraints)
+inline ::blox_test::Constraints::DigitalConstraint* DigitalConstraints::add_constraints() {
+  // @@protoc_insertion_point(field_add:blox_test.Constraints.DigitalConstraints.constraints)
   return constraints_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::Constraints::DigitalConstraint >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::Constraints::DigitalConstraint >&
 DigitalConstraints::constraints() const {
-  // @@protoc_insertion_point(field_list:blox.Constraints.DigitalConstraints.constraints)
+  // @@protoc_insertion_point(field_list:blox_test.Constraints.DigitalConstraints.constraints)
   return constraints_;
 }
 
@@ -1453,7 +1453,7 @@ DigitalConstraints::constraints() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Constraints
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

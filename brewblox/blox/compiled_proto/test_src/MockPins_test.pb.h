@@ -49,19 +49,19 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_MockPins_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace MockPins {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace MockPins
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::MockPins::Block* Arena::CreateMaybeMessage<::blox::MockPins::Block>(Arena*);
+template<> ::blox_test::MockPins::Block* Arena::CreateMaybeMessage<::blox_test::MockPins::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace MockPins {
 
 enum ChannelId {
@@ -94,7 +94,7 @@ inline bool ChannelId_Parse(
 }
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.MockPins.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.MockPins.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -181,29 +181,29 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.IoArray.IoChannel channels = 2 [(.nanopb_test) = {
+  // repeated .blox_test.IoArray.IoChannel channels = 2 [(.nanopb) = {
   int channels_size() const;
   void clear_channels();
   static const int kChannelsFieldNumber = 2;
-  ::blox::IoArray::IoChannel* mutable_channels(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >*
+  ::blox_test::IoArray::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >*
       mutable_channels();
-  const ::blox::IoArray::IoChannel& channels(int index) const;
-  ::blox::IoArray::IoChannel* add_channels();
-  const ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >&
+  const ::blox_test::IoArray::IoChannel& channels(int index) const;
+  ::blox_test::IoArray::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
       channels() const;
 
-  // bool pins = 90 [(.nanopb_test) = {
+  // bool pins = 90 [(.nanopb) = {
   void clear_pins();
   static const int kPinsFieldNumber = 90;
   bool pins() const;
   void set_pins(bool value);
 
-  // @@protoc_insertion_point(class_scope:blox.MockPins.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.MockPins.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel > channels_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel > channels_;
   bool pins_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_MockPins_5ftest_2eproto::TableStruct;
@@ -219,45 +219,45 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// repeated .blox.IoArray.IoChannel channels = 2 [(.nanopb_test) = {
+// repeated .blox_test.IoArray.IoChannel channels = 2 [(.nanopb) = {
 inline int Block::channels_size() const {
   return channels_.size();
 }
-inline ::blox::IoArray::IoChannel* Block::mutable_channels(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.MockPins.Block.channels)
+inline ::blox_test::IoArray::IoChannel* Block::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.MockPins.Block.channels)
   return channels_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >*
 Block::mutable_channels() {
-  // @@protoc_insertion_point(field_mutable_list:blox.MockPins.Block.channels)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.MockPins.Block.channels)
   return &channels_;
 }
-inline const ::blox::IoArray::IoChannel& Block::channels(int index) const {
-  // @@protoc_insertion_point(field_get:blox.MockPins.Block.channels)
+inline const ::blox_test::IoArray::IoChannel& Block::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.MockPins.Block.channels)
   return channels_.Get(index);
 }
-inline ::blox::IoArray::IoChannel* Block::add_channels() {
-  // @@protoc_insertion_point(field_add:blox.MockPins.Block.channels)
+inline ::blox_test::IoArray::IoChannel* Block::add_channels() {
+  // @@protoc_insertion_point(field_add:blox_test.MockPins.Block.channels)
   return channels_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
 Block::channels() const {
-  // @@protoc_insertion_point(field_list:blox.MockPins.Block.channels)
+  // @@protoc_insertion_point(field_list:blox_test.MockPins.Block.channels)
   return channels_;
 }
 
-// bool pins = 90 [(.nanopb_test) = {
+// bool pins = 90 [(.nanopb) = {
 inline void Block::clear_pins() {
   pins_ = false;
 }
 inline bool Block::pins() const {
-  // @@protoc_insertion_point(field_get:blox.MockPins.Block.pins)
+  // @@protoc_insertion_point(field_get:blox_test.MockPins.Block.pins)
   return pins_;
 }
 inline void Block::set_pins(bool value) {
   
   pins_ = value;
-  // @@protoc_insertion_point(field_set:blox.MockPins.Block.pins)
+  // @@protoc_insertion_point(field_set:blox_test.MockPins.Block.pins)
 }
 
 #ifdef __GNUC__
@@ -267,15 +267,15 @@ inline void Block::set_pins(bool value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace MockPins
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::MockPins::ChannelId> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::MockPins::ChannelId> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::MockPins::ChannelId>() {
-  return ::blox::MockPins::ChannelId_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::MockPins::ChannelId>() {
+  return ::blox_test::MockPins::ChannelId_descriptor();
 }
 
 }  // namespace protobuf

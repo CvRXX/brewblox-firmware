@@ -22,7 +22,7 @@
 #include "MockIoArray.h"
 #include "blox/Block.h"
 
-class MockPinsBlock : public Block<BlockType_MockPins> {
+class MockPinsBlock : public Block<brewblox_BlockType_MockPins> {
 private:
     MockIoArray mocks;
 

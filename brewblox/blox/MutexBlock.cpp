@@ -24,8 +24,8 @@
 cbox::CboxError
 MutexBlock::streamFrom(cbox::DataIn& dataIn)
 {
-    blox_Mutex newData = blox_Mutex_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Mutex_fields, blox_Mutex_size);
+    blox_Mutex_Block newData = blox_Mutex_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Mutex_Block_fields, blox_Mutex_Block_size);
     if (result == cbox::CboxError::OK) {
         m_mutex.holdAfterTurnOff(newData.differentActuatorWait);
     }
@@ -35,16 +35,16 @@ MutexBlock::streamFrom(cbox::DataIn& dataIn)
 cbox::CboxError
 MutexBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_Mutex message = blox_Mutex_init_zero;
+    blox_Mutex_Block message = blox_Mutex_Block_init_zero;
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
     message.waitRemaining = m_mutex.timeRemaining();
 
-    return streamProtoTo(out, &message, blox_Mutex_fields, blox_Mutex_size);
+    return streamProtoTo(out, &message, blox_Mutex_Block_fields, blox_Mutex_Block_size);
 }
 
 void* MutexBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_Mutex) {
+    if (iface == brewblox_BlockType_Mutex) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<MutexTarget>()) {

@@ -24,8 +24,8 @@
 cbox::CboxError
 MotorValveBlock::streamFrom(cbox::DataIn& dataIn)
 {
-    blox_MotorValve message = blox_MotorValve_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &message, blox_MotorValve_fields, blox_MotorValve_size);
+    blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(dataIn, &message, blox_MotorValve_Block_fields, blox_MotorValve_Block_size);
 
     if (result == cbox::CboxError::OK) {
         if (hwDevice.getId() != message.hwDevice) {
@@ -39,9 +39,9 @@ MotorValveBlock::streamFrom(cbox::DataIn& dataIn)
 
     return result;
 }
-void MotorValveBlock::writePersistedStateToMessage(blox_MotorValve& message) const
+void MotorValveBlock::writePersistedStateToMessage(blox_MotorValve_Block& message) const
 {
-    message.desiredState = blox_DigitalState(constrained.desiredState());
+    message.desiredState = blox_IoArray_DigitalState(constrained.desiredState());
     message.hwDevice = hwDevice.getId();
     message.startChannel = valve.startChannel();
     getDigitalConstraints(message.constrainedBy, constrained);
@@ -50,35 +50,35 @@ void MotorValveBlock::writePersistedStateToMessage(blox_MotorValve& message) con
 cbox::CboxError
 MotorValveBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_MotorValve message = blox_MotorValve_init_zero;
+    blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     FieldTags stripped;
 
     writePersistedStateToMessage(message);
 
     auto state = valve.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
-        stripped.add(blox_MotorValve_state_tag);
+        stripped.add(blox_MotorValve_Block_state_tag);
     } else {
-        message.state = blox_DigitalState(valve.state());
+        message.state = blox_IoArray_DigitalState(valve.state());
     }
     auto valveState = valve.valveState();
     if (valveState == MotorValve::ValveState::Unknown) {
-        stripped.add(blox_MotorValve_valveState_tag);
+        stripped.add(blox_MotorValve_Block_valveState_tag);
     } else {
         message.valveState = blox_MotorValve_ValveState(valve.valveState());
     }
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-    return streamProtoTo(out, &message, blox_MotorValve_fields, blox_MotorValve_size);
+    return streamProtoTo(out, &message, blox_MotorValve_Block_fields, blox_MotorValve_Block_size);
 }
 
 cbox::CboxError
 MotorValveBlock::streamPersistedTo(cbox::DataOut& out) const
 {
 
-    blox_MotorValve message = blox_MotorValve_init_zero;
+    blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     writePersistedStateToMessage(message);
-    return streamProtoTo(out, &message, blox_MotorValve_fields, blox_MotorValve_size);
+    return streamProtoTo(out, &message, blox_MotorValve_Block_fields, blox_MotorValve_Block_size);
 }
 
 cbox::update_t
@@ -90,7 +90,7 @@ MotorValveBlock::update(const cbox::update_t& now)
 
 void* MotorValveBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_MotorValve) {
+    if (iface == brewblox_BlockType_MotorValve) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {

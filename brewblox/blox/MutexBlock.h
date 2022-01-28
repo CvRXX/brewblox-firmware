@@ -22,7 +22,7 @@
 #include "ActuatorDigitalConstrained.h"
 #include "Block.h"
 
-class MutexBlock : public Block<BlockType_Mutex> {
+class MutexBlock : public Block<brewblox_BlockType_Mutex> {
 private:
     MutexTarget m_mutex;
 

@@ -22,7 +22,7 @@
 namespace protobuf_Constraints_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Constraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_DigitalConstraints;
 }  // namespace protobuf_Constraints_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace DigitalActuator {
 class BlockDefaultTypeInternal {
  public:
@@ -30,17 +30,17 @@ class BlockDefaultTypeInternal {
       _instance;
 } _Block_default_instance_;
 }  // namespace DigitalActuator
-}  // namespace blox
+}  // namespace blox_test
 namespace protobuf_DigitalActuator_5ftest_2eproto {
 static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::DigitalActuator::_Block_default_instance_;
-    new (ptr) ::blox::DigitalActuator::Block();
+    void* ptr = &::blox_test::DigitalActuator::_Block_default_instance_;
+    new (ptr) ::blox_test::DigitalActuator::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::DigitalActuator::Block::InitAsDefaultInstance();
+  ::blox_test::DigitalActuator::Block::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_Block =
@@ -55,24 +55,24 @@ void InitDefaults() {
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, hwdevice_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, channel_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, state_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, invert_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, desiredstate_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalActuator::Block, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, hwdevice_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, channel_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, state_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, invert_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, constrainedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, desiredstate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::DigitalActuator::Block)},
+  { 0, -1, sizeof(::blox_test::DigitalActuator::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::DigitalActuator::_Block_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::DigitalActuator::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -96,21 +96,22 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\032DigitalActuator_test.proto\022\024blox.Digit"
-      "alActuator\032\023brewblox_test.proto\032\021nanopb_"
-      "test.proto\032\026Constraints_test.proto\032\022IoAr"
-      "ray_test.proto\"\275\002\n\005Block\022#\n\010hwDevice\030\001 \001"
-      "(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005"
-      "\222\?\0028\010\0227\n\005state\030\003 \001(\0162\032.blox.IoArray.Digi"
-      "talStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006invert\030\004 \001(\010\022;"
-      "\n\rconstrainedBy\030\005 \001(\0132$.blox.Constraints"
-      ".DigitalConstraints\0228\n\014desiredState\030\006 \001("
-      "\0162\032.blox.IoArray.DigitalStateB\006\212\265\030\0020\001\022(\n"
-      "\016strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\001:"
-      "\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006proto3"
+      "\n\032DigitalActuator_test.proto\022\031blox_test."
+      "DigitalActuator\032\023brewblox_test.proto\032\021na"
+      "nopb_test.proto\032\026Constraints_test.proto\032"
+      "\022IoArray_test.proto\"\314\002\n\005Block\022#\n\010hwDevic"
+      "e\030\001 \001(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 "
+      "\001(\rB\005\222\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.Io"
+      "Array.DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006inve"
+      "rt\030\004 \001(\010\022@\n\rconstrainedBy\030\005 \001(\0132).blox_t"
+      "est.Constraints.DigitalConstraints\022=\n\014de"
+      "siredState\030\006 \001(\0162\037.blox_test.IoArray.Dig"
+      "italStateB\006\212\265\030\0020\001\022(\n\016strippedFields\030c \003("
+      "\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\001:\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 462);
+      descriptor, 482);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DigitalActuator_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -130,14 +131,14 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_DigitalActuator_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace DigitalActuator {
 
 // ===================================================================
 
 void Block::InitAsDefaultInstance() {
-  ::blox::DigitalActuator::_Block_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::Constraints::DigitalConstraints*>(
-      ::blox::Constraints::DigitalConstraints::internal_default_instance());
+  ::blox_test::DigitalActuator::_Block_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox_test::Constraints::DigitalConstraints*>(
+      ::blox_test::Constraints::DigitalConstraints::internal_default_instance());
 }
 void Block::clear_constrainedby() {
   if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
@@ -160,7 +161,7 @@ Block::Block()
   ::google::protobuf::internal::InitSCC(
       &protobuf_DigitalActuator_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(constructor:blox_test.DigitalActuator.Block)
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
@@ -168,14 +169,14 @@ Block::Block(const Block& from)
       strippedfields_(from.strippedfields_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_constrainedby()) {
-    constrainedby_ = new ::blox::Constraints::DigitalConstraints(*from.constrainedby_);
+    constrainedby_ = new ::blox_test::Constraints::DigitalConstraints(*from.constrainedby_);
   } else {
     constrainedby_ = NULL;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
     static_cast<size_t>(reinterpret_cast<char*>(&desiredstate_) -
     reinterpret_cast<char*>(&hwdevice_)) + sizeof(desiredstate_));
-  // @@protoc_insertion_point(copy_constructor:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(copy_constructor:blox_test.DigitalActuator.Block)
 }
 
 void Block::SharedCtor() {
@@ -185,7 +186,7 @@ void Block::SharedCtor() {
 }
 
 Block::~Block() {
-  // @@protoc_insertion_point(destructor:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(destructor:blox_test.DigitalActuator.Block)
   SharedDtor();
 }
 
@@ -208,7 +209,7 @@ const Block& Block::default_instance() {
 
 
 void Block::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.DigitalActuator.Block)
+// @@protoc_insertion_point(message_clear_start:blox_test.DigitalActuator.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -228,13 +229,13 @@ bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(parse_start:blox_test.DigitalActuator.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 hwDevice = 1 [(.nanopb_test) = {
+      // uint32 hwDevice = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -248,7 +249,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 channel = 2 [(.nanopb_test) = {
+      // uint32 channel = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -262,7 +263,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.IoArray.DigitalState state = 3 [(.brewblox_test) = {
+      // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -270,7 +271,7 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_state(static_cast< ::blox::IoArray::DigitalState >(value));
+          set_state(static_cast< ::blox_test::IoArray::DigitalState >(value));
         } else {
           goto handle_unusual;
         }
@@ -291,7 +292,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.Constraints.DigitalConstraints constrainedBy = 5;
+      // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
@@ -303,7 +304,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.IoArray.DigitalState desiredState = 6 [(.brewblox_test) = {
+      // .blox_test.IoArray.DigitalState desiredState = 6 [(.brewblox.field) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
@@ -311,14 +312,14 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_desiredstate(static_cast< ::blox::IoArray::DigitalState >(value));
+          set_desiredstate(static_cast< ::blox_test::IoArray::DigitalState >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+      // repeated uint32 strippedFields = 99 [(.nanopb) = {
       case 99: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
@@ -349,31 +350,31 @@ bool Block::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(parse_success:blox_test.DigitalActuator.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(parse_failure:blox_test.DigitalActuator.Block)
   return false;
 #undef DO_
 }
 
 void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(serialize_start:blox_test.DigitalActuator.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 hwDevice = 1 [(.nanopb_test) = {
+  // uint32 hwDevice = 1 [(.nanopb) = {
   if (this->hwdevice() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->hwdevice(), output);
   }
 
-  // uint32 channel = 2 [(.nanopb_test) = {
+  // uint32 channel = 2 [(.nanopb) = {
   if (this->channel() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->channel(), output);
   }
 
-  // .blox.IoArray.DigitalState state = 3 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
   if (this->state() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->state(), output);
@@ -384,19 +385,19 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->invert(), output);
   }
 
-  // .blox.Constraints.DigitalConstraints constrainedBy = 5;
+  // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
   if (this->has_constrainedby()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       5, this->_internal_constrainedby(), output);
   }
 
-  // .blox.IoArray.DigitalState desiredState = 6 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState desiredState = 6 [(.brewblox.field) = {
   if (this->desiredstate() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       6, this->desiredstate(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -411,27 +412,27 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(serialize_end:blox_test.DigitalActuator.Block)
 }
 
 ::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.DigitalActuator.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 hwDevice = 1 [(.nanopb_test) = {
+  // uint32 hwDevice = 1 [(.nanopb) = {
   if (this->hwdevice() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->hwdevice(), target);
   }
 
-  // uint32 channel = 2 [(.nanopb_test) = {
+  // uint32 channel = 2 [(.nanopb) = {
   if (this->channel() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->channel(), target);
   }
 
-  // .blox.IoArray.DigitalState state = 3 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
   if (this->state() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       3, this->state(), target);
@@ -442,20 +443,20 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(4, this->invert(), target);
   }
 
-  // .blox.Constraints.DigitalConstraints constrainedBy = 5;
+  // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
   if (this->has_constrainedby()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         5, this->_internal_constrainedby(), deterministic, target);
   }
 
-  // .blox.IoArray.DigitalState desiredState = 6 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState desiredState = 6 [(.brewblox.field) = {
   if (this->desiredstate() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       6, this->desiredstate(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       99,
@@ -472,12 +473,12 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.DigitalActuator.Block)
   return target;
 }
 
 size_t Block::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.DigitalActuator.Block)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.DigitalActuator.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -485,7 +486,7 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
@@ -501,28 +502,28 @@ size_t Block::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // .blox.Constraints.DigitalConstraints constrainedBy = 5;
+  // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
   if (this->has_constrainedby()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *constrainedby_);
   }
 
-  // uint32 hwDevice = 1 [(.nanopb_test) = {
+  // uint32 hwDevice = 1 [(.nanopb) = {
   if (this->hwdevice() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->hwdevice());
   }
 
-  // uint32 channel = 2 [(.nanopb_test) = {
+  // uint32 channel = 2 [(.nanopb) = {
   if (this->channel() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->channel());
   }
 
-  // .blox.IoArray.DigitalState state = 3 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
   if (this->state() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
@@ -533,7 +534,7 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // .blox.IoArray.DigitalState desiredState = 6 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState desiredState = 6 [(.brewblox.field) = {
   if (this->desiredstate() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->desiredstate());
@@ -545,22 +546,22 @@ size_t Block::ByteSizeLong() const {
 }
 
 void Block::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.DigitalActuator.Block)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.DigitalActuator.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.DigitalActuator.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.DigitalActuator.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.DigitalActuator.Block)
     MergeFrom(*source);
   }
 }
 
 void Block::MergeFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.DigitalActuator.Block)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.DigitalActuator.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -568,7 +569,7 @@ void Block::MergeFrom(const Block& from) {
 
   strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_constrainedby()) {
-    mutable_constrainedby()->::blox::Constraints::DigitalConstraints::MergeFrom(from.constrainedby());
+    mutable_constrainedby()->::blox_test::Constraints::DigitalConstraints::MergeFrom(from.constrainedby());
   }
   if (from.hwdevice() != 0) {
     set_hwdevice(from.hwdevice());
@@ -588,14 +589,14 @@ void Block::MergeFrom(const Block& from) {
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.DigitalActuator.Block)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.DigitalActuator.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Block::CopyFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.DigitalActuator.Block)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.DigitalActuator.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -629,11 +630,11 @@ void Block::InternalSwap(Block* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace DigitalActuator
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::DigitalActuator::Block* Arena::CreateMaybeMessage< ::blox::DigitalActuator::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::DigitalActuator::Block >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::DigitalActuator::Block* Arena::CreateMaybeMessage< ::blox_test::DigitalActuator::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::DigitalActuator::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

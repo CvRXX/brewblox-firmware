@@ -48,7 +48,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_DisplaySettings_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace DisplaySettings {
 class Block;
 class BlockDefaultTypeInternal;
@@ -57,14 +57,14 @@ class Widget;
 class WidgetDefaultTypeInternal;
 extern WidgetDefaultTypeInternal _Widget_default_instance_;
 }  // namespace DisplaySettings
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::DisplaySettings::Block* Arena::CreateMaybeMessage<::blox::DisplaySettings::Block>(Arena*);
-template<> ::blox::DisplaySettings::Widget* Arena::CreateMaybeMessage<::blox::DisplaySettings::Widget>(Arena*);
+template<> ::blox_test::DisplaySettings::Block* Arena::CreateMaybeMessage<::blox_test::DisplaySettings::Block>(Arena*);
+template<> ::blox_test::DisplaySettings::Widget* Arena::CreateMaybeMessage<::blox_test::DisplaySettings::Widget>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace DisplaySettings {
 
 enum TemperatureUnit {
@@ -90,7 +90,7 @@ inline bool TemperatureUnit_Parse(
 }
 // ===================================================================
 
-class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.DisplaySettings.Widget) */ {
+class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.DisplaySettings.Widget) */ {
  public:
   Widget();
   virtual ~Widget();
@@ -185,7 +185,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 
   // accessors -------------------------------------------------------
 
-  // bytes color = 2 [(.nanopb_test) = {
+  // bytes color = 2 [(.nanopb) = {
   void clear_color();
   static const int kColorFieldNumber = 2;
   const ::std::string& color() const;
@@ -199,7 +199,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::std::string* release_color();
   void set_allocated_color(::std::string* color);
 
-  // string name = 3 [(.nanopb_test) = {
+  // string name = 3 [(.nanopb) = {
   void clear_name();
   static const int kNameFieldNumber = 3;
   const ::std::string& name() const;
@@ -213,13 +213,13 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // uint32 pos = 1 [(.nanopb_test) = {
+  // uint32 pos = 1 [(.nanopb) = {
   void clear_pos();
   static const int kPosFieldNumber = 1;
   ::google::protobuf::uint32 pos() const;
   void set_pos(::google::protobuf::uint32 value);
 
-  // uint32 tempSensor = 10 [(.nanopb_test) = {
+  // uint32 tempSensor = 10 [(.nanopb) = {
   private:
   bool has_tempsensor() const;
   public:
@@ -228,7 +228,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::uint32 tempsensor() const;
   void set_tempsensor(::google::protobuf::uint32 value);
 
-  // uint32 setpointSensorPair = 11 [(.nanopb_test) = {
+  // uint32 setpointSensorPair = 11 [(.nanopb) = {
   private:
   bool has_setpointsensorpair() const;
   public:
@@ -237,7 +237,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::uint32 setpointsensorpair() const;
   void set_setpointsensorpair(::google::protobuf::uint32 value);
 
-  // uint32 actuatorAnalog = 12 [(.nanopb_test) = {
+  // uint32 actuatorAnalog = 12 [(.nanopb) = {
   private:
   bool has_actuatoranalog() const;
   public:
@@ -246,7 +246,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::uint32 actuatoranalog() const;
   void set_actuatoranalog(::google::protobuf::uint32 value);
 
-  // uint32 pid = 14 [(.nanopb_test) = {
+  // uint32 pid = 14 [(.nanopb) = {
   private:
   bool has_pid() const;
   public:
@@ -257,7 +257,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 
   void clear_WidgetType();
   WidgetTypeCase WidgetType_case() const;
-  // @@protoc_insertion_point(class_scope:blox.DisplaySettings.Widget)
+  // @@protoc_insertion_point(class_scope:blox_test.DisplaySettings.Widget)
  private:
   void set_has_tempsensor();
   void set_has_setpointsensorpair();
@@ -285,7 +285,7 @@ class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 };
 // -------------------------------------------------------------------
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.DisplaySettings.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.DisplaySettings.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -372,19 +372,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.DisplaySettings.Widget widgets = 1 [(.nanopb_test) = {
+  // repeated .blox_test.DisplaySettings.Widget widgets = 1 [(.nanopb) = {
   int widgets_size() const;
   void clear_widgets();
   static const int kWidgetsFieldNumber = 1;
-  ::blox::DisplaySettings::Widget* mutable_widgets(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::DisplaySettings::Widget >*
+  ::blox_test::DisplaySettings::Widget* mutable_widgets(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget >*
       mutable_widgets();
-  const ::blox::DisplaySettings::Widget& widgets(int index) const;
-  ::blox::DisplaySettings::Widget* add_widgets();
-  const ::google::protobuf::RepeatedPtrField< ::blox::DisplaySettings::Widget >&
+  const ::blox_test::DisplaySettings::Widget& widgets(int index) const;
+  ::blox_test::DisplaySettings::Widget* add_widgets();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget >&
       widgets() const;
 
-  // string name = 2 [(.nanopb_test) = {
+  // string name = 2 [(.nanopb) = {
   void clear_name();
   static const int kNameFieldNumber = 2;
   const ::std::string& name() const;
@@ -398,7 +398,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // string timeZone = 5 [(.nanopb_test) = {
+  // string timeZone = 5 [(.nanopb) = {
   void clear_timezone();
   static const int kTimeZoneFieldNumber = 5;
   const ::std::string& timezone() const;
@@ -412,23 +412,23 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_timezone();
   void set_allocated_timezone(::std::string* timezone);
 
-  // .blox.DisplaySettings.TemperatureUnit tempUnit = 3;
+  // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
   void clear_tempunit();
   static const int kTempUnitFieldNumber = 3;
-  ::blox::DisplaySettings::TemperatureUnit tempunit() const;
-  void set_tempunit(::blox::DisplaySettings::TemperatureUnit value);
+  ::blox_test::DisplaySettings::TemperatureUnit tempunit() const;
+  void set_tempunit(::blox_test::DisplaySettings::TemperatureUnit value);
 
-  // uint32 brightness = 4 [(.nanopb_test) = {
+  // uint32 brightness = 4 [(.nanopb) = {
   void clear_brightness();
   static const int kBrightnessFieldNumber = 4;
   ::google::protobuf::uint32 brightness() const;
   void set_brightness(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.DisplaySettings.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.DisplaySettings.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::DisplaySettings::Widget > widgets_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget > widgets_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr timezone_;
   int tempunit_;
@@ -447,60 +447,60 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Widget
 
-// uint32 pos = 1 [(.nanopb_test) = {
+// uint32 pos = 1 [(.nanopb) = {
 inline void Widget::clear_pos() {
   pos_ = 0u;
 }
 inline ::google::protobuf::uint32 Widget::pos() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.pos)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.pos)
   return pos_;
 }
 inline void Widget::set_pos(::google::protobuf::uint32 value) {
   
   pos_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.pos)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.pos)
 }
 
-// bytes color = 2 [(.nanopb_test) = {
+// bytes color = 2 [(.nanopb) = {
 inline void Widget::clear_color() {
   color_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Widget::color() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.color)
   return color_.GetNoArena();
 }
 inline void Widget::set_color(const ::std::string& value) {
   
   color_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.color)
 }
 #if LANG_CXX11
 inline void Widget::set_color(::std::string&& value) {
   
   color_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.DisplaySettings.Widget.color)
 }
 #endif
 inline void Widget::set_color(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   color_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_set_char:blox_test.DisplaySettings.Widget.color)
 }
 inline void Widget::set_color(const void* value, size_t size) {
   
   color_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.DisplaySettings.Widget.color)
 }
 inline ::std::string* Widget::mutable_color() {
   
-  // @@protoc_insertion_point(field_mutable:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_mutable:blox_test.DisplaySettings.Widget.color)
   return color_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Widget::release_color() {
-  // @@protoc_insertion_point(field_release:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_release:blox_test.DisplaySettings.Widget.color)
   
   return color_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -511,49 +511,49 @@ inline void Widget::set_allocated_color(::std::string* color) {
     
   }
   color_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), color);
-  // @@protoc_insertion_point(field_set_allocated:blox.DisplaySettings.Widget.color)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Widget.color)
 }
 
-// string name = 3 [(.nanopb_test) = {
+// string name = 3 [(.nanopb) = {
 inline void Widget::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Widget::name() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.name)
   return name_.GetNoArena();
 }
 inline void Widget::set_name(const ::std::string& value) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.name)
 }
 #if LANG_CXX11
 inline void Widget::set_name(::std::string&& value) {
   
   name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.DisplaySettings.Widget.name)
 }
 #endif
 inline void Widget::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_set_char:blox_test.DisplaySettings.Widget.name)
 }
 inline void Widget::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.DisplaySettings.Widget.name)
 }
 inline ::std::string* Widget::mutable_name() {
   
-  // @@protoc_insertion_point(field_mutable:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_mutable:blox_test.DisplaySettings.Widget.name)
   return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Widget::release_name() {
-  // @@protoc_insertion_point(field_release:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_release:blox_test.DisplaySettings.Widget.name)
   
   return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -564,10 +564,10 @@ inline void Widget::set_allocated_name(::std::string* name) {
     
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:blox.DisplaySettings.Widget.name)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Widget.name)
 }
 
-// uint32 tempSensor = 10 [(.nanopb_test) = {
+// uint32 tempSensor = 10 [(.nanopb) = {
 inline bool Widget::has_tempsensor() const {
   return WidgetType_case() == kTempSensor;
 }
@@ -581,7 +581,7 @@ inline void Widget::clear_tempsensor() {
   }
 }
 inline ::google::protobuf::uint32 Widget::tempsensor() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.tempSensor)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.tempSensor)
   if (has_tempsensor()) {
     return WidgetType_.tempsensor_;
   }
@@ -593,10 +593,10 @@ inline void Widget::set_tempsensor(::google::protobuf::uint32 value) {
     set_has_tempsensor();
   }
   WidgetType_.tempsensor_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.tempSensor)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.tempSensor)
 }
 
-// uint32 setpointSensorPair = 11 [(.nanopb_test) = {
+// uint32 setpointSensorPair = 11 [(.nanopb) = {
 inline bool Widget::has_setpointsensorpair() const {
   return WidgetType_case() == kSetpointSensorPair;
 }
@@ -610,7 +610,7 @@ inline void Widget::clear_setpointsensorpair() {
   }
 }
 inline ::google::protobuf::uint32 Widget::setpointsensorpair() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.setpointSensorPair)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.setpointSensorPair)
   if (has_setpointsensorpair()) {
     return WidgetType_.setpointsensorpair_;
   }
@@ -622,10 +622,10 @@ inline void Widget::set_setpointsensorpair(::google::protobuf::uint32 value) {
     set_has_setpointsensorpair();
   }
   WidgetType_.setpointsensorpair_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.setpointSensorPair)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.setpointSensorPair)
 }
 
-// uint32 actuatorAnalog = 12 [(.nanopb_test) = {
+// uint32 actuatorAnalog = 12 [(.nanopb) = {
 inline bool Widget::has_actuatoranalog() const {
   return WidgetType_case() == kActuatorAnalog;
 }
@@ -639,7 +639,7 @@ inline void Widget::clear_actuatoranalog() {
   }
 }
 inline ::google::protobuf::uint32 Widget::actuatoranalog() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.actuatorAnalog)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.actuatorAnalog)
   if (has_actuatoranalog()) {
     return WidgetType_.actuatoranalog_;
   }
@@ -651,10 +651,10 @@ inline void Widget::set_actuatoranalog(::google::protobuf::uint32 value) {
     set_has_actuatoranalog();
   }
   WidgetType_.actuatoranalog_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.actuatorAnalog)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.actuatorAnalog)
 }
 
-// uint32 pid = 14 [(.nanopb_test) = {
+// uint32 pid = 14 [(.nanopb) = {
 inline bool Widget::has_pid() const {
   return WidgetType_case() == kPid;
 }
@@ -668,7 +668,7 @@ inline void Widget::clear_pid() {
   }
 }
 inline ::google::protobuf::uint32 Widget::pid() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Widget.pid)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Widget.pid)
   if (has_pid()) {
     return WidgetType_.pid_;
   }
@@ -680,7 +680,7 @@ inline void Widget::set_pid(::google::protobuf::uint32 value) {
     set_has_pid();
   }
   WidgetType_.pid_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Widget.pid)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Widget.pid)
 }
 
 inline bool Widget::has_WidgetType() const {
@@ -696,76 +696,76 @@ inline Widget::WidgetTypeCase Widget::WidgetType_case() const {
 
 // Block
 
-// repeated .blox.DisplaySettings.Widget widgets = 1 [(.nanopb_test) = {
+// repeated .blox_test.DisplaySettings.Widget widgets = 1 [(.nanopb) = {
 inline int Block::widgets_size() const {
   return widgets_.size();
 }
 inline void Block::clear_widgets() {
   widgets_.Clear();
 }
-inline ::blox::DisplaySettings::Widget* Block::mutable_widgets(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.DisplaySettings.Block.widgets)
+inline ::blox_test::DisplaySettings::Widget* Block::mutable_widgets(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.DisplaySettings.Block.widgets)
   return widgets_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::DisplaySettings::Widget >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget >*
 Block::mutable_widgets() {
-  // @@protoc_insertion_point(field_mutable_list:blox.DisplaySettings.Block.widgets)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.DisplaySettings.Block.widgets)
   return &widgets_;
 }
-inline const ::blox::DisplaySettings::Widget& Block::widgets(int index) const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Block.widgets)
+inline const ::blox_test::DisplaySettings::Widget& Block::widgets(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.widgets)
   return widgets_.Get(index);
 }
-inline ::blox::DisplaySettings::Widget* Block::add_widgets() {
-  // @@protoc_insertion_point(field_add:blox.DisplaySettings.Block.widgets)
+inline ::blox_test::DisplaySettings::Widget* Block::add_widgets() {
+  // @@protoc_insertion_point(field_add:blox_test.DisplaySettings.Block.widgets)
   return widgets_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::DisplaySettings::Widget >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget >&
 Block::widgets() const {
-  // @@protoc_insertion_point(field_list:blox.DisplaySettings.Block.widgets)
+  // @@protoc_insertion_point(field_list:blox_test.DisplaySettings.Block.widgets)
   return widgets_;
 }
 
-// string name = 2 [(.nanopb_test) = {
+// string name = 2 [(.nanopb) = {
 inline void Block::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::name() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.name)
   return name_.GetNoArena();
 }
 inline void Block::set_name(const ::std::string& value) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.name)
 }
 #if LANG_CXX11
 inline void Block::set_name(::std::string&& value) {
   
   name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.DisplaySettings.Block.name)
 }
 #endif
 inline void Block::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_set_char:blox_test.DisplaySettings.Block.name)
 }
 inline void Block::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.DisplaySettings.Block.name)
 }
 inline ::std::string* Block::mutable_name() {
   
-  // @@protoc_insertion_point(field_mutable:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_mutable:blox_test.DisplaySettings.Block.name)
   return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_name() {
-  // @@protoc_insertion_point(field_release:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_release:blox_test.DisplaySettings.Block.name)
   
   return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -776,77 +776,77 @@ inline void Block::set_allocated_name(::std::string* name) {
     
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:blox.DisplaySettings.Block.name)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Block.name)
 }
 
-// .blox.DisplaySettings.TemperatureUnit tempUnit = 3;
+// .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
 inline void Block::clear_tempunit() {
   tempunit_ = 0;
 }
-inline ::blox::DisplaySettings::TemperatureUnit Block::tempunit() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Block.tempUnit)
-  return static_cast< ::blox::DisplaySettings::TemperatureUnit >(tempunit_);
+inline ::blox_test::DisplaySettings::TemperatureUnit Block::tempunit() const {
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.tempUnit)
+  return static_cast< ::blox_test::DisplaySettings::TemperatureUnit >(tempunit_);
 }
-inline void Block::set_tempunit(::blox::DisplaySettings::TemperatureUnit value) {
+inline void Block::set_tempunit(::blox_test::DisplaySettings::TemperatureUnit value) {
   
   tempunit_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Block.tempUnit)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.tempUnit)
 }
 
-// uint32 brightness = 4 [(.nanopb_test) = {
+// uint32 brightness = 4 [(.nanopb) = {
 inline void Block::clear_brightness() {
   brightness_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::brightness() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Block.brightness)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.brightness)
   return brightness_;
 }
 inline void Block::set_brightness(::google::protobuf::uint32 value) {
   
   brightness_ = value;
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Block.brightness)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.brightness)
 }
 
-// string timeZone = 5 [(.nanopb_test) = {
+// string timeZone = 5 [(.nanopb) = {
 inline void Block::clear_timezone() {
   timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::timezone() const {
-  // @@protoc_insertion_point(field_get:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.timeZone)
   return timezone_.GetNoArena();
 }
 inline void Block::set_timezone(const ::std::string& value) {
   
   timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.timeZone)
 }
 #if LANG_CXX11
 inline void Block::set_timezone(::std::string&& value) {
   
   timezone_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.DisplaySettings.Block.timeZone)
 }
 #endif
 inline void Block::set_timezone(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_set_char:blox_test.DisplaySettings.Block.timeZone)
 }
 inline void Block::set_timezone(const char* value, size_t size) {
   
   timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.DisplaySettings.Block.timeZone)
 }
 inline ::std::string* Block::mutable_timezone() {
   
-  // @@protoc_insertion_point(field_mutable:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_mutable:blox_test.DisplaySettings.Block.timeZone)
   return timezone_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_timezone() {
-  // @@protoc_insertion_point(field_release:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_release:blox_test.DisplaySettings.Block.timeZone)
   
   return timezone_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -857,7 +857,7 @@ inline void Block::set_allocated_timezone(::std::string* timezone) {
     
   }
   timezone_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), timezone);
-  // @@protoc_insertion_point(field_set_allocated:blox.DisplaySettings.Block.timeZone)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Block.timeZone)
 }
 
 #ifdef __GNUC__
@@ -869,15 +869,15 @@ inline void Block::set_allocated_timezone(::std::string* timezone) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace DisplaySettings
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::DisplaySettings::TemperatureUnit> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::DisplaySettings::TemperatureUnit> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::DisplaySettings::TemperatureUnit>() {
-  return ::blox::DisplaySettings::TemperatureUnit_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::DisplaySettings::TemperatureUnit>() {
+  return ::blox_test::DisplaySettings::TemperatureUnit_descriptor();
 }
 
 }  // namespace protobuf

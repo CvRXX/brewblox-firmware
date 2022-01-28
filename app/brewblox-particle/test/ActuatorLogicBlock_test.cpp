@@ -44,7 +44,7 @@ SCENARIO("Test", "[maklogicblock]")
     // setpoints 121-125
     // logic 130
 
-    auto setAct = [&testBox](cbox::obj_id_t id, blox::DigitalState state, bool firstCreate = false) {
+    auto setAct = [&testBox](cbox::obj_id_t id, blox_test::IoArray::DigitalState state, bool firstCreate = false) {
         // configure digital actuator by writing to the object
         auto sparkPinsId = cbox::obj_id_t(19); // system object 19 is Spark IO pins
 
@@ -54,7 +54,7 @@ SCENARIO("Test", "[maklogicblock]")
         testBox.put(uint8_t(0xFF));
         testBox.put(DigitalActuatorBlock::staticTypeId());
 
-        auto message = blox::DigitalActuator();
+        auto message = blox_test::DigitalActuator::Block();
         message.set_hwdevice(sparkPinsId);
         message.set_channel(uint8_t(id - 100));
         message.set_desiredstate(state);
@@ -73,7 +73,7 @@ SCENARIO("Test", "[maklogicblock]")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto newSensor = blox::TempSensorMock();
+        auto newSensor = blox_test::TempSensorMock::Block();
         newSensor.set_setting(cnl::unwrap(setting));
         newSensor.set_connected(true);
         testBox.put(newSensor);
@@ -90,11 +90,11 @@ SCENARIO("Test", "[maklogicblock]")
         testBox.put(uint8_t(0xFF));
         testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-        blox::SetpointSensorPair newPair;
+        blox_test::SetpointSensorPair::Block newPair;
         newPair.set_sensorid(id - 10);
         newPair.set_settingenabled(true);
         newPair.set_storedsetting(cnl::unwrap(setting));
-        newPair.set_filter(blox::FilterChoice::FILTER_NONE);
+        newPair.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
         newPair.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
         testBox.put(newPair);
         testBox.processInput();
@@ -103,7 +103,7 @@ SCENARIO("Test", "[maklogicblock]")
 
     // create 5 digital actuators
     for (cbox::obj_id_t i = 101; i <= 105; i++) {
-        setAct(i, blox::DigitalState::Inactive, true);
+        setAct(i, blox_test::IoArray::DigitalState::Inactive, true);
     }
 
     // create 5 mock sensors
@@ -116,7 +116,7 @@ SCENARIO("Test", "[maklogicblock]")
         setSetpoint(i, temp_t{21}, true);
     }
 
-    auto setLogic = [&testBox](blox::ActuatorLogic& message, bool firstCreate = false) {
+    auto setLogic = [&testBox](blox_test::ActuatorLogic::Block& message, bool firstCreate = false) {
         testBox.put(uint16_t(0)); // msg id
         testBox.put(firstCreate ? commands::CREATE_OBJECT : commands::WRITE_OBJECT);
         testBox.put(cbox::obj_id_t{130});
@@ -128,43 +128,43 @@ SCENARIO("Test", "[maklogicblock]")
 
         testBox.put(message);
 
-        auto decoded = blox::ActuatorLogic();
+        auto decoded = blox_test::ActuatorLogic::Block();
         testBox.processInputToProto(decoded);
         REQUIRE(testBox.lastReplyHasStatusOk());
         return decoded;
     };
 
     // create logic block with emty logic
-    auto message = blox::ActuatorLogic();
+    auto message = blox_test::ActuatorLogic::Block();
     auto result = setLogic(message, true);
     CHECK(result.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_EMPTY");
 
     WHEN("4 digital actuators are combined with various expressions")
     {
-        auto message = blox::ActuatorLogic();
+        auto message = blox_test::ActuatorLogic::Block();
         {
             auto d = message.add_digital();
             d->set_id(101);
-            d->set_rhs(blox::DigitalState::Active);
-            d->set_op(blox::Compare_DigitalOperator_OP_DESIRED_IS);
+            d->set_rhs(blox_test::IoArray::DigitalState::Active);
+            d->set_op(blox_test::ActuatorLogic::DigitalOperator::OP_DESIRED_IS);
         }
         {
             auto d = message.add_digital();
             d->set_id(102);
-            d->set_rhs(blox::DigitalState::Active);
-            d->set_op(blox::Compare_DigitalOperator_OP_DESIRED_IS);
+            d->set_rhs(blox_test::IoArray::DigitalState::Active);
+            d->set_op(blox_test::ActuatorLogic::DigitalOperator::OP_DESIRED_IS);
         }
         {
             auto d = message.add_digital();
             d->set_id(103);
-            d->set_rhs(blox::DigitalState::Active);
-            d->set_op(blox::Compare_DigitalOperator_OP_DESIRED_IS);
+            d->set_rhs(blox_test::IoArray::DigitalState::Active);
+            d->set_op(blox_test::ActuatorLogic::DigitalOperator::OP_DESIRED_IS);
         }
         {
             auto d = message.add_digital();
             d->set_id(104);
-            d->set_rhs(blox::DigitalState::Active);
-            d->set_op(blox::Compare_DigitalOperator_OP_DESIRED_IS);
+            d->set_rhs(blox_test::IoArray::DigitalState::Active);
+            d->set_op(blox_test::ActuatorLogic::DigitalOperator::OP_DESIRED_IS);
         }
 
         THEN("The target is active when the expression is true")
@@ -175,9 +175,9 @@ SCENARIO("Test", "[maklogicblock]")
             auto result = setLogic(message);
             CHECK(result.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true expression: \"a|b|c\" digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 102 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 103 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
 
-            setAct(101, blox::DigitalState::Inactive);
-            setAct(102, blox::DigitalState::Active);
-            setAct(103, blox::DigitalState::Inactive);
+            setAct(101, blox_test::IoArray::DigitalState::Inactive);
+            setAct(102, blox_test::IoArray::DigitalState::Active);
+            setAct(103, blox_test::IoArray::DigitalState::Inactive);
 
             testBox.update(1000);
 
@@ -185,15 +185,15 @@ SCENARIO("Test", "[maklogicblock]")
                 testBox.put(uint16_t(0));
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t{130});
-                auto decoded = blox::ActuatorLogic();
+                auto decoded = blox_test::ActuatorLogic::Block();
                 testBox.processInputToProto(decoded);
                 CHECK(testBox.lastReplyHasStatusOk());
                 CHECK(decoded.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_TRUE expression: \"a|b|c\" digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS result: RESULT_TRUE id: 102 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 103 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
             }
 
-            setAct(101, blox::DigitalState::Inactive);
-            setAct(102, blox::DigitalState::Inactive);
-            setAct(103, blox::DigitalState::Active);
+            setAct(101, blox_test::IoArray::DigitalState::Inactive);
+            setAct(102, blox_test::IoArray::DigitalState::Inactive);
+            setAct(103, blox_test::IoArray::DigitalState::Active);
 
             {
                 testBox.update(2000);
@@ -202,7 +202,7 @@ SCENARIO("Test", "[maklogicblock]")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t{130});
 
-                auto decoded = blox::ActuatorLogic();
+                auto decoded = blox_test::ActuatorLogic::Block();
                 testBox.processInputToProto(decoded);
                 CHECK(testBox.lastReplyHasStatusOk());
                 CHECK(decoded.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_TRUE expression: \"a|b|c\" digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 102 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS result: RESULT_TRUE id: 103 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
@@ -211,64 +211,64 @@ SCENARIO("Test", "[maklogicblock]")
             // brackets
             message.set_expression("a|(b&c)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_FALSE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
             CHECK(result.errorpos() == 0);
 
             // invert
             message.set_expression("a|!(b&c)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_TRUE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
             CHECK(result.errorpos() == 0);
 
-            setAct(101, blox::DigitalState::Inactive);
-            setAct(102, blox::DigitalState::Active);
-            setAct(103, blox::DigitalState::Active);
+            setAct(101, blox_test::IoArray::DigitalState::Inactive);
+            setAct(102, blox_test::IoArray::DigitalState::Active);
+            setAct(103, blox_test::IoArray::DigitalState::Active);
 
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_FALSE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
             CHECK(result.errorpos() == 0);
 
             // xor
             message.set_expression("a^b^c");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_FALSE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
             CHECK(result.errorpos() == 0);
 
-            setAct(101, blox::DigitalState::Inactive);
-            setAct(102, blox::DigitalState::Active);
-            setAct(103, blox::DigitalState::Inactive);
+            setAct(101, blox_test::IoArray::DigitalState::Inactive);
+            setAct(102, blox_test::IoArray::DigitalState::Active);
+            setAct(103, blox_test::IoArray::DigitalState::Inactive);
 
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_TRUE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
             CHECK(result.errorpos() == 0);
 
             // nested brackets and all operators
             message.set_expression("a^!((b|c)&(c|d))");
-            setAct(101, blox::DigitalState::Inactive);
-            setAct(102, blox::DigitalState::Active);
-            setAct(103, blox::DigitalState::Inactive);
-            setAct(104, blox::DigitalState::Active);
+            setAct(101, blox_test::IoArray::DigitalState::Inactive);
+            setAct(102, blox_test::IoArray::DigitalState::Active);
+            setAct(103, blox_test::IoArray::DigitalState::Inactive);
+            setAct(104, blox_test::IoArray::DigitalState::Active);
 
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_FALSE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
             CHECK(result.errorpos() == 0);
 
-            setAct(101, blox::DigitalState::Inactive);
-            setAct(102, blox::DigitalState::Active);
-            setAct(103, blox::DigitalState::Inactive);
-            setAct(104, blox::DigitalState::Inactive);
+            setAct(101, blox_test::IoArray::DigitalState::Inactive);
+            setAct(102, blox_test::IoArray::DigitalState::Active);
+            setAct(103, blox_test::IoArray::DigitalState::Inactive);
+            setAct(104, blox_test::IoArray::DigitalState::Inactive);
 
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_TRUE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
             CHECK(result.errorpos() == 0);
 
-            setAct(101, blox::DigitalState::Active);
-            setAct(102, blox::DigitalState::Active);
-            setAct(103, blox::DigitalState::Inactive);
-            setAct(104, blox::DigitalState::Inactive);
+            setAct(101, blox_test::IoArray::DigitalState::Active);
+            setAct(102, blox_test::IoArray::DigitalState::Active);
+            setAct(103, blox_test::IoArray::DigitalState::Inactive);
+            setAct(104, blox_test::IoArray::DigitalState::Inactive);
 
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_FALSE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
             CHECK(result.errorpos() == 0);
         }
 
@@ -276,72 +276,72 @@ SCENARIO("Test", "[maklogicblock]")
         {
             message.set_expression("e&c");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNDEFINED_DIGITAL_COMPARE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNDEFINED_DIGITAL_COMPARE);
             CHECK(result.errorpos() == 0);
 
             message.set_expression("E&c");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNDEFINED_ANALOG_COMPARE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNDEFINED_ANALOG_COMPARE);
             CHECK(result.errorpos() == 0);
 
             message.set_expression("a(|b&c)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPEN_BRACKET);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPEN_BRACKET);
             CHECK(result.errorpos() == 1);
 
             message.set_expression("a|(b&c");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_MISSING_CLOSE_BRACKET);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_MISSING_CLOSE_BRACKET);
             CHECK(result.errorpos() == 5);
 
             message.set_expression("a|(b&c))");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_CLOSE_BRACKET);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_CLOSE_BRACKET);
             CHECK(result.errorpos() == 7);
 
             message.set_expression("a|(b&.)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_CHARACTER);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_CHARACTER);
             CHECK(result.errorpos() == 5);
 
             message.set_expression("a|(b&)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_EMPTY_SUBSTRING);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_EMPTY_SUBSTRING);
             CHECK(result.errorpos() == 5);
 
             message.set_expression("a|&b");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPERATOR);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPERATOR);
             CHECK(result.errorpos() == 2);
 
             message.set_expression("a||b");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPERATOR);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPERATOR);
             CHECK(result.errorpos() == 2);
 
             message.set_expression("a&|b");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPERATOR);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPERATOR);
             CHECK(result.errorpos() == 2);
 
             message.set_expression("a^|b");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPERATOR);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPERATOR);
             CHECK(result.errorpos() == 2);
 
             message.set_expression("a!&b");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPERATOR);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPERATOR);
             CHECK(result.errorpos() == 2);
 
             message.set_expression("ab");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_COMPARISON);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_COMPARISON);
             CHECK(result.errorpos() == 1);
 
             message.set_expression("a(");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_UNEXPECTED_OPEN_BRACKET);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPEN_BRACKET);
             CHECK(result.errorpos() == 1);
 
             testBox.put(uint16_t(0)); // msg id
@@ -352,7 +352,7 @@ SCENARIO("Test", "[maklogicblock]")
 
             message.set_expression("b");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_BLOCK_NOT_FOUND);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_BLOCK_NOT_FOUND);
             CHECK(result.errorpos() == 0);
         }
 
@@ -364,43 +364,43 @@ SCENARIO("Test", "[maklogicblock]")
                 auto d = message.add_analog();
                 d->set_id(121);
                 d->set_rhs(cnl::unwrap(temp_t{21}));
-                d->set_op(blox::Compare_AnalogOperator_OP_VALUE_GE);
+                d->set_op(blox_test::ActuatorLogic::AnalogOperator::OP_VALUE_GE);
                 // false: 20 >= 21
             }
             {
                 auto d = message.add_analog();
                 d->set_id(122);
                 d->set_rhs(cnl::unwrap(temp_t{21}));
-                d->set_op(blox::Compare_AnalogOperator_OP_SETTING_GE);
+                d->set_op(blox_test::ActuatorLogic::AnalogOperator::OP_SETTING_GE);
                 // true: 21 >= 21
             }
             {
                 auto d = message.add_analog();
                 d->set_id(123);
                 d->set_rhs(cnl::unwrap(temp_t{21}));
-                d->set_op(blox::Compare_AnalogOperator_OP_VALUE_LE);
+                d->set_op(blox_test::ActuatorLogic::AnalogOperator::OP_VALUE_LE);
                 // true: 20 <= 21
             }
             {
                 auto d = message.add_analog();
                 d->set_id(124);
                 d->set_rhs(cnl::unwrap(temp_t{20.5}));
-                d->set_op(blox::Compare_AnalogOperator_OP_SETTING_LE);
+                d->set_op(blox_test::ActuatorLogic::AnalogOperator::OP_SETTING_LE);
                 // false: 21 <= 20.5
             }
 
             message.set_expression("A|B|C|D");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_TRUE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
             CHECK(result.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_TRUE expression: \"A|B|C|D\" analog { op: OP_VALUE_GE id: 121 rhs: 86016 } analog { op: OP_SETTING_GE result: RESULT_TRUE id: 122 rhs: 86016 } analog { result: RESULT_TRUE id: 123 rhs: 86016 } analog { op: OP_SETTING_LE id: 124 rhs: 83968 }");
 
             message.set_expression("(A|B)&(C|D)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_TRUE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
 
             message.set_expression("(A&B)|(C&D)");
             result = setLogic(message);
-            CHECK(result.result() == blox::Compare_Result_RESULT_FALSE);
+            CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
         }
     }
 }

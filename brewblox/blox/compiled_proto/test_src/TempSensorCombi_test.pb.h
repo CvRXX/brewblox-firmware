@@ -48,19 +48,19 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_TempSensorCombi_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace TempSensorCombi {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace TempSensorCombi
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::TempSensorCombi::Block* Arena::CreateMaybeMessage<::blox::TempSensorCombi::Block>(Arena*);
+template<> ::blox_test::TempSensorCombi::Block* Arena::CreateMaybeMessage<::blox_test::TempSensorCombi::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace TempSensorCombi {
 
 enum SensorCombiFunc {
@@ -87,7 +87,7 @@ inline bool SensorCombiFunc_Parse(
 }
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.TempSensorCombi.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.TempSensorCombi.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -174,7 +174,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated uint32 sensors = 3 [(.nanopb_test) = {
+  // repeated uint32 sensors = 3 [(.nanopb) = {
   int sensors_size() const;
   void clear_sensors();
   static const int kSensorsFieldNumber = 3;
@@ -186,7 +186,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_sensors();
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -198,19 +198,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // sint32 value = 1 [(.nanopb_test) = {
+  // sint32 value = 1 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 1;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+  // .blox_test.TempSensorCombi.SensorCombiFunc combineFunc = 2;
   void clear_combinefunc();
   static const int kCombineFuncFieldNumber = 2;
-  ::blox::TempSensorCombi::SensorCombiFunc combinefunc() const;
-  void set_combinefunc(::blox::TempSensorCombi::SensorCombiFunc value);
+  ::blox_test::TempSensorCombi::SensorCombiFunc combinefunc() const;
+  void set_combinefunc(::blox_test::TempSensorCombi::SensorCombiFunc value);
 
-  // @@protoc_insertion_point(class_scope:blox.TempSensorCombi.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.TempSensorCombi.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -234,35 +234,35 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// sint32 value = 1 [(.nanopb_test) = {
+// sint32 value = 1 [(.nanopb) = {
 inline void Block::clear_value() {
   value_ = 0;
 }
 inline ::google::protobuf::int32 Block::value() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.value)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorCombi.Block.value)
   return value_;
 }
 inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.value)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorCombi.Block.value)
 }
 
-// .blox.TempSensorCombi.SensorCombiFunc combineFunc = 2;
+// .blox_test.TempSensorCombi.SensorCombiFunc combineFunc = 2;
 inline void Block::clear_combinefunc() {
   combinefunc_ = 0;
 }
-inline ::blox::TempSensorCombi::SensorCombiFunc Block::combinefunc() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.combineFunc)
-  return static_cast< ::blox::TempSensorCombi::SensorCombiFunc >(combinefunc_);
+inline ::blox_test::TempSensorCombi::SensorCombiFunc Block::combinefunc() const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorCombi.Block.combineFunc)
+  return static_cast< ::blox_test::TempSensorCombi::SensorCombiFunc >(combinefunc_);
 }
-inline void Block::set_combinefunc(::blox::TempSensorCombi::SensorCombiFunc value) {
+inline void Block::set_combinefunc(::blox_test::TempSensorCombi::SensorCombiFunc value) {
   
   combinefunc_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.combineFunc)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorCombi.Block.combineFunc)
 }
 
-// repeated uint32 sensors = 3 [(.nanopb_test) = {
+// repeated uint32 sensors = 3 [(.nanopb) = {
 inline int Block::sensors_size() const {
   return sensors_.size();
 }
@@ -270,29 +270,29 @@ inline void Block::clear_sensors() {
   sensors_.Clear();
 }
 inline ::google::protobuf::uint32 Block::sensors(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.sensors)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorCombi.Block.sensors)
   return sensors_.Get(index);
 }
 inline void Block::set_sensors(int index, ::google::protobuf::uint32 value) {
   sensors_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.sensors)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorCombi.Block.sensors)
 }
 inline void Block::add_sensors(::google::protobuf::uint32 value) {
   sensors_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.TempSensorCombi.Block.sensors)
+  // @@protoc_insertion_point(field_add:blox_test.TempSensorCombi.Block.sensors)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 Block::sensors() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorCombi.Block.sensors)
+  // @@protoc_insertion_point(field_list:blox_test.TempSensorCombi.Block.sensors)
   return sensors_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 Block::mutable_sensors() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorCombi.Block.sensors)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.TempSensorCombi.Block.sensors)
   return &sensors_;
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
 inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
@@ -300,25 +300,25 @@ inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
 inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorCombi.Block.strippedFields)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorCombi.Block.strippedFields)
   return strippedfields_.Get(index);
 }
 inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.TempSensorCombi.Block.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorCombi.Block.strippedFields)
 }
 inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.TempSensorCombi.Block.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.TempSensorCombi.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorCombi.Block.strippedFields)
+  // @@protoc_insertion_point(field_list:blox_test.TempSensorCombi.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorCombi.Block.strippedFields)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.TempSensorCombi.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -329,15 +329,15 @@ Block::mutable_strippedfields() {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace TempSensorCombi
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::TempSensorCombi::SensorCombiFunc> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::TempSensorCombi::SensorCombiFunc> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::TempSensorCombi::SensorCombiFunc>() {
-  return ::blox::TempSensorCombi::SensorCombiFunc_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::TempSensorCombi::SensorCombiFunc>() {
+  return ::blox_test::TempSensorCombi::SensorCombiFunc_descriptor();
 }
 
 }  // namespace protobuf

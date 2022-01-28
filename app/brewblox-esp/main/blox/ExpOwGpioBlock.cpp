@@ -22,8 +22,8 @@
 cbox::CboxError
 ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_OneWireGpioModule newData = blox_OneWireGpioModule_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_OneWireGpioModule_fields, blox_OneWireGpioModule_size);
+    blox_OneWireGpioModule_Block newData = blox_OneWireGpioModule_Block_init_zero;
+    cbox::CboxError res = streamProtoFrom(in, &newData, blox_OneWireGpioModule_Block_fields, blox_OneWireGpioModule_Block_size);
 
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
@@ -55,7 +55,7 @@ ExpOwGpioBlock::streamFrom(cbox::DataIn& in)
     return res;
 }
 
-void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeNotPersisted) const
+void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule_Block& message, bool includeNotPersisted) const
 {
     message.modulePosition = drivers.modulePosition();
     message.channels_count = 0;
@@ -63,7 +63,7 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 
     for (uint8_t i = 1; i <= 8; i++) {
         auto& c = drivers.getChannel(i);
-        if (c.deviceType != blox_GpioDeviceType_GPIO_DEV_NONE) {
+        if (c.deviceType != blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE) {
             message.channels[message.channels_count].id = i;
             message.channels[message.channels_count].deviceType = c.deviceType;
             message.channels[message.channels_count].width = c.width;
@@ -96,19 +96,19 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule& message, bool includeN
 cbox::CboxError
 ExpOwGpioBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_OneWireGpioModule message = blox_OneWireGpioModule_init_zero;
+    blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
     writeMessage(message, true);
 
-    return streamProtoTo(out, &message, blox_OneWireGpioModule_fields, blox_OneWireGpioModule_size);
+    return streamProtoTo(out, &message, blox_OneWireGpioModule_Block_fields, blox_OneWireGpioModule_Block_size);
 }
 
 cbox::CboxError
 ExpOwGpioBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_OneWireGpioModule message = blox_OneWireGpioModule_init_zero;
+    blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
     writeMessage(message, false);
 
-    return streamProtoTo(out, &message, blox_OneWireGpioModule_fields, blox_OneWireGpioModule_size);
+    return streamProtoTo(out, &message, blox_OneWireGpioModule_Block_fields, blox_OneWireGpioModule_Block_size);
 }
 
 cbox::update_t
@@ -123,7 +123,7 @@ ExpOwGpioBlock::update(const cbox::update_t& now)
 
 void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_OneWireGpioModule) {
+    if (iface == brewblox_BlockType_OneWireGpioModule) {
         return this; // me!
     }
 

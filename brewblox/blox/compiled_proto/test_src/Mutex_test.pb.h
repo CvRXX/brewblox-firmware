@@ -47,24 +47,24 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_Mutex_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace Mutex {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace Mutex
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::Mutex::Block* Arena::CreateMaybeMessage<::blox::Mutex::Block>(Arena*);
+template<> ::blox_test::Mutex::Block* Arena::CreateMaybeMessage<::blox_test::Mutex::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace Mutex {
 
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Mutex.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Mutex.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -151,19 +151,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // uint32 differentActuatorWait = 1 [(.brewblox_test) = {
+  // uint32 differentActuatorWait = 1 [(.brewblox.field) = {
   void clear_differentactuatorwait();
   static const int kDifferentActuatorWaitFieldNumber = 1;
   ::google::protobuf::uint32 differentactuatorwait() const;
   void set_differentactuatorwait(::google::protobuf::uint32 value);
 
-  // uint32 waitRemaining = 2 [(.nanopb_test) = {
+  // uint32 waitRemaining = 2 [(.nanopb) = {
   void clear_waitremaining();
   static const int kWaitRemainingFieldNumber = 2;
   ::google::protobuf::uint32 waitremaining() const;
   void set_waitremaining(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Mutex.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.Mutex.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -183,32 +183,32 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// uint32 differentActuatorWait = 1 [(.brewblox_test) = {
+// uint32 differentActuatorWait = 1 [(.brewblox.field) = {
 inline void Block::clear_differentactuatorwait() {
   differentactuatorwait_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::differentactuatorwait() const {
-  // @@protoc_insertion_point(field_get:blox.Mutex.Block.differentActuatorWait)
+  // @@protoc_insertion_point(field_get:blox_test.Mutex.Block.differentActuatorWait)
   return differentactuatorwait_;
 }
 inline void Block::set_differentactuatorwait(::google::protobuf::uint32 value) {
   
   differentactuatorwait_ = value;
-  // @@protoc_insertion_point(field_set:blox.Mutex.Block.differentActuatorWait)
+  // @@protoc_insertion_point(field_set:blox_test.Mutex.Block.differentActuatorWait)
 }
 
-// uint32 waitRemaining = 2 [(.nanopb_test) = {
+// uint32 waitRemaining = 2 [(.nanopb) = {
 inline void Block::clear_waitremaining() {
   waitremaining_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::waitremaining() const {
-  // @@protoc_insertion_point(field_get:blox.Mutex.Block.waitRemaining)
+  // @@protoc_insertion_point(field_get:blox_test.Mutex.Block.waitRemaining)
   return waitremaining_;
 }
 inline void Block::set_waitremaining(::google::protobuf::uint32 value) {
   
   waitremaining_ = value;
-  // @@protoc_insertion_point(field_set:blox.Mutex.Block.waitRemaining)
+  // @@protoc_insertion_point(field_set:blox_test.Mutex.Block.waitRemaining)
 }
 
 #ifdef __GNUC__
@@ -218,7 +218,7 @@ inline void Block::set_waitremaining(::google::protobuf::uint32 value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Mutex
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

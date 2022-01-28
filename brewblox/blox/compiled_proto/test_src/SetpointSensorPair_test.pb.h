@@ -48,19 +48,19 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_SetpointSensorPair_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace SetpointSensorPair {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace SetpointSensorPair
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::SetpointSensorPair::Block* Arena::CreateMaybeMessage<::blox::SetpointSensorPair::Block>(Arena*);
+template<> ::blox_test::SetpointSensorPair::Block* Arena::CreateMaybeMessage<::blox_test::SetpointSensorPair::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace SetpointSensorPair {
 
 enum FilterChoice {
@@ -91,7 +91,7 @@ inline bool FilterChoice_Parse(
 }
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.SetpointSensorPair.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.SetpointSensorPair.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -178,7 +178,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -190,35 +190,35 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // uint32 sensorId = 2 [(.nanopb_test) = {
+  // uint32 sensorId = 2 [(.nanopb) = {
   void clear_sensorid();
   static const int kSensorIdFieldNumber = 2;
   ::google::protobuf::uint32 sensorid() const;
   void set_sensorid(::google::protobuf::uint32 value);
 
-  // sint32 setting = 5 [(.nanopb_test) = {
+  // sint32 setting = 5 [(.nanopb) = {
   void clear_setting();
   static const int kSettingFieldNumber = 5;
   ::google::protobuf::int32 setting() const;
   void set_setting(::google::protobuf::int32 value);
 
-  // sint32 value = 6 [(.nanopb_test) = {
+  // sint32 value = 6 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 6;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // sint32 storedSetting = 8 [(.nanopb_test) = {
+  // sint32 storedSetting = 8 [(.nanopb) = {
   void clear_storedsetting();
   static const int kStoredSettingFieldNumber = 8;
   ::google::protobuf::int32 storedsetting() const;
   void set_storedsetting(::google::protobuf::int32 value);
 
-  // .blox.SetpointSensorPair.FilterChoice filter = 9;
+  // .blox_test.SetpointSensorPair.FilterChoice filter = 9;
   void clear_filter();
   static const int kFilterFieldNumber = 9;
-  ::blox::SetpointSensorPair::FilterChoice filter() const;
-  void set_filter(::blox::SetpointSensorPair::FilterChoice value);
+  ::blox_test::SetpointSensorPair::FilterChoice filter() const;
+  void set_filter(::blox_test::SetpointSensorPair::FilterChoice value);
 
   // bool settingEnabled = 7;
   void clear_settingenabled();
@@ -232,19 +232,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool resetfilter() const;
   void set_resetfilter(bool value);
 
-  // sint32 filterThreshold = 10 [(.nanopb_test) = {
+  // sint32 filterThreshold = 10 [(.nanopb) = {
   void clear_filterthreshold();
   static const int kFilterThresholdFieldNumber = 10;
   ::google::protobuf::int32 filterthreshold() const;
   void set_filterthreshold(::google::protobuf::int32 value);
 
-  // sint32 valueUnfiltered = 11 [(.nanopb_test) = {
+  // sint32 valueUnfiltered = 11 [(.nanopb) = {
   void clear_valueunfiltered();
   static const int kValueUnfilteredFieldNumber = 11;
   ::google::protobuf::int32 valueunfiltered() const;
   void set_valueunfiltered(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.SetpointSensorPair.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.SetpointSensorPair.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -273,46 +273,46 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// uint32 sensorId = 2 [(.nanopb_test) = {
+// uint32 sensorId = 2 [(.nanopb) = {
 inline void Block::clear_sensorid() {
   sensorid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::sensorid() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.sensorId)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.sensorId)
   return sensorid_;
 }
 inline void Block::set_sensorid(::google::protobuf::uint32 value) {
   
   sensorid_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.sensorId)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.sensorId)
 }
 
-// sint32 setting = 5 [(.nanopb_test) = {
+// sint32 setting = 5 [(.nanopb) = {
 inline void Block::clear_setting() {
   setting_ = 0;
 }
 inline ::google::protobuf::int32 Block::setting() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.setting)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.setting)
   return setting_;
 }
 inline void Block::set_setting(::google::protobuf::int32 value) {
   
   setting_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.setting)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.setting)
 }
 
-// sint32 value = 6 [(.nanopb_test) = {
+// sint32 value = 6 [(.nanopb) = {
 inline void Block::clear_value() {
   value_ = 0;
 }
 inline ::google::protobuf::int32 Block::value() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.value)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.value)
   return value_;
 }
 inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.value)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.value)
 }
 
 // bool settingEnabled = 7;
@@ -320,69 +320,69 @@ inline void Block::clear_settingenabled() {
   settingenabled_ = false;
 }
 inline bool Block::settingenabled() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.settingEnabled)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.settingEnabled)
   return settingenabled_;
 }
 inline void Block::set_settingenabled(bool value) {
   
   settingenabled_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.settingEnabled)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.settingEnabled)
 }
 
-// sint32 storedSetting = 8 [(.nanopb_test) = {
+// sint32 storedSetting = 8 [(.nanopb) = {
 inline void Block::clear_storedsetting() {
   storedsetting_ = 0;
 }
 inline ::google::protobuf::int32 Block::storedsetting() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.storedSetting)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.storedSetting)
   return storedsetting_;
 }
 inline void Block::set_storedsetting(::google::protobuf::int32 value) {
   
   storedsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.storedSetting)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.storedSetting)
 }
 
-// .blox.SetpointSensorPair.FilterChoice filter = 9;
+// .blox_test.SetpointSensorPair.FilterChoice filter = 9;
 inline void Block::clear_filter() {
   filter_ = 0;
 }
-inline ::blox::SetpointSensorPair::FilterChoice Block::filter() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.filter)
-  return static_cast< ::blox::SetpointSensorPair::FilterChoice >(filter_);
+inline ::blox_test::SetpointSensorPair::FilterChoice Block::filter() const {
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.filter)
+  return static_cast< ::blox_test::SetpointSensorPair::FilterChoice >(filter_);
 }
-inline void Block::set_filter(::blox::SetpointSensorPair::FilterChoice value) {
+inline void Block::set_filter(::blox_test::SetpointSensorPair::FilterChoice value) {
   
   filter_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.filter)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.filter)
 }
 
-// sint32 filterThreshold = 10 [(.nanopb_test) = {
+// sint32 filterThreshold = 10 [(.nanopb) = {
 inline void Block::clear_filterthreshold() {
   filterthreshold_ = 0;
 }
 inline ::google::protobuf::int32 Block::filterthreshold() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.filterThreshold)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.filterThreshold)
   return filterthreshold_;
 }
 inline void Block::set_filterthreshold(::google::protobuf::int32 value) {
   
   filterthreshold_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.filterThreshold)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.filterThreshold)
 }
 
-// sint32 valueUnfiltered = 11 [(.nanopb_test) = {
+// sint32 valueUnfiltered = 11 [(.nanopb) = {
 inline void Block::clear_valueunfiltered() {
   valueunfiltered_ = 0;
 }
 inline ::google::protobuf::int32 Block::valueunfiltered() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.valueUnfiltered)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.valueUnfiltered)
   return valueunfiltered_;
 }
 inline void Block::set_valueunfiltered(::google::protobuf::int32 value) {
   
   valueunfiltered_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.valueUnfiltered)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.valueUnfiltered)
 }
 
 // bool resetFilter = 12;
@@ -390,16 +390,16 @@ inline void Block::clear_resetfilter() {
   resetfilter_ = false;
 }
 inline bool Block::resetfilter() const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.resetFilter)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.resetFilter)
   return resetfilter_;
 }
 inline void Block::set_resetfilter(bool value) {
   
   resetfilter_ = value;
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.resetFilter)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.resetFilter)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
 inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
@@ -407,25 +407,25 @@ inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
 inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.SetpointSensorPair.Block.strippedFields)
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.strippedFields)
   return strippedfields_.Get(index);
 }
 inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.SetpointSensorPair.Block.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.strippedFields)
 }
 inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.SetpointSensorPair.Block.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.SetpointSensorPair.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.SetpointSensorPair.Block.strippedFields)
+  // @@protoc_insertion_point(field_list:blox_test.SetpointSensorPair.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.SetpointSensorPair.Block.strippedFields)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.SetpointSensorPair.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -436,15 +436,15 @@ Block::mutable_strippedfields() {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace SetpointSensorPair
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::SetpointSensorPair::FilterChoice> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::SetpointSensorPair::FilterChoice> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::SetpointSensorPair::FilterChoice>() {
-  return ::blox::SetpointSensorPair::FilterChoice_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SetpointSensorPair::FilterChoice>() {
+  return ::blox_test::SetpointSensorPair::FilterChoice_descriptor();
 }
 
 }  // namespace protobuf

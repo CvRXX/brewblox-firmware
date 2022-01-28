@@ -51,8 +51,8 @@ pin_t Spark3PinsBlock::channelToPin(uint8_t channel) const
 cbox::CboxError
 Spark3PinsBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_Spark3Pins message = blox_Spark3Pins_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_Spark3Pins_fields, blox_Spark3Pins_size);
+    blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(in, &message, blox_Spark3Pins_Block_fields, blox_Spark3Pins_Block_size);
 
     if (result == cbox::CboxError::OK) {
         // io pins are not writable through this block. They are configured by creating Digital Actuators
@@ -70,14 +70,14 @@ Spark3PinsBlock::streamFrom(cbox::DataIn& in)
 cbox::CboxError
 Spark3PinsBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_Spark3Pins message = blox_Spark3Pins_init_zero;
+    blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
     message.channels_count = 5;
-    message.channels[0].id = blox_Spark3ChannelIds_SPARK3_CHAN_TOP1;
-    message.channels[1].id = blox_Spark3ChannelIds_SPARK3_CHAN_TOP2;
-    message.channels[2].id = blox_Spark3ChannelIds_SPARK3_CHAN_TOP3;
-    message.channels[3].id = blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM1;
-    message.channels[4].id = blox_Spark3ChannelIds_SPARK3_CHAN_BOTTOM2;
+    message.channels[0].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP1;
+    message.channels[1].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP2;
+    message.channels[2].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP3;
+    message.channels[3].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_BOTTOM1;
+    message.channels[4].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_BOTTOM2;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 #if defined(PIN_5V_ENABLE)
@@ -94,13 +94,13 @@ Spark3PinsBlock::streamTo(cbox::DataOut& out) const
     message.voltage5 = 5 * 410;
     message.voltage12 = 12 * 149;
 #endif
-    return streamProtoTo(out, &message, blox_Spark3Pins_fields, blox_Spark3Pins_size);
+    return streamProtoTo(out, &message, blox_Spark3Pins_Block_fields, blox_Spark3Pins_Block_size);
 }
 
 cbox::CboxError
 Spark3PinsBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_Spark3Pins message = blox_Spark3Pins_init_zero;
+    blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 #if defined(PIN_5V_ENABLE)
@@ -110,12 +110,12 @@ Spark3PinsBlock::streamPersistedTo(cbox::DataOut& out) const
     message.enableIoSupply12V = HAL_GPIO_Read(PIN_12V_ENABLE);
 #endif
 
-    return streamProtoTo(out, &message, blox_Spark3Pins_fields, blox_Spark3Pins_size);
+    return streamProtoTo(out, &message, blox_Spark3Pins_Block_fields, blox_Spark3Pins_Block_size);
 }
 
 void* Spark3PinsBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_Spark3Pins) {
+    if (iface == brewblox_BlockType_Spark3Pins) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

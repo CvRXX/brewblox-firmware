@@ -131,18 +131,17 @@ void AddDescriptorsImpl() {
       "\001\022\016\n\nFT_POINTER\020\004\022\r\n\tFT_STATIC\020\002\022\r\n\tFT_I"
       "GNORE\020\003\022\r\n\tFT_INLINE\020\005*D\n\007IntSize\022\016\n\nIS_"
       "DEFAULT\020\000\022\010\n\004IS_8\020\010\022\t\n\005IS_16\020\020\022\t\n\005IS_32\020"
-      " \022\t\n\005IS_64\020@:J\n\023nanopb_test_fileopt\022\034.go"
-      "ogle.protobuf.FileOptions\030\362\007 \001(\0132\016.NanoP"
-      "BOptions:L\n\022nanopb_test_msgopt\022\037.google."
-      "protobuf.MessageOptions\030\362\007 \001(\0132\016.NanoPBO"
-      "ptions:J\n\023nanopb_test_enumopt\022\034.google.p"
-      "rotobuf.EnumOptions\030\362\007 \001(\0132\016.NanoPBOptio"
-      "ns:C\n\013nanopb_test\022\035.google.protobuf.Fiel"
-      "dOptions\030\362\007 \001(\0132\016.NanoPBOptionsB\037\n\035fi.ka"
-      "psi.koti.jpa.nanopb_test"
+      " \022\t\n\005IS_64\020@:E\n\016nanopb_fileopt\022\034.google."
+      "protobuf.FileOptions\030\362\007 \001(\0132\016.NanoPBOpti"
+      "ons:G\n\rnanopb_msgopt\022\037.google.protobuf.M"
+      "essageOptions\030\362\007 \001(\0132\016.NanoPBOptions:E\n\016"
+      "nanopb_enumopt\022\034.google.protobuf.EnumOpt"
+      "ions\030\362\007 \001(\0132\016.NanoPBOptions:>\n\006nanopb\022\035."
+      "google.protobuf.FieldOptions\030\362\007 \001(\0132\016.Na"
+      "noPBOptionsB\032\n\030fi.kapsi.koti.jpa.nanopb"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 984);
+      descriptor, 959);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "nanopb_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -951,16 +950,16 @@ void NanoPBOptions::InternalSwap(NanoPBOptions* other) {
 
 ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FileOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test_fileopt(kNanopbTestFileoptFieldNumber, *::NanoPBOptions::internal_default_instance());
+  nanopb_fileopt(kNanopbFileoptFieldNumber, *::NanoPBOptions::internal_default_instance());
 ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test_msgopt(kNanopbTestMsgoptFieldNumber, *::NanoPBOptions::internal_default_instance());
+  nanopb_msgopt(kNanopbMsgoptFieldNumber, *::NanoPBOptions::internal_default_instance());
 ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::EnumOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test_enumopt(kNanopbTestEnumoptFieldNumber, *::NanoPBOptions::internal_default_instance());
+  nanopb_enumopt(kNanopbEnumoptFieldNumber, *::NanoPBOptions::internal_default_instance());
 ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test(kNanopbTestFieldNumber, *::NanoPBOptions::internal_default_instance());
+  nanopb(kNanopbFieldNumber, *::NanoPBOptions::internal_default_instance());
 
 // @@protoc_insertion_point(namespace_scope)
 namespace google {

@@ -49,7 +49,7 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_ActuatorLogic_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace ActuatorLogic {
 class AnalogCompare;
 class AnalogCompareDefaultTypeInternal;
@@ -61,15 +61,15 @@ class DigitalCompare;
 class DigitalCompareDefaultTypeInternal;
 extern DigitalCompareDefaultTypeInternal _DigitalCompare_default_instance_;
 }  // namespace ActuatorLogic
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::ActuatorLogic::AnalogCompare* Arena::CreateMaybeMessage<::blox::ActuatorLogic::AnalogCompare>(Arena*);
-template<> ::blox::ActuatorLogic::Block* Arena::CreateMaybeMessage<::blox::ActuatorLogic::Block>(Arena*);
-template<> ::blox::ActuatorLogic::DigitalCompare* Arena::CreateMaybeMessage<::blox::ActuatorLogic::DigitalCompare>(Arena*);
+template<> ::blox_test::ActuatorLogic::AnalogCompare* Arena::CreateMaybeMessage<::blox_test::ActuatorLogic::AnalogCompare>(Arena*);
+template<> ::blox_test::ActuatorLogic::Block* Arena::CreateMaybeMessage<::blox_test::ActuatorLogic::Block>(Arena*);
+template<> ::blox_test::ActuatorLogic::DigitalCompare* Arena::CreateMaybeMessage<::blox_test::ActuatorLogic::DigitalCompare>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace ActuatorLogic {
 
 enum Result {
@@ -154,7 +154,7 @@ inline bool AnalogOperator_Parse(
 }
 // ===================================================================
 
-class DigitalCompare : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorLogic.DigitalCompare) */ {
+class DigitalCompare : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ActuatorLogic.DigitalCompare) */ {
  public:
   DigitalCompare();
   virtual ~DigitalCompare();
@@ -241,31 +241,31 @@ class DigitalCompare : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // .blox.ActuatorLogic.DigitalOperator op = 1;
+  // .blox_test.ActuatorLogic.DigitalOperator op = 1;
   void clear_op();
   static const int kOpFieldNumber = 1;
-  ::blox::ActuatorLogic::DigitalOperator op() const;
-  void set_op(::blox::ActuatorLogic::DigitalOperator value);
+  ::blox_test::ActuatorLogic::DigitalOperator op() const;
+  void set_op(::blox_test::ActuatorLogic::DigitalOperator value);
 
-  // .blox.ActuatorLogic.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   void clear_result();
   static const int kResultFieldNumber = 2;
-  ::blox::ActuatorLogic::Result result() const;
-  void set_result(::blox::ActuatorLogic::Result value);
+  ::blox_test::ActuatorLogic::Result result() const;
+  void set_result(::blox_test::ActuatorLogic::Result value);
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 3;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // .blox.IoArray.DigitalState rhs = 4;
+  // .blox_test.IoArray.DigitalState rhs = 4;
   void clear_rhs();
   static const int kRhsFieldNumber = 4;
-  ::blox::IoArray::DigitalState rhs() const;
-  void set_rhs(::blox::IoArray::DigitalState value);
+  ::blox_test::IoArray::DigitalState rhs() const;
+  void set_rhs(::blox_test::IoArray::DigitalState value);
 
-  // @@protoc_insertion_point(class_scope:blox.ActuatorLogic.DigitalCompare)
+  // @@protoc_insertion_point(class_scope:blox_test.ActuatorLogic.DigitalCompare)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -278,7 +278,7 @@ class DigitalCompare : public ::google::protobuf::Message /* @@protoc_insertion_
 };
 // -------------------------------------------------------------------
 
-class AnalogCompare : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorLogic.AnalogCompare) */ {
+class AnalogCompare : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ActuatorLogic.AnalogCompare) */ {
  public:
   AnalogCompare();
   virtual ~AnalogCompare();
@@ -365,31 +365,31 @@ class AnalogCompare : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // .blox.ActuatorLogic.AnalogOperator op = 1;
+  // .blox_test.ActuatorLogic.AnalogOperator op = 1;
   void clear_op();
   static const int kOpFieldNumber = 1;
-  ::blox::ActuatorLogic::AnalogOperator op() const;
-  void set_op(::blox::ActuatorLogic::AnalogOperator value);
+  ::blox_test::ActuatorLogic::AnalogOperator op() const;
+  void set_op(::blox_test::ActuatorLogic::AnalogOperator value);
 
-  // .blox.ActuatorLogic.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   void clear_result();
   static const int kResultFieldNumber = 2;
-  ::blox::ActuatorLogic::Result result() const;
-  void set_result(::blox::ActuatorLogic::Result value);
+  ::blox_test::ActuatorLogic::Result result() const;
+  void set_result(::blox_test::ActuatorLogic::Result value);
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 3;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // sint32 rhs = 4 [(.nanopb_test) = {
+  // sint32 rhs = 4 [(.nanopb) = {
   void clear_rhs();
   static const int kRhsFieldNumber = 4;
   ::google::protobuf::int32 rhs() const;
   void set_rhs(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.ActuatorLogic.AnalogCompare)
+  // @@protoc_insertion_point(class_scope:blox_test.ActuatorLogic.AnalogCompare)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -402,7 +402,7 @@ class AnalogCompare : public ::google::protobuf::Message /* @@protoc_insertion_p
 };
 // -------------------------------------------------------------------
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorLogic.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ActuatorLogic.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -489,31 +489,31 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb) = {
   int digital_size() const;
   void clear_digital();
   static const int kDigitalFieldNumber = 6;
-  ::blox::ActuatorLogic::DigitalCompare* mutable_digital(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::DigitalCompare >*
+  ::blox_test::ActuatorLogic::DigitalCompare* mutable_digital(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::DigitalCompare >*
       mutable_digital();
-  const ::blox::ActuatorLogic::DigitalCompare& digital(int index) const;
-  ::blox::ActuatorLogic::DigitalCompare* add_digital();
-  const ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::DigitalCompare >&
+  const ::blox_test::ActuatorLogic::DigitalCompare& digital(int index) const;
+  ::blox_test::ActuatorLogic::DigitalCompare* add_digital();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::DigitalCompare >&
       digital() const;
 
-  // repeated .blox.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb) = {
   int analog_size() const;
   void clear_analog();
   static const int kAnalogFieldNumber = 7;
-  ::blox::ActuatorLogic::AnalogCompare* mutable_analog(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::AnalogCompare >*
+  ::blox_test::ActuatorLogic::AnalogCompare* mutable_analog(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::AnalogCompare >*
       mutable_analog();
-  const ::blox::ActuatorLogic::AnalogCompare& analog(int index) const;
-  ::blox::ActuatorLogic::AnalogCompare* add_analog();
-  const ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::AnalogCompare >&
+  const ::blox_test::ActuatorLogic::AnalogCompare& analog(int index) const;
+  ::blox_test::ActuatorLogic::AnalogCompare* add_analog();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::AnalogCompare >&
       analog() const;
 
-  // string expression = 5 [(.nanopb_test) = {
+  // string expression = 5 [(.nanopb) = {
   void clear_expression();
   static const int kExpressionFieldNumber = 5;
   const ::std::string& expression() const;
@@ -527,13 +527,13 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_expression();
   void set_allocated_expression(::std::string* expression);
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   void clear_targetid();
   static const int kTargetIdFieldNumber = 1;
   ::google::protobuf::uint32 targetid() const;
   void set_targetid(::google::protobuf::uint32 value);
 
-  // uint32 drivenTargetId = 2 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 2 [(.nanopb) = {
   void clear_driventargetid();
   static const int kDrivenTargetIdFieldNumber = 2;
   ::google::protobuf::uint32 driventargetid() const;
@@ -545,24 +545,24 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool enabled() const;
   void set_enabled(bool value);
 
-  // .blox.ActuatorLogic.Result result = 4 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
   void clear_result();
   static const int kResultFieldNumber = 4;
-  ::blox::ActuatorLogic::Result result() const;
-  void set_result(::blox::ActuatorLogic::Result value);
+  ::blox_test::ActuatorLogic::Result result() const;
+  void set_result(::blox_test::ActuatorLogic::Result value);
 
-  // uint32 errorPos = 8 [(.nanopb_test) = {
+  // uint32 errorPos = 8 [(.nanopb) = {
   void clear_errorpos();
   static const int kErrorPosFieldNumber = 8;
   ::google::protobuf::uint32 errorpos() const;
   void set_errorpos(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.ActuatorLogic.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.ActuatorLogic.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::DigitalCompare > digital_;
-  ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::AnalogCompare > analog_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::DigitalCompare > digital_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::AnalogCompare > analog_;
   ::google::protobuf::internal::ArenaStringPtr expression_;
   ::google::protobuf::uint32 targetid_;
   ::google::protobuf::uint32 driventargetid_;
@@ -583,152 +583,152 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // DigitalCompare
 
-// .blox.ActuatorLogic.DigitalOperator op = 1;
+// .blox_test.ActuatorLogic.DigitalOperator op = 1;
 inline void DigitalCompare::clear_op() {
   op_ = 0;
 }
-inline ::blox::ActuatorLogic::DigitalOperator DigitalCompare::op() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.DigitalCompare.op)
-  return static_cast< ::blox::ActuatorLogic::DigitalOperator >(op_);
+inline ::blox_test::ActuatorLogic::DigitalOperator DigitalCompare::op() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.DigitalCompare.op)
+  return static_cast< ::blox_test::ActuatorLogic::DigitalOperator >(op_);
 }
-inline void DigitalCompare::set_op(::blox::ActuatorLogic::DigitalOperator value) {
+inline void DigitalCompare::set_op(::blox_test::ActuatorLogic::DigitalOperator value) {
   
   op_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.DigitalCompare.op)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.DigitalCompare.op)
 }
 
-// .blox.ActuatorLogic.Result result = 2 [(.brewblox_test) = {
+// .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
 inline void DigitalCompare::clear_result() {
   result_ = 0;
 }
-inline ::blox::ActuatorLogic::Result DigitalCompare::result() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.DigitalCompare.result)
-  return static_cast< ::blox::ActuatorLogic::Result >(result_);
+inline ::blox_test::ActuatorLogic::Result DigitalCompare::result() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.DigitalCompare.result)
+  return static_cast< ::blox_test::ActuatorLogic::Result >(result_);
 }
-inline void DigitalCompare::set_result(::blox::ActuatorLogic::Result value) {
+inline void DigitalCompare::set_result(::blox_test::ActuatorLogic::Result value) {
   
   result_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.DigitalCompare.result)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.DigitalCompare.result)
 }
 
-// uint32 id = 3 [(.nanopb_test) = {
+// uint32 id = 3 [(.nanopb) = {
 inline void DigitalCompare::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 DigitalCompare::id() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.DigitalCompare.id)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.DigitalCompare.id)
   return id_;
 }
 inline void DigitalCompare::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.DigitalCompare.id)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.DigitalCompare.id)
 }
 
-// .blox.IoArray.DigitalState rhs = 4;
+// .blox_test.IoArray.DigitalState rhs = 4;
 inline void DigitalCompare::clear_rhs() {
   rhs_ = 0;
 }
-inline ::blox::IoArray::DigitalState DigitalCompare::rhs() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.DigitalCompare.rhs)
-  return static_cast< ::blox::IoArray::DigitalState >(rhs_);
+inline ::blox_test::IoArray::DigitalState DigitalCompare::rhs() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.DigitalCompare.rhs)
+  return static_cast< ::blox_test::IoArray::DigitalState >(rhs_);
 }
-inline void DigitalCompare::set_rhs(::blox::IoArray::DigitalState value) {
+inline void DigitalCompare::set_rhs(::blox_test::IoArray::DigitalState value) {
   
   rhs_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.DigitalCompare.rhs)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.DigitalCompare.rhs)
 }
 
 // -------------------------------------------------------------------
 
 // AnalogCompare
 
-// .blox.ActuatorLogic.AnalogOperator op = 1;
+// .blox_test.ActuatorLogic.AnalogOperator op = 1;
 inline void AnalogCompare::clear_op() {
   op_ = 0;
 }
-inline ::blox::ActuatorLogic::AnalogOperator AnalogCompare::op() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.AnalogCompare.op)
-  return static_cast< ::blox::ActuatorLogic::AnalogOperator >(op_);
+inline ::blox_test::ActuatorLogic::AnalogOperator AnalogCompare::op() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.AnalogCompare.op)
+  return static_cast< ::blox_test::ActuatorLogic::AnalogOperator >(op_);
 }
-inline void AnalogCompare::set_op(::blox::ActuatorLogic::AnalogOperator value) {
+inline void AnalogCompare::set_op(::blox_test::ActuatorLogic::AnalogOperator value) {
   
   op_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.AnalogCompare.op)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.AnalogCompare.op)
 }
 
-// .blox.ActuatorLogic.Result result = 2 [(.brewblox_test) = {
+// .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
 inline void AnalogCompare::clear_result() {
   result_ = 0;
 }
-inline ::blox::ActuatorLogic::Result AnalogCompare::result() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.AnalogCompare.result)
-  return static_cast< ::blox::ActuatorLogic::Result >(result_);
+inline ::blox_test::ActuatorLogic::Result AnalogCompare::result() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.AnalogCompare.result)
+  return static_cast< ::blox_test::ActuatorLogic::Result >(result_);
 }
-inline void AnalogCompare::set_result(::blox::ActuatorLogic::Result value) {
+inline void AnalogCompare::set_result(::blox_test::ActuatorLogic::Result value) {
   
   result_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.AnalogCompare.result)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.AnalogCompare.result)
 }
 
-// uint32 id = 3 [(.nanopb_test) = {
+// uint32 id = 3 [(.nanopb) = {
 inline void AnalogCompare::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 AnalogCompare::id() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.AnalogCompare.id)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.AnalogCompare.id)
   return id_;
 }
 inline void AnalogCompare::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.AnalogCompare.id)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.AnalogCompare.id)
 }
 
-// sint32 rhs = 4 [(.nanopb_test) = {
+// sint32 rhs = 4 [(.nanopb) = {
 inline void AnalogCompare::clear_rhs() {
   rhs_ = 0;
 }
 inline ::google::protobuf::int32 AnalogCompare::rhs() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.AnalogCompare.rhs)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.AnalogCompare.rhs)
   return rhs_;
 }
 inline void AnalogCompare::set_rhs(::google::protobuf::int32 value) {
   
   rhs_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.AnalogCompare.rhs)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.AnalogCompare.rhs)
 }
 
 // -------------------------------------------------------------------
 
 // Block
 
-// uint32 targetId = 1 [(.nanopb_test) = {
+// uint32 targetId = 1 [(.nanopb) = {
 inline void Block::clear_targetid() {
   targetid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::targetid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.targetId)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.targetId)
   return targetid_;
 }
 inline void Block::set_targetid(::google::protobuf::uint32 value) {
   
   targetid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.Block.targetId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.targetId)
 }
 
-// uint32 drivenTargetId = 2 [(.nanopb_test) = {
+// uint32 drivenTargetId = 2 [(.nanopb) = {
 inline void Block::clear_driventargetid() {
   driventargetid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::driventargetid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.drivenTargetId)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.drivenTargetId)
   return driventargetid_;
 }
 inline void Block::set_driventargetid(::google::protobuf::uint32 value) {
   
   driventargetid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.Block.drivenTargetId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.drivenTargetId)
 }
 
 // bool enabled = 3;
@@ -736,69 +736,69 @@ inline void Block::clear_enabled() {
   enabled_ = false;
 }
 inline bool Block::enabled() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.enabled)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.enabled)
   return enabled_;
 }
 inline void Block::set_enabled(bool value) {
   
   enabled_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.Block.enabled)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.enabled)
 }
 
-// .blox.ActuatorLogic.Result result = 4 [(.brewblox_test) = {
+// .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
 inline void Block::clear_result() {
   result_ = 0;
 }
-inline ::blox::ActuatorLogic::Result Block::result() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.result)
-  return static_cast< ::blox::ActuatorLogic::Result >(result_);
+inline ::blox_test::ActuatorLogic::Result Block::result() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.result)
+  return static_cast< ::blox_test::ActuatorLogic::Result >(result_);
 }
-inline void Block::set_result(::blox::ActuatorLogic::Result value) {
+inline void Block::set_result(::blox_test::ActuatorLogic::Result value) {
   
   result_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.Block.result)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.result)
 }
 
-// string expression = 5 [(.nanopb_test) = {
+// string expression = 5 [(.nanopb) = {
 inline void Block::clear_expression() {
   expression_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Block::expression() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.expression)
   return expression_.GetNoArena();
 }
 inline void Block::set_expression(const ::std::string& value) {
   
   expression_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.expression)
 }
 #if LANG_CXX11
 inline void Block::set_expression(::std::string&& value) {
   
   expression_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.ActuatorLogic.Block.expression)
 }
 #endif
 inline void Block::set_expression(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   expression_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_set_char:blox_test.ActuatorLogic.Block.expression)
 }
 inline void Block::set_expression(const char* value, size_t size) {
   
   expression_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.ActuatorLogic.Block.expression)
 }
 inline ::std::string* Block::mutable_expression() {
   
-  // @@protoc_insertion_point(field_mutable:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_mutable:blox_test.ActuatorLogic.Block.expression)
   return expression_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Block::release_expression() {
-  // @@protoc_insertion_point(field_release:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_release:blox_test.ActuatorLogic.Block.expression)
   
   return expression_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -809,81 +809,81 @@ inline void Block::set_allocated_expression(::std::string* expression) {
     
   }
   expression_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), expression);
-  // @@protoc_insertion_point(field_set_allocated:blox.ActuatorLogic.Block.expression)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.ActuatorLogic.Block.expression)
 }
 
-// repeated .blox.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb_test) = {
+// repeated .blox_test.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb) = {
 inline int Block::digital_size() const {
   return digital_.size();
 }
 inline void Block::clear_digital() {
   digital_.Clear();
 }
-inline ::blox::ActuatorLogic::DigitalCompare* Block::mutable_digital(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.ActuatorLogic.Block.digital)
+inline ::blox_test::ActuatorLogic::DigitalCompare* Block::mutable_digital(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.ActuatorLogic.Block.digital)
   return digital_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::DigitalCompare >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::DigitalCompare >*
 Block::mutable_digital() {
-  // @@protoc_insertion_point(field_mutable_list:blox.ActuatorLogic.Block.digital)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.ActuatorLogic.Block.digital)
   return &digital_;
 }
-inline const ::blox::ActuatorLogic::DigitalCompare& Block::digital(int index) const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.digital)
+inline const ::blox_test::ActuatorLogic::DigitalCompare& Block::digital(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.digital)
   return digital_.Get(index);
 }
-inline ::blox::ActuatorLogic::DigitalCompare* Block::add_digital() {
-  // @@protoc_insertion_point(field_add:blox.ActuatorLogic.Block.digital)
+inline ::blox_test::ActuatorLogic::DigitalCompare* Block::add_digital() {
+  // @@protoc_insertion_point(field_add:blox_test.ActuatorLogic.Block.digital)
   return digital_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::DigitalCompare >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::DigitalCompare >&
 Block::digital() const {
-  // @@protoc_insertion_point(field_list:blox.ActuatorLogic.Block.digital)
+  // @@protoc_insertion_point(field_list:blox_test.ActuatorLogic.Block.digital)
   return digital_;
 }
 
-// repeated .blox.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb_test) = {
+// repeated .blox_test.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb) = {
 inline int Block::analog_size() const {
   return analog_.size();
 }
 inline void Block::clear_analog() {
   analog_.Clear();
 }
-inline ::blox::ActuatorLogic::AnalogCompare* Block::mutable_analog(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.ActuatorLogic.Block.analog)
+inline ::blox_test::ActuatorLogic::AnalogCompare* Block::mutable_analog(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.ActuatorLogic.Block.analog)
   return analog_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::AnalogCompare >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::AnalogCompare >*
 Block::mutable_analog() {
-  // @@protoc_insertion_point(field_mutable_list:blox.ActuatorLogic.Block.analog)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.ActuatorLogic.Block.analog)
   return &analog_;
 }
-inline const ::blox::ActuatorLogic::AnalogCompare& Block::analog(int index) const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.analog)
+inline const ::blox_test::ActuatorLogic::AnalogCompare& Block::analog(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.analog)
   return analog_.Get(index);
 }
-inline ::blox::ActuatorLogic::AnalogCompare* Block::add_analog() {
-  // @@protoc_insertion_point(field_add:blox.ActuatorLogic.Block.analog)
+inline ::blox_test::ActuatorLogic::AnalogCompare* Block::add_analog() {
+  // @@protoc_insertion_point(field_add:blox_test.ActuatorLogic.Block.analog)
   return analog_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::ActuatorLogic::AnalogCompare >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::AnalogCompare >&
 Block::analog() const {
-  // @@protoc_insertion_point(field_list:blox.ActuatorLogic.Block.analog)
+  // @@protoc_insertion_point(field_list:blox_test.ActuatorLogic.Block.analog)
   return analog_;
 }
 
-// uint32 errorPos = 8 [(.nanopb_test) = {
+// uint32 errorPos = 8 [(.nanopb) = {
 inline void Block::clear_errorpos() {
   errorpos_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::errorpos() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorLogic.Block.errorPos)
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.errorPos)
   return errorpos_;
 }
 inline void Block::set_errorpos(::google::protobuf::uint32 value) {
   
   errorpos_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorLogic.Block.errorPos)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.errorPos)
 }
 
 #ifdef __GNUC__
@@ -897,25 +897,25 @@ inline void Block::set_errorpos(::google::protobuf::uint32 value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace ActuatorLogic
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::ActuatorLogic::Result> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::ActuatorLogic::Result> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::ActuatorLogic::Result>() {
-  return ::blox::ActuatorLogic::Result_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::ActuatorLogic::Result>() {
+  return ::blox_test::ActuatorLogic::Result_descriptor();
 }
-template <> struct is_proto_enum< ::blox::ActuatorLogic::DigitalOperator> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::ActuatorLogic::DigitalOperator> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::ActuatorLogic::DigitalOperator>() {
-  return ::blox::ActuatorLogic::DigitalOperator_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::ActuatorLogic::DigitalOperator>() {
+  return ::blox_test::ActuatorLogic::DigitalOperator_descriptor();
 }
-template <> struct is_proto_enum< ::blox::ActuatorLogic::AnalogOperator> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::ActuatorLogic::AnalogOperator> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::ActuatorLogic::AnalogOperator>() {
-  return ::blox::ActuatorLogic::AnalogOperator_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::ActuatorLogic::AnalogOperator>() {
+  return ::blox_test::ActuatorLogic::AnalogOperator_descriptor();
 }
 
 }  // namespace protobuf

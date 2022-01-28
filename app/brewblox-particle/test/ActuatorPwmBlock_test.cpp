@@ -43,10 +43,10 @@ SCENARIO("A Blox ActuatorPwm object can be created from streamed protobuf data")
     testBox.put(uint8_t(0xFF));
     testBox.put(DigitalActuatorBlock::staticTypeId());
 
-    auto message = blox::DigitalActuator();
+    auto message = blox_test::DigitalActuator::Block();
     message.set_hwdevice(sparkPinsId);
     message.set_channel(1);
-    message.set_state(blox::DigitalState::Inactive);
+    message.set_state(blox_test::IoArray::DigitalState::Inactive);
 
     testBox.put(message);
 
@@ -60,7 +60,7 @@ SCENARIO("A Blox ActuatorPwm object can be created from streamed protobuf data")
     testBox.put(uint8_t(0xFF));
     testBox.put(ActuatorPwmBlock::staticTypeId());
 
-    blox::ActuatorPwm newPwm;
+    blox_test::ActuatorPwm::Block newPwm;
     newPwm.set_actuatorid(actId); // predefined system object for pin actuator
     newPwm.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(20)));
     newPwm.set_period(4000);
@@ -78,7 +78,7 @@ SCENARIO("A Blox ActuatorPwm object can be created from streamed protobuf data")
     testBox.put(commands::READ_OBJECT);
     testBox.put(cbox::obj_id_t(pwmId));
 
-    auto decoded = blox::ActuatorPwm();
+    auto decoded = blox_test::ActuatorPwm::Block();
     testBox.processInputToProto(decoded);
 
     CHECK(testBox.lastReplyHasStatusOk());

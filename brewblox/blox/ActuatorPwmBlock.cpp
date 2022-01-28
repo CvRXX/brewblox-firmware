@@ -87,7 +87,7 @@ ActuatorPwmBlock::update(const cbox::update_t& now)
 
 void* ActuatorPwmBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_ActuatorPwm) {
+    if (iface == brewblox_BlockType_ActuatorPwm) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {

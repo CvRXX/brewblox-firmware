@@ -76,7 +76,7 @@ private:
     fp12_t m_rhs;
 };
 
-class ActuatorLogicBlock : public Block<BlockType_ActuatorLogic> {
+class ActuatorLogicBlock : public Block<brewblox_BlockType_ActuatorLogic> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<ActuatorDigitalConstrained> target;

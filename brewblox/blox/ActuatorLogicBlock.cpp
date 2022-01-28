@@ -153,7 +153,7 @@ ActuatorLogicBlock::update(const cbox::update_t& now)
 
 void* ActuatorLogicBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_ActuatorLogic) {
+    if (iface == brewblox_BlockType_ActuatorLogic) {
         return this; // me!
     }
     return nullptr;

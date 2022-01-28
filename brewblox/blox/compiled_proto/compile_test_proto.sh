@@ -1,39 +1,34 @@
 #!/bin/bash
+set -euo pipefail
 
 # generates cpp with google's protobuf implementation. Not used in firmware, but used in unit test code
 # do some renames so the names don't cause conflicts when both are used
-set -e
 
-MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}")"  && pwd )"
-PROTO_DIR="$( cd "$( readlink -f "${MY_DIR}/../proto")"  && pwd )"
+SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
+PROTO_DIR="${SCRIPT_DIR}/../proto"
+TEST_PROTO_DIR="${SCRIPT_DIR}/test_proto"
+CPP_DIR="${SCRIPT_DIR}/test_src"
 
-mkdir -p "$MY_DIR/test_proto"
-
-pushd "$PROTO_DIR" # > /dev/null  # .option files are read from execution directory, so have to cd into this dir 
+mkdir -p "${TEST_PROTO_DIR}"
 
 # copy proto files with _test appended and fix includes to prevent name clashes
-for file in *.proto 
+for file in "${PROTO_DIR}/"*.proto
 do
-  testfile="$MY_DIR/test_proto/${file%.proto}_test.proto"
+  testfile="${TEST_PROTO_DIR}/$(basename "$file" .proto)_test.proto"
   cp -f "$file" "$testfile"
-  sed -i 's/brewblox/brewblox_test/g' "$testfile"
-  sed -i 's/Brewblox/Brewblox_test/g' "$testfile"
-  sed -i 's/nanopb/nanopb_test/g' "$testfile"
-  sed -i 's/ActuatorDigital.proto/ActuatorDigital_test.proto/g' "$testfile"
-  sed -i 's/Constraints.proto/Constraints_test.proto/g' "$testfile"
-  sed -i 's/IoArray.proto/IoArray_test.proto/g' "$testfile"
-  sed -i 's/SetpointSensorPair.proto/SetpointSensorPair_test.proto/g' "$testfile"
+  sed -ri 's/import "(\w+)\.proto";/import "\1_test.proto";/g' "$testfile"
+  sed -ri 's/package blox/package blox_test/g' "$testfile"
+  sed -ri 's/brewblox!(.proto)/brewblox_test/g' "$testfile"
+  sed -ri 's/controlbox!(.proto)/controlbox_test/g' "$testfile"
+  sed -ri 's/nanopb!(.proto)/nanopb_test/g' "$testfile"
 done
 
-popd > /dev/null
-
 # compile modified proto files
-pushd "${MY_DIR}/test_proto"
-protoc "${MY_DIR}/test_proto"/*.proto --cpp_out=../test_src --proto_path "${MY_DIR}/test_proto"
+pushd "${TEST_PROTO_DIR}"
+protoc \
+  --cpp_out="${CPP_DIR}" \
+  --proto_path "${TEST_PROTO_DIR}" \
+  "${TEST_PROTO_DIR}/"*.proto
 popd > /dev/null
-  
-rm -rf "$MY_DIR/test_proto"
 
-# cd ../tmp_cpp
-#  rsync -r --checksum . ../cpp/ --delete
-
+rm -rf "${TEST_PROTO_DIR}"

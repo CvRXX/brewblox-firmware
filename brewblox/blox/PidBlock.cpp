@@ -35,8 +35,8 @@ PidBlock::PidBlock(cbox::ObjectContainer& objects)
 cbox::CboxError
 PidBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_Pid newData = blox_Pid_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_Pid_fields, blox_Pid_size);
+    blox_Pid_Block newData = blox_Pid_Block_init_zero;
+    cbox::CboxError res = streamProtoFrom(in, &newData, blox_Pid_Block_fields, blox_Pid_Block_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         pid.enabled(newData.enabled);
@@ -59,7 +59,7 @@ cbox::CboxError
 PidBlock::streamTo(cbox::DataOut& out) const
 {
     FieldTags stripped;
-    blox_Pid message = blox_Pid_init_zero;
+    blox_Pid_Block message = blox_Pid_Block_init_zero;
     message.inputId = input.getId();
     message.outputId = output.getId();
 
@@ -67,33 +67,33 @@ PidBlock::streamTo(cbox::DataOut& out) const
         if (ptr->valueValid()) {
             message.inputValue = cnl::unwrap(ptr->value());
         } else {
-            stripped.add(blox_Pid_inputValue_tag);
+            stripped.add(blox_Pid_Block_inputValue_tag);
         }
         if (ptr->settingValid()) {
             message.inputSetting = cnl::unwrap(ptr->setting());
         } else {
-            stripped.add(blox_Pid_inputSetting_tag);
+            stripped.add(blox_Pid_Block_inputSetting_tag);
         }
     } else {
-        stripped.add(blox_Pid_inputSetting_tag);
-        stripped.add(blox_Pid_inputValue_tag);
+        stripped.add(blox_Pid_Block_inputSetting_tag);
+        stripped.add(blox_Pid_Block_inputValue_tag);
     }
 
     if (auto ptr = output.const_lock()) {
         if (ptr->valueValid()) {
             message.outputValue = cnl::unwrap(ptr->value());
         } else {
-            stripped.add(blox_Pid_outputValue_tag);
+            stripped.add(blox_Pid_Block_outputValue_tag);
         }
         if (ptr->settingValid()) {
             message.outputSetting = cnl::unwrap(ptr->setting());
         } else {
-            stripped.add(blox_Pid_outputSetting_tag);
+            stripped.add(blox_Pid_Block_outputSetting_tag);
         }
 
     } else {
-        stripped.add(blox_Pid_outputSetting_tag);
-        stripped.add(blox_Pid_outputValue_tag);
+        stripped.add(blox_Pid_Block_outputSetting_tag);
+        stripped.add(blox_Pid_Block_outputValue_tag);
     }
     if (pid.active()) {
         message.drivenOutputId = message.outputId;
@@ -113,17 +113,17 @@ PidBlock::streamTo(cbox::DataOut& out) const
     message.boilPointAdjust = cnl::unwrap(pid.boilPointAdjust());
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
     message.boilModeActive = pid.boilModeActive();
-    message.derivativeFilter = blox_FilterChoice(pid.derivativeFilterNr());
+    message.derivativeFilter = blox_SetpointSensorPair_FilterChoice(pid.derivativeFilterNr());
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
 
-    return streamProtoTo(out, &message, blox_Pid_fields, blox_Pid_size);
+    return streamProtoTo(out, &message, blox_Pid_Block_fields, blox_Pid_Block_size);
 }
 
 cbox::CboxError
 PidBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_Pid message = blox_Pid_init_zero;
+    blox_Pid_Block message = blox_Pid_Block_init_zero;
     message.inputId = input.getId();
     message.outputId = output.getId();
     message.enabled = pid.enabled();
@@ -133,7 +133,7 @@ PidBlock::streamPersistedTo(cbox::DataOut& out) const
     message.boilPointAdjust = cnl::unwrap(pid.boilPointAdjust());
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
-    return streamProtoTo(out, &message, blox_Pid_fields, blox_Pid_size);
+    return streamProtoTo(out, &message, blox_Pid_Block_fields, blox_Pid_Block_size);
 }
 
 cbox::update_t
@@ -163,7 +163,7 @@ PidBlock::update(const cbox::update_t& now)
 
 void* PidBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BlockType_Pid) {
+    if (iface == brewblox_BlockType_Pid) {
         return this; // me!
     }
     return nullptr;

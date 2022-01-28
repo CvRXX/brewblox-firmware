@@ -19,7 +19,7 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace blox {
+namespace blox_test {
 namespace TouchSettings {
 class BlockDefaultTypeInternal {
  public:
@@ -27,17 +27,17 @@ class BlockDefaultTypeInternal {
       _instance;
 } _Block_default_instance_;
 }  // namespace TouchSettings
-}  // namespace blox
+}  // namespace blox_test
 namespace protobuf_TouchSettings_5ftest_2eproto {
 static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::TouchSettings::_Block_default_instance_;
-    new (ptr) ::blox::TouchSettings::Block();
+    void* ptr = &::blox_test::TouchSettings::_Block_default_instance_;
+    new (ptr) ::blox_test::TouchSettings::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::TouchSettings::Block::InitAsDefaultInstance();
+  ::blox_test::TouchSettings::Block::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_Block =
@@ -52,22 +52,22 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TouchSettings::Block, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TouchSettings::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TouchSettings::Block, calibrated_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TouchSettings::Block, xoffset_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TouchSettings::Block, yoffset_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TouchSettings::Block, xbitsperpixelx16_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::TouchSettings::Block, ybitsperpixelx16_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TouchSettings::Block, calibrated_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TouchSettings::Block, xoffset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TouchSettings::Block, yoffset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TouchSettings::Block, xbitsperpixelx16_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TouchSettings::Block, ybitsperpixelx16_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::TouchSettings::Block)},
+  { 0, -1, sizeof(::blox_test::TouchSettings::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::TouchSettings::_Block_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::TouchSettings::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -91,18 +91,19 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\030TouchSettings_test.proto\022\022blox.TouchSe"
-      "ttings\032\023brewblox_test.proto\032\021nanopb_test"
-      ".proto\"\266\001\n\005Block\0222\n\ncalibrated\030\001 \001(\0162\036.b"
-      "lox.TouchSettings.Calibrated\022\026\n\007xOffset\030"
-      "\002 \001(\005B\005\222\?\0028\020\022\026\n\007yOffset\030\003 \001(\005B\005\222\?\0028\020\022\037\n\020"
-      "xBitsPerPixelX16\030\004 \001(\rB\005\222\?\0028\020\022\037\n\020yBitsPe"
-      "rPixelX16\030\005 \001(\rB\005\222\?\0028\020:\007\212\265\030\003\030\271\002*G\n\nCalib"
-      "rated\022\021\n\rCALIBRATED_NO\020\000\022\022\n\016CALIBRATED_Y"
-      "ES\020\001\022\022\n\016CALIBRATED_NEW\020\002b\006proto3"
+      "\n\030TouchSettings_test.proto\022\027blox_test.To"
+      "uchSettings\032\023brewblox_test.proto\032\021nanopb"
+      "_test.proto\"\273\001\n\005Block\0227\n\ncalibrated\030\001 \001("
+      "\0162#.blox_test.TouchSettings.Calibrated\022\026"
+      "\n\007xOffset\030\002 \001(\005B\005\222\?\0028\020\022\026\n\007yOffset\030\003 \001(\005B"
+      "\005\222\?\0028\020\022\037\n\020xBitsPerPixelX16\030\004 \001(\rB\005\222\?\0028\020\022"
+      "\037\n\020yBitsPerPixelX16\030\005 \001(\rB\005\222\?\0028\020:\007\212\265\030\003\030\271"
+      "\002*G\n\nCalibrated\022\021\n\rCALIBRATED_NO\020\000\022\022\n\016CA"
+      "LIBRATED_YES\020\001\022\022\n\016CALIBRATED_NEW\020\002b\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 352);
+      descriptor, 362);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TouchSettings_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -120,7 +121,7 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_TouchSettings_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace TouchSettings {
 const ::google::protobuf::EnumDescriptor* Calibrated_descriptor() {
   protobuf_TouchSettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
@@ -155,7 +156,7 @@ Block::Block()
   ::google::protobuf::internal::InitSCC(
       &protobuf_TouchSettings_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(constructor:blox_test.TouchSettings.Block)
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
@@ -164,7 +165,7 @@ Block::Block(const Block& from)
   ::memcpy(&calibrated_, &from.calibrated_,
     static_cast<size_t>(reinterpret_cast<char*>(&ybitsperpixelx16_) -
     reinterpret_cast<char*>(&calibrated_)) + sizeof(ybitsperpixelx16_));
-  // @@protoc_insertion_point(copy_constructor:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(copy_constructor:blox_test.TouchSettings.Block)
 }
 
 void Block::SharedCtor() {
@@ -174,7 +175,7 @@ void Block::SharedCtor() {
 }
 
 Block::~Block() {
-  // @@protoc_insertion_point(destructor:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(destructor:blox_test.TouchSettings.Block)
   SharedDtor();
 }
 
@@ -196,7 +197,7 @@ const Block& Block::default_instance() {
 
 
 void Block::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.TouchSettings.Block)
+// @@protoc_insertion_point(message_clear_start:blox_test.TouchSettings.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -211,13 +212,13 @@ bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(parse_start:blox_test.TouchSettings.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox.TouchSettings.Calibrated calibrated = 1;
+      // .blox_test.TouchSettings.Calibrated calibrated = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -225,14 +226,14 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_calibrated(static_cast< ::blox::TouchSettings::Calibrated >(value));
+          set_calibrated(static_cast< ::blox_test::TouchSettings::Calibrated >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // int32 xOffset = 2 [(.nanopb_test) = {
+      // int32 xOffset = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -246,7 +247,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 yOffset = 3 [(.nanopb_test) = {
+      // int32 yOffset = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -260,7 +261,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 xBitsPerPixelX16 = 4 [(.nanopb_test) = {
+      // uint32 xBitsPerPixelX16 = 4 [(.nanopb) = {
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -274,7 +275,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 yBitsPerPixelX16 = 5 [(.nanopb_test) = {
+      // uint32 yBitsPerPixelX16 = 5 [(.nanopb) = {
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
@@ -300,42 +301,42 @@ bool Block::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(parse_success:blox_test.TouchSettings.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(parse_failure:blox_test.TouchSettings.Block)
   return false;
 #undef DO_
 }
 
 void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(serialize_start:blox_test.TouchSettings.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.TouchSettings.Calibrated calibrated = 1;
+  // .blox_test.TouchSettings.Calibrated calibrated = 1;
   if (this->calibrated() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->calibrated(), output);
   }
 
-  // int32 xOffset = 2 [(.nanopb_test) = {
+  // int32 xOffset = 2 [(.nanopb) = {
   if (this->xoffset() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->xoffset(), output);
   }
 
-  // int32 yOffset = 3 [(.nanopb_test) = {
+  // int32 yOffset = 3 [(.nanopb) = {
   if (this->yoffset() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->yoffset(), output);
   }
 
-  // uint32 xBitsPerPixelX16 = 4 [(.nanopb_test) = {
+  // uint32 xBitsPerPixelX16 = 4 [(.nanopb) = {
   if (this->xbitsperpixelx16() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->xbitsperpixelx16(), output);
   }
 
-  // uint32 yBitsPerPixelX16 = 5 [(.nanopb_test) = {
+  // uint32 yBitsPerPixelX16 = 5 [(.nanopb) = {
   if (this->ybitsperpixelx16() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->ybitsperpixelx16(), output);
   }
@@ -344,38 +345,38 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(serialize_end:blox_test.TouchSettings.Block)
 }
 
 ::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.TouchSettings.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.TouchSettings.Calibrated calibrated = 1;
+  // .blox_test.TouchSettings.Calibrated calibrated = 1;
   if (this->calibrated() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->calibrated(), target);
   }
 
-  // int32 xOffset = 2 [(.nanopb_test) = {
+  // int32 xOffset = 2 [(.nanopb) = {
   if (this->xoffset() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->xoffset(), target);
   }
 
-  // int32 yOffset = 3 [(.nanopb_test) = {
+  // int32 yOffset = 3 [(.nanopb) = {
   if (this->yoffset() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->yoffset(), target);
   }
 
-  // uint32 xBitsPerPixelX16 = 4 [(.nanopb_test) = {
+  // uint32 xBitsPerPixelX16 = 4 [(.nanopb) = {
   if (this->xbitsperpixelx16() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->xbitsperpixelx16(), target);
   }
 
-  // uint32 yBitsPerPixelX16 = 5 [(.nanopb_test) = {
+  // uint32 yBitsPerPixelX16 = 5 [(.nanopb) = {
   if (this->ybitsperpixelx16() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->ybitsperpixelx16(), target);
   }
@@ -384,12 +385,12 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.TouchSettings.Block)
   return target;
 }
 
 size_t Block::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.TouchSettings.Block)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.TouchSettings.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -397,34 +398,34 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .blox.TouchSettings.Calibrated calibrated = 1;
+  // .blox_test.TouchSettings.Calibrated calibrated = 1;
   if (this->calibrated() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->calibrated());
   }
 
-  // int32 xOffset = 2 [(.nanopb_test) = {
+  // int32 xOffset = 2 [(.nanopb) = {
   if (this->xoffset() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->xoffset());
   }
 
-  // int32 yOffset = 3 [(.nanopb_test) = {
+  // int32 yOffset = 3 [(.nanopb) = {
   if (this->yoffset() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->yoffset());
   }
 
-  // uint32 xBitsPerPixelX16 = 4 [(.nanopb_test) = {
+  // uint32 xBitsPerPixelX16 = 4 [(.nanopb) = {
   if (this->xbitsperpixelx16() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->xbitsperpixelx16());
   }
 
-  // uint32 yBitsPerPixelX16 = 5 [(.nanopb_test) = {
+  // uint32 yBitsPerPixelX16 = 5 [(.nanopb) = {
   if (this->ybitsperpixelx16() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -437,22 +438,22 @@ size_t Block::ByteSizeLong() const {
 }
 
 void Block::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.TouchSettings.Block)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.TouchSettings.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.TouchSettings.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.TouchSettings.Block)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.TouchSettings.Block)
     MergeFrom(*source);
   }
 }
 
 void Block::MergeFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.TouchSettings.Block)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.TouchSettings.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -476,14 +477,14 @@ void Block::MergeFrom(const Block& from) {
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.TouchSettings.Block)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.TouchSettings.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Block::CopyFrom(const Block& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.TouchSettings.Block)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.TouchSettings.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -515,11 +516,11 @@ void Block::InternalSwap(Block* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace TouchSettings
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::TouchSettings::Block* Arena::CreateMaybeMessage< ::blox::TouchSettings::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::TouchSettings::Block >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::TouchSettings::Block* Arena::CreateMaybeMessage< ::blox_test::TouchSettings::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::TouchSettings::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

@@ -26,7 +26,7 @@
 
 // provides a protobuf interface to the ticks object
 template <typename T>
-class TicksBlock : public Block<BlockType_Ticks> {
+class TicksBlock : public Block<brewblox_BlockType_Ticks> {
     T& ticks;
 
 public:
@@ -38,8 +38,8 @@ public:
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& dataIn) override final
     {
-        blox_Ticks newData = blox_Ticks_init_zero;
-        cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Ticks_fields, blox_Ticks_size);
+        blox_Ticks_Block newData = blox_Ticks_Block_init_zero;
+        cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Ticks_Block_fields, blox_Ticks_Block_size);
         if (result == cbox::CboxError::OK) {
             ticks.setUtc(newData.secondsSinceEpoch);
         }
@@ -48,7 +48,7 @@ public:
 
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
     {
-        blox_Ticks message = blox_Ticks_init_zero;
+        blox_Ticks_Block message = blox_Ticks_Block_init_zero;
         message.secondsSinceEpoch = ticks.utc();
         message.millisSinceBoot = ticks.millis();
 
@@ -57,7 +57,7 @@ public:
         message.avgDisplayTask = ticks.taskTime(2);
         message.avgSystemTask = ticks.taskTime(3);
 
-        return streamProtoTo(out, &message, blox_Ticks_fields, blox_Ticks_size);
+        return streamProtoTo(out, &message, blox_Ticks_Block_fields, blox_Ticks_Block_size);
     }
 
     virtual cbox::CboxError streamPersistedTo(cbox::DataOut&) const override final

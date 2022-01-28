@@ -40,91 +40,91 @@ template <>
 const obj_type_t
 interfaceIdImpl<ProcessValue<fp12_t>>()
 {
-    return BlockType_ProcessValueInterface;
+    return brewblox_BlockType_ProcessValueInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<TempSensor>()
 {
-    return BlockType_TempSensorInterface;
+    return brewblox_BlockType_TempSensorInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<SetpointSensorPair>()
 {
-    return BlockType_SetpointSensorPairInterface;
+    return brewblox_BlockType_SetpointSensorPairInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<ActuatorAnalogConstrained>()
 {
-    return BlockType_ActuatorAnalogInterface;
+    return brewblox_BlockType_ActuatorAnalogInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<ActuatorDigitalConstrained>()
 {
-    return BlockType_ActuatorDigitalInterface;
+    return brewblox_BlockType_ActuatorDigitalInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<MutexTarget>()
 {
-    return BlockType_MutexInterface;
+    return brewblox_BlockType_MutexInterface;
 }
 
 template <>
 const obj_type_t
-interfaceIdImpl<Balancer<blox_DigitalConstraint_mutex_tag>>()
+interfaceIdImpl<Balancer<blox_Constraints_DigitalConstraint_mutex_tag>>()
 {
-    return BlockType_BalancerInterface;
+    return brewblox_BlockType_BalancerInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<OneWireDevice>()
 {
-    return BlockType_OneWireDeviceInterface;
+    return brewblox_BlockType_OneWireDeviceInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<IoArray>()
 {
-    return BlockType_IoArrayInterface;
+    return brewblox_BlockType_IoArrayInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<DS2408>()
 {
-    return BlockType_DS2408Interface;
+    return brewblox_BlockType_DS2408Interface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<OneWire>()
 {
-    return BlockType_OneWireBusInterface;
+    return brewblox_BlockType_OneWireBusInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<IoModule>()
 {
-    return BlockType_IoModuleInterface;
+    return brewblox_BlockType_IoModuleInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<OneWireDeviceBlock>()
 {
-    return BlockType_OneWireDeviceBlockInterface;
+    return brewblox_BlockType_OneWireDeviceBlockInterface;
 }
 
 } // end namespace cbox

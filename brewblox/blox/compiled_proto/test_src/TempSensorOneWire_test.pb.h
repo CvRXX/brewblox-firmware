@@ -47,24 +47,24 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_TempSensorOneWire_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace TempSensorOneWire {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace TempSensorOneWire
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::TempSensorOneWire::Block* Arena::CreateMaybeMessage<::blox::TempSensorOneWire::Block>(Arena*);
+template<> ::blox_test::TempSensorOneWire::Block* Arena::CreateMaybeMessage<::blox_test::TempSensorOneWire::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace TempSensorOneWire {
 
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.TempSensorOneWire.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.TempSensorOneWire.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -151,7 +151,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -163,31 +163,31 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // sint32 value = 1 [(.nanopb_test) = {
+  // sint32 value = 1 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 1;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // sint32 offset = 3 [(.nanopb_test) = {
+  // sint32 offset = 3 [(.nanopb) = {
   void clear_offset();
   static const int kOffsetFieldNumber = 3;
   ::google::protobuf::int32 offset() const;
   void set_offset(::google::protobuf::int32 value);
 
-  // fixed64 address = 4 [(.brewblox_test) = {
+  // fixed64 address = 4 [(.brewblox.field) = {
   void clear_address();
   static const int kAddressFieldNumber = 4;
   ::google::protobuf::uint64 address() const;
   void set_address(::google::protobuf::uint64 value);
 
-  // uint32 oneWireBusId = 5 [(.nanopb_test) = {
+  // uint32 oneWireBusId = 5 [(.nanopb) = {
   void clear_onewirebusid();
   static const int kOneWireBusIdFieldNumber = 5;
   ::google::protobuf::uint32 onewirebusid() const;
   void set_onewirebusid(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.TempSensorOneWire.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.TempSensorOneWire.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -211,63 +211,63 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// sint32 value = 1 [(.nanopb_test) = {
+// sint32 value = 1 [(.nanopb) = {
 inline void Block::clear_value() {
   value_ = 0;
 }
 inline ::google::protobuf::int32 Block::value() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorOneWire.Block.value)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorOneWire.Block.value)
   return value_;
 }
 inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorOneWire.Block.value)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorOneWire.Block.value)
 }
 
-// sint32 offset = 3 [(.nanopb_test) = {
+// sint32 offset = 3 [(.nanopb) = {
 inline void Block::clear_offset() {
   offset_ = 0;
 }
 inline ::google::protobuf::int32 Block::offset() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorOneWire.Block.offset)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorOneWire.Block.offset)
   return offset_;
 }
 inline void Block::set_offset(::google::protobuf::int32 value) {
   
   offset_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorOneWire.Block.offset)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorOneWire.Block.offset)
 }
 
-// fixed64 address = 4 [(.brewblox_test) = {
+// fixed64 address = 4 [(.brewblox.field) = {
 inline void Block::clear_address() {
   address_ = GOOGLE_ULONGLONG(0);
 }
 inline ::google::protobuf::uint64 Block::address() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorOneWire.Block.address)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorOneWire.Block.address)
   return address_;
 }
 inline void Block::set_address(::google::protobuf::uint64 value) {
   
   address_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorOneWire.Block.address)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorOneWire.Block.address)
 }
 
-// uint32 oneWireBusId = 5 [(.nanopb_test) = {
+// uint32 oneWireBusId = 5 [(.nanopb) = {
 inline void Block::clear_onewirebusid() {
   onewirebusid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::onewirebusid() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorOneWire.Block.oneWireBusId)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorOneWire.Block.oneWireBusId)
   return onewirebusid_;
 }
 inline void Block::set_onewirebusid(::google::protobuf::uint32 value) {
   
   onewirebusid_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorOneWire.Block.oneWireBusId)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorOneWire.Block.oneWireBusId)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
 inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
@@ -275,25 +275,25 @@ inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
 inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorOneWire.Block.strippedFields)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorOneWire.Block.strippedFields)
   return strippedfields_.Get(index);
 }
 inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.TempSensorOneWire.Block.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorOneWire.Block.strippedFields)
 }
 inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.TempSensorOneWire.Block.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.TempSensorOneWire.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorOneWire.Block.strippedFields)
+  // @@protoc_insertion_point(field_list:blox_test.TempSensorOneWire.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorOneWire.Block.strippedFields)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.TempSensorOneWire.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -304,7 +304,7 @@ Block::mutable_strippedfields() {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace TempSensorOneWire
-}  // namespace blox
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

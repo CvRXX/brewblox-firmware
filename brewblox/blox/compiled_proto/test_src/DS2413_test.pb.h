@@ -49,19 +49,19 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_DS2413_5ftest_2eproto
-namespace blox {
+namespace blox_test {
 namespace DS2413 {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
 }  // namespace DS2413
-}  // namespace blox
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::DS2413::Block* Arena::CreateMaybeMessage<::blox::DS2413::Block>(Arena*);
+template<> ::blox_test::DS2413::Block* Arena::CreateMaybeMessage<::blox_test::DS2413::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
 namespace DS2413 {
 
 enum ChannelId {
@@ -88,7 +88,7 @@ inline bool ChannelId_Parse(
 }
 // ===================================================================
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.DS2413.Block) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.DS2413.Block) */ {
  public:
   Block();
   virtual ~Block();
@@ -175,47 +175,47 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
+  // repeated .blox_test.IoArray.IoChannel channels = 9 [(.nanopb) = {
   int channels_size() const;
   void clear_channels();
   static const int kChannelsFieldNumber = 9;
-  ::blox::IoArray::IoChannel* mutable_channels(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >*
+  ::blox_test::IoArray::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >*
       mutable_channels();
-  const ::blox::IoArray::IoChannel& channels(int index) const;
-  ::blox::IoArray::IoChannel* add_channels();
-  const ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >&
+  const ::blox_test::IoArray::IoChannel& channels(int index) const;
+  ::blox_test::IoArray::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
       channels() const;
 
-  // fixed64 address = 1 [(.brewblox_test) = {
+  // fixed64 address = 1 [(.brewblox.field) = {
   void clear_address();
   static const int kAddressFieldNumber = 1;
   ::google::protobuf::uint64 address() const;
   void set_address(::google::protobuf::uint64 value);
 
-  // uint32 oneWireBusId = 8 [(.nanopb_test) = {
+  // uint32 oneWireBusId = 8 [(.nanopb) = {
   void clear_onewirebusid();
   static const int kOneWireBusIdFieldNumber = 8;
   ::google::protobuf::uint32 onewirebusid() const;
   void set_onewirebusid(::google::protobuf::uint32 value);
 
-  // bool connected = 6 [(.brewblox_test) = {
+  // bool connected = 6 [(.brewblox.field) = {
   void clear_connected();
   static const int kConnectedFieldNumber = 6;
   bool connected() const;
   void set_connected(bool value);
 
-  // bool pins = 90 [(.nanopb_test) = {
+  // bool pins = 90 [(.nanopb) = {
   void clear_pins();
   static const int kPinsFieldNumber = 90;
   bool pins() const;
   void set_pins(bool value);
 
-  // @@protoc_insertion_point(class_scope:blox.DS2413.Block)
+  // @@protoc_insertion_point(class_scope:blox_test.DS2413.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel > channels_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel > channels_;
   ::google::protobuf::uint64 address_;
   ::google::protobuf::uint32 onewirebusid_;
   bool connected_;
@@ -234,87 +234,87 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Block
 
-// fixed64 address = 1 [(.brewblox_test) = {
+// fixed64 address = 1 [(.brewblox.field) = {
 inline void Block::clear_address() {
   address_ = GOOGLE_ULONGLONG(0);
 }
 inline ::google::protobuf::uint64 Block::address() const {
-  // @@protoc_insertion_point(field_get:blox.DS2413.Block.address)
+  // @@protoc_insertion_point(field_get:blox_test.DS2413.Block.address)
   return address_;
 }
 inline void Block::set_address(::google::protobuf::uint64 value) {
   
   address_ = value;
-  // @@protoc_insertion_point(field_set:blox.DS2413.Block.address)
+  // @@protoc_insertion_point(field_set:blox_test.DS2413.Block.address)
 }
 
-// bool connected = 6 [(.brewblox_test) = {
+// bool connected = 6 [(.brewblox.field) = {
 inline void Block::clear_connected() {
   connected_ = false;
 }
 inline bool Block::connected() const {
-  // @@protoc_insertion_point(field_get:blox.DS2413.Block.connected)
+  // @@protoc_insertion_point(field_get:blox_test.DS2413.Block.connected)
   return connected_;
 }
 inline void Block::set_connected(bool value) {
   
   connected_ = value;
-  // @@protoc_insertion_point(field_set:blox.DS2413.Block.connected)
+  // @@protoc_insertion_point(field_set:blox_test.DS2413.Block.connected)
 }
 
-// uint32 oneWireBusId = 8 [(.nanopb_test) = {
+// uint32 oneWireBusId = 8 [(.nanopb) = {
 inline void Block::clear_onewirebusid() {
   onewirebusid_ = 0u;
 }
 inline ::google::protobuf::uint32 Block::onewirebusid() const {
-  // @@protoc_insertion_point(field_get:blox.DS2413.Block.oneWireBusId)
+  // @@protoc_insertion_point(field_get:blox_test.DS2413.Block.oneWireBusId)
   return onewirebusid_;
 }
 inline void Block::set_onewirebusid(::google::protobuf::uint32 value) {
   
   onewirebusid_ = value;
-  // @@protoc_insertion_point(field_set:blox.DS2413.Block.oneWireBusId)
+  // @@protoc_insertion_point(field_set:blox_test.DS2413.Block.oneWireBusId)
 }
 
-// repeated .blox.IoArray.IoChannel channels = 9 [(.nanopb_test) = {
+// repeated .blox_test.IoArray.IoChannel channels = 9 [(.nanopb) = {
 inline int Block::channels_size() const {
   return channels_.size();
 }
-inline ::blox::IoArray::IoChannel* Block::mutable_channels(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.DS2413.Block.channels)
+inline ::blox_test::IoArray::IoChannel* Block::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.DS2413.Block.channels)
   return channels_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >*
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >*
 Block::mutable_channels() {
-  // @@protoc_insertion_point(field_mutable_list:blox.DS2413.Block.channels)
+  // @@protoc_insertion_point(field_mutable_list:blox_test.DS2413.Block.channels)
   return &channels_;
 }
-inline const ::blox::IoArray::IoChannel& Block::channels(int index) const {
-  // @@protoc_insertion_point(field_get:blox.DS2413.Block.channels)
+inline const ::blox_test::IoArray::IoChannel& Block::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.DS2413.Block.channels)
   return channels_.Get(index);
 }
-inline ::blox::IoArray::IoChannel* Block::add_channels() {
-  // @@protoc_insertion_point(field_add:blox.DS2413.Block.channels)
+inline ::blox_test::IoArray::IoChannel* Block::add_channels() {
+  // @@protoc_insertion_point(field_add:blox_test.DS2413.Block.channels)
   return channels_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::IoArray::IoChannel >&
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
 Block::channels() const {
-  // @@protoc_insertion_point(field_list:blox.DS2413.Block.channels)
+  // @@protoc_insertion_point(field_list:blox_test.DS2413.Block.channels)
   return channels_;
 }
 
-// bool pins = 90 [(.nanopb_test) = {
+// bool pins = 90 [(.nanopb) = {
 inline void Block::clear_pins() {
   pins_ = false;
 }
 inline bool Block::pins() const {
-  // @@protoc_insertion_point(field_get:blox.DS2413.Block.pins)
+  // @@protoc_insertion_point(field_get:blox_test.DS2413.Block.pins)
   return pins_;
 }
 inline void Block::set_pins(bool value) {
   
   pins_ = value;
-  // @@protoc_insertion_point(field_set:blox.DS2413.Block.pins)
+  // @@protoc_insertion_point(field_set:blox_test.DS2413.Block.pins)
 }
 
 #ifdef __GNUC__
@@ -324,15 +324,15 @@ inline void Block::set_pins(bool value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace DS2413
-}  // namespace blox
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::DS2413::ChannelId> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::DS2413::ChannelId> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::DS2413::ChannelId>() {
-  return ::blox::DS2413::ChannelId_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::DS2413::ChannelId>() {
+  return ::blox_test::DS2413::ChannelId_descriptor();
 }
 
 }  // namespace protobuf

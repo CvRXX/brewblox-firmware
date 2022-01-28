@@ -25,7 +25,7 @@
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class PidBlock : public Block<BlockType_Pid> {
+class PidBlock : public Block<brewblox_BlockType_Pid> {
 private:
     cbox::CboxPtr<SetpointSensorPair> input;
     cbox::CboxPtr<ActuatorAnalogConstrained> output;

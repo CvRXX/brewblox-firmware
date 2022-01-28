@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-class ExpOwGpioBlock : public Block<BlockType_OneWireGpioModule> {
+class ExpOwGpioBlock : public Block<brewblox_BlockType_OneWireGpioModule> {
 private:
     ExpOwGpio drivers;
 
@@ -45,7 +45,7 @@ public:
     virtual void* implements(const cbox::obj_type_t& iface) override final;
 
 private:
-    void writeMessage(blox_OneWireGpioModule& message, bool includeNotPersisted) const;
+    void writeMessage(blox_OneWireGpioModule_Block& message, bool includeNotPersisted) const;
 
     typedef struct {
         uint8_t id;

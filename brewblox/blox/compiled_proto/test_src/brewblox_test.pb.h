@@ -48,18 +48,21 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_brewblox_5ftest_2eproto
+namespace brewblox {
 class FieldOpts;
 class FieldOptsDefaultTypeInternal;
 extern FieldOptsDefaultTypeInternal _FieldOpts_default_instance_;
 class MessageOpts;
 class MessageOptsDefaultTypeInternal;
 extern MessageOptsDefaultTypeInternal _MessageOpts_default_instance_;
+}  // namespace brewblox
 namespace google {
 namespace protobuf {
-template<> ::FieldOpts* Arena::CreateMaybeMessage<::FieldOpts>(Arena*);
-template<> ::MessageOpts* Arena::CreateMaybeMessage<::MessageOpts>(Arena*);
+template<> ::brewblox::FieldOpts* Arena::CreateMaybeMessage<::brewblox::FieldOpts>(Arena*);
+template<> ::brewblox::MessageOpts* Arena::CreateMaybeMessage<::brewblox::MessageOpts>(Arena*);
 }  // namespace protobuf
 }  // namespace google
+namespace brewblox {
 
 enum UnitType {
   NotSet = 0,
@@ -158,7 +161,7 @@ inline bool BlockType_Parse(
 }
 // ===================================================================
 
-class MessageOpts : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:MessageOpts) */ {
+class MessageOpts : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:brewblox.MessageOpts) */ {
  public:
   MessageOpts();
   virtual ~MessageOpts();
@@ -245,29 +248,29 @@ class MessageOpts : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // repeated .BlockType impl = 9 [(.nanopb_test) = {
+  // repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
   int impl_size() const;
   void clear_impl();
   static const int kImplFieldNumber = 9;
-  ::BlockType impl(int index) const;
-  void set_impl(int index, ::BlockType value);
-  void add_impl(::BlockType value);
+  ::brewblox::BlockType impl(int index) const;
+  void set_impl(int index, ::brewblox::BlockType value);
+  void add_impl(::brewblox::BlockType value);
   const ::google::protobuf::RepeatedField<int>& impl() const;
   ::google::protobuf::RepeatedField<int>* mutable_impl();
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   void clear_objtype();
   static const int kObjtypeFieldNumber = 3;
-  ::BlockType objtype() const;
-  void set_objtype(::BlockType value);
+  ::brewblox::BlockType objtype() const;
+  void set_objtype(::brewblox::BlockType value);
 
-  // uint32 subtype = 11 [(.nanopb_test) = {
+  // uint32 subtype = 11 [(.nanopb) = {
   void clear_subtype();
   static const int kSubtypeFieldNumber = 11;
   ::google::protobuf::uint32 subtype() const;
   void set_subtype(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:MessageOpts)
+  // @@protoc_insertion_point(class_scope:brewblox.MessageOpts)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -280,7 +283,7 @@ class MessageOpts : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:FieldOpts) */ {
+class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:brewblox.FieldOpts) */ {
  public:
   FieldOpts();
   virtual ~FieldOpts();
@@ -367,11 +370,11 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // .UnitType unit = 1;
+  // .brewblox.UnitType unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  ::UnitType unit() const;
-  void set_unit(::UnitType value);
+  ::brewblox::UnitType unit() const;
+  void set_unit(::brewblox::UnitType value);
 
   // uint32 scale = 2;
   void clear_scale();
@@ -379,11 +382,11 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint32 scale() const;
   void set_scale(::google::protobuf::uint32 value);
 
-  // .BlockType objtype = 3;
+  // .brewblox.BlockType objtype = 3;
   void clear_objtype();
   static const int kObjtypeFieldNumber = 3;
-  ::BlockType objtype() const;
-  void set_objtype(::BlockType value);
+  ::brewblox::BlockType objtype() const;
+  void set_objtype(::brewblox::BlockType value);
 
   // bool hexed = 4;
   void clear_hexed();
@@ -427,7 +430,7 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool bitfield() const;
   void set_bitfield(bool value);
 
-  // @@protoc_insertion_point(class_scope:FieldOpts)
+  // @@protoc_insertion_point(class_scope:brewblox.FieldOpts)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -446,14 +449,14 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
 };
 // ===================================================================
 
-static const int kBrewbloxTestFieldNumber = 50001;
+static const int kFieldFieldNumber = 50001;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::FieldOpts >, 11, false >
-  brewblox_test;
-static const int kBrewbloxTestMsgFieldNumber = 50001;
+    ::google::protobuf::internal::MessageTypeTraits< ::brewblox::FieldOpts >, 11, false >
+  field;
+static const int kMsgFieldNumber = 50001;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::MessageOpts >, 11, false >
-  brewblox_test_msg;
+    ::google::protobuf::internal::MessageTypeTraits< ::brewblox::MessageOpts >, 11, false >
+  msg;
 
 // ===================================================================
 
@@ -463,80 +466,80 @@ extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::Me
 #endif  // __GNUC__
 // MessageOpts
 
-// .BlockType objtype = 3;
+// .brewblox.BlockType objtype = 3;
 inline void MessageOpts::clear_objtype() {
   objtype_ = 0;
 }
-inline ::BlockType MessageOpts::objtype() const {
-  // @@protoc_insertion_point(field_get:MessageOpts.objtype)
-  return static_cast< ::BlockType >(objtype_);
+inline ::brewblox::BlockType MessageOpts::objtype() const {
+  // @@protoc_insertion_point(field_get:brewblox.MessageOpts.objtype)
+  return static_cast< ::brewblox::BlockType >(objtype_);
 }
-inline void MessageOpts::set_objtype(::BlockType value) {
+inline void MessageOpts::set_objtype(::brewblox::BlockType value) {
   
   objtype_ = value;
-  // @@protoc_insertion_point(field_set:MessageOpts.objtype)
+  // @@protoc_insertion_point(field_set:brewblox.MessageOpts.objtype)
 }
 
-// repeated .BlockType impl = 9 [(.nanopb_test) = {
+// repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
 inline int MessageOpts::impl_size() const {
   return impl_.size();
 }
 inline void MessageOpts::clear_impl() {
   impl_.Clear();
 }
-inline ::BlockType MessageOpts::impl(int index) const {
-  // @@protoc_insertion_point(field_get:MessageOpts.impl)
-  return static_cast< ::BlockType >(impl_.Get(index));
+inline ::brewblox::BlockType MessageOpts::impl(int index) const {
+  // @@protoc_insertion_point(field_get:brewblox.MessageOpts.impl)
+  return static_cast< ::brewblox::BlockType >(impl_.Get(index));
 }
-inline void MessageOpts::set_impl(int index, ::BlockType value) {
+inline void MessageOpts::set_impl(int index, ::brewblox::BlockType value) {
   impl_.Set(index, value);
-  // @@protoc_insertion_point(field_set:MessageOpts.impl)
+  // @@protoc_insertion_point(field_set:brewblox.MessageOpts.impl)
 }
-inline void MessageOpts::add_impl(::BlockType value) {
+inline void MessageOpts::add_impl(::brewblox::BlockType value) {
   impl_.Add(value);
-  // @@protoc_insertion_point(field_add:MessageOpts.impl)
+  // @@protoc_insertion_point(field_add:brewblox.MessageOpts.impl)
 }
 inline const ::google::protobuf::RepeatedField<int>&
 MessageOpts::impl() const {
-  // @@protoc_insertion_point(field_list:MessageOpts.impl)
+  // @@protoc_insertion_point(field_list:brewblox.MessageOpts.impl)
   return impl_;
 }
 inline ::google::protobuf::RepeatedField<int>*
 MessageOpts::mutable_impl() {
-  // @@protoc_insertion_point(field_mutable_list:MessageOpts.impl)
+  // @@protoc_insertion_point(field_mutable_list:brewblox.MessageOpts.impl)
   return &impl_;
 }
 
-// uint32 subtype = 11 [(.nanopb_test) = {
+// uint32 subtype = 11 [(.nanopb) = {
 inline void MessageOpts::clear_subtype() {
   subtype_ = 0u;
 }
 inline ::google::protobuf::uint32 MessageOpts::subtype() const {
-  // @@protoc_insertion_point(field_get:MessageOpts.subtype)
+  // @@protoc_insertion_point(field_get:brewblox.MessageOpts.subtype)
   return subtype_;
 }
 inline void MessageOpts::set_subtype(::google::protobuf::uint32 value) {
   
   subtype_ = value;
-  // @@protoc_insertion_point(field_set:MessageOpts.subtype)
+  // @@protoc_insertion_point(field_set:brewblox.MessageOpts.subtype)
 }
 
 // -------------------------------------------------------------------
 
 // FieldOpts
 
-// .UnitType unit = 1;
+// .brewblox.UnitType unit = 1;
 inline void FieldOpts::clear_unit() {
   unit_ = 0;
 }
-inline ::UnitType FieldOpts::unit() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.unit)
-  return static_cast< ::UnitType >(unit_);
+inline ::brewblox::UnitType FieldOpts::unit() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.unit)
+  return static_cast< ::brewblox::UnitType >(unit_);
 }
-inline void FieldOpts::set_unit(::UnitType value) {
+inline void FieldOpts::set_unit(::brewblox::UnitType value) {
   
   unit_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.unit)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.unit)
 }
 
 // uint32 scale = 2;
@@ -544,27 +547,27 @@ inline void FieldOpts::clear_scale() {
   scale_ = 0u;
 }
 inline ::google::protobuf::uint32 FieldOpts::scale() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.scale)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.scale)
   return scale_;
 }
 inline void FieldOpts::set_scale(::google::protobuf::uint32 value) {
   
   scale_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.scale)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.scale)
 }
 
-// .BlockType objtype = 3;
+// .brewblox.BlockType objtype = 3;
 inline void FieldOpts::clear_objtype() {
   objtype_ = 0;
 }
-inline ::BlockType FieldOpts::objtype() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.objtype)
-  return static_cast< ::BlockType >(objtype_);
+inline ::brewblox::BlockType FieldOpts::objtype() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.objtype)
+  return static_cast< ::brewblox::BlockType >(objtype_);
 }
-inline void FieldOpts::set_objtype(::BlockType value) {
+inline void FieldOpts::set_objtype(::brewblox::BlockType value) {
   
   objtype_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.objtype)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.objtype)
 }
 
 // bool hexed = 4;
@@ -572,13 +575,13 @@ inline void FieldOpts::clear_hexed() {
   hexed_ = false;
 }
 inline bool FieldOpts::hexed() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.hexed)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.hexed)
   return hexed_;
 }
 inline void FieldOpts::set_hexed(bool value) {
   
   hexed_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.hexed)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.hexed)
 }
 
 // bool readonly = 5;
@@ -586,13 +589,13 @@ inline void FieldOpts::clear_readonly() {
   readonly_ = false;
 }
 inline bool FieldOpts::readonly() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.readonly)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.readonly)
   return readonly_;
 }
 inline void FieldOpts::set_readonly(bool value) {
   
   readonly_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.readonly)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.readonly)
 }
 
 // bool logged = 6;
@@ -600,13 +603,13 @@ inline void FieldOpts::clear_logged() {
   logged_ = false;
 }
 inline bool FieldOpts::logged() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.logged)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.logged)
   return logged_;
 }
 inline void FieldOpts::set_logged(bool value) {
   
   logged_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.logged)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.logged)
 }
 
 // bool hexstr = 7;
@@ -614,13 +617,13 @@ inline void FieldOpts::clear_hexstr() {
   hexstr_ = false;
 }
 inline bool FieldOpts::hexstr() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.hexstr)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.hexstr)
   return hexstr_;
 }
 inline void FieldOpts::set_hexstr(bool value) {
   
   hexstr_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.hexstr)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.hexstr)
 }
 
 // bool driven = 8;
@@ -628,13 +631,13 @@ inline void FieldOpts::clear_driven() {
   driven_ = false;
 }
 inline bool FieldOpts::driven() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.driven)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.driven)
   return driven_;
 }
 inline void FieldOpts::set_driven(bool value) {
   
   driven_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.driven)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.driven)
 }
 
 // bool ignored = 9;
@@ -642,13 +645,13 @@ inline void FieldOpts::clear_ignored() {
   ignored_ = false;
 }
 inline bool FieldOpts::ignored() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.ignored)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.ignored)
   return ignored_;
 }
 inline void FieldOpts::set_ignored(bool value) {
   
   ignored_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.ignored)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.ignored)
 }
 
 // bool bitfield = 10;
@@ -656,13 +659,13 @@ inline void FieldOpts::clear_bitfield() {
   bitfield_ = false;
 }
 inline bool FieldOpts::bitfield() const {
-  // @@protoc_insertion_point(field_get:FieldOpts.bitfield)
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.bitfield)
   return bitfield_;
 }
 inline void FieldOpts::set_bitfield(bool value) {
   
   bitfield_ = value;
-  // @@protoc_insertion_point(field_set:FieldOpts.bitfield)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.bitfield)
 }
 
 #ifdef __GNUC__
@@ -673,19 +676,20 @@ inline void FieldOpts::set_bitfield(bool value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace brewblox
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::UnitType> : ::std::true_type {};
+template <> struct is_proto_enum< ::brewblox::UnitType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::UnitType>() {
-  return ::UnitType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::brewblox::UnitType>() {
+  return ::brewblox::UnitType_descriptor();
 }
-template <> struct is_proto_enum< ::BlockType> : ::std::true_type {};
+template <> struct is_proto_enum< ::brewblox::BlockType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::BlockType>() {
-  return ::BlockType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::brewblox::BlockType>() {
+  return ::brewblox::BlockType_descriptor();
 }
 
 }  // namespace protobuf

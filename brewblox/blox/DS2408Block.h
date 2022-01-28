@@ -26,7 +26,7 @@
 
 class OneWire;
 
-class DS2408Block : public Block<BlockType_DS2408>, public OneWireDeviceBlock {
+class DS2408Block : public Block<brewblox_BlockType_DS2408>, public OneWireDeviceBlock {
 private:
     DS2408 device;
     blox_DS2408_PinConnectMode connectMode = blox_DS2408_PinConnectMode_CONNECT_VALVE;

@@ -22,7 +22,7 @@
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class SetpointSensorPairBlock : public Block<BlockType_SetpointSensorPair> {
+class SetpointSensorPairBlock : public Block<brewblox_BlockType_SetpointSensorPair> {
 private:
     cbox::CboxPtr<TempSensor> sensor;
     SetpointSensorPair pair;
