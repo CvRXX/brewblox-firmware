@@ -96,20 +96,20 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\025Spark2Pins_test.proto\022\024blox_test.Spark"
       "2Pins\032\023brewblox_test.proto\032\021nanopb_test."
-      "proto\032\022IoArray_test.proto\"\201\002\n\005Block\022\022\n\ns"
-      "oundAlarm\030\005 \001(\010\022>\n\010hardware\030\010 \001(\0162$.blox"
-      "_test.Spark2Pins.Block.HardwareB\006\212\265\030\002(\001\022"
-      "@\n\010channels\030\t \003(\0132\034.blox_test.IoArray.Io"
-      "ChannelB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B"
-      "\013\212\265\030\002H\001\222\?\002\030\003\"8\n\010Hardware\022\016\n\nHW_UNKNOWN\020\000"
-      "\022\r\n\tHW_SPARK1\020\001\022\r\n\tHW_SPARK2\020\002:\r\212\265\030\003\030\300\002\212"
-      "\265\030\002H\n*\205\001\n\tChannelId\022\024\n\020SPARK2_CHAN_NONE\020"
-      "\000\022\027\n\023SPARK2_CHAN_BOTTOM1\020\001\022\027\n\023SPARK2_CHA"
-      "N_BOTTOM2\020\002\022\027\n\023SPARK2_CHAN_BOTTOM3\020\003\022\027\n\023"
-      "SPARK2_CHAN_BOTTOM0\020\004b\006proto3"
+      "proto\032\022IoArray_test.proto\"\301\001\n\005Block\022\022\n\ns"
+      "oundAlarm\030\005 \001(\010\0228\n\010hardware\030\010 \001(\0162\036.blox"
+      "_test.Spark2Pins.HardwareB\006\212\265\030\002(\001\022@\n\010cha"
+      "nnels\030\t \003(\0132\034.blox_test.IoArray.IoChanne"
+      "lB\020\222\?\002\020\004\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265\030\002H"
+      "\001\222\?\002\030\003:\r\212\265\030\003\030\300\002\212\265\030\002H\n*\205\001\n\tChannelId\022\024\n\020S"
+      "PARK2_CHAN_NONE\020\000\022\027\n\023SPARK2_CHAN_BOTTOM1"
+      "\020\001\022\027\n\023SPARK2_CHAN_BOTTOM2\020\002\022\027\n\023SPARK2_CH"
+      "AN_BOTTOM3\020\003\022\027\n\023SPARK2_CHAN_BOTTOM0\020\004*8\n"
+      "\010Hardware\022\016\n\nHW_UNKNOWN\020\000\022\r\n\tHW_SPARK1\020\001"
+      "\022\r\n\tHW_SPARK2\020\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 509);
+      descriptor, 503);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark2Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -130,32 +130,9 @@ struct StaticDescriptorInitializer {
 }  // namespace protobuf_Spark2Pins_5ftest_2eproto
 namespace blox_test {
 namespace Spark2Pins {
-const ::google::protobuf::EnumDescriptor* Block_Hardware_descriptor() {
-  protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[0];
-}
-bool Block_Hardware_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-      return true;
-    default:
-      return false;
-  }
-}
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const Block_Hardware Block::HW_UNKNOWN;
-const Block_Hardware Block::HW_SPARK1;
-const Block_Hardware Block::HW_SPARK2;
-const Block_Hardware Block::Hardware_MIN;
-const Block_Hardware Block::Hardware_MAX;
-const int Block::Hardware_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* ChannelId_descriptor() {
   protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[1];
+  return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[0];
 }
 bool ChannelId_IsValid(int value) {
   switch (value) {
@@ -164,6 +141,21 @@ bool ChannelId_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* Hardware_descriptor() {
+  protobuf_Spark2Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Spark2Pins_5ftest_2eproto::file_level_enum_descriptors[1];
+}
+bool Hardware_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
       return true;
     default:
       return false;
@@ -268,7 +260,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox.field) = {
+      // .blox_test.Spark2Pins.Hardware hardware = 8 [(.brewblox.field) = {
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
@@ -276,7 +268,7 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_hardware(static_cast< ::blox_test::Spark2Pins::Block_Hardware >(value));
+          set_hardware(static_cast< ::blox_test::Spark2Pins::Hardware >(value));
         } else {
           goto handle_unusual;
         }
@@ -340,7 +332,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->soundalarm(), output);
   }
 
-  // .blox_test.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox.field) = {
+  // .blox_test.Spark2Pins.Hardware hardware = 8 [(.brewblox.field) = {
   if (this->hardware() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       8, this->hardware(), output);
@@ -379,7 +371,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->soundalarm(), target);
   }
 
-  // .blox_test.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox.field) = {
+  // .blox_test.Spark2Pins.Hardware hardware = 8 [(.brewblox.field) = {
   if (this->hardware() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       8, this->hardware(), target);
@@ -426,7 +418,7 @@ size_t Block::ByteSizeLong() const {
     }
   }
 
-  // .blox_test.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox.field) = {
+  // .blox_test.Spark2Pins.Hardware hardware = 8 [(.brewblox.field) = {
   if (this->hardware() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->hardware());

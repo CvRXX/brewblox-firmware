@@ -76,13 +76,13 @@ Spark2PinsBlock::streamTo(cbox::DataOut& out) const
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
-    auto hw = blox_Spark2Pins_Block_Hardware::blox_Spark2Pins_Block_Hardware_HW_UNKNOWN;
+    auto hw = blox_Spark2Pins_Hardware_HW_UNKNOWN;
     switch (getSparkVersion()) {
     case SparkVersion::V1:
-        hw = blox_Spark2Pins_Block_Hardware_HW_SPARK1;
+        hw = blox_Spark2Pins_Hardware_HW_SPARK1;
         break;
     case SparkVersion::V2:
-        hw = blox_Spark2Pins_Block_Hardware_HW_SPARK2;
+        hw = blox_Spark2Pins_Hardware_HW_SPARK2;
         break;
     }
     message.hardware = hw;

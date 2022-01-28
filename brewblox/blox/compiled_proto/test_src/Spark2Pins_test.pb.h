@@ -64,28 +64,6 @@ template<> ::blox_test::Spark2Pins::Block* Arena::CreateMaybeMessage<::blox_test
 namespace blox_test {
 namespace Spark2Pins {
 
-enum Block_Hardware {
-  Block_Hardware_HW_UNKNOWN = 0,
-  Block_Hardware_HW_SPARK1 = 1,
-  Block_Hardware_HW_SPARK2 = 2,
-  Block_Hardware_Block_Hardware_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Block_Hardware_Block_Hardware_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool Block_Hardware_IsValid(int value);
-const Block_Hardware Block_Hardware_Hardware_MIN = Block_Hardware_HW_UNKNOWN;
-const Block_Hardware Block_Hardware_Hardware_MAX = Block_Hardware_HW_SPARK2;
-const int Block_Hardware_Hardware_ARRAYSIZE = Block_Hardware_Hardware_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* Block_Hardware_descriptor();
-inline const ::std::string& Block_Hardware_Name(Block_Hardware value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Block_Hardware_descriptor(), value);
-}
-inline bool Block_Hardware_Parse(
-    const ::std::string& name, Block_Hardware* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Block_Hardware>(
-    Block_Hardware_descriptor(), name, value);
-}
 enum ChannelId {
   SPARK2_CHAN_NONE = 0,
   SPARK2_CHAN_BOTTOM1 = 1,
@@ -109,6 +87,28 @@ inline bool ChannelId_Parse(
     const ::std::string& name, ChannelId* value) {
   return ::google::protobuf::internal::ParseNamedEnum<ChannelId>(
     ChannelId_descriptor(), name, value);
+}
+enum Hardware {
+  HW_UNKNOWN = 0,
+  HW_SPARK1 = 1,
+  HW_SPARK2 = 2,
+  Hardware_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Hardware_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool Hardware_IsValid(int value);
+const Hardware Hardware_MIN = HW_UNKNOWN;
+const Hardware Hardware_MAX = HW_SPARK2;
+const int Hardware_ARRAYSIZE = Hardware_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Hardware_descriptor();
+inline const ::std::string& Hardware_Name(Hardware value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Hardware_descriptor(), value);
+}
+inline bool Hardware_Parse(
+    const ::std::string& name, Hardware* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Hardware>(
+    Hardware_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -197,34 +197,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // nested types ----------------------------------------------------
 
-  typedef Block_Hardware Hardware;
-  static const Hardware HW_UNKNOWN =
-    Block_Hardware_HW_UNKNOWN;
-  static const Hardware HW_SPARK1 =
-    Block_Hardware_HW_SPARK1;
-  static const Hardware HW_SPARK2 =
-    Block_Hardware_HW_SPARK2;
-  static inline bool Hardware_IsValid(int value) {
-    return Block_Hardware_IsValid(value);
-  }
-  static const Hardware Hardware_MIN =
-    Block_Hardware_Hardware_MIN;
-  static const Hardware Hardware_MAX =
-    Block_Hardware_Hardware_MAX;
-  static const int Hardware_ARRAYSIZE =
-    Block_Hardware_Hardware_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  Hardware_descriptor() {
-    return Block_Hardware_descriptor();
-  }
-  static inline const ::std::string& Hardware_Name(Hardware value) {
-    return Block_Hardware_Name(value);
-  }
-  static inline bool Hardware_Parse(const ::std::string& name,
-      Hardware* value) {
-    return Block_Hardware_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
   // repeated .blox_test.IoArray.IoChannel channels = 9 [(.nanopb) = {
@@ -239,11 +211,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
       channels() const;
 
-  // .blox_test.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox.field) = {
+  // .blox_test.Spark2Pins.Hardware hardware = 8 [(.brewblox.field) = {
   void clear_hardware();
   static const int kHardwareFieldNumber = 8;
-  ::blox_test::Spark2Pins::Block_Hardware hardware() const;
-  void set_hardware(::blox_test::Spark2Pins::Block_Hardware value);
+  ::blox_test::Spark2Pins::Hardware hardware() const;
+  void set_hardware(::blox_test::Spark2Pins::Hardware value);
 
   // bool soundAlarm = 5;
   void clear_soundalarm();
@@ -293,15 +265,15 @@ inline void Block::set_soundalarm(bool value) {
   // @@protoc_insertion_point(field_set:blox_test.Spark2Pins.Block.soundAlarm)
 }
 
-// .blox_test.Spark2Pins.Block.Hardware hardware = 8 [(.brewblox.field) = {
+// .blox_test.Spark2Pins.Hardware hardware = 8 [(.brewblox.field) = {
 inline void Block::clear_hardware() {
   hardware_ = 0;
 }
-inline ::blox_test::Spark2Pins::Block_Hardware Block::hardware() const {
+inline ::blox_test::Spark2Pins::Hardware Block::hardware() const {
   // @@protoc_insertion_point(field_get:blox_test.Spark2Pins.Block.hardware)
-  return static_cast< ::blox_test::Spark2Pins::Block_Hardware >(hardware_);
+  return static_cast< ::blox_test::Spark2Pins::Hardware >(hardware_);
 }
-inline void Block::set_hardware(::blox_test::Spark2Pins::Block_Hardware value) {
+inline void Block::set_hardware(::blox_test::Spark2Pins::Hardware value) {
   
   hardware_ = value;
   // @@protoc_insertion_point(field_set:blox_test.Spark2Pins.Block.hardware)
@@ -360,15 +332,15 @@ inline void Block::set_pins(bool value) {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox_test::Spark2Pins::Block_Hardware> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::Spark2Pins::Block_Hardware>() {
-  return ::blox_test::Spark2Pins::Block_Hardware_descriptor();
-}
 template <> struct is_proto_enum< ::blox_test::Spark2Pins::ChannelId> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::Spark2Pins::ChannelId>() {
   return ::blox_test::Spark2Pins::ChannelId_descriptor();
+}
+template <> struct is_proto_enum< ::blox_test::Spark2Pins::Hardware> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::Spark2Pins::Hardware>() {
+  return ::blox_test::Spark2Pins::Hardware_descriptor();
 }
 
 }  // namespace protobuf
