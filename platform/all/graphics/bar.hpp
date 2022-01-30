@@ -43,9 +43,9 @@ public:
     void updateNetworks()
     {
         std::string networkState = " ";
-        if (network::state() == network::NetworkState::ETHERNET_CONNECTED) {
+        if (network::mode() == network::Mode::ETHERNET) {
             networkState.append(symbols::ethernet);
-        } else if (network::state() == network::NetworkState::WIFI_CONNECTED) {
+        } else if (network::mode() == network::Mode::WIFI) {
             auto signal = network::wifiStrength();
             if (signal < -80) {
                 networkState.append(symbols::wifi_strength1);

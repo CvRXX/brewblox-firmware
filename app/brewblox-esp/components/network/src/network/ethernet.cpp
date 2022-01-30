@@ -8,6 +8,7 @@
 #include <esp_eth_netif_glue.h>
 #include <esp_event.h>
 //#include <esp_event_base.h>
+#include <esp_log.h>
 #include <esp_netif.h>
 #pragma GCC diagnostic pop
 
@@ -16,26 +17,49 @@ esp_eth_phy_t* esp_eth_phy_new_lan87xx(const eth_phy_config_t* config);
 }
 
 namespace ethernet {
-esp_event_handler_instance_t instance_eth_event{};
-esp_event_handler_instance_t instance_ip_event{};
-esp_netif_t* interface {
-    nullptr
-};
-bool connected{false};
+constexpr auto TAG = "ETH";
+
+esp_netif_t* eth_netif{nullptr};
 esp_eth_mac_t* mac{nullptr};
 esp_eth_phy_t* phy{nullptr};
 esp_eth_handle_t eth_handle{nullptr};
-esp_ip4_addr ip{0};
+esp_eth_netif_glue_handle_t eth_glue{nullptr};
+esp_ip4_addr_t ip_addr{0};
 
-void eth_event_handler(void* event_handler_arg,
-                       esp_event_base_t event_base,
-                       int32_t event_id,
-                       void* event_data);
+void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
+{
+    ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
 
-void init()
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
+    memcpy(&ip_addr, &event->ip_info.ip, sizeof(ip_addr));
+}
+
+void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
+{
+    ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
+    esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
+
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(event->esp_netif));
+}
+
+void on_disconnected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
+{
+    esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
+
+    ESP_LOGI(TAG, "Ethernet disconnected");
+    network::setMode(network::Mode::WIFI);
+}
+
+void on_connected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
+{
+    ESP_LOGI(TAG, "Ethernet connected");
+    network::setMode(network::Mode::ETHERNET);
+}
+
+void start()
 {
     esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
-    interface = esp_netif_new(&cfg);
+    eth_netif = esp_netif_new(&cfg);
 
     eth_mac_config_t mac_config = ETH_MAC_DEFAULT_CONFIG();
     eth_phy_config_t phy_config = ETH_PHY_DEFAULT_CONFIG();
@@ -48,20 +72,13 @@ void init()
     phy = esp_eth_phy_new_lan87xx(&phy_config);
     esp_eth_config_t config = ETH_DEFAULT_CONFIG(mac, phy);
     esp_eth_driver_install(&config, &eth_handle);
+    eth_glue = esp_eth_new_netif_glue(eth_handle);
+    auto err = esp_netif_attach(eth_netif, eth_glue);
 
-    auto err = esp_netif_attach(interface, esp_eth_new_netif_glue(eth_handle));
-
-    esp_event_handler_instance_register(ETH_EVENT,
-                                        ESP_EVENT_ANY_ID,
-                                        &eth_event_handler,
-                                        nullptr,
-                                        &instance_eth_event);
-
-    esp_event_handler_instance_register(IP_EVENT,
-                                        ESP_EVENT_ANY_ID,
-                                        &eth_event_handler,
-                                        nullptr,
-                                        &instance_ip_event);
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_ETH_GOT_IP, &on_got_ip, nullptr));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_ETH_LOST_IP, &on_lost_ip, nullptr));
+    ESP_ERROR_CHECK(esp_event_handler_register(ETH_EVENT, ETHERNET_EVENT_DISCONNECTED, &on_disconnected, nullptr));
+    ESP_ERROR_CHECK(esp_event_handler_register(ETH_EVENT, ETHERNET_EVENT_CONNECTED, &on_connected, nullptr));
 
     if (err == ESP_OK) {
         /* start Ethernet driver state machine */
@@ -69,53 +86,36 @@ void init()
     }
 }
 
-void deinit()
+void stop()
 {
-    esp_event_handler_instance_unregister(IP_EVENT, ESP_EVENT_ANY_ID, instance_ip_event);
-    esp_event_handler_instance_unregister(ETH_EVENT, ESP_EVENT_ANY_ID, instance_eth_event);
+    ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_ETH_GOT_IP, &on_got_ip));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_ETH_LOST_IP, &on_lost_ip));
 
     if (eth_handle) {
-        esp_eth_stop(eth_handle);
+        ESP_ERROR_CHECK(esp_eth_stop(eth_handle));
+        ESP_ERROR_CHECK(esp_eth_del_netif_glue(eth_glue));
+        ESP_ERROR_CHECK(esp_eth_driver_uninstall(eth_handle));
+        ESP_ERROR_CHECK(phy->del(phy));
+        ESP_ERROR_CHECK(mac->del(mac));
+
+        esp_netif_destroy(eth_netif);
+        eth_netif = nullptr;
     }
 }
 
-void eth_event_handler(void* event_handler_arg,
-                       esp_event_base_t event_base,
-                       int32_t event_id,
-                       void* event_data)
+esp_netif_t* interface()
 {
-    if (event_base == ETH_EVENT) {
-        switch (event_id) {
-        case ETHERNET_EVENT_START: {
-        } break;
-        case ETHERNET_EVENT_STOP: {
-            ip.addr = 0;
-        } break;
-        case ETHERNET_EVENT_CONNECTED: {
-            connected = true;
-        } break;
-        case ETHERNET_EVENT_DISCONNECTED: {
-            ip.addr = 0;
-            connected = false;
-            xEventGroupClearBits(network::eventGroup(), network::ETH_IS_CONNECTED);
-            xEventGroupSetBits(network::eventGroup(), network::ETH_CONNECTED_EVENT);
-        } break;
-        }
-    } else if (event_base == IP_EVENT) {
-        if (event_id == IP_EVENT_ETH_GOT_IP) {
-            ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
-            xEventGroupSetBits(network::eventGroup(), network::ETH_CONNECTED_EVENT | network::ETH_IS_CONNECTED);
-        }
-    }
+    return eth_netif;
 }
 
-esp_ip4_addr ip4()
+esp_ip4_addr_t ip4()
 {
-    return ip;
+    return ip_addr;
 }
 
 bool isConnected()
 {
-    return connected;
+    return ip_addr.addr != 0;
 }
-}
+
+} // end namespace ethernet

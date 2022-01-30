@@ -80,7 +80,7 @@ int main(int /*argc*/, char** /*argv*/)
     hal_delay_ms(100);
 
     mount_blocks_spiff();
-    network::init();
+    network::connect();
 
     asio::io_context io;
 
@@ -135,7 +135,7 @@ int main(int /*argc*/, char** /*argv*/)
                                                   auto duration = asio::chrono::duration_cast<asio::chrono::milliseconds>(lowToHigh - highToLow).count();
 
                                                   if (duration >= 5000) {
-                                                      network::resetProvisioning();
+                                                      // network::resetProvisioning();
                                                   }
                                               }
                                               return true;

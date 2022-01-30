@@ -15,214 +15,74 @@
 
 #include "network.hpp"
 #include <string>
-#include <wifi_provisioning/manager.h>
-#include <wifi_provisioning/scheme_ble.h>
-#include <wifi_provisioning/scheme_softap.h>
 
 namespace wifi {
 constexpr auto TAG = "WIFI";
+esp_netif_t* wifi_netif{nullptr};
+esp_ip4_addr_t ip_addr{0};
 
-esp_event_handler_instance_t instance_wifi_prov_event{};
-esp_event_handler_instance_t instance_wifi_event{};
-esp_event_handler_instance_t instance_ip_event{};
-
-// #define PROV_TRANSPORT_SOFTAP "softap"
-// #define PROV_TRANSPORT_BLE "ble"
-
-esp_ip4_addr ip{0};
-
-void get_device_service_name(char* service_name, size_t max)
+void on_wifi_disconnect(void* arg, esp_event_base_t event_base,
+                        int32_t event_id, void* event_data)
 {
-    uint8_t eth_mac[6];
-    const char* ssid_prefix = "PROV_BREWBLOX_";
-    esp_wifi_get_mac(WIFI_IF_STA, eth_mac);
-    snprintf(service_name, max, "%s%02X%02X%02X",
-             ssid_prefix, eth_mac[3], eth_mac[4], eth_mac[5]);
-}
-
-/* Event handler for catching system events */
-static void event_handler(void* arg, esp_event_base_t event_base,
-                          int32_t event_id, void* event_data)
-{
-    if (event_base == WIFI_PROV_EVENT) {
-        switch (event_id) {
-        case WIFI_PROV_INIT:
-            /* enable wifi power saving to be able to use bluetooth*/
-            esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
-            xEventGroupSetBits(network::eventGroup(), network::WIFI_IS_PROVISIONING | network::PROV_EVENT);
-            break;
-        case WIFI_PROV_START:
-            ESP_LOGI(TAG, "Provisioning started");
-            break;
-        case WIFI_PROV_CRED_RECV: {
-            wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
-            ESP_LOGI(TAG,
-                     "Received Wi-Fi credentials for SSID: %s\n",
-                     wifi_sta_cfg->ssid);
-            break;
-        }
-        case WIFI_PROV_CRED_FAIL: {
-            wifi_prov_sta_fail_reason_t* reason = (wifi_prov_sta_fail_reason_t*)event_data;
-            ESP_LOGE(TAG,
-                     "Provisioning failed!\n\tReason : %s"
-                     "\n\tPlease reset to factory and retry provisioning",
-                     (*reason == WIFI_PROV_STA_AUTH_ERROR) ? "Wi-Fi station authentication failed" : "Wi-Fi access-point not found");
-            break;
-        }
-        case WIFI_PROV_CRED_SUCCESS:
-            ESP_LOGI(TAG, "Provisioning successful");
-            break;
-        case WIFI_PROV_END:
-            /* De-initialize manager once provisioning is finished */
-            wifi_prov_mgr_deinit();
-            xEventGroupClearBits(network::eventGroup(), network::WIFI_IS_PROVISIONING);
-            xEventGroupSetBits(network::eventGroup(), network::PROV_EVENT);
-            break;
-        case WIFI_PROV_DEINIT:
-            break;
-        default:
-            break;
-        }
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
-        // send disconnected event to trigger start
-        xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
-    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
-        ip.addr = reinterpret_cast<ip_event_got_ip_t*>(event_data)->ip_info.ip.addr;
-        xEventGroupSetBits(network::eventGroup(), network::WIFI_CONNECTED_EVENT | network::WIFI_IS_CONNECTED);
-
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-        xEventGroupClearBits(network::eventGroup(), network::WIFI_IS_CONNECTED);
-        xEventGroupSetBits(network::eventGroup(), network::WIFI_DISCONNECTED_EVENT);
+    ESP_LOGI(TAG, "Wi-Fi disconnected, trying to reconnect...");
+    esp_err_t err = esp_wifi_connect();
+    if (err == ESP_ERR_WIFI_NOT_STARTED) {
+        return;
     }
+    ESP_ERROR_CHECK(err);
 }
 
-void init()
+void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
-    /* Initialize Wi-Fi including netif with default config */
-    esp_netif_create_default_wifi_sta();
+    ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
 
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
+    memcpy(&ip_addr, &event->ip_info.ip, sizeof(ip_addr));
+    // xSemaphoreGive(semph_get_ip_addrs);
+}
 
-    /* Register our event handler for Wi-Fi, IP and Provisioning related events */
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_event));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, nullptr, &instance_ip_event));
+void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
+{
+    ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
+    esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
+
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(event->esp_netif));
 }
 
 void start()
 {
-    /* Configuration for the provisioning manager */
-    static const wifi_prov_mgr_config_t ble_config{
-        .scheme = wifi_prov_scheme_ble,
-        .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM,
-        .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    esp_netif_inherent_config_t esp_netif_config = ESP_NETIF_INHERENT_DEFAULT_WIFI_STA();
+    esp_netif_config.route_prio = 128;
+    wifi_netif = esp_netif_create_wifi(WIFI_IF_STA, &esp_netif_config);
 
-    ESP_ERROR_CHECK(wifi_prov_mgr_init(ble_config));
-    bool provisioned = false;
+    esp_wifi_set_default_wifi_sta_handlers();
 
-    /* Let's find out if the device is provisioned */
-    ESP_ERROR_CHECK(wifi_prov_mgr_is_provisioned(&provisioned));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnect, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &on_got_ip, nullptr));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip, nullptr));
 
-    /* If device is not yet provisioned start provisioning service */
-    if (!provisioned) {
-        /* What is the Device Service Name that we want
-         * This translates to :
-         *     - Wi-Fi SSID when scheme is wifi_prov_scheme_softap
-         *     - device name when scheme is wifi_prov_scheme_ble
-         */
-        char service_name[22];
-        get_device_service_name(service_name, sizeof(service_name));
-
-        /* What is the security level that we want (0 or 1):
-         *      - WIFI_PROV_SECURITY_0 is simply plain text communication.
-         *      - WIFI_PROV_SECURITY_1 is secure communication which consists of secure handshake
-         *          using X25519 key exchange and proof of possession (pop) and AES-CTR
-         *          for encryption/decryption of messages.
-         */
-        wifi_prov_security_t security = WIFI_PROV_SECURITY_1;
-
-        /* Do we want a proof-of-possession (ignored if Security 0 is selected):
-         *      - this should be a string with length > 0
-         *      - nullptr if not used
-         */
-        const char* pop = nullptr;
-
-        /* What is the service key (could be nullptr)
-         * This translates to :
-         *     - Wi-Fi password when scheme is wifi_prov_scheme_softap
-         *     - simply ignored when scheme is wifi_prov_scheme_ble
-         */
-        const char* service_key = nullptr;
-
-        /* This step is only useful when scheme is wifi_prov_scheme_ble. This will
-         * set a custom 128 bit UUID which will be included in the BLE advertisement
-         * and will correspond to the primary GATT service that provides provisioning
-         * endpoints as GATT characteristics. Each GATT characteristic will be
-         * formed using the primary service UUID as base, with different auto assigned
-         * 12th and 13th bytes (assume counting starts from 0th byte). The client side
-         * applications must identify the endpoints by reading the User Characteristic
-         * Description descriptor (0x2901) for each characteristic, which contains the
-         * endpoint name of the characteristic */
-        uint8_t custom_service_uuid[] = {
-            /* LSB <---------------------------------------
-             * ---------------------------------------> MSB */
-            0xb4,
-            0xdf,
-            0x5a,
-            0x1c,
-            0x3f,
-            0x6b,
-            0xf4,
-            0xbf,
-            0xea,
-            0x4a,
-            0x82,
-            0x03,
-            0x04,
-            0x90,
-            0x1a,
-            0x02,
-        };
-        wifi_prov_scheme_ble_set_service_uuid(custom_service_uuid);
-
-        /* An optional endpoint that applications can create if they expect to
-         * get some additional custom data during provisioning workflow.
-         * The endpoint name can be anything of your choice.
-         * This call must be made before starting the provisioning.
-         */
-        // wifi_prov_mgr_endpoint_create("custom-data");
-
-        /* Start provisioning service */
-        ESP_ERROR_CHECK(wifi_prov_mgr_start_provisioning(security, pop, service_name, service_key));
-
-        /* The handler for the optional endpoint created above.
-         * This call must be made after starting the provisioning, and only if the endpoint
-         * has already been created above.
-         */
-        // wifi_prov_mgr_endpoint_register("custom-data", custom_prov_data_handler, nullptr);
-
-        /* Uncomment the following to wait for the provisioning to finish and then release
-         * the resources of the manager. Since in this case de-initialization is triggered
-         * by the default event loop handler, we don't need to call the following */
-        // wifi_prov_mgr_wait();
-        // wifi_prov_mgr_deinit();
-
-    } else {
-        wifi_prov_mgr_stop_provisioning();
-        ESP_ERROR_CHECK(esp_wifi_start());
-    }
+    // ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    // ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &cfg));
+    ESP_ERROR_CHECK(esp_wifi_start());
+    esp_wifi_connect();
 }
 
 void stop()
 {
-    wifi_prov_mgr_stop_provisioning();
-    esp_wifi_stop();
-}
-
-esp_ip4_addr ip4()
-{
-    return ip;
+    ESP_ERROR_CHECK(esp_event_handler_unregister(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnect));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, &on_got_ip));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip));
+    esp_err_t err = esp_wifi_stop();
+    if (err == ESP_ERR_WIFI_NOT_INIT) {
+        return;
+    }
+    ESP_ERROR_CHECK(err);
+    ESP_ERROR_CHECK(esp_wifi_deinit());
+    ESP_ERROR_CHECK(esp_wifi_clear_default_wifi_driver_and_handlers(wifi_netif));
+    esp_netif_destroy(wifi_netif);
+    wifi_netif = nullptr;
 }
 
 int8_t rssi()
@@ -234,16 +94,24 @@ int8_t rssi()
     return 0;
 }
 
-void resetProvisioning()
-{
-    // wipe credentials
-    wifi_prov_mgr_reset_provisioning();
-    // provisioning will be started by event handler if needed
-    xEventGroupSetBits(network::eventGroup(), network::PROV_EVENT);
-}
-
 void disablePowerSaving()
 {
     esp_wifi_set_ps(WIFI_PS_NONE);
 }
+
+esp_netif_t* interface()
+{
+    return wifi_netif;
+}
+
+esp_ip4_addr_t ip4()
+{
+    return ip_addr;
+}
+
+bool isConnected()
+{
+    return ip_addr.addr != 0;
+}
+
 }

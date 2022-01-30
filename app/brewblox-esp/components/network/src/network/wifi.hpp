@@ -1,14 +1,16 @@
 #pragma once
 
+#include <esp_netif.h>
 #include <esp_netif_ip_addr.h>
 
 namespace wifi {
 
-void init();
 void start();
+void start_provision();
 void stop();
-esp_ip4_addr ip4();
-
+esp_ip4_addr_t ip4();
+esp_netif_t* interface();
+bool isConnected();
 /**
  * Returns the rssi of the current ap's signal.
  * @return The rssi in dBm
