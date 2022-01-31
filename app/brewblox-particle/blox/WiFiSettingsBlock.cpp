@@ -23,20 +23,20 @@
 cbox::CboxError
 WiFiSettingsBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_WiFiSettings message = blox_WiFiSettings_init_zero;
+    blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
 
     printWiFiIp(message.ip);
     printWifiSSID(message.ssid, sizeof(message.ssid));
     message.signal = wifiSignal();
 
-    return streamProtoTo(out, &message, blox_WiFiSettings_fields, blox_WiFiSettings_size);
+    return streamProtoTo(out, &message, blox_WiFiSettings_Block_fields, blox_WiFiSettings_Block_size);
 }
 
 cbox::CboxError
 WiFiSettingsBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_WiFiSettings message = blox_WiFiSettings_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_WiFiSettings_fields, blox_WiFiSettings_size);
+    blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(in, &message, blox_WiFiSettings_Block_fields, blox_WiFiSettings_Block_size);
     if (result == cbox::CboxError::OK) {
         if (message.password[0] != 0) {
             // new wifi credentials received

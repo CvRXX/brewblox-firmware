@@ -19,49 +19,51 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace blox {
-class MutexDefaultTypeInternal {
+namespace blox_test {
+namespace Mutex {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Mutex>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _Mutex_default_instance_;
-}  // namespace blox
+} _Block_default_instance_;
+}  // namespace Mutex
+}  // namespace blox_test
 namespace protobuf_Mutex_5ftest_2eproto {
-static void InitDefaultsMutex() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_Mutex_default_instance_;
-    new (ptr) ::blox::Mutex();
+    void* ptr = &::blox_test::Mutex::_Block_default_instance_;
+    new (ptr) ::blox_test::Mutex::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::Mutex::InitAsDefaultInstance();
+  ::blox_test::Mutex::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_Mutex =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsMutex}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBlock}, {}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Mutex.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Mutex, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Mutex::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Mutex, differentactuatorwait_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Mutex, waitremaining_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Mutex::Block, differentactuatorwait_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Mutex::Block, waitremaining_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Mutex)},
+  { 0, -1, sizeof(::blox_test::Mutex::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Mutex_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::Mutex::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -85,14 +87,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\020Mutex_test.proto\022\004blox\032\023brewblox_test."
-      "proto\032\021nanopb_test.proto\"u\n\005Mutex\022,\n\025dif"
-      "ferentActuatorWait\030\001 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022"
-      "/\n\rwaitRemaining\030\002 \001(\rB\030\212\265\030\002(\001\212\265\030\002\010\003\212\265\030\003"
-      "\020\350\007\222\?\0028 :\r\212\265\030\003\030\266\002\212\265\030\002H\010b\006proto3"
+      "\n\020Mutex_test.proto\022\017blox_test.Mutex\032\023bre"
+      "wblox_test.proto\032\021nanopb_test.proto\"u\n\005B"
+      "lock\022,\n\025differentActuatorWait\030\001 \001(\rB\r\212\265\030"
+      "\002\010\003\212\265\030\003\020\350\007\022/\n\rwaitRemaining\030\002 \001(\rB\030\212\265\030\002("
+      "\001\212\265\030\002\010\003\212\265\030\003\020\350\007\222\?\0028 :\r\212\265\030\003\030\266\002\212\265\030\002H\010b\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 191);
+      descriptor, 202);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Mutex_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -110,64 +113,65 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_Mutex_5ftest_2eproto
-namespace blox {
+namespace blox_test {
+namespace Mutex {
 
 // ===================================================================
 
-void Mutex::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Mutex::kDifferentActuatorWaitFieldNumber;
-const int Mutex::kWaitRemainingFieldNumber;
+const int Block::kDifferentActuatorWaitFieldNumber;
+const int Block::kWaitRemainingFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Mutex::Mutex()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_Mutex_5ftest_2eproto::scc_info_Mutex.base);
+      &protobuf_Mutex_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Mutex)
+  // @@protoc_insertion_point(constructor:blox_test.Mutex.Block)
 }
-Mutex::Mutex(const Mutex& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&differentactuatorwait_, &from.differentactuatorwait_,
     static_cast<size_t>(reinterpret_cast<char*>(&waitremaining_) -
     reinterpret_cast<char*>(&differentactuatorwait_)) + sizeof(waitremaining_));
-  // @@protoc_insertion_point(copy_constructor:blox.Mutex)
+  // @@protoc_insertion_point(copy_constructor:blox_test.Mutex.Block)
 }
 
-void Mutex::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&differentactuatorwait_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&waitremaining_) -
       reinterpret_cast<char*>(&differentactuatorwait_)) + sizeof(waitremaining_));
 }
 
-Mutex::~Mutex() {
-  // @@protoc_insertion_point(destructor:blox.Mutex)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox_test.Mutex.Block)
   SharedDtor();
 }
 
-void Mutex::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void Mutex::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Mutex::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_Mutex_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Mutex_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const Mutex& Mutex::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_Mutex_5ftest_2eproto::scc_info_Mutex.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_Mutex_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void Mutex::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Mutex)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.Mutex.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -178,17 +182,17 @@ void Mutex::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool Mutex::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Mutex)
+  // @@protoc_insertion_point(parse_start:blox_test.Mutex.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 differentActuatorWait = 1 [(.brewblox_test) = {
+      // uint32 differentActuatorWait = 1 [(.brewblox.field) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -202,7 +206,7 @@ bool Mutex::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 waitRemaining = 2 [(.nanopb_test) = {
+      // uint32 waitRemaining = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -228,26 +232,26 @@ bool Mutex::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.Mutex)
+  // @@protoc_insertion_point(parse_success:blox_test.Mutex.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.Mutex)
+  // @@protoc_insertion_point(parse_failure:blox_test.Mutex.Block)
   return false;
 #undef DO_
 }
 
-void Mutex::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Mutex)
+  // @@protoc_insertion_point(serialize_start:blox_test.Mutex.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 differentActuatorWait = 1 [(.brewblox_test) = {
+  // uint32 differentActuatorWait = 1 [(.brewblox.field) = {
   if (this->differentactuatorwait() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->differentactuatorwait(), output);
   }
 
-  // uint32 waitRemaining = 2 [(.nanopb_test) = {
+  // uint32 waitRemaining = 2 [(.nanopb) = {
   if (this->waitremaining() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->waitremaining(), output);
   }
@@ -256,22 +260,22 @@ void Mutex::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.Mutex)
+  // @@protoc_insertion_point(serialize_end:blox_test.Mutex.Block)
 }
 
-::google::protobuf::uint8* Mutex::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Mutex)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.Mutex.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 differentActuatorWait = 1 [(.brewblox_test) = {
+  // uint32 differentActuatorWait = 1 [(.brewblox.field) = {
   if (this->differentactuatorwait() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->differentactuatorwait(), target);
   }
 
-  // uint32 waitRemaining = 2 [(.nanopb_test) = {
+  // uint32 waitRemaining = 2 [(.nanopb) = {
   if (this->waitremaining() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->waitremaining(), target);
   }
@@ -280,12 +284,12 @@ void Mutex::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Mutex)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.Mutex.Block)
   return target;
 }
 
-size_t Mutex::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Mutex)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.Mutex.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -293,14 +297,14 @@ size_t Mutex::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint32 differentActuatorWait = 1 [(.brewblox_test) = {
+  // uint32 differentActuatorWait = 1 [(.brewblox.field) = {
   if (this->differentactuatorwait() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->differentactuatorwait());
   }
 
-  // uint32 waitRemaining = 2 [(.nanopb_test) = {
+  // uint32 waitRemaining = 2 [(.nanopb) = {
   if (this->waitremaining() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -312,23 +316,23 @@ size_t Mutex::ByteSizeLong() const {
   return total_size;
 }
 
-void Mutex::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Mutex)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.Mutex.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const Mutex* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Mutex>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Mutex)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.Mutex.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Mutex)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.Mutex.Block)
     MergeFrom(*source);
   }
 }
 
-void Mutex::MergeFrom(const Mutex& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Mutex)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.Mutex.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -342,47 +346,48 @@ void Mutex::MergeFrom(const Mutex& from) {
   }
 }
 
-void Mutex::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Mutex)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.Mutex.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Mutex::CopyFrom(const Mutex& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Mutex)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.Mutex.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Mutex::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void Mutex::Swap(Mutex* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void Mutex::InternalSwap(Mutex* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   swap(differentactuatorwait_, other->differentactuatorwait_);
   swap(waitremaining_, other->waitremaining_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata Mutex::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_Mutex_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Mutex_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace blox
+}  // namespace Mutex
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Mutex* Arena::CreateMaybeMessage< ::blox::Mutex >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Mutex >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::Mutex::Block* Arena::CreateMaybeMessage< ::blox_test::Mutex::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::Mutex::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

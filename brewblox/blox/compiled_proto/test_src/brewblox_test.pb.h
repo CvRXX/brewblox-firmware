@@ -41,141 +41,144 @@ namespace protobuf_brewblox_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[3];
+  static const ::google::protobuf::internal::ParseTable schema[2];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
 }  // namespace protobuf_brewblox_5ftest_2eproto
-class BrewBlox_testFieldOptions;
-class BrewBlox_testFieldOptionsDefaultTypeInternal;
-extern BrewBlox_testFieldOptionsDefaultTypeInternal _BrewBlox_testFieldOptions_default_instance_;
-class BrewBlox_testMessageOptions;
-class BrewBlox_testMessageOptionsDefaultTypeInternal;
-extern BrewBlox_testMessageOptionsDefaultTypeInternal _BrewBlox_testMessageOptions_default_instance_;
-class BrewBlox_testTypes;
-class BrewBlox_testTypesDefaultTypeInternal;
-extern BrewBlox_testTypesDefaultTypeInternal _BrewBlox_testTypes_default_instance_;
+namespace brewblox {
+class FieldOpts;
+class FieldOptsDefaultTypeInternal;
+extern FieldOptsDefaultTypeInternal _FieldOpts_default_instance_;
+class MessageOpts;
+class MessageOptsDefaultTypeInternal;
+extern MessageOptsDefaultTypeInternal _MessageOpts_default_instance_;
+}  // namespace brewblox
 namespace google {
 namespace protobuf {
-template<> ::BrewBlox_testFieldOptions* Arena::CreateMaybeMessage<::BrewBlox_testFieldOptions>(Arena*);
-template<> ::BrewBlox_testMessageOptions* Arena::CreateMaybeMessage<::BrewBlox_testMessageOptions>(Arena*);
-template<> ::BrewBlox_testTypes* Arena::CreateMaybeMessage<::BrewBlox_testTypes>(Arena*);
+template<> ::brewblox::FieldOpts* Arena::CreateMaybeMessage<::brewblox::FieldOpts>(Arena*);
+template<> ::brewblox::MessageOpts* Arena::CreateMaybeMessage<::brewblox::MessageOpts>(Arena*);
 }  // namespace protobuf
 }  // namespace google
+namespace brewblox {
 
-enum BrewBlox_testTypes_UnitType {
-  BrewBlox_testTypes_UnitType_NotSet = 0,
-  BrewBlox_testTypes_UnitType_Celsius = 1,
-  BrewBlox_testTypes_UnitType_InverseCelsius = 2,
-  BrewBlox_testTypes_UnitType_Second = 3,
-  BrewBlox_testTypes_UnitType_Minute = 4,
-  BrewBlox_testTypes_UnitType_Hour = 5,
-  BrewBlox_testTypes_UnitType_DeltaCelsius = 6,
-  BrewBlox_testTypes_UnitType_DeltaCelsiusPerSecond = 7,
-  BrewBlox_testTypes_UnitType_DeltaCelsiusPerMinute = 8,
-  BrewBlox_testTypes_UnitType_DeltaCelsiusPerHour = 9,
-  BrewBlox_testTypes_UnitType_DeltaCelsiusMultSecond = 10,
-  BrewBlox_testTypes_UnitType_DeltaCelsiusMultMinute = 11,
-  BrewBlox_testTypes_UnitType_DeltaCelsiusMultHour = 12
+enum UnitType {
+  NotSet = 0,
+  Celsius = 1,
+  InverseCelsius = 2,
+  Second = 3,
+  Minute = 4,
+  Hour = 5,
+  DeltaCelsius = 6,
+  DeltaCelsiusPerSecond = 7,
+  DeltaCelsiusPerMinute = 8,
+  DeltaCelsiusPerHour = 9,
+  DeltaCelsiusMultSecond = 10,
+  DeltaCelsiusMultMinute = 11,
+  DeltaCelsiusMultHour = 12,
+  UnitType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  UnitType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool BrewBlox_testTypes_UnitType_IsValid(int value);
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes_UnitType_UnitType_MIN = BrewBlox_testTypes_UnitType_NotSet;
-const BrewBlox_testTypes_UnitType BrewBlox_testTypes_UnitType_UnitType_MAX = BrewBlox_testTypes_UnitType_DeltaCelsiusMultHour;
-const int BrewBlox_testTypes_UnitType_UnitType_ARRAYSIZE = BrewBlox_testTypes_UnitType_UnitType_MAX + 1;
+bool UnitType_IsValid(int value);
+const UnitType UnitType_MIN = NotSet;
+const UnitType UnitType_MAX = DeltaCelsiusMultHour;
+const int UnitType_ARRAYSIZE = UnitType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* BrewBlox_testTypes_UnitType_descriptor();
-inline const ::std::string& BrewBlox_testTypes_UnitType_Name(BrewBlox_testTypes_UnitType value) {
+const ::google::protobuf::EnumDescriptor* UnitType_descriptor();
+inline const ::std::string& UnitType_Name(UnitType value) {
   return ::google::protobuf::internal::NameOfEnum(
-    BrewBlox_testTypes_UnitType_descriptor(), value);
+    UnitType_descriptor(), value);
 }
-inline bool BrewBlox_testTypes_UnitType_Parse(
-    const ::std::string& name, BrewBlox_testTypes_UnitType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<BrewBlox_testTypes_UnitType>(
-    BrewBlox_testTypes_UnitType_descriptor(), name, value);
+inline bool UnitType_Parse(
+    const ::std::string& name, UnitType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<UnitType>(
+    UnitType_descriptor(), name, value);
 }
-enum BrewBlox_testTypes_BlockType {
-  BrewBlox_testTypes_BlockType_Invalid = 0,
-  BrewBlox_testTypes_BlockType_ProcessValueInterface = 1,
-  BrewBlox_testTypes_BlockType_TempSensorInterface = 2,
-  BrewBlox_testTypes_BlockType_SetpointSensorPairInterface = 4,
-  BrewBlox_testTypes_BlockType_ActuatorAnalogInterface = 5,
-  BrewBlox_testTypes_BlockType_ActuatorDigitalInterface = 6,
-  BrewBlox_testTypes_BlockType_BalancerInterface = 7,
-  BrewBlox_testTypes_BlockType_MutexInterface = 8,
-  BrewBlox_testTypes_BlockType_OneWireDeviceInterface = 9,
-  BrewBlox_testTypes_BlockType_IoArrayInterface = 10,
-  BrewBlox_testTypes_BlockType_DS2408Interface = 11,
-  BrewBlox_testTypes_BlockType_OneWireBusInterface = 12,
-  BrewBlox_testTypes_BlockType_IoModuleInterface = 13,
-  BrewBlox_testTypes_BlockType_OneWireDeviceBlockInterface = 14,
-  BrewBlox_testTypes_BlockType_Any = 255,
-  BrewBlox_testTypes_BlockType_SysInfo = 256,
-  BrewBlox_testTypes_BlockType_Ticks = 257,
-  BrewBlox_testTypes_BlockType_OneWireBus = 258,
-  BrewBlox_testTypes_BlockType_BoardPins = 259,
-  BrewBlox_testTypes_BlockType_TempSensorMock = 301,
-  BrewBlox_testTypes_BlockType_TempSensorOneWire = 302,
-  BrewBlox_testTypes_BlockType_SetpointSensorPair = 303,
-  BrewBlox_testTypes_BlockType_Pid = 304,
-  BrewBlox_testTypes_BlockType_ActuatorAnalogMock = 305,
-  BrewBlox_testTypes_BlockType_ActuatorPin = 306,
-  BrewBlox_testTypes_BlockType_ActuatorPwm = 307,
-  BrewBlox_testTypes_BlockType_ActuatorOffset = 308,
-  BrewBlox_testTypes_BlockType_Balancer = 309,
-  BrewBlox_testTypes_BlockType_Mutex = 310,
-  BrewBlox_testTypes_BlockType_SetpointProfile = 311,
-  BrewBlox_testTypes_BlockType_WiFiSettings = 312,
-  BrewBlox_testTypes_BlockType_TouchSettings = 313,
-  BrewBlox_testTypes_BlockType_DisplaySettings = 314,
-  BrewBlox_testTypes_BlockType_DS2413 = 315,
-  BrewBlox_testTypes_BlockType_ActuatorOneWire = 316,
-  BrewBlox_testTypes_BlockType_DS2408 = 317,
-  BrewBlox_testTypes_BlockType_DigitalActuator = 318,
-  BrewBlox_testTypes_BlockType_Spark3Pins = 319,
-  BrewBlox_testTypes_BlockType_Spark2Pins = 320,
-  BrewBlox_testTypes_BlockType_MotorValve = 321,
-  BrewBlox_testTypes_BlockType_ActuatorLogic = 322,
-  BrewBlox_testTypes_BlockType_MockPins = 323,
-  BrewBlox_testTypes_BlockType_TempSensorCombi = 324,
-  BrewBlox_testTypes_BlockType_OneWireGpioModule = 325
+enum BlockType {
+  Invalid = 0,
+  ProcessValueInterface = 1,
+  TempSensorInterface = 2,
+  SetpointSensorPairInterface = 4,
+  ActuatorAnalogInterface = 5,
+  ActuatorDigitalInterface = 6,
+  BalancerInterface = 7,
+  MutexInterface = 8,
+  OneWireDeviceInterface = 9,
+  IoArrayInterface = 10,
+  DS2408Interface = 11,
+  OneWireBusInterface = 12,
+  IoModuleInterface = 13,
+  OneWireDeviceBlockInterface = 14,
+  Any = 255,
+  SysInfo = 256,
+  Ticks = 257,
+  OneWireBus = 258,
+  BoardPins = 259,
+  TempSensorMock = 301,
+  TempSensorOneWire = 302,
+  SetpointSensorPair = 303,
+  Pid = 304,
+  ActuatorAnalogMock = 305,
+  ActuatorPin = 306,
+  ActuatorPwm = 307,
+  ActuatorOffset = 308,
+  Balancer = 309,
+  Mutex = 310,
+  SetpointProfile = 311,
+  WiFiSettings = 312,
+  TouchSettings = 313,
+  DisplaySettings = 314,
+  DS2413 = 315,
+  ActuatorOneWire = 316,
+  DS2408 = 317,
+  DigitalActuator = 318,
+  Spark3Pins = 319,
+  Spark2Pins = 320,
+  MotorValve = 321,
+  ActuatorLogic = 322,
+  MockPins = 323,
+  TempSensorCombi = 324,
+  OneWireGpioModule = 325,
+  BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool BrewBlox_testTypes_BlockType_IsValid(int value);
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes_BlockType_BlockType_MIN = BrewBlox_testTypes_BlockType_Invalid;
-const BrewBlox_testTypes_BlockType BrewBlox_testTypes_BlockType_BlockType_MAX = BrewBlox_testTypes_BlockType_OneWireGpioModule;
-const int BrewBlox_testTypes_BlockType_BlockType_ARRAYSIZE = BrewBlox_testTypes_BlockType_BlockType_MAX + 1;
+bool BlockType_IsValid(int value);
+const BlockType BlockType_MIN = Invalid;
+const BlockType BlockType_MAX = OneWireGpioModule;
+const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* BrewBlox_testTypes_BlockType_descriptor();
-inline const ::std::string& BrewBlox_testTypes_BlockType_Name(BrewBlox_testTypes_BlockType value) {
+const ::google::protobuf::EnumDescriptor* BlockType_descriptor();
+inline const ::std::string& BlockType_Name(BlockType value) {
   return ::google::protobuf::internal::NameOfEnum(
-    BrewBlox_testTypes_BlockType_descriptor(), value);
+    BlockType_descriptor(), value);
 }
-inline bool BrewBlox_testTypes_BlockType_Parse(
-    const ::std::string& name, BrewBlox_testTypes_BlockType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<BrewBlox_testTypes_BlockType>(
-    BrewBlox_testTypes_BlockType_descriptor(), name, value);
+inline bool BlockType_Parse(
+    const ::std::string& name, BlockType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<BlockType>(
+    BlockType_descriptor(), name, value);
 }
 // ===================================================================
 
-class BrewBlox_testTypes : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BrewBlox_testTypes) */ {
+class MessageOpts : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:brewblox.MessageOpts) */ {
  public:
-  BrewBlox_testTypes();
-  virtual ~BrewBlox_testTypes();
+  MessageOpts();
+  virtual ~MessageOpts();
 
-  BrewBlox_testTypes(const BrewBlox_testTypes& from);
+  MessageOpts(const MessageOpts& from);
 
-  inline BrewBlox_testTypes& operator=(const BrewBlox_testTypes& from) {
+  inline MessageOpts& operator=(const MessageOpts& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  BrewBlox_testTypes(BrewBlox_testTypes&& from) noexcept
-    : BrewBlox_testTypes() {
+  MessageOpts(MessageOpts&& from) noexcept
+    : MessageOpts() {
     *this = ::std::move(from);
   }
 
-  inline BrewBlox_testTypes& operator=(BrewBlox_testTypes&& from) noexcept {
+  inline MessageOpts& operator=(MessageOpts&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -184,42 +187,35 @@ class BrewBlox_testTypes : public ::google::protobuf::Message /* @@protoc_insert
     return *this;
   }
   #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
   static const ::google::protobuf::Descriptor* descriptor();
-  static const BrewBlox_testTypes& default_instance();
+  static const MessageOpts& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BrewBlox_testTypes* internal_default_instance() {
-    return reinterpret_cast<const BrewBlox_testTypes*>(
-               &_BrewBlox_testTypes_default_instance_);
+  static inline const MessageOpts* internal_default_instance() {
+    return reinterpret_cast<const MessageOpts*>(
+               &_MessageOpts_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(BrewBlox_testTypes* other);
-  friend void swap(BrewBlox_testTypes& a, BrewBlox_testTypes& b) {
+  void Swap(MessageOpts* other);
+  friend void swap(MessageOpts& a, MessageOpts& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline BrewBlox_testTypes* New() const final {
-    return CreateMaybeMessage<BrewBlox_testTypes>(NULL);
+  inline MessageOpts* New() const final {
+    return CreateMaybeMessage<MessageOpts>(NULL);
   }
 
-  BrewBlox_testTypes* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BrewBlox_testTypes>(arena);
+  MessageOpts* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<MessageOpts>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BrewBlox_testTypes& from);
-  void MergeFrom(const BrewBlox_testTypes& from);
+  void CopyFrom(const MessageOpts& from);
+  void MergeFrom(const MessageOpts& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -236,7 +232,7 @@ class BrewBlox_testTypes : public ::google::protobuf::Message /* @@protoc_insert
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(BrewBlox_testTypes* other);
+  void InternalSwap(MessageOpts* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -250,194 +246,61 @@ class BrewBlox_testTypes : public ::google::protobuf::Message /* @@protoc_insert
 
   // nested types ----------------------------------------------------
 
-  typedef BrewBlox_testTypes_UnitType UnitType;
-  static const UnitType NotSet =
-    BrewBlox_testTypes_UnitType_NotSet;
-  static const UnitType Celsius =
-    BrewBlox_testTypes_UnitType_Celsius;
-  static const UnitType InverseCelsius =
-    BrewBlox_testTypes_UnitType_InverseCelsius;
-  static const UnitType Second =
-    BrewBlox_testTypes_UnitType_Second;
-  static const UnitType Minute =
-    BrewBlox_testTypes_UnitType_Minute;
-  static const UnitType Hour =
-    BrewBlox_testTypes_UnitType_Hour;
-  static const UnitType DeltaCelsius =
-    BrewBlox_testTypes_UnitType_DeltaCelsius;
-  static const UnitType DeltaCelsiusPerSecond =
-    BrewBlox_testTypes_UnitType_DeltaCelsiusPerSecond;
-  static const UnitType DeltaCelsiusPerMinute =
-    BrewBlox_testTypes_UnitType_DeltaCelsiusPerMinute;
-  static const UnitType DeltaCelsiusPerHour =
-    BrewBlox_testTypes_UnitType_DeltaCelsiusPerHour;
-  static const UnitType DeltaCelsiusMultSecond =
-    BrewBlox_testTypes_UnitType_DeltaCelsiusMultSecond;
-  static const UnitType DeltaCelsiusMultMinute =
-    BrewBlox_testTypes_UnitType_DeltaCelsiusMultMinute;
-  static const UnitType DeltaCelsiusMultHour =
-    BrewBlox_testTypes_UnitType_DeltaCelsiusMultHour;
-  static inline bool UnitType_IsValid(int value) {
-    return BrewBlox_testTypes_UnitType_IsValid(value);
-  }
-  static const UnitType UnitType_MIN =
-    BrewBlox_testTypes_UnitType_UnitType_MIN;
-  static const UnitType UnitType_MAX =
-    BrewBlox_testTypes_UnitType_UnitType_MAX;
-  static const int UnitType_ARRAYSIZE =
-    BrewBlox_testTypes_UnitType_UnitType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  UnitType_descriptor() {
-    return BrewBlox_testTypes_UnitType_descriptor();
-  }
-  static inline const ::std::string& UnitType_Name(UnitType value) {
-    return BrewBlox_testTypes_UnitType_Name(value);
-  }
-  static inline bool UnitType_Parse(const ::std::string& name,
-      UnitType* value) {
-    return BrewBlox_testTypes_UnitType_Parse(name, value);
-  }
-
-  typedef BrewBlox_testTypes_BlockType BlockType;
-  static const BlockType Invalid =
-    BrewBlox_testTypes_BlockType_Invalid;
-  static const BlockType ProcessValueInterface =
-    BrewBlox_testTypes_BlockType_ProcessValueInterface;
-  static const BlockType TempSensorInterface =
-    BrewBlox_testTypes_BlockType_TempSensorInterface;
-  static const BlockType SetpointSensorPairInterface =
-    BrewBlox_testTypes_BlockType_SetpointSensorPairInterface;
-  static const BlockType ActuatorAnalogInterface =
-    BrewBlox_testTypes_BlockType_ActuatorAnalogInterface;
-  static const BlockType ActuatorDigitalInterface =
-    BrewBlox_testTypes_BlockType_ActuatorDigitalInterface;
-  static const BlockType BalancerInterface =
-    BrewBlox_testTypes_BlockType_BalancerInterface;
-  static const BlockType MutexInterface =
-    BrewBlox_testTypes_BlockType_MutexInterface;
-  static const BlockType OneWireDeviceInterface =
-    BrewBlox_testTypes_BlockType_OneWireDeviceInterface;
-  static const BlockType IoArrayInterface =
-    BrewBlox_testTypes_BlockType_IoArrayInterface;
-  static const BlockType DS2408Interface =
-    BrewBlox_testTypes_BlockType_DS2408Interface;
-  static const BlockType OneWireBusInterface =
-    BrewBlox_testTypes_BlockType_OneWireBusInterface;
-  static const BlockType IoModuleInterface =
-    BrewBlox_testTypes_BlockType_IoModuleInterface;
-  static const BlockType OneWireDeviceBlockInterface =
-    BrewBlox_testTypes_BlockType_OneWireDeviceBlockInterface;
-  static const BlockType Any =
-    BrewBlox_testTypes_BlockType_Any;
-  static const BlockType SysInfo =
-    BrewBlox_testTypes_BlockType_SysInfo;
-  static const BlockType Ticks =
-    BrewBlox_testTypes_BlockType_Ticks;
-  static const BlockType OneWireBus =
-    BrewBlox_testTypes_BlockType_OneWireBus;
-  static const BlockType BoardPins =
-    BrewBlox_testTypes_BlockType_BoardPins;
-  static const BlockType TempSensorMock =
-    BrewBlox_testTypes_BlockType_TempSensorMock;
-  static const BlockType TempSensorOneWire =
-    BrewBlox_testTypes_BlockType_TempSensorOneWire;
-  static const BlockType SetpointSensorPair =
-    BrewBlox_testTypes_BlockType_SetpointSensorPair;
-  static const BlockType Pid =
-    BrewBlox_testTypes_BlockType_Pid;
-  static const BlockType ActuatorAnalogMock =
-    BrewBlox_testTypes_BlockType_ActuatorAnalogMock;
-  static const BlockType ActuatorPin =
-    BrewBlox_testTypes_BlockType_ActuatorPin;
-  static const BlockType ActuatorPwm =
-    BrewBlox_testTypes_BlockType_ActuatorPwm;
-  static const BlockType ActuatorOffset =
-    BrewBlox_testTypes_BlockType_ActuatorOffset;
-  static const BlockType Balancer =
-    BrewBlox_testTypes_BlockType_Balancer;
-  static const BlockType Mutex =
-    BrewBlox_testTypes_BlockType_Mutex;
-  static const BlockType SetpointProfile =
-    BrewBlox_testTypes_BlockType_SetpointProfile;
-  static const BlockType WiFiSettings =
-    BrewBlox_testTypes_BlockType_WiFiSettings;
-  static const BlockType TouchSettings =
-    BrewBlox_testTypes_BlockType_TouchSettings;
-  static const BlockType DisplaySettings =
-    BrewBlox_testTypes_BlockType_DisplaySettings;
-  static const BlockType DS2413 =
-    BrewBlox_testTypes_BlockType_DS2413;
-  static const BlockType ActuatorOneWire =
-    BrewBlox_testTypes_BlockType_ActuatorOneWire;
-  static const BlockType DS2408 =
-    BrewBlox_testTypes_BlockType_DS2408;
-  static const BlockType DigitalActuator =
-    BrewBlox_testTypes_BlockType_DigitalActuator;
-  static const BlockType Spark3Pins =
-    BrewBlox_testTypes_BlockType_Spark3Pins;
-  static const BlockType Spark2Pins =
-    BrewBlox_testTypes_BlockType_Spark2Pins;
-  static const BlockType MotorValve =
-    BrewBlox_testTypes_BlockType_MotorValve;
-  static const BlockType ActuatorLogic =
-    BrewBlox_testTypes_BlockType_ActuatorLogic;
-  static const BlockType MockPins =
-    BrewBlox_testTypes_BlockType_MockPins;
-  static const BlockType TempSensorCombi =
-    BrewBlox_testTypes_BlockType_TempSensorCombi;
-  static const BlockType OneWireGpioModule =
-    BrewBlox_testTypes_BlockType_OneWireGpioModule;
-  static inline bool BlockType_IsValid(int value) {
-    return BrewBlox_testTypes_BlockType_IsValid(value);
-  }
-  static const BlockType BlockType_MIN =
-    BrewBlox_testTypes_BlockType_BlockType_MIN;
-  static const BlockType BlockType_MAX =
-    BrewBlox_testTypes_BlockType_BlockType_MAX;
-  static const int BlockType_ARRAYSIZE =
-    BrewBlox_testTypes_BlockType_BlockType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  BlockType_descriptor() {
-    return BrewBlox_testTypes_BlockType_descriptor();
-  }
-  static inline const ::std::string& BlockType_Name(BlockType value) {
-    return BrewBlox_testTypes_BlockType_Name(value);
-  }
-  static inline bool BlockType_Parse(const ::std::string& name,
-      BlockType* value) {
-    return BrewBlox_testTypes_BlockType_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:BrewBlox_testTypes)
+  // repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
+  int impl_size() const;
+  void clear_impl();
+  static const int kImplFieldNumber = 9;
+  ::brewblox::BlockType impl(int index) const;
+  void set_impl(int index, ::brewblox::BlockType value);
+  void add_impl(::brewblox::BlockType value);
+  const ::google::protobuf::RepeatedField<int>& impl() const;
+  ::google::protobuf::RepeatedField<int>* mutable_impl();
+
+  // .brewblox.BlockType objtype = 3;
+  void clear_objtype();
+  static const int kObjtypeFieldNumber = 3;
+  ::brewblox::BlockType objtype() const;
+  void set_objtype(::brewblox::BlockType value);
+
+  // uint32 subtype = 11 [(.nanopb) = {
+  void clear_subtype();
+  static const int kSubtypeFieldNumber = 11;
+  ::google::protobuf::uint32 subtype() const;
+  void set_subtype(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:brewblox.MessageOpts)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  ::google::protobuf::RepeatedField<int> impl_;
+  mutable int _impl_cached_byte_size_;
+  int objtype_;
+  ::google::protobuf::uint32 subtype_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class BrewBlox_testMessageOptions : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BrewBlox_testMessageOptions) */ {
+class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:brewblox.FieldOpts) */ {
  public:
-  BrewBlox_testMessageOptions();
-  virtual ~BrewBlox_testMessageOptions();
+  FieldOpts();
+  virtual ~FieldOpts();
 
-  BrewBlox_testMessageOptions(const BrewBlox_testMessageOptions& from);
+  FieldOpts(const FieldOpts& from);
 
-  inline BrewBlox_testMessageOptions& operator=(const BrewBlox_testMessageOptions& from) {
+  inline FieldOpts& operator=(const FieldOpts& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  BrewBlox_testMessageOptions(BrewBlox_testMessageOptions&& from) noexcept
-    : BrewBlox_testMessageOptions() {
+  FieldOpts(FieldOpts&& from) noexcept
+    : FieldOpts() {
     *this = ::std::move(from);
   }
 
-  inline BrewBlox_testMessageOptions& operator=(BrewBlox_testMessageOptions&& from) noexcept {
+  inline FieldOpts& operator=(FieldOpts&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -446,42 +309,35 @@ class BrewBlox_testMessageOptions : public ::google::protobuf::Message /* @@prot
     return *this;
   }
   #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
   static const ::google::protobuf::Descriptor* descriptor();
-  static const BrewBlox_testMessageOptions& default_instance();
+  static const FieldOpts& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BrewBlox_testMessageOptions* internal_default_instance() {
-    return reinterpret_cast<const BrewBlox_testMessageOptions*>(
-               &_BrewBlox_testMessageOptions_default_instance_);
+  static inline const FieldOpts* internal_default_instance() {
+    return reinterpret_cast<const FieldOpts*>(
+               &_FieldOpts_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  void Swap(BrewBlox_testMessageOptions* other);
-  friend void swap(BrewBlox_testMessageOptions& a, BrewBlox_testMessageOptions& b) {
+  void Swap(FieldOpts* other);
+  friend void swap(FieldOpts& a, FieldOpts& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline BrewBlox_testMessageOptions* New() const final {
-    return CreateMaybeMessage<BrewBlox_testMessageOptions>(NULL);
+  inline FieldOpts* New() const final {
+    return CreateMaybeMessage<FieldOpts>(NULL);
   }
 
-  BrewBlox_testMessageOptions* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BrewBlox_testMessageOptions>(arena);
+  FieldOpts* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<FieldOpts>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BrewBlox_testMessageOptions& from);
-  void MergeFrom(const BrewBlox_testMessageOptions& from);
+  void CopyFrom(const FieldOpts& from);
+  void MergeFrom(const FieldOpts& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -498,7 +354,7 @@ class BrewBlox_testMessageOptions : public ::google::protobuf::Message /* @@prot
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(BrewBlox_testMessageOptions* other);
+  void InternalSwap(FieldOpts* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -514,227 +370,70 @@ class BrewBlox_testMessageOptions : public ::google::protobuf::Message /* @@prot
 
   // accessors -------------------------------------------------------
 
-  // repeated .BrewBlox_testTypes.BlockType impl = 9 [(.nanopb_test) = {
-  int impl_size() const;
-  void clear_impl();
-  static const int kImplFieldNumber = 9;
-  ::BrewBlox_testTypes_BlockType impl(int index) const;
-  void set_impl(int index, ::BrewBlox_testTypes_BlockType value);
-  void add_impl(::BrewBlox_testTypes_BlockType value);
-  const ::google::protobuf::RepeatedField<int>& impl() const;
-  ::google::protobuf::RepeatedField<int>* mutable_impl();
-
-  // optional .BrewBlox_testTypes.BlockType objtype = 3;
-  bool has_objtype() const;
-  void clear_objtype();
-  static const int kObjtypeFieldNumber = 3;
-  ::BrewBlox_testTypes_BlockType objtype() const;
-  void set_objtype(::BrewBlox_testTypes_BlockType value);
-
-  // @@protoc_insertion_point(class_scope:BrewBlox_testMessageOptions)
- private:
-  void set_has_objtype();
-  void clear_has_objtype();
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  ::google::protobuf::RepeatedField<int> impl_;
-  int objtype_;
-  friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BrewBlox_testFieldOptions : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:BrewBlox_testFieldOptions) */ {
- public:
-  BrewBlox_testFieldOptions();
-  virtual ~BrewBlox_testFieldOptions();
-
-  BrewBlox_testFieldOptions(const BrewBlox_testFieldOptions& from);
-
-  inline BrewBlox_testFieldOptions& operator=(const BrewBlox_testFieldOptions& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BrewBlox_testFieldOptions(BrewBlox_testFieldOptions&& from) noexcept
-    : BrewBlox_testFieldOptions() {
-    *this = ::std::move(from);
-  }
-
-  inline BrewBlox_testFieldOptions& operator=(BrewBlox_testFieldOptions&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BrewBlox_testFieldOptions& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BrewBlox_testFieldOptions* internal_default_instance() {
-    return reinterpret_cast<const BrewBlox_testFieldOptions*>(
-               &_BrewBlox_testFieldOptions_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  void Swap(BrewBlox_testFieldOptions* other);
-  friend void swap(BrewBlox_testFieldOptions& a, BrewBlox_testFieldOptions& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BrewBlox_testFieldOptions* New() const final {
-    return CreateMaybeMessage<BrewBlox_testFieldOptions>(NULL);
-  }
-
-  BrewBlox_testFieldOptions* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BrewBlox_testFieldOptions>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BrewBlox_testFieldOptions& from);
-  void MergeFrom(const BrewBlox_testFieldOptions& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BrewBlox_testFieldOptions* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional .BrewBlox_testTypes.UnitType unit = 1;
-  bool has_unit() const;
+  // .brewblox.UnitType unit = 1;
   void clear_unit();
   static const int kUnitFieldNumber = 1;
-  ::BrewBlox_testTypes_UnitType unit() const;
-  void set_unit(::BrewBlox_testTypes_UnitType value);
+  ::brewblox::UnitType unit() const;
+  void set_unit(::brewblox::UnitType value);
 
-  // optional uint32 scale = 2;
-  bool has_scale() const;
+  // uint32 scale = 2;
   void clear_scale();
   static const int kScaleFieldNumber = 2;
   ::google::protobuf::uint32 scale() const;
   void set_scale(::google::protobuf::uint32 value);
 
-  // optional .BrewBlox_testTypes.BlockType objtype = 3;
-  bool has_objtype() const;
+  // .brewblox.BlockType objtype = 3;
   void clear_objtype();
   static const int kObjtypeFieldNumber = 3;
-  ::BrewBlox_testTypes_BlockType objtype() const;
-  void set_objtype(::BrewBlox_testTypes_BlockType value);
+  ::brewblox::BlockType objtype() const;
+  void set_objtype(::brewblox::BlockType value);
 
-  // optional bool hexed = 4;
-  bool has_hexed() const;
+  // bool hexed = 4;
   void clear_hexed();
   static const int kHexedFieldNumber = 4;
   bool hexed() const;
   void set_hexed(bool value);
 
-  // optional bool readonly = 5;
-  bool has_readonly() const;
+  // bool readonly = 5;
   void clear_readonly();
   static const int kReadonlyFieldNumber = 5;
   bool readonly() const;
   void set_readonly(bool value);
 
-  // optional bool logged = 6;
-  bool has_logged() const;
+  // bool logged = 6;
   void clear_logged();
   static const int kLoggedFieldNumber = 6;
   bool logged() const;
   void set_logged(bool value);
 
-  // optional bool hexstr = 7;
-  bool has_hexstr() const;
+  // bool hexstr = 7;
   void clear_hexstr();
   static const int kHexstrFieldNumber = 7;
   bool hexstr() const;
   void set_hexstr(bool value);
 
-  // optional bool driven = 8;
-  bool has_driven() const;
+  // bool driven = 8;
   void clear_driven();
   static const int kDrivenFieldNumber = 8;
   bool driven() const;
   void set_driven(bool value);
 
-  // optional bool ignored = 9;
-  bool has_ignored() const;
+  // bool ignored = 9;
   void clear_ignored();
   static const int kIgnoredFieldNumber = 9;
   bool ignored() const;
   void set_ignored(bool value);
 
-  // optional bool bitfield = 10;
-  bool has_bitfield() const;
+  // bool bitfield = 10;
   void clear_bitfield();
   static const int kBitfieldFieldNumber = 10;
   bool bitfield() const;
   void set_bitfield(bool value);
 
-  // @@protoc_insertion_point(class_scope:BrewBlox_testFieldOptions)
+  // @@protoc_insertion_point(class_scope:brewblox.FieldOpts)
  private:
-  void set_has_unit();
-  void clear_has_unit();
-  void set_has_scale();
-  void clear_has_scale();
-  void set_has_objtype();
-  void clear_has_objtype();
-  void set_has_hexed();
-  void clear_has_hexed();
-  void set_has_readonly();
-  void clear_has_readonly();
-  void set_has_logged();
-  void clear_has_logged();
-  void set_has_hexstr();
-  void clear_has_hexstr();
-  void set_has_driven();
-  void clear_has_driven();
-  void set_has_ignored();
-  void clear_has_ignored();
-  void set_has_bitfield();
-  void clear_has_bitfield();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
   int unit_;
   ::google::protobuf::uint32 scale_;
   int objtype_;
@@ -745,18 +444,19 @@ class BrewBlox_testFieldOptions : public ::google::protobuf::Message /* @@protoc
   bool driven_;
   bool ignored_;
   bool bitfield_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
 };
 // ===================================================================
 
-static const int kBrewbloxTestFieldNumber = 50001;
+static const int kFieldFieldNumber = 50001;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::BrewBlox_testFieldOptions >, 11, false >
-  brewblox_test;
-static const int kBrewbloxTestMsgFieldNumber = 50001;
+    ::google::protobuf::internal::MessageTypeTraits< ::brewblox::FieldOpts >, 11, false >
+  field;
+static const int kMsgFieldNumber = 50001;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
-    ::google::protobuf::internal::MessageTypeTraits< ::BrewBlox_testMessageOptions >, 11, false >
-  brewblox_test_msg;
+    ::google::protobuf::internal::MessageTypeTraits< ::brewblox::MessageOpts >, 11, false >
+  msg;
 
 // ===================================================================
 
@@ -764,313 +464,208 @@ extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::Me
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// BrewBlox_testTypes
+// MessageOpts
 
-// -------------------------------------------------------------------
-
-// BrewBlox_testMessageOptions
-
-// optional .BrewBlox_testTypes.BlockType objtype = 3;
-inline bool BrewBlox_testMessageOptions::has_objtype() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void BrewBlox_testMessageOptions::set_has_objtype() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void BrewBlox_testMessageOptions::clear_has_objtype() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void BrewBlox_testMessageOptions::clear_objtype() {
+// .brewblox.BlockType objtype = 3;
+inline void MessageOpts::clear_objtype() {
   objtype_ = 0;
-  clear_has_objtype();
 }
-inline ::BrewBlox_testTypes_BlockType BrewBlox_testMessageOptions::objtype() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testMessageOptions.objtype)
-  return static_cast< ::BrewBlox_testTypes_BlockType >(objtype_);
+inline ::brewblox::BlockType MessageOpts::objtype() const {
+  // @@protoc_insertion_point(field_get:brewblox.MessageOpts.objtype)
+  return static_cast< ::brewblox::BlockType >(objtype_);
 }
-inline void BrewBlox_testMessageOptions::set_objtype(::BrewBlox_testTypes_BlockType value) {
-  assert(::BrewBlox_testTypes_BlockType_IsValid(value));
-  set_has_objtype();
+inline void MessageOpts::set_objtype(::brewblox::BlockType value) {
+  
   objtype_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testMessageOptions.objtype)
+  // @@protoc_insertion_point(field_set:brewblox.MessageOpts.objtype)
 }
 
-// repeated .BrewBlox_testTypes.BlockType impl = 9 [(.nanopb_test) = {
-inline int BrewBlox_testMessageOptions::impl_size() const {
+// repeated .brewblox.BlockType impl = 9 [(.nanopb) = {
+inline int MessageOpts::impl_size() const {
   return impl_.size();
 }
-inline void BrewBlox_testMessageOptions::clear_impl() {
+inline void MessageOpts::clear_impl() {
   impl_.Clear();
 }
-inline ::BrewBlox_testTypes_BlockType BrewBlox_testMessageOptions::impl(int index) const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testMessageOptions.impl)
-  return static_cast< ::BrewBlox_testTypes_BlockType >(impl_.Get(index));
+inline ::brewblox::BlockType MessageOpts::impl(int index) const {
+  // @@protoc_insertion_point(field_get:brewblox.MessageOpts.impl)
+  return static_cast< ::brewblox::BlockType >(impl_.Get(index));
 }
-inline void BrewBlox_testMessageOptions::set_impl(int index, ::BrewBlox_testTypes_BlockType value) {
-  assert(::BrewBlox_testTypes_BlockType_IsValid(value));
+inline void MessageOpts::set_impl(int index, ::brewblox::BlockType value) {
   impl_.Set(index, value);
-  // @@protoc_insertion_point(field_set:BrewBlox_testMessageOptions.impl)
+  // @@protoc_insertion_point(field_set:brewblox.MessageOpts.impl)
 }
-inline void BrewBlox_testMessageOptions::add_impl(::BrewBlox_testTypes_BlockType value) {
-  assert(::BrewBlox_testTypes_BlockType_IsValid(value));
+inline void MessageOpts::add_impl(::brewblox::BlockType value) {
   impl_.Add(value);
-  // @@protoc_insertion_point(field_add:BrewBlox_testMessageOptions.impl)
+  // @@protoc_insertion_point(field_add:brewblox.MessageOpts.impl)
 }
 inline const ::google::protobuf::RepeatedField<int>&
-BrewBlox_testMessageOptions::impl() const {
-  // @@protoc_insertion_point(field_list:BrewBlox_testMessageOptions.impl)
+MessageOpts::impl() const {
+  // @@protoc_insertion_point(field_list:brewblox.MessageOpts.impl)
   return impl_;
 }
 inline ::google::protobuf::RepeatedField<int>*
-BrewBlox_testMessageOptions::mutable_impl() {
-  // @@protoc_insertion_point(field_mutable_list:BrewBlox_testMessageOptions.impl)
+MessageOpts::mutable_impl() {
+  // @@protoc_insertion_point(field_mutable_list:brewblox.MessageOpts.impl)
   return &impl_;
+}
+
+// uint32 subtype = 11 [(.nanopb) = {
+inline void MessageOpts::clear_subtype() {
+  subtype_ = 0u;
+}
+inline ::google::protobuf::uint32 MessageOpts::subtype() const {
+  // @@protoc_insertion_point(field_get:brewblox.MessageOpts.subtype)
+  return subtype_;
+}
+inline void MessageOpts::set_subtype(::google::protobuf::uint32 value) {
+  
+  subtype_ = value;
+  // @@protoc_insertion_point(field_set:brewblox.MessageOpts.subtype)
 }
 
 // -------------------------------------------------------------------
 
-// BrewBlox_testFieldOptions
+// FieldOpts
 
-// optional .BrewBlox_testTypes.UnitType unit = 1;
-inline bool BrewBlox_testFieldOptions::has_unit() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_unit() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_unit() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void BrewBlox_testFieldOptions::clear_unit() {
+// .brewblox.UnitType unit = 1;
+inline void FieldOpts::clear_unit() {
   unit_ = 0;
-  clear_has_unit();
 }
-inline ::BrewBlox_testTypes_UnitType BrewBlox_testFieldOptions::unit() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.unit)
-  return static_cast< ::BrewBlox_testTypes_UnitType >(unit_);
+inline ::brewblox::UnitType FieldOpts::unit() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.unit)
+  return static_cast< ::brewblox::UnitType >(unit_);
 }
-inline void BrewBlox_testFieldOptions::set_unit(::BrewBlox_testTypes_UnitType value) {
-  assert(::BrewBlox_testTypes_UnitType_IsValid(value));
-  set_has_unit();
+inline void FieldOpts::set_unit(::brewblox::UnitType value) {
+  
   unit_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.unit)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.unit)
 }
 
-// optional uint32 scale = 2;
-inline bool BrewBlox_testFieldOptions::has_scale() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_scale() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_scale() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void BrewBlox_testFieldOptions::clear_scale() {
+// uint32 scale = 2;
+inline void FieldOpts::clear_scale() {
   scale_ = 0u;
-  clear_has_scale();
 }
-inline ::google::protobuf::uint32 BrewBlox_testFieldOptions::scale() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.scale)
+inline ::google::protobuf::uint32 FieldOpts::scale() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.scale)
   return scale_;
 }
-inline void BrewBlox_testFieldOptions::set_scale(::google::protobuf::uint32 value) {
-  set_has_scale();
+inline void FieldOpts::set_scale(::google::protobuf::uint32 value) {
+  
   scale_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.scale)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.scale)
 }
 
-// optional .BrewBlox_testTypes.BlockType objtype = 3;
-inline bool BrewBlox_testFieldOptions::has_objtype() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_objtype() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_objtype() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void BrewBlox_testFieldOptions::clear_objtype() {
+// .brewblox.BlockType objtype = 3;
+inline void FieldOpts::clear_objtype() {
   objtype_ = 0;
-  clear_has_objtype();
 }
-inline ::BrewBlox_testTypes_BlockType BrewBlox_testFieldOptions::objtype() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.objtype)
-  return static_cast< ::BrewBlox_testTypes_BlockType >(objtype_);
+inline ::brewblox::BlockType FieldOpts::objtype() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.objtype)
+  return static_cast< ::brewblox::BlockType >(objtype_);
 }
-inline void BrewBlox_testFieldOptions::set_objtype(::BrewBlox_testTypes_BlockType value) {
-  assert(::BrewBlox_testTypes_BlockType_IsValid(value));
-  set_has_objtype();
+inline void FieldOpts::set_objtype(::brewblox::BlockType value) {
+  
   objtype_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.objtype)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.objtype)
 }
 
-// optional bool hexed = 4;
-inline bool BrewBlox_testFieldOptions::has_hexed() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_hexed() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_hexed() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void BrewBlox_testFieldOptions::clear_hexed() {
+// bool hexed = 4;
+inline void FieldOpts::clear_hexed() {
   hexed_ = false;
-  clear_has_hexed();
 }
-inline bool BrewBlox_testFieldOptions::hexed() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.hexed)
+inline bool FieldOpts::hexed() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.hexed)
   return hexed_;
 }
-inline void BrewBlox_testFieldOptions::set_hexed(bool value) {
-  set_has_hexed();
+inline void FieldOpts::set_hexed(bool value) {
+  
   hexed_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.hexed)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.hexed)
 }
 
-// optional bool readonly = 5;
-inline bool BrewBlox_testFieldOptions::has_readonly() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_readonly() {
-  _has_bits_[0] |= 0x00000010u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_readonly() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void BrewBlox_testFieldOptions::clear_readonly() {
+// bool readonly = 5;
+inline void FieldOpts::clear_readonly() {
   readonly_ = false;
-  clear_has_readonly();
 }
-inline bool BrewBlox_testFieldOptions::readonly() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.readonly)
+inline bool FieldOpts::readonly() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.readonly)
   return readonly_;
 }
-inline void BrewBlox_testFieldOptions::set_readonly(bool value) {
-  set_has_readonly();
+inline void FieldOpts::set_readonly(bool value) {
+  
   readonly_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.readonly)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.readonly)
 }
 
-// optional bool logged = 6;
-inline bool BrewBlox_testFieldOptions::has_logged() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_logged() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_logged() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void BrewBlox_testFieldOptions::clear_logged() {
+// bool logged = 6;
+inline void FieldOpts::clear_logged() {
   logged_ = false;
-  clear_has_logged();
 }
-inline bool BrewBlox_testFieldOptions::logged() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.logged)
+inline bool FieldOpts::logged() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.logged)
   return logged_;
 }
-inline void BrewBlox_testFieldOptions::set_logged(bool value) {
-  set_has_logged();
+inline void FieldOpts::set_logged(bool value) {
+  
   logged_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.logged)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.logged)
 }
 
-// optional bool hexstr = 7;
-inline bool BrewBlox_testFieldOptions::has_hexstr() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_hexstr() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_hexstr() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void BrewBlox_testFieldOptions::clear_hexstr() {
+// bool hexstr = 7;
+inline void FieldOpts::clear_hexstr() {
   hexstr_ = false;
-  clear_has_hexstr();
 }
-inline bool BrewBlox_testFieldOptions::hexstr() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.hexstr)
+inline bool FieldOpts::hexstr() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.hexstr)
   return hexstr_;
 }
-inline void BrewBlox_testFieldOptions::set_hexstr(bool value) {
-  set_has_hexstr();
+inline void FieldOpts::set_hexstr(bool value) {
+  
   hexstr_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.hexstr)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.hexstr)
 }
 
-// optional bool driven = 8;
-inline bool BrewBlox_testFieldOptions::has_driven() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_driven() {
-  _has_bits_[0] |= 0x00000080u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_driven() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-inline void BrewBlox_testFieldOptions::clear_driven() {
+// bool driven = 8;
+inline void FieldOpts::clear_driven() {
   driven_ = false;
-  clear_has_driven();
 }
-inline bool BrewBlox_testFieldOptions::driven() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.driven)
+inline bool FieldOpts::driven() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.driven)
   return driven_;
 }
-inline void BrewBlox_testFieldOptions::set_driven(bool value) {
-  set_has_driven();
+inline void FieldOpts::set_driven(bool value) {
+  
   driven_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.driven)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.driven)
 }
 
-// optional bool ignored = 9;
-inline bool BrewBlox_testFieldOptions::has_ignored() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_ignored() {
-  _has_bits_[0] |= 0x00000100u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_ignored() {
-  _has_bits_[0] &= ~0x00000100u;
-}
-inline void BrewBlox_testFieldOptions::clear_ignored() {
+// bool ignored = 9;
+inline void FieldOpts::clear_ignored() {
   ignored_ = false;
-  clear_has_ignored();
 }
-inline bool BrewBlox_testFieldOptions::ignored() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.ignored)
+inline bool FieldOpts::ignored() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.ignored)
   return ignored_;
 }
-inline void BrewBlox_testFieldOptions::set_ignored(bool value) {
-  set_has_ignored();
+inline void FieldOpts::set_ignored(bool value) {
+  
   ignored_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.ignored)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.ignored)
 }
 
-// optional bool bitfield = 10;
-inline bool BrewBlox_testFieldOptions::has_bitfield() const {
-  return (_has_bits_[0] & 0x00000200u) != 0;
-}
-inline void BrewBlox_testFieldOptions::set_has_bitfield() {
-  _has_bits_[0] |= 0x00000200u;
-}
-inline void BrewBlox_testFieldOptions::clear_has_bitfield() {
-  _has_bits_[0] &= ~0x00000200u;
-}
-inline void BrewBlox_testFieldOptions::clear_bitfield() {
+// bool bitfield = 10;
+inline void FieldOpts::clear_bitfield() {
   bitfield_ = false;
-  clear_has_bitfield();
 }
-inline bool BrewBlox_testFieldOptions::bitfield() const {
-  // @@protoc_insertion_point(field_get:BrewBlox_testFieldOptions.bitfield)
+inline bool FieldOpts::bitfield() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.bitfield)
   return bitfield_;
 }
-inline void BrewBlox_testFieldOptions::set_bitfield(bool value) {
-  set_has_bitfield();
+inline void FieldOpts::set_bitfield(bool value) {
+  
   bitfield_ = value;
-  // @@protoc_insertion_point(field_set:BrewBlox_testFieldOptions.bitfield)
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.bitfield)
 }
 
 #ifdef __GNUC__
@@ -1078,24 +673,23 @@ inline void BrewBlox_testFieldOptions::set_bitfield(bool value) {
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace brewblox
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::BrewBlox_testTypes_UnitType> : ::std::true_type {};
+template <> struct is_proto_enum< ::brewblox::UnitType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::BrewBlox_testTypes_UnitType>() {
-  return ::BrewBlox_testTypes_UnitType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::brewblox::UnitType>() {
+  return ::brewblox::UnitType_descriptor();
 }
-template <> struct is_proto_enum< ::BrewBlox_testTypes_BlockType> : ::std::true_type {};
+template <> struct is_proto_enum< ::brewblox::BlockType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::BrewBlox_testTypes_BlockType>() {
-  return ::BrewBlox_testTypes_BlockType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::brewblox::BlockType>() {
+  return ::brewblox::BlockType_descriptor();
 }
 
 }  // namespace protobuf

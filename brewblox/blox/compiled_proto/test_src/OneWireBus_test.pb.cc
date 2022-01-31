@@ -20,81 +20,83 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_OneWireBus_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_OneWireBus_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_OneWireBusCommand;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_OneWireBus_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Command;
 }  // namespace protobuf_OneWireBus_5ftest_2eproto
-namespace blox {
-class OneWireBusCommandDefaultTypeInternal {
+namespace blox_test {
+namespace OneWireBus {
+class CommandDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<OneWireBusCommand>
+  ::google::protobuf::internal::ExplicitlyConstructed<Command>
       _instance;
-} _OneWireBusCommand_default_instance_;
-class OneWireBusDefaultTypeInternal {
+} _Command_default_instance_;
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<OneWireBus>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _OneWireBus_default_instance_;
-}  // namespace blox
+} _Block_default_instance_;
+}  // namespace OneWireBus
+}  // namespace blox_test
 namespace protobuf_OneWireBus_5ftest_2eproto {
-static void InitDefaultsOneWireBusCommand() {
+static void InitDefaultsCommand() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_OneWireBusCommand_default_instance_;
-    new (ptr) ::blox::OneWireBusCommand();
+    void* ptr = &::blox_test::OneWireBus::_Command_default_instance_;
+    new (ptr) ::blox_test::OneWireBus::Command();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::OneWireBusCommand::InitAsDefaultInstance();
+  ::blox_test::OneWireBus::Command::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_OneWireBusCommand =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsOneWireBusCommand}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_Command =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCommand}, {}};
 
-static void InitDefaultsOneWireBus() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_OneWireBus_default_instance_;
-    new (ptr) ::blox::OneWireBus();
+    void* ptr = &::blox_test::OneWireBus::_Block_default_instance_;
+    new (ptr) ::blox_test::OneWireBus::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::OneWireBus::InitAsDefaultInstance();
+  ::blox_test::OneWireBus::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_OneWireBus =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsOneWireBus}, {
-      &protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBusCommand.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
+      &protobuf_OneWireBus_5ftest_2eproto::scc_info_Command.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_OneWireBusCommand.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_OneWireBus.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Command.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBusCommand, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireBus::Command, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBusCommand, opcode_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBusCommand, data_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireBus::Command, opcode_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireBus::Command, data_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBus, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireBus::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBus, command_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::OneWireBus, address_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireBus::Block, command_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireBus::Block, address_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::OneWireBusCommand)},
-  { 7, -1, sizeof(::blox::OneWireBus)},
+  { 0, -1, sizeof(::blox_test::OneWireBus::Command)},
+  { 7, -1, sizeof(::blox_test::OneWireBus::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_OneWireBusCommand_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_OneWireBus_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::OneWireBus::_Command_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::OneWireBus::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -118,15 +120,16 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\025OneWireBus_test.proto\022\004blox\032\023brewblox_"
-      "test.proto\032\021nanopb_test.proto\"\?\n\021OneWire"
-      "BusCommand\022\025\n\006opcode\030\001 \001(\rB\005\222\?\0028\010\022\023\n\004dat"
-      "a\030\002 \001(\rB\005\222\?\0028\010\"^\n\nOneWireBus\022(\n\007command\030"
-      "\001 \001(\0132\027.blox.OneWireBusCommand\022\035\n\007addres"
-      "s\030\002 \003(\006B\014\212\265\030\002 \001\212\265\030\002(\001:\007\212\265\030\003\030\202\002b\006proto3"
+      "\n\025OneWireBus_test.proto\022\024blox_test.OneWi"
+      "reBus\032\023brewblox_test.proto\032\021nanopb_test."
+      "proto\"5\n\007Command\022\025\n\006opcode\030\001 \001(\rB\005\222\?\0028\010\022"
+      "\023\n\004data\030\002 \001(\rB\005\222\?\0028\010\"_\n\005Block\022.\n\007command"
+      "\030\001 \001(\0132\035.blox_test.OneWireBus.Command\022\035\n"
+      "\007address\030\002 \003(\006B\014\212\265\030\002 \001\212\265\030\002(\001:\007\212\265\030\003\030\202\002b\006p"
+      "roto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 238);
+      descriptor, 245);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireBus_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -144,64 +147,65 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_OneWireBus_5ftest_2eproto
-namespace blox {
+namespace blox_test {
+namespace OneWireBus {
 
 // ===================================================================
 
-void OneWireBusCommand::InitAsDefaultInstance() {
+void Command::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int OneWireBusCommand::kOpcodeFieldNumber;
-const int OneWireBusCommand::kDataFieldNumber;
+const int Command::kOpcodeFieldNumber;
+const int Command::kDataFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-OneWireBusCommand::OneWireBusCommand()
+Command::Command()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBusCommand.base);
+      &protobuf_OneWireBus_5ftest_2eproto::scc_info_Command.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(constructor:blox_test.OneWireBus.Command)
 }
-OneWireBusCommand::OneWireBusCommand(const OneWireBusCommand& from)
+Command::Command(const Command& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&opcode_, &from.opcode_,
     static_cast<size_t>(reinterpret_cast<char*>(&data_) -
     reinterpret_cast<char*>(&opcode_)) + sizeof(data_));
-  // @@protoc_insertion_point(copy_constructor:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(copy_constructor:blox_test.OneWireBus.Command)
 }
 
-void OneWireBusCommand::SharedCtor() {
+void Command::SharedCtor() {
   ::memset(&opcode_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&data_) -
       reinterpret_cast<char*>(&opcode_)) + sizeof(data_));
 }
 
-OneWireBusCommand::~OneWireBusCommand() {
-  // @@protoc_insertion_point(destructor:blox.OneWireBusCommand)
+Command::~Command() {
+  // @@protoc_insertion_point(destructor:blox_test.OneWireBus.Command)
   SharedDtor();
 }
 
-void OneWireBusCommand::SharedDtor() {
+void Command::SharedDtor() {
 }
 
-void OneWireBusCommand::SetCachedSize(int size) const {
+void Command::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* OneWireBusCommand::descriptor() {
+const ::google::protobuf::Descriptor* Command::descriptor() {
   ::protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const OneWireBusCommand& OneWireBusCommand::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBusCommand.base);
+const Command& Command::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_OneWireBus_5ftest_2eproto::scc_info_Command.base);
   return *internal_default_instance();
 }
 
 
-void OneWireBusCommand::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.OneWireBusCommand)
+void Command::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.OneWireBus.Command)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -212,17 +216,17 @@ void OneWireBusCommand::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool OneWireBusCommand::MergePartialFromCodedStream(
+bool Command::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(parse_start:blox_test.OneWireBus.Command)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 opcode = 1 [(.nanopb_test) = {
+      // uint32 opcode = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -236,7 +240,7 @@ bool OneWireBusCommand::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 data = 2 [(.nanopb_test) = {
+      // uint32 data = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -262,26 +266,26 @@ bool OneWireBusCommand::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(parse_success:blox_test.OneWireBus.Command)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(parse_failure:blox_test.OneWireBus.Command)
   return false;
 #undef DO_
 }
 
-void OneWireBusCommand::SerializeWithCachedSizes(
+void Command::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(serialize_start:blox_test.OneWireBus.Command)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 opcode = 1 [(.nanopb_test) = {
+  // uint32 opcode = 1 [(.nanopb) = {
   if (this->opcode() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->opcode(), output);
   }
 
-  // uint32 data = 2 [(.nanopb_test) = {
+  // uint32 data = 2 [(.nanopb) = {
   if (this->data() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->data(), output);
   }
@@ -290,22 +294,22 @@ void OneWireBusCommand::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(serialize_end:blox_test.OneWireBus.Command)
 }
 
-::google::protobuf::uint8* OneWireBusCommand::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Command::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.OneWireBus.Command)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 opcode = 1 [(.nanopb_test) = {
+  // uint32 opcode = 1 [(.nanopb) = {
   if (this->opcode() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->opcode(), target);
   }
 
-  // uint32 data = 2 [(.nanopb_test) = {
+  // uint32 data = 2 [(.nanopb) = {
   if (this->data() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->data(), target);
   }
@@ -314,12 +318,12 @@ void OneWireBusCommand::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.OneWireBus.Command)
   return target;
 }
 
-size_t OneWireBusCommand::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.OneWireBusCommand)
+size_t Command::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.OneWireBus.Command)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -327,14 +331,14 @@ size_t OneWireBusCommand::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint32 opcode = 1 [(.nanopb_test) = {
+  // uint32 opcode = 1 [(.nanopb) = {
   if (this->opcode() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->opcode());
   }
 
-  // uint32 data = 2 [(.nanopb_test) = {
+  // uint32 data = 2 [(.nanopb) = {
   if (this->data() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -346,23 +350,23 @@ size_t OneWireBusCommand::ByteSizeLong() const {
   return total_size;
 }
 
-void OneWireBusCommand::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.OneWireBusCommand)
+void Command::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.OneWireBus.Command)
   GOOGLE_DCHECK_NE(&from, this);
-  const OneWireBusCommand* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const OneWireBusCommand>(
+  const Command* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Command>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.OneWireBus.Command)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.OneWireBusCommand)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.OneWireBus.Command)
     MergeFrom(*source);
   }
 }
 
-void OneWireBusCommand::MergeFrom(const OneWireBusCommand& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.OneWireBusCommand)
+void Command::MergeFrom(const Command& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.OneWireBus.Command)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -376,36 +380,36 @@ void OneWireBusCommand::MergeFrom(const OneWireBusCommand& from) {
   }
 }
 
-void OneWireBusCommand::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.OneWireBusCommand)
+void Command::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.OneWireBus.Command)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void OneWireBusCommand::CopyFrom(const OneWireBusCommand& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.OneWireBusCommand)
+void Command::CopyFrom(const Command& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.OneWireBus.Command)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool OneWireBusCommand::IsInitialized() const {
+bool Command::IsInitialized() const {
   return true;
 }
 
-void OneWireBusCommand::Swap(OneWireBusCommand* other) {
+void Command::Swap(Command* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void OneWireBusCommand::InternalSwap(OneWireBusCommand* other) {
+void Command::InternalSwap(Command* other) {
   using std::swap;
   swap(opcode_, other->opcode_);
   swap(data_, other->data_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata OneWireBusCommand::GetMetadata() const {
+::google::protobuf::Metadata Command::GetMetadata() const {
   protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -413,64 +417,64 @@ void OneWireBusCommand::InternalSwap(OneWireBusCommand* other) {
 
 // ===================================================================
 
-void OneWireBus::InitAsDefaultInstance() {
-  ::blox::_OneWireBus_default_instance_._instance.get_mutable()->command_ = const_cast< ::blox::OneWireBusCommand*>(
-      ::blox::OneWireBusCommand::internal_default_instance());
+void Block::InitAsDefaultInstance() {
+  ::blox_test::OneWireBus::_Block_default_instance_._instance.get_mutable()->command_ = const_cast< ::blox_test::OneWireBus::Command*>(
+      ::blox_test::OneWireBus::Command::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int OneWireBus::kCommandFieldNumber;
-const int OneWireBus::kAddressFieldNumber;
+const int Block::kCommandFieldNumber;
+const int Block::kAddressFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-OneWireBus::OneWireBus()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBus.base);
+      &protobuf_OneWireBus_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.OneWireBus)
+  // @@protoc_insertion_point(constructor:blox_test.OneWireBus.Block)
 }
-OneWireBus::OneWireBus(const OneWireBus& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       address_(from.address_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_command()) {
-    command_ = new ::blox::OneWireBusCommand(*from.command_);
+    command_ = new ::blox_test::OneWireBus::Command(*from.command_);
   } else {
     command_ = NULL;
   }
-  // @@protoc_insertion_point(copy_constructor:blox.OneWireBus)
+  // @@protoc_insertion_point(copy_constructor:blox_test.OneWireBus.Block)
 }
 
-void OneWireBus::SharedCtor() {
+void Block::SharedCtor() {
   command_ = NULL;
 }
 
-OneWireBus::~OneWireBus() {
-  // @@protoc_insertion_point(destructor:blox.OneWireBus)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox_test.OneWireBus.Block)
   SharedDtor();
 }
 
-void OneWireBus::SharedDtor() {
+void Block::SharedDtor() {
   if (this != internal_default_instance()) delete command_;
 }
 
-void OneWireBus::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* OneWireBus::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const OneWireBus& OneWireBus::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_OneWireBus_5ftest_2eproto::scc_info_OneWireBus.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_OneWireBus_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void OneWireBus::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.OneWireBus)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.OneWireBus.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -483,17 +487,17 @@ void OneWireBus::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool OneWireBus::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.OneWireBus)
+  // @@protoc_insertion_point(parse_start:blox_test.OneWireBus.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox.OneWireBusCommand command = 1;
+      // .blox_test.OneWireBus.Command command = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -505,7 +509,7 @@ bool OneWireBus::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated fixed64 address = 2 [(.brewblox_test) = {
+      // repeated fixed64 address = 2 [(.brewblox.field) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
@@ -536,27 +540,27 @@ bool OneWireBus::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.OneWireBus)
+  // @@protoc_insertion_point(parse_success:blox_test.OneWireBus.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.OneWireBus)
+  // @@protoc_insertion_point(parse_failure:blox_test.OneWireBus.Block)
   return false;
 #undef DO_
 }
 
-void OneWireBus::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.OneWireBus)
+  // @@protoc_insertion_point(serialize_start:blox_test.OneWireBus.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.OneWireBusCommand command = 1;
+  // .blox_test.OneWireBus.Command command = 1;
   if (this->has_command()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_command(), output);
   }
 
-  // repeated fixed64 address = 2 [(.brewblox_test) = {
+  // repeated fixed64 address = 2 [(.brewblox.field) = {
   if (this->address_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(2, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -569,24 +573,24 @@ void OneWireBus::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.OneWireBus)
+  // @@protoc_insertion_point(serialize_end:blox_test.OneWireBus.Block)
 }
 
-::google::protobuf::uint8* OneWireBus::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.OneWireBus)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.OneWireBus.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.OneWireBusCommand command = 1;
+  // .blox_test.OneWireBus.Command command = 1;
   if (this->has_command()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         1, this->_internal_command(), deterministic, target);
   }
 
-  // repeated fixed64 address = 2 [(.brewblox_test) = {
+  // repeated fixed64 address = 2 [(.brewblox.field) = {
   if (this->address_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       2,
@@ -603,12 +607,12 @@ void OneWireBus::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.OneWireBus)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.OneWireBus.Block)
   return target;
 }
 
-size_t OneWireBus::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.OneWireBus)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.OneWireBus.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -616,7 +620,7 @@ size_t OneWireBus::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated fixed64 address = 2 [(.brewblox_test) = {
+  // repeated fixed64 address = 2 [(.brewblox.field) = {
   {
     unsigned int count = static_cast<unsigned int>(this->address_size());
     size_t data_size = 8UL * count;
@@ -632,7 +636,7 @@ size_t OneWireBus::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // .blox.OneWireBusCommand command = 1;
+  // .blox_test.OneWireBus.Command command = 1;
   if (this->has_command()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -644,23 +648,23 @@ size_t OneWireBus::ByteSizeLong() const {
   return total_size;
 }
 
-void OneWireBus::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.OneWireBus)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.OneWireBus.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const OneWireBus* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const OneWireBus>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.OneWireBus)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.OneWireBus.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.OneWireBus)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.OneWireBus.Block)
     MergeFrom(*source);
   }
 }
 
-void OneWireBus::MergeFrom(const OneWireBus& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.OneWireBus)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.OneWireBus.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -668,54 +672,55 @@ void OneWireBus::MergeFrom(const OneWireBus& from) {
 
   address_.MergeFrom(from.address_);
   if (from.has_command()) {
-    mutable_command()->::blox::OneWireBusCommand::MergeFrom(from.command());
+    mutable_command()->::blox_test::OneWireBus::Command::MergeFrom(from.command());
   }
 }
 
-void OneWireBus::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.OneWireBus)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.OneWireBus.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void OneWireBus::CopyFrom(const OneWireBus& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.OneWireBus)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.OneWireBus.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool OneWireBus::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void OneWireBus::Swap(OneWireBus* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void OneWireBus::InternalSwap(OneWireBus* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   address_.InternalSwap(&other->address_);
   swap(command_, other->command_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata OneWireBus::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_OneWireBus_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_OneWireBus_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace blox
+}  // namespace OneWireBus
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::OneWireBusCommand* Arena::CreateMaybeMessage< ::blox::OneWireBusCommand >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::OneWireBusCommand >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::OneWireBus::Command* Arena::CreateMaybeMessage< ::blox_test::OneWireBus::Command >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::OneWireBus::Command >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::OneWireBus* Arena::CreateMaybeMessage< ::blox::OneWireBus >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::OneWireBus >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::OneWireBus::Block* Arena::CreateMaybeMessage< ::blox_test::OneWireBus::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::OneWireBus::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

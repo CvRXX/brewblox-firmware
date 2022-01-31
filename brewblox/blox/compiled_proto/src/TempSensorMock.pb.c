@@ -9,18 +9,18 @@
 
 
 
-const pb_field_t blox_Fluctuation_fields[3] = {
-    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_Fluctuation, amplitude, amplitude, 0),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_Fluctuation, period, amplitude, 0),
+const pb_field_t blox_TempSensorMock_Fluctuation_fields[3] = {
+    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_TempSensorMock_Fluctuation, amplitude, amplitude, 0),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_TempSensorMock_Fluctuation, period, amplitude, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_TempSensorMock_fields[6] = {
-    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_TempSensorMock, value, value, 0),
-    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_TempSensorMock, connected, value, 0),
-    PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_TempSensorMock, setting, connected, 0),
-    PB_FIELD(  5, MESSAGE , REPEATED, CALLBACK, OTHER, blox_TempSensorMock, fluctuations, setting, &blox_Fluctuation_fields),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_TempSensorMock, strippedFields, fluctuations, 0),
+const pb_field_t blox_TempSensorMock_Block_fields[6] = {
+    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_TempSensorMock_Block, value, value, 0),
+    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_TempSensorMock_Block, connected, value, 0),
+    PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_TempSensorMock_Block, setting, connected, 0),
+    PB_FIELD(  5, MESSAGE , REPEATED, CALLBACK, OTHER, blox_TempSensorMock_Block, fluctuations, setting, &blox_TempSensorMock_Fluctuation_fields),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_TempSensorMock_Block, strippedFields, fluctuations, 0),
     PB_LAST_FIELD
 };
 

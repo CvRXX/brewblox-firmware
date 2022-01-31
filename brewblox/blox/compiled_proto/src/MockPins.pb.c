@@ -9,8 +9,8 @@
 
 
 
-const pb_field_t blox_MockPins_fields[2] = {
-    PB_FIELD(  2, MESSAGE , REPEATED, STATIC  , FIRST, blox_MockPins, channels, channels, &blox_IoChannel_fields),
+const pb_field_t blox_MockPins_Block_fields[2] = {
+    PB_FIELD(  2, MESSAGE , REPEATED, STATIC  , FIRST, blox_MockPins_Block, channels, channels, &blox_IoArray_IoChannel_fields),
     PB_LAST_FIELD
 };
 
@@ -25,7 +25,7 @@ const pb_field_t blox_MockPins_fields[2] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_MockPins, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_MockPins)
+PB_STATIC_ASSERT((pb_membersize(blox_MockPins_Block, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_MockPins_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -36,7 +36,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_MockPins, channels[0]) < 65536), YOU_MUST_D
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_MockPins, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_MockPins)
+PB_STATIC_ASSERT((pb_membersize(blox_MockPins_Block, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_MockPins_Block)
 #endif
 
 

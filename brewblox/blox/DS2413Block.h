@@ -1,9 +1,9 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -25,7 +25,7 @@
 
 class OneWire;
 
-class DS2413Block : public Block<BrewBloxTypes_BlockType_DS2413>, public OneWireDeviceBlock {
+class DS2413Block : public Block<brewblox_BlockType_DS2413>, public OneWireDeviceBlock {
 private:
     DS2413 device;
 

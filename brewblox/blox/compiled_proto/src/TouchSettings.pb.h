@@ -1,7 +1,7 @@
 /* Automatically generated nanopb header */
 
-#ifndef PB_BLOX_TOUCHSETTINGS_PB_H_INCLUDED
-#define PB_BLOX_TOUCHSETTINGS_PB_H_INCLUDED
+#ifndef PB_BLOX_TOUCHSETTINGS_TOUCHSETTINGS_PB_H_INCLUDED
+#define PB_BLOX_TOUCHSETTINGS_TOUCHSETTINGS_PB_H_INCLUDED
 #include <pb.h>
 
 #include "brewblox.pb.h"
@@ -26,33 +26,33 @@ typedef enum _blox_TouchSettings_Calibrated {
 #define _blox_TouchSettings_Calibrated_ARRAYSIZE ((blox_TouchSettings_Calibrated)(blox_TouchSettings_Calibrated_CALIBRATED_NEW+1))
 
 /* Struct definitions */
-typedef struct _blox_TouchSettings {
+typedef struct _blox_TouchSettings_Block {
     blox_TouchSettings_Calibrated calibrated;
     int16_t xOffset;
     int16_t yOffset;
     uint16_t xBitsPerPixelX16;
     uint16_t yBitsPerPixelX16;
-/* @@protoc_insertion_point(struct:blox_TouchSettings) */
-} blox_TouchSettings;
+/* @@protoc_insertion_point(struct:blox_TouchSettings_Block) */
+} blox_TouchSettings_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_TouchSettings_init_default          {_blox_TouchSettings_Calibrated_MIN, 0, 0, 0, 0}
-#define blox_TouchSettings_init_zero             {_blox_TouchSettings_Calibrated_MIN, 0, 0, 0, 0}
+#define blox_TouchSettings_Block_init_default    {_blox_TouchSettings_Calibrated_MIN, 0, 0, 0, 0}
+#define blox_TouchSettings_Block_init_zero       {_blox_TouchSettings_Calibrated_MIN, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define blox_TouchSettings_calibrated_tag        1
-#define blox_TouchSettings_xOffset_tag           2
-#define blox_TouchSettings_yOffset_tag           3
-#define blox_TouchSettings_xBitsPerPixelX16_tag  4
-#define blox_TouchSettings_yBitsPerPixelX16_tag  5
+#define blox_TouchSettings_Block_calibrated_tag  1
+#define blox_TouchSettings_Block_xOffset_tag     2
+#define blox_TouchSettings_Block_yOffset_tag     3
+#define blox_TouchSettings_Block_xBitsPerPixelX16_tag 4
+#define blox_TouchSettings_Block_yBitsPerPixelX16_tag 5
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_TouchSettings_fields[6];
+extern const pb_field_t blox_TouchSettings_Block_fields[6];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_TouchSettings_size                  36
+#define blox_TouchSettings_Block_size            36
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

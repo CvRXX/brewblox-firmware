@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "MockTicks.h"
 #include "blox/SetpointProfileBlock.h"
 #include "blox/SetpointSensorPairBlock.h"
@@ -37,7 +37,7 @@ SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
         using commands = cbox::Box::CommandID;
 
         testBox.reset();
@@ -50,7 +50,7 @@ SCENARIO("A SetpointProfile block")
             testBox.put(uint8_t(0xFF));
             testBox.put(TempSensorMockBlock::staticTypeId());
 
-            auto newSensor = blox::TempSensorMock();
+            auto newSensor = blox_test::TempSensorMock::Block();
             newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
             newSensor.set_connected(true);
             testBox.put(newSensor);
@@ -65,7 +65,7 @@ SCENARIO("A SetpointProfile block")
             testBox.put(uint8_t(0xFF));
             testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-            blox::SetpointSensorPair newPair;
+            blox_test::SetpointSensorPair::Block newPair;
             newPair.set_sensorid(100);
             newPair.set_storedsetting(cnl::unwrap(temp_t(99)));
             newPair.set_settingenabled(true);
@@ -83,7 +83,7 @@ SCENARIO("A SetpointProfile block")
             testBox.put(SetpointProfileBlock::staticTypeId());
 
             // create setpoint profile
-            auto message = blox::SetpointProfile();
+            auto message = blox_test::SetpointProfile::Block();
             message.set_targetid(101);
             message.set_enabled(true);
             message.set_start(20'000);
@@ -133,11 +133,11 @@ SCENARIO("A SetpointProfile block")
             testBox.put(uint8_t(0xFF));
             testBox.put(TicksBlock<MockTicks>::staticTypeId());
 
-            auto message = blox::Ticks();
+            auto message = blox_test::Ticks::Block();
             message.set_secondssinceepoch(20'000);
             testBox.put(message);
 
-            auto reply = blox::Ticks();
+            auto reply = blox_test::Ticks::Block();
 
             testBox.processInputToProto(reply);
 
@@ -164,7 +164,7 @@ SCENARIO("A SetpointProfile block")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(102));
 
-                auto decoded = blox::SetpointProfile();
+                auto decoded = blox_test::SetpointProfile::Block();
                 testBox.processInputToProto(decoded);
                 CHECK(testBox.lastReplyHasStatusOk());
                 // 20.5 * 4096 = 83968
@@ -186,7 +186,7 @@ SCENARIO("A SetpointProfile block")
             testBox.put(uint8_t(0xFF));
             testBox.put(SetpointProfileBlock::staticTypeId());
 
-            auto message = blox::SetpointProfile();
+            auto message = blox_test::SetpointProfile::Block();
             message.set_targetid(101);
             message.set_enabled(true);
             message.set_start(20'000);
@@ -206,7 +206,7 @@ SCENARIO("A SetpointProfile block")
 
             CHECK(testBox.lastReplyHasStatusOk());
 
-            auto decoded = blox::SetpointProfile();
+            auto decoded = blox_test::SetpointProfile::Block();
             testBox.processInputToProto(decoded);
             CHECK(testBox.lastReplyHasStatusOk());
             // 20.5 * 4096 = 83968

@@ -1,14 +1,14 @@
 #include "ActuatorAnalogMockBlock.h"
 #include "ActuatorAnalogConstrained.h"
-#include "ActuatorAnalogConstraintsProto.h"
+#include "ConstraintsProto.h"
 #include "blox/FieldTags.h"
 #include "compiled_proto/src/ActuatorAnalogMock.pb.h"
 
 cbox::CboxError
 ActuatorAnalogMockBlock::streamFrom(cbox::DataIn& dataIn)
 {
-    blox_ActuatorAnalogMock newData = blox_ActuatorAnalogMock_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorAnalogMock_fields, blox_ActuatorAnalogMock_size);
+    blox_ActuatorAnalogMock_Block newData = blox_ActuatorAnalogMock_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorAnalogMock_Block_fields, blox_ActuatorAnalogMock_Block_size);
     if (result == cbox::CboxError::OK) {
         actuator.minSetting(cnl::wrap<ActuatorAnalog::value_t>(newData.minSetting));
         actuator.maxSetting(cnl::wrap<ActuatorAnalog::value_t>(newData.maxSetting));
@@ -23,18 +23,18 @@ ActuatorAnalogMockBlock::streamFrom(cbox::DataIn& dataIn)
 cbox::CboxError
 ActuatorAnalogMockBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_ActuatorAnalogMock message = blox_ActuatorAnalogMock_init_zero;
+    blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
     FieldTags stripped;
 
     if (constrained.valueValid()) {
         message.value = cnl::unwrap(constrained.value());
     } else {
-        stripped.add(blox_ActuatorAnalogMock_value_tag);
+        stripped.add(blox_ActuatorAnalogMock_Block_value_tag);
     }
     if (constrained.settingValid()) {
         message.setting = cnl::unwrap(constrained.setting());
     } else {
-        stripped.add(blox_ActuatorAnalogMock_setting_tag);
+        stripped.add(blox_ActuatorAnalogMock_Block_setting_tag);
     };
 
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
@@ -46,13 +46,13 @@ ActuatorAnalogMockBlock::streamTo(cbox::DataOut& out) const
     getAnalogConstraints(message.constrainedBy, constrained);
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
-    return streamProtoTo(out, &message, blox_ActuatorAnalogMock_fields, blox_ActuatorAnalogMock_size);
+    return streamProtoTo(out, &message, blox_ActuatorAnalogMock_Block_fields, blox_ActuatorAnalogMock_Block_size);
 }
 
 cbox::CboxError
 ActuatorAnalogMockBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_ActuatorAnalogMock message = blox_ActuatorAnalogMock_init_zero;
+    blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     message.minSetting = cnl::unwrap(actuator.minSetting());
     message.maxSetting = cnl::unwrap(actuator.maxSetting());
@@ -61,12 +61,12 @@ ActuatorAnalogMockBlock::streamPersistedTo(cbox::DataOut& out) const
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return streamProtoTo(out, &message, blox_ActuatorAnalogMock_fields, blox_ActuatorAnalogMock_size);
+    return streamProtoTo(out, &message, blox_ActuatorAnalogMock_Block_fields, blox_ActuatorAnalogMock_Block_size);
 }
 
 void* ActuatorAnalogMockBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_ActuatorAnalogMock) {
+    if (iface == brewblox_BlockType_ActuatorAnalogMock) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {

@@ -1,20 +1,20 @@
 /*
  * Copyright 2020 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BrewBlox is distributed in the hope that it will be useful,
+ * Brewblox is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "OneWireBusBlock.h"
@@ -64,7 +64,7 @@ OneWireBusBlock::OneWireBusBlock(OneWire& ow, void (*onShortDetected_)())
 cbox::CboxError
 OneWireBusBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_OneWireBus message = blox_OneWireBus_init_zero;
+    blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
     message.command = command;
     message.address.funcs.encode = nullptr;
     message.address.arg = &bus;
@@ -85,7 +85,7 @@ OneWireBusBlock::streamTo(cbox::DataOut& out) const
     // commands are one-shot - once the command is done clear it.
     command.opcode = NO_OP;
     command.data = 0;
-    return streamProtoTo(out, &message, blox_OneWireBus_fields, std::numeric_limits<size_t>::max());
+    return streamProtoTo(out, &message, blox_OneWireBus_Block_fields, std::numeric_limits<size_t>::max());
 }
 
 /**
@@ -101,9 +101,9 @@ OneWireBusBlock::streamTo(cbox::DataOut& out) const
 cbox::CboxError
 OneWireBusBlock::streamFrom(cbox::DataIn& dataIn)
 {
-    blox_OneWireBus message = blox_OneWireBus_init_zero;
+    blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
 
-    cbox::CboxError res = streamProtoFrom(dataIn, &message, blox_OneWireBus_fields, std::numeric_limits<size_t>::max());
+    cbox::CboxError res = streamProtoFrom(dataIn, &message, blox_OneWireBus_Block_fields, std::numeric_limits<size_t>::max());
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         command = message.command;
@@ -113,7 +113,7 @@ OneWireBusBlock::streamFrom(cbox::DataIn& dataIn)
 
 void* OneWireBusBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_OneWireBus) {
+    if (iface == brewblox_BlockType_OneWireBus) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<OneWire>()) {

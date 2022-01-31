@@ -33,7 +33,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
-#include "DigitalConstraints_test.pb.h"
+#include "Constraints_test.pb.h"
 #include "IoArray_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_MotorValve_5ftest_2eproto 
@@ -50,64 +50,67 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_MotorValve_5ftest_2eproto
-namespace blox {
-class MotorValve;
-class MotorValveDefaultTypeInternal;
-extern MotorValveDefaultTypeInternal _MotorValve_default_instance_;
-}  // namespace blox
+namespace blox_test {
+namespace MotorValve {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace MotorValve
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::MotorValve* Arena::CreateMaybeMessage<::blox::MotorValve>(Arena*);
+template<> ::blox_test::MotorValve::Block* Arena::CreateMaybeMessage<::blox_test::MotorValve::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace MotorValve {
 
-enum MotorValve_ValveState {
-  MotorValve_ValveState_VALVE_UNKNOWN = 0,
-  MotorValve_ValveState_VALVE_OPEN = 1,
-  MotorValve_ValveState_VALVE_CLOSED = 2,
-  MotorValve_ValveState_VALVE_OPENING = 3,
-  MotorValve_ValveState_VALVE_CLOSING = 4,
-  MotorValve_ValveState_VALVE_HALF_OPEN_IDLE = 5,
-  MotorValve_ValveState_VALVE_INIT_IDLE = 6,
-  MotorValve_ValveState_MotorValve_ValveState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  MotorValve_ValveState_MotorValve_ValveState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum ValveState {
+  VALVE_UNKNOWN = 0,
+  VALVE_OPEN = 1,
+  VALVE_CLOSED = 2,
+  VALVE_OPENING = 3,
+  VALVE_CLOSING = 4,
+  VALVE_HALF_OPEN_IDLE = 5,
+  VALVE_INIT_IDLE = 6,
+  ValveState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ValveState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool MotorValve_ValveState_IsValid(int value);
-const MotorValve_ValveState MotorValve_ValveState_ValveState_MIN = MotorValve_ValveState_VALVE_UNKNOWN;
-const MotorValve_ValveState MotorValve_ValveState_ValveState_MAX = MotorValve_ValveState_VALVE_INIT_IDLE;
-const int MotorValve_ValveState_ValveState_ARRAYSIZE = MotorValve_ValveState_ValveState_MAX + 1;
+bool ValveState_IsValid(int value);
+const ValveState ValveState_MIN = VALVE_UNKNOWN;
+const ValveState ValveState_MAX = VALVE_INIT_IDLE;
+const int ValveState_ARRAYSIZE = ValveState_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* MotorValve_ValveState_descriptor();
-inline const ::std::string& MotorValve_ValveState_Name(MotorValve_ValveState value) {
+const ::google::protobuf::EnumDescriptor* ValveState_descriptor();
+inline const ::std::string& ValveState_Name(ValveState value) {
   return ::google::protobuf::internal::NameOfEnum(
-    MotorValve_ValveState_descriptor(), value);
+    ValveState_descriptor(), value);
 }
-inline bool MotorValve_ValveState_Parse(
-    const ::std::string& name, MotorValve_ValveState* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<MotorValve_ValveState>(
-    MotorValve_ValveState_descriptor(), name, value);
+inline bool ValveState_Parse(
+    const ::std::string& name, ValveState* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ValveState>(
+    ValveState_descriptor(), name, value);
 }
 // ===================================================================
 
-class MotorValve : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.MotorValve) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.MotorValve.Block) */ {
  public:
-  MotorValve();
-  virtual ~MotorValve();
+  Block();
+  virtual ~Block();
 
-  MotorValve(const MotorValve& from);
+  Block(const Block& from);
 
-  inline MotorValve& operator=(const MotorValve& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  MotorValve(MotorValve&& from) noexcept
-    : MotorValve() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline MotorValve& operator=(MotorValve&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -117,34 +120,34 @@ class MotorValve : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const MotorValve& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const MotorValve* internal_default_instance() {
-    return reinterpret_cast<const MotorValve*>(
-               &_MotorValve_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(MotorValve* other);
-  friend void swap(MotorValve& a, MotorValve& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline MotorValve* New() const final {
-    return CreateMaybeMessage<MotorValve>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  MotorValve* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<MotorValve>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const MotorValve& from);
-  void MergeFrom(const MotorValve& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -161,7 +164,7 @@ class MotorValve : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(MotorValve* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -175,45 +178,9 @@ class MotorValve : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // nested types ----------------------------------------------------
 
-  typedef MotorValve_ValveState ValveState;
-  static const ValveState VALVE_UNKNOWN =
-    MotorValve_ValveState_VALVE_UNKNOWN;
-  static const ValveState VALVE_OPEN =
-    MotorValve_ValveState_VALVE_OPEN;
-  static const ValveState VALVE_CLOSED =
-    MotorValve_ValveState_VALVE_CLOSED;
-  static const ValveState VALVE_OPENING =
-    MotorValve_ValveState_VALVE_OPENING;
-  static const ValveState VALVE_CLOSING =
-    MotorValve_ValveState_VALVE_CLOSING;
-  static const ValveState VALVE_HALF_OPEN_IDLE =
-    MotorValve_ValveState_VALVE_HALF_OPEN_IDLE;
-  static const ValveState VALVE_INIT_IDLE =
-    MotorValve_ValveState_VALVE_INIT_IDLE;
-  static inline bool ValveState_IsValid(int value) {
-    return MotorValve_ValveState_IsValid(value);
-  }
-  static const ValveState ValveState_MIN =
-    MotorValve_ValveState_ValveState_MIN;
-  static const ValveState ValveState_MAX =
-    MotorValve_ValveState_ValveState_MAX;
-  static const int ValveState_ARRAYSIZE =
-    MotorValve_ValveState_ValveState_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ValveState_descriptor() {
-    return MotorValve_ValveState_descriptor();
-  }
-  static inline const ::std::string& ValveState_Name(ValveState value) {
-    return MotorValve_ValveState_Name(value);
-  }
-  static inline bool ValveState_Parse(const ::std::string& name,
-      ValveState* value) {
-    return MotorValve_ValveState_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -225,55 +192,55 @@ class MotorValve : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // .blox.DigitalConstraints constrainedBy = 5;
+  // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
   bool has_constrainedby() const;
   void clear_constrainedby();
   static const int kConstrainedByFieldNumber = 5;
   private:
-  const ::blox::DigitalConstraints& _internal_constrainedby() const;
+  const ::blox_test::Constraints::DigitalConstraints& _internal_constrainedby() const;
   public:
-  const ::blox::DigitalConstraints& constrainedby() const;
-  ::blox::DigitalConstraints* release_constrainedby();
-  ::blox::DigitalConstraints* mutable_constrainedby();
-  void set_allocated_constrainedby(::blox::DigitalConstraints* constrainedby);
+  const ::blox_test::Constraints::DigitalConstraints& constrainedby() const;
+  ::blox_test::Constraints::DigitalConstraints* release_constrainedby();
+  ::blox_test::Constraints::DigitalConstraints* mutable_constrainedby();
+  void set_allocated_constrainedby(::blox_test::Constraints::DigitalConstraints* constrainedby);
 
-  // uint32 hwDevice = 1 [(.nanopb_test) = {
+  // uint32 hwDevice = 1 [(.nanopb) = {
   void clear_hwdevice();
   static const int kHwDeviceFieldNumber = 1;
   ::google::protobuf::uint32 hwdevice() const;
   void set_hwdevice(::google::protobuf::uint32 value);
 
-  // uint32 startChannel = 2 [(.nanopb_test) = {
+  // uint32 startChannel = 2 [(.nanopb) = {
   void clear_startchannel();
   static const int kStartChannelFieldNumber = 2;
   ::google::protobuf::uint32 startchannel() const;
   void set_startchannel(::google::protobuf::uint32 value);
 
-  // .blox.DigitalState state = 3 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
   void clear_state();
   static const int kStateFieldNumber = 3;
-  ::blox::DigitalState state() const;
-  void set_state(::blox::DigitalState value);
+  ::blox_test::IoArray::DigitalState state() const;
+  void set_state(::blox_test::IoArray::DigitalState value);
 
-  // .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
+  // .blox_test.MotorValve.ValveState valveState = 6 [(.brewblox.field) = {
   void clear_valvestate();
   static const int kValveStateFieldNumber = 6;
-  ::blox::MotorValve_ValveState valvestate() const;
-  void set_valvestate(::blox::MotorValve_ValveState value);
+  ::blox_test::MotorValve::ValveState valvestate() const;
+  void set_valvestate(::blox_test::MotorValve::ValveState value);
 
-  // .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
+  // .blox_test.IoArray.DigitalState desiredState = 7 [(.brewblox.field) = {
   void clear_desiredstate();
   static const int kDesiredStateFieldNumber = 7;
-  ::blox::DigitalState desiredstate() const;
-  void set_desiredstate(::blox::DigitalState value);
+  ::blox_test::IoArray::DigitalState desiredstate() const;
+  void set_desiredstate(::blox_test::IoArray::DigitalState value);
 
-  // @@protoc_insertion_point(class_scope:blox.MotorValve)
+  // @@protoc_insertion_point(class_scope:blox_test.MotorValve.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
-  ::blox::DigitalConstraints* constrainedby_;
+  ::blox_test::Constraints::DigitalConstraints* constrainedby_;
   ::google::protobuf::uint32 hwdevice_;
   ::google::protobuf::uint32 startchannel_;
   int state_;
@@ -291,80 +258,80 @@ class MotorValve : public ::google::protobuf::Message /* @@protoc_insertion_poin
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// MotorValve
+// Block
 
-// uint32 hwDevice = 1 [(.nanopb_test) = {
-inline void MotorValve::clear_hwdevice() {
+// uint32 hwDevice = 1 [(.nanopb) = {
+inline void Block::clear_hwdevice() {
   hwdevice_ = 0u;
 }
-inline ::google::protobuf::uint32 MotorValve::hwdevice() const {
-  // @@protoc_insertion_point(field_get:blox.MotorValve.hwDevice)
+inline ::google::protobuf::uint32 Block::hwdevice() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.hwDevice)
   return hwdevice_;
 }
-inline void MotorValve::set_hwdevice(::google::protobuf::uint32 value) {
+inline void Block::set_hwdevice(::google::protobuf::uint32 value) {
   
   hwdevice_ = value;
-  // @@protoc_insertion_point(field_set:blox.MotorValve.hwDevice)
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.hwDevice)
 }
 
-// uint32 startChannel = 2 [(.nanopb_test) = {
-inline void MotorValve::clear_startchannel() {
+// uint32 startChannel = 2 [(.nanopb) = {
+inline void Block::clear_startchannel() {
   startchannel_ = 0u;
 }
-inline ::google::protobuf::uint32 MotorValve::startchannel() const {
-  // @@protoc_insertion_point(field_get:blox.MotorValve.startChannel)
+inline ::google::protobuf::uint32 Block::startchannel() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.startChannel)
   return startchannel_;
 }
-inline void MotorValve::set_startchannel(::google::protobuf::uint32 value) {
+inline void Block::set_startchannel(::google::protobuf::uint32 value) {
   
   startchannel_ = value;
-  // @@protoc_insertion_point(field_set:blox.MotorValve.startChannel)
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.startChannel)
 }
 
-// .blox.DigitalState state = 3 [(.brewblox_test) = {
-inline void MotorValve::clear_state() {
+// .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
+inline void Block::clear_state() {
   state_ = 0;
 }
-inline ::blox::DigitalState MotorValve::state() const {
-  // @@protoc_insertion_point(field_get:blox.MotorValve.state)
-  return static_cast< ::blox::DigitalState >(state_);
+inline ::blox_test::IoArray::DigitalState Block::state() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.state)
+  return static_cast< ::blox_test::IoArray::DigitalState >(state_);
 }
-inline void MotorValve::set_state(::blox::DigitalState value) {
+inline void Block::set_state(::blox_test::IoArray::DigitalState value) {
   
   state_ = value;
-  // @@protoc_insertion_point(field_set:blox.MotorValve.state)
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.state)
 }
 
-// .blox.DigitalConstraints constrainedBy = 5;
-inline bool MotorValve::has_constrainedby() const {
+// .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
+inline bool Block::has_constrainedby() const {
   return this != internal_default_instance() && constrainedby_ != NULL;
 }
-inline const ::blox::DigitalConstraints& MotorValve::_internal_constrainedby() const {
+inline const ::blox_test::Constraints::DigitalConstraints& Block::_internal_constrainedby() const {
   return *constrainedby_;
 }
-inline const ::blox::DigitalConstraints& MotorValve::constrainedby() const {
-  const ::blox::DigitalConstraints* p = constrainedby_;
-  // @@protoc_insertion_point(field_get:blox.MotorValve.constrainedBy)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::DigitalConstraints*>(
-      &::blox::_DigitalConstraints_default_instance_);
+inline const ::blox_test::Constraints::DigitalConstraints& Block::constrainedby() const {
+  const ::blox_test::Constraints::DigitalConstraints* p = constrainedby_;
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.constrainedBy)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::Constraints::DigitalConstraints*>(
+      &::blox_test::Constraints::_DigitalConstraints_default_instance_);
 }
-inline ::blox::DigitalConstraints* MotorValve::release_constrainedby() {
-  // @@protoc_insertion_point(field_release:blox.MotorValve.constrainedBy)
+inline ::blox_test::Constraints::DigitalConstraints* Block::release_constrainedby() {
+  // @@protoc_insertion_point(field_release:blox_test.MotorValve.Block.constrainedBy)
   
-  ::blox::DigitalConstraints* temp = constrainedby_;
+  ::blox_test::Constraints::DigitalConstraints* temp = constrainedby_;
   constrainedby_ = NULL;
   return temp;
 }
-inline ::blox::DigitalConstraints* MotorValve::mutable_constrainedby() {
+inline ::blox_test::Constraints::DigitalConstraints* Block::mutable_constrainedby() {
   
   if (constrainedby_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::DigitalConstraints>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox_test::Constraints::DigitalConstraints>(GetArenaNoVirtual());
     constrainedby_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.MotorValve.constrainedBy)
+  // @@protoc_insertion_point(field_mutable:blox_test.MotorValve.Block.constrainedBy)
   return constrainedby_;
 }
-inline void MotorValve::set_allocated_constrainedby(::blox::DigitalConstraints* constrainedby) {
+inline void Block::set_allocated_constrainedby(::blox_test::Constraints::DigitalConstraints* constrainedby) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(constrainedby_);
@@ -380,64 +347,64 @@ inline void MotorValve::set_allocated_constrainedby(::blox::DigitalConstraints* 
     
   }
   constrainedby_ = constrainedby;
-  // @@protoc_insertion_point(field_set_allocated:blox.MotorValve.constrainedBy)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.MotorValve.Block.constrainedBy)
 }
 
-// .blox.MotorValve.ValveState valveState = 6 [(.brewblox_test) = {
-inline void MotorValve::clear_valvestate() {
+// .blox_test.MotorValve.ValveState valveState = 6 [(.brewblox.field) = {
+inline void Block::clear_valvestate() {
   valvestate_ = 0;
 }
-inline ::blox::MotorValve_ValveState MotorValve::valvestate() const {
-  // @@protoc_insertion_point(field_get:blox.MotorValve.valveState)
-  return static_cast< ::blox::MotorValve_ValveState >(valvestate_);
+inline ::blox_test::MotorValve::ValveState Block::valvestate() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.valveState)
+  return static_cast< ::blox_test::MotorValve::ValveState >(valvestate_);
 }
-inline void MotorValve::set_valvestate(::blox::MotorValve_ValveState value) {
+inline void Block::set_valvestate(::blox_test::MotorValve::ValveState value) {
   
   valvestate_ = value;
-  // @@protoc_insertion_point(field_set:blox.MotorValve.valveState)
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.valveState)
 }
 
-// .blox.DigitalState desiredState = 7 [(.brewblox_test) = {
-inline void MotorValve::clear_desiredstate() {
+// .blox_test.IoArray.DigitalState desiredState = 7 [(.brewblox.field) = {
+inline void Block::clear_desiredstate() {
   desiredstate_ = 0;
 }
-inline ::blox::DigitalState MotorValve::desiredstate() const {
-  // @@protoc_insertion_point(field_get:blox.MotorValve.desiredState)
-  return static_cast< ::blox::DigitalState >(desiredstate_);
+inline ::blox_test::IoArray::DigitalState Block::desiredstate() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.desiredState)
+  return static_cast< ::blox_test::IoArray::DigitalState >(desiredstate_);
 }
-inline void MotorValve::set_desiredstate(::blox::DigitalState value) {
+inline void Block::set_desiredstate(::blox_test::IoArray::DigitalState value) {
   
   desiredstate_ = value;
-  // @@protoc_insertion_point(field_set:blox.MotorValve.desiredState)
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.desiredState)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int MotorValve::strippedfields_size() const {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void MotorValve::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 MotorValve::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.MotorValve.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void MotorValve::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.MotorValve.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.strippedFields)
 }
-inline void MotorValve::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.MotorValve.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.MotorValve.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-MotorValve::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.MotorValve.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox_test.MotorValve.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-MotorValve::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.MotorValve.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.MotorValve.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -447,15 +414,16 @@ MotorValve::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace MotorValve
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::MotorValve_ValveState> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::MotorValve::ValveState> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::MotorValve_ValveState>() {
-  return ::blox::MotorValve_ValveState_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::MotorValve::ValveState>() {
+  return ::blox_test::MotorValve::ValveState_descriptor();
 }
 
 }  // namespace protobuf

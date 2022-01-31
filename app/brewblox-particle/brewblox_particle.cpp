@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,7 +125,7 @@ void powerCyclePheripheral5V()
 }
 
 cbox::Box&
-makeBrewBloxBox()
+makeBrewbloxBox()
 {
     static EepromAccessImpl eeprom;
     static cbox::EepromObjectStorage objectStore(eeprom);
@@ -164,7 +164,7 @@ makeBrewBloxBox()
 cbox::Box&
 brewbloxBox()
 {
-    static cbox::Box& box = makeBrewBloxBox();
+    static cbox::Box& box = makeBrewbloxBox();
     return box;
 }
 

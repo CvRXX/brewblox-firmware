@@ -33,7 +33,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
-#include "AnalogConstraints_test.pb.h"
+#include "Constraints_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_ActuatorOffset_5ftest_2eproto 
 
@@ -49,59 +49,62 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_ActuatorOffset_5ftest_2eproto
-namespace blox {
-class ActuatorOffset;
-class ActuatorOffsetDefaultTypeInternal;
-extern ActuatorOffsetDefaultTypeInternal _ActuatorOffset_default_instance_;
-}  // namespace blox
+namespace blox_test {
+namespace ActuatorOffset {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace ActuatorOffset
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::ActuatorOffset* Arena::CreateMaybeMessage<::blox::ActuatorOffset>(Arena*);
+template<> ::blox_test::ActuatorOffset::Block* Arena::CreateMaybeMessage<::blox_test::ActuatorOffset::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace ActuatorOffset {
 
-enum ActuatorOffset_ReferenceKind {
-  ActuatorOffset_ReferenceKind_REF_SETTING = 0,
-  ActuatorOffset_ReferenceKind_REF_VALUE = 1,
-  ActuatorOffset_ReferenceKind_ActuatorOffset_ReferenceKind_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  ActuatorOffset_ReferenceKind_ActuatorOffset_ReferenceKind_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum ReferenceKind {
+  REF_SETTING = 0,
+  REF_VALUE = 1,
+  ReferenceKind_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ReferenceKind_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool ActuatorOffset_ReferenceKind_IsValid(int value);
-const ActuatorOffset_ReferenceKind ActuatorOffset_ReferenceKind_ReferenceKind_MIN = ActuatorOffset_ReferenceKind_REF_SETTING;
-const ActuatorOffset_ReferenceKind ActuatorOffset_ReferenceKind_ReferenceKind_MAX = ActuatorOffset_ReferenceKind_REF_VALUE;
-const int ActuatorOffset_ReferenceKind_ReferenceKind_ARRAYSIZE = ActuatorOffset_ReferenceKind_ReferenceKind_MAX + 1;
+bool ReferenceKind_IsValid(int value);
+const ReferenceKind ReferenceKind_MIN = REF_SETTING;
+const ReferenceKind ReferenceKind_MAX = REF_VALUE;
+const int ReferenceKind_ARRAYSIZE = ReferenceKind_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ActuatorOffset_ReferenceKind_descriptor();
-inline const ::std::string& ActuatorOffset_ReferenceKind_Name(ActuatorOffset_ReferenceKind value) {
+const ::google::protobuf::EnumDescriptor* ReferenceKind_descriptor();
+inline const ::std::string& ReferenceKind_Name(ReferenceKind value) {
   return ::google::protobuf::internal::NameOfEnum(
-    ActuatorOffset_ReferenceKind_descriptor(), value);
+    ReferenceKind_descriptor(), value);
 }
-inline bool ActuatorOffset_ReferenceKind_Parse(
-    const ::std::string& name, ActuatorOffset_ReferenceKind* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ActuatorOffset_ReferenceKind>(
-    ActuatorOffset_ReferenceKind_descriptor(), name, value);
+inline bool ReferenceKind_Parse(
+    const ::std::string& name, ReferenceKind* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ReferenceKind>(
+    ReferenceKind_descriptor(), name, value);
 }
 // ===================================================================
 
-class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorOffset) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ActuatorOffset.Block) */ {
  public:
-  ActuatorOffset();
-  virtual ~ActuatorOffset();
+  Block();
+  virtual ~Block();
 
-  ActuatorOffset(const ActuatorOffset& from);
+  Block(const Block& from);
 
-  inline ActuatorOffset& operator=(const ActuatorOffset& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ActuatorOffset(ActuatorOffset&& from) noexcept
-    : ActuatorOffset() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline ActuatorOffset& operator=(ActuatorOffset&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -111,34 +114,34 @@ class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ActuatorOffset& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ActuatorOffset* internal_default_instance() {
-    return reinterpret_cast<const ActuatorOffset*>(
-               &_ActuatorOffset_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(ActuatorOffset* other);
-  friend void swap(ActuatorOffset& a, ActuatorOffset& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ActuatorOffset* New() const final {
-    return CreateMaybeMessage<ActuatorOffset>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  ActuatorOffset* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<ActuatorOffset>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const ActuatorOffset& from);
-  void MergeFrom(const ActuatorOffset& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -155,7 +158,7 @@ class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ActuatorOffset* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -169,35 +172,9 @@ class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // nested types ----------------------------------------------------
 
-  typedef ActuatorOffset_ReferenceKind ReferenceKind;
-  static const ReferenceKind REF_SETTING =
-    ActuatorOffset_ReferenceKind_REF_SETTING;
-  static const ReferenceKind REF_VALUE =
-    ActuatorOffset_ReferenceKind_REF_VALUE;
-  static inline bool ReferenceKind_IsValid(int value) {
-    return ActuatorOffset_ReferenceKind_IsValid(value);
-  }
-  static const ReferenceKind ReferenceKind_MIN =
-    ActuatorOffset_ReferenceKind_ReferenceKind_MIN;
-  static const ReferenceKind ReferenceKind_MAX =
-    ActuatorOffset_ReferenceKind_ReferenceKind_MAX;
-  static const int ReferenceKind_ARRAYSIZE =
-    ActuatorOffset_ReferenceKind_ReferenceKind_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ReferenceKind_descriptor() {
-    return ActuatorOffset_ReferenceKind_descriptor();
-  }
-  static inline const ::std::string& ReferenceKind_Name(ReferenceKind value) {
-    return ActuatorOffset_ReferenceKind_Name(value);
-  }
-  static inline bool ReferenceKind_Parse(const ::std::string& name,
-      ReferenceKind* value) {
-    return ActuatorOffset_ReferenceKind_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -209,49 +186,49 @@ class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // .blox.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   bool has_constrainedby() const;
   void clear_constrainedby();
   static const int kConstrainedByFieldNumber = 8;
   private:
-  const ::blox::AnalogConstraints& _internal_constrainedby() const;
+  const ::blox_test::Constraints::AnalogConstraints& _internal_constrainedby() const;
   public:
-  const ::blox::AnalogConstraints& constrainedby() const;
-  ::blox::AnalogConstraints* release_constrainedby();
-  ::blox::AnalogConstraints* mutable_constrainedby();
-  void set_allocated_constrainedby(::blox::AnalogConstraints* constrainedby);
+  const ::blox_test::Constraints::AnalogConstraints& constrainedby() const;
+  ::blox_test::Constraints::AnalogConstraints* release_constrainedby();
+  ::blox_test::Constraints::AnalogConstraints* mutable_constrainedby();
+  void set_allocated_constrainedby(::blox_test::Constraints::AnalogConstraints* constrainedby);
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   void clear_targetid();
   static const int kTargetIdFieldNumber = 1;
   ::google::protobuf::uint32 targetid() const;
   void set_targetid(::google::protobuf::uint32 value);
 
-  // uint32 referenceId = 3 [(.nanopb_test) = {
+  // uint32 referenceId = 3 [(.nanopb) = {
   void clear_referenceid();
   static const int kReferenceIdFieldNumber = 3;
   ::google::protobuf::uint32 referenceid() const;
   void set_referenceid(::google::protobuf::uint32 value);
 
-  // .blox.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
+  // .blox_test.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
   void clear_referencesettingorvalue();
   static const int kReferenceSettingOrValueFieldNumber = 4;
-  ::blox::ActuatorOffset_ReferenceKind referencesettingorvalue() const;
-  void set_referencesettingorvalue(::blox::ActuatorOffset_ReferenceKind value);
+  ::blox_test::ActuatorOffset::ReferenceKind referencesettingorvalue() const;
+  void set_referencesettingorvalue(::blox_test::ActuatorOffset::ReferenceKind value);
 
-  // sint32 setting = 6 [(.nanopb_test) = {
+  // sint32 setting = 6 [(.nanopb) = {
   void clear_setting();
   static const int kSettingFieldNumber = 6;
   ::google::protobuf::int32 setting() const;
   void set_setting(::google::protobuf::int32 value);
 
-  // sint32 value = 7 [(.nanopb_test) = {
+  // sint32 value = 7 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 7;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // uint32 drivenTargetId = 9 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 9 [(.nanopb) = {
   void clear_driventargetid();
   static const int kDrivenTargetIdFieldNumber = 9;
   ::google::protobuf::uint32 driventargetid() const;
@@ -263,19 +240,19 @@ class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_
   bool enabled() const;
   void set_enabled(bool value);
 
-  // sint32 desiredSetting = 11 [(.nanopb_test) = {
+  // sint32 desiredSetting = 11 [(.nanopb) = {
   void clear_desiredsetting();
   static const int kDesiredSettingFieldNumber = 11;
   ::google::protobuf::int32 desiredsetting() const;
   void set_desiredsetting(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.ActuatorOffset)
+  // @@protoc_insertion_point(class_scope:blox_test.ActuatorOffset.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
-  ::blox::AnalogConstraints* constrainedby_;
+  ::blox_test::Constraints::AnalogConstraints* constrainedby_;
   ::google::protobuf::uint32 targetid_;
   ::google::protobuf::uint32 referenceid_;
   int referencesettingorvalue_;
@@ -296,108 +273,108 @@ class ActuatorOffset : public ::google::protobuf::Message /* @@protoc_insertion_
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ActuatorOffset
+// Block
 
-// uint32 targetId = 1 [(.nanopb_test) = {
-inline void ActuatorOffset::clear_targetid() {
+// uint32 targetId = 1 [(.nanopb) = {
+inline void Block::clear_targetid() {
   targetid_ = 0u;
 }
-inline ::google::protobuf::uint32 ActuatorOffset::targetid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.targetId)
+inline ::google::protobuf::uint32 Block::targetid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.targetId)
   return targetid_;
 }
-inline void ActuatorOffset::set_targetid(::google::protobuf::uint32 value) {
+inline void Block::set_targetid(::google::protobuf::uint32 value) {
   
   targetid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.targetId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.targetId)
 }
 
-// uint32 referenceId = 3 [(.nanopb_test) = {
-inline void ActuatorOffset::clear_referenceid() {
+// uint32 referenceId = 3 [(.nanopb) = {
+inline void Block::clear_referenceid() {
   referenceid_ = 0u;
 }
-inline ::google::protobuf::uint32 ActuatorOffset::referenceid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.referenceId)
+inline ::google::protobuf::uint32 Block::referenceid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.referenceId)
   return referenceid_;
 }
-inline void ActuatorOffset::set_referenceid(::google::protobuf::uint32 value) {
+inline void Block::set_referenceid(::google::protobuf::uint32 value) {
   
   referenceid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.referenceId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.referenceId)
 }
 
-// .blox.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
-inline void ActuatorOffset::clear_referencesettingorvalue() {
+// .blox_test.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
+inline void Block::clear_referencesettingorvalue() {
   referencesettingorvalue_ = 0;
 }
-inline ::blox::ActuatorOffset_ReferenceKind ActuatorOffset::referencesettingorvalue() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.referenceSettingOrValue)
-  return static_cast< ::blox::ActuatorOffset_ReferenceKind >(referencesettingorvalue_);
+inline ::blox_test::ActuatorOffset::ReferenceKind Block::referencesettingorvalue() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.referenceSettingOrValue)
+  return static_cast< ::blox_test::ActuatorOffset::ReferenceKind >(referencesettingorvalue_);
 }
-inline void ActuatorOffset::set_referencesettingorvalue(::blox::ActuatorOffset_ReferenceKind value) {
+inline void Block::set_referencesettingorvalue(::blox_test::ActuatorOffset::ReferenceKind value) {
   
   referencesettingorvalue_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.referenceSettingOrValue)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.referenceSettingOrValue)
 }
 
-// sint32 setting = 6 [(.nanopb_test) = {
-inline void ActuatorOffset::clear_setting() {
+// sint32 setting = 6 [(.nanopb) = {
+inline void Block::clear_setting() {
   setting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorOffset::setting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.setting)
+inline ::google::protobuf::int32 Block::setting() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.setting)
   return setting_;
 }
-inline void ActuatorOffset::set_setting(::google::protobuf::int32 value) {
+inline void Block::set_setting(::google::protobuf::int32 value) {
   
   setting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.setting)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.setting)
 }
 
-// sint32 value = 7 [(.nanopb_test) = {
-inline void ActuatorOffset::clear_value() {
+// sint32 value = 7 [(.nanopb) = {
+inline void Block::clear_value() {
   value_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorOffset::value() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.value)
+inline ::google::protobuf::int32 Block::value() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.value)
   return value_;
 }
-inline void ActuatorOffset::set_value(::google::protobuf::int32 value) {
+inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.value)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.value)
 }
 
-// .blox.AnalogConstraints constrainedBy = 8;
-inline bool ActuatorOffset::has_constrainedby() const {
+// .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
+inline bool Block::has_constrainedby() const {
   return this != internal_default_instance() && constrainedby_ != NULL;
 }
-inline const ::blox::AnalogConstraints& ActuatorOffset::_internal_constrainedby() const {
+inline const ::blox_test::Constraints::AnalogConstraints& Block::_internal_constrainedby() const {
   return *constrainedby_;
 }
-inline const ::blox::AnalogConstraints& ActuatorOffset::constrainedby() const {
-  const ::blox::AnalogConstraints* p = constrainedby_;
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.constrainedBy)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::AnalogConstraints*>(
-      &::blox::_AnalogConstraints_default_instance_);
+inline const ::blox_test::Constraints::AnalogConstraints& Block::constrainedby() const {
+  const ::blox_test::Constraints::AnalogConstraints* p = constrainedby_;
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.constrainedBy)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::Constraints::AnalogConstraints*>(
+      &::blox_test::Constraints::_AnalogConstraints_default_instance_);
 }
-inline ::blox::AnalogConstraints* ActuatorOffset::release_constrainedby() {
-  // @@protoc_insertion_point(field_release:blox.ActuatorOffset.constrainedBy)
+inline ::blox_test::Constraints::AnalogConstraints* Block::release_constrainedby() {
+  // @@protoc_insertion_point(field_release:blox_test.ActuatorOffset.Block.constrainedBy)
   
-  ::blox::AnalogConstraints* temp = constrainedby_;
+  ::blox_test::Constraints::AnalogConstraints* temp = constrainedby_;
   constrainedby_ = NULL;
   return temp;
 }
-inline ::blox::AnalogConstraints* ActuatorOffset::mutable_constrainedby() {
+inline ::blox_test::Constraints::AnalogConstraints* Block::mutable_constrainedby() {
   
   if (constrainedby_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::AnalogConstraints>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox_test::Constraints::AnalogConstraints>(GetArenaNoVirtual());
     constrainedby_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.ActuatorOffset.constrainedBy)
+  // @@protoc_insertion_point(field_mutable:blox_test.ActuatorOffset.Block.constrainedBy)
   return constrainedby_;
 }
-inline void ActuatorOffset::set_allocated_constrainedby(::blox::AnalogConstraints* constrainedby) {
+inline void Block::set_allocated_constrainedby(::blox_test::Constraints::AnalogConstraints* constrainedby) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(constrainedby_);
@@ -413,78 +390,78 @@ inline void ActuatorOffset::set_allocated_constrainedby(::blox::AnalogConstraint
     
   }
   constrainedby_ = constrainedby;
-  // @@protoc_insertion_point(field_set_allocated:blox.ActuatorOffset.constrainedBy)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.ActuatorOffset.Block.constrainedBy)
 }
 
-// uint32 drivenTargetId = 9 [(.nanopb_test) = {
-inline void ActuatorOffset::clear_driventargetid() {
+// uint32 drivenTargetId = 9 [(.nanopb) = {
+inline void Block::clear_driventargetid() {
   driventargetid_ = 0u;
 }
-inline ::google::protobuf::uint32 ActuatorOffset::driventargetid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.drivenTargetId)
+inline ::google::protobuf::uint32 Block::driventargetid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.drivenTargetId)
   return driventargetid_;
 }
-inline void ActuatorOffset::set_driventargetid(::google::protobuf::uint32 value) {
+inline void Block::set_driventargetid(::google::protobuf::uint32 value) {
   
   driventargetid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.drivenTargetId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.drivenTargetId)
 }
 
 // bool enabled = 10;
-inline void ActuatorOffset::clear_enabled() {
+inline void Block::clear_enabled() {
   enabled_ = false;
 }
-inline bool ActuatorOffset::enabled() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.enabled)
+inline bool Block::enabled() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.enabled)
   return enabled_;
 }
-inline void ActuatorOffset::set_enabled(bool value) {
+inline void Block::set_enabled(bool value) {
   
   enabled_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.enabled)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.enabled)
 }
 
-// sint32 desiredSetting = 11 [(.nanopb_test) = {
-inline void ActuatorOffset::clear_desiredsetting() {
+// sint32 desiredSetting = 11 [(.nanopb) = {
+inline void Block::clear_desiredsetting() {
   desiredsetting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorOffset::desiredsetting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.desiredSetting)
+inline ::google::protobuf::int32 Block::desiredsetting() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.desiredSetting)
   return desiredsetting_;
 }
-inline void ActuatorOffset::set_desiredsetting(::google::protobuf::int32 value) {
+inline void Block::set_desiredsetting(::google::protobuf::int32 value) {
   
   desiredsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.desiredSetting)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.desiredSetting)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int ActuatorOffset::strippedfields_size() const {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void ActuatorOffset::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 ActuatorOffset::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorOffset.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorOffset.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void ActuatorOffset::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.ActuatorOffset.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.strippedFields)
 }
-inline void ActuatorOffset::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.ActuatorOffset.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.ActuatorOffset.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-ActuatorOffset::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.ActuatorOffset.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox_test.ActuatorOffset.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-ActuatorOffset::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.ActuatorOffset.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.ActuatorOffset.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -494,15 +471,16 @@ ActuatorOffset::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace ActuatorOffset
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::ActuatorOffset_ReferenceKind> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::ActuatorOffset::ReferenceKind> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::ActuatorOffset_ReferenceKind>() {
-  return ::blox::ActuatorOffset_ReferenceKind_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::ActuatorOffset::ReferenceKind>() {
+  return ::blox_test::ActuatorOffset::ReferenceKind_descriptor();
 }
 
 }  // namespace protobuf

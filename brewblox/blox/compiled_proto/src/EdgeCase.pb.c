@@ -9,34 +9,39 @@
 
 
 
-const pb_field_t blox_Settings_fields[3] = {
-    PB_FIELD(  1, FIXED64 , SINGULAR, STATIC  , FIRST, blox_Settings, address, address, 0),
-    PB_FIELD(  2, SINT32  , SINGULAR, STATIC  , OTHER, blox_Settings, offset, address, 0),
+const pb_field_t blox_EdgeCase_Settings_fields[3] = {
+    PB_FIELD(  1, FIXED64 , SINGULAR, STATIC  , FIRST, blox_EdgeCase_Settings, address, address, 0),
+    PB_FIELD(  2, SINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Settings, offset, address, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_State_fields[3] = {
-    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_State, value, value, 0),
-    PB_FIELD(  2, BOOL    , SINGULAR, STATIC  , OTHER, blox_State, connected, value, 0),
+const pb_field_t blox_EdgeCase_State_fields[3] = {
+    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_EdgeCase_State, value, value, 0),
+    PB_FIELD(  2, BOOL    , SINGULAR, STATIC  , OTHER, blox_EdgeCase_State, connected, value, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_NestedLink_fields[2] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_NestedLink, connection, connection, 0),
+const pb_field_t blox_EdgeCase_NestedLink_fields[2] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_EdgeCase_NestedLink, connection, connection, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_EdgeCase_fields[11] = {
-    PB_FIELD(  1, MESSAGE , SINGULAR, STATIC  , FIRST, blox_EdgeCase, settings, settings, &blox_Settings_fields),
-    PB_FIELD(  2, MESSAGE , SINGULAR, STATIC  , OTHER, blox_EdgeCase, state, settings, &blox_State_fields),
-    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase, link, state, 0),
-    PB_FIELD(  4, MESSAGE , REPEATED, CALLBACK, OTHER, blox_EdgeCase, additionalLinks, link, &blox_NestedLink_fields),
-    PB_FIELD(  5, FLOAT   , REPEATED, CALLBACK, OTHER, blox_EdgeCase, listValues, additionalLinks, 0),
-    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase, deltaV, listValues, 0),
-    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase, logged, deltaV, 0),
-    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase, unLogged, logged, 0),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase, drivenDevice, unLogged, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_EdgeCase, strippedFields, drivenDevice, 0),
+const pb_field_t blox_EdgeCase_Block_fields[11] = {
+    PB_FIELD(  1, MESSAGE , SINGULAR, STATIC  , FIRST, blox_EdgeCase_Block, settings, settings, &blox_EdgeCase_Settings_fields),
+    PB_FIELD(  2, MESSAGE , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, state, settings, &blox_EdgeCase_State_fields),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, link, state, 0),
+    PB_FIELD(  4, MESSAGE , REPEATED, CALLBACK, OTHER, blox_EdgeCase_Block, additionalLinks, link, &blox_EdgeCase_NestedLink_fields),
+    PB_FIELD(  5, FLOAT   , REPEATED, CALLBACK, OTHER, blox_EdgeCase_Block, listValues, additionalLinks, 0),
+    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, deltaV, listValues, 0),
+    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, logged, deltaV, 0),
+    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, unLogged, logged, 0),
+    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, drivenDevice, unLogged, 0),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_EdgeCase_Block, strippedFields, drivenDevice, 0),
+    PB_LAST_FIELD
+};
+
+const pb_field_t blox_EdgeCase_SubCase_fields[2] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_EdgeCase_SubCase, subvalue, subvalue, 0),
     PB_LAST_FIELD
 };
 
@@ -50,7 +55,7 @@ const pb_field_t blox_EdgeCase_fields[11] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_EdgeCase, settings) < 65536 && pb_membersize(blox_EdgeCase, state) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Settings_blox_State_blox_NestedLink_blox_EdgeCase)
+PB_STATIC_ASSERT((pb_membersize(blox_EdgeCase_Block, settings) < 65536 && pb_membersize(blox_EdgeCase_Block, state) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_EdgeCase_Settings_blox_EdgeCase_State_blox_EdgeCase_NestedLink_blox_EdgeCase_Block_blox_EdgeCase_SubCase)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -61,7 +66,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_EdgeCase, settings) < 65536 && pb_membersiz
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_EdgeCase, settings) < 256 && pb_membersize(blox_EdgeCase, state) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Settings_blox_State_blox_NestedLink_blox_EdgeCase)
+PB_STATIC_ASSERT((pb_membersize(blox_EdgeCase_Block, settings) < 256 && pb_membersize(blox_EdgeCase_Block, state) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_EdgeCase_Settings_blox_EdgeCase_State_blox_EdgeCase_NestedLink_blox_EdgeCase_Block_blox_EdgeCase_SubCase)
 #endif
 
 

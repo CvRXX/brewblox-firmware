@@ -9,14 +9,14 @@
 
 
 
-const pb_field_t blox_MotorValve_fields[8] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_MotorValve, hwDevice, hwDevice, 0),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_MotorValve, startChannel, hwDevice, 0),
-    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve, state, startChannel, 0),
-    PB_FIELD(  5, MESSAGE , SINGULAR, STATIC  , OTHER, blox_MotorValve, constrainedBy, state, &blox_DigitalConstraints_fields),
-    PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve, valveState, constrainedBy, 0),
-    PB_FIELD(  7, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve, desiredState, valveState, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_MotorValve, strippedFields, desiredState, 0),
+const pb_field_t blox_MotorValve_Block_fields[8] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_MotorValve_Block, hwDevice, hwDevice, 0),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, startChannel, hwDevice, 0),
+    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, state, startChannel, 0),
+    PB_FIELD(  5, MESSAGE , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, constrainedBy, state, &blox_Constraints_DigitalConstraints_fields),
+    PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, valveState, constrainedBy, 0),
+    PB_FIELD(  7, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, desiredState, valveState, 0),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_MotorValve_Block, strippedFields, desiredState, 0),
     PB_LAST_FIELD
 };
 
@@ -31,7 +31,7 @@ const pb_field_t blox_MotorValve_fields[8] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_MotorValve, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_MotorValve)
+PB_STATIC_ASSERT((pb_membersize(blox_MotorValve_Block, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_MotorValve_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -42,7 +42,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_MotorValve, constrainedBy) < 65536), YOU_MU
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_MotorValve, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_MotorValve)
+PB_STATIC_ASSERT((pb_membersize(blox_MotorValve_Block, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_MotorValve_Block)
 #endif
 
 

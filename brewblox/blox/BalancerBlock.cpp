@@ -1,5 +1,5 @@
 #include "BalancerBlock.h"
-#include "ActuatorAnalogConstraintsProto.h"
+#include "ConstraintsProto.h"
 #include "compiled_proto/src/Balancer.pb.h"
 #include "nanopb_callbacks.h"
 
@@ -8,14 +8,14 @@ bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void
 {
     auto balancerPtr = reinterpret_cast<BalancerBlock::Balancer_t*>(*arg);
     for (const auto& requester : balancerPtr->clients()) {
-        auto act = blox_BalancedActuator();
+        auto act = blox_Balancer_BalancedActuator();
         act.id = requester.id;
         act.requested = cnl::unwrap(requester.requested);
         act.granted = cnl::unwrap(requester.granted);
         if (!pb_encode_tag_for_field(stream, field)) {
             return false;
         }
-        if (!pb_encode_submessage(stream, blox_BalancedActuator_fields, &act)) {
+        if (!pb_encode_submessage(stream, blox_Balancer_BalancedActuator_fields, &act)) {
             return false;
         }
     }
@@ -25,16 +25,16 @@ bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void
 cbox::CboxError
 BalancerBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_Balancer message = blox_Balancer_init_zero;
+    blox_Balancer_Block message = blox_Balancer_Block_init_zero;
     message.clients.funcs.encode = streamBalancedActuators;
     message.clients.arg = const_cast<Balancer_t*>(&balancer); // arg is not const in message, but it is in callback
 
-    return streamProtoTo(out, &message, blox_Balancer_fields, std::numeric_limits<size_t>::max());
+    return streamProtoTo(out, &message, blox_Balancer_Block_fields, std::numeric_limits<size_t>::max());
 }
 
 void* BalancerBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_Balancer) {
+    if (iface == brewblox_BlockType_Balancer) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<Balancer_t>()) {

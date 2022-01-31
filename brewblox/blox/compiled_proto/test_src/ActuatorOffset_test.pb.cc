@@ -19,34 +19,36 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace protobuf_AnalogConstraints_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_AnalogConstraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_AnalogConstraints;
-}  // namespace protobuf_AnalogConstraints_5ftest_2eproto
-namespace blox {
-class ActuatorOffsetDefaultTypeInternal {
+namespace protobuf_Constraints_5ftest_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_Constraints_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_AnalogConstraints;
+}  // namespace protobuf_Constraints_5ftest_2eproto
+namespace blox_test {
+namespace ActuatorOffset {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ActuatorOffset>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _ActuatorOffset_default_instance_;
-}  // namespace blox
+} _Block_default_instance_;
+}  // namespace ActuatorOffset
+}  // namespace blox_test
 namespace protobuf_ActuatorOffset_5ftest_2eproto {
-static void InitDefaultsActuatorOffset() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_ActuatorOffset_default_instance_;
-    new (ptr) ::blox::ActuatorOffset();
+    void* ptr = &::blox_test::ActuatorOffset::_Block_default_instance_;
+    new (ptr) ::blox_test::ActuatorOffset::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::ActuatorOffset::InitAsDefaultInstance();
+  ::blox_test::ActuatorOffset::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_ActuatorOffset =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsActuatorOffset}, {
-      &protobuf_AnalogConstraints_5ftest_2eproto::scc_info_AnalogConstraints.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
+      &protobuf_Constraints_5ftest_2eproto::scc_info_AnalogConstraints.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_ActuatorOffset.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
@@ -54,27 +56,27 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, targetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, referenceid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, referencesettingorvalue_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, setting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, driventargetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, enabled_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, desiredsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorOffset, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, targetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, referenceid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, referencesettingorvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, constrainedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, driventargetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::ActuatorOffset)},
+  { 0, -1, sizeof(::blox_test::ActuatorOffset::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_ActuatorOffset_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::ActuatorOffset::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -98,30 +100,30 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\031ActuatorOffset_test.proto\022\004blox\032\023brewb"
-      "lox_test.proto\032\021nanopb_test.proto\032\034Analo"
-      "gConstraints_test.proto\"\362\003\n\016ActuatorOffs"
-      "et\022\035\n\010targetId\030\001 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022 \n\013ref"
-      "erenceId\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022C\n\027reference"
-      "SettingOrValue\030\004 \001(\0162\".blox.ActuatorOffs"
-      "et.ReferenceKind\022)\n\007setting\030\006 \001(\021B\030\212\265\030\0020"
-      "\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\007 \001(\021B\030\212\265\030\002"
-      "0\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022.\n\rconstrainedBy\030\010 "
-      "\001(\0132\027.blox.AnalogConstraints\022/\n\016drivenTa"
-      "rgetId\030\t \001(\rB\027\212\265\030\002\030\001\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n"
-      "\007enabled\030\n \001(\010\022*\n\016desiredSetting\030\013 \001(\021B\022"
-      "\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022(\n\016strippedFields\030c \003"
-      "(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002\"/\n\rReferenceKind\022\017\n"
-      "\013REF_SETTING\020\000\022\r\n\tREF_VALUE\020\001:\r\212\265\030\003\030\264\002\212\265"
-      "\030\002H\005b\006proto3"
+      "\n\031ActuatorOffset_test.proto\022\030blox_test.A"
+      "ctuatorOffset\032\023brewblox_test.proto\032\021nano"
+      "pb_test.proto\032\026Constraints_test.proto\"\316\003"
+      "\n\005Block\022\035\n\010targetId\030\001 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022 "
+      "\n\013referenceId\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022H\n\027refe"
+      "renceSettingOrValue\030\004 \001(\0162\'.blox_test.Ac"
+      "tuatorOffset.ReferenceKind\022)\n\007setting\030\006 "
+      "\001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\007"
+      " \001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\?\n\rconstr"
+      "ainedBy\030\010 \001(\0132(.blox_test.Constraints.An"
+      "alogConstraints\022/\n\016drivenTargetId\030\t \001(\rB"
+      "\027\212\265\030\002\030\001\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n\007enabled\030\n \001("
+      "\010\022*\n\016desiredSetting\030\013 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 "
+      "\222\?\0028 \022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?\002"
+      "8\020\222\?\002\020\002:\r\212\265\030\003\030\264\002\212\265\030\002H\005*/\n\rReferenceKind\022"
+      "\017\n\013REF_SETTING\020\000\022\r\n\tREF_VALUE\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 612);
+      descriptor, 639);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorOffset_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
   ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-  ::protobuf_AnalogConstraints_5ftest_2eproto::AddDescriptors();
+  ::protobuf_Constraints_5ftest_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -135,12 +137,13 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_ActuatorOffset_5ftest_2eproto
-namespace blox {
-const ::google::protobuf::EnumDescriptor* ActuatorOffset_ReferenceKind_descriptor() {
+namespace blox_test {
+namespace ActuatorOffset {
+const ::google::protobuf::EnumDescriptor* ReferenceKind_descriptor() {
   protobuf_ActuatorOffset_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_ActuatorOffset_5ftest_2eproto::file_level_enum_descriptors[0];
 }
-bool ActuatorOffset_ReferenceKind_IsValid(int value) {
+bool ReferenceKind_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -150,93 +153,86 @@ bool ActuatorOffset_ReferenceKind_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const ActuatorOffset_ReferenceKind ActuatorOffset::REF_SETTING;
-const ActuatorOffset_ReferenceKind ActuatorOffset::REF_VALUE;
-const ActuatorOffset_ReferenceKind ActuatorOffset::ReferenceKind_MIN;
-const ActuatorOffset_ReferenceKind ActuatorOffset::ReferenceKind_MAX;
-const int ActuatorOffset::ReferenceKind_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 // ===================================================================
 
-void ActuatorOffset::InitAsDefaultInstance() {
-  ::blox::_ActuatorOffset_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox::AnalogConstraints*>(
-      ::blox::AnalogConstraints::internal_default_instance());
+void Block::InitAsDefaultInstance() {
+  ::blox_test::ActuatorOffset::_Block_default_instance_._instance.get_mutable()->constrainedby_ = const_cast< ::blox_test::Constraints::AnalogConstraints*>(
+      ::blox_test::Constraints::AnalogConstraints::internal_default_instance());
 }
-void ActuatorOffset::clear_constrainedby() {
+void Block::clear_constrainedby() {
   if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
     delete constrainedby_;
   }
   constrainedby_ = NULL;
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ActuatorOffset::kTargetIdFieldNumber;
-const int ActuatorOffset::kReferenceIdFieldNumber;
-const int ActuatorOffset::kReferenceSettingOrValueFieldNumber;
-const int ActuatorOffset::kSettingFieldNumber;
-const int ActuatorOffset::kValueFieldNumber;
-const int ActuatorOffset::kConstrainedByFieldNumber;
-const int ActuatorOffset::kDrivenTargetIdFieldNumber;
-const int ActuatorOffset::kEnabledFieldNumber;
-const int ActuatorOffset::kDesiredSettingFieldNumber;
-const int ActuatorOffset::kStrippedFieldsFieldNumber;
+const int Block::kTargetIdFieldNumber;
+const int Block::kReferenceIdFieldNumber;
+const int Block::kReferenceSettingOrValueFieldNumber;
+const int Block::kSettingFieldNumber;
+const int Block::kValueFieldNumber;
+const int Block::kConstrainedByFieldNumber;
+const int Block::kDrivenTargetIdFieldNumber;
+const int Block::kEnabledFieldNumber;
+const int Block::kDesiredSettingFieldNumber;
+const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ActuatorOffset::ActuatorOffset()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_ActuatorOffset_5ftest_2eproto::scc_info_ActuatorOffset.base);
+      &protobuf_ActuatorOffset_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.ActuatorOffset)
+  // @@protoc_insertion_point(constructor:blox_test.ActuatorOffset.Block)
 }
-ActuatorOffset::ActuatorOffset(const ActuatorOffset& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       strippedfields_(from.strippedfields_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_constrainedby()) {
-    constrainedby_ = new ::blox::AnalogConstraints(*from.constrainedby_);
+    constrainedby_ = new ::blox_test::Constraints::AnalogConstraints(*from.constrainedby_);
   } else {
     constrainedby_ = NULL;
   }
   ::memcpy(&targetid_, &from.targetid_,
     static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
     reinterpret_cast<char*>(&targetid_)) + sizeof(desiredsetting_));
-  // @@protoc_insertion_point(copy_constructor:blox.ActuatorOffset)
+  // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorOffset.Block)
 }
 
-void ActuatorOffset::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&desiredsetting_) -
       reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
 }
 
-ActuatorOffset::~ActuatorOffset() {
-  // @@protoc_insertion_point(destructor:blox.ActuatorOffset)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox_test.ActuatorOffset.Block)
   SharedDtor();
 }
 
-void ActuatorOffset::SharedDtor() {
+void Block::SharedDtor() {
   if (this != internal_default_instance()) delete constrainedby_;
 }
 
-void ActuatorOffset::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ActuatorOffset::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_ActuatorOffset_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_ActuatorOffset_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ActuatorOffset& ActuatorOffset::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorOffset_5ftest_2eproto::scc_info_ActuatorOffset.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorOffset_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void ActuatorOffset::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.ActuatorOffset)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.ActuatorOffset.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -252,17 +248,17 @@ void ActuatorOffset::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool ActuatorOffset::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.ActuatorOffset)
+  // @@protoc_insertion_point(parse_start:blox_test.ActuatorOffset.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 targetId = 1 [(.nanopb_test) = {
+      // uint32 targetId = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -276,7 +272,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 referenceId = 3 [(.nanopb_test) = {
+      // uint32 referenceId = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -290,7 +286,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
+      // .blox_test.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -298,14 +294,14 @@ bool ActuatorOffset::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_referencesettingorvalue(static_cast< ::blox::ActuatorOffset_ReferenceKind >(value));
+          set_referencesettingorvalue(static_cast< ::blox_test::ActuatorOffset::ReferenceKind >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // sint32 setting = 6 [(.nanopb_test) = {
+      // sint32 setting = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
@@ -319,7 +315,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 value = 7 [(.nanopb_test) = {
+      // sint32 value = 7 [(.nanopb) = {
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
@@ -333,7 +329,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.AnalogConstraints constrainedBy = 8;
+      // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
@@ -345,7 +341,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 drivenTargetId = 9 [(.nanopb_test) = {
+      // uint32 drivenTargetId = 9 [(.nanopb) = {
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
@@ -373,7 +369,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 desiredSetting = 11 [(.nanopb_test) = {
+      // sint32 desiredSetting = 11 [(.nanopb) = {
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
@@ -387,7 +383,7 @@ bool ActuatorOffset::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+      // repeated uint32 strippedFields = 99 [(.nanopb) = {
       case 99: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
@@ -418,53 +414,53 @@ bool ActuatorOffset::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.ActuatorOffset)
+  // @@protoc_insertion_point(parse_success:blox_test.ActuatorOffset.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.ActuatorOffset)
+  // @@protoc_insertion_point(parse_failure:blox_test.ActuatorOffset.Block)
   return false;
 #undef DO_
 }
 
-void ActuatorOffset::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.ActuatorOffset)
+  // @@protoc_insertion_point(serialize_start:blox_test.ActuatorOffset.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->targetid(), output);
   }
 
-  // uint32 referenceId = 3 [(.nanopb_test) = {
+  // uint32 referenceId = 3 [(.nanopb) = {
   if (this->referenceid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->referenceid(), output);
   }
 
-  // .blox.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
+  // .blox_test.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
   if (this->referencesettingorvalue() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->referencesettingorvalue(), output);
   }
 
-  // sint32 setting = 6 [(.nanopb_test) = {
+  // sint32 setting = 6 [(.nanopb) = {
   if (this->setting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->setting(), output);
   }
 
-  // sint32 value = 7 [(.nanopb_test) = {
+  // sint32 value = 7 [(.nanopb) = {
   if (this->value() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(7, this->value(), output);
   }
 
-  // .blox.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   if (this->has_constrainedby()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       8, this->_internal_constrainedby(), output);
   }
 
-  // uint32 drivenTargetId = 9 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 9 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->driventargetid(), output);
   }
@@ -474,12 +470,12 @@ void ActuatorOffset::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(10, this->enabled(), output);
   }
 
-  // sint32 desiredSetting = 11 [(.nanopb_test) = {
+  // sint32 desiredSetting = 11 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(11, this->desiredsetting(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -494,50 +490,50 @@ void ActuatorOffset::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.ActuatorOffset)
+  // @@protoc_insertion_point(serialize_end:blox_test.ActuatorOffset.Block)
 }
 
-::google::protobuf::uint8* ActuatorOffset::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorOffset)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.ActuatorOffset.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->targetid(), target);
   }
 
-  // uint32 referenceId = 3 [(.nanopb_test) = {
+  // uint32 referenceId = 3 [(.nanopb) = {
   if (this->referenceid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->referenceid(), target);
   }
 
-  // .blox.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
+  // .blox_test.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
   if (this->referencesettingorvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->referencesettingorvalue(), target);
   }
 
-  // sint32 setting = 6 [(.nanopb_test) = {
+  // sint32 setting = 6 [(.nanopb) = {
   if (this->setting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->setting(), target);
   }
 
-  // sint32 value = 7 [(.nanopb_test) = {
+  // sint32 value = 7 [(.nanopb) = {
   if (this->value() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(7, this->value(), target);
   }
 
-  // .blox.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   if (this->has_constrainedby()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         8, this->_internal_constrainedby(), deterministic, target);
   }
 
-  // uint32 drivenTargetId = 9 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 9 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->driventargetid(), target);
   }
@@ -547,12 +543,12 @@ void ActuatorOffset::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(10, this->enabled(), target);
   }
 
-  // sint32 desiredSetting = 11 [(.nanopb_test) = {
+  // sint32 desiredSetting = 11 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(11, this->desiredsetting(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       99,
@@ -569,12 +565,12 @@ void ActuatorOffset::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.ActuatorOffset)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.ActuatorOffset.Block)
   return target;
 }
 
-size_t ActuatorOffset::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.ActuatorOffset)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.ActuatorOffset.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -582,7 +578,7 @@ size_t ActuatorOffset::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
@@ -598,48 +594,48 @@ size_t ActuatorOffset::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // .blox.AnalogConstraints constrainedBy = 8;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 8;
   if (this->has_constrainedby()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *constrainedby_);
   }
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->targetid());
   }
 
-  // uint32 referenceId = 3 [(.nanopb_test) = {
+  // uint32 referenceId = 3 [(.nanopb) = {
   if (this->referenceid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->referenceid());
   }
 
-  // .blox.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
+  // .blox_test.ActuatorOffset.ReferenceKind referenceSettingOrValue = 4;
   if (this->referencesettingorvalue() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->referencesettingorvalue());
   }
 
-  // sint32 setting = 6 [(.nanopb_test) = {
+  // sint32 setting = 6 [(.nanopb) = {
   if (this->setting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->setting());
   }
 
-  // sint32 value = 7 [(.nanopb_test) = {
+  // sint32 value = 7 [(.nanopb) = {
   if (this->value() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->value());
   }
 
-  // uint32 drivenTargetId = 9 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 9 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -651,7 +647,7 @@ size_t ActuatorOffset::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // sint32 desiredSetting = 11 [(.nanopb_test) = {
+  // sint32 desiredSetting = 11 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
@@ -663,23 +659,23 @@ size_t ActuatorOffset::ByteSizeLong() const {
   return total_size;
 }
 
-void ActuatorOffset::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.ActuatorOffset)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.ActuatorOffset.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const ActuatorOffset* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ActuatorOffset>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.ActuatorOffset)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.ActuatorOffset.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.ActuatorOffset)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.ActuatorOffset.Block)
     MergeFrom(*source);
   }
 }
 
-void ActuatorOffset::MergeFrom(const ActuatorOffset& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.ActuatorOffset)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.ActuatorOffset.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -687,7 +683,7 @@ void ActuatorOffset::MergeFrom(const ActuatorOffset& from) {
 
   strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_constrainedby()) {
-    mutable_constrainedby()->::blox::AnalogConstraints::MergeFrom(from.constrainedby());
+    mutable_constrainedby()->::blox_test::Constraints::AnalogConstraints::MergeFrom(from.constrainedby());
   }
   if (from.targetid() != 0) {
     set_targetid(from.targetid());
@@ -715,29 +711,29 @@ void ActuatorOffset::MergeFrom(const ActuatorOffset& from) {
   }
 }
 
-void ActuatorOffset::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.ActuatorOffset)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.ActuatorOffset.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ActuatorOffset::CopyFrom(const ActuatorOffset& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.ActuatorOffset)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.ActuatorOffset.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ActuatorOffset::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void ActuatorOffset::Swap(ActuatorOffset* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ActuatorOffset::InternalSwap(ActuatorOffset* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   strippedfields_.InternalSwap(&other->strippedfields_);
   swap(constrainedby_, other->constrainedby_);
@@ -752,18 +748,19 @@ void ActuatorOffset::InternalSwap(ActuatorOffset* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ActuatorOffset::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_ActuatorOffset_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_ActuatorOffset_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace blox
+}  // namespace ActuatorOffset
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::ActuatorOffset* Arena::CreateMaybeMessage< ::blox::ActuatorOffset >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::ActuatorOffset >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::ActuatorOffset::Block* Arena::CreateMaybeMessage< ::blox_test::ActuatorOffset::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::ActuatorOffset::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

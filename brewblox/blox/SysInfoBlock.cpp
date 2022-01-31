@@ -30,7 +30,7 @@
 cbox::CboxError
 SysInfoBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_SysInfo message = blox_SysInfo_init_zero;
+    blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
     auto written = device_id_func(static_cast<uint8_t*>(&message.deviceId.bytes[0]), 12);
     message.deviceId.size = written;
@@ -47,7 +47,7 @@ SysInfoBlock::streamTo(cbox::DataOut& out) const
         auto it = history.cbegin();
         auto end = history.cend();
         for (uint8_t i = 0; i < 10 && it < end; i++, it++) {
-            message.trace[i].action = blox_Trace_Action(it->action);
+            message.trace[i].action = blox_SysInfo_Trace_Action(it->action);
             message.trace[i].id = it->id;
             message.trace[i].type = it->type;
         }
@@ -59,14 +59,14 @@ SysInfoBlock::streamTo(cbox::DataOut& out) const
 
     command = Command::NONE;
 
-    return streamProtoTo(out, &message, blox_SysInfo_fields, blox_SysInfo_size);
+    return streamProtoTo(out, &message, blox_SysInfo_Block_fields, blox_SysInfo_Block_size);
 }
 
 cbox::CboxError
 SysInfoBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_SysInfo message = blox_SysInfo_init_zero;
-    auto res = streamProtoFrom(in, &message, blox_SysInfo_fields, blox_SysInfo_size);
+    blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
+    auto res = streamProtoFrom(in, &message, blox_SysInfo_Block_fields, blox_SysInfo_Block_size);
     if (res == cbox::CboxError::OK) {
         command = Command(message.command);
     }

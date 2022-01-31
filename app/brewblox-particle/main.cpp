@@ -150,7 +150,7 @@ void setup()
 
     HAL_Delay_Milliseconds(1);
     StartupScreen::setProgress(60);
-    StartupScreen::setStep("Init BrewBlox framework");
+    StartupScreen::setStep("Init Brewblox framework");
     brewbloxBox();
 
     HAL_Delay_Milliseconds(1);

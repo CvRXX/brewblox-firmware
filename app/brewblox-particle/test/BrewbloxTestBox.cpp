@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,20 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Board.h"
 #include "blox/Spark3PinsBlock.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/ConnectionsStringStream.h"
 
-std::shared_ptr<std::stringstream> BrewBloxTestBox::in = std::make_shared<std::stringstream>();
-std::shared_ptr<std::stringstream> BrewBloxTestBox::out = std::make_shared<std::stringstream>();
-cbox::OStreamDataOut BrewBloxTestBox::inOs(*in);
-cbox::EncodedDataOut BrewBloxTestBox::toHex(inOs);
-cbox::EncodedDataOut BrewBloxTestBox::inEncoder(toHex);
-ProtoDataOut BrewBloxTestBox::inProto(inEncoder);
+std::shared_ptr<std::stringstream> BrewbloxTestBox::in = std::make_shared<std::stringstream>();
+std::shared_ptr<std::stringstream> BrewbloxTestBox::out = std::make_shared<std::stringstream>();
+cbox::OStreamDataOut BrewbloxTestBox::inOs(*in);
+cbox::EncodedDataOut BrewbloxTestBox::toHex(inOs);
+cbox::EncodedDataOut BrewbloxTestBox::inEncoder(toHex);
+ProtoDataOut BrewbloxTestBox::inProto(inEncoder);
 
-BrewBloxTestBox::BrewBloxTestBox()
+BrewbloxTestBox::BrewbloxTestBox()
     : ticks(brewbloxBox().makeCboxPtr<TicksBlock<TicksClass>>(3).lock()->get())
 {
     static bool connectionAdded = false;
@@ -43,8 +43,7 @@ BrewBloxTestBox::BrewBloxTestBox()
     clearStreams();
 }
 
-void
-BrewBloxTestBox::clearStreams()
+void BrewbloxTestBox::clearStreams()
 {
     in->str("");
     in->clear();
@@ -52,8 +51,7 @@ BrewBloxTestBox::clearStreams()
     out->clear();
 }
 
-void
-BrewBloxTestBox::reset()
+void BrewbloxTestBox::reset()
 {
     clearStreams();
     inEncoder.put(uint16_t(0)); // msg id
@@ -64,14 +62,13 @@ BrewBloxTestBox::reset()
     brewbloxBox().update(0);
 }
 
-bool
-BrewBloxTestBox::lastReplyHasStatusOk()
+bool BrewbloxTestBox::lastReplyHasStatusOk()
 {
     return lastReplyOk;
 }
 
 std::string
-BrewBloxTestBox::processInput()
+BrewbloxTestBox::processInput()
 {
     endInput();
     brewbloxBox().hexCommunicate();
@@ -81,8 +78,7 @@ BrewBloxTestBox::processInput()
     return retv;
 }
 
-void
-BrewBloxTestBox::processInputToProto(::google::protobuf::Message& message)
+void BrewbloxTestBox::processInputToProto(::google::protobuf::Message& message)
 {
     endInput();
     brewbloxBox().hexCommunicate();
@@ -91,20 +87,17 @@ BrewBloxTestBox::processInputToProto(::google::protobuf::Message& message)
     clearStreams();
 }
 
-void
-BrewBloxTestBox::put(const ::google::protobuf::Message& message)
+void BrewbloxTestBox::put(const ::google::protobuf::Message& message)
 {
     inProto.put(message);
 }
 
-void
-BrewBloxTestBox::endInput()
+void BrewbloxTestBox::endInput()
 {
     inEncoder.endMessage();
 }
 
-void
-BrewBloxTestBox::update(const cbox::update_t& now)
+void BrewbloxTestBox::update(const cbox::update_t& now)
 {
     ticks.ticksImpl().reset(now);
 

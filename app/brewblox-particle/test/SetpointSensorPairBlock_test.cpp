@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Temperature.h"
 #include "blox/SetpointSensorPairBlock.h"
 #include "blox/TempSensorMockBlock.h"
@@ -36,7 +36,7 @@
 
 SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf data")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();
@@ -48,7 +48,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto newSensor = blox::TempSensorMock();
+    auto newSensor = blox_test::TempSensorMock::Block();
     newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
     newSensor.set_connected(true);
     testBox.put(newSensor);
@@ -63,11 +63,11 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
     testBox.put(uint8_t(0xFF));
     testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-    blox::SetpointSensorPair newPair;
+    blox_test::SetpointSensorPair::Block newPair;
     newPair.set_sensorid(100);
     newPair.set_settingenabled(true);
     newPair.set_storedsetting(cnl::unwrap(temp_t(21)));
-    newPair.set_filter(blox::FilterChoice::FILTER_3m);
+    newPair.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_3m);
     newPair.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
     testBox.put(newPair);
 
@@ -79,7 +79,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
     testBox.put(commands::READ_OBJECT);
     testBox.put(cbox::obj_id_t(101));
 
-    auto decoded = blox::SetpointSensorPair();
+    auto decoded = blox_test::SetpointSensorPair::Block();
     testBox.processInputToProto(decoded);
     CHECK(testBox.lastReplyHasStatusOk());
     CHECK(decoded.ShortDebugString() ==
@@ -111,7 +111,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(101));
 
-            auto decoded = blox::SetpointSensorPair();
+            auto decoded = blox_test::SetpointSensorPair::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());
@@ -144,7 +144,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(101));
 
-            auto decoded = blox::SetpointSensorPair();
+            auto decoded = blox_test::SetpointSensorPair::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());
@@ -169,7 +169,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
 
             newPair.set_resetfilter(true);
             testBox.put(newPair);
-            auto decoded = blox::SetpointSensorPair();
+            auto decoded = blox_test::SetpointSensorPair::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());

@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Temperature.h"
 #include "blox/ActuatorOffsetBlock.h"
 #include "blox/SetpointSensorPairBlock.h"
@@ -30,7 +30,7 @@
 
 SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf data")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();
@@ -42,7 +42,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto newSensor1 = blox::TempSensorMock();
+    auto newSensor1 = blox_test::TempSensorMock::Block();
     newSensor1.set_setting(cnl::unwrap(temp_t(21.0)));
     newSensor1.set_connected(true);
     testBox.put(newSensor1);
@@ -57,7 +57,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(uint8_t(0xFF));
     testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-    auto newPair1 = blox::SetpointSensorPair();
+    auto newPair1 = blox_test::SetpointSensorPair::Block();
     newPair1.set_sensorid(100);
     newPair1.set_storedsetting(cnl::unwrap(temp_t(20.0)));
     newPair1.set_settingenabled(true);
@@ -73,7 +73,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto newSensor2 = blox::TempSensorMock();
+    auto newSensor2 = blox_test::TempSensorMock::Block();
     newSensor2.set_setting(cnl::unwrap(temp_t(27.0)));
     newSensor2.set_connected(true);
     testBox.put(newSensor2);
@@ -88,7 +88,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(uint8_t(0xFF));
     testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-    auto newPair2 = blox::SetpointSensorPair();
+    auto newPair2 = blox_test::SetpointSensorPair::Block();
     newPair2.set_sensorid(102);
     newPair2.set_storedsetting(cnl::unwrap(temp_t(20.0)));
     newPair2.set_settingenabled(true);
@@ -104,10 +104,10 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(uint8_t(0xFF));
     testBox.put(ActuatorOffsetBlock::staticTypeId());
 
-    blox::ActuatorOffset newAct;
+    blox_test::ActuatorOffset::Block newAct;
     newAct.set_targetid(101);
     newAct.set_referenceid(103);
-    newAct.set_referencesettingorvalue(blox::ActuatorOffset_ReferenceKind(ActuatorOffset::ReferenceKind::SETTING));
+    newAct.set_referencesettingorvalue(blox_test::ActuatorOffset::ReferenceKind(ActuatorOffset::ReferenceKind::SETTING));
     newAct.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(12)));
     newAct.set_enabled(true);
 
@@ -123,7 +123,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(commands::READ_OBJECT);
     testBox.put(cbox::obj_id_t(104));
     {
-        auto decoded = blox::ActuatorOffset();
+        auto decoded = blox_test::ActuatorOffset::Block();
         testBox.processInputToProto(decoded);
         CHECK(testBox.lastReplyHasStatusOk());
         CHECK(decoded.ShortDebugString() ==
@@ -139,7 +139,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(cbox::obj_id_t(101));
 
     {
-        auto decoded = blox::SetpointSensorPair();
+        auto decoded = blox_test::SetpointSensorPair::Block();
         testBox.processInputToProto(decoded);
         CHECK(testBox.lastReplyHasStatusOk());
         CHECK(decoded.ShortDebugString() ==
@@ -158,7 +158,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     testBox.put(cbox::obj_id_t(103));
 
     {
-        auto decoded = blox::SetpointSensorPair();
+        auto decoded = blox_test::SetpointSensorPair::Block();
         testBox.processInputToProto(decoded);
         CHECK(testBox.lastReplyHasStatusOk());
         CHECK(decoded.ShortDebugString() ==
@@ -179,7 +179,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         testBox.put(uint8_t(0xFF));
         testBox.put(SetpointSensorPairBlock::staticTypeId());
 
-        auto newPair = blox::SetpointSensorPair();
+        auto newPair = blox_test::SetpointSensorPair::Block();
         newPair.set_storedsetting(cnl::unwrap(temp_t(20.0)));
         newPair.set_settingenabled(false);
         testBox.put(newPair);
@@ -196,7 +196,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(104));
             {
-                auto decoded = blox::ActuatorOffset();
+                auto decoded = blox_test::ActuatorOffset::Block();
                 testBox.processInputToProto(decoded);
                 CHECK(testBox.lastReplyHasStatusOk());
                 CHECK(decoded.ShortDebugString() ==

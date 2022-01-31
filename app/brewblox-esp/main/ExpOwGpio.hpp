@@ -121,14 +121,14 @@ public:
     class FlexChannel {
     public:
         FlexChannel()
-            : deviceType(blox_GpioDeviceType_GPIO_DEV_NONE)
+            : deviceType(blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE)
             , width(0)
         {
             pins_mask.bits.all = 0;
         }
 
         FlexChannel(
-            blox_GpioDeviceType type,
+            blox_OneWireGpioModule_GpioDeviceType type,
             uint8_t width,
             uint8_t pins)
             : deviceType(type)
@@ -154,7 +154,7 @@ public:
                    || this->width == other.width;
         }
 
-        blox_GpioDeviceType deviceType = blox_GpioDeviceType_GPIO_DEV_NONE;
+        blox_OneWireGpioModule_GpioDeviceType deviceType = blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE;
         ChannelConfig config = ChannelConfig::UNUSED;
         uint8_t width;
         uint8_t pwm_duty = 0;

@@ -48,60 +48,63 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_TouchSettings_5ftest_2eproto
-namespace blox {
-class TouchSettings;
-class TouchSettingsDefaultTypeInternal;
-extern TouchSettingsDefaultTypeInternal _TouchSettings_default_instance_;
-}  // namespace blox
+namespace blox_test {
+namespace TouchSettings {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace TouchSettings
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::TouchSettings* Arena::CreateMaybeMessage<::blox::TouchSettings>(Arena*);
+template<> ::blox_test::TouchSettings::Block* Arena::CreateMaybeMessage<::blox_test::TouchSettings::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace TouchSettings {
 
-enum TouchSettings_Calibrated {
-  TouchSettings_Calibrated_CALIBRATED_NO = 0,
-  TouchSettings_Calibrated_CALIBRATED_YES = 1,
-  TouchSettings_Calibrated_CALIBRATED_NEW = 2,
-  TouchSettings_Calibrated_TouchSettings_Calibrated_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  TouchSettings_Calibrated_TouchSettings_Calibrated_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum Calibrated {
+  CALIBRATED_NO = 0,
+  CALIBRATED_YES = 1,
+  CALIBRATED_NEW = 2,
+  Calibrated_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Calibrated_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool TouchSettings_Calibrated_IsValid(int value);
-const TouchSettings_Calibrated TouchSettings_Calibrated_Calibrated_MIN = TouchSettings_Calibrated_CALIBRATED_NO;
-const TouchSettings_Calibrated TouchSettings_Calibrated_Calibrated_MAX = TouchSettings_Calibrated_CALIBRATED_NEW;
-const int TouchSettings_Calibrated_Calibrated_ARRAYSIZE = TouchSettings_Calibrated_Calibrated_MAX + 1;
+bool Calibrated_IsValid(int value);
+const Calibrated Calibrated_MIN = CALIBRATED_NO;
+const Calibrated Calibrated_MAX = CALIBRATED_NEW;
+const int Calibrated_ARRAYSIZE = Calibrated_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* TouchSettings_Calibrated_descriptor();
-inline const ::std::string& TouchSettings_Calibrated_Name(TouchSettings_Calibrated value) {
+const ::google::protobuf::EnumDescriptor* Calibrated_descriptor();
+inline const ::std::string& Calibrated_Name(Calibrated value) {
   return ::google::protobuf::internal::NameOfEnum(
-    TouchSettings_Calibrated_descriptor(), value);
+    Calibrated_descriptor(), value);
 }
-inline bool TouchSettings_Calibrated_Parse(
-    const ::std::string& name, TouchSettings_Calibrated* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<TouchSettings_Calibrated>(
-    TouchSettings_Calibrated_descriptor(), name, value);
+inline bool Calibrated_Parse(
+    const ::std::string& name, Calibrated* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Calibrated>(
+    Calibrated_descriptor(), name, value);
 }
 // ===================================================================
 
-class TouchSettings : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.TouchSettings) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.TouchSettings.Block) */ {
  public:
-  TouchSettings();
-  virtual ~TouchSettings();
+  Block();
+  virtual ~Block();
 
-  TouchSettings(const TouchSettings& from);
+  Block(const Block& from);
 
-  inline TouchSettings& operator=(const TouchSettings& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  TouchSettings(TouchSettings&& from) noexcept
-    : TouchSettings() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline TouchSettings& operator=(TouchSettings&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -111,34 +114,34 @@ class TouchSettings : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const TouchSettings& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TouchSettings* internal_default_instance() {
-    return reinterpret_cast<const TouchSettings*>(
-               &_TouchSettings_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(TouchSettings* other);
-  friend void swap(TouchSettings& a, TouchSettings& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TouchSettings* New() const final {
-    return CreateMaybeMessage<TouchSettings>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  TouchSettings* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<TouchSettings>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const TouchSettings& from);
-  void MergeFrom(const TouchSettings& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -155,7 +158,7 @@ class TouchSettings : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(TouchSettings* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -169,67 +172,39 @@ class TouchSettings : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // nested types ----------------------------------------------------
 
-  typedef TouchSettings_Calibrated Calibrated;
-  static const Calibrated CALIBRATED_NO =
-    TouchSettings_Calibrated_CALIBRATED_NO;
-  static const Calibrated CALIBRATED_YES =
-    TouchSettings_Calibrated_CALIBRATED_YES;
-  static const Calibrated CALIBRATED_NEW =
-    TouchSettings_Calibrated_CALIBRATED_NEW;
-  static inline bool Calibrated_IsValid(int value) {
-    return TouchSettings_Calibrated_IsValid(value);
-  }
-  static const Calibrated Calibrated_MIN =
-    TouchSettings_Calibrated_Calibrated_MIN;
-  static const Calibrated Calibrated_MAX =
-    TouchSettings_Calibrated_Calibrated_MAX;
-  static const int Calibrated_ARRAYSIZE =
-    TouchSettings_Calibrated_Calibrated_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  Calibrated_descriptor() {
-    return TouchSettings_Calibrated_descriptor();
-  }
-  static inline const ::std::string& Calibrated_Name(Calibrated value) {
-    return TouchSettings_Calibrated_Name(value);
-  }
-  static inline bool Calibrated_Parse(const ::std::string& name,
-      Calibrated* value) {
-    return TouchSettings_Calibrated_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
-  // .blox.TouchSettings.Calibrated calibrated = 1;
+  // .blox_test.TouchSettings.Calibrated calibrated = 1;
   void clear_calibrated();
   static const int kCalibratedFieldNumber = 1;
-  ::blox::TouchSettings_Calibrated calibrated() const;
-  void set_calibrated(::blox::TouchSettings_Calibrated value);
+  ::blox_test::TouchSettings::Calibrated calibrated() const;
+  void set_calibrated(::blox_test::TouchSettings::Calibrated value);
 
-  // int32 xOffset = 2 [(.nanopb_test) = {
+  // int32 xOffset = 2 [(.nanopb) = {
   void clear_xoffset();
   static const int kXOffsetFieldNumber = 2;
   ::google::protobuf::int32 xoffset() const;
   void set_xoffset(::google::protobuf::int32 value);
 
-  // int32 yOffset = 3 [(.nanopb_test) = {
+  // int32 yOffset = 3 [(.nanopb) = {
   void clear_yoffset();
   static const int kYOffsetFieldNumber = 3;
   ::google::protobuf::int32 yoffset() const;
   void set_yoffset(::google::protobuf::int32 value);
 
-  // uint32 xBitsPerPixelX16 = 4 [(.nanopb_test) = {
+  // uint32 xBitsPerPixelX16 = 4 [(.nanopb) = {
   void clear_xbitsperpixelx16();
   static const int kXBitsPerPixelX16FieldNumber = 4;
   ::google::protobuf::uint32 xbitsperpixelx16() const;
   void set_xbitsperpixelx16(::google::protobuf::uint32 value);
 
-  // uint32 yBitsPerPixelX16 = 5 [(.nanopb_test) = {
+  // uint32 yBitsPerPixelX16 = 5 [(.nanopb) = {
   void clear_ybitsperpixelx16();
   static const int kYBitsPerPixelX16FieldNumber = 5;
   ::google::protobuf::uint32 ybitsperpixelx16() const;
   void set_ybitsperpixelx16(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.TouchSettings)
+  // @@protoc_insertion_point(class_scope:blox_test.TouchSettings.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -250,76 +225,76 @@ class TouchSettings : public ::google::protobuf::Message /* @@protoc_insertion_p
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// TouchSettings
+// Block
 
-// .blox.TouchSettings.Calibrated calibrated = 1;
-inline void TouchSettings::clear_calibrated() {
+// .blox_test.TouchSettings.Calibrated calibrated = 1;
+inline void Block::clear_calibrated() {
   calibrated_ = 0;
 }
-inline ::blox::TouchSettings_Calibrated TouchSettings::calibrated() const {
-  // @@protoc_insertion_point(field_get:blox.TouchSettings.calibrated)
-  return static_cast< ::blox::TouchSettings_Calibrated >(calibrated_);
+inline ::blox_test::TouchSettings::Calibrated Block::calibrated() const {
+  // @@protoc_insertion_point(field_get:blox_test.TouchSettings.Block.calibrated)
+  return static_cast< ::blox_test::TouchSettings::Calibrated >(calibrated_);
 }
-inline void TouchSettings::set_calibrated(::blox::TouchSettings_Calibrated value) {
+inline void Block::set_calibrated(::blox_test::TouchSettings::Calibrated value) {
   
   calibrated_ = value;
-  // @@protoc_insertion_point(field_set:blox.TouchSettings.calibrated)
+  // @@protoc_insertion_point(field_set:blox_test.TouchSettings.Block.calibrated)
 }
 
-// int32 xOffset = 2 [(.nanopb_test) = {
-inline void TouchSettings::clear_xoffset() {
+// int32 xOffset = 2 [(.nanopb) = {
+inline void Block::clear_xoffset() {
   xoffset_ = 0;
 }
-inline ::google::protobuf::int32 TouchSettings::xoffset() const {
-  // @@protoc_insertion_point(field_get:blox.TouchSettings.xOffset)
+inline ::google::protobuf::int32 Block::xoffset() const {
+  // @@protoc_insertion_point(field_get:blox_test.TouchSettings.Block.xOffset)
   return xoffset_;
 }
-inline void TouchSettings::set_xoffset(::google::protobuf::int32 value) {
+inline void Block::set_xoffset(::google::protobuf::int32 value) {
   
   xoffset_ = value;
-  // @@protoc_insertion_point(field_set:blox.TouchSettings.xOffset)
+  // @@protoc_insertion_point(field_set:blox_test.TouchSettings.Block.xOffset)
 }
 
-// int32 yOffset = 3 [(.nanopb_test) = {
-inline void TouchSettings::clear_yoffset() {
+// int32 yOffset = 3 [(.nanopb) = {
+inline void Block::clear_yoffset() {
   yoffset_ = 0;
 }
-inline ::google::protobuf::int32 TouchSettings::yoffset() const {
-  // @@protoc_insertion_point(field_get:blox.TouchSettings.yOffset)
+inline ::google::protobuf::int32 Block::yoffset() const {
+  // @@protoc_insertion_point(field_get:blox_test.TouchSettings.Block.yOffset)
   return yoffset_;
 }
-inline void TouchSettings::set_yoffset(::google::protobuf::int32 value) {
+inline void Block::set_yoffset(::google::protobuf::int32 value) {
   
   yoffset_ = value;
-  // @@protoc_insertion_point(field_set:blox.TouchSettings.yOffset)
+  // @@protoc_insertion_point(field_set:blox_test.TouchSettings.Block.yOffset)
 }
 
-// uint32 xBitsPerPixelX16 = 4 [(.nanopb_test) = {
-inline void TouchSettings::clear_xbitsperpixelx16() {
+// uint32 xBitsPerPixelX16 = 4 [(.nanopb) = {
+inline void Block::clear_xbitsperpixelx16() {
   xbitsperpixelx16_ = 0u;
 }
-inline ::google::protobuf::uint32 TouchSettings::xbitsperpixelx16() const {
-  // @@protoc_insertion_point(field_get:blox.TouchSettings.xBitsPerPixelX16)
+inline ::google::protobuf::uint32 Block::xbitsperpixelx16() const {
+  // @@protoc_insertion_point(field_get:blox_test.TouchSettings.Block.xBitsPerPixelX16)
   return xbitsperpixelx16_;
 }
-inline void TouchSettings::set_xbitsperpixelx16(::google::protobuf::uint32 value) {
+inline void Block::set_xbitsperpixelx16(::google::protobuf::uint32 value) {
   
   xbitsperpixelx16_ = value;
-  // @@protoc_insertion_point(field_set:blox.TouchSettings.xBitsPerPixelX16)
+  // @@protoc_insertion_point(field_set:blox_test.TouchSettings.Block.xBitsPerPixelX16)
 }
 
-// uint32 yBitsPerPixelX16 = 5 [(.nanopb_test) = {
-inline void TouchSettings::clear_ybitsperpixelx16() {
+// uint32 yBitsPerPixelX16 = 5 [(.nanopb) = {
+inline void Block::clear_ybitsperpixelx16() {
   ybitsperpixelx16_ = 0u;
 }
-inline ::google::protobuf::uint32 TouchSettings::ybitsperpixelx16() const {
-  // @@protoc_insertion_point(field_get:blox.TouchSettings.yBitsPerPixelX16)
+inline ::google::protobuf::uint32 Block::ybitsperpixelx16() const {
+  // @@protoc_insertion_point(field_get:blox_test.TouchSettings.Block.yBitsPerPixelX16)
   return ybitsperpixelx16_;
 }
-inline void TouchSettings::set_ybitsperpixelx16(::google::protobuf::uint32 value) {
+inline void Block::set_ybitsperpixelx16(::google::protobuf::uint32 value) {
   
   ybitsperpixelx16_ = value;
-  // @@protoc_insertion_point(field_set:blox.TouchSettings.yBitsPerPixelX16)
+  // @@protoc_insertion_point(field_set:blox_test.TouchSettings.Block.yBitsPerPixelX16)
 }
 
 #ifdef __GNUC__
@@ -328,15 +303,16 @@ inline void TouchSettings::set_ybitsperpixelx16(::google::protobuf::uint32 value
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace TouchSettings
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::TouchSettings_Calibrated> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::TouchSettings::Calibrated> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::TouchSettings_Calibrated>() {
-  return ::blox::TouchSettings_Calibrated_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::TouchSettings::Calibrated>() {
+  return ::blox_test::TouchSettings::Calibrated_descriptor();
 }
 
 }  // namespace protobuf

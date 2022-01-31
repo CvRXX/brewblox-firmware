@@ -4,7 +4,7 @@
 #include "OneWireDeviceBlock.h"
 #include "blox/Block.h"
 
-class TempSensorOneWireBlock : public Block<BrewBloxTypes_BlockType_TempSensorOneWire>, public OneWireDeviceBlock {
+class TempSensorOneWireBlock : public Block<brewblox_BlockType_TempSensorOneWire>, public OneWireDeviceBlock {
 
 private:
     DS18B20 sensor;

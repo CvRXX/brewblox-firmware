@@ -9,16 +9,16 @@
 
 
 
-const pb_field_t blox_ActuatorAnalogMock_fields[10] = {
-    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorAnalogMock, setting, setting, 0),
-    PB_FIELD(  2, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, value, setting, 0),
-    PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, minSetting, value, 0),
-    PB_FIELD(  5, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, maxSetting, minSetting, 0),
-    PB_FIELD(  6, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, minValue, maxSetting, 0),
-    PB_FIELD(  7, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, maxValue, minValue, 0),
-    PB_FIELD(  8, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, constrainedBy, maxValue, &blox_AnalogConstraints_fields),
-    PB_FIELD(  9, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock, desiredSetting, constrainedBy, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_ActuatorAnalogMock, strippedFields, desiredSetting, 0),
+const pb_field_t blox_ActuatorAnalogMock_Block_fields[10] = {
+    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorAnalogMock_Block, setting, setting, 0),
+    PB_FIELD(  2, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, value, setting, 0),
+    PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, minSetting, value, 0),
+    PB_FIELD(  5, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, maxSetting, minSetting, 0),
+    PB_FIELD(  6, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, minValue, maxSetting, 0),
+    PB_FIELD(  7, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, maxValue, minValue, 0),
+    PB_FIELD(  8, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, constrainedBy, maxValue, &blox_Constraints_AnalogConstraints_fields),
+    PB_FIELD(  9, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, desiredSetting, constrainedBy, 0),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, strippedFields, desiredSetting, 0),
     PB_LAST_FIELD
 };
 
@@ -32,7 +32,7 @@ const pb_field_t blox_ActuatorAnalogMock_fields[10] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_ActuatorAnalogMock, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_ActuatorAnalogMock)
+PB_STATIC_ASSERT((pb_membersize(blox_ActuatorAnalogMock_Block, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_ActuatorAnalogMock_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -43,7 +43,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_ActuatorAnalogMock, constrainedBy) < 65536)
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_ActuatorAnalogMock, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_ActuatorAnalogMock)
+PB_STATIC_ASSERT((pb_membersize(blox_ActuatorAnalogMock_Block, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_ActuatorAnalogMock_Block)
 #endif
 
 

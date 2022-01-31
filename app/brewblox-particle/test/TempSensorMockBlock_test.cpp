@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Temperature.h"
 #include "blox/TempSensorMockBlock.h"
 #include "blox/compiled_proto/test_src/TempSensorMock_test.pb.h"
@@ -34,7 +34,7 @@
 
 SCENARIO("A TempSensorMock block")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();
@@ -46,7 +46,7 @@ SCENARIO("A TempSensorMock block")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto newSensor = blox::TempSensorMock();
+    auto newSensor = blox_test::TempSensorMock::Block();
     newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
     newSensor.set_connected(true);
     testBox.put(newSensor);
@@ -71,7 +71,7 @@ SCENARIO("A TempSensorMock block")
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(100));
 
-            auto decoded = blox::TempSensorMock();
+            auto decoded = blox_test::TempSensorMock::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());
@@ -88,7 +88,7 @@ SCENARIO("A TempSensorMock block")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto newSensor = blox::TempSensorMock();
+        auto newSensor = blox_test::TempSensorMock::Block();
         newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
         newSensor.set_connected(true);
 
@@ -118,7 +118,7 @@ SCENARIO("A TempSensorMock block")
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(100));
 
-            auto decoded = blox::TempSensorMock();
+            auto decoded = blox_test::TempSensorMock::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());

@@ -24,7 +24,7 @@
 cbox::CboxError
 TouchSettingsBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_TouchSettings message = blox_TouchSettings_init_zero;
+    blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
 
     auto calib = D4D_TCH_GetCalibration();
 
@@ -34,14 +34,14 @@ TouchSettingsBlock::streamTo(cbox::DataOut& out) const
     message.xBitsPerPixelX16 = calib.TouchScreenXBitsPerPixelx16;
     message.yBitsPerPixelX16 = calib.TouchScreenYBitsPerPixelx16;
 
-    return streamProtoTo(out, &message, blox_TouchSettings_fields, blox_TouchSettings_size);
+    return streamProtoTo(out, &message, blox_TouchSettings_Block_fields, blox_TouchSettings_Block_size);
 }
 
 cbox::CboxError
 TouchSettingsBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_TouchSettings message = blox_TouchSettings_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_TouchSettings_fields, blox_TouchSettings_size);
+    blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(in, &message, blox_TouchSettings_Block_fields, blox_TouchSettings_Block_size);
     if (result == cbox::CboxError::OK) {
         auto calib = D4D_GetTouchScreenCalibration();
         if (message.calibrated == blox_TouchSettings_Calibrated_CALIBRATED_NEW || calib.ScreenCalibrated == 0) {

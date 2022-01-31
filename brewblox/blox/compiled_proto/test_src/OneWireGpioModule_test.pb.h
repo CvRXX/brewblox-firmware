@@ -48,21 +48,24 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_OneWireGpioModule_5ftest_2eproto
-namespace blox {
+namespace blox_test {
+namespace OneWireGpioModule {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
 class GpioModuleChannel;
 class GpioModuleChannelDefaultTypeInternal;
 extern GpioModuleChannelDefaultTypeInternal _GpioModuleChannel_default_instance_;
-class OneWireGpioModule;
-class OneWireGpioModuleDefaultTypeInternal;
-extern OneWireGpioModuleDefaultTypeInternal _OneWireGpioModule_default_instance_;
-}  // namespace blox
+}  // namespace OneWireGpioModule
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::GpioModuleChannel* Arena::CreateMaybeMessage<::blox::GpioModuleChannel>(Arena*);
-template<> ::blox::OneWireGpioModule* Arena::CreateMaybeMessage<::blox::OneWireGpioModule>(Arena*);
+template<> ::blox_test::OneWireGpioModule::Block* Arena::CreateMaybeMessage<::blox_test::OneWireGpioModule::Block>(Arena*);
+template<> ::blox_test::OneWireGpioModule::GpioModuleChannel* Arena::CreateMaybeMessage<::blox_test::OneWireGpioModule::GpioModuleChannel>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace OneWireGpioModule {
 
 enum GpioDeviceType {
   GPIO_DEV_NONE = 0,
@@ -134,7 +137,7 @@ inline bool GpioErrorFlags_Parse(
 }
 // ===================================================================
 
-class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.GpioModuleChannel) */ {
+class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.OneWireGpioModule.GpioModuleChannel) */ {
  public:
   GpioModuleChannel();
   virtual ~GpioModuleChannel();
@@ -221,7 +224,7 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // string name = 5 [(.nanopb_test) = {
+  // string name = 5 [(.nanopb) = {
   void clear_name();
   static const int kNameFieldNumber = 5;
   const ::std::string& name() const;
@@ -235,31 +238,31 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // uint32 id = 1 [(.nanopb_test) = {
+  // uint32 id = 1 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 1;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // .blox.GpioDeviceType deviceType = 2;
+  // .blox_test.OneWireGpioModule.GpioDeviceType deviceType = 2;
   void clear_devicetype();
   static const int kDeviceTypeFieldNumber = 2;
-  ::blox::GpioDeviceType devicetype() const;
-  void set_devicetype(::blox::GpioDeviceType value);
+  ::blox_test::OneWireGpioModule::GpioDeviceType devicetype() const;
+  void set_devicetype(::blox_test::OneWireGpioModule::GpioDeviceType value);
 
-  // uint32 pinsMask = 3 [(.nanopb_test) = {
+  // uint32 pinsMask = 3 [(.nanopb) = {
   void clear_pinsmask();
   static const int kPinsMaskFieldNumber = 3;
   ::google::protobuf::uint32 pinsmask() const;
   void set_pinsmask(::google::protobuf::uint32 value);
 
-  // uint32 width = 4 [(.nanopb_test) = {
+  // uint32 width = 4 [(.nanopb) = {
   void clear_width();
   static const int kWidthFieldNumber = 4;
   ::google::protobuf::uint32 width() const;
   void set_width(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.GpioModuleChannel)
+  // @@protoc_insertion_point(class_scope:blox_test.OneWireGpioModule.GpioModuleChannel)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -273,24 +276,24 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
 };
 // -------------------------------------------------------------------
 
-class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.OneWireGpioModule) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.OneWireGpioModule.Block) */ {
  public:
-  OneWireGpioModule();
-  virtual ~OneWireGpioModule();
+  Block();
+  virtual ~Block();
 
-  OneWireGpioModule(const OneWireGpioModule& from);
+  Block(const Block& from);
 
-  inline OneWireGpioModule& operator=(const OneWireGpioModule& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  OneWireGpioModule(OneWireGpioModule&& from) noexcept
-    : OneWireGpioModule() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline OneWireGpioModule& operator=(OneWireGpioModule&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -300,34 +303,34 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const OneWireGpioModule& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const OneWireGpioModule* internal_default_instance() {
-    return reinterpret_cast<const OneWireGpioModule*>(
-               &_OneWireGpioModule_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  void Swap(OneWireGpioModule* other);
-  friend void swap(OneWireGpioModule& a, OneWireGpioModule& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline OneWireGpioModule* New() const final {
-    return CreateMaybeMessage<OneWireGpioModule>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  OneWireGpioModule* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<OneWireGpioModule>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const OneWireGpioModule& from);
-  void MergeFrom(const OneWireGpioModule& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -344,7 +347,7 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(OneWireGpioModule* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -360,85 +363,85 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.GpioModuleChannel channels = 1 [(.nanopb_test) = {
+  // repeated .blox_test.OneWireGpioModule.GpioModuleChannel channels = 1 [(.nanopb) = {
   int channels_size() const;
   void clear_channels();
   static const int kChannelsFieldNumber = 1;
-  ::blox::GpioModuleChannel* mutable_channels(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::GpioModuleChannel >*
+  ::blox_test::OneWireGpioModule::GpioModuleChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::OneWireGpioModule::GpioModuleChannel >*
       mutable_channels();
-  const ::blox::GpioModuleChannel& channels(int index) const;
-  ::blox::GpioModuleChannel* add_channels();
-  const ::google::protobuf::RepeatedPtrField< ::blox::GpioModuleChannel >&
+  const ::blox_test::OneWireGpioModule::GpioModuleChannel& channels(int index) const;
+  ::blox_test::OneWireGpioModule::GpioModuleChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::OneWireGpioModule::GpioModuleChannel >&
       channels() const;
 
-  // uint32 modulePosition = 2 [(.nanopb_test) = {
+  // uint32 modulePosition = 2 [(.nanopb) = {
   void clear_moduleposition();
   static const int kModulePositionFieldNumber = 2;
   ::google::protobuf::uint32 moduleposition() const;
   void set_moduleposition(::google::protobuf::uint32 value);
 
-  // uint32 moduleStatus = 3 [(.nanopb_test) = {
+  // uint32 moduleStatus = 3 [(.nanopb) = {
   void clear_modulestatus();
   static const int kModuleStatusFieldNumber = 3;
   ::google::protobuf::uint32 modulestatus() const;
   void set_modulestatus(::google::protobuf::uint32 value);
 
-  // uint32 pullUpDesired = 4 [(.nanopb_test) = {
+  // uint32 pullUpDesired = 4 [(.nanopb) = {
   void clear_pullupdesired();
   static const int kPullUpDesiredFieldNumber = 4;
   ::google::protobuf::uint32 pullupdesired() const;
   void set_pullupdesired(::google::protobuf::uint32 value);
 
-  // uint32 pullUpStatus = 5 [(.nanopb_test) = {
+  // uint32 pullUpStatus = 5 [(.nanopb) = {
   void clear_pullupstatus();
   static const int kPullUpStatusFieldNumber = 5;
   ::google::protobuf::uint32 pullupstatus() const;
   void set_pullupstatus(::google::protobuf::uint32 value);
 
-  // uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
+  // uint32 pullUpWhenActive = 6 [(.nanopb) = {
   void clear_pullupwhenactive();
   static const int kPullUpWhenActiveFieldNumber = 6;
   ::google::protobuf::uint32 pullupwhenactive() const;
   void set_pullupwhenactive(::google::protobuf::uint32 value);
 
-  // uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
+  // uint32 pullUpWhenInactive = 7 [(.nanopb) = {
   void clear_pullupwheninactive();
   static const int kPullUpWhenInactiveFieldNumber = 7;
   ::google::protobuf::uint32 pullupwheninactive() const;
   void set_pullupwheninactive(::google::protobuf::uint32 value);
 
-  // uint32 pullDownDesired = 8 [(.nanopb_test) = {
+  // uint32 pullDownDesired = 8 [(.nanopb) = {
   void clear_pulldowndesired();
   static const int kPullDownDesiredFieldNumber = 8;
   ::google::protobuf::uint32 pulldowndesired() const;
   void set_pulldowndesired(::google::protobuf::uint32 value);
 
-  // uint32 pullDownStatus = 9 [(.nanopb_test) = {
+  // uint32 pullDownStatus = 9 [(.nanopb) = {
   void clear_pulldownstatus();
   static const int kPullDownStatusFieldNumber = 9;
   ::google::protobuf::uint32 pulldownstatus() const;
   void set_pulldownstatus(::google::protobuf::uint32 value);
 
-  // uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
+  // uint32 pullDownWhenActive = 10 [(.nanopb) = {
   void clear_pulldownwhenactive();
   static const int kPullDownWhenActiveFieldNumber = 10;
   ::google::protobuf::uint32 pulldownwhenactive() const;
   void set_pulldownwhenactive(::google::protobuf::uint32 value);
 
-  // uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
+  // uint32 pullDownWhenInactive = 11 [(.nanopb) = {
   void clear_pulldownwheninactive();
   static const int kPullDownWhenInactiveFieldNumber = 11;
   ::google::protobuf::uint32 pulldownwheninactive() const;
   void set_pulldownwheninactive(::google::protobuf::uint32 value);
 
-  // uint32 overCurrent = 12 [(.nanopb_test) = {
+  // uint32 overCurrent = 12 [(.nanopb) = {
   void clear_overcurrent();
   static const int kOverCurrentFieldNumber = 12;
   ::google::protobuf::uint32 overcurrent() const;
   void set_overcurrent(::google::protobuf::uint32 value);
 
-  // uint32 openLoad = 13 [(.nanopb_test) = {
+  // uint32 openLoad = 13 [(.nanopb) = {
   void clear_openload();
   static const int kOpenLoadFieldNumber = 13;
   ::google::protobuf::uint32 openload() const;
@@ -450,17 +453,17 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
   bool useexternalpower() const;
   void set_useexternalpower(bool value);
 
-  // uint32 moduleStatusClear = 32 [(.nanopb_test) = {
+  // uint32 moduleStatusClear = 32 [(.nanopb) = {
   void clear_modulestatusclear();
   static const int kModuleStatusClearFieldNumber = 32;
   ::google::protobuf::uint32 modulestatusclear() const;
   void set_modulestatusclear(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.OneWireGpioModule)
+  // @@protoc_insertion_point(class_scope:blox_test.OneWireGpioModule.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::GpioModuleChannel > channels_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::OneWireGpioModule::GpioModuleChannel > channels_;
   ::google::protobuf::uint32 moduleposition_;
   ::google::protobuf::uint32 modulestatus_;
   ::google::protobuf::uint32 pullupdesired_;
@@ -489,102 +492,102 @@ class OneWireGpioModule : public ::google::protobuf::Message /* @@protoc_inserti
 #endif  // __GNUC__
 // GpioModuleChannel
 
-// uint32 id = 1 [(.nanopb_test) = {
+// uint32 id = 1 [(.nanopb) = {
 inline void GpioModuleChannel::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 GpioModuleChannel::id() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.id)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.id)
   return id_;
 }
 inline void GpioModuleChannel::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.id)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.id)
 }
 
-// .blox.GpioDeviceType deviceType = 2;
+// .blox_test.OneWireGpioModule.GpioDeviceType deviceType = 2;
 inline void GpioModuleChannel::clear_devicetype() {
   devicetype_ = 0;
 }
-inline ::blox::GpioDeviceType GpioModuleChannel::devicetype() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.deviceType)
-  return static_cast< ::blox::GpioDeviceType >(devicetype_);
+inline ::blox_test::OneWireGpioModule::GpioDeviceType GpioModuleChannel::devicetype() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.deviceType)
+  return static_cast< ::blox_test::OneWireGpioModule::GpioDeviceType >(devicetype_);
 }
-inline void GpioModuleChannel::set_devicetype(::blox::GpioDeviceType value) {
+inline void GpioModuleChannel::set_devicetype(::blox_test::OneWireGpioModule::GpioDeviceType value) {
   
   devicetype_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.deviceType)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.deviceType)
 }
 
-// uint32 pinsMask = 3 [(.nanopb_test) = {
+// uint32 pinsMask = 3 [(.nanopb) = {
 inline void GpioModuleChannel::clear_pinsmask() {
   pinsmask_ = 0u;
 }
 inline ::google::protobuf::uint32 GpioModuleChannel::pinsmask() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.pinsMask)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.pinsMask)
   return pinsmask_;
 }
 inline void GpioModuleChannel::set_pinsmask(::google::protobuf::uint32 value) {
   
   pinsmask_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.pinsMask)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.pinsMask)
 }
 
-// uint32 width = 4 [(.nanopb_test) = {
+// uint32 width = 4 [(.nanopb) = {
 inline void GpioModuleChannel::clear_width() {
   width_ = 0u;
 }
 inline ::google::protobuf::uint32 GpioModuleChannel::width() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.width)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.width)
   return width_;
 }
 inline void GpioModuleChannel::set_width(::google::protobuf::uint32 value) {
   
   width_ = value;
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.width)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.width)
 }
 
-// string name = 5 [(.nanopb_test) = {
+// string name = 5 [(.nanopb) = {
 inline void GpioModuleChannel::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& GpioModuleChannel::name() const {
-  // @@protoc_insertion_point(field_get:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.name)
   return name_.GetNoArena();
 }
 inline void GpioModuleChannel::set_name(const ::std::string& value) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.name)
 }
 #if LANG_CXX11
 inline void GpioModuleChannel::set_name(::std::string&& value) {
   
   name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.OneWireGpioModule.GpioModuleChannel.name)
 }
 #endif
 inline void GpioModuleChannel::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_set_char:blox_test.OneWireGpioModule.GpioModuleChannel.name)
 }
 inline void GpioModuleChannel::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_set_pointer:blox_test.OneWireGpioModule.GpioModuleChannel.name)
 }
 inline ::std::string* GpioModuleChannel::mutable_name() {
   
-  // @@protoc_insertion_point(field_mutable:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_mutable:blox_test.OneWireGpioModule.GpioModuleChannel.name)
   return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* GpioModuleChannel::release_name() {
-  // @@protoc_insertion_point(field_release:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_release:blox_test.OneWireGpioModule.GpioModuleChannel.name)
   
   return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -595,237 +598,237 @@ inline void GpioModuleChannel::set_allocated_name(::std::string* name) {
     
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:blox.GpioModuleChannel.name)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.OneWireGpioModule.GpioModuleChannel.name)
 }
 
 // -------------------------------------------------------------------
 
-// OneWireGpioModule
+// Block
 
-// repeated .blox.GpioModuleChannel channels = 1 [(.nanopb_test) = {
-inline int OneWireGpioModule::channels_size() const {
+// repeated .blox_test.OneWireGpioModule.GpioModuleChannel channels = 1 [(.nanopb) = {
+inline int Block::channels_size() const {
   return channels_.size();
 }
-inline void OneWireGpioModule::clear_channels() {
+inline void Block::clear_channels() {
   channels_.Clear();
 }
-inline ::blox::GpioModuleChannel* OneWireGpioModule::mutable_channels(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.OneWireGpioModule.channels)
+inline ::blox_test::OneWireGpioModule::GpioModuleChannel* Block::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.OneWireGpioModule.Block.channels)
   return channels_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::GpioModuleChannel >*
-OneWireGpioModule::mutable_channels() {
-  // @@protoc_insertion_point(field_mutable_list:blox.OneWireGpioModule.channels)
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::OneWireGpioModule::GpioModuleChannel >*
+Block::mutable_channels() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.OneWireGpioModule.Block.channels)
   return &channels_;
 }
-inline const ::blox::GpioModuleChannel& OneWireGpioModule::channels(int index) const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.channels)
+inline const ::blox_test::OneWireGpioModule::GpioModuleChannel& Block::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.channels)
   return channels_.Get(index);
 }
-inline ::blox::GpioModuleChannel* OneWireGpioModule::add_channels() {
-  // @@protoc_insertion_point(field_add:blox.OneWireGpioModule.channels)
+inline ::blox_test::OneWireGpioModule::GpioModuleChannel* Block::add_channels() {
+  // @@protoc_insertion_point(field_add:blox_test.OneWireGpioModule.Block.channels)
   return channels_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::GpioModuleChannel >&
-OneWireGpioModule::channels() const {
-  // @@protoc_insertion_point(field_list:blox.OneWireGpioModule.channels)
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::OneWireGpioModule::GpioModuleChannel >&
+Block::channels() const {
+  // @@protoc_insertion_point(field_list:blox_test.OneWireGpioModule.Block.channels)
   return channels_;
 }
 
-// uint32 modulePosition = 2 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_moduleposition() {
+// uint32 modulePosition = 2 [(.nanopb) = {
+inline void Block::clear_moduleposition() {
   moduleposition_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::moduleposition() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.modulePosition)
+inline ::google::protobuf::uint32 Block::moduleposition() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.modulePosition)
   return moduleposition_;
 }
-inline void OneWireGpioModule::set_moduleposition(::google::protobuf::uint32 value) {
+inline void Block::set_moduleposition(::google::protobuf::uint32 value) {
   
   moduleposition_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.modulePosition)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.modulePosition)
 }
 
-// uint32 moduleStatus = 3 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_modulestatus() {
+// uint32 moduleStatus = 3 [(.nanopb) = {
+inline void Block::clear_modulestatus() {
   modulestatus_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::modulestatus() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.moduleStatus)
+inline ::google::protobuf::uint32 Block::modulestatus() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.moduleStatus)
   return modulestatus_;
 }
-inline void OneWireGpioModule::set_modulestatus(::google::protobuf::uint32 value) {
+inline void Block::set_modulestatus(::google::protobuf::uint32 value) {
   
   modulestatus_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.moduleStatus)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.moduleStatus)
 }
 
-// uint32 pullUpDesired = 4 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pullupdesired() {
+// uint32 pullUpDesired = 4 [(.nanopb) = {
+inline void Block::clear_pullupdesired() {
   pullupdesired_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pullupdesired() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUpDesired)
+inline ::google::protobuf::uint32 Block::pullupdesired() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullUpDesired)
   return pullupdesired_;
 }
-inline void OneWireGpioModule::set_pullupdesired(::google::protobuf::uint32 value) {
+inline void Block::set_pullupdesired(::google::protobuf::uint32 value) {
   
   pullupdesired_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpDesired)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullUpDesired)
 }
 
-// uint32 pullUpStatus = 5 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pullupstatus() {
+// uint32 pullUpStatus = 5 [(.nanopb) = {
+inline void Block::clear_pullupstatus() {
   pullupstatus_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pullupstatus() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUpStatus)
+inline ::google::protobuf::uint32 Block::pullupstatus() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullUpStatus)
   return pullupstatus_;
 }
-inline void OneWireGpioModule::set_pullupstatus(::google::protobuf::uint32 value) {
+inline void Block::set_pullupstatus(::google::protobuf::uint32 value) {
   
   pullupstatus_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpStatus)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullUpStatus)
 }
 
-// uint32 pullUpWhenActive = 6 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pullupwhenactive() {
+// uint32 pullUpWhenActive = 6 [(.nanopb) = {
+inline void Block::clear_pullupwhenactive() {
   pullupwhenactive_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pullupwhenactive() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUpWhenActive)
+inline ::google::protobuf::uint32 Block::pullupwhenactive() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullUpWhenActive)
   return pullupwhenactive_;
 }
-inline void OneWireGpioModule::set_pullupwhenactive(::google::protobuf::uint32 value) {
+inline void Block::set_pullupwhenactive(::google::protobuf::uint32 value) {
   
   pullupwhenactive_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpWhenActive)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullUpWhenActive)
 }
 
-// uint32 pullUpWhenInactive = 7 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pullupwheninactive() {
+// uint32 pullUpWhenInactive = 7 [(.nanopb) = {
+inline void Block::clear_pullupwheninactive() {
   pullupwheninactive_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pullupwheninactive() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullUpWhenInactive)
+inline ::google::protobuf::uint32 Block::pullupwheninactive() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullUpWhenInactive)
   return pullupwheninactive_;
 }
-inline void OneWireGpioModule::set_pullupwheninactive(::google::protobuf::uint32 value) {
+inline void Block::set_pullupwheninactive(::google::protobuf::uint32 value) {
   
   pullupwheninactive_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullUpWhenInactive)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullUpWhenInactive)
 }
 
-// uint32 pullDownDesired = 8 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pulldowndesired() {
+// uint32 pullDownDesired = 8 [(.nanopb) = {
+inline void Block::clear_pulldowndesired() {
   pulldowndesired_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pulldowndesired() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDownDesired)
+inline ::google::protobuf::uint32 Block::pulldowndesired() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullDownDesired)
   return pulldowndesired_;
 }
-inline void OneWireGpioModule::set_pulldowndesired(::google::protobuf::uint32 value) {
+inline void Block::set_pulldowndesired(::google::protobuf::uint32 value) {
   
   pulldowndesired_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownDesired)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullDownDesired)
 }
 
-// uint32 pullDownStatus = 9 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pulldownstatus() {
+// uint32 pullDownStatus = 9 [(.nanopb) = {
+inline void Block::clear_pulldownstatus() {
   pulldownstatus_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pulldownstatus() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDownStatus)
+inline ::google::protobuf::uint32 Block::pulldownstatus() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullDownStatus)
   return pulldownstatus_;
 }
-inline void OneWireGpioModule::set_pulldownstatus(::google::protobuf::uint32 value) {
+inline void Block::set_pulldownstatus(::google::protobuf::uint32 value) {
   
   pulldownstatus_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownStatus)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullDownStatus)
 }
 
-// uint32 pullDownWhenActive = 10 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pulldownwhenactive() {
+// uint32 pullDownWhenActive = 10 [(.nanopb) = {
+inline void Block::clear_pulldownwhenactive() {
   pulldownwhenactive_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pulldownwhenactive() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDownWhenActive)
+inline ::google::protobuf::uint32 Block::pulldownwhenactive() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullDownWhenActive)
   return pulldownwhenactive_;
 }
-inline void OneWireGpioModule::set_pulldownwhenactive(::google::protobuf::uint32 value) {
+inline void Block::set_pulldownwhenactive(::google::protobuf::uint32 value) {
   
   pulldownwhenactive_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownWhenActive)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullDownWhenActive)
 }
 
-// uint32 pullDownWhenInactive = 11 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_pulldownwheninactive() {
+// uint32 pullDownWhenInactive = 11 [(.nanopb) = {
+inline void Block::clear_pulldownwheninactive() {
   pulldownwheninactive_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::pulldownwheninactive() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.pullDownWhenInactive)
+inline ::google::protobuf::uint32 Block::pulldownwheninactive() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.pullDownWhenInactive)
   return pulldownwheninactive_;
 }
-inline void OneWireGpioModule::set_pulldownwheninactive(::google::protobuf::uint32 value) {
+inline void Block::set_pulldownwheninactive(::google::protobuf::uint32 value) {
   
   pulldownwheninactive_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.pullDownWhenInactive)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.pullDownWhenInactive)
 }
 
-// uint32 overCurrent = 12 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_overcurrent() {
+// uint32 overCurrent = 12 [(.nanopb) = {
+inline void Block::clear_overcurrent() {
   overcurrent_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::overcurrent() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.overCurrent)
+inline ::google::protobuf::uint32 Block::overcurrent() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.overCurrent)
   return overcurrent_;
 }
-inline void OneWireGpioModule::set_overcurrent(::google::protobuf::uint32 value) {
+inline void Block::set_overcurrent(::google::protobuf::uint32 value) {
   
   overcurrent_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.overCurrent)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.overCurrent)
 }
 
-// uint32 openLoad = 13 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_openload() {
+// uint32 openLoad = 13 [(.nanopb) = {
+inline void Block::clear_openload() {
   openload_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::openload() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.openLoad)
+inline ::google::protobuf::uint32 Block::openload() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.openLoad)
   return openload_;
 }
-inline void OneWireGpioModule::set_openload(::google::protobuf::uint32 value) {
+inline void Block::set_openload(::google::protobuf::uint32 value) {
   
   openload_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.openLoad)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.openLoad)
 }
 
 // bool useExternalPower = 14;
-inline void OneWireGpioModule::clear_useexternalpower() {
+inline void Block::clear_useexternalpower() {
   useexternalpower_ = false;
 }
-inline bool OneWireGpioModule::useexternalpower() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.useExternalPower)
+inline bool Block::useexternalpower() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.useExternalPower)
   return useexternalpower_;
 }
-inline void OneWireGpioModule::set_useexternalpower(bool value) {
+inline void Block::set_useexternalpower(bool value) {
   
   useexternalpower_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.useExternalPower)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.useExternalPower)
 }
 
-// uint32 moduleStatusClear = 32 [(.nanopb_test) = {
-inline void OneWireGpioModule::clear_modulestatusclear() {
+// uint32 moduleStatusClear = 32 [(.nanopb) = {
+inline void Block::clear_modulestatusclear() {
   modulestatusclear_ = 0u;
 }
-inline ::google::protobuf::uint32 OneWireGpioModule::modulestatusclear() const {
-  // @@protoc_insertion_point(field_get:blox.OneWireGpioModule.moduleStatusClear)
+inline ::google::protobuf::uint32 Block::modulestatusclear() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.moduleStatusClear)
   return modulestatusclear_;
 }
-inline void OneWireGpioModule::set_modulestatusclear(::google::protobuf::uint32 value) {
+inline void Block::set_modulestatusclear(::google::protobuf::uint32 value) {
   
   modulestatusclear_ = value;
-  // @@protoc_insertion_point(field_set:blox.OneWireGpioModule.moduleStatusClear)
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.moduleStatusClear)
 }
 
 #ifdef __GNUC__
@@ -836,20 +839,21 @@ inline void OneWireGpioModule::set_modulestatusclear(::google::protobuf::uint32 
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace OneWireGpioModule
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::GpioDeviceType> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::OneWireGpioModule::GpioDeviceType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::GpioDeviceType>() {
-  return ::blox::GpioDeviceType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::OneWireGpioModule::GpioDeviceType>() {
+  return ::blox_test::OneWireGpioModule::GpioDeviceType_descriptor();
 }
-template <> struct is_proto_enum< ::blox::GpioErrorFlags> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::OneWireGpioModule::GpioErrorFlags> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::GpioErrorFlags>() {
-  return ::blox::GpioErrorFlags_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::OneWireGpioModule::GpioErrorFlags>() {
+  return ::blox_test::OneWireGpioModule::GpioErrorFlags_descriptor();
 }
 
 }  // namespace protobuf

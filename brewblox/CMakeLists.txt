@@ -4,11 +4,9 @@ idf_component_register(
   SRCS
     nanopb_callbacks.cpp
     brewblox.cpp
-    
 
-    blox/ActuatorAnalogConstraintsProto.cpp
+    blox/ConstraintsProto.cpp
     blox/ActuatorAnalogMockBlock.cpp
-    blox/ActuatorDigitalConstraintsProto.cpp
     blox/ActuatorLogicBlock.cpp
     blox/ActuatorOffsetBlock.cpp
     blox/ActuatorPwmBlock.cpp

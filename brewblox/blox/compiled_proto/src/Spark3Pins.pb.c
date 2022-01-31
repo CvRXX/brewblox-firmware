@@ -9,13 +9,13 @@
 
 
 
-const pb_field_t blox_Spark3Pins_fields[7] = {
-    PB_FIELD(  2, BOOL    , SINGULAR, STATIC  , FIRST, blox_Spark3Pins, enableIoSupply5V, enableIoSupply5V, 0),
-    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_Spark3Pins, enableIoSupply12V, enableIoSupply5V, 0),
-    PB_FIELD(  5, BOOL    , SINGULAR, STATIC  , OTHER, blox_Spark3Pins, soundAlarm, enableIoSupply12V, 0),
-    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_Spark3Pins, voltage5, soundAlarm, 0),
-    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_Spark3Pins, voltage12, voltage5, 0),
-    PB_FIELD(  8, MESSAGE , REPEATED, STATIC  , OTHER, blox_Spark3Pins, channels, voltage12, &blox_IoChannel_fields),
+const pb_field_t blox_Spark3Pins_Block_fields[7] = {
+    PB_FIELD(  2, BOOL    , SINGULAR, STATIC  , FIRST, blox_Spark3Pins_Block, enableIoSupply5V, enableIoSupply5V, 0),
+    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_Spark3Pins_Block, enableIoSupply12V, enableIoSupply5V, 0),
+    PB_FIELD(  5, BOOL    , SINGULAR, STATIC  , OTHER, blox_Spark3Pins_Block, soundAlarm, enableIoSupply12V, 0),
+    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_Spark3Pins_Block, voltage5, soundAlarm, 0),
+    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_Spark3Pins_Block, voltage12, voltage5, 0),
+    PB_FIELD(  8, MESSAGE , REPEATED, STATIC  , OTHER, blox_Spark3Pins_Block, channels, voltage12, &blox_IoArray_IoChannel_fields),
     PB_LAST_FIELD
 };
 
@@ -30,7 +30,7 @@ const pb_field_t blox_Spark3Pins_fields[7] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_Spark3Pins, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Spark3Pins)
+PB_STATIC_ASSERT((pb_membersize(blox_Spark3Pins_Block, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Spark3Pins_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -41,7 +41,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_Spark3Pins, channels[0]) < 65536), YOU_MUST
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_Spark3Pins, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Spark3Pins)
+PB_STATIC_ASSERT((pb_membersize(blox_Spark3Pins_Block, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Spark3Pins_Block)
 #endif
 
 

@@ -47,17 +47,20 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_IoArray_5ftest_2eproto
-namespace blox {
+namespace blox_test {
+namespace IoArray {
 class IoChannel;
 class IoChannelDefaultTypeInternal;
 extern IoChannelDefaultTypeInternal _IoChannel_default_instance_;
-}  // namespace blox
+}  // namespace IoArray
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::IoChannel* Arena::CreateMaybeMessage<::blox::IoChannel>(Arena*);
+template<> ::blox_test::IoArray::IoChannel* Arena::CreateMaybeMessage<::blox_test::IoArray::IoChannel>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace IoArray {
 
 enum DigitalState {
   STATE_INACTIVE = 0,
@@ -87,7 +90,7 @@ inline bool DigitalState_Parse(
 }
 // ===================================================================
 
-class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.IoChannel) */ {
+class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.IoArray.IoChannel) */ {
  public:
   IoChannel();
   virtual ~IoChannel();
@@ -174,13 +177,13 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // uint32 id = 1 [(.nanopb_test) = {
+  // uint32 id = 1 [(.nanopb) = {
   void clear_id();
   static const int kIdFieldNumber = 1;
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.IoChannel)
+  // @@protoc_insertion_point(class_scope:blox_test.IoArray.IoChannel)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -199,18 +202,18 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
 #endif  // __GNUC__
 // IoChannel
 
-// uint32 id = 1 [(.nanopb_test) = {
+// uint32 id = 1 [(.nanopb) = {
 inline void IoChannel::clear_id() {
   id_ = 0u;
 }
 inline ::google::protobuf::uint32 IoChannel::id() const {
-  // @@protoc_insertion_point(field_get:blox.IoChannel.id)
+  // @@protoc_insertion_point(field_get:blox_test.IoArray.IoChannel.id)
   return id_;
 }
 inline void IoChannel::set_id(::google::protobuf::uint32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:blox.IoChannel.id)
+  // @@protoc_insertion_point(field_set:blox_test.IoArray.IoChannel.id)
 }
 
 #ifdef __GNUC__
@@ -219,15 +222,16 @@ inline void IoChannel::set_id(::google::protobuf::uint32 value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace IoArray
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::DigitalState> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::IoArray::DigitalState> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::DigitalState>() {
-  return ::blox::DigitalState_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::DigitalState>() {
+  return ::blox_test::IoArray::DigitalState_descriptor();
 }
 
 }  // namespace protobuf

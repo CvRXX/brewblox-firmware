@@ -1,9 +1,9 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "DisplaySettingsBlock.h"
@@ -23,14 +23,14 @@
 cbox::CboxError
 DisplaySettingsBlock::streamTo(cbox::DataOut& out) const
 {
-    return streamProtoTo(out, &m_settings, blox_DisplaySettings_fields, blox_DisplaySettings_size);
+    return streamProtoTo(out, &m_settings, blox_DisplaySettings_Block_fields, blox_DisplaySettings_Block_size);
 }
 
 cbox::CboxError
 DisplaySettingsBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_DisplaySettings msg = blox_DisplaySettings_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &msg, blox_DisplaySettings_fields, blox_DisplaySettings_size);
+    blox_DisplaySettings_Block msg = blox_DisplaySettings_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(in, &msg, blox_DisplaySettings_Block_fields, blox_DisplaySettings_Block_size);
 
     if (result == cbox::CboxError::OK) {
         m_settings = msg;
@@ -46,5 +46,5 @@ DisplaySettingsBlock::streamPersistedTo(cbox::DataOut& out) const
 }
 
 // use global static settings, because we only have one display
-blox_DisplaySettings DisplaySettingsBlock::m_settings = blox_DisplaySettings_init_zero;
+blox_DisplaySettings_Block DisplaySettingsBlock::m_settings = blox_DisplaySettings_Block_init_zero;
 bool DisplaySettingsBlock::m_newSettingsReceived = false;

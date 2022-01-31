@@ -86,7 +86,7 @@ int main(int /*argc*/, char** /*argv*/)
     ethernet::init();
 
     asio::io_context io;
-    static auto& box = makeBrewBloxBox(io);
+    static auto& box = makeBrewbloxBox(io);
 
     Graphics::init(box);
 

@@ -1,20 +1,20 @@
 /*
  * Copyright 2020 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BrewBlox is distributed in the hope that it will be useful,
+ * Brewblox is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "SetpointProfileBlock.h"
@@ -27,14 +27,14 @@ bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const*
 {
     const std::vector<SetpointProfileBlock::Point>* points = reinterpret_cast<std::vector<SetpointProfileBlock::Point>*>(*arg);
     for (const auto& p : *points) {
-        auto submsg = blox_Point();
+        auto submsg = blox_SetpointProfile_Point();
         submsg.time = p.time;
         submsg.temperature_oneof.temperature = cnl::unwrap(p.temp);
-        submsg.which_temperature_oneof = blox_Point_temperature_tag;
+        submsg.which_temperature_oneof = blox_SetpointProfile_Point_temperature_tag;
         if (!pb_encode_tag_for_field(stream, field)) {
             return false;
         }
-        if (!pb_encode_submessage(stream, blox_Point_fields, &submsg)) {
+        if (!pb_encode_submessage(stream, blox_SetpointProfile_Point_fields, &submsg)) {
             return false;
         }
     }
@@ -46,8 +46,8 @@ bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
     std::vector<SetpointProfileBlock::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfileBlock::Point>*>(*arg);
 
     if (stream->bytes_left) {
-        blox_Point submsg = blox_Point_init_zero;
-        if (!pb_decode(stream, blox_Point_fields, &submsg)) {
+        blox_SetpointProfile_Point submsg = blox_SetpointProfile_Point_init_zero;
+        if (!pb_decode(stream, blox_SetpointProfile_Point_fields, &submsg)) {
             return false;
         }
         newPoints->push_back(SetpointProfileBlock::Point{submsg.time, cnl::wrap<decltype(SetpointProfileBlock::Point::temp)>(submsg.temperature_oneof.temperature)});
@@ -58,11 +58,11 @@ bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
 cbox::CboxError
 SetpointProfileBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_SetpointProfile newData = blox_SetpointProfile_init_zero;
+    blox_SetpointProfile_Block newData = blox_SetpointProfile_Block_init_zero;
     std::vector<Point> newPoints;
     newData.points.funcs.decode = &streamPointsIn;
     newData.points.arg = &newPoints;
-    cbox::CboxError result = streamProtoFrom(in, &newData, blox_SetpointProfile_fields, std::numeric_limits<size_t>::max() - 1);
+    cbox::CboxError result = streamProtoFrom(in, &newData, blox_SetpointProfile_Block_fields, std::numeric_limits<size_t>::max() - 1);
     if (result == cbox::CboxError::OK) {
         profile.points(std::move(newPoints));
         profile.enabled(newData.enabled);
@@ -75,7 +75,7 @@ SetpointProfileBlock::streamFrom(cbox::DataIn& in)
 cbox::CboxError
 SetpointProfileBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_SetpointProfile message = blox_SetpointProfile_init_zero;
+    blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     FieldTags stripped;
     message.points.funcs.encode = &streamPointsOut;
     message.points.arg = const_cast<std::vector<Point>*>(&profile.points());
@@ -86,7 +86,7 @@ SetpointProfileBlock::streamTo(cbox::DataOut& out) const
         message.drivenTargetId = target.getId();
     }
 
-    cbox::CboxError result = streamProtoTo(out, &message, blox_SetpointProfile_fields, std::numeric_limits<size_t>::max() - 1);
+    cbox::CboxError result = streamProtoTo(out, &message, blox_SetpointProfile_Block_fields, std::numeric_limits<size_t>::max() - 1);
     return result;
 }
 
@@ -102,7 +102,7 @@ SetpointProfileBlock::update(const cbox::update_t& now)
 
 void* SetpointProfileBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_SetpointProfile) {
+    if (iface == brewblox_BlockType_SetpointProfile) {
         return this; // me!
     }
 

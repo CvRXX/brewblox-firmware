@@ -357,22 +357,22 @@ class NanoPBOptions : public ::google::protobuf::Message /* @@protoc_insertion_p
 };
 // ===================================================================
 
-static const int kNanopbTestFileoptFieldNumber = 1010;
+static const int kNanopbFileoptFieldNumber = 1010;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FileOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test_fileopt;
-static const int kNanopbTestMsgoptFieldNumber = 1010;
+  nanopb_fileopt;
+static const int kNanopbMsgoptFieldNumber = 1010;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test_msgopt;
-static const int kNanopbTestEnumoptFieldNumber = 1010;
+  nanopb_msgopt;
+static const int kNanopbEnumoptFieldNumber = 1010;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::EnumOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test_enumopt;
-static const int kNanopbTestFieldNumber = 1010;
+  nanopb_enumopt;
+static const int kNanopbFieldNumber = 1010;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
     ::google::protobuf::internal::MessageTypeTraits< ::NanoPBOptions >, 11, false >
-  nanopb_test;
+  nanopb;
 
 // ===================================================================
 

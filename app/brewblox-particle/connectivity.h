@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,29 +21,21 @@
 #include "system_event.h"
 #include <cstdint>
 
-void
-printWiFiIp(char dest[16]);
+void printWiFiIp(char dest[16]);
 
-void
-printWifiSSID(char* dest, const uint8_t& maxLen);
+void printWifiSSID(char* dest, const uint8_t& maxLen);
 
 int8_t
 wifiSignal();
 
-bool
-serialConnected();
+bool serialConnected();
 
-bool
-setWifiCredentials(const char* ssid, const char* password, uint8_t security, uint8_t cipher);
+bool setWifiCredentials(const char* ssid, const char* password, uint8_t security, uint8_t cipher);
 
-void
-handleNetworkEvent(system_event_t event, int param);
+void handleNetworkEvent(system_event_t event, int param);
 
-void
-wifiInit();
+void wifiInit();
 
-bool
-listeningModeEnabled();
+bool listeningModeEnabled();
 
-void
-manageConnections(uint32_t now);
+void manageConnections(uint32_t now);

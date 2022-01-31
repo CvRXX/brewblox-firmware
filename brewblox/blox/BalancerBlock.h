@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ActuatorAnalogConstraintsProto.h"
 #include "Balancer.h"
+#include "ConstraintsProto.h"
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class BalancerBlock : public Block<BrewBloxTypes_BlockType_Balancer> {
+class BalancerBlock : public Block<brewblox_BlockType_Balancer> {
 public:
-    using Balancer_t = Balancer<blox_AnalogConstraint_balanced_tag>;
+    using Balancer_t = Balancer<blox_Constraints_AnalogConstraint_balanced_tag>;
 
 private:
     Balancer_t balancer;

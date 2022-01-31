@@ -32,7 +32,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
-#include "AnalogConstraints_test.pb.h"
+#include "Constraints_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_ActuatorPwm_5ftest_2eproto 
 
@@ -48,38 +48,41 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_ActuatorPwm_5ftest_2eproto
-namespace blox {
-class ActuatorPwm;
-class ActuatorPwmDefaultTypeInternal;
-extern ActuatorPwmDefaultTypeInternal _ActuatorPwm_default_instance_;
-}  // namespace blox
+namespace blox_test {
+namespace ActuatorPwm {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace ActuatorPwm
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::ActuatorPwm* Arena::CreateMaybeMessage<::blox::ActuatorPwm>(Arena*);
+template<> ::blox_test::ActuatorPwm::Block* Arena::CreateMaybeMessage<::blox_test::ActuatorPwm::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace ActuatorPwm {
 
 // ===================================================================
 
-class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.ActuatorPwm) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ActuatorPwm.Block) */ {
  public:
-  ActuatorPwm();
-  virtual ~ActuatorPwm();
+  Block();
+  virtual ~Block();
 
-  ActuatorPwm(const ActuatorPwm& from);
+  Block(const Block& from);
 
-  inline ActuatorPwm& operator=(const ActuatorPwm& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ActuatorPwm(ActuatorPwm&& from) noexcept
-    : ActuatorPwm() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline ActuatorPwm& operator=(ActuatorPwm&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -89,34 +92,34 @@ class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ActuatorPwm& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ActuatorPwm* internal_default_instance() {
-    return reinterpret_cast<const ActuatorPwm*>(
-               &_ActuatorPwm_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(ActuatorPwm* other);
-  friend void swap(ActuatorPwm& a, ActuatorPwm& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ActuatorPwm* New() const final {
-    return CreateMaybeMessage<ActuatorPwm>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  ActuatorPwm* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<ActuatorPwm>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const ActuatorPwm& from);
-  void MergeFrom(const ActuatorPwm& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -133,7 +136,7 @@ class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ActuatorPwm* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -149,7 +152,7 @@ class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -161,43 +164,43 @@ class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // .blox.AnalogConstraints constrainedBy = 6;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
   bool has_constrainedby() const;
   void clear_constrainedby();
   static const int kConstrainedByFieldNumber = 6;
   private:
-  const ::blox::AnalogConstraints& _internal_constrainedby() const;
+  const ::blox_test::Constraints::AnalogConstraints& _internal_constrainedby() const;
   public:
-  const ::blox::AnalogConstraints& constrainedby() const;
-  ::blox::AnalogConstraints* release_constrainedby();
-  ::blox::AnalogConstraints* mutable_constrainedby();
-  void set_allocated_constrainedby(::blox::AnalogConstraints* constrainedby);
+  const ::blox_test::Constraints::AnalogConstraints& constrainedby() const;
+  ::blox_test::Constraints::AnalogConstraints* release_constrainedby();
+  ::blox_test::Constraints::AnalogConstraints* mutable_constrainedby();
+  void set_allocated_constrainedby(::blox_test::Constraints::AnalogConstraints* constrainedby);
 
-  // uint32 actuatorId = 1 [(.nanopb_test) = {
+  // uint32 actuatorId = 1 [(.nanopb) = {
   void clear_actuatorid();
   static const int kActuatorIdFieldNumber = 1;
   ::google::protobuf::uint32 actuatorid() const;
   void set_actuatorid(::google::protobuf::uint32 value);
 
-  // uint32 period = 3 [(.brewblox_test) = {
+  // uint32 period = 3 [(.brewblox.field) = {
   void clear_period();
   static const int kPeriodFieldNumber = 3;
   ::google::protobuf::uint32 period() const;
   void set_period(::google::protobuf::uint32 value);
 
-  // sint32 setting = 4 [(.nanopb_test) = {
+  // sint32 setting = 4 [(.nanopb) = {
   void clear_setting();
   static const int kSettingFieldNumber = 4;
   ::google::protobuf::int32 setting() const;
   void set_setting(::google::protobuf::int32 value);
 
-  // sint32 value = 5 [(.nanopb_test) = {
+  // sint32 value = 5 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 5;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // uint32 drivenActuatorId = 7 [(.nanopb_test) = {
+  // uint32 drivenActuatorId = 7 [(.nanopb) = {
   void clear_drivenactuatorid();
   static const int kDrivenActuatorIdFieldNumber = 7;
   ::google::protobuf::uint32 drivenactuatorid() const;
@@ -209,19 +212,19 @@ class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_poi
   bool enabled() const;
   void set_enabled(bool value);
 
-  // sint32 desiredSetting = 9 [(.nanopb_test) = {
+  // sint32 desiredSetting = 9 [(.nanopb) = {
   void clear_desiredsetting();
   static const int kDesiredSettingFieldNumber = 9;
   ::google::protobuf::int32 desiredsetting() const;
   void set_desiredsetting(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.ActuatorPwm)
+  // @@protoc_insertion_point(class_scope:blox_test.ActuatorPwm.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
-  ::blox::AnalogConstraints* constrainedby_;
+  ::blox_test::Constraints::AnalogConstraints* constrainedby_;
   ::google::protobuf::uint32 actuatorid_;
   ::google::protobuf::uint32 period_;
   ::google::protobuf::int32 setting_;
@@ -241,94 +244,94 @@ class ActuatorPwm : public ::google::protobuf::Message /* @@protoc_insertion_poi
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ActuatorPwm
+// Block
 
-// uint32 actuatorId = 1 [(.nanopb_test) = {
-inline void ActuatorPwm::clear_actuatorid() {
+// uint32 actuatorId = 1 [(.nanopb) = {
+inline void Block::clear_actuatorid() {
   actuatorid_ = 0u;
 }
-inline ::google::protobuf::uint32 ActuatorPwm::actuatorid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.actuatorId)
+inline ::google::protobuf::uint32 Block::actuatorid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.actuatorId)
   return actuatorid_;
 }
-inline void ActuatorPwm::set_actuatorid(::google::protobuf::uint32 value) {
+inline void Block::set_actuatorid(::google::protobuf::uint32 value) {
   
   actuatorid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.actuatorId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.actuatorId)
 }
 
-// uint32 period = 3 [(.brewblox_test) = {
-inline void ActuatorPwm::clear_period() {
+// uint32 period = 3 [(.brewblox.field) = {
+inline void Block::clear_period() {
   period_ = 0u;
 }
-inline ::google::protobuf::uint32 ActuatorPwm::period() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.period)
+inline ::google::protobuf::uint32 Block::period() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.period)
   return period_;
 }
-inline void ActuatorPwm::set_period(::google::protobuf::uint32 value) {
+inline void Block::set_period(::google::protobuf::uint32 value) {
   
   period_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.period)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.period)
 }
 
-// sint32 setting = 4 [(.nanopb_test) = {
-inline void ActuatorPwm::clear_setting() {
+// sint32 setting = 4 [(.nanopb) = {
+inline void Block::clear_setting() {
   setting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorPwm::setting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.setting)
+inline ::google::protobuf::int32 Block::setting() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.setting)
   return setting_;
 }
-inline void ActuatorPwm::set_setting(::google::protobuf::int32 value) {
+inline void Block::set_setting(::google::protobuf::int32 value) {
   
   setting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.setting)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.setting)
 }
 
-// sint32 value = 5 [(.nanopb_test) = {
-inline void ActuatorPwm::clear_value() {
+// sint32 value = 5 [(.nanopb) = {
+inline void Block::clear_value() {
   value_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorPwm::value() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.value)
+inline ::google::protobuf::int32 Block::value() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.value)
   return value_;
 }
-inline void ActuatorPwm::set_value(::google::protobuf::int32 value) {
+inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.value)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.value)
 }
 
-// .blox.AnalogConstraints constrainedBy = 6;
-inline bool ActuatorPwm::has_constrainedby() const {
+// .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
+inline bool Block::has_constrainedby() const {
   return this != internal_default_instance() && constrainedby_ != NULL;
 }
-inline const ::blox::AnalogConstraints& ActuatorPwm::_internal_constrainedby() const {
+inline const ::blox_test::Constraints::AnalogConstraints& Block::_internal_constrainedby() const {
   return *constrainedby_;
 }
-inline const ::blox::AnalogConstraints& ActuatorPwm::constrainedby() const {
-  const ::blox::AnalogConstraints* p = constrainedby_;
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.constrainedBy)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::AnalogConstraints*>(
-      &::blox::_AnalogConstraints_default_instance_);
+inline const ::blox_test::Constraints::AnalogConstraints& Block::constrainedby() const {
+  const ::blox_test::Constraints::AnalogConstraints* p = constrainedby_;
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.constrainedBy)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::Constraints::AnalogConstraints*>(
+      &::blox_test::Constraints::_AnalogConstraints_default_instance_);
 }
-inline ::blox::AnalogConstraints* ActuatorPwm::release_constrainedby() {
-  // @@protoc_insertion_point(field_release:blox.ActuatorPwm.constrainedBy)
+inline ::blox_test::Constraints::AnalogConstraints* Block::release_constrainedby() {
+  // @@protoc_insertion_point(field_release:blox_test.ActuatorPwm.Block.constrainedBy)
   
-  ::blox::AnalogConstraints* temp = constrainedby_;
+  ::blox_test::Constraints::AnalogConstraints* temp = constrainedby_;
   constrainedby_ = NULL;
   return temp;
 }
-inline ::blox::AnalogConstraints* ActuatorPwm::mutable_constrainedby() {
+inline ::blox_test::Constraints::AnalogConstraints* Block::mutable_constrainedby() {
   
   if (constrainedby_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::AnalogConstraints>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox_test::Constraints::AnalogConstraints>(GetArenaNoVirtual());
     constrainedby_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.ActuatorPwm.constrainedBy)
+  // @@protoc_insertion_point(field_mutable:blox_test.ActuatorPwm.Block.constrainedBy)
   return constrainedby_;
 }
-inline void ActuatorPwm::set_allocated_constrainedby(::blox::AnalogConstraints* constrainedby) {
+inline void Block::set_allocated_constrainedby(::blox_test::Constraints::AnalogConstraints* constrainedby) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete reinterpret_cast< ::google::protobuf::MessageLite*>(constrainedby_);
@@ -344,78 +347,78 @@ inline void ActuatorPwm::set_allocated_constrainedby(::blox::AnalogConstraints* 
     
   }
   constrainedby_ = constrainedby;
-  // @@protoc_insertion_point(field_set_allocated:blox.ActuatorPwm.constrainedBy)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.ActuatorPwm.Block.constrainedBy)
 }
 
-// uint32 drivenActuatorId = 7 [(.nanopb_test) = {
-inline void ActuatorPwm::clear_drivenactuatorid() {
+// uint32 drivenActuatorId = 7 [(.nanopb) = {
+inline void Block::clear_drivenactuatorid() {
   drivenactuatorid_ = 0u;
 }
-inline ::google::protobuf::uint32 ActuatorPwm::drivenactuatorid() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.drivenActuatorId)
+inline ::google::protobuf::uint32 Block::drivenactuatorid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.drivenActuatorId)
   return drivenactuatorid_;
 }
-inline void ActuatorPwm::set_drivenactuatorid(::google::protobuf::uint32 value) {
+inline void Block::set_drivenactuatorid(::google::protobuf::uint32 value) {
   
   drivenactuatorid_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.drivenActuatorId)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.drivenActuatorId)
 }
 
 // bool enabled = 8;
-inline void ActuatorPwm::clear_enabled() {
+inline void Block::clear_enabled() {
   enabled_ = false;
 }
-inline bool ActuatorPwm::enabled() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.enabled)
+inline bool Block::enabled() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.enabled)
   return enabled_;
 }
-inline void ActuatorPwm::set_enabled(bool value) {
+inline void Block::set_enabled(bool value) {
   
   enabled_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.enabled)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.enabled)
 }
 
-// sint32 desiredSetting = 9 [(.nanopb_test) = {
-inline void ActuatorPwm::clear_desiredsetting() {
+// sint32 desiredSetting = 9 [(.nanopb) = {
+inline void Block::clear_desiredsetting() {
   desiredsetting_ = 0;
 }
-inline ::google::protobuf::int32 ActuatorPwm::desiredsetting() const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.desiredSetting)
+inline ::google::protobuf::int32 Block::desiredsetting() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.desiredSetting)
   return desiredsetting_;
 }
-inline void ActuatorPwm::set_desiredsetting(::google::protobuf::int32 value) {
+inline void Block::set_desiredsetting(::google::protobuf::int32 value) {
   
   desiredsetting_ = value;
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.desiredSetting)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.desiredSetting)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int ActuatorPwm::strippedfields_size() const {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void ActuatorPwm::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 ActuatorPwm::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.ActuatorPwm.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void ActuatorPwm::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.ActuatorPwm.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.strippedFields)
 }
-inline void ActuatorPwm::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.ActuatorPwm.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.ActuatorPwm.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-ActuatorPwm::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.ActuatorPwm.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox_test.ActuatorPwm.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-ActuatorPwm::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.ActuatorPwm.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.ActuatorPwm.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -425,7 +428,8 @@ ActuatorPwm::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace ActuatorPwm
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

@@ -47,25 +47,28 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_TempSensorMock_5ftest_2eproto
-namespace blox {
+namespace blox_test {
+namespace TempSensorMock {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
 class Fluctuation;
 class FluctuationDefaultTypeInternal;
 extern FluctuationDefaultTypeInternal _Fluctuation_default_instance_;
-class TempSensorMock;
-class TempSensorMockDefaultTypeInternal;
-extern TempSensorMockDefaultTypeInternal _TempSensorMock_default_instance_;
-}  // namespace blox
+}  // namespace TempSensorMock
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::Fluctuation* Arena::CreateMaybeMessage<::blox::Fluctuation>(Arena*);
-template<> ::blox::TempSensorMock* Arena::CreateMaybeMessage<::blox::TempSensorMock>(Arena*);
+template<> ::blox_test::TempSensorMock::Block* Arena::CreateMaybeMessage<::blox_test::TempSensorMock::Block>(Arena*);
+template<> ::blox_test::TempSensorMock::Fluctuation* Arena::CreateMaybeMessage<::blox_test::TempSensorMock::Fluctuation>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace TempSensorMock {
 
 // ===================================================================
 
-class Fluctuation : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Fluctuation) */ {
+class Fluctuation : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.TempSensorMock.Fluctuation) */ {
  public:
   Fluctuation();
   virtual ~Fluctuation();
@@ -152,19 +155,19 @@ class Fluctuation : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // sint32 amplitude = 1 [(.nanopb_test) = {
+  // sint32 amplitude = 1 [(.nanopb) = {
   void clear_amplitude();
   static const int kAmplitudeFieldNumber = 1;
   ::google::protobuf::int32 amplitude() const;
   void set_amplitude(::google::protobuf::int32 value);
 
-  // uint32 period = 2 [(.nanopb_test) = {
+  // uint32 period = 2 [(.nanopb) = {
   void clear_period();
   static const int kPeriodFieldNumber = 2;
   ::google::protobuf::uint32 period() const;
   void set_period(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Fluctuation)
+  // @@protoc_insertion_point(class_scope:blox_test.TempSensorMock.Fluctuation)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -175,24 +178,24 @@ class Fluctuation : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class TempSensorMock : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.TempSensorMock) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.TempSensorMock.Block) */ {
  public:
-  TempSensorMock();
-  virtual ~TempSensorMock();
+  Block();
+  virtual ~Block();
 
-  TempSensorMock(const TempSensorMock& from);
+  Block(const Block& from);
 
-  inline TempSensorMock& operator=(const TempSensorMock& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  TempSensorMock(TempSensorMock&& from) noexcept
-    : TempSensorMock() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline TempSensorMock& operator=(TempSensorMock&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -202,34 +205,34 @@ class TempSensorMock : public ::google::protobuf::Message /* @@protoc_insertion_
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const TempSensorMock& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TempSensorMock* internal_default_instance() {
-    return reinterpret_cast<const TempSensorMock*>(
-               &_TempSensorMock_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  void Swap(TempSensorMock* other);
-  friend void swap(TempSensorMock& a, TempSensorMock& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TempSensorMock* New() const final {
-    return CreateMaybeMessage<TempSensorMock>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  TempSensorMock* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<TempSensorMock>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const TempSensorMock& from);
-  void MergeFrom(const TempSensorMock& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -246,7 +249,7 @@ class TempSensorMock : public ::google::protobuf::Message /* @@protoc_insertion_
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(TempSensorMock* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -262,19 +265,19 @@ class TempSensorMock : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.Fluctuation fluctuations = 5;
+  // repeated .blox_test.TempSensorMock.Fluctuation fluctuations = 5;
   int fluctuations_size() const;
   void clear_fluctuations();
   static const int kFluctuationsFieldNumber = 5;
-  ::blox::Fluctuation* mutable_fluctuations(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::Fluctuation >*
+  ::blox_test::TempSensorMock::Fluctuation* mutable_fluctuations(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation >*
       mutable_fluctuations();
-  const ::blox::Fluctuation& fluctuations(int index) const;
-  ::blox::Fluctuation* add_fluctuations();
-  const ::google::protobuf::RepeatedPtrField< ::blox::Fluctuation >&
+  const ::blox_test::TempSensorMock::Fluctuation& fluctuations(int index) const;
+  ::blox_test::TempSensorMock::Fluctuation* add_fluctuations();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation >&
       fluctuations() const;
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -286,29 +289,29 @@ class TempSensorMock : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // sint32 value = 1 [(.nanopb_test) = {
+  // sint32 value = 1 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 1;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // bool connected = 3 [(.brewblox_test) = {
+  // bool connected = 3 [(.brewblox.field) = {
   void clear_connected();
   static const int kConnectedFieldNumber = 3;
   bool connected() const;
   void set_connected(bool value);
 
-  // sint32 setting = 4 [(.nanopb_test) = {
+  // sint32 setting = 4 [(.nanopb) = {
   void clear_setting();
   static const int kSettingFieldNumber = 4;
   ::google::protobuf::int32 setting() const;
   void set_setting(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.TempSensorMock)
+  // @@protoc_insertion_point(class_scope:blox_test.TempSensorMock.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::Fluctuation > fluctuations_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation > fluctuations_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
   ::google::protobuf::int32 value_;
@@ -328,137 +331,137 @@ class TempSensorMock : public ::google::protobuf::Message /* @@protoc_insertion_
 #endif  // __GNUC__
 // Fluctuation
 
-// sint32 amplitude = 1 [(.nanopb_test) = {
+// sint32 amplitude = 1 [(.nanopb) = {
 inline void Fluctuation::clear_amplitude() {
   amplitude_ = 0;
 }
 inline ::google::protobuf::int32 Fluctuation::amplitude() const {
-  // @@protoc_insertion_point(field_get:blox.Fluctuation.amplitude)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Fluctuation.amplitude)
   return amplitude_;
 }
 inline void Fluctuation::set_amplitude(::google::protobuf::int32 value) {
   
   amplitude_ = value;
-  // @@protoc_insertion_point(field_set:blox.Fluctuation.amplitude)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Fluctuation.amplitude)
 }
 
-// uint32 period = 2 [(.nanopb_test) = {
+// uint32 period = 2 [(.nanopb) = {
 inline void Fluctuation::clear_period() {
   period_ = 0u;
 }
 inline ::google::protobuf::uint32 Fluctuation::period() const {
-  // @@protoc_insertion_point(field_get:blox.Fluctuation.period)
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Fluctuation.period)
   return period_;
 }
 inline void Fluctuation::set_period(::google::protobuf::uint32 value) {
   
   period_ = value;
-  // @@protoc_insertion_point(field_set:blox.Fluctuation.period)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Fluctuation.period)
 }
 
 // -------------------------------------------------------------------
 
-// TempSensorMock
+// Block
 
-// sint32 value = 1 [(.nanopb_test) = {
-inline void TempSensorMock::clear_value() {
+// sint32 value = 1 [(.nanopb) = {
+inline void Block::clear_value() {
   value_ = 0;
 }
-inline ::google::protobuf::int32 TempSensorMock::value() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorMock.value)
+inline ::google::protobuf::int32 Block::value() const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Block.value)
   return value_;
 }
-inline void TempSensorMock::set_value(::google::protobuf::int32 value) {
+inline void Block::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorMock.value)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Block.value)
 }
 
-// bool connected = 3 [(.brewblox_test) = {
-inline void TempSensorMock::clear_connected() {
+// bool connected = 3 [(.brewblox.field) = {
+inline void Block::clear_connected() {
   connected_ = false;
 }
-inline bool TempSensorMock::connected() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorMock.connected)
+inline bool Block::connected() const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Block.connected)
   return connected_;
 }
-inline void TempSensorMock::set_connected(bool value) {
+inline void Block::set_connected(bool value) {
   
   connected_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorMock.connected)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Block.connected)
 }
 
-// sint32 setting = 4 [(.nanopb_test) = {
-inline void TempSensorMock::clear_setting() {
+// sint32 setting = 4 [(.nanopb) = {
+inline void Block::clear_setting() {
   setting_ = 0;
 }
-inline ::google::protobuf::int32 TempSensorMock::setting() const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorMock.setting)
+inline ::google::protobuf::int32 Block::setting() const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Block.setting)
   return setting_;
 }
-inline void TempSensorMock::set_setting(::google::protobuf::int32 value) {
+inline void Block::set_setting(::google::protobuf::int32 value) {
   
   setting_ = value;
-  // @@protoc_insertion_point(field_set:blox.TempSensorMock.setting)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Block.setting)
 }
 
-// repeated .blox.Fluctuation fluctuations = 5;
-inline int TempSensorMock::fluctuations_size() const {
+// repeated .blox_test.TempSensorMock.Fluctuation fluctuations = 5;
+inline int Block::fluctuations_size() const {
   return fluctuations_.size();
 }
-inline void TempSensorMock::clear_fluctuations() {
+inline void Block::clear_fluctuations() {
   fluctuations_.Clear();
 }
-inline ::blox::Fluctuation* TempSensorMock::mutable_fluctuations(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.TempSensorMock.fluctuations)
+inline ::blox_test::TempSensorMock::Fluctuation* Block::mutable_fluctuations(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.TempSensorMock.Block.fluctuations)
   return fluctuations_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::Fluctuation >*
-TempSensorMock::mutable_fluctuations() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorMock.fluctuations)
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation >*
+Block::mutable_fluctuations() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.TempSensorMock.Block.fluctuations)
   return &fluctuations_;
 }
-inline const ::blox::Fluctuation& TempSensorMock::fluctuations(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorMock.fluctuations)
+inline const ::blox_test::TempSensorMock::Fluctuation& Block::fluctuations(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Block.fluctuations)
   return fluctuations_.Get(index);
 }
-inline ::blox::Fluctuation* TempSensorMock::add_fluctuations() {
-  // @@protoc_insertion_point(field_add:blox.TempSensorMock.fluctuations)
+inline ::blox_test::TempSensorMock::Fluctuation* Block::add_fluctuations() {
+  // @@protoc_insertion_point(field_add:blox_test.TempSensorMock.Block.fluctuations)
   return fluctuations_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::Fluctuation >&
-TempSensorMock::fluctuations() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorMock.fluctuations)
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation >&
+Block::fluctuations() const {
+  // @@protoc_insertion_point(field_list:blox_test.TempSensorMock.Block.fluctuations)
   return fluctuations_;
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int TempSensorMock::strippedfields_size() const {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void TempSensorMock::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 TempSensorMock::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.TempSensorMock.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void TempSensorMock::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.TempSensorMock.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Block.strippedFields)
 }
-inline void TempSensorMock::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.TempSensorMock.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.TempSensorMock.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-TempSensorMock::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.TempSensorMock.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox_test.TempSensorMock.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-TempSensorMock::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.TempSensorMock.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.TempSensorMock.Block.strippedFields)
   return &strippedfields_;
 }
 
@@ -470,7 +473,8 @@ TempSensorMock::mutable_strippedfields() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace TempSensorMock
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

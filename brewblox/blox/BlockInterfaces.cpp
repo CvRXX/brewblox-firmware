@@ -1,9 +1,9 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "ActuatorAnalogConstrained.h"
@@ -30,7 +30,7 @@
 #include "ProcessValue.h"
 #include "SetpointSensorPair.h"
 #include "TempSensor.h"
-#include "blox/compiled_proto/src/DigitalConstraints.pb.h"
+#include "blox/compiled_proto/src/Constraints.pb.h"
 #include "blox/compiled_proto/src/brewblox.pb.h"
 #include "cbox/ObjectBase.h"
 
@@ -40,91 +40,91 @@ template <>
 const obj_type_t
 interfaceIdImpl<ProcessValue<fp12_t>>()
 {
-    return BrewBloxTypes_BlockType_ProcessValueInterface;
+    return brewblox_BlockType_ProcessValueInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<TempSensor>()
 {
-    return BrewBloxTypes_BlockType_TempSensorInterface;
+    return brewblox_BlockType_TempSensorInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<SetpointSensorPair>()
 {
-    return BrewBloxTypes_BlockType_SetpointSensorPairInterface;
+    return brewblox_BlockType_SetpointSensorPairInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<ActuatorAnalogConstrained>()
 {
-    return BrewBloxTypes_BlockType_ActuatorAnalogInterface;
+    return brewblox_BlockType_ActuatorAnalogInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<ActuatorDigitalConstrained>()
 {
-    return BrewBloxTypes_BlockType_ActuatorDigitalInterface;
+    return brewblox_BlockType_ActuatorDigitalInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<MutexTarget>()
 {
-    return BrewBloxTypes_BlockType_MutexInterface;
+    return brewblox_BlockType_MutexInterface;
 }
 
 template <>
 const obj_type_t
-interfaceIdImpl<Balancer<blox_DigitalConstraint_mutex_tag>>()
+interfaceIdImpl<Balancer<blox_Constraints_DigitalConstraint_mutex_tag>>()
 {
-    return BrewBloxTypes_BlockType_BalancerInterface;
+    return brewblox_BlockType_BalancerInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<OneWireDevice>()
 {
-    return BrewBloxTypes_BlockType_OneWireDeviceInterface;
+    return brewblox_BlockType_OneWireDeviceInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<IoArray>()
 {
-    return BrewBloxTypes_BlockType_IoArrayInterface;
+    return brewblox_BlockType_IoArrayInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<DS2408>()
 {
-    return BrewBloxTypes_BlockType_DS2408Interface;
+    return brewblox_BlockType_DS2408Interface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<OneWire>()
 {
-    return BrewBloxTypes_BlockType_OneWireBusInterface;
+    return brewblox_BlockType_OneWireBusInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<IoModule>()
 {
-    return BrewBloxTypes_BlockType_IoModuleInterface;
+    return brewblox_BlockType_IoModuleInterface;
 }
 
 template <>
 const obj_type_t
 interfaceIdImpl<OneWireDeviceBlock>()
 {
-    return BrewBloxTypes_BlockType_OneWireDeviceBlockInterface;
+    return brewblox_BlockType_OneWireDeviceBlockInterface;
 }
 
 } // end namespace cbox

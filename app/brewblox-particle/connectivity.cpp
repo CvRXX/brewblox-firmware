@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -163,8 +163,8 @@ void manageConnections(uint32_t now)
         cbox::tracing::add(AppTrace::HTTP_RESPONSE);
         const uint8_t start[] =
             "HTTP/1.1 200 Ok\n\n<html><body>"
-            "<p>Your BrewBlox Spark is online but it does not run its own web server. "
-            "Please install a BrewBlox server to connect to it using the BrewBlox protocol.</p>"
+            "<p>Your Brewblox Spark is online but it does not run its own web server. "
+            "Please install a Brewblox server to connect to it using the Brewblox protocol.</p>"
             "<p>Device ID = ";
         const uint8_t end[] = "</p></body></html>\n\n";
 

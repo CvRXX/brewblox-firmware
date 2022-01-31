@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  * 
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "memory_info.h"
 
 char listeningString1[] = "Listening mode active";
-char listeningString2[] = "On the BrewBlox server, run:";
+char listeningString2[] = "On the Brewblox server, run:";
 char listeningString3[] = "brewblox-ctl wifi";
 char listeningString4[] = "to change WiFi settings over USB";
 
@@ -42,30 +42,25 @@ D4D_DECLARE_SCREEN_BEGIN(screen_listening, ScrListening_, 0, 0, (D4D_COOR)(D4D_S
     &scrListening_txt4,
     D4D_DECLARE_SCREEN_END();
 
-void
-ListeningScreen::activate()
+void ListeningScreen::activate()
 {
     D4D_ActivateScreen(&screen_listening, D4D_TRUE);
 }
 
-void
-ScrListening_OnInit()
+void ScrListening_OnInit()
 {
 }
 
-void
-ScrListening_OnMain()
+void ScrListening_OnMain()
 {
     updateRamDisplay();
 }
 
-void
-ScrListening_OnActivate()
+void ScrListening_OnActivate()
 {
 }
 
-void
-ScrListening_OnDeactivate()
+void ScrListening_OnDeactivate()
 {
 }
 

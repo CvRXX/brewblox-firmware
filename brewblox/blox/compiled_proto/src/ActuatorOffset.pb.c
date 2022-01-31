@@ -9,17 +9,17 @@
 
 
 
-const pb_field_t blox_ActuatorOffset_fields[11] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorOffset, targetId, targetId, 0),
-    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, referenceId, targetId, 0),
-    PB_FIELD(  4, UENUM   , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, referenceSettingOrValue, referenceId, 0),
-    PB_FIELD(  6, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, setting, referenceSettingOrValue, 0),
-    PB_FIELD(  7, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, value, setting, 0),
-    PB_FIELD(  8, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, constrainedBy, value, &blox_AnalogConstraints_fields),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, drivenTargetId, constrainedBy, 0),
-    PB_FIELD( 10, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, enabled, drivenTargetId, 0),
-    PB_FIELD( 11, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset, desiredSetting, enabled, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_ActuatorOffset, strippedFields, desiredSetting, 0),
+const pb_field_t blox_ActuatorOffset_Block_fields[11] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorOffset_Block, targetId, targetId, 0),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, referenceId, targetId, 0),
+    PB_FIELD(  4, UENUM   , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, referenceSettingOrValue, referenceId, 0),
+    PB_FIELD(  6, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, setting, referenceSettingOrValue, 0),
+    PB_FIELD(  7, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, value, setting, 0),
+    PB_FIELD(  8, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, constrainedBy, value, &blox_Constraints_AnalogConstraints_fields),
+    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, drivenTargetId, constrainedBy, 0),
+    PB_FIELD( 10, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, enabled, drivenTargetId, 0),
+    PB_FIELD( 11, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, desiredSetting, enabled, 0),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_ActuatorOffset_Block, strippedFields, desiredSetting, 0),
     PB_LAST_FIELD
 };
 
@@ -34,7 +34,7 @@ const pb_field_t blox_ActuatorOffset_fields[11] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_ActuatorOffset, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_ActuatorOffset)
+PB_STATIC_ASSERT((pb_membersize(blox_ActuatorOffset_Block, constrainedBy) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_ActuatorOffset_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -45,7 +45,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_ActuatorOffset, constrainedBy) < 65536), YO
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_ActuatorOffset, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_ActuatorOffset)
+PB_STATIC_ASSERT((pb_membersize(blox_ActuatorOffset_Block, constrainedBy) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_ActuatorOffset_Block)
 #endif
 
 

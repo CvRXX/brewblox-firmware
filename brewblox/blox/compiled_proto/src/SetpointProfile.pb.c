@@ -9,18 +9,18 @@
 
 
 
-const pb_field_t blox_Point_fields[3] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Point, time, time, 0),
-    PB_ONEOF_FIELD(temperature_oneof,   2, INT32   , ONEOF, STATIC  , OTHER, blox_Point, temperature, time, 0),
+const pb_field_t blox_SetpointProfile_Point_fields[3] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_SetpointProfile_Point, time, time, 0),
+    PB_ONEOF_FIELD(temperature_oneof,   2, INT32   , ONEOF, STATIC  , OTHER, blox_SetpointProfile_Point, temperature, time, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_SetpointProfile_fields[6] = {
-    PB_FIELD(  1, MESSAGE , REPEATED, CALLBACK, FIRST, blox_SetpointProfile, points, points, &blox_Point_fields),
-    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_SetpointProfile, enabled, points, 0),
-    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_SetpointProfile, targetId, enabled, 0),
-    PB_FIELD(  5, UINT32  , SINGULAR, STATIC  , OTHER, blox_SetpointProfile, drivenTargetId, targetId, 0),
-    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_SetpointProfile, start, drivenTargetId, 0),
+const pb_field_t blox_SetpointProfile_Block_fields[6] = {
+    PB_FIELD(  1, MESSAGE , REPEATED, CALLBACK, FIRST, blox_SetpointProfile_Block, points, points, &blox_SetpointProfile_Point_fields),
+    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_SetpointProfile_Block, enabled, points, 0),
+    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_SetpointProfile_Block, targetId, enabled, 0),
+    PB_FIELD(  5, UINT32  , SINGULAR, STATIC  , OTHER, blox_SetpointProfile_Block, drivenTargetId, targetId, 0),
+    PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_SetpointProfile_Block, start, drivenTargetId, 0),
     PB_LAST_FIELD
 };
 

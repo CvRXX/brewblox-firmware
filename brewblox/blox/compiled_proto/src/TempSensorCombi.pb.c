@@ -9,11 +9,11 @@
 
 
 
-const pb_field_t blox_TempSensorCombi_fields[5] = {
-    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_TempSensorCombi, value, value, 0),
-    PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_TempSensorCombi, combineFunc, value, 0),
-    PB_FIELD(  3, UINT32  , REPEATED, STATIC  , OTHER, blox_TempSensorCombi, sensors, combineFunc, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_TempSensorCombi, strippedFields, sensors, 0),
+const pb_field_t blox_TempSensorCombi_Block_fields[5] = {
+    PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_TempSensorCombi_Block, value, value, 0),
+    PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_TempSensorCombi_Block, combineFunc, value, 0),
+    PB_FIELD(  3, UINT32  , REPEATED, STATIC  , OTHER, blox_TempSensorCombi_Block, sensors, combineFunc, 0),
+    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_TempSensorCombi_Block, strippedFields, sensors, 0),
     PB_LAST_FIELD
 };
 

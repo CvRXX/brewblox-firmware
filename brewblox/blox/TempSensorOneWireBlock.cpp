@@ -22,8 +22,8 @@ TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::ObjectContainer& objects, c
 
 cbox::CboxError TempSensorOneWireBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_TempSensorOneWire newData = blox_TempSensorOneWire_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_TempSensorOneWire_fields, blox_TempSensorOneWire_size);
+    blox_TempSensorOneWire_Block newData = blox_TempSensorOneWire_Block_init_zero;
+    cbox::CboxError res = streamProtoFrom(in, &newData, blox_TempSensorOneWire_Block_fields, blox_TempSensorOneWire_Block_size);
     /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         if (newData.oneWireBusId) {
@@ -37,13 +37,13 @@ cbox::CboxError TempSensorOneWireBlock::streamFrom(cbox::DataIn& in)
 
 cbox::CboxError TempSensorOneWireBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_TempSensorOneWire message = blox_TempSensorOneWire_init_zero;
+    blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     FieldTags stripped;
 
     if (sensor.valid()) {
         message.value = cnl::unwrap((sensor.value()));
     } else {
-        stripped.add(blox_TempSensorOneWire_value_tag);
+        stripped.add(blox_TempSensorOneWire_Block_value_tag);
     }
 
     message.oneWireBusId = owBus.getId();
@@ -51,16 +51,16 @@ cbox::CboxError TempSensorOneWireBlock::streamTo(cbox::DataOut& out) const
     message.offset = cnl::unwrap(sensor.getCalibration());
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-    return streamProtoTo(out, &message, blox_TempSensorOneWire_fields, blox_TempSensorOneWire_size);
+    return streamProtoTo(out, &message, blox_TempSensorOneWire_Block_fields, blox_TempSensorOneWire_Block_size);
 }
 
 cbox::CboxError TempSensorOneWireBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_TempSensorOneWire message = blox_TempSensorOneWire_init_zero;
+    blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     message.oneWireBusId = owBus.getId();
     message.address = sensor.address();
     message.offset = cnl::unwrap(sensor.getCalibration());
-    return streamProtoTo(out, &message, blox_TempSensorOneWire_fields, blox_TempSensorOneWire_size);
+    return streamProtoTo(out, &message, blox_TempSensorOneWire_Block_fields, blox_TempSensorOneWire_Block_size);
 }
 
 cbox::update_t TempSensorOneWireBlock::update(const cbox::update_t& now)
@@ -71,7 +71,7 @@ cbox::update_t TempSensorOneWireBlock::update(const cbox::update_t& now)
 
 void* TempSensorOneWireBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_TempSensorOneWire) {
+    if (iface == brewblox_BlockType_TempSensorOneWire) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<TempSensor>()) {

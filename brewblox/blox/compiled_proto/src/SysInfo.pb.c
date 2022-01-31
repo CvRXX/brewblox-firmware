@@ -9,22 +9,22 @@
 
 
 
-const pb_field_t blox_Trace_fields[4] = {
-    PB_FIELD(  1, UENUM   , SINGULAR, STATIC  , FIRST, blox_Trace, action, action, 0),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_Trace, id, action, 0),
-    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_Trace, type, id, 0),
+const pb_field_t blox_SysInfo_Trace_fields[4] = {
+    PB_FIELD(  1, UENUM   , SINGULAR, STATIC  , FIRST, blox_SysInfo_Trace, action, action, 0),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Trace, id, action, 0),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Trace, type, id, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_SysInfo_fields[9] = {
-    PB_FIELD(  1, BYTES   , SINGULAR, STATIC  , FIRST, blox_SysInfo, deviceId, deviceId, 0),
-    PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo, version, deviceId, 0),
-    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo, platform, version, 0),
-    PB_FIELD(  7, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo, protocolVersion, platform, 0),
-    PB_FIELD(  8, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo, releaseDate, protocolVersion, 0),
-    PB_FIELD(  9, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo, protocolDate, releaseDate, 0),
-    PB_FIELD( 10, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo, command, protocolDate, 0),
-    PB_FIELD( 11, MESSAGE , REPEATED, STATIC  , OTHER, blox_SysInfo, trace, command, &blox_Trace_fields),
+const pb_field_t blox_SysInfo_Block_fields[9] = {
+    PB_FIELD(  1, BYTES   , SINGULAR, STATIC  , FIRST, blox_SysInfo_Block, deviceId, deviceId, 0),
+    PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, version, deviceId, 0),
+    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, platform, version, 0),
+    PB_FIELD(  7, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, protocolVersion, platform, 0),
+    PB_FIELD(  8, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, releaseDate, protocolVersion, 0),
+    PB_FIELD(  9, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, protocolDate, releaseDate, 0),
+    PB_FIELD( 10, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, command, protocolDate, 0),
+    PB_FIELD( 11, MESSAGE , REPEATED, STATIC  , OTHER, blox_SysInfo_Block, trace, command, &blox_SysInfo_Trace_fields),
     PB_LAST_FIELD
 };
 
@@ -41,7 +41,7 @@ const pb_field_t blox_SysInfo_fields[9] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_SysInfo, trace[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Trace_blox_SysInfo)
+PB_STATIC_ASSERT((pb_membersize(blox_SysInfo_Block, trace[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_SysInfo_Trace_blox_SysInfo_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -52,7 +52,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_SysInfo, trace[0]) < 65536), YOU_MUST_DEFIN
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_SysInfo, trace[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Trace_blox_SysInfo)
+PB_STATIC_ASSERT((pb_membersize(blox_SysInfo_Block, trace[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_SysInfo_Trace_blox_SysInfo_Block)
 #endif
 
 

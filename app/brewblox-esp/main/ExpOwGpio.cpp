@@ -111,26 +111,26 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
     }
 
     switch (flexChannels[idx].deviceType) {
-    case blox_GpioDeviceType_GPIO_DEV_NONE:
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE:
         result = State::Unknown;
         break;
-    case blox_GpioDeviceType_GPIO_DEV_SSR_2P:                        // gnd, pp
-    case blox_GpioDeviceType_GPIO_DEV_SSR_1P:                        // pp, external ground
-    case blox_GpioDeviceType_GPIO_DEV_COIL_1P_HIGH_SIDE:             // pu, external ground
-    case blox_GpioDeviceType_GPIO_DEV_COIL_2P:                       // gnd, pu
-    case blox_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SIDE: // pu, external ground
-    case blox_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_2P:           // gnd, pu
-    case blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL:         // pp,pp toggled 01 or 10
-    case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P:                      // gnd, pu
-    case blox_GpioDeviceType_GPIO_DEV_MOTOR_1P_HIGH_SIDE:            // pu, external to GND
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P:                        // gnd, pp
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P:                        // pp, external ground
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_1P_HIGH_SIDE:             // pu, external ground
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P:                       // gnd, pu
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SIDE: // pu, external ground
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_2P:           // gnd, pu
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL:         // pp,pp toggled 01 or 10
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P:                      // gnd, pu
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_HIGH_SIDE:            // pu, external to GND
         result = pullUpStatus() & pins ? State::Active : State::Inactive;
         break;
-    case blox_GpioDeviceType_GPIO_DEV_COIL_1P_LOW_SIDE:             // pd, external ground
-    case blox_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_LOW_SIDE: // pd, external ground
-    case blox_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE:            // pd, external to PWR
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_1P_LOW_SIDE:             // pd, external ground
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_LOW_SIDE: // pd, external ground
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE:            // pd, external to PWR
         result = pullDownStatus() & pins ? State::Active : State::Inactive;
         break;
-    case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
         if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
             // result = State::Reverse;
             // return Inactive for the reverse state to be compatible with digital actuator
@@ -142,22 +142,22 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
             result = State::Inactive;
         }
         break;
-    case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P: // old, old
-        result = State::Unknown;                      // todo
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P: // old, old
+        result = State::Unknown;                                        // todo
         break;
-    case blox_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT:       // old, external GND
-    case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN: // old only
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT:       // old, external GND
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN: // old only
+        result = State::Unknown;                                                  // todo
+        break;
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT:   // old, external PWR
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP: // old only
+        result = State::Unknown;                                                // todo
+        break;
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P: // pwr, no load detect
+        result = State::Unknown;                                  // todo
+        break;
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P: // gnd, no load detect
         result = State::Unknown;                                // todo
-        break;
-    case blox_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT:   // old, external PWR
-    case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP: // old only
-        result = State::Unknown;                              // todo
-        break;
-    case blox_GpioDeviceType_GPIO_DEV_POWER_1P: // pwr, no load detect
-        result = State::Unknown;                // todo
-        break;
-    case blox_GpioDeviceType_GPIO_DEV_GND_1P: // gnd, no load detect
-        result = State::Unknown;              // todo
         break;
     }
     return true;
@@ -374,64 +374,64 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
             ChanBits when_inactive_external{when_inactive_mask};
 
             switch (c.deviceType) {
-            case blox_GpioDeviceType_GPIO_DEV_NONE:
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE:
                 // no pullups or pull downs
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_SSR_1P: // pp, external ground
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P: // pp, external ground
                 // all push/pull
                 when_inactive_external.setBits(pins_external, 0x00);
                 when_active_external.setBits(0x00, pins_external);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_SSR_2P:
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P:
                 // first GND, second push/pull
                 when_inactive_external.setBits(pins_external, 0x00);
                 when_active_external.setBits(first, second);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_COIL_2P:             // gnd, pu
-            case blox_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_2P: // gnd, pu
-            case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P:            // gnd, pu
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P:             // gnd, pu
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_2P: // gnd, pu
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P:            // gnd, pu
                 // first GND, second pull-up
                 when_inactive_external.setBits(first, 0x00);
                 when_active_external.setBits(first, second);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_COIL_1P_HIGH_SIDE:             // pu, external ground
-            case blox_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SIDE: // pu, external ground
-            case blox_GpioDeviceType_GPIO_DEV_MOTOR_1P_HIGH_SIDE:            // pu, external to ground
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_1P_HIGH_SIDE:             // pu, external ground
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SIDE: // pu, external ground
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_HIGH_SIDE:            // pu, external to ground
                 // all pull-up only
                 when_inactive_external.setBits(0x00, 0x00);
                 when_active_external.setBits(0x00, pins_external);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_COIL_1P_LOW_SIDE:             // pd, external to PWR
-            case blox_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_LOW_SIDE: // pd, external to PWR
-            case blox_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE:            // pd, external to PWR
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_1P_LOW_SIDE:             // pd, external to PWR
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_LOW_SIDE: // pd, external to PWR
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE:            // pd, external to PWR
                 // all pull-down only
                 when_inactive_external.setBits(0x00, 0x00);
                 when_active_external.setBits(pins_external, 0x00);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL:  // pp,pp toggled 01 or 10
-            case blox_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL:  // pp,pp toggled 01 or 10
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
                 when_inactive_external.setBits(second, first);
                 when_active_external.setBits(first, second);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P:; // old, old
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P:; // old, old
                 when_inactive_external.setBits(0x00, 0x00);
                 when_active_external.setBits(0x00, 0x00);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN:; // old, external GND
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN:; // old, external GND
                 when_inactive_external.setBits(0x00, 0x00);
                 when_active_external.setBits(0x00, 0x00);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP:; // old, external PWR
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP:; // old, external PWR
                 when_inactive_external.setBits(0x00, 0x00);
                 when_active_external.setBits(0x00, 0x00);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT:; // pwr, with load detect
-            case blox_GpioDeviceType_GPIO_DEV_POWER_1P:;             // pwr, without load detect
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT:; // pwr, with load detect
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P:;             // pwr, without load detect
                 when_inactive_external.setBits(0x00, pins_external);
                 when_active_external.setBits(0x00, pins_external);
                 break;
-            case blox_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT:; // gnd, with load detect
-            case blox_GpioDeviceType_GPIO_DEV_GND_1P:
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT:; // gnd, with load detect
+            case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P:
                 when_inactive_external.setBits(pins_external, 0x00);
                 when_active_external.setBits(pins_external, 0x00);
                 break;

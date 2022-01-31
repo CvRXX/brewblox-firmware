@@ -40,17 +40,18 @@ namespace protobuf_EdgeCase_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[4];
+  static const ::google::protobuf::internal::ParseTable schema[5];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
 }  // namespace protobuf_EdgeCase_5ftest_2eproto
-namespace blox {
-class EdgeCase;
-class EdgeCaseDefaultTypeInternal;
-extern EdgeCaseDefaultTypeInternal _EdgeCase_default_instance_;
+namespace blox_test {
+namespace EdgeCase {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
 class NestedLink;
 class NestedLinkDefaultTypeInternal;
 extern NestedLinkDefaultTypeInternal _NestedLink_default_instance_;
@@ -60,20 +61,26 @@ extern SettingsDefaultTypeInternal _Settings_default_instance_;
 class State;
 class StateDefaultTypeInternal;
 extern StateDefaultTypeInternal _State_default_instance_;
-}  // namespace blox
+class SubCase;
+class SubCaseDefaultTypeInternal;
+extern SubCaseDefaultTypeInternal _SubCase_default_instance_;
+}  // namespace EdgeCase
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::EdgeCase* Arena::CreateMaybeMessage<::blox::EdgeCase>(Arena*);
-template<> ::blox::NestedLink* Arena::CreateMaybeMessage<::blox::NestedLink>(Arena*);
-template<> ::blox::Settings* Arena::CreateMaybeMessage<::blox::Settings>(Arena*);
-template<> ::blox::State* Arena::CreateMaybeMessage<::blox::State>(Arena*);
+template<> ::blox_test::EdgeCase::Block* Arena::CreateMaybeMessage<::blox_test::EdgeCase::Block>(Arena*);
+template<> ::blox_test::EdgeCase::NestedLink* Arena::CreateMaybeMessage<::blox_test::EdgeCase::NestedLink>(Arena*);
+template<> ::blox_test::EdgeCase::Settings* Arena::CreateMaybeMessage<::blox_test::EdgeCase::Settings>(Arena*);
+template<> ::blox_test::EdgeCase::State* Arena::CreateMaybeMessage<::blox_test::EdgeCase::State>(Arena*);
+template<> ::blox_test::EdgeCase::SubCase* Arena::CreateMaybeMessage<::blox_test::EdgeCase::SubCase>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace EdgeCase {
 
 // ===================================================================
 
-class Settings : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.Settings) */ {
+class Settings : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.EdgeCase.Settings) */ {
  public:
   Settings();
   virtual ~Settings();
@@ -160,19 +167,19 @@ class Settings : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // fixed64 address = 1 [(.brewblox_test) = {
+  // fixed64 address = 1 [(.brewblox.field) = {
   void clear_address();
   static const int kAddressFieldNumber = 1;
   ::google::protobuf::uint64 address() const;
   void set_address(::google::protobuf::uint64 value);
 
-  // sint32 offset = 2 [(.brewblox_test) = {
+  // sint32 offset = 2 [(.brewblox.field) = {
   void clear_offset();
   static const int kOffsetFieldNumber = 2;
   ::google::protobuf::int32 offset() const;
   void set_offset(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.Settings)
+  // @@protoc_insertion_point(class_scope:blox_test.EdgeCase.Settings)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -183,7 +190,7 @@ class Settings : public ::google::protobuf::Message /* @@protoc_insertion_point(
 };
 // -------------------------------------------------------------------
 
-class State : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.State) */ {
+class State : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.EdgeCase.State) */ {
  public:
   State();
   virtual ~State();
@@ -270,19 +277,19 @@ class State : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // sint32 value = 1 [(.brewblox_test) = {
+  // sint32 value = 1 [(.brewblox.field) = {
   void clear_value();
   static const int kValueFieldNumber = 1;
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // bool connected = 2 [(.brewblox_test) = {
+  // bool connected = 2 [(.brewblox.field) = {
   void clear_connected();
   static const int kConnectedFieldNumber = 2;
   bool connected() const;
   void set_connected(bool value);
 
-  // @@protoc_insertion_point(class_scope:blox.State)
+  // @@protoc_insertion_point(class_scope:blox_test.EdgeCase.State)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -293,7 +300,7 @@ class State : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class NestedLink : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.NestedLink) */ {
+class NestedLink : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.EdgeCase.NestedLink) */ {
  public:
   NestedLink();
   virtual ~NestedLink();
@@ -380,13 +387,13 @@ class NestedLink : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // uint32 connection = 1 [(.brewblox_test) = {
+  // uint32 connection = 1 [(.brewblox.field) = {
   void clear_connection();
   static const int kConnectionFieldNumber = 1;
   ::google::protobuf::uint32 connection() const;
   void set_connection(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.NestedLink)
+  // @@protoc_insertion_point(class_scope:blox_test.EdgeCase.NestedLink)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -396,24 +403,24 @@ class NestedLink : public ::google::protobuf::Message /* @@protoc_insertion_poin
 };
 // -------------------------------------------------------------------
 
-class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.EdgeCase) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.EdgeCase.Block) */ {
  public:
-  EdgeCase();
-  virtual ~EdgeCase();
+  Block();
+  virtual ~Block();
 
-  EdgeCase(const EdgeCase& from);
+  Block(const Block& from);
 
-  inline EdgeCase& operator=(const EdgeCase& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  EdgeCase(EdgeCase&& from) noexcept
-    : EdgeCase() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline EdgeCase& operator=(EdgeCase&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -423,34 +430,34 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const EdgeCase& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const EdgeCase* internal_default_instance() {
-    return reinterpret_cast<const EdgeCase*>(
-               &_EdgeCase_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     3;
 
-  void Swap(EdgeCase* other);
-  friend void swap(EdgeCase& a, EdgeCase& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline EdgeCase* New() const final {
-    return CreateMaybeMessage<EdgeCase>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  EdgeCase* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<EdgeCase>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const EdgeCase& from);
-  void MergeFrom(const EdgeCase& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -467,7 +474,7 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(EdgeCase* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -483,19 +490,19 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.NestedLink additionalLinks = 4;
+  // repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
   int additionallinks_size() const;
   void clear_additionallinks();
   static const int kAdditionalLinksFieldNumber = 4;
-  ::blox::NestedLink* mutable_additionallinks(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::NestedLink >*
+  ::blox_test::EdgeCase::NestedLink* mutable_additionallinks(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::EdgeCase::NestedLink >*
       mutable_additionallinks();
-  const ::blox::NestedLink& additionallinks(int index) const;
-  ::blox::NestedLink* add_additionallinks();
-  const ::google::protobuf::RepeatedPtrField< ::blox::NestedLink >&
+  const ::blox_test::EdgeCase::NestedLink& additionallinks(int index) const;
+  ::blox_test::EdgeCase::NestedLink* add_additionallinks();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::EdgeCase::NestedLink >&
       additionallinks() const;
 
-  // repeated float listValues = 5 [(.brewblox_test) = {
+  // repeated float listValues = 5 [(.brewblox.field) = {
   int listvalues_size() const;
   void clear_listvalues();
   static const int kListValuesFieldNumber = 5;
@@ -507,7 +514,7 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedField< float >*
       mutable_listvalues();
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   int strippedfields_size() const;
   void clear_strippedfields();
   static const int kStrippedFieldsFieldNumber = 99;
@@ -519,43 +526,43 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_strippedfields();
 
-  // .blox.Settings settings = 1;
+  // .blox_test.EdgeCase.Settings settings = 1;
   bool has_settings() const;
   void clear_settings();
   static const int kSettingsFieldNumber = 1;
   private:
-  const ::blox::Settings& _internal_settings() const;
+  const ::blox_test::EdgeCase::Settings& _internal_settings() const;
   public:
-  const ::blox::Settings& settings() const;
-  ::blox::Settings* release_settings();
-  ::blox::Settings* mutable_settings();
-  void set_allocated_settings(::blox::Settings* settings);
+  const ::blox_test::EdgeCase::Settings& settings() const;
+  ::blox_test::EdgeCase::Settings* release_settings();
+  ::blox_test::EdgeCase::Settings* mutable_settings();
+  void set_allocated_settings(::blox_test::EdgeCase::Settings* settings);
 
-  // .blox.State state = 2;
+  // .blox_test.EdgeCase.State state = 2;
   bool has_state() const;
   void clear_state();
   static const int kStateFieldNumber = 2;
   private:
-  const ::blox::State& _internal_state() const;
+  const ::blox_test::EdgeCase::State& _internal_state() const;
   public:
-  const ::blox::State& state() const;
-  ::blox::State* release_state();
-  ::blox::State* mutable_state();
-  void set_allocated_state(::blox::State* state);
+  const ::blox_test::EdgeCase::State& state() const;
+  ::blox_test::EdgeCase::State* release_state();
+  ::blox_test::EdgeCase::State* mutable_state();
+  void set_allocated_state(::blox_test::EdgeCase::State* state);
 
-  // uint32 link = 3 [(.brewblox_test) = {
+  // uint32 link = 3 [(.brewblox.field) = {
   void clear_link();
   static const int kLinkFieldNumber = 3;
   ::google::protobuf::uint32 link() const;
   void set_link(::google::protobuf::uint32 value);
 
-  // uint32 deltaV = 6 [(.brewblox_test) = {
+  // uint32 deltaV = 6 [(.brewblox.field) = {
   void clear_deltav();
   static const int kDeltaVFieldNumber = 6;
   ::google::protobuf::uint32 deltav() const;
   void set_deltav(::google::protobuf::uint32 value);
 
-  // uint32 logged = 7 [(.brewblox_test) = {
+  // uint32 logged = 7 [(.brewblox.field) = {
   void clear_logged();
   static const int kLoggedFieldNumber = 7;
   ::google::protobuf::uint32 logged() const;
@@ -567,28 +574,131 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::uint32 unlogged() const;
   void set_unlogged(::google::protobuf::uint32 value);
 
-  // uint32 drivenDevice = 9 [(.nanopb_test) = {
+  // uint32 drivenDevice = 9 [(.nanopb) = {
   void clear_drivendevice();
   static const int kDrivenDeviceFieldNumber = 9;
   ::google::protobuf::uint32 drivendevice() const;
   void set_drivendevice(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox.EdgeCase)
+  // @@protoc_insertion_point(class_scope:blox_test.EdgeCase.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::NestedLink > additionallinks_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::EdgeCase::NestedLink > additionallinks_;
   ::google::protobuf::RepeatedField< float > listvalues_;
   mutable int _listvalues_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
   mutable int _strippedfields_cached_byte_size_;
-  ::blox::Settings* settings_;
-  ::blox::State* state_;
+  ::blox_test::EdgeCase::Settings* settings_;
+  ::blox_test::EdgeCase::State* state_;
   ::google::protobuf::uint32 link_;
   ::google::protobuf::uint32 deltav_;
   ::google::protobuf::uint32 logged_;
   ::google::protobuf::uint32 unlogged_;
   ::google::protobuf::uint32 drivendevice_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_EdgeCase_5ftest_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SubCase : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.EdgeCase.SubCase) */ {
+ public:
+  SubCase();
+  virtual ~SubCase();
+
+  SubCase(const SubCase& from);
+
+  inline SubCase& operator=(const SubCase& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SubCase(SubCase&& from) noexcept
+    : SubCase() {
+    *this = ::std::move(from);
+  }
+
+  inline SubCase& operator=(SubCase&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SubCase& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SubCase* internal_default_instance() {
+    return reinterpret_cast<const SubCase*>(
+               &_SubCase_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(SubCase* other);
+  friend void swap(SubCase& a, SubCase& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SubCase* New() const final {
+    return CreateMaybeMessage<SubCase>(NULL);
+  }
+
+  SubCase* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<SubCase>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const SubCase& from);
+  void MergeFrom(const SubCase& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SubCase* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 subvalue = 1;
+  void clear_subvalue();
+  static const int kSubvalueFieldNumber = 1;
+  ::google::protobuf::uint32 subvalue() const;
+  void set_subvalue(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:blox_test.EdgeCase.SubCase)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 subvalue_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_EdgeCase_5ftest_2eproto::TableStruct;
 };
@@ -603,124 +713,124 @@ class EdgeCase : public ::google::protobuf::Message /* @@protoc_insertion_point(
 #endif  // __GNUC__
 // Settings
 
-// fixed64 address = 1 [(.brewblox_test) = {
+// fixed64 address = 1 [(.brewblox.field) = {
 inline void Settings::clear_address() {
   address_ = GOOGLE_ULONGLONG(0);
 }
 inline ::google::protobuf::uint64 Settings::address() const {
-  // @@protoc_insertion_point(field_get:blox.Settings.address)
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Settings.address)
   return address_;
 }
 inline void Settings::set_address(::google::protobuf::uint64 value) {
   
   address_ = value;
-  // @@protoc_insertion_point(field_set:blox.Settings.address)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Settings.address)
 }
 
-// sint32 offset = 2 [(.brewblox_test) = {
+// sint32 offset = 2 [(.brewblox.field) = {
 inline void Settings::clear_offset() {
   offset_ = 0;
 }
 inline ::google::protobuf::int32 Settings::offset() const {
-  // @@protoc_insertion_point(field_get:blox.Settings.offset)
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Settings.offset)
   return offset_;
 }
 inline void Settings::set_offset(::google::protobuf::int32 value) {
   
   offset_ = value;
-  // @@protoc_insertion_point(field_set:blox.Settings.offset)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Settings.offset)
 }
 
 // -------------------------------------------------------------------
 
 // State
 
-// sint32 value = 1 [(.brewblox_test) = {
+// sint32 value = 1 [(.brewblox.field) = {
 inline void State::clear_value() {
   value_ = 0;
 }
 inline ::google::protobuf::int32 State::value() const {
-  // @@protoc_insertion_point(field_get:blox.State.value)
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.State.value)
   return value_;
 }
 inline void State::set_value(::google::protobuf::int32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox.State.value)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.State.value)
 }
 
-// bool connected = 2 [(.brewblox_test) = {
+// bool connected = 2 [(.brewblox.field) = {
 inline void State::clear_connected() {
   connected_ = false;
 }
 inline bool State::connected() const {
-  // @@protoc_insertion_point(field_get:blox.State.connected)
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.State.connected)
   return connected_;
 }
 inline void State::set_connected(bool value) {
   
   connected_ = value;
-  // @@protoc_insertion_point(field_set:blox.State.connected)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.State.connected)
 }
 
 // -------------------------------------------------------------------
 
 // NestedLink
 
-// uint32 connection = 1 [(.brewblox_test) = {
+// uint32 connection = 1 [(.brewblox.field) = {
 inline void NestedLink::clear_connection() {
   connection_ = 0u;
 }
 inline ::google::protobuf::uint32 NestedLink::connection() const {
-  // @@protoc_insertion_point(field_get:blox.NestedLink.connection)
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.NestedLink.connection)
   return connection_;
 }
 inline void NestedLink::set_connection(::google::protobuf::uint32 value) {
   
   connection_ = value;
-  // @@protoc_insertion_point(field_set:blox.NestedLink.connection)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.NestedLink.connection)
 }
 
 // -------------------------------------------------------------------
 
-// EdgeCase
+// Block
 
-// .blox.Settings settings = 1;
-inline bool EdgeCase::has_settings() const {
+// .blox_test.EdgeCase.Settings settings = 1;
+inline bool Block::has_settings() const {
   return this != internal_default_instance() && settings_ != NULL;
 }
-inline void EdgeCase::clear_settings() {
+inline void Block::clear_settings() {
   if (GetArenaNoVirtual() == NULL && settings_ != NULL) {
     delete settings_;
   }
   settings_ = NULL;
 }
-inline const ::blox::Settings& EdgeCase::_internal_settings() const {
+inline const ::blox_test::EdgeCase::Settings& Block::_internal_settings() const {
   return *settings_;
 }
-inline const ::blox::Settings& EdgeCase::settings() const {
-  const ::blox::Settings* p = settings_;
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.settings)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::Settings*>(
-      &::blox::_Settings_default_instance_);
+inline const ::blox_test::EdgeCase::Settings& Block::settings() const {
+  const ::blox_test::EdgeCase::Settings* p = settings_;
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.settings)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::EdgeCase::Settings*>(
+      &::blox_test::EdgeCase::_Settings_default_instance_);
 }
-inline ::blox::Settings* EdgeCase::release_settings() {
-  // @@protoc_insertion_point(field_release:blox.EdgeCase.settings)
+inline ::blox_test::EdgeCase::Settings* Block::release_settings() {
+  // @@protoc_insertion_point(field_release:blox_test.EdgeCase.Block.settings)
   
-  ::blox::Settings* temp = settings_;
+  ::blox_test::EdgeCase::Settings* temp = settings_;
   settings_ = NULL;
   return temp;
 }
-inline ::blox::Settings* EdgeCase::mutable_settings() {
+inline ::blox_test::EdgeCase::Settings* Block::mutable_settings() {
   
   if (settings_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::Settings>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox_test::EdgeCase::Settings>(GetArenaNoVirtual());
     settings_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.EdgeCase.settings)
+  // @@protoc_insertion_point(field_mutable:blox_test.EdgeCase.Block.settings)
   return settings_;
 }
-inline void EdgeCase::set_allocated_settings(::blox::Settings* settings) {
+inline void Block::set_allocated_settings(::blox_test::EdgeCase::Settings* settings) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete settings_;
@@ -736,45 +846,45 @@ inline void EdgeCase::set_allocated_settings(::blox::Settings* settings) {
     
   }
   settings_ = settings;
-  // @@protoc_insertion_point(field_set_allocated:blox.EdgeCase.settings)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.EdgeCase.Block.settings)
 }
 
-// .blox.State state = 2;
-inline bool EdgeCase::has_state() const {
+// .blox_test.EdgeCase.State state = 2;
+inline bool Block::has_state() const {
   return this != internal_default_instance() && state_ != NULL;
 }
-inline void EdgeCase::clear_state() {
+inline void Block::clear_state() {
   if (GetArenaNoVirtual() == NULL && state_ != NULL) {
     delete state_;
   }
   state_ = NULL;
 }
-inline const ::blox::State& EdgeCase::_internal_state() const {
+inline const ::blox_test::EdgeCase::State& Block::_internal_state() const {
   return *state_;
 }
-inline const ::blox::State& EdgeCase::state() const {
-  const ::blox::State* p = state_;
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.state)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox::State*>(
-      &::blox::_State_default_instance_);
+inline const ::blox_test::EdgeCase::State& Block::state() const {
+  const ::blox_test::EdgeCase::State* p = state_;
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.state)
+  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::EdgeCase::State*>(
+      &::blox_test::EdgeCase::_State_default_instance_);
 }
-inline ::blox::State* EdgeCase::release_state() {
-  // @@protoc_insertion_point(field_release:blox.EdgeCase.state)
+inline ::blox_test::EdgeCase::State* Block::release_state() {
+  // @@protoc_insertion_point(field_release:blox_test.EdgeCase.Block.state)
   
-  ::blox::State* temp = state_;
+  ::blox_test::EdgeCase::State* temp = state_;
   state_ = NULL;
   return temp;
 }
-inline ::blox::State* EdgeCase::mutable_state() {
+inline ::blox_test::EdgeCase::State* Block::mutable_state() {
   
   if (state_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox::State>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::blox_test::EdgeCase::State>(GetArenaNoVirtual());
     state_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox.EdgeCase.state)
+  // @@protoc_insertion_point(field_mutable:blox_test.EdgeCase.Block.state)
   return state_;
 }
-inline void EdgeCase::set_allocated_state(::blox::State* state) {
+inline void Block::set_allocated_state(::blox_test::EdgeCase::State* state) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete state_;
@@ -790,167 +900,185 @@ inline void EdgeCase::set_allocated_state(::blox::State* state) {
     
   }
   state_ = state;
-  // @@protoc_insertion_point(field_set_allocated:blox.EdgeCase.state)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.EdgeCase.Block.state)
 }
 
-// uint32 link = 3 [(.brewblox_test) = {
-inline void EdgeCase::clear_link() {
+// uint32 link = 3 [(.brewblox.field) = {
+inline void Block::clear_link() {
   link_ = 0u;
 }
-inline ::google::protobuf::uint32 EdgeCase::link() const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.link)
+inline ::google::protobuf::uint32 Block::link() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.link)
   return link_;
 }
-inline void EdgeCase::set_link(::google::protobuf::uint32 value) {
+inline void Block::set_link(::google::protobuf::uint32 value) {
   
   link_ = value;
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.link)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.link)
 }
 
-// repeated .blox.NestedLink additionalLinks = 4;
-inline int EdgeCase::additionallinks_size() const {
+// repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
+inline int Block::additionallinks_size() const {
   return additionallinks_.size();
 }
-inline void EdgeCase::clear_additionallinks() {
+inline void Block::clear_additionallinks() {
   additionallinks_.Clear();
 }
-inline ::blox::NestedLink* EdgeCase::mutable_additionallinks(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.EdgeCase.additionalLinks)
+inline ::blox_test::EdgeCase::NestedLink* Block::mutable_additionallinks(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.EdgeCase.Block.additionalLinks)
   return additionallinks_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::NestedLink >*
-EdgeCase::mutable_additionallinks() {
-  // @@protoc_insertion_point(field_mutable_list:blox.EdgeCase.additionalLinks)
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::EdgeCase::NestedLink >*
+Block::mutable_additionallinks() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.EdgeCase.Block.additionalLinks)
   return &additionallinks_;
 }
-inline const ::blox::NestedLink& EdgeCase::additionallinks(int index) const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.additionalLinks)
+inline const ::blox_test::EdgeCase::NestedLink& Block::additionallinks(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.additionalLinks)
   return additionallinks_.Get(index);
 }
-inline ::blox::NestedLink* EdgeCase::add_additionallinks() {
-  // @@protoc_insertion_point(field_add:blox.EdgeCase.additionalLinks)
+inline ::blox_test::EdgeCase::NestedLink* Block::add_additionallinks() {
+  // @@protoc_insertion_point(field_add:blox_test.EdgeCase.Block.additionalLinks)
   return additionallinks_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::NestedLink >&
-EdgeCase::additionallinks() const {
-  // @@protoc_insertion_point(field_list:blox.EdgeCase.additionalLinks)
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::EdgeCase::NestedLink >&
+Block::additionallinks() const {
+  // @@protoc_insertion_point(field_list:blox_test.EdgeCase.Block.additionalLinks)
   return additionallinks_;
 }
 
-// repeated float listValues = 5 [(.brewblox_test) = {
-inline int EdgeCase::listvalues_size() const {
+// repeated float listValues = 5 [(.brewblox.field) = {
+inline int Block::listvalues_size() const {
   return listvalues_.size();
 }
-inline void EdgeCase::clear_listvalues() {
+inline void Block::clear_listvalues() {
   listvalues_.Clear();
 }
-inline float EdgeCase::listvalues(int index) const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.listValues)
+inline float Block::listvalues(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.listValues)
   return listvalues_.Get(index);
 }
-inline void EdgeCase::set_listvalues(int index, float value) {
+inline void Block::set_listvalues(int index, float value) {
   listvalues_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.listValues)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.listValues)
 }
-inline void EdgeCase::add_listvalues(float value) {
+inline void Block::add_listvalues(float value) {
   listvalues_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.EdgeCase.listValues)
+  // @@protoc_insertion_point(field_add:blox_test.EdgeCase.Block.listValues)
 }
 inline const ::google::protobuf::RepeatedField< float >&
-EdgeCase::listvalues() const {
-  // @@protoc_insertion_point(field_list:blox.EdgeCase.listValues)
+Block::listvalues() const {
+  // @@protoc_insertion_point(field_list:blox_test.EdgeCase.Block.listValues)
   return listvalues_;
 }
 inline ::google::protobuf::RepeatedField< float >*
-EdgeCase::mutable_listvalues() {
-  // @@protoc_insertion_point(field_mutable_list:blox.EdgeCase.listValues)
+Block::mutable_listvalues() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.EdgeCase.Block.listValues)
   return &listvalues_;
 }
 
-// uint32 deltaV = 6 [(.brewblox_test) = {
-inline void EdgeCase::clear_deltav() {
+// uint32 deltaV = 6 [(.brewblox.field) = {
+inline void Block::clear_deltav() {
   deltav_ = 0u;
 }
-inline ::google::protobuf::uint32 EdgeCase::deltav() const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.deltaV)
+inline ::google::protobuf::uint32 Block::deltav() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.deltaV)
   return deltav_;
 }
-inline void EdgeCase::set_deltav(::google::protobuf::uint32 value) {
+inline void Block::set_deltav(::google::protobuf::uint32 value) {
   
   deltav_ = value;
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.deltaV)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.deltaV)
 }
 
-// uint32 logged = 7 [(.brewblox_test) = {
-inline void EdgeCase::clear_logged() {
+// uint32 logged = 7 [(.brewblox.field) = {
+inline void Block::clear_logged() {
   logged_ = 0u;
 }
-inline ::google::protobuf::uint32 EdgeCase::logged() const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.logged)
+inline ::google::protobuf::uint32 Block::logged() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.logged)
   return logged_;
 }
-inline void EdgeCase::set_logged(::google::protobuf::uint32 value) {
+inline void Block::set_logged(::google::protobuf::uint32 value) {
   
   logged_ = value;
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.logged)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.logged)
 }
 
 // uint32 unLogged = 8;
-inline void EdgeCase::clear_unlogged() {
+inline void Block::clear_unlogged() {
   unlogged_ = 0u;
 }
-inline ::google::protobuf::uint32 EdgeCase::unlogged() const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.unLogged)
+inline ::google::protobuf::uint32 Block::unlogged() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.unLogged)
   return unlogged_;
 }
-inline void EdgeCase::set_unlogged(::google::protobuf::uint32 value) {
+inline void Block::set_unlogged(::google::protobuf::uint32 value) {
   
   unlogged_ = value;
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.unLogged)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.unLogged)
 }
 
-// uint32 drivenDevice = 9 [(.nanopb_test) = {
-inline void EdgeCase::clear_drivendevice() {
+// uint32 drivenDevice = 9 [(.nanopb) = {
+inline void Block::clear_drivendevice() {
   drivendevice_ = 0u;
 }
-inline ::google::protobuf::uint32 EdgeCase::drivendevice() const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.drivenDevice)
+inline ::google::protobuf::uint32 Block::drivendevice() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.drivenDevice)
   return drivendevice_;
 }
-inline void EdgeCase::set_drivendevice(::google::protobuf::uint32 value) {
+inline void Block::set_drivendevice(::google::protobuf::uint32 value) {
   
   drivendevice_ = value;
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.drivenDevice)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.drivenDevice)
 }
 
-// repeated uint32 strippedFields = 99 [(.nanopb_test) = {
-inline int EdgeCase::strippedfields_size() const {
+// repeated uint32 strippedFields = 99 [(.nanopb) = {
+inline int Block::strippedfields_size() const {
   return strippedfields_.size();
 }
-inline void EdgeCase::clear_strippedfields() {
+inline void Block::clear_strippedfields() {
   strippedfields_.Clear();
 }
-inline ::google::protobuf::uint32 EdgeCase::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox.EdgeCase.strippedFields)
+inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.strippedFields)
   return strippedfields_.Get(index);
 }
-inline void EdgeCase::set_strippedfields(int index, ::google::protobuf::uint32 value) {
+inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
   strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox.EdgeCase.strippedFields)
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.strippedFields)
 }
-inline void EdgeCase::add_strippedfields(::google::protobuf::uint32 value) {
+inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
   strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox.EdgeCase.strippedFields)
+  // @@protoc_insertion_point(field_add:blox_test.EdgeCase.Block.strippedFields)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-EdgeCase::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox.EdgeCase.strippedFields)
+Block::strippedfields() const {
+  // @@protoc_insertion_point(field_list:blox_test.EdgeCase.Block.strippedFields)
   return strippedfields_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-EdgeCase::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox.EdgeCase.strippedFields)
+Block::mutable_strippedfields() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.EdgeCase.Block.strippedFields)
   return &strippedfields_;
+}
+
+// -------------------------------------------------------------------
+
+// SubCase
+
+// uint32 subvalue = 1;
+inline void SubCase::clear_subvalue() {
+  subvalue_ = 0u;
+}
+inline ::google::protobuf::uint32 SubCase::subvalue() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.SubCase.subvalue)
+  return subvalue_;
+}
+inline void SubCase::set_subvalue(::google::protobuf::uint32 value) {
+  
+  subvalue_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.SubCase.subvalue)
 }
 
 #ifdef __GNUC__
@@ -962,10 +1090,13 @@ EdgeCase::mutable_strippedfields() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace EdgeCase
+}  // namespace blox_test
 
 // @@protoc_insertion_point(global_scope)
 

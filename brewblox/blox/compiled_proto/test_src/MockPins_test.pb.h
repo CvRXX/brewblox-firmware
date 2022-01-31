@@ -49,19 +49,22 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_MockPins_5ftest_2eproto
-namespace blox {
-class MockPins;
-class MockPinsDefaultTypeInternal;
-extern MockPinsDefaultTypeInternal _MockPins_default_instance_;
-}  // namespace blox
+namespace blox_test {
+namespace MockPins {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
+}  // namespace MockPins
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox::MockPins* Arena::CreateMaybeMessage<::blox::MockPins>(Arena*);
+template<> ::blox_test::MockPins::Block* Arena::CreateMaybeMessage<::blox_test::MockPins::Block>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox {
+namespace blox_test {
+namespace MockPins {
 
-enum MockPinsChannelIds {
+enum ChannelId {
   MOCKPINS_CHAN_NONE = 0,
   MOCKPINS_CHAN_A = 1,
   MOCKPINS_CHAN_B = 2,
@@ -71,44 +74,44 @@ enum MockPinsChannelIds {
   MOCKPINS_CHAN_F = 6,
   MOCKPINS_CHAN_G = 7,
   MOCKPINS_CHAN_H = 8,
-  MockPinsChannelIds_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  MockPinsChannelIds_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  ChannelId_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ChannelId_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool MockPinsChannelIds_IsValid(int value);
-const MockPinsChannelIds MockPinsChannelIds_MIN = MOCKPINS_CHAN_NONE;
-const MockPinsChannelIds MockPinsChannelIds_MAX = MOCKPINS_CHAN_H;
-const int MockPinsChannelIds_ARRAYSIZE = MockPinsChannelIds_MAX + 1;
+bool ChannelId_IsValid(int value);
+const ChannelId ChannelId_MIN = MOCKPINS_CHAN_NONE;
+const ChannelId ChannelId_MAX = MOCKPINS_CHAN_H;
+const int ChannelId_ARRAYSIZE = ChannelId_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* MockPinsChannelIds_descriptor();
-inline const ::std::string& MockPinsChannelIds_Name(MockPinsChannelIds value) {
+const ::google::protobuf::EnumDescriptor* ChannelId_descriptor();
+inline const ::std::string& ChannelId_Name(ChannelId value) {
   return ::google::protobuf::internal::NameOfEnum(
-    MockPinsChannelIds_descriptor(), value);
+    ChannelId_descriptor(), value);
 }
-inline bool MockPinsChannelIds_Parse(
-    const ::std::string& name, MockPinsChannelIds* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<MockPinsChannelIds>(
-    MockPinsChannelIds_descriptor(), name, value);
+inline bool ChannelId_Parse(
+    const ::std::string& name, ChannelId* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ChannelId>(
+    ChannelId_descriptor(), name, value);
 }
 // ===================================================================
 
-class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox.MockPins) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.MockPins.Block) */ {
  public:
-  MockPins();
-  virtual ~MockPins();
+  Block();
+  virtual ~Block();
 
-  MockPins(const MockPins& from);
+  Block(const Block& from);
 
-  inline MockPins& operator=(const MockPins& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  MockPins(MockPins&& from) noexcept
-    : MockPins() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline MockPins& operator=(MockPins&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -118,34 +121,34 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const MockPins& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const MockPins* internal_default_instance() {
-    return reinterpret_cast<const MockPins*>(
-               &_MockPins_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(MockPins* other);
-  friend void swap(MockPins& a, MockPins& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline MockPins* New() const final {
-    return CreateMaybeMessage<MockPins>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  MockPins* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<MockPins>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const MockPins& from);
-  void MergeFrom(const MockPins& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -162,7 +165,7 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(MockPins* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -178,29 +181,29 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
+  // repeated .blox_test.IoArray.IoChannel channels = 2 [(.nanopb) = {
   int channels_size() const;
   void clear_channels();
   static const int kChannelsFieldNumber = 2;
-  ::blox::IoChannel* mutable_channels(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
+  ::blox_test::IoArray::IoChannel* mutable_channels(int index);
+  ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >*
       mutable_channels();
-  const ::blox::IoChannel& channels(int index) const;
-  ::blox::IoChannel* add_channels();
-  const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
+  const ::blox_test::IoArray::IoChannel& channels(int index) const;
+  ::blox_test::IoArray::IoChannel* add_channels();
+  const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
       channels() const;
 
-  // bool pins = 90 [(.nanopb_test) = {
+  // bool pins = 90 [(.nanopb) = {
   void clear_pins();
   static const int kPinsFieldNumber = 90;
   bool pins() const;
   void set_pins(bool value);
 
-  // @@protoc_insertion_point(class_scope:blox.MockPins)
+  // @@protoc_insertion_point(class_scope:blox_test.MockPins.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox::IoChannel > channels_;
+  ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel > channels_;
   bool pins_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_MockPins_5ftest_2eproto::TableStruct;
@@ -214,47 +217,47 @@ class MockPins : public ::google::protobuf::Message /* @@protoc_insertion_point(
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// MockPins
+// Block
 
-// repeated .blox.IoChannel channels = 2 [(.nanopb_test) = {
-inline int MockPins::channels_size() const {
+// repeated .blox_test.IoArray.IoChannel channels = 2 [(.nanopb) = {
+inline int Block::channels_size() const {
   return channels_.size();
 }
-inline ::blox::IoChannel* MockPins::mutable_channels(int index) {
-  // @@protoc_insertion_point(field_mutable:blox.MockPins.channels)
+inline ::blox_test::IoArray::IoChannel* Block::mutable_channels(int index) {
+  // @@protoc_insertion_point(field_mutable:blox_test.MockPins.Block.channels)
   return channels_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >*
-MockPins::mutable_channels() {
-  // @@protoc_insertion_point(field_mutable_list:blox.MockPins.channels)
+inline ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >*
+Block::mutable_channels() {
+  // @@protoc_insertion_point(field_mutable_list:blox_test.MockPins.Block.channels)
   return &channels_;
 }
-inline const ::blox::IoChannel& MockPins::channels(int index) const {
-  // @@protoc_insertion_point(field_get:blox.MockPins.channels)
+inline const ::blox_test::IoArray::IoChannel& Block::channels(int index) const {
+  // @@protoc_insertion_point(field_get:blox_test.MockPins.Block.channels)
   return channels_.Get(index);
 }
-inline ::blox::IoChannel* MockPins::add_channels() {
-  // @@protoc_insertion_point(field_add:blox.MockPins.channels)
+inline ::blox_test::IoArray::IoChannel* Block::add_channels() {
+  // @@protoc_insertion_point(field_add:blox_test.MockPins.Block.channels)
   return channels_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox::IoChannel >&
-MockPins::channels() const {
-  // @@protoc_insertion_point(field_list:blox.MockPins.channels)
+inline const ::google::protobuf::RepeatedPtrField< ::blox_test::IoArray::IoChannel >&
+Block::channels() const {
+  // @@protoc_insertion_point(field_list:blox_test.MockPins.Block.channels)
   return channels_;
 }
 
-// bool pins = 90 [(.nanopb_test) = {
-inline void MockPins::clear_pins() {
+// bool pins = 90 [(.nanopb) = {
+inline void Block::clear_pins() {
   pins_ = false;
 }
-inline bool MockPins::pins() const {
-  // @@protoc_insertion_point(field_get:blox.MockPins.pins)
+inline bool Block::pins() const {
+  // @@protoc_insertion_point(field_get:blox_test.MockPins.Block.pins)
   return pins_;
 }
-inline void MockPins::set_pins(bool value) {
+inline void Block::set_pins(bool value) {
   
   pins_ = value;
-  // @@protoc_insertion_point(field_set:blox.MockPins.pins)
+  // @@protoc_insertion_point(field_set:blox_test.MockPins.Block.pins)
 }
 
 #ifdef __GNUC__
@@ -263,15 +266,16 @@ inline void MockPins::set_pins(bool value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace blox
+}  // namespace MockPins
+}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox::MockPinsChannelIds> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::MockPins::ChannelId> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox::MockPinsChannelIds>() {
-  return ::blox::MockPinsChannelIds_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::MockPins::ChannelId>() {
+  return ::blox_test::MockPins::ChannelId_descriptor();
 }
 
 }  // namespace protobuf

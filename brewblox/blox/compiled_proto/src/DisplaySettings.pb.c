@@ -9,23 +9,23 @@
 
 
 
-const pb_field_t blox_Widget_fields[8] = {
-    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Widget, pos, pos, 0),
-    PB_FIELD(  2, FIXED_LENGTH_BYTES, SINGULAR, STATIC  , OTHER, blox_Widget, color, pos, 0),
-    PB_FIELD(  3, STRING  , SINGULAR, STATIC  , OTHER, blox_Widget, name, color, 0),
-    PB_ONEOF_FIELD(WidgetType,  10, UINT32  , ONEOF, STATIC  , OTHER, blox_Widget, tempSensor, name, 0),
-    PB_ONEOF_FIELD(WidgetType,  11, UINT32  , ONEOF, STATIC  , UNION, blox_Widget, setpointSensorPair, name, 0),
-    PB_ONEOF_FIELD(WidgetType,  12, UINT32  , ONEOF, STATIC  , UNION, blox_Widget, actuatorAnalog, name, 0),
-    PB_ONEOF_FIELD(WidgetType,  14, UINT32  , ONEOF, STATIC  , UNION, blox_Widget, pid, name, 0),
+const pb_field_t blox_DisplaySettings_Widget_fields[8] = {
+    PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_DisplaySettings_Widget, pos, pos, 0),
+    PB_FIELD(  2, FIXED_LENGTH_BYTES, SINGULAR, STATIC  , OTHER, blox_DisplaySettings_Widget, color, pos, 0),
+    PB_FIELD(  3, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings_Widget, name, color, 0),
+    PB_ONEOF_FIELD(WidgetType,  10, UINT32  , ONEOF, STATIC  , OTHER, blox_DisplaySettings_Widget, tempSensor, name, 0),
+    PB_ONEOF_FIELD(WidgetType,  11, UINT32  , ONEOF, STATIC  , UNION, blox_DisplaySettings_Widget, setpointSensorPair, name, 0),
+    PB_ONEOF_FIELD(WidgetType,  12, UINT32  , ONEOF, STATIC  , UNION, blox_DisplaySettings_Widget, actuatorAnalog, name, 0),
+    PB_ONEOF_FIELD(WidgetType,  14, UINT32  , ONEOF, STATIC  , UNION, blox_DisplaySettings_Widget, pid, name, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_DisplaySettings_fields[6] = {
-    PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_DisplaySettings, widgets, widgets, &blox_Widget_fields),
-    PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, name, widgets, 0),
-    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, tempUnit, name, 0),
-    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, brightness, tempUnit, 0),
-    PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings, timeZone, brightness, 0),
+const pb_field_t blox_DisplaySettings_Block_fields[6] = {
+    PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_DisplaySettings_Block, widgets, widgets, &blox_DisplaySettings_Widget_fields),
+    PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings_Block, name, widgets, 0),
+    PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_DisplaySettings_Block, tempUnit, name, 0),
+    PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings_Block, brightness, tempUnit, 0),
+    PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_DisplaySettings_Block, timeZone, brightness, 0),
     PB_LAST_FIELD
 };
 
@@ -40,7 +40,7 @@ const pb_field_t blox_DisplaySettings_fields[6] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_DisplaySettings, widgets[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_Widget_blox_DisplaySettings)
+PB_STATIC_ASSERT((pb_membersize(blox_DisplaySettings_Block, widgets[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_DisplaySettings_Widget_blox_DisplaySettings_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -51,7 +51,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_DisplaySettings, widgets[0]) < 65536), YOU_
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_DisplaySettings, widgets[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_Widget_blox_DisplaySettings)
+PB_STATIC_ASSERT((pb_membersize(blox_DisplaySettings_Block, widgets[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_DisplaySettings_Widget_blox_DisplaySettings_Block)
 #endif
 
 

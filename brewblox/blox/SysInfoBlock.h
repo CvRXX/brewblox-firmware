@@ -1,9 +1,9 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -24,7 +24,7 @@
 #include "compiled_proto/src/SysInfo.pb.h"
 
 // provides a protobuf interface to the read only system info
-class SysInfoBlock : public cbox::ObjectBase<BrewBloxTypes_BlockType_SysInfo> {
+class SysInfoBlock : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {
 public:
     SysInfoBlock(unsigned (&device_id_func_)(uint8_t*, unsigned len))
         : device_id_func(device_id_func_)

@@ -23,12 +23,8 @@ namespace protobuf_ActuatorLogic_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_ActuatorLogic_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_AnalogCompare;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_ActuatorLogic_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_DigitalCompare;
 }  // namespace protobuf_ActuatorLogic_5ftest_2eproto
-namespace blox {
-class CompareDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Compare>
-      _instance;
-} _Compare_default_instance_;
+namespace blox_test {
+namespace ActuatorLogic {
 class DigitalCompareDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<DigitalCompare>
@@ -39,36 +35,23 @@ class AnalogCompareDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<AnalogCompare>
       _instance;
 } _AnalogCompare_default_instance_;
-class ActuatorLogicDefaultTypeInternal {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ActuatorLogic>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _ActuatorLogic_default_instance_;
-}  // namespace blox
+} _Block_default_instance_;
+}  // namespace ActuatorLogic
+}  // namespace blox_test
 namespace protobuf_ActuatorLogic_5ftest_2eproto {
-static void InitDefaultsCompare() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox::_Compare_default_instance_;
-    new (ptr) ::blox::Compare();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox::Compare::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_Compare =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCompare}, {}};
-
 static void InitDefaultsDigitalCompare() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_DigitalCompare_default_instance_;
-    new (ptr) ::blox::DigitalCompare();
+    void* ptr = &::blox_test::ActuatorLogic::_DigitalCompare_default_instance_;
+    new (ptr) ::blox_test::ActuatorLogic::DigitalCompare();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::DigitalCompare::InitAsDefaultInstance();
+  ::blox_test::ActuatorLogic::DigitalCompare::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_DigitalCompare =
@@ -78,92 +61,84 @@ static void InitDefaultsAnalogCompare() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_AnalogCompare_default_instance_;
-    new (ptr) ::blox::AnalogCompare();
+    void* ptr = &::blox_test::ActuatorLogic::_AnalogCompare_default_instance_;
+    new (ptr) ::blox_test::ActuatorLogic::AnalogCompare();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::AnalogCompare::InitAsDefaultInstance();
+  ::blox_test::ActuatorLogic::AnalogCompare::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_AnalogCompare =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsAnalogCompare}, {}};
 
-static void InitDefaultsActuatorLogic() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_ActuatorLogic_default_instance_;
-    new (ptr) ::blox::ActuatorLogic();
+    void* ptr = &::blox_test::ActuatorLogic::_Block_default_instance_;
+    new (ptr) ::blox_test::ActuatorLogic::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::ActuatorLogic::InitAsDefaultInstance();
+  ::blox_test::ActuatorLogic::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<2> scc_info_ActuatorLogic =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsActuatorLogic}, {
+::google::protobuf::internal::SCCInfo<2> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsBlock}, {
       &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_DigitalCompare.base,
       &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_AnalogCompare.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Compare.base);
   ::google::protobuf::internal::InitSCC(&scc_info_DigitalCompare.base);
   ::google::protobuf::internal::InitSCC(&scc_info_AnalogCompare.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_ActuatorLogic.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[4];
+::google::protobuf::Metadata file_level_metadata[3];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Compare, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::DigitalCompare, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::DigitalCompare, op_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::DigitalCompare, result_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::DigitalCompare, id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::DigitalCompare, rhs_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalCompare, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::AnalogCompare, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalCompare, op_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalCompare, result_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalCompare, id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::DigitalCompare, rhs_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::AnalogCompare, op_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::AnalogCompare, result_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::AnalogCompare, id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::AnalogCompare, rhs_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::AnalogCompare, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::AnalogCompare, op_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::AnalogCompare, result_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::AnalogCompare, id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::AnalogCompare, rhs_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, targetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, driventargetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, enabled_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, result_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, expression_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, digital_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, analog_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::ActuatorLogic, errorpos_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, targetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, driventargetid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, result_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, expression_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, digital_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, analog_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, errorpos_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Compare)},
-  { 5, -1, sizeof(::blox::DigitalCompare)},
-  { 14, -1, sizeof(::blox::AnalogCompare)},
-  { 23, -1, sizeof(::blox::ActuatorLogic)},
+  { 0, -1, sizeof(::blox_test::ActuatorLogic::DigitalCompare)},
+  { 9, -1, sizeof(::blox_test::ActuatorLogic::AnalogCompare)},
+  { 18, -1, sizeof(::blox_test::ActuatorLogic::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Compare_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_DigitalCompare_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_AnalogCompare_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_ActuatorLogic_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::ActuatorLogic::_DigitalCompare_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::ActuatorLogic::_AnalogCompare_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::ActuatorLogic::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -181,51 +156,53 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 4);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 3);
 }
 
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\030ActuatorLogic_test.proto\022\004blox\032\023brewbl"
-      "ox_test.proto\032\021nanopb_test.proto\032\022IoArra"
-      "y_test.proto\"\224\005\n\007Compare\"\313\003\n\006Result\022\020\n\014R"
-      "ESULT_FALSE\020\000\022\017\n\013RESULT_TRUE\020\001\022\020\n\014RESULT"
-      "_EMPTY\020\002\022\032\n\026RESULT_EMPTY_SUBSTRING\020\003\022\032\n\026"
-      "RESULT_BLOCK_NOT_FOUND\020\004\022\035\n\031RESULT_INVAL"
-      "ID_DIGITAL_OP\020\005\022\034\n\030RESULT_INVALID_ANALOG"
-      "_OP\020\006\022$\n RESULT_UNDEFINED_DIGITAL_COMPAR"
-      "E\020\010\022#\n\037RESULT_UNDEFINED_ANALOG_COMPARE\020\007"
-      "\022\"\n\036RESULT_UNEXPECTED_OPEN_BRACKET\020\013\022#\n\037"
-      "RESULT_UNEXPECTED_CLOSE_BRACKET\020\t\022\037\n\033RES"
-      "ULT_UNEXPECTED_CHARACTER\020\014\022 \n\034RESULT_UNE"
-      "XPECTED_COMPARISON\020\r\022\036\n\032RESULT_UNEXPECTE"
-      "D_OPERATOR\020\016\022 \n\034RESULT_MISSING_CLOSE_BRA"
-      "CKET\020\n\"a\n\017DigitalOperator\022\017\n\013OP_VALUE_IS"
-      "\020\000\022\023\n\017OP_VALUE_IS_NOT\020\001\022\021\n\rOP_DESIRED_IS"
-      "\020\n\022\025\n\021OP_DESIRED_IS_NOT\020\013\"X\n\016AnalogOpera"
-      "tor\022\017\n\013OP_VALUE_LE\020\000\022\017\n\013OP_VALUE_GE\020\001\022\021\n"
-      "\rOP_SETTING_LE\020\n\022\021\n\rOP_SETTING_GE\020\013\"\243\001\n\016"
-      "DigitalCompare\022)\n\002op\030\001 \001(\0162\035.blox.Compar"
-      "e.DigitalOperator\022,\n\006result\030\002 \001(\0162\024.blox"
-      ".Compare.ResultB\006\212\265\030\002(\001\022\027\n\002id\030\003 \001(\rB\013\212\265\030"
-      "\002\030\006\222\?\0028\020\022\037\n\003rhs\030\004 \001(\0162\022.blox.DigitalStat"
-      "e\"\233\001\n\rAnalogCompare\022(\n\002op\030\001 \001(\0162\034.blox.C"
-      "ompare.AnalogOperator\022,\n\006result\030\002 \001(\0162\024."
-      "blox.Compare.ResultB\006\212\265\030\002(\001\022\027\n\002id\030\003 \001(\rB"
-      "\013\212\265\030\002\030\001\222\?\0028\020\022\031\n\003rhs\030\004 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \""
-      "\301\002\n\rActuatorLogic\022\035\n\010targetId\030\001 \001(\rB\013\212\265\030"
-      "\002\030\006\222\?\0028\020\022/\n\016drivenTargetId\030\002 \001(\rB\027\212\265\030\002\030\006"
-      "\222\?\0028\020\212\265\030\002@\001\212\265\030\002(\001\022\017\n\007enabled\030\003 \001(\010\0222\n\006re"
-      "sult\030\004 \001(\0162\024.blox.Compare.ResultB\014\212\265\030\0020\001"
-      "\212\265\030\002(\001\022\031\n\nexpression\030\005 \001(\tB\005\222\?\002p@\022,\n\007dig"
-      "ital\030\006 \003(\0132\024.blox.DigitalCompareB\005\222\?\002\020\020\022"
-      "*\n\006analog\030\007 \003(\0132\023.blox.AnalogCompareB\005\222\?"
-      "\002\020\020\022\035\n\010errorPos\030\010 \001(\rB\013\212\265\030\002(\001\222\?\0028\010:\007\212\265\030\003"
-      "\030\302\002b\006proto3"
+      "\n\030ActuatorLogic_test.proto\022\027blox_test.Ac"
+      "tuatorLogic\032\023brewblox_test.proto\032\021nanopb"
+      "_test.proto\032\022IoArray_test.proto\"\306\001\n\016Digi"
+      "talCompare\0224\n\002op\030\001 \001(\0162(.blox_test.Actua"
+      "torLogic.DigitalOperator\0227\n\006result\030\002 \001(\016"
+      "2\037.blox_test.ActuatorLogic.ResultB\006\212\265\030\002("
+      "\001\022\027\n\002id\030\003 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022,\n\003rhs\030\004 \001(\0162"
+      "\037.blox_test.IoArray.DigitalState\"\261\001\n\rAna"
+      "logCompare\0223\n\002op\030\001 \001(\0162\'.blox_test.Actua"
+      "torLogic.AnalogOperator\0227\n\006result\030\002 \001(\0162"
+      "\037.blox_test.ActuatorLogic.ResultB\006\212\265\030\002(\001"
+      "\022\027\n\002id\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022\031\n\003rhs\030\004 \001(\021B\014"
+      "\212\265\030\003\020\200 \222\?\0028 \"\352\002\n\005Block\022\035\n\010targetId\030\001 \001(\r"
+      "B\013\212\265\030\002\030\006\222\?\0028\020\022/\n\016drivenTargetId\030\002 \001(\rB\027\212"
+      "\265\030\002\030\006\222\?\0028\020\212\265\030\002@\001\212\265\030\002(\001\022\017\n\007enabled\030\003 \001(\010\022"
+      "=\n\006result\030\004 \001(\0162\037.blox_test.ActuatorLogi"
+      "c.ResultB\014\212\265\030\0020\001\212\265\030\002(\001\022\031\n\nexpression\030\005 \001"
+      "(\tB\005\222\?\002p@\022\?\n\007digital\030\006 \003(\0132\'.blox_test.A"
+      "ctuatorLogic.DigitalCompareB\005\222\?\002\020\020\022=\n\006an"
+      "alog\030\007 \003(\0132&.blox_test.ActuatorLogic.Ana"
+      "logCompareB\005\222\?\002\020\020\022\035\n\010errorPos\030\010 \001(\rB\013\212\265\030"
+      "\002(\001\222\?\0028\010:\007\212\265\030\003\030\302\002*\313\003\n\006Result\022\020\n\014RESULT_F"
+      "ALSE\020\000\022\017\n\013RESULT_TRUE\020\001\022\020\n\014RESULT_EMPTY\020"
+      "\002\022\032\n\026RESULT_EMPTY_SUBSTRING\020\003\022\032\n\026RESULT_"
+      "BLOCK_NOT_FOUND\020\004\022\035\n\031RESULT_INVALID_DIGI"
+      "TAL_OP\020\005\022\034\n\030RESULT_INVALID_ANALOG_OP\020\006\022$"
+      "\n RESULT_UNDEFINED_DIGITAL_COMPARE\020\010\022#\n\037"
+      "RESULT_UNDEFINED_ANALOG_COMPARE\020\007\022\"\n\036RES"
+      "ULT_UNEXPECTED_OPEN_BRACKET\020\013\022#\n\037RESULT_"
+      "UNEXPECTED_CLOSE_BRACKET\020\t\022\037\n\033RESULT_UNE"
+      "XPECTED_CHARACTER\020\014\022 \n\034RESULT_UNEXPECTED"
+      "_COMPARISON\020\r\022\036\n\032RESULT_UNEXPECTED_OPERA"
+      "TOR\020\016\022 \n\034RESULT_MISSING_CLOSE_BRACKET\020\n*"
+      "a\n\017DigitalOperator\022\017\n\013OP_VALUE_IS\020\000\022\023\n\017O"
+      "P_VALUE_IS_NOT\020\001\022\021\n\rOP_DESIRED_IS\020\n\022\025\n\021O"
+      "P_DESIRED_IS_NOT\020\013*X\n\016AnalogOperator\022\017\n\013"
+      "OP_VALUE_LE\020\000\022\017\n\013OP_VALUE_GE\020\001\022\021\n\rOP_SET"
+      "TING_LE\020\n\022\021\n\rOP_SETTING_GE\020\013b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1411);
+      descriptor, 1516);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorLogic_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -244,12 +221,13 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_ActuatorLogic_5ftest_2eproto
-namespace blox {
-const ::google::protobuf::EnumDescriptor* Compare_Result_descriptor() {
+namespace blox_test {
+namespace ActuatorLogic {
+const ::google::protobuf::EnumDescriptor* Result_descriptor() {
   protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_ActuatorLogic_5ftest_2eproto::file_level_enum_descriptors[0];
 }
-bool Compare_Result_IsValid(int value) {
+bool Result_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -272,31 +250,11 @@ bool Compare_Result_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const Compare_Result Compare::RESULT_FALSE;
-const Compare_Result Compare::RESULT_TRUE;
-const Compare_Result Compare::RESULT_EMPTY;
-const Compare_Result Compare::RESULT_EMPTY_SUBSTRING;
-const Compare_Result Compare::RESULT_BLOCK_NOT_FOUND;
-const Compare_Result Compare::RESULT_INVALID_DIGITAL_OP;
-const Compare_Result Compare::RESULT_INVALID_ANALOG_OP;
-const Compare_Result Compare::RESULT_UNDEFINED_DIGITAL_COMPARE;
-const Compare_Result Compare::RESULT_UNDEFINED_ANALOG_COMPARE;
-const Compare_Result Compare::RESULT_UNEXPECTED_OPEN_BRACKET;
-const Compare_Result Compare::RESULT_UNEXPECTED_CLOSE_BRACKET;
-const Compare_Result Compare::RESULT_UNEXPECTED_CHARACTER;
-const Compare_Result Compare::RESULT_UNEXPECTED_COMPARISON;
-const Compare_Result Compare::RESULT_UNEXPECTED_OPERATOR;
-const Compare_Result Compare::RESULT_MISSING_CLOSE_BRACKET;
-const Compare_Result Compare::Result_MIN;
-const Compare_Result Compare::Result_MAX;
-const int Compare::Result_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* Compare_DigitalOperator_descriptor() {
+const ::google::protobuf::EnumDescriptor* DigitalOperator_descriptor() {
   protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_ActuatorLogic_5ftest_2eproto::file_level_enum_descriptors[1];
 }
-bool Compare_DigitalOperator_IsValid(int value) {
+bool DigitalOperator_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -308,20 +266,11 @@ bool Compare_DigitalOperator_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const Compare_DigitalOperator Compare::OP_VALUE_IS;
-const Compare_DigitalOperator Compare::OP_VALUE_IS_NOT;
-const Compare_DigitalOperator Compare::OP_DESIRED_IS;
-const Compare_DigitalOperator Compare::OP_DESIRED_IS_NOT;
-const Compare_DigitalOperator Compare::DigitalOperator_MIN;
-const Compare_DigitalOperator Compare::DigitalOperator_MAX;
-const int Compare::DigitalOperator_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* Compare_AnalogOperator_descriptor() {
+const ::google::protobuf::EnumDescriptor* AnalogOperator_descriptor() {
   protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_ActuatorLogic_5ftest_2eproto::file_level_enum_descriptors[2];
 }
-bool Compare_AnalogOperator_IsValid(int value) {
+bool AnalogOperator_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -331,194 +280,6 @@ bool Compare_AnalogOperator_IsValid(int value) {
     default:
       return false;
   }
-}
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const Compare_AnalogOperator Compare::OP_VALUE_LE;
-const Compare_AnalogOperator Compare::OP_VALUE_GE;
-const Compare_AnalogOperator Compare::OP_SETTING_LE;
-const Compare_AnalogOperator Compare::OP_SETTING_GE;
-const Compare_AnalogOperator Compare::AnalogOperator_MIN;
-const Compare_AnalogOperator Compare::AnalogOperator_MAX;
-const int Compare::AnalogOperator_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-// ===================================================================
-
-void Compare::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Compare::Compare()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_Compare.base);
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Compare)
-}
-Compare::Compare(const Compare& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:blox.Compare)
-}
-
-void Compare::SharedCtor() {
-}
-
-Compare::~Compare() {
-  // @@protoc_insertion_point(destructor:blox.Compare)
-  SharedDtor();
-}
-
-void Compare::SharedDtor() {
-}
-
-void Compare::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const ::google::protobuf::Descriptor* Compare::descriptor() {
-  ::protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_ActuatorLogic_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const Compare& Compare::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorLogic_5ftest_2eproto::scc_info_Compare.base);
-  return *internal_default_instance();
-}
-
-
-void Compare::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Compare)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _internal_metadata_.Clear();
-}
-
-bool Compare::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Compare)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
-  }
-success:
-  // @@protoc_insertion_point(parse_success:blox.Compare)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:blox.Compare)
-  return false;
-#undef DO_
-}
-
-void Compare::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Compare)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox.Compare)
-}
-
-::google::protobuf::uint8* Compare::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Compare)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Compare)
-  return target;
-}
-
-size_t Compare::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Compare)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void Compare::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Compare)
-  GOOGLE_DCHECK_NE(&from, this);
-  const Compare* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Compare>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Compare)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Compare)
-    MergeFrom(*source);
-  }
-}
-
-void Compare::MergeFrom(const Compare& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Compare)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-}
-
-void Compare::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Compare)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Compare::CopyFrom(const Compare& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Compare)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Compare::IsInitialized() const {
-  return true;
-}
-
-void Compare::Swap(Compare* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Compare::InternalSwap(Compare* other) {
-  using std::swap;
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-}
-
-::google::protobuf::Metadata Compare::GetMetadata() const {
-  protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_ActuatorLogic_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
@@ -538,7 +299,7 @@ DigitalCompare::DigitalCompare()
   ::google::protobuf::internal::InitSCC(
       &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_DigitalCompare.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.DigitalCompare)
+  // @@protoc_insertion_point(constructor:blox_test.ActuatorLogic.DigitalCompare)
 }
 DigitalCompare::DigitalCompare(const DigitalCompare& from)
   : ::google::protobuf::Message(),
@@ -547,7 +308,7 @@ DigitalCompare::DigitalCompare(const DigitalCompare& from)
   ::memcpy(&op_, &from.op_,
     static_cast<size_t>(reinterpret_cast<char*>(&rhs_) -
     reinterpret_cast<char*>(&op_)) + sizeof(rhs_));
-  // @@protoc_insertion_point(copy_constructor:blox.DigitalCompare)
+  // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorLogic.DigitalCompare)
 }
 
 void DigitalCompare::SharedCtor() {
@@ -557,7 +318,7 @@ void DigitalCompare::SharedCtor() {
 }
 
 DigitalCompare::~DigitalCompare() {
-  // @@protoc_insertion_point(destructor:blox.DigitalCompare)
+  // @@protoc_insertion_point(destructor:blox_test.ActuatorLogic.DigitalCompare)
   SharedDtor();
 }
 
@@ -579,7 +340,7 @@ const DigitalCompare& DigitalCompare::default_instance() {
 
 
 void DigitalCompare::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.DigitalCompare)
+// @@protoc_insertion_point(message_clear_start:blox_test.ActuatorLogic.DigitalCompare)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -594,13 +355,13 @@ bool DigitalCompare::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.DigitalCompare)
+  // @@protoc_insertion_point(parse_start:blox_test.ActuatorLogic.DigitalCompare)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox.Compare.DigitalOperator op = 1;
+      // .blox_test.ActuatorLogic.DigitalOperator op = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -608,14 +369,14 @@ bool DigitalCompare::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_op(static_cast< ::blox::Compare_DigitalOperator >(value));
+          set_op(static_cast< ::blox_test::ActuatorLogic::DigitalOperator >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+      // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -623,14 +384,14 @@ bool DigitalCompare::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_result(static_cast< ::blox::Compare_Result >(value));
+          set_result(static_cast< ::blox_test::ActuatorLogic::Result >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // uint32 id = 3 [(.nanopb_test) = {
+      // uint32 id = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -644,7 +405,7 @@ bool DigitalCompare::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.DigitalState rhs = 4;
+      // .blox_test.IoArray.DigitalState rhs = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -652,7 +413,7 @@ bool DigitalCompare::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_rhs(static_cast< ::blox::DigitalState >(value));
+          set_rhs(static_cast< ::blox_test::IoArray::DigitalState >(value));
         } else {
           goto handle_unusual;
         }
@@ -671,38 +432,38 @@ bool DigitalCompare::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.DigitalCompare)
+  // @@protoc_insertion_point(parse_success:blox_test.ActuatorLogic.DigitalCompare)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.DigitalCompare)
+  // @@protoc_insertion_point(parse_failure:blox_test.ActuatorLogic.DigitalCompare)
   return false;
 #undef DO_
 }
 
 void DigitalCompare::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.DigitalCompare)
+  // @@protoc_insertion_point(serialize_start:blox_test.ActuatorLogic.DigitalCompare)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.Compare.DigitalOperator op = 1;
+  // .blox_test.ActuatorLogic.DigitalOperator op = 1;
   if (this->op() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->op(), output);
   }
 
-  // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   if (this->result() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       2, this->result(), output);
   }
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   if (this->id() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->id(), output);
   }
 
-  // .blox.DigitalState rhs = 4;
+  // .blox_test.IoArray.DigitalState rhs = 4;
   if (this->rhs() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->rhs(), output);
@@ -712,34 +473,34 @@ void DigitalCompare::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.DigitalCompare)
+  // @@protoc_insertion_point(serialize_end:blox_test.ActuatorLogic.DigitalCompare)
 }
 
 ::google::protobuf::uint8* DigitalCompare::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.DigitalCompare)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.ActuatorLogic.DigitalCompare)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.Compare.DigitalOperator op = 1;
+  // .blox_test.ActuatorLogic.DigitalOperator op = 1;
   if (this->op() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->op(), target);
   }
 
-  // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   if (this->result() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       2, this->result(), target);
   }
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   if (this->id() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->id(), target);
   }
 
-  // .blox.DigitalState rhs = 4;
+  // .blox_test.IoArray.DigitalState rhs = 4;
   if (this->rhs() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->rhs(), target);
@@ -749,12 +510,12 @@ void DigitalCompare::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.DigitalCompare)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.ActuatorLogic.DigitalCompare)
   return target;
 }
 
 size_t DigitalCompare::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.DigitalCompare)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.ActuatorLogic.DigitalCompare)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -762,26 +523,26 @@ size_t DigitalCompare::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .blox.Compare.DigitalOperator op = 1;
+  // .blox_test.ActuatorLogic.DigitalOperator op = 1;
   if (this->op() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->op());
   }
 
-  // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   if (this->result() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
   }
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   if (this->id() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->id());
   }
 
-  // .blox.DigitalState rhs = 4;
+  // .blox_test.IoArray.DigitalState rhs = 4;
   if (this->rhs() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->rhs());
@@ -793,22 +554,22 @@ size_t DigitalCompare::ByteSizeLong() const {
 }
 
 void DigitalCompare::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.DigitalCompare)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.ActuatorLogic.DigitalCompare)
   GOOGLE_DCHECK_NE(&from, this);
   const DigitalCompare* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const DigitalCompare>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.DigitalCompare)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.ActuatorLogic.DigitalCompare)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.DigitalCompare)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.ActuatorLogic.DigitalCompare)
     MergeFrom(*source);
   }
 }
 
 void DigitalCompare::MergeFrom(const DigitalCompare& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.DigitalCompare)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.ActuatorLogic.DigitalCompare)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -829,14 +590,14 @@ void DigitalCompare::MergeFrom(const DigitalCompare& from) {
 }
 
 void DigitalCompare::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.DigitalCompare)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.ActuatorLogic.DigitalCompare)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void DigitalCompare::CopyFrom(const DigitalCompare& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.DigitalCompare)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.ActuatorLogic.DigitalCompare)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -881,7 +642,7 @@ AnalogCompare::AnalogCompare()
   ::google::protobuf::internal::InitSCC(
       &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_AnalogCompare.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.AnalogCompare)
+  // @@protoc_insertion_point(constructor:blox_test.ActuatorLogic.AnalogCompare)
 }
 AnalogCompare::AnalogCompare(const AnalogCompare& from)
   : ::google::protobuf::Message(),
@@ -890,7 +651,7 @@ AnalogCompare::AnalogCompare(const AnalogCompare& from)
   ::memcpy(&op_, &from.op_,
     static_cast<size_t>(reinterpret_cast<char*>(&rhs_) -
     reinterpret_cast<char*>(&op_)) + sizeof(rhs_));
-  // @@protoc_insertion_point(copy_constructor:blox.AnalogCompare)
+  // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorLogic.AnalogCompare)
 }
 
 void AnalogCompare::SharedCtor() {
@@ -900,7 +661,7 @@ void AnalogCompare::SharedCtor() {
 }
 
 AnalogCompare::~AnalogCompare() {
-  // @@protoc_insertion_point(destructor:blox.AnalogCompare)
+  // @@protoc_insertion_point(destructor:blox_test.ActuatorLogic.AnalogCompare)
   SharedDtor();
 }
 
@@ -922,7 +683,7 @@ const AnalogCompare& AnalogCompare::default_instance() {
 
 
 void AnalogCompare::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.AnalogCompare)
+// @@protoc_insertion_point(message_clear_start:blox_test.ActuatorLogic.AnalogCompare)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -937,13 +698,13 @@ bool AnalogCompare::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.AnalogCompare)
+  // @@protoc_insertion_point(parse_start:blox_test.ActuatorLogic.AnalogCompare)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox.Compare.AnalogOperator op = 1;
+      // .blox_test.ActuatorLogic.AnalogOperator op = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -951,14 +712,14 @@ bool AnalogCompare::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_op(static_cast< ::blox::Compare_AnalogOperator >(value));
+          set_op(static_cast< ::blox_test::ActuatorLogic::AnalogOperator >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+      // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -966,14 +727,14 @@ bool AnalogCompare::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_result(static_cast< ::blox::Compare_Result >(value));
+          set_result(static_cast< ::blox_test::ActuatorLogic::Result >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // uint32 id = 3 [(.nanopb_test) = {
+      // uint32 id = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -987,7 +748,7 @@ bool AnalogCompare::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 rhs = 4 [(.nanopb_test) = {
+      // sint32 rhs = 4 [(.nanopb) = {
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -1013,38 +774,38 @@ bool AnalogCompare::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.AnalogCompare)
+  // @@protoc_insertion_point(parse_success:blox_test.ActuatorLogic.AnalogCompare)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.AnalogCompare)
+  // @@protoc_insertion_point(parse_failure:blox_test.ActuatorLogic.AnalogCompare)
   return false;
 #undef DO_
 }
 
 void AnalogCompare::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.AnalogCompare)
+  // @@protoc_insertion_point(serialize_start:blox_test.ActuatorLogic.AnalogCompare)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.Compare.AnalogOperator op = 1;
+  // .blox_test.ActuatorLogic.AnalogOperator op = 1;
   if (this->op() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->op(), output);
   }
 
-  // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   if (this->result() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       2, this->result(), output);
   }
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   if (this->id() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->id(), output);
   }
 
-  // sint32 rhs = 4 [(.nanopb_test) = {
+  // sint32 rhs = 4 [(.nanopb) = {
   if (this->rhs() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(4, this->rhs(), output);
   }
@@ -1053,34 +814,34 @@ void AnalogCompare::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.AnalogCompare)
+  // @@protoc_insertion_point(serialize_end:blox_test.ActuatorLogic.AnalogCompare)
 }
 
 ::google::protobuf::uint8* AnalogCompare::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.AnalogCompare)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.ActuatorLogic.AnalogCompare)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox.Compare.AnalogOperator op = 1;
+  // .blox_test.ActuatorLogic.AnalogOperator op = 1;
   if (this->op() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->op(), target);
   }
 
-  // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   if (this->result() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       2, this->result(), target);
   }
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   if (this->id() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->id(), target);
   }
 
-  // sint32 rhs = 4 [(.nanopb_test) = {
+  // sint32 rhs = 4 [(.nanopb) = {
   if (this->rhs() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(4, this->rhs(), target);
   }
@@ -1089,12 +850,12 @@ void AnalogCompare::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.AnalogCompare)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.ActuatorLogic.AnalogCompare)
   return target;
 }
 
 size_t AnalogCompare::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.AnalogCompare)
+// @@protoc_insertion_point(message_byte_size_start:blox_test.ActuatorLogic.AnalogCompare)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1102,26 +863,26 @@ size_t AnalogCompare::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .blox.Compare.AnalogOperator op = 1;
+  // .blox_test.ActuatorLogic.AnalogOperator op = 1;
   if (this->op() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->op());
   }
 
-  // .blox.Compare.Result result = 2 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 2 [(.brewblox.field) = {
   if (this->result() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
   }
 
-  // uint32 id = 3 [(.nanopb_test) = {
+  // uint32 id = 3 [(.nanopb) = {
   if (this->id() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->id());
   }
 
-  // sint32 rhs = 4 [(.nanopb_test) = {
+  // sint32 rhs = 4 [(.nanopb) = {
   if (this->rhs() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
@@ -1134,22 +895,22 @@ size_t AnalogCompare::ByteSizeLong() const {
 }
 
 void AnalogCompare::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.AnalogCompare)
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.ActuatorLogic.AnalogCompare)
   GOOGLE_DCHECK_NE(&from, this);
   const AnalogCompare* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const AnalogCompare>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.AnalogCompare)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.ActuatorLogic.AnalogCompare)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.AnalogCompare)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.ActuatorLogic.AnalogCompare)
     MergeFrom(*source);
   }
 }
 
 void AnalogCompare::MergeFrom(const AnalogCompare& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.AnalogCompare)
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.ActuatorLogic.AnalogCompare)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1170,14 +931,14 @@ void AnalogCompare::MergeFrom(const AnalogCompare& from) {
 }
 
 void AnalogCompare::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.AnalogCompare)
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.ActuatorLogic.AnalogCompare)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AnalogCompare::CopyFrom(const AnalogCompare& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.AnalogCompare)
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.ActuatorLogic.AnalogCompare)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1208,27 +969,27 @@ void AnalogCompare::InternalSwap(AnalogCompare* other) {
 
 // ===================================================================
 
-void ActuatorLogic::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ActuatorLogic::kTargetIdFieldNumber;
-const int ActuatorLogic::kDrivenTargetIdFieldNumber;
-const int ActuatorLogic::kEnabledFieldNumber;
-const int ActuatorLogic::kResultFieldNumber;
-const int ActuatorLogic::kExpressionFieldNumber;
-const int ActuatorLogic::kDigitalFieldNumber;
-const int ActuatorLogic::kAnalogFieldNumber;
-const int ActuatorLogic::kErrorPosFieldNumber;
+const int Block::kTargetIdFieldNumber;
+const int Block::kDrivenTargetIdFieldNumber;
+const int Block::kEnabledFieldNumber;
+const int Block::kResultFieldNumber;
+const int Block::kExpressionFieldNumber;
+const int Block::kDigitalFieldNumber;
+const int Block::kAnalogFieldNumber;
+const int Block::kErrorPosFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ActuatorLogic::ActuatorLogic()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_ActuatorLogic.base);
+      &protobuf_ActuatorLogic_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.ActuatorLogic)
+  // @@protoc_insertion_point(constructor:blox_test.ActuatorLogic.Block)
 }
-ActuatorLogic::ActuatorLogic(const ActuatorLogic& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       digital_(from.digital_),
@@ -1241,41 +1002,41 @@ ActuatorLogic::ActuatorLogic(const ActuatorLogic& from)
   ::memcpy(&targetid_, &from.targetid_,
     static_cast<size_t>(reinterpret_cast<char*>(&errorpos_) -
     reinterpret_cast<char*>(&targetid_)) + sizeof(errorpos_));
-  // @@protoc_insertion_point(copy_constructor:blox.ActuatorLogic)
+  // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorLogic.Block)
 }
 
-void ActuatorLogic::SharedCtor() {
+void Block::SharedCtor() {
   expression_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&targetid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&errorpos_) -
       reinterpret_cast<char*>(&targetid_)) + sizeof(errorpos_));
 }
 
-ActuatorLogic::~ActuatorLogic() {
-  // @@protoc_insertion_point(destructor:blox.ActuatorLogic)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox_test.ActuatorLogic.Block)
   SharedDtor();
 }
 
-void ActuatorLogic::SharedDtor() {
+void Block::SharedDtor() {
   expression_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void ActuatorLogic::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ActuatorLogic::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_ActuatorLogic_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ActuatorLogic& ActuatorLogic::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorLogic_5ftest_2eproto::scc_info_ActuatorLogic.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_ActuatorLogic_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void ActuatorLogic::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.ActuatorLogic)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.ActuatorLogic.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1289,17 +1050,17 @@ void ActuatorLogic::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool ActuatorLogic::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.ActuatorLogic)
+  // @@protoc_insertion_point(parse_start:blox_test.ActuatorLogic.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 targetId = 1 [(.nanopb_test) = {
+      // uint32 targetId = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -1313,7 +1074,7 @@ bool ActuatorLogic::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 drivenTargetId = 2 [(.nanopb_test) = {
+      // uint32 drivenTargetId = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -1341,7 +1102,7 @@ bool ActuatorLogic::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.Compare.Result result = 4 [(.brewblox_test) = {
+      // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -1349,14 +1110,14 @@ bool ActuatorLogic::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_result(static_cast< ::blox::Compare_Result >(value));
+          set_result(static_cast< ::blox_test::ActuatorLogic::Result >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // string expression = 5 [(.nanopb_test) = {
+      // string expression = 5 [(.nanopb) = {
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
@@ -1365,14 +1126,14 @@ bool ActuatorLogic::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->expression().data(), static_cast<int>(this->expression().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "blox.ActuatorLogic.expression"));
+            "blox_test.ActuatorLogic.Block.expression"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated .blox.DigitalCompare digital = 6 [(.nanopb_test) = {
+      // repeated .blox_test.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
@@ -1384,7 +1145,7 @@ bool ActuatorLogic::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .blox.AnalogCompare analog = 7 [(.nanopb_test) = {
+      // repeated .blox_test.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb) = {
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
@@ -1396,7 +1157,7 @@ bool ActuatorLogic::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 errorPos = 8 [(.nanopb_test) = {
+      // uint32 errorPos = 8 [(.nanopb) = {
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
@@ -1422,26 +1183,26 @@ bool ActuatorLogic::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.ActuatorLogic)
+  // @@protoc_insertion_point(parse_success:blox_test.ActuatorLogic.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.ActuatorLogic)
+  // @@protoc_insertion_point(parse_failure:blox_test.ActuatorLogic.Block)
   return false;
 #undef DO_
 }
 
-void ActuatorLogic::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.ActuatorLogic)
+  // @@protoc_insertion_point(serialize_start:blox_test.ActuatorLogic.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->targetid(), output);
   }
 
-  // uint32 drivenTargetId = 2 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 2 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->driventargetid(), output);
   }
@@ -1451,23 +1212,23 @@ void ActuatorLogic::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->enabled(), output);
   }
 
-  // .blox.Compare.Result result = 4 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
   if (this->result() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->result(), output);
   }
 
-  // string expression = 5 [(.nanopb_test) = {
+  // string expression = 5 [(.nanopb) = {
   if (this->expression().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->expression().data(), static_cast<int>(this->expression().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox.ActuatorLogic.expression");
+      "blox_test.ActuatorLogic.Block.expression");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->expression(), output);
   }
 
-  // repeated .blox.DigitalCompare digital = 6 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->digital_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -1476,7 +1237,7 @@ void ActuatorLogic::SerializeWithCachedSizes(
       output);
   }
 
-  // repeated .blox.AnalogCompare analog = 7 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->analog_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -1485,7 +1246,7 @@ void ActuatorLogic::SerializeWithCachedSizes(
       output);
   }
 
-  // uint32 errorPos = 8 [(.nanopb_test) = {
+  // uint32 errorPos = 8 [(.nanopb) = {
   if (this->errorpos() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->errorpos(), output);
   }
@@ -1494,22 +1255,22 @@ void ActuatorLogic::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.ActuatorLogic)
+  // @@protoc_insertion_point(serialize_end:blox_test.ActuatorLogic.Block)
 }
 
-::google::protobuf::uint8* ActuatorLogic::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.ActuatorLogic)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.ActuatorLogic.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->targetid(), target);
   }
 
-  // uint32 drivenTargetId = 2 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 2 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->driventargetid(), target);
   }
@@ -1519,24 +1280,24 @@ void ActuatorLogic::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->enabled(), target);
   }
 
-  // .blox.Compare.Result result = 4 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
   if (this->result() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->result(), target);
   }
 
-  // string expression = 5 [(.nanopb_test) = {
+  // string expression = 5 [(.nanopb) = {
   if (this->expression().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->expression().data(), static_cast<int>(this->expression().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox.ActuatorLogic.expression");
+      "blox_test.ActuatorLogic.Block.expression");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->expression(), target);
   }
 
-  // repeated .blox.DigitalCompare digital = 6 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->digital_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -1544,7 +1305,7 @@ void ActuatorLogic::SerializeWithCachedSizes(
         6, this->digital(static_cast<int>(i)), deterministic, target);
   }
 
-  // repeated .blox.AnalogCompare analog = 7 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->analog_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -1552,7 +1313,7 @@ void ActuatorLogic::SerializeWithCachedSizes(
         7, this->analog(static_cast<int>(i)), deterministic, target);
   }
 
-  // uint32 errorPos = 8 [(.nanopb_test) = {
+  // uint32 errorPos = 8 [(.nanopb) = {
   if (this->errorpos() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->errorpos(), target);
   }
@@ -1561,12 +1322,12 @@ void ActuatorLogic::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.ActuatorLogic)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.ActuatorLogic.Block)
   return target;
 }
 
-size_t ActuatorLogic::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.ActuatorLogic)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.ActuatorLogic.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1574,7 +1335,7 @@ size_t ActuatorLogic::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.DigitalCompare digital = 6 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.DigitalCompare digital = 6 [(.nanopb) = {
   {
     unsigned int count = static_cast<unsigned int>(this->digital_size());
     total_size += 1UL * count;
@@ -1585,7 +1346,7 @@ size_t ActuatorLogic::ByteSizeLong() const {
     }
   }
 
-  // repeated .blox.AnalogCompare analog = 7 [(.nanopb_test) = {
+  // repeated .blox_test.ActuatorLogic.AnalogCompare analog = 7 [(.nanopb) = {
   {
     unsigned int count = static_cast<unsigned int>(this->analog_size());
     total_size += 1UL * count;
@@ -1596,21 +1357,21 @@ size_t ActuatorLogic::ByteSizeLong() const {
     }
   }
 
-  // string expression = 5 [(.nanopb_test) = {
+  // string expression = 5 [(.nanopb) = {
   if (this->expression().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->expression());
   }
 
-  // uint32 targetId = 1 [(.nanopb_test) = {
+  // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->targetid());
   }
 
-  // uint32 drivenTargetId = 2 [(.nanopb_test) = {
+  // uint32 drivenTargetId = 2 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -1622,13 +1383,13 @@ size_t ActuatorLogic::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // .blox.Compare.Result result = 4 [(.brewblox_test) = {
+  // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
   if (this->result() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
   }
 
-  // uint32 errorPos = 8 [(.nanopb_test) = {
+  // uint32 errorPos = 8 [(.nanopb) = {
   if (this->errorpos() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -1640,23 +1401,23 @@ size_t ActuatorLogic::ByteSizeLong() const {
   return total_size;
 }
 
-void ActuatorLogic::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.ActuatorLogic)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.ActuatorLogic.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const ActuatorLogic* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ActuatorLogic>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.ActuatorLogic)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.ActuatorLogic.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.ActuatorLogic)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.ActuatorLogic.Block)
     MergeFrom(*source);
   }
 }
 
-void ActuatorLogic::MergeFrom(const ActuatorLogic& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.ActuatorLogic)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.ActuatorLogic.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1685,29 +1446,29 @@ void ActuatorLogic::MergeFrom(const ActuatorLogic& from) {
   }
 }
 
-void ActuatorLogic::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.ActuatorLogic)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.ActuatorLogic.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ActuatorLogic::CopyFrom(const ActuatorLogic& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.ActuatorLogic)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.ActuatorLogic.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ActuatorLogic::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void ActuatorLogic::Swap(ActuatorLogic* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ActuatorLogic::InternalSwap(ActuatorLogic* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&digital_)->InternalSwap(CastToBase(&other->digital_));
   CastToBase(&analog_)->InternalSwap(CastToBase(&other->analog_));
@@ -1721,27 +1482,25 @@ void ActuatorLogic::InternalSwap(ActuatorLogic* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ActuatorLogic::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_ActuatorLogic_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_ActuatorLogic_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace blox
+}  // namespace ActuatorLogic
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Compare* Arena::CreateMaybeMessage< ::blox::Compare >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Compare >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::ActuatorLogic::DigitalCompare* Arena::CreateMaybeMessage< ::blox_test::ActuatorLogic::DigitalCompare >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::ActuatorLogic::DigitalCompare >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::DigitalCompare* Arena::CreateMaybeMessage< ::blox::DigitalCompare >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::DigitalCompare >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::ActuatorLogic::AnalogCompare* Arena::CreateMaybeMessage< ::blox_test::ActuatorLogic::AnalogCompare >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::ActuatorLogic::AnalogCompare >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::AnalogCompare* Arena::CreateMaybeMessage< ::blox::AnalogCompare >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::AnalogCompare >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::ActuatorLogic* Arena::CreateMaybeMessage< ::blox::ActuatorLogic >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::ActuatorLogic >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::ActuatorLogic::Block* Arena::CreateMaybeMessage< ::blox_test::ActuatorLogic::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::ActuatorLogic::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

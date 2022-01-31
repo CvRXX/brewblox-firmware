@@ -22,31 +22,33 @@
 namespace protobuf_IoArray_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_IoChannel;
 }  // namespace protobuf_IoArray_5ftest_2eproto
-namespace blox {
-class Spark3PinsDefaultTypeInternal {
+namespace blox_test {
+namespace Spark3Pins {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Spark3Pins>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _Spark3Pins_default_instance_;
-}  // namespace blox
+} _Block_default_instance_;
+}  // namespace Spark3Pins
+}  // namespace blox_test
 namespace protobuf_Spark3Pins_5ftest_2eproto {
-static void InitDefaultsSpark3Pins() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_Spark3Pins_default_instance_;
-    new (ptr) ::blox::Spark3Pins();
+    void* ptr = &::blox_test::Spark3Pins::_Block_default_instance_;
+    new (ptr) ::blox_test::Spark3Pins::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::Spark3Pins::InitAsDefaultInstance();
+  ::blox_test::Spark3Pins::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_Spark3Pins =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsSpark3Pins}, {
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
       &protobuf_IoArray_5ftest_2eproto::scc_info_IoChannel.base,}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Spark3Pins.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
@@ -54,24 +56,24 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, enableiosupply5v_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, enableiosupply12v_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, soundalarm_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, voltage5_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, voltage12_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, channels_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Spark3Pins, pins_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, enableiosupply5v_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, enableiosupply12v_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, soundalarm_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, voltage5_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, voltage12_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, channels_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Spark3Pins::Block, pins_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Spark3Pins)},
+  { 0, -1, sizeof(::blox_test::Spark3Pins::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Spark3Pins_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::Spark3Pins::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -95,22 +97,23 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\025Spark3Pins_test.proto\022\004blox\032\023brewblox_"
-      "test.proto\032\021nanopb_test.proto\032\022IoArray_t"
-      "est.proto\"\201\002\n\nSpark3Pins\022\030\n\020enableIoSupp"
-      "ly5V\030\002 \001(\010\022\031\n\021enableIoSupply12V\030\003 \001(\010\022\022\n"
-      "\nsoundAlarm\030\005 \001(\010\022$\n\010voltage5\030\006 \001(\rB\022\212\265\030"
-      "\002(\001\222\?\0028\020\212\265\030\003\020\232\003\022%\n\tvoltage12\030\007 \001(\rB\022\212\265\030\002"
-      "(\001\222\?\0028\020\212\265\030\003\020\225\001\0223\n\010channels\030\010 \003(\0132\017.blox."
-      "IoChannelB\020\222\?\002\020\005\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001("
-      "\010B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\277\002\212\265\030\002H\n*\231\001\n\020Spark3"
-      "ChannelIds\022\021\n\rSPARK3_NO_PIN\020\000\022\024\n\020SPARK3_"
-      "CHAN_TOP1\020\001\022\024\n\020SPARK3_CHAN_TOP2\020\002\022\024\n\020SPA"
-      "RK3_CHAN_TOP3\020\003\022\027\n\023SPARK3_CHAN_BOTTOM1\020\004"
-      "\022\027\n\023SPARK3_CHAN_BOTTOM2\020\005b\006proto3"
+      "\n\025Spark3Pins_test.proto\022\024blox_test.Spark"
+      "3Pins\032\023brewblox_test.proto\032\021nanopb_test."
+      "proto\032\022IoArray_test.proto\"\211\002\n\005Block\022\030\n\020e"
+      "nableIoSupply5V\030\002 \001(\010\022\031\n\021enableIoSupply1"
+      "2V\030\003 \001(\010\022\022\n\nsoundAlarm\030\005 \001(\010\022$\n\010voltage5"
+      "\030\006 \001(\rB\022\212\265\030\002(\001\222\?\0028\020\212\265\030\003\020\232\003\022%\n\tvoltage12\030"
+      "\007 \001(\rB\022\212\265\030\002(\001\222\?\0028\020\212\265\030\003\020\225\001\022@\n\010channels\030\010 "
+      "\003(\0132\034.blox_test.IoArray.IoChannelB\020\222\?\002\020\005"
+      "\222\?\002x\001\212\265\030\002(\001\022\031\n\004pins\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\r"
+      "\212\265\030\003\030\277\002\212\265\030\002H\n*\222\001\n\tChannelId\022\021\n\rSPARK3_NO"
+      "_PIN\020\000\022\024\n\020SPARK3_CHAN_TOP1\020\001\022\024\n\020SPARK3_C"
+      "HAN_TOP2\020\002\022\024\n\020SPARK3_CHAN_TOP3\020\003\022\027\n\023SPAR"
+      "K3_CHAN_BOTTOM1\020\004\022\027\n\023SPARK3_CHAN_BOTTOM2"
+      "\020\005b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 513);
+      descriptor, 530);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Spark3Pins_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -129,12 +132,13 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_Spark3Pins_5ftest_2eproto
-namespace blox {
-const ::google::protobuf::EnumDescriptor* Spark3ChannelIds_descriptor() {
+namespace blox_test {
+namespace Spark3Pins {
+const ::google::protobuf::EnumDescriptor* ChannelId_descriptor() {
   protobuf_Spark3Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_Spark3Pins_5ftest_2eproto::file_level_enum_descriptors[0];
 }
-bool Spark3ChannelIds_IsValid(int value) {
+bool ChannelId_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -151,29 +155,29 @@ bool Spark3ChannelIds_IsValid(int value) {
 
 // ===================================================================
 
-void Spark3Pins::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
-void Spark3Pins::clear_channels() {
+void Block::clear_channels() {
   channels_.Clear();
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Spark3Pins::kEnableIoSupply5VFieldNumber;
-const int Spark3Pins::kEnableIoSupply12VFieldNumber;
-const int Spark3Pins::kSoundAlarmFieldNumber;
-const int Spark3Pins::kVoltage5FieldNumber;
-const int Spark3Pins::kVoltage12FieldNumber;
-const int Spark3Pins::kChannelsFieldNumber;
-const int Spark3Pins::kPinsFieldNumber;
+const int Block::kEnableIoSupply5VFieldNumber;
+const int Block::kEnableIoSupply12VFieldNumber;
+const int Block::kSoundAlarmFieldNumber;
+const int Block::kVoltage5FieldNumber;
+const int Block::kVoltage12FieldNumber;
+const int Block::kChannelsFieldNumber;
+const int Block::kPinsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Spark3Pins::Spark3Pins()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_Spark3Pins_5ftest_2eproto::scc_info_Spark3Pins.base);
+      &protobuf_Spark3Pins_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Spark3Pins)
+  // @@protoc_insertion_point(constructor:blox_test.Spark3Pins.Block)
 }
-Spark3Pins::Spark3Pins(const Spark3Pins& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       channels_(from.channels_) {
@@ -181,39 +185,39 @@ Spark3Pins::Spark3Pins(const Spark3Pins& from)
   ::memcpy(&voltage5_, &from.voltage5_,
     static_cast<size_t>(reinterpret_cast<char*>(&pins_) -
     reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
-  // @@protoc_insertion_point(copy_constructor:blox.Spark3Pins)
+  // @@protoc_insertion_point(copy_constructor:blox_test.Spark3Pins.Block)
 }
 
-void Spark3Pins::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&voltage5_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&pins_) -
       reinterpret_cast<char*>(&voltage5_)) + sizeof(pins_));
 }
 
-Spark3Pins::~Spark3Pins() {
-  // @@protoc_insertion_point(destructor:blox.Spark3Pins)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox_test.Spark3Pins.Block)
   SharedDtor();
 }
 
-void Spark3Pins::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void Spark3Pins::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Spark3Pins::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_Spark3Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Spark3Pins_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const Spark3Pins& Spark3Pins::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_Spark3Pins_5ftest_2eproto::scc_info_Spark3Pins.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_Spark3Pins_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void Spark3Pins::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Spark3Pins)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.Spark3Pins.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -225,11 +229,11 @@ void Spark3Pins::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool Spark3Pins::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Spark3Pins)
+  // @@protoc_insertion_point(parse_start:blox_test.Spark3Pins.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
@@ -277,7 +281,7 @@ bool Spark3Pins::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 voltage5 = 6 [(.nanopb_test) = {
+      // uint32 voltage5 = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
@@ -291,7 +295,7 @@ bool Spark3Pins::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 voltage12 = 7 [(.nanopb_test) = {
+      // uint32 voltage12 = 7 [(.nanopb) = {
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
@@ -305,7 +309,7 @@ bool Spark3Pins::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
+      // repeated .blox_test.IoArray.IoChannel channels = 8 [(.nanopb) = {
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
@@ -317,7 +321,7 @@ bool Spark3Pins::MergePartialFromCodedStream(
         break;
       }
 
-      // bool pins = 90 [(.nanopb_test) = {
+      // bool pins = 90 [(.nanopb) = {
       case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
@@ -343,17 +347,17 @@ bool Spark3Pins::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.Spark3Pins)
+  // @@protoc_insertion_point(parse_success:blox_test.Spark3Pins.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.Spark3Pins)
+  // @@protoc_insertion_point(parse_failure:blox_test.Spark3Pins.Block)
   return false;
 #undef DO_
 }
 
-void Spark3Pins::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Spark3Pins)
+  // @@protoc_insertion_point(serialize_start:blox_test.Spark3Pins.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -372,17 +376,17 @@ void Spark3Pins::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->soundalarm(), output);
   }
 
-  // uint32 voltage5 = 6 [(.nanopb_test) = {
+  // uint32 voltage5 = 6 [(.nanopb) = {
   if (this->voltage5() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->voltage5(), output);
   }
 
-  // uint32 voltage12 = 7 [(.nanopb_test) = {
+  // uint32 voltage12 = 7 [(.nanopb) = {
   if (this->voltage12() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->voltage12(), output);
   }
 
-  // repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
+  // repeated .blox_test.IoArray.IoChannel channels = 8 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -391,7 +395,7 @@ void Spark3Pins::SerializeWithCachedSizes(
       output);
   }
 
-  // bool pins = 90 [(.nanopb_test) = {
+  // bool pins = 90 [(.nanopb) = {
   if (this->pins() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->pins(), output);
   }
@@ -400,13 +404,13 @@ void Spark3Pins::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.Spark3Pins)
+  // @@protoc_insertion_point(serialize_end:blox_test.Spark3Pins.Block)
 }
 
-::google::protobuf::uint8* Spark3Pins::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Spark3Pins)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.Spark3Pins.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -425,17 +429,17 @@ void Spark3Pins::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->soundalarm(), target);
   }
 
-  // uint32 voltage5 = 6 [(.nanopb_test) = {
+  // uint32 voltage5 = 6 [(.nanopb) = {
   if (this->voltage5() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->voltage5(), target);
   }
 
-  // uint32 voltage12 = 7 [(.nanopb_test) = {
+  // uint32 voltage12 = 7 [(.nanopb) = {
   if (this->voltage12() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->voltage12(), target);
   }
 
-  // repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
+  // repeated .blox_test.IoArray.IoChannel channels = 8 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->channels_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -443,7 +447,7 @@ void Spark3Pins::SerializeWithCachedSizes(
         8, this->channels(static_cast<int>(i)), deterministic, target);
   }
 
-  // bool pins = 90 [(.nanopb_test) = {
+  // bool pins = 90 [(.nanopb) = {
   if (this->pins() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->pins(), target);
   }
@@ -452,12 +456,12 @@ void Spark3Pins::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Spark3Pins)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.Spark3Pins.Block)
   return target;
 }
 
-size_t Spark3Pins::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Spark3Pins)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.Spark3Pins.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -465,7 +469,7 @@ size_t Spark3Pins::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox.IoChannel channels = 8 [(.nanopb_test) = {
+  // repeated .blox_test.IoArray.IoChannel channels = 8 [(.nanopb) = {
   {
     unsigned int count = static_cast<unsigned int>(this->channels_size());
     total_size += 1UL * count;
@@ -476,14 +480,14 @@ size_t Spark3Pins::ByteSizeLong() const {
     }
   }
 
-  // uint32 voltage5 = 6 [(.nanopb_test) = {
+  // uint32 voltage5 = 6 [(.nanopb) = {
   if (this->voltage5() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->voltage5());
   }
 
-  // uint32 voltage12 = 7 [(.nanopb_test) = {
+  // uint32 voltage12 = 7 [(.nanopb) = {
   if (this->voltage12() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -505,7 +509,7 @@ size_t Spark3Pins::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // bool pins = 90 [(.nanopb_test) = {
+  // bool pins = 90 [(.nanopb) = {
   if (this->pins() != 0) {
     total_size += 2 + 1;
   }
@@ -515,23 +519,23 @@ size_t Spark3Pins::ByteSizeLong() const {
   return total_size;
 }
 
-void Spark3Pins::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Spark3Pins)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.Spark3Pins.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const Spark3Pins* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Spark3Pins>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Spark3Pins)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.Spark3Pins.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Spark3Pins)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.Spark3Pins.Block)
     MergeFrom(*source);
   }
 }
 
-void Spark3Pins::MergeFrom(const Spark3Pins& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Spark3Pins)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.Spark3Pins.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -558,29 +562,29 @@ void Spark3Pins::MergeFrom(const Spark3Pins& from) {
   }
 }
 
-void Spark3Pins::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Spark3Pins)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.Spark3Pins.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Spark3Pins::CopyFrom(const Spark3Pins& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Spark3Pins)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.Spark3Pins.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Spark3Pins::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void Spark3Pins::Swap(Spark3Pins* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void Spark3Pins::InternalSwap(Spark3Pins* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&channels_)->InternalSwap(CastToBase(&other->channels_));
   swap(voltage5_, other->voltage5_);
@@ -592,18 +596,19 @@ void Spark3Pins::InternalSwap(Spark3Pins* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata Spark3Pins::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_Spark3Pins_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Spark3Pins_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace blox
+}  // namespace Spark3Pins
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Spark3Pins* Arena::CreateMaybeMessage< ::blox::Spark3Pins >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Spark3Pins >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::Spark3Pins::Block* Arena::CreateMaybeMessage< ::blox_test::Spark3Pins::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::Spark3Pins::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

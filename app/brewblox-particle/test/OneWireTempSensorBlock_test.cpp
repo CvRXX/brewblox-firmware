@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "blox/TempSensorOneWireBlock.h"
 #include "blox/compiled_proto/test_src/TempSensorOneWire_test.pb.h"
 #include "cbox/CboxPtr.h"
@@ -30,7 +30,7 @@ SCENARIO("A TempSensorOneWireBlock")
 {
     WHEN("a TempSensorOneWire object is created")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
         using commands = cbox::Box::CommandID;
 
         testBox.reset();
@@ -41,7 +41,7 @@ SCENARIO("A TempSensorOneWireBlock")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorOneWireBlock::staticTypeId());
 
-        auto message = blox::TempSensorOneWire();
+        auto message = blox_test::TempSensorOneWire::Block();
         message.set_address(0x7E11'1111'1111'1128);
         message.set_offset(2048);
         message.set_value(123); // value is not writable, so this should not have effect
@@ -56,7 +56,7 @@ SCENARIO("A TempSensorOneWireBlock")
         testBox.put(commands::READ_OBJECT);
         testBox.put(cbox::obj_id_t(100));
 
-        auto decoded = blox::TempSensorOneWire();
+        auto decoded = blox_test::TempSensorOneWire::Block();
         testBox.processInputToProto(decoded);
 
         THEN("The returned protobuf data is as expected")
@@ -77,7 +77,7 @@ SCENARIO("A TempSensorOneWireBlock")
 
             testBox.update(1000);
 
-            auto decoded = blox::TempSensorOneWire();
+            auto decoded = blox_test::TempSensorOneWire::Block();
             testBox.processInputToProto(decoded);
 
             // After an update, the sensor returns a valid temperature

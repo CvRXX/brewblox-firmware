@@ -1,12 +1,12 @@
 /* Automatically generated nanopb header */
 
-#ifndef PB_BLOX_DIGITALACTUATOR_PB_H_INCLUDED
-#define PB_BLOX_DIGITALACTUATOR_PB_H_INCLUDED
+#ifndef PB_BLOX_DIGITALACTUATOR_DIGITALACTUATOR_PB_H_INCLUDED
+#define PB_BLOX_DIGITALACTUATOR_DIGITALACTUATOR_PB_H_INCLUDED
 #include <pb.h>
 
 #include "brewblox.pb.h"
 
-#include "DigitalConstraints.pb.h"
+#include "Constraints.pb.h"
 
 #include "IoArray.pb.h"
 
@@ -20,38 +20,38 @@ extern "C" {
 #endif
 
 /* Struct definitions */
-typedef struct _blox_DigitalActuator {
+typedef struct _blox_DigitalActuator_Block {
     uint16_t hwDevice;
     uint8_t channel;
-    blox_DigitalState state;
+    blox_IoArray_DigitalState state;
     bool invert;
-    blox_DigitalConstraints constrainedBy;
-    blox_DigitalState desiredState;
+    blox_Constraints_DigitalConstraints constrainedBy;
+    blox_IoArray_DigitalState desiredState;
     pb_size_t strippedFields_count;
     uint16_t strippedFields[1];
-/* @@protoc_insertion_point(struct:blox_DigitalActuator) */
-} blox_DigitalActuator;
+/* @@protoc_insertion_point(struct:blox_DigitalActuator_Block) */
+} blox_DigitalActuator_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_DigitalActuator_init_default        {0, 0, _blox_DigitalState_MIN, 0, blox_DigitalConstraints_init_default, _blox_DigitalState_MIN, 0, {0}}
-#define blox_DigitalActuator_init_zero           {0, 0, _blox_DigitalState_MIN, 0, blox_DigitalConstraints_init_zero, _blox_DigitalState_MIN, 0, {0}}
+#define blox_DigitalActuator_Block_init_default  {0, 0, _blox_IoArray_DigitalState_MIN, 0, blox_Constraints_DigitalConstraints_init_default, _blox_IoArray_DigitalState_MIN, 0, {0}}
+#define blox_DigitalActuator_Block_init_zero     {0, 0, _blox_IoArray_DigitalState_MIN, 0, blox_Constraints_DigitalConstraints_init_zero, _blox_IoArray_DigitalState_MIN, 0, {0}}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define blox_DigitalActuator_hwDevice_tag        1
-#define blox_DigitalActuator_channel_tag         2
-#define blox_DigitalActuator_state_tag           3
-#define blox_DigitalActuator_invert_tag          4
-#define blox_DigitalActuator_constrainedBy_tag   5
-#define blox_DigitalActuator_desiredState_tag    6
-#define blox_DigitalActuator_strippedFields_tag  99
+#define blox_DigitalActuator_Block_hwDevice_tag  1
+#define blox_DigitalActuator_Block_channel_tag   2
+#define blox_DigitalActuator_Block_state_tag     3
+#define blox_DigitalActuator_Block_invert_tag    4
+#define blox_DigitalActuator_Block_constrainedBy_tag 5
+#define blox_DigitalActuator_Block_desiredState_tag 6
+#define blox_DigitalActuator_Block_strippedFields_tag 99
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_DigitalActuator_fields[8];
+extern const pb_field_t blox_DigitalActuator_Block_fields[8];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_DigitalActuator_size                245
+#define blox_DigitalActuator_Block_size          245
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

@@ -1,9 +1,9 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox
+ * This file is part of Brewblox
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -26,7 +26,7 @@
 
 // provides a protobuf interface to the ticks object
 template <typename T>
-class TicksBlock : public Block<BrewBloxTypes_BlockType_Ticks> {
+class TicksBlock : public Block<brewblox_BlockType_Ticks> {
     T& ticks;
 
 public:
@@ -38,8 +38,8 @@ public:
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& dataIn) override final
     {
-        blox_Ticks newData = blox_Ticks_init_zero;
-        cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Ticks_fields, blox_Ticks_size);
+        blox_Ticks_Block newData = blox_Ticks_Block_init_zero;
+        cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Ticks_Block_fields, blox_Ticks_Block_size);
         if (result == cbox::CboxError::OK) {
             ticks.setUtc(newData.secondsSinceEpoch);
         }
@@ -48,7 +48,7 @@ public:
 
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
     {
-        blox_Ticks message = blox_Ticks_init_zero;
+        blox_Ticks_Block message = blox_Ticks_Block_init_zero;
         message.secondsSinceEpoch = ticks.utc();
         message.millisSinceBoot = ticks.millis();
 
@@ -57,7 +57,7 @@ public:
         message.avgDisplayTask = ticks.taskTime(2);
         message.avgSystemTask = ticks.taskTime(3);
 
-        return streamProtoTo(out, &message, blox_Ticks_fields, blox_Ticks_size);
+        return streamProtoTo(out, &message, blox_Ticks_Block_fields, blox_Ticks_Block_size);
     }
 
     virtual cbox::CboxError streamPersistedTo(cbox::DataOut&) const override final

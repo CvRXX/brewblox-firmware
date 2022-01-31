@@ -1,20 +1,20 @@
 /*
  * Copyright 2020 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
- * BrewBlox is free software: you can redistribute it and/or modify
+ * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BrewBlox is distributed in the hope that it will be useful,
+ * Brewblox is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -23,11 +23,11 @@
 #include "blox/Block.h"
 #include "compiled_proto/src/OneWireBus.pb.h"
 
-class OneWireBusBlock : public Block<BrewBloxTypes_BlockType_OneWireBus> {
+class OneWireBusBlock : public Block<brewblox_BlockType_OneWireBus> {
 private:
     OneWire& bus;
 
-    mutable _blox_OneWireBusCommand command; // declared mutable so const streamTo functions can reset it
+    mutable blox_OneWireBus_Command command; // declared mutable so const streamTo functions can reset it
 
     static const uint8_t NO_OP = 0;
     static const uint8_t RESET = 1;

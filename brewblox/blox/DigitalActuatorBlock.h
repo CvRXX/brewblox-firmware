@@ -6,7 +6,7 @@
 #include "cbox/CboxPtr.h"
 #include "compiled_proto/src/DigitalActuator.pb.h"
 
-class DigitalActuatorBlock : public Block<BrewBloxTypes_BlockType_DigitalActuator> {
+class DigitalActuatorBlock : public Block<brewblox_BlockType_DigitalActuator> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<IoArray> hwDevice;
@@ -33,5 +33,5 @@ public:
     }
 
 private:
-    void writePersistedStateToMessage(blox_DigitalActuator& message) const;
+    void writePersistedStateToMessage(blox_DigitalActuator_Block& message) const;
 };

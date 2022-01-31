@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "Temperature.h"
 #include "blox/TempSensorCombiBlock.h"
 #include "blox/TempSensorMockBlock.h"
@@ -36,7 +36,7 @@
 
 SCENARIO("A TempSensorCombi block")
 {
-    BrewBloxTestBox testBox;
+    BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 
     testBox.reset();
@@ -48,7 +48,7 @@ SCENARIO("A TempSensorCombi block")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto mockSensor1 = blox::TempSensorMock();
+    auto mockSensor1 = blox_test::TempSensorMock::Block();
     mockSensor1.set_setting(cnl::unwrap(temp_t(21.0)));
     mockSensor1.set_connected(true);
 
@@ -64,7 +64,7 @@ SCENARIO("A TempSensorCombi block")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto mockSensor2 = blox::TempSensorMock();
+    auto mockSensor2 = blox_test::TempSensorMock::Block();
     mockSensor2.set_setting(cnl::unwrap(temp_t(22.0)));
     mockSensor2.set_connected(true);
 
@@ -80,7 +80,7 @@ SCENARIO("A TempSensorCombi block")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorMockBlock::staticTypeId());
 
-    auto mockSensor3 = blox::TempSensorMock();
+    auto mockSensor3 = blox_test::TempSensorMock::Block();
     mockSensor3.set_setting(cnl::unwrap(temp_t(23.0)));
     mockSensor3.set_connected(true);
 
@@ -96,7 +96,7 @@ SCENARIO("A TempSensorCombi block")
     testBox.put(uint8_t(0xFF));
     testBox.put(TempSensorCombiBlock::staticTypeId());
 
-    auto TempSensorCombi = blox::TempSensorCombi();
+    auto TempSensorCombi = blox_test::TempSensorCombi::Block();
     TempSensorCombi.add_sensors(101);
     TempSensorCombi.add_sensors(102);
     TempSensorCombi.add_sensors(103);
@@ -121,7 +121,7 @@ SCENARIO("A TempSensorCombi block")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(100));
 
-                auto decoded = blox::TempSensorCombi();
+                auto decoded = blox_test::TempSensorCombi::Block();
                 testBox.processInputToProto(decoded);
 
                 CHECK(testBox.lastReplyHasStatusOk());
@@ -139,7 +139,7 @@ SCENARIO("A TempSensorCombi block")
             testBox.put(uint8_t(0xFF));
             testBox.put(TempSensorCombiBlock::staticTypeId());
 
-            TempSensorCombi.set_combinefunc(blox::SensorCombiFunc::SENSOR_COMBI_FUNC_MAX);
+            TempSensorCombi.set_combinefunc(blox_test::TempSensorCombi::SensorCombiFunc::SENSOR_COMBI_FUNC_MAX);
             testBox.put(TempSensorCombi);
 
             testBox.processInput();
@@ -154,7 +154,7 @@ SCENARIO("A TempSensorCombi block")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(100));
 
-                auto decoded = blox::TempSensorCombi();
+                auto decoded = blox_test::TempSensorCombi::Block();
                 testBox.processInputToProto(decoded);
 
                 CHECK(testBox.lastReplyHasStatusOk());
@@ -172,7 +172,7 @@ SCENARIO("A TempSensorCombi block")
             testBox.put(uint8_t(0xFF));
             testBox.put(TempSensorCombiBlock::staticTypeId());
 
-            TempSensorCombi.set_combinefunc(blox::SensorCombiFunc::SENSOR_COMBI_FUNC_MIN);
+            TempSensorCombi.set_combinefunc(blox_test::TempSensorCombi::SensorCombiFunc::SENSOR_COMBI_FUNC_MIN);
             testBox.put(TempSensorCombi);
 
             testBox.processInput();
@@ -187,7 +187,7 @@ SCENARIO("A TempSensorCombi block")
                 testBox.put(commands::READ_OBJECT);
                 testBox.put(cbox::obj_id_t(100));
 
-                auto decoded = blox::TempSensorCombi();
+                auto decoded = blox_test::TempSensorCombi::Block();
                 testBox.processInputToProto(decoded);
 
                 CHECK(testBox.lastReplyHasStatusOk());
@@ -206,7 +206,7 @@ SCENARIO("A TempSensorCombi block")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto mockSensor1 = blox::TempSensorMock();
+        auto mockSensor1 = blox_test::TempSensorMock::Block();
         mockSensor1.set_setting(cnl::unwrap(temp_t(21.0)));
         mockSensor1.set_connected(false);
 
@@ -222,7 +222,7 @@ SCENARIO("A TempSensorCombi block")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto mockSensor2 = blox::TempSensorMock();
+        auto mockSensor2 = blox_test::TempSensorMock::Block();
         mockSensor2.set_setting(cnl::unwrap(temp_t(22.0)));
         mockSensor2.set_connected(false);
 
@@ -238,7 +238,7 @@ SCENARIO("A TempSensorCombi block")
         testBox.put(uint8_t(0xFF));
         testBox.put(TempSensorMockBlock::staticTypeId());
 
-        auto mockSensor3 = blox::TempSensorMock();
+        auto mockSensor3 = blox_test::TempSensorMock::Block();
         mockSensor3.set_setting(cnl::unwrap(temp_t(23.0)));
         mockSensor3.set_connected(false);
 
@@ -256,7 +256,7 @@ SCENARIO("A TempSensorCombi block")
             testBox.put(commands::READ_OBJECT);
             testBox.put(cbox::obj_id_t(100));
 
-            auto decoded = blox::TempSensorCombi();
+            auto decoded = blox_test::TempSensorCombi::Block();
             testBox.processInputToProto(decoded);
 
             CHECK(testBox.lastReplyHasStatusOk());

@@ -19,71 +19,73 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-namespace blox {
-class PidDefaultTypeInternal {
+namespace blox_test {
+namespace Pid {
+class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Pid>
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-} _Pid_default_instance_;
-}  // namespace blox
+} _Block_default_instance_;
+}  // namespace Pid
+}  // namespace blox_test
 namespace protobuf_Pid_5ftest_2eproto {
-static void InitDefaultsPid() {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::blox::_Pid_default_instance_;
-    new (ptr) ::blox::Pid();
+    void* ptr = &::blox_test::Pid::_Block_default_instance_;
+    new (ptr) ::blox_test::Pid::Block();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::blox::Pid::InitAsDefaultInstance();
+  ::blox_test::Pid::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_Pid =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPid}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBlock}, {}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Pid.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, inputid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, outputid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, inputvalue_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, inputsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, outputvalue_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, outputsetting_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, enabled_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, active_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, kp_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, ti_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, td_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, p_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, i_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, d_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, error_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, integral_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, derivative_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, drivenoutputid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, integralreset_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, boilpointadjust_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, boilminoutput_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, boilmodeactive_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, derivativefilter_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox::Pid, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, inputid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, outputid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, inputvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, inputsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, outputvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, outputsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, active_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, kp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, ti_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, td_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, p_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, i_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, d_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, error_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, integral_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, derivative_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, drivenoutputid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, integralreset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, boilpointadjust_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, boilminoutput_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, boilmodeactive_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, derivativefilter_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::blox::Pid)},
+  { 0, -1, sizeof(::blox_test::Pid::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox::_Pid_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::Pid::_Block_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -107,37 +109,38 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016Pid_test.proto\022\004blox\032\023brewblox_test.pr"
-      "oto\032\021nanopb_test.proto\032\035SetpointSensorPa"
-      "ir_test.proto\"\331\007\n\003Pid\022\034\n\007inputId\030\001 \001(\rB\013"
-      "\212\265\030\002\030\004\222\?\0028\020\022\035\n\010outputId\030\002 \001(\rB\013\212\265\030\002\030\005\222\?\002"
-      "8\020\0222\n\ninputValue\030\005 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003"
-      "\020\200 \222\?\0028 \212\265\030\002(\001\0224\n\014inputSetting\030\006 \001(\021B\036\212\265"
-      "\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\013outputVa"
-      "lue\030\007 \001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022/\n\ro"
-      "utputSetting\030\010 \001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265"
-      "\030\002(\001\022\027\n\007enabled\030\013 \001(\010B\006\212\265\030\0020\001\022\034\n\006active\030"
-      "\014 \001(\010B\014\212\265\030\0020\001\212\265\030\002(\001\022\036\n\002kp\030\r \001(\021B\022\212\265\030\002\010\002\212"
-      "\265\030\003\020\200 \222\?\0028 \022\027\n\002ti\030\016 \001(\rB\013\212\265\030\002\010\003\222\?\0028\020\022\027\n\002"
-      "td\030\017 \001(\rB\013\212\265\030\002\010\003\222\?\0028\020\022#\n\001p\030\020 \001(\021B\030\212\265\030\0020\001"
-      "\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022#\n\001i\030\021 \001(\021B\030\212\265\030\0020\001\212\265\030"
-      "\003\020\200 \222\?\0028 \212\265\030\002(\001\022#\n\001d\030\022 \001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200"
-      " \222\?\0028 \212\265\030\002(\001\022-\n\005error\030\023 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010"
-      "\006\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\0222\n\010integral\030\024 \001(\021B \212"
-      "\265\030\0020\001\212\265\030\002\010\014\212\265\030\005\020\200\200\204\007\222\?\0028 \212\265\030\002(\001\0223\n\nderiv"
-      "ative\030\025 \001(\021B\037\212\265\030\0020\001\212\265\030\002\010\010\212\265\030\004\020\242\304\010\222\?\0028 \212\265"
-      "\030\002(\001\022/\n\016drivenOutputId\030\026 \001(\rB\027\212\265\030\002\030\005\212\265\030\002"
-      "@\001\222\?\0028\020\212\265\030\002(\001\022)\n\rintegralReset\030\027 \001(\021B\022\212\265"
-      "\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022+\n\017boilPointAdjust\030\030 \001("
-      "\021B\022\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \022#\n\rboilMinOutput\030\031"
-      " \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022$\n\016boilModeActive\030\032 \001"
-      "(\010B\014\212\265\030\0020\001\212\265\030\002(\001\0224\n\020derivativeFilter\030\033 \001"
-      "(\0162\022.blox.FilterChoiceB\006\212\265\030\002(\001\022(\n\016stripp"
-      "edFields\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\004:\007\212\265\030\003\030\260"
-      "\002b\006proto3"
+      "\n\016Pid_test.proto\022\rblox_test.Pid\032\023brewblo"
+      "x_test.proto\032\021nanopb_test.proto\032\035Setpoin"
+      "tSensorPair_test.proto\"\363\007\n\005Block\022\034\n\007inpu"
+      "tId\030\001 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\022\035\n\010outputId\030\002 \001(\r"
+      "B\013\212\265\030\002\030\005\222\?\0028\020\0222\n\ninputValue\030\005 \001(\021B\036\212\265\030\0020"
+      "\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\0224\n\014inputSettin"
+      "g\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022"
+      "-\n\013outputValue\030\007 \001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 "
+      "\212\265\030\002(\001\022/\n\routputSetting\030\010 \001(\021B\030\212\265\030\0020\001\212\265\030"
+      "\003\020\200 \222\?\0028 \212\265\030\002(\001\022\027\n\007enabled\030\013 \001(\010B\006\212\265\030\0020\001"
+      "\022\034\n\006active\030\014 \001(\010B\014\212\265\030\0020\001\212\265\030\002(\001\022\036\n\002kp\030\r \001"
+      "(\021B\022\212\265\030\002\010\002\212\265\030\003\020\200 \222\?\0028 \022\027\n\002ti\030\016 \001(\rB\013\212\265\030\002"
+      "\010\003\222\?\0028\020\022\027\n\002td\030\017 \001(\rB\013\212\265\030\002\010\003\222\?\0028\020\022#\n\001p\030\020 "
+      "\001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022#\n\001i\030\021 \001(\021"
+      "B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022#\n\001d\030\022 \001(\021B\030\212"
+      "\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005error\030\023 \001(\021B\036"
+      "\212\265\030\0020\001\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\0222\n\010integr"
+      "al\030\024 \001(\021B \212\265\030\0020\001\212\265\030\002\010\014\212\265\030\005\020\200\200\204\007\222\?\0028 \212\265\030\002"
+      "(\001\0223\n\nderivative\030\025 \001(\021B\037\212\265\030\0020\001\212\265\030\002\010\010\212\265\030\004"
+      "\020\242\304\010\222\?\0028 \212\265\030\002(\001\022/\n\016drivenOutputId\030\026 \001(\rB"
+      "\027\212\265\030\002\030\005\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022)\n\rintegralRese"
+      "t\030\027 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022+\n\017boilPoint"
+      "Adjust\030\030 \001(\021B\022\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \022#\n\rboil"
+      "MinOutput\030\031 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022$\n\016boilMod"
+      "eActive\030\032 \001(\010B\014\212\265\030\0020\001\212\265\030\002(\001\022L\n\020derivativ"
+      "eFilter\030\033 \001(\0162*.blox_test.SetpointSensor"
+      "Pair.FilterChoiceB\006\212\265\030\002(\001\022(\n\016strippedFie"
+      "lds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\004:\007\212\265\030\003\030\260\002b\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1089);
+      descriptor, 1124);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Pid_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -156,47 +159,48 @@ struct StaticDescriptorInitializer {
   }
 } static_descriptor_initializer;
 }  // namespace protobuf_Pid_5ftest_2eproto
-namespace blox {
+namespace blox_test {
+namespace Pid {
 
 // ===================================================================
 
-void Pid::InitAsDefaultInstance() {
+void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Pid::kInputIdFieldNumber;
-const int Pid::kOutputIdFieldNumber;
-const int Pid::kInputValueFieldNumber;
-const int Pid::kInputSettingFieldNumber;
-const int Pid::kOutputValueFieldNumber;
-const int Pid::kOutputSettingFieldNumber;
-const int Pid::kEnabledFieldNumber;
-const int Pid::kActiveFieldNumber;
-const int Pid::kKpFieldNumber;
-const int Pid::kTiFieldNumber;
-const int Pid::kTdFieldNumber;
-const int Pid::kPFieldNumber;
-const int Pid::kIFieldNumber;
-const int Pid::kDFieldNumber;
-const int Pid::kErrorFieldNumber;
-const int Pid::kIntegralFieldNumber;
-const int Pid::kDerivativeFieldNumber;
-const int Pid::kDrivenOutputIdFieldNumber;
-const int Pid::kIntegralResetFieldNumber;
-const int Pid::kBoilPointAdjustFieldNumber;
-const int Pid::kBoilMinOutputFieldNumber;
-const int Pid::kBoilModeActiveFieldNumber;
-const int Pid::kDerivativeFilterFieldNumber;
-const int Pid::kStrippedFieldsFieldNumber;
+const int Block::kInputIdFieldNumber;
+const int Block::kOutputIdFieldNumber;
+const int Block::kInputValueFieldNumber;
+const int Block::kInputSettingFieldNumber;
+const int Block::kOutputValueFieldNumber;
+const int Block::kOutputSettingFieldNumber;
+const int Block::kEnabledFieldNumber;
+const int Block::kActiveFieldNumber;
+const int Block::kKpFieldNumber;
+const int Block::kTiFieldNumber;
+const int Block::kTdFieldNumber;
+const int Block::kPFieldNumber;
+const int Block::kIFieldNumber;
+const int Block::kDFieldNumber;
+const int Block::kErrorFieldNumber;
+const int Block::kIntegralFieldNumber;
+const int Block::kDerivativeFieldNumber;
+const int Block::kDrivenOutputIdFieldNumber;
+const int Block::kIntegralResetFieldNumber;
+const int Block::kBoilPointAdjustFieldNumber;
+const int Block::kBoilMinOutputFieldNumber;
+const int Block::kBoilModeActiveFieldNumber;
+const int Block::kDerivativeFilterFieldNumber;
+const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Pid::Pid()
+Block::Block()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_Pid_5ftest_2eproto::scc_info_Pid.base);
+      &protobuf_Pid_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox.Pid)
+  // @@protoc_insertion_point(constructor:blox_test.Pid.Block)
 }
-Pid::Pid(const Pid& from)
+Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       strippedfields_(from.strippedfields_) {
@@ -204,39 +208,39 @@ Pid::Pid(const Pid& from)
   ::memcpy(&inputid_, &from.inputid_,
     static_cast<size_t>(reinterpret_cast<char*>(&derivativefilter_) -
     reinterpret_cast<char*>(&inputid_)) + sizeof(derivativefilter_));
-  // @@protoc_insertion_point(copy_constructor:blox.Pid)
+  // @@protoc_insertion_point(copy_constructor:blox_test.Pid.Block)
 }
 
-void Pid::SharedCtor() {
+void Block::SharedCtor() {
   ::memset(&inputid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&derivativefilter_) -
       reinterpret_cast<char*>(&inputid_)) + sizeof(derivativefilter_));
 }
 
-Pid::~Pid() {
-  // @@protoc_insertion_point(destructor:blox.Pid)
+Block::~Block() {
+  // @@protoc_insertion_point(destructor:blox_test.Pid.Block)
   SharedDtor();
 }
 
-void Pid::SharedDtor() {
+void Block::SharedDtor() {
 }
 
-void Pid::SetCachedSize(int size) const {
+void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Pid::descriptor() {
+const ::google::protobuf::Descriptor* Block::descriptor() {
   ::protobuf_Pid_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Pid_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const Pid& Pid::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_Pid_5ftest_2eproto::scc_info_Pid.base);
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_Pid_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
-void Pid::Clear() {
-// @@protoc_insertion_point(message_clear_start:blox.Pid)
+void Block::Clear() {
+// @@protoc_insertion_point(message_clear_start:blox_test.Pid.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -248,17 +252,17 @@ void Pid::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool Pid::MergePartialFromCodedStream(
+bool Block::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox.Pid)
+  // @@protoc_insertion_point(parse_start:blox_test.Pid.Block)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 inputId = 1 [(.nanopb_test) = {
+      // uint32 inputId = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -272,7 +276,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 outputId = 2 [(.nanopb_test) = {
+      // uint32 outputId = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
@@ -286,7 +290,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 inputValue = 5 [(.nanopb_test) = {
+      // sint32 inputValue = 5 [(.nanopb) = {
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
@@ -300,7 +304,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 inputSetting = 6 [(.nanopb_test) = {
+      // sint32 inputSetting = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
@@ -314,7 +318,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 outputValue = 7 [(.nanopb_test) = {
+      // sint32 outputValue = 7 [(.nanopb) = {
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
@@ -328,7 +332,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 outputSetting = 8 [(.nanopb_test) = {
+      // sint32 outputSetting = 8 [(.nanopb) = {
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
@@ -342,7 +346,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // bool enabled = 11 [(.brewblox_test) = {
+      // bool enabled = 11 [(.brewblox.field) = {
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
@@ -356,7 +360,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // bool active = 12 [(.brewblox_test) = {
+      // bool active = 12 [(.brewblox.field) = {
       case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
@@ -370,7 +374,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 kp = 13 [(.nanopb_test) = {
+      // sint32 kp = 13 [(.nanopb) = {
       case 13: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
@@ -384,7 +388,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 ti = 14 [(.nanopb_test) = {
+      // uint32 ti = 14 [(.nanopb) = {
       case 14: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
@@ -398,7 +402,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 td = 15 [(.nanopb_test) = {
+      // uint32 td = 15 [(.nanopb) = {
       case 15: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(120u /* 120 & 0xFF */)) {
@@ -412,7 +416,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 p = 16 [(.nanopb_test) = {
+      // sint32 p = 16 [(.nanopb) = {
       case 16: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(128u /* 128 & 0xFF */)) {
@@ -426,7 +430,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 i = 17 [(.nanopb_test) = {
+      // sint32 i = 17 [(.nanopb) = {
       case 17: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(136u /* 136 & 0xFF */)) {
@@ -440,7 +444,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 d = 18 [(.nanopb_test) = {
+      // sint32 d = 18 [(.nanopb) = {
       case 18: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(144u /* 144 & 0xFF */)) {
@@ -454,7 +458,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 error = 19 [(.nanopb_test) = {
+      // sint32 error = 19 [(.nanopb) = {
       case 19: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(152u /* 152 & 0xFF */)) {
@@ -468,7 +472,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 integral = 20 [(.nanopb_test) = {
+      // sint32 integral = 20 [(.nanopb) = {
       case 20: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(160u /* 160 & 0xFF */)) {
@@ -482,7 +486,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 derivative = 21 [(.nanopb_test) = {
+      // sint32 derivative = 21 [(.nanopb) = {
       case 21: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(168u /* 168 & 0xFF */)) {
@@ -496,7 +500,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 drivenOutputId = 22 [(.nanopb_test) = {
+      // uint32 drivenOutputId = 22 [(.nanopb) = {
       case 22: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(176u /* 176 & 0xFF */)) {
@@ -510,7 +514,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 integralReset = 23 [(.nanopb_test) = {
+      // sint32 integralReset = 23 [(.nanopb) = {
       case 23: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(184u /* 184 & 0xFF */)) {
@@ -524,7 +528,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 boilPointAdjust = 24 [(.nanopb_test) = {
+      // sint32 boilPointAdjust = 24 [(.nanopb) = {
       case 24: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(192u /* 192 & 0xFF */)) {
@@ -538,7 +542,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // sint32 boilMinOutput = 25 [(.nanopb_test) = {
+      // sint32 boilMinOutput = 25 [(.nanopb) = {
       case 25: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(200u /* 200 & 0xFF */)) {
@@ -552,7 +556,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // bool boilModeActive = 26 [(.brewblox_test) = {
+      // bool boilModeActive = 26 [(.brewblox.field) = {
       case 26: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 208 & 0xFF */)) {
@@ -566,7 +570,7 @@ bool Pid::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox.FilterChoice derivativeFilter = 27 [(.brewblox_test) = {
+      // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
       case 27: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(216u /* 216 & 0xFF */)) {
@@ -574,14 +578,14 @@ bool Pid::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_derivativefilter(static_cast< ::blox::FilterChoice >(value));
+          set_derivativefilter(static_cast< ::blox_test::SetpointSensorPair::FilterChoice >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+      // repeated uint32 strippedFields = 99 [(.nanopb) = {
       case 99: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
@@ -612,137 +616,137 @@ bool Pid::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:blox.Pid)
+  // @@protoc_insertion_point(parse_success:blox_test.Pid.Block)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox.Pid)
+  // @@protoc_insertion_point(parse_failure:blox_test.Pid.Block)
   return false;
 #undef DO_
 }
 
-void Pid::SerializeWithCachedSizes(
+void Block::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox.Pid)
+  // @@protoc_insertion_point(serialize_start:blox_test.Pid.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 inputId = 1 [(.nanopb_test) = {
+  // uint32 inputId = 1 [(.nanopb) = {
   if (this->inputid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->inputid(), output);
   }
 
-  // uint32 outputId = 2 [(.nanopb_test) = {
+  // uint32 outputId = 2 [(.nanopb) = {
   if (this->outputid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->outputid(), output);
   }
 
-  // sint32 inputValue = 5 [(.nanopb_test) = {
+  // sint32 inputValue = 5 [(.nanopb) = {
   if (this->inputvalue() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(5, this->inputvalue(), output);
   }
 
-  // sint32 inputSetting = 6 [(.nanopb_test) = {
+  // sint32 inputSetting = 6 [(.nanopb) = {
   if (this->inputsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->inputsetting(), output);
   }
 
-  // sint32 outputValue = 7 [(.nanopb_test) = {
+  // sint32 outputValue = 7 [(.nanopb) = {
   if (this->outputvalue() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(7, this->outputvalue(), output);
   }
 
-  // sint32 outputSetting = 8 [(.nanopb_test) = {
+  // sint32 outputSetting = 8 [(.nanopb) = {
   if (this->outputsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(8, this->outputsetting(), output);
   }
 
-  // bool enabled = 11 [(.brewblox_test) = {
+  // bool enabled = 11 [(.brewblox.field) = {
   if (this->enabled() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(11, this->enabled(), output);
   }
 
-  // bool active = 12 [(.brewblox_test) = {
+  // bool active = 12 [(.brewblox.field) = {
   if (this->active() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->active(), output);
   }
 
-  // sint32 kp = 13 [(.nanopb_test) = {
+  // sint32 kp = 13 [(.nanopb) = {
   if (this->kp() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(13, this->kp(), output);
   }
 
-  // uint32 ti = 14 [(.nanopb_test) = {
+  // uint32 ti = 14 [(.nanopb) = {
   if (this->ti() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(14, this->ti(), output);
   }
 
-  // uint32 td = 15 [(.nanopb_test) = {
+  // uint32 td = 15 [(.nanopb) = {
   if (this->td() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(15, this->td(), output);
   }
 
-  // sint32 p = 16 [(.nanopb_test) = {
+  // sint32 p = 16 [(.nanopb) = {
   if (this->p() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(16, this->p(), output);
   }
 
-  // sint32 i = 17 [(.nanopb_test) = {
+  // sint32 i = 17 [(.nanopb) = {
   if (this->i() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(17, this->i(), output);
   }
 
-  // sint32 d = 18 [(.nanopb_test) = {
+  // sint32 d = 18 [(.nanopb) = {
   if (this->d() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(18, this->d(), output);
   }
 
-  // sint32 error = 19 [(.nanopb_test) = {
+  // sint32 error = 19 [(.nanopb) = {
   if (this->error() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(19, this->error(), output);
   }
 
-  // sint32 integral = 20 [(.nanopb_test) = {
+  // sint32 integral = 20 [(.nanopb) = {
   if (this->integral() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(20, this->integral(), output);
   }
 
-  // sint32 derivative = 21 [(.nanopb_test) = {
+  // sint32 derivative = 21 [(.nanopb) = {
   if (this->derivative() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(21, this->derivative(), output);
   }
 
-  // uint32 drivenOutputId = 22 [(.nanopb_test) = {
+  // uint32 drivenOutputId = 22 [(.nanopb) = {
   if (this->drivenoutputid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(22, this->drivenoutputid(), output);
   }
 
-  // sint32 integralReset = 23 [(.nanopb_test) = {
+  // sint32 integralReset = 23 [(.nanopb) = {
   if (this->integralreset() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(23, this->integralreset(), output);
   }
 
-  // sint32 boilPointAdjust = 24 [(.nanopb_test) = {
+  // sint32 boilPointAdjust = 24 [(.nanopb) = {
   if (this->boilpointadjust() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(24, this->boilpointadjust(), output);
   }
 
-  // sint32 boilMinOutput = 25 [(.nanopb_test) = {
+  // sint32 boilMinOutput = 25 [(.nanopb) = {
   if (this->boilminoutput() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(25, this->boilminoutput(), output);
   }
 
-  // bool boilModeActive = 26 [(.brewblox_test) = {
+  // bool boilModeActive = 26 [(.brewblox.field) = {
   if (this->boilmodeactive() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(26, this->boilmodeactive(), output);
   }
 
-  // .blox.FilterChoice derivativeFilter = 27 [(.brewblox_test) = {
+  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
   if (this->derivativefilter() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       27, this->derivativefilter(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
@@ -757,133 +761,133 @@ void Pid::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:blox.Pid)
+  // @@protoc_insertion_point(serialize_end:blox_test.Pid.Block)
 }
 
-::google::protobuf::uint8* Pid::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox.Pid)
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.Pid.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 inputId = 1 [(.nanopb_test) = {
+  // uint32 inputId = 1 [(.nanopb) = {
   if (this->inputid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->inputid(), target);
   }
 
-  // uint32 outputId = 2 [(.nanopb_test) = {
+  // uint32 outputId = 2 [(.nanopb) = {
   if (this->outputid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->outputid(), target);
   }
 
-  // sint32 inputValue = 5 [(.nanopb_test) = {
+  // sint32 inputValue = 5 [(.nanopb) = {
   if (this->inputvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->inputvalue(), target);
   }
 
-  // sint32 inputSetting = 6 [(.nanopb_test) = {
+  // sint32 inputSetting = 6 [(.nanopb) = {
   if (this->inputsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->inputsetting(), target);
   }
 
-  // sint32 outputValue = 7 [(.nanopb_test) = {
+  // sint32 outputValue = 7 [(.nanopb) = {
   if (this->outputvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(7, this->outputvalue(), target);
   }
 
-  // sint32 outputSetting = 8 [(.nanopb_test) = {
+  // sint32 outputSetting = 8 [(.nanopb) = {
   if (this->outputsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(8, this->outputsetting(), target);
   }
 
-  // bool enabled = 11 [(.brewblox_test) = {
+  // bool enabled = 11 [(.brewblox.field) = {
   if (this->enabled() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(11, this->enabled(), target);
   }
 
-  // bool active = 12 [(.brewblox_test) = {
+  // bool active = 12 [(.brewblox.field) = {
   if (this->active() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->active(), target);
   }
 
-  // sint32 kp = 13 [(.nanopb_test) = {
+  // sint32 kp = 13 [(.nanopb) = {
   if (this->kp() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(13, this->kp(), target);
   }
 
-  // uint32 ti = 14 [(.nanopb_test) = {
+  // uint32 ti = 14 [(.nanopb) = {
   if (this->ti() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(14, this->ti(), target);
   }
 
-  // uint32 td = 15 [(.nanopb_test) = {
+  // uint32 td = 15 [(.nanopb) = {
   if (this->td() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(15, this->td(), target);
   }
 
-  // sint32 p = 16 [(.nanopb_test) = {
+  // sint32 p = 16 [(.nanopb) = {
   if (this->p() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(16, this->p(), target);
   }
 
-  // sint32 i = 17 [(.nanopb_test) = {
+  // sint32 i = 17 [(.nanopb) = {
   if (this->i() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(17, this->i(), target);
   }
 
-  // sint32 d = 18 [(.nanopb_test) = {
+  // sint32 d = 18 [(.nanopb) = {
   if (this->d() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(18, this->d(), target);
   }
 
-  // sint32 error = 19 [(.nanopb_test) = {
+  // sint32 error = 19 [(.nanopb) = {
   if (this->error() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(19, this->error(), target);
   }
 
-  // sint32 integral = 20 [(.nanopb_test) = {
+  // sint32 integral = 20 [(.nanopb) = {
   if (this->integral() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(20, this->integral(), target);
   }
 
-  // sint32 derivative = 21 [(.nanopb_test) = {
+  // sint32 derivative = 21 [(.nanopb) = {
   if (this->derivative() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(21, this->derivative(), target);
   }
 
-  // uint32 drivenOutputId = 22 [(.nanopb_test) = {
+  // uint32 drivenOutputId = 22 [(.nanopb) = {
   if (this->drivenoutputid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(22, this->drivenoutputid(), target);
   }
 
-  // sint32 integralReset = 23 [(.nanopb_test) = {
+  // sint32 integralReset = 23 [(.nanopb) = {
   if (this->integralreset() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(23, this->integralreset(), target);
   }
 
-  // sint32 boilPointAdjust = 24 [(.nanopb_test) = {
+  // sint32 boilPointAdjust = 24 [(.nanopb) = {
   if (this->boilpointadjust() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(24, this->boilpointadjust(), target);
   }
 
-  // sint32 boilMinOutput = 25 [(.nanopb_test) = {
+  // sint32 boilMinOutput = 25 [(.nanopb) = {
   if (this->boilminoutput() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(25, this->boilminoutput(), target);
   }
 
-  // bool boilModeActive = 26 [(.brewblox_test) = {
+  // bool boilModeActive = 26 [(.brewblox.field) = {
   if (this->boilmodeactive() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(26, this->boilmodeactive(), target);
   }
 
-  // .blox.FilterChoice derivativeFilter = 27 [(.brewblox_test) = {
+  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
   if (this->derivativefilter() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       27, this->derivativefilter(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   if (this->strippedfields_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       99,
@@ -900,12 +904,12 @@ void Pid::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:blox.Pid)
+  // @@protoc_insertion_point(serialize_to_array_end:blox_test.Pid.Block)
   return target;
 }
 
-size_t Pid::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:blox.Pid)
+size_t Block::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:blox_test.Pid.Block)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -913,7 +917,7 @@ size_t Pid::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb_test) = {
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
@@ -929,155 +933,155 @@ size_t Pid::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // uint32 inputId = 1 [(.nanopb_test) = {
+  // uint32 inputId = 1 [(.nanopb) = {
   if (this->inputid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->inputid());
   }
 
-  // uint32 outputId = 2 [(.nanopb_test) = {
+  // uint32 outputId = 2 [(.nanopb) = {
   if (this->outputid() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->outputid());
   }
 
-  // sint32 inputValue = 5 [(.nanopb_test) = {
+  // sint32 inputValue = 5 [(.nanopb) = {
   if (this->inputvalue() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->inputvalue());
   }
 
-  // sint32 inputSetting = 6 [(.nanopb_test) = {
+  // sint32 inputSetting = 6 [(.nanopb) = {
   if (this->inputsetting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->inputsetting());
   }
 
-  // sint32 outputValue = 7 [(.nanopb_test) = {
+  // sint32 outputValue = 7 [(.nanopb) = {
   if (this->outputvalue() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->outputvalue());
   }
 
-  // sint32 outputSetting = 8 [(.nanopb_test) = {
+  // sint32 outputSetting = 8 [(.nanopb) = {
   if (this->outputsetting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->outputsetting());
   }
 
-  // sint32 kp = 13 [(.nanopb_test) = {
+  // sint32 kp = 13 [(.nanopb) = {
   if (this->kp() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->kp());
   }
 
-  // uint32 ti = 14 [(.nanopb_test) = {
+  // uint32 ti = 14 [(.nanopb) = {
   if (this->ti() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->ti());
   }
 
-  // uint32 td = 15 [(.nanopb_test) = {
+  // uint32 td = 15 [(.nanopb) = {
   if (this->td() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->td());
   }
 
-  // sint32 p = 16 [(.nanopb_test) = {
+  // sint32 p = 16 [(.nanopb) = {
   if (this->p() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->p());
   }
 
-  // bool enabled = 11 [(.brewblox_test) = {
+  // bool enabled = 11 [(.brewblox.field) = {
   if (this->enabled() != 0) {
     total_size += 1 + 1;
   }
 
-  // bool active = 12 [(.brewblox_test) = {
+  // bool active = 12 [(.brewblox.field) = {
   if (this->active() != 0) {
     total_size += 1 + 1;
   }
 
-  // bool boilModeActive = 26 [(.brewblox_test) = {
+  // bool boilModeActive = 26 [(.brewblox.field) = {
   if (this->boilmodeactive() != 0) {
     total_size += 2 + 1;
   }
 
-  // sint32 i = 17 [(.nanopb_test) = {
+  // sint32 i = 17 [(.nanopb) = {
   if (this->i() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->i());
   }
 
-  // sint32 d = 18 [(.nanopb_test) = {
+  // sint32 d = 18 [(.nanopb) = {
   if (this->d() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->d());
   }
 
-  // sint32 error = 19 [(.nanopb_test) = {
+  // sint32 error = 19 [(.nanopb) = {
   if (this->error() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->error());
   }
 
-  // sint32 integral = 20 [(.nanopb_test) = {
+  // sint32 integral = 20 [(.nanopb) = {
   if (this->integral() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->integral());
   }
 
-  // sint32 derivative = 21 [(.nanopb_test) = {
+  // sint32 derivative = 21 [(.nanopb) = {
   if (this->derivative() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->derivative());
   }
 
-  // uint32 drivenOutputId = 22 [(.nanopb_test) = {
+  // uint32 drivenOutputId = 22 [(.nanopb) = {
   if (this->drivenoutputid() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->drivenoutputid());
   }
 
-  // sint32 integralReset = 23 [(.nanopb_test) = {
+  // sint32 integralReset = 23 [(.nanopb) = {
   if (this->integralreset() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->integralreset());
   }
 
-  // sint32 boilPointAdjust = 24 [(.nanopb_test) = {
+  // sint32 boilPointAdjust = 24 [(.nanopb) = {
   if (this->boilpointadjust() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->boilpointadjust());
   }
 
-  // sint32 boilMinOutput = 25 [(.nanopb_test) = {
+  // sint32 boilMinOutput = 25 [(.nanopb) = {
   if (this->boilminoutput() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->boilminoutput());
   }
 
-  // .blox.FilterChoice derivativeFilter = 27 [(.brewblox_test) = {
+  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
   if (this->derivativefilter() != 0) {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->derivativefilter());
@@ -1088,23 +1092,23 @@ size_t Pid::ByteSizeLong() const {
   return total_size;
 }
 
-void Pid::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:blox.Pid)
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.Pid.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  const Pid* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Pid>(
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox.Pid)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.Pid.Block)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox.Pid)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.Pid.Block)
     MergeFrom(*source);
   }
 }
 
-void Pid::MergeFrom(const Pid& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:blox.Pid)
+void Block::MergeFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:blox_test.Pid.Block)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1182,29 +1186,29 @@ void Pid::MergeFrom(const Pid& from) {
   }
 }
 
-void Pid::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:blox.Pid)
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.Pid.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Pid::CopyFrom(const Pid& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:blox.Pid)
+void Block::CopyFrom(const Block& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:blox_test.Pid.Block)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Pid::IsInitialized() const {
+bool Block::IsInitialized() const {
   return true;
 }
 
-void Pid::Swap(Pid* other) {
+void Block::Swap(Block* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void Pid::InternalSwap(Pid* other) {
+void Block::InternalSwap(Block* other) {
   using std::swap;
   strippedfields_.InternalSwap(&other->strippedfields_);
   swap(inputid_, other->inputid_);
@@ -1233,18 +1237,19 @@ void Pid::InternalSwap(Pid* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata Pid::GetMetadata() const {
+::google::protobuf::Metadata Block::GetMetadata() const {
   protobuf_Pid_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Pid_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace blox
+}  // namespace Pid
+}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox::Pid* Arena::CreateMaybeMessage< ::blox::Pid >(Arena* arena) {
-  return Arena::CreateInternal< ::blox::Pid >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::Pid::Block* Arena::CreateMaybeMessage< ::blox_test::Pid::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::Pid::Block >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

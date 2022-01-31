@@ -46,8 +46,8 @@ Spark2PinsBlock::Spark2PinsBlock()
 cbox::CboxError
 Spark2PinsBlock::streamFrom(cbox::DataIn& in)
 {
-    blox_Spark2Pins message = blox_Spark2Pins_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_Spark2Pins_fields, blox_Spark2Pins_size);
+    blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
+    cbox::CboxError result = streamProtoFrom(in, &message, blox_Spark2Pins_Block_fields, blox_Spark2Pins_Block_size);
 
     if (result == cbox::CboxError::OK) {
         // io pins are not writable through this block. They are configured by creating Digital Actuators
@@ -59,24 +59,24 @@ Spark2PinsBlock::streamFrom(cbox::DataIn& in)
 cbox::CboxError
 Spark2PinsBlock::streamTo(cbox::DataOut& out) const
 {
-    blox_Spark2Pins message = blox_Spark2Pins_init_zero;
+    blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
 
     if (getSparkVersion() != SparkVersion::V1) {
-        message.channels[0].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM0;
-        message.channels[1].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM1;
-        message.channels[2].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM2;
-        message.channels[3].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM3;
+        message.channels[0].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM0;
+        message.channels[1].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM1;
+        message.channels[2].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM2;
+        message.channels[3].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM3;
         message.channels_count = 4;
     } else {
-        message.channels[0].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM1;
-        message.channels[1].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM2;
-        message.channels[2].id = blox_Spark2ChannelIds_SPARK2_CHAN_BOTTOM3;
+        message.channels[0].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM1;
+        message.channels[1].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM2;
+        message.channels[2].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM3;
         message.channels_count = 3;
     }
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
-    auto hw = blox_Spark2Pins_Hardware::blox_Spark2Pins_Hardware_HW_UNKNOWN;
+    auto hw = blox_Spark2Pins_Hardware_HW_UNKNOWN;
     switch (getSparkVersion()) {
     case SparkVersion::V1:
         hw = blox_Spark2Pins_Hardware_HW_SPARK1;
@@ -87,22 +87,22 @@ Spark2PinsBlock::streamTo(cbox::DataOut& out) const
     }
     message.hardware = hw;
 
-    return streamProtoTo(out, &message, blox_Spark2Pins_fields, blox_Spark2Pins_size);
+    return streamProtoTo(out, &message, blox_Spark2Pins_Block_fields, blox_Spark2Pins_Block_size);
 }
 
 cbox::CboxError
 Spark2PinsBlock::streamPersistedTo(cbox::DataOut& out) const
 {
-    blox_Spark2Pins message = blox_Spark2Pins_init_zero;
+    blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
-    return streamProtoTo(out, &message, blox_Spark2Pins_fields, blox_Spark2Pins_size);
+    return streamProtoTo(out, &message, blox_Spark2Pins_Block_fields, blox_Spark2Pins_Block_size);
 }
 
 void* Spark2PinsBlock::implements(const cbox::obj_type_t& iface)
 {
-    if (iface == BrewBloxTypes_BlockType_Spark2Pins) {
+    if (iface == brewblox_BlockType_Spark2Pins) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

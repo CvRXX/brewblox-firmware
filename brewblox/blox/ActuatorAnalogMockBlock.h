@@ -8,7 +8,7 @@ namespace cbox {
 class ObjectContainer;
 }
 
-class ActuatorAnalogMockBlock : public Block<BrewBloxTypes_BlockType_ActuatorAnalogMock> {
+class ActuatorAnalogMockBlock : public Block<brewblox_BlockType_ActuatorAnalogMock> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     ActuatorAnalogMock actuator;

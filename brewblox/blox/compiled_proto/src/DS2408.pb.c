@@ -9,12 +9,12 @@
 
 
 
-const pb_field_t blox_DS2408_fields[6] = {
-    PB_FIELD(  1, FIXED64 , SINGULAR, STATIC  , FIRST, blox_DS2408, address, address, 0),
-    PB_FIELD(  6, BOOL    , SINGULAR, STATIC  , OTHER, blox_DS2408, connected, address, 0),
-    PB_FIELD(  9, UENUM   , SINGULAR, STATIC  , OTHER, blox_DS2408, connectMode, connected, 0),
-    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_DS2408, oneWireBusId, connectMode, 0),
-    PB_FIELD( 11, MESSAGE , REPEATED, STATIC  , OTHER, blox_DS2408, channels, oneWireBusId, &blox_IoChannel_fields),
+const pb_field_t blox_DS2408_Block_fields[6] = {
+    PB_FIELD(  1, FIXED64 , SINGULAR, STATIC  , FIRST, blox_DS2408_Block, address, address, 0),
+    PB_FIELD(  6, BOOL    , SINGULAR, STATIC  , OTHER, blox_DS2408_Block, connected, address, 0),
+    PB_FIELD(  9, UENUM   , SINGULAR, STATIC  , OTHER, blox_DS2408_Block, connectMode, connected, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_DS2408_Block, oneWireBusId, connectMode, 0),
+    PB_FIELD( 11, MESSAGE , REPEATED, STATIC  , OTHER, blox_DS2408_Block, channels, oneWireBusId, &blox_IoArray_IoChannel_fields),
     PB_LAST_FIELD
 };
 
@@ -30,7 +30,7 @@ const pb_field_t blox_DS2408_fields[6] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_DS2408, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_DS2408)
+PB_STATIC_ASSERT((pb_membersize(blox_DS2408_Block, channels[0]) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_blox_DS2408_Block)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -41,7 +41,7 @@ PB_STATIC_ASSERT((pb_membersize(blox_DS2408, channels[0]) < 65536), YOU_MUST_DEF
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(blox_DS2408, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_DS2408)
+PB_STATIC_ASSERT((pb_membersize(blox_DS2408_Block, channels[0]) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_blox_DS2408_Block)
 #endif
 
 

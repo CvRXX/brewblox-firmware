@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of BrewBlox.
+ * This file is part of Brewblox.
  *
  * BrewPi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "BrewBloxTestBox.h"
+#include "BrewbloxTestBox.h"
 #include "blox/SysInfoBlock.h"
 #include "blox/compiled_proto/src/proto_version.h"
 #include "blox/compiled_proto/test_src/SysInfo_test.pb.h"
@@ -44,7 +44,7 @@ SCENARIO("SysInfo Block")
 
     WHEN("The SysInfo block is read")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
 
         testBox.reset();
 
@@ -52,7 +52,7 @@ SCENARIO("SysInfo Block")
         testBox.put(commands::READ_OBJECT);
         testBox.put(cbox::obj_id_t(2));
 
-        auto decoded = blox::SysInfo();
+        auto decoded = blox_test::SysInfo::Block();
         testBox.processInputToProto(decoded);
 
         THEN("The system info is serialized correctly")
@@ -64,9 +64,9 @@ SCENARIO("SysInfo Block")
 
     SECTION("Tracing")
     {
-        BrewBloxTestBox testBox;
+        BrewbloxTestBox testBox;
 
-        auto sendCmd = [&testBox](blox::SysInfo::SysInfoCommand cmd) {
+        auto sendCmd = [&testBox](blox_test::SysInfo::Command cmd) {
             testBox.reset();
 
             testBox.put(uint16_t(0)); // msg id
@@ -75,11 +75,11 @@ SCENARIO("SysInfo Block")
             testBox.put(uint8_t(0xFF));
             testBox.put(SysInfoBlock::staticTypeId());
 
-            auto message = blox::SysInfo();
+            auto message = blox_test::SysInfo::Block();
             message.set_command(cmd);
             testBox.put(message);
 
-            auto decoded = blox::SysInfo();
+            auto decoded = blox_test::SysInfo::Block();
             testBox.processInputToProto(decoded);
             return decoded;
         };
@@ -88,7 +88,7 @@ SCENARIO("SysInfo Block")
 
         WHEN("A READ_AND_SYS_CMD_TRACE_RESUME command is sent")
         {
-            auto decoded = sendCmd(blox::SysInfo_SysInfoCommand_SYS_CMD_TRACE_READ_RESUME);
+            auto decoded = sendCmd(blox_test::SysInfo::Command::SYS_CMD_TRACE_READ_RESUME);
 
             THEN("Tracing is unpaused and the reply includes a trace (still empty in test)")
             {
@@ -99,7 +99,7 @@ SCENARIO("SysInfo Block")
 
         WHEN("a read trace command is sent to the SysInfo block")
         {
-            auto decoded = sendCmd(blox::SysInfo_SysInfoCommand_SYS_CMD_TRACE_READ);
+            auto decoded = sendCmd(blox_test::SysInfo::Command::SYS_CMD_TRACE_READ);
             std::string emptyTrace = std::string("deviceId: \"999999999999\"") + std::string(" version: \"") + version + std::string("\" platform: PLATFORM_GCC") + std::string(" protocolVersion: \"") + protocolVersion + std::string("\" releaseDate: \"") + releaseDate + std::string("\" protocolDate: \"") + protocolDate + std::string("\"") + " trace { } trace { } trace { } trace { } trace { } trace { } trace { } trace { } trace { } trace { }";
 
             THEN("The last traced actions from previous run are included (from previous WHEN clause in test)")
@@ -120,7 +120,7 @@ SCENARIO("SysInfo Block")
 
             AND_WHEN("A SYS_CMD_TRACE_RESUME command is sent")
             {
-                auto decoded = sendCmd(blox::SysInfo_SysInfoCommand_SYS_CMD_TRACE_RESUME);
+                auto decoded = sendCmd(blox_test::SysInfo::Command::SYS_CMD_TRACE_RESUME);
                 THEN("The reply has no trace")
                 {
                     CHECK(decoded.ShortDebugString() == replyWithoutTrace);
@@ -128,7 +128,7 @@ SCENARIO("SysInfo Block")
 
                 THEN("Tracing is unpaused and the next trace read includes a non-empty trace")
                 {
-                    auto decoded = sendCmd(blox::SysInfo_SysInfoCommand_SYS_CMD_TRACE_READ);
+                    auto decoded = sendCmd(blox_test::SysInfo::Command::SYS_CMD_TRACE_READ);
 
                     CHECK(testBox.lastReplyHasStatusOk());
                     CHECK(decoded.ShortDebugString() == replyWithoutTrace +

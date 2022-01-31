@@ -7,7 +7,7 @@
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
 
-class ActuatorPwmBlock : public Block<BrewBloxTypes_BlockType_ActuatorPwm> {
+class ActuatorPwmBlock : public Block<brewblox_BlockType_ActuatorPwm> {
 private:
     cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<ActuatorDigitalConstrained> actuator;
