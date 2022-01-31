@@ -2,7 +2,7 @@
  * Copyright 2014-2020 BrewPi B.V. / Elco Jacobs
  * based on earlier work of Matthew McGowan.
  *
- * This file is part of Brewblox.
+ * This file is part of BrewBlox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

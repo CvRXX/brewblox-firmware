@@ -1,6 +1,6 @@
 /*
  * Copyright 2014-2015 Matthew McGowan.
- * Copyright 2018 Brewblox / Elco Jacobs
+ * Copyright 2018 BrewBlox / Elco Jacobs
  *
  * This file is part of Controlbox.
  *
@@ -21,6 +21,7 @@
 #pragma once
 
 #include "DataStream.h"
+#include "b64_utility.h"
 #include "hex_utility.h"
 #include <string>
 
@@ -160,6 +161,78 @@ public:
             // consume
             textIn.read();
         }
+    }
+
+    virtual StreamType streamType() const override final
+    {
+        return textIn.streamType();
+    }
+};
+
+class Base64TextToBinaryIn : public DataIn {
+    DataIn& textIn;
+    // 4 base64 bytes -> 3 raw bytes
+    uint8_t bytesEncoded[4];
+    uint8_t bytesDecoded[3];
+    uint8_t readInIdx = 0;
+    uint8_t readOutIdx = 0;
+
+public:
+    Base64TextToBinaryIn(DataIn& _textIn)
+        : textIn(_textIn)
+    {
+    }
+
+    void fetch()
+    {
+        while (readInIdx < 4) {
+            if (!isbase64(textIn.peek())) {
+                return;
+            }
+
+            auto inchar = textIn.read();
+            if (inchar == '=') { // Partial group. Pad out the remaining bytes
+                for (; readInIdx < 4; readInIdx++) {
+                    bytesEncoded[readInIdx] = 0;
+                }
+            } else {
+                bytesEncoded[readInIdx] = inchar;
+                readInIdx++;
+            }
+
+            // We read an entire group. Now fill bytesDecoded
+            if (readInIdx == 4) {
+                for (auto i = 0; i < 4; i++) {
+                    bytesEncoded[i] = base64chars.find(bytesEncoded[i]);
+                }
+                bytesDecoded[0] = (bytesEncoded[0] << 2) + ((bytesEncoded[1] & 0x30) >> 4);
+                bytesDecoded[1] = ((bytesEncoded[1] & 0xf) << 4) + ((bytesEncoded[2] & 0x3c) >> 2);
+                bytesDecoded[2] = ((bytesEncoded[2] & 0x3) << 6) + bytesEncoded[3];
+            }
+        }
+    }
+
+    virtual int16_t peek() override
+    {
+        fetch();
+        if (readInIdx < 4) {
+            return -1;
+        }
+        return bytesDecoded[readOutIdx];
+    }
+
+    virtual int16_t read() override
+    {
+        auto v = peek();
+        if (v >= 0) {
+            readOutIdx++;
+            if (readOutIdx > 3) {
+                // The entire byte group has been read, and must be refilled
+                readInIdx = 0;
+                readOutIdx = 0;
+            }
+        }
+        return v;
     }
 
     virtual StreamType streamType() const override final
