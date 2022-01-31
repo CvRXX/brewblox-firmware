@@ -195,6 +195,7 @@ jobs:
       - bash: |
           mkdir ./ci
           cp ./brewblox_esp.bin ./ci/brewblox-esp32.bin
+          cp ./brewblox_esp.elf ./ci/brewblox-esp32.elf
           cp ./bootloader/bootloader.bin ./ci/bootloader-esp32.bin
           cp ./partition_table/partition-table.bin ./ci/partition-table-esp32.bin
         workingDirectory: app/brewblox-esp/build
@@ -242,6 +243,7 @@ jobs:
           cp "$(Pipeline.Workspace)"/P1/brewblox-p1.bin ./release/brewblox-p1.bin
           cp "$(Pipeline.Workspace)"/Photon/brewblox-photon.bin ./release/brewblox-photon.bin
           cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.bin ./release/brewblox-esp32.bin
+          cp "$(Pipeline.Workspace)"/ESP32/brewblox-esp32.elf ./release/brewblox-esp32.elf
           cp "$(Pipeline.Workspace)"/ESP32/bootloader-esp32.bin ./release/bootloader-esp32.bin
           cp "$(Pipeline.Workspace)"/ESP32/partition-table-esp32.bin ./release/partition-table-esp32.bin
         displayName: Copy release files
