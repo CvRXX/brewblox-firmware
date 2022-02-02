@@ -20,7 +20,6 @@
 
 #include "DataStream.h"
 #include "Crc.h"
-#include "b64_utility.h"
 #include "hex_utility.h"
 #include <algorithm>
 
@@ -125,64 +124,6 @@ void EncodedDataOut::writeError(CboxError error)
     msg[10] = d2h(uint8_t(asByte & 0xF0) >> 4);
     msg[11] = d2h(uint8_t(asByte & 0x0F));
     writeEvent(std::move(msg));
-}
-
-void Base64DataOut::generateEncoded()
-{
-    bytesEncoded[0] = (bytesDecoded[0] & 0xfc) >> 2;
-    bytesEncoded[1] = ((bytesDecoded[0] & 0x03) << 4) + ((bytesDecoded[1] & 0xf0) >> 4);
-    bytesEncoded[2] = ((bytesDecoded[1] & 0x0f) << 2) + ((bytesDecoded[2] & 0xc0) >> 6);
-    bytesEncoded[3] = bytesDecoded[2] & 0x3f;
-}
-
-bool Base64DataOut::flush(uint8_t end)
-{
-    for (; writeOutIdx < end; writeOutIdx++) {
-        if (!out.write(bytesEncoded[writeOutIdx])) {
-            return false;
-        }
-    }
-    writeInIdx = 0;
-    writeOutIdx = 0;
-    return true;
-}
-
-bool Base64DataOut::write(uint8_t data)
-{
-    // resume in-progress write
-    if (writeOutIdx > 0) {
-        if (!flush(4)) {
-            return false;
-        }
-        writeInIdx = 0;
-        writeOutIdx = 0;
-        return write(data);
-    }
-
-    if (writeInIdx < 3) {
-        bytesDecoded[writeInIdx] = data;
-        writeInIdx++;
-        if (writeInIdx == 3) {
-            generateEncoded();
-            return flush(4);
-        }
-    }
-
-    return true;
-}
-
-bool Base64DataOut::endMessage()
-{
-    if (writeInIdx > 0) {
-        for (auto i = writeInIdx; i < 3; i++) {
-            bytesDecoded[i] = 0;
-        }
-        generateEncoded();
-        if (!flush(writeInIdx + 1)) {
-            return false;
-        }
-    }
-    return out.write('\n');
 }
 
 } // end namespace cbox

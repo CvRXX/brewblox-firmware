@@ -514,26 +514,4 @@ public:
     void writeError(CboxError error);
 };
 
-class Base64DataOut final : public DataOut {
-private:
-    DataOut& out;
-    uint8_t bytesEncoded[4];
-    uint8_t bytesDecoded[3];
-    uint8_t writeInIdx = 0;
-    uint8_t writeOutIdx = 0;
-
-    void generateEncoded();
-    bool flush(uint8_t end);
-
-public:
-    Base64DataOut(DataOut& _out)
-        : out(_out)
-    {
-    }
-
-    virtual bool write(uint8_t data) override final;
-
-    bool endMessage();
-};
-
 } // end namespace cbox
