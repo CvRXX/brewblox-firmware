@@ -13,7 +13,7 @@ char b64_to_char(uint8_t b)
 int16_t b64_to_byte(uint8_t c) // uint8_t or -1
 {
     // ASCII -> byte lookup table
-    static const char bytes[] = {
+    static const int16_t bytes[] = {
         62,                                                 // +
         -1, -1, -1,                                         //
         63,                                                 // /
