@@ -5,176 +5,141 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
-
-namespace protobuf_DisplaySettings_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_DisplaySettings_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Widget;
-}  // namespace protobuf_DisplaySettings_5ftest_2eproto
+#include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_DisplaySettings_5ftest_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Widget_DisplaySettings_5ftest_2eproto;
 namespace blox_test {
 namespace DisplaySettings {
 class WidgetDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Widget>
-      _instance;
-  ::google::protobuf::uint32 tempsensor_;
-  ::google::protobuf::uint32 setpointsensorpair_;
-  ::google::protobuf::uint32 actuatoranalog_;
-  ::google::protobuf::uint32 pid_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Widget> _instance;
+  ::PROTOBUF_NAMESPACE_ID::uint32 tempsensor_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 setpointsensorpair_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 actuatoranalog_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 pid_;
 } _Widget_default_instance_;
 class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Block>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Block> _instance;
 } _Block_default_instance_;
 }  // namespace DisplaySettings
 }  // namespace blox_test
-namespace protobuf_DisplaySettings_5ftest_2eproto {
-static void InitDefaultsWidget() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox_test::DisplaySettings::_Widget_default_instance_;
-    new (ptr) ::blox_test::DisplaySettings::Widget();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox_test::DisplaySettings::Widget::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_Widget =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsWidget}, {}};
-
-static void InitDefaultsBlock() {
+static void InitDefaultsscc_info_Block_DisplaySettings_5ftest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::blox_test::DisplaySettings::_Block_default_instance_;
     new (ptr) ::blox_test::DisplaySettings::Block();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::blox_test::DisplaySettings::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_Block =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
-      &protobuf_DisplaySettings_5ftest_2eproto::scc_info_Widget.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Block_DisplaySettings_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Block_DisplaySettings_5ftest_2eproto}, {
+      &scc_info_Widget_DisplaySettings_5ftest_2eproto.base,}};
 
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Widget.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
+static void InitDefaultsscc_info_Widget_DisplaySettings_5ftest_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::blox_test::DisplaySettings::_Widget_default_instance_;
+    new (ptr) ::blox_test::DisplaySettings::Widget();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox_test::DisplaySettings::Widget::InitAsDefaultInstance();
 }
 
-::google::protobuf::Metadata file_level_metadata[2];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Widget_DisplaySettings_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Widget_DisplaySettings_5ftest_2eproto}, {}};
 
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_DisplaySettings_5ftest_2eproto[2];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_DisplaySettings_5ftest_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_DisplaySettings_5ftest_2eproto = nullptr;
+
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_DisplaySettings_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, _internal_metadata_),
   ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, _oneof_case_[0]),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, _oneof_case_[0]),
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, pos_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, color_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, name_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, pos_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, color_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, name_),
   offsetof(::blox_test::DisplaySettings::WidgetDefaultTypeInternal, tempsensor_),
   offsetof(::blox_test::DisplaySettings::WidgetDefaultTypeInternal, setpointsensorpair_),
   offsetof(::blox_test::DisplaySettings::WidgetDefaultTypeInternal, actuatoranalog_),
   offsetof(::blox_test::DisplaySettings::WidgetDefaultTypeInternal, pid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, WidgetType_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Widget, WidgetType_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, widgets_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, name_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, tempunit_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, brightness_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, timezone_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Block, widgets_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Block, name_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Block, tempunit_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Block, brightness_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::DisplaySettings::Block, timezone_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::DisplaySettings::Widget)},
   { 13, -1, sizeof(::blox_test::DisplaySettings::Block)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::DisplaySettings::_Widget_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::DisplaySettings::_Block_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::DisplaySettings::_Widget_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::DisplaySettings::_Block_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "DisplaySettings_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
-}
+const char descriptor_table_protodef_DisplaySettings_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\032DisplaySettings_test.proto\022\031blox_test."
+  "DisplaySettings\032\023brewblox_test.proto\032\021na"
+  "nopb_test.proto\"\362\001\n\006Widget\022\022\n\003pos\030\001 \001(\rB"
+  "\005\222\?\0028\010\022\037\n\005color\030\002 \001(\014B\020\222\?\002\010\003\222\?\002x\001\212\265\030\0028\001\022"
+  "\023\n\004name\030\003 \001(\tB\005\222\?\002\010\020\022!\n\ntempSensor\030\n \001(\r"
+  "B\013\212\265\030\002\030\002\222\?\0028\020H\000\022)\n\022setpointSensorPair\030\013 "
+  "\001(\rB\013\212\265\030\002\030\004\222\?\0028\020H\000\022%\n\016actuatorAnalog\030\014 \001"
+  "(\rB\013\212\265\030\002\030\005\222\?\0028\020H\000\022\033\n\003pid\030\016 \001(\rB\014\212\265\030\003\030\260\002\222"
+  "\?\0028\020H\000B\014\n\nWidgetType\"\322\001\n\005Block\0229\n\007widget"
+  "s\030\001 \003(\0132!.blox_test.DisplaySettings.Widg"
+  "etB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022<\n\010tempUn"
+  "it\030\003 \001(\0162*.blox_test.DisplaySettings.Tem"
+  "peratureUnit\022\031\n\nbrightness\030\004 \001(\rB\005\222\?\0028\010\022"
+  "\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010 :\007\212\265\030\003\030\272\002*8\n\017Tem"
+  "peratureUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_F"
+  "AHRENHEIT\020\001b\006proto3"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_DisplaySettings_5ftest_2eproto_deps[2] = {
+  &::descriptor_table_brewblox_5ftest_2eproto,
+  &::descriptor_table_nanopb_5ftest_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_DisplaySettings_5ftest_2eproto_sccs[2] = {
+  &scc_info_Block_DisplaySettings_5ftest_2eproto.base,
+  &scc_info_Widget_DisplaySettings_5ftest_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_DisplaySettings_5ftest_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_DisplaySettings_5ftest_2eproto = {
+  false, false, descriptor_table_protodef_DisplaySettings_5ftest_2eproto, "DisplaySettings_test.proto", 619,
+  &descriptor_table_DisplaySettings_5ftest_2eproto_once, descriptor_table_DisplaySettings_5ftest_2eproto_sccs, descriptor_table_DisplaySettings_5ftest_2eproto_deps, 2, 2,
+  schemas, file_default_instances, TableStruct_DisplaySettings_5ftest_2eproto::offsets,
+  file_level_metadata_DisplaySettings_5ftest_2eproto, 2, file_level_enum_descriptors_DisplaySettings_5ftest_2eproto, file_level_service_descriptors_DisplaySettings_5ftest_2eproto,
+};
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\032DisplaySettings_test.proto\022\031blox_test."
-      "DisplaySettings\032\023brewblox_test.proto\032\021na"
-      "nopb_test.proto\"\362\001\n\006Widget\022\022\n\003pos\030\001 \001(\rB"
-      "\005\222\?\0028\010\022\037\n\005color\030\002 \001(\014B\020\222\?\002\010\003\222\?\002x\001\212\265\030\0028\001\022"
-      "\023\n\004name\030\003 \001(\tB\005\222\?\002\010\020\022!\n\ntempSensor\030\n \001(\r"
-      "B\013\212\265\030\002\030\002\222\?\0028\020H\000\022)\n\022setpointSensorPair\030\013 "
-      "\001(\rB\013\212\265\030\002\030\004\222\?\0028\020H\000\022%\n\016actuatorAnalog\030\014 \001"
-      "(\rB\013\212\265\030\002\030\005\222\?\0028\020H\000\022\033\n\003pid\030\016 \001(\rB\014\212\265\030\003\030\260\002\222"
-      "\?\0028\020H\000B\014\n\nWidgetType\"\322\001\n\005Block\0229\n\007widget"
-      "s\030\001 \003(\0132!.blox_test.DisplaySettings.Widg"
-      "etB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022<\n\010tempUn"
-      "it\030\003 \001(\0162*.blox_test.DisplaySettings.Tem"
-      "peratureUnit\022\031\n\nbrightness\030\004 \001(\rB\005\222\?\0028\010\022"
-      "\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010 :\007\212\265\030\003\030\272\002*8\n\017Tem"
-      "peratureUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_F"
-      "AHRENHEIT\020\001b\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 619);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "DisplaySettings_test.proto", &protobuf_RegisterTypes);
-  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
-  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_DisplaySettings_5ftest_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+static bool dynamic_init_dummy_DisplaySettings_5ftest_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_DisplaySettings_5ftest_2eproto)), true);
 namespace blox_test {
 namespace DisplaySettings {
-const ::google::protobuf::EnumDescriptor* TemperatureUnit_descriptor() {
-  protobuf_DisplaySettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_DisplaySettings_5ftest_2eproto::file_level_enum_descriptors[0];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TemperatureUnit_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_DisplaySettings_5ftest_2eproto);
+  return file_level_enum_descriptors_DisplaySettings_5ftest_2eproto[0];
 }
 bool TemperatureUnit_IsValid(int value) {
   switch (value) {
@@ -195,52 +160,46 @@ void Widget::InitAsDefaultInstance() {
   ::blox_test::DisplaySettings::_Widget_default_instance_.actuatoranalog_ = 0u;
   ::blox_test::DisplaySettings::_Widget_default_instance_.pid_ = 0u;
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Widget::kPosFieldNumber;
-const int Widget::kColorFieldNumber;
-const int Widget::kNameFieldNumber;
-const int Widget::kTempSensorFieldNumber;
-const int Widget::kSetpointSensorPairFieldNumber;
-const int Widget::kActuatorAnalogFieldNumber;
-const int Widget::kPidFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class Widget::_Internal {
+ public:
+};
 
-Widget::Widget()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_DisplaySettings_5ftest_2eproto::scc_info_Widget.base);
+Widget::Widget(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.DisplaySettings.Widget)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.DisplaySettings.Widget)
 }
 Widget::Widget(const Widget& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  color_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.color().size() > 0) {
-    color_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.color_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  color_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_color().empty()) {
+    color_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_color(),
+      GetArena());
   }
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.name().size() > 0) {
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name().empty()) {
+    name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_name(),
+      GetArena());
   }
   pos_ = from.pos_;
   clear_has_WidgetType();
   switch (from.WidgetType_case()) {
     case kTempSensor: {
-      set_tempsensor(from.tempsensor());
+      _internal_set_tempsensor(from._internal_tempsensor());
       break;
     }
     case kSetpointSensorPair: {
-      set_setpointsensorpair(from.setpointsensorpair());
+      _internal_set_setpointsensorpair(from._internal_setpointsensorpair());
       break;
     }
     case kActuatorAnalog: {
-      set_actuatoranalog(from.actuatoranalog());
+      _internal_set_actuatoranalog(from._internal_actuatoranalog());
       break;
     }
     case kPid: {
-      set_pid(from.pid());
+      _internal_set_pid(from._internal_pid());
       break;
     }
     case WIDGETTYPE_NOT_SET: {
@@ -251,8 +210,9 @@ Widget::Widget(const Widget& from)
 }
 
 void Widget::SharedCtor() {
-  color_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Widget_DisplaySettings_5ftest_2eproto.base);
+  color_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   pos_ = 0u;
   clear_has_WidgetType();
 }
@@ -260,26 +220,29 @@ void Widget::SharedCtor() {
 Widget::~Widget() {
   // @@protoc_insertion_point(destructor:blox_test.DisplaySettings.Widget)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Widget::SharedDtor() {
-  color_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  color_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (has_WidgetType()) {
     clear_WidgetType();
   }
 }
 
+void Widget::ArenaDtor(void* object) {
+  Widget* _this = reinterpret_cast< Widget* >(object);
+  (void)_this;
+}
+void Widget::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void Widget::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Widget::descriptor() {
-  ::protobuf_DisplaySettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_DisplaySettings_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const Widget& Widget::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_DisplaySettings_5ftest_2eproto::scc_info_Widget.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Widget_DisplaySettings_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
@@ -313,256 +276,154 @@ void Widget::clear_WidgetType() {
 
 void Widget::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.DisplaySettings.Widget)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  color_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  color_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   pos_ = 0u;
   clear_WidgetType();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool Widget::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.DisplaySettings.Widget)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* Widget::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // uint32 pos = 1 [(.nanopb) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &pos_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          pos_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // bytes color = 2 [(.nanopb) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_color()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_color();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // string name = 3 [(.nanopb) = {
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_name()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->name().data(), static_cast<int>(this->name().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "blox_test.DisplaySettings.Widget.name"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          auto str = _internal_mutable_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox_test.DisplaySettings.Widget.name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 tempSensor = 10 [(.nanopb) = {
-      case 10: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
-          clear_WidgetType();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &WidgetType_.tempsensor_)));
-          set_has_tempsensor();
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+          _internal_set_tempsensor(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 setpointSensorPair = 11 [(.nanopb) = {
-      case 11: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
-          clear_WidgetType();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &WidgetType_.setpointsensorpair_)));
-          set_has_setpointsensorpair();
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+          _internal_set_setpointsensorpair(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 actuatorAnalog = 12 [(.nanopb) = {
-      case 12: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
-          clear_WidgetType();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &WidgetType_.actuatoranalog_)));
-          set_has_actuatoranalog();
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 96)) {
+          _internal_set_actuatoranalog(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 pid = 14 [(.nanopb) = {
-      case 14: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
-          clear_WidgetType();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &WidgetType_.pid_)));
-          set_has_pid();
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 112)) {
+          _internal_set_pid(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.DisplaySettings.Widget)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.DisplaySettings.Widget)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void Widget::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.DisplaySettings.Widget)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 pos = 1 [(.nanopb) = {
-  if (this->pos() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->pos(), output);
-  }
-
-  // bytes color = 2 [(.nanopb) = {
-  if (this->color().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      2, this->color(), output);
-  }
-
-  // string name = 3 [(.nanopb) = {
-  if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), static_cast<int>(this->name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox_test.DisplaySettings.Widget.name");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->name(), output);
-  }
-
-  // uint32 tempSensor = 10 [(.nanopb) = {
-  if (has_tempsensor()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->tempsensor(), output);
-  }
-
-  // uint32 setpointSensorPair = 11 [(.nanopb) = {
-  if (has_setpointsensorpair()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->setpointsensorpair(), output);
-  }
-
-  // uint32 actuatorAnalog = 12 [(.nanopb) = {
-  if (has_actuatoranalog()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->actuatoranalog(), output);
-  }
-
-  // uint32 pid = 14 [(.nanopb) = {
-  if (has_pid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(14, this->pid(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.DisplaySettings.Widget)
-}
-
-::google::protobuf::uint8* Widget::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* Widget::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.DisplaySettings.Widget)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 pos = 1 [(.nanopb) = {
   if (this->pos() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->pos(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_pos(), target);
   }
 
   // bytes color = 2 [(.nanopb) = {
   if (this->color().size() > 0) {
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        2, this->color(), target);
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_color(), target);
   }
 
   // string name = 3 [(.nanopb) = {
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), static_cast<int>(this->name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "blox_test.DisplaySettings.Widget.name");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->name(), target);
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_name(), target);
   }
 
   // uint32 tempSensor = 10 [(.nanopb) = {
-  if (has_tempsensor()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->tempsensor(), target);
+  if (_internal_has_tempsensor()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(10, this->_internal_tempsensor(), target);
   }
 
   // uint32 setpointSensorPair = 11 [(.nanopb) = {
-  if (has_setpointsensorpair()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->setpointsensorpair(), target);
+  if (_internal_has_setpointsensorpair()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_setpointsensorpair(), target);
   }
 
   // uint32 actuatorAnalog = 12 [(.nanopb) = {
-  if (has_actuatoranalog()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->actuatoranalog(), target);
+  if (_internal_has_actuatoranalog()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(12, this->_internal_actuatoranalog(), target);
   }
 
   // uint32 pid = 14 [(.nanopb) = {
-  if (has_pid()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(14, this->pid(), target);
+  if (_internal_has_pid()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(14, this->_internal_pid(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.DisplaySettings.Widget)
   return target;
@@ -572,79 +433,82 @@ size_t Widget::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.DisplaySettings.Widget)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // bytes color = 2 [(.nanopb) = {
   if (this->color().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
-        this->color());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_color());
   }
 
   // string name = 3 [(.nanopb) = {
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->name());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name());
   }
 
   // uint32 pos = 1 [(.nanopb) = {
   if (this->pos() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->pos());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_pos());
   }
 
   switch (WidgetType_case()) {
     // uint32 tempSensor = 10 [(.nanopb) = {
     case kTempSensor: {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->tempsensor());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+          this->_internal_tempsensor());
       break;
     }
     // uint32 setpointSensorPair = 11 [(.nanopb) = {
     case kSetpointSensorPair: {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->setpointsensorpair());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+          this->_internal_setpointsensorpair());
       break;
     }
     // uint32 actuatorAnalog = 12 [(.nanopb) = {
     case kActuatorAnalog: {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->actuatoranalog());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+          this->_internal_actuatoranalog());
       break;
     }
     // uint32 pid = 14 [(.nanopb) = {
     case kPid: {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->pid());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+          this->_internal_pid());
       break;
     }
     case WIDGETTYPE_NOT_SET: {
       break;
     }
   }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void Widget::MergeFrom(const ::google::protobuf::Message& from) {
+void Widget::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.DisplaySettings.Widget)
   GOOGLE_DCHECK_NE(&from, this);
   const Widget* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Widget>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Widget>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.DisplaySettings.Widget)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.DisplaySettings.Widget)
     MergeFrom(*source);
@@ -654,36 +518,34 @@ void Widget::MergeFrom(const ::google::protobuf::Message& from) {
 void Widget::MergeFrom(const Widget& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.DisplaySettings.Widget)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.color().size() > 0) {
-
-    color_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.color_);
+    _internal_set_color(from._internal_color());
   }
   if (from.name().size() > 0) {
-
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+    _internal_set_name(from._internal_name());
   }
   if (from.pos() != 0) {
-    set_pos(from.pos());
+    _internal_set_pos(from._internal_pos());
   }
   switch (from.WidgetType_case()) {
     case kTempSensor: {
-      set_tempsensor(from.tempsensor());
+      _internal_set_tempsensor(from._internal_tempsensor());
       break;
     }
     case kSetpointSensorPair: {
-      set_setpointsensorpair(from.setpointsensorpair());
+      _internal_set_setpointsensorpair(from._internal_setpointsensorpair());
       break;
     }
     case kActuatorAnalog: {
-      set_actuatoranalog(from.actuatoranalog());
+      _internal_set_actuatoranalog(from._internal_actuatoranalog());
       break;
     }
     case kPid: {
-      set_pid(from.pid());
+      _internal_set_pid(from._internal_pid());
       break;
     }
     case WIDGETTYPE_NOT_SET: {
@@ -692,7 +554,7 @@ void Widget::MergeFrom(const Widget& from) {
   }
 }
 
-void Widget::CopyFrom(const ::google::protobuf::Message& from) {
+void Widget::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.DisplaySettings.Widget)
   if (&from == this) return;
   Clear();
@@ -710,25 +572,18 @@ bool Widget::IsInitialized() const {
   return true;
 }
 
-void Widget::Swap(Widget* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void Widget::InternalSwap(Widget* other) {
   using std::swap;
-  color_.Swap(&other->color_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  name_.Swap(&other->name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  color_.Swap(&other->color_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   swap(pos_, other->pos_);
   swap(WidgetType_, other->WidgetType_);
   swap(_oneof_case_[0], other->_oneof_case_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata Widget::GetMetadata() const {
-  protobuf_DisplaySettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_DisplaySettings_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata Widget::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -736,33 +591,30 @@ void Widget::InternalSwap(Widget* other) {
 
 void Block::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Block::kWidgetsFieldNumber;
-const int Block::kNameFieldNumber;
-const int Block::kTempUnitFieldNumber;
-const int Block::kBrightnessFieldNumber;
-const int Block::kTimeZoneFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class Block::_Internal {
+ public:
+};
 
-Block::Block()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_DisplaySettings_5ftest_2eproto::scc_info_Block.base);
+Block::Block(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  widgets_(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.DisplaySettings.Block)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.DisplaySettings.Block)
 }
 Block::Block(const Block& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       widgets_(from.widgets_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.name().size() > 0) {
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name().empty()) {
+    name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_name(),
+      GetArena());
   }
-  timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.timezone().size() > 0) {
-    timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
+  timezone_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_timezone().empty()) {
+    timezone_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_timezone(),
+      GetArena());
   }
   ::memcpy(&tempunit_, &from.tempunit_,
     static_cast<size_t>(reinterpret_cast<char*>(&brightness_) -
@@ -771,8 +623,9 @@ Block::Block(const Block& from)
 }
 
 void Block::SharedCtor() {
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Block_DisplaySettings_5ftest_2eproto.base);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  timezone_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&tempunit_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&brightness_) -
       reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
@@ -781,249 +634,170 @@ void Block::SharedCtor() {
 Block::~Block() {
   // @@protoc_insertion_point(destructor:blox_test.DisplaySettings.Block)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Block::SharedDtor() {
-  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  timezone_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  timezone_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
+void Block::ArenaDtor(void* object) {
+  Block* _this = reinterpret_cast< Block* >(object);
+  (void)_this;
+}
+void Block::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Block::descriptor() {
-  ::protobuf_DisplaySettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_DisplaySettings_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const Block& Block::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_DisplaySettings_5ftest_2eproto::scc_info_Block.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Block_DisplaySettings_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void Block::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.DisplaySettings.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   widgets_.Clear();
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  timezone_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::memset(&tempunit_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&brightness_) -
       reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool Block::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.DisplaySettings.Block)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* Block::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // repeated .blox_test.DisplaySettings.Widget widgets = 1 [(.nanopb) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_widgets()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_widgets(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
       // string name = 2 [(.nanopb) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_name()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->name().data(), static_cast<int>(this->name().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "blox_test.DisplaySettings.Block.name"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox_test.DisplaySettings.Block.name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_tempunit(static_cast< ::blox_test::DisplaySettings::TemperatureUnit >(value));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_tempunit(static_cast<::blox_test::DisplaySettings::TemperatureUnit>(val));
+        } else goto handle_unusual;
+        continue;
       // uint32 brightness = 4 [(.nanopb) = {
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &brightness_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          brightness_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // string timeZone = 5 [(.nanopb) = {
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_timezone()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->timezone().data(), static_cast<int>(this->timezone().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "blox_test.DisplaySettings.Block.timeZone"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          auto str = _internal_mutable_timezone();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "blox_test.DisplaySettings.Block.timeZone"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.DisplaySettings.Block)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.DisplaySettings.Block)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void Block::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.DisplaySettings.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // repeated .blox_test.DisplaySettings.Widget widgets = 1 [(.nanopb) = {
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->widgets_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->widgets(static_cast<int>(i)),
-      output);
-  }
-
-  // string name = 2 [(.nanopb) = {
-  if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), static_cast<int>(this->name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox_test.DisplaySettings.Block.name");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->name(), output);
-  }
-
-  // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-  if (this->tempunit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->tempunit(), output);
-  }
-
-  // uint32 brightness = 4 [(.nanopb) = {
-  if (this->brightness() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->brightness(), output);
-  }
-
-  // string timeZone = 5 [(.nanopb) = {
-  if (this->timezone().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->timezone().data(), static_cast<int>(this->timezone().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox_test.DisplaySettings.Block.timeZone");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      5, this->timezone(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.DisplaySettings.Block)
-}
-
-::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* Block::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.DisplaySettings.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // repeated .blox_test.DisplaySettings.Widget widgets = 1 [(.nanopb) = {
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->widgets_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->widgets(static_cast<int>(i)), deterministic, target);
+      n = static_cast<unsigned int>(this->_internal_widgets_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, this->_internal_widgets(i), target, stream);
   }
 
   // string name = 2 [(.nanopb) = {
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), static_cast<int>(this->name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "blox_test.DisplaySettings.Block.name");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->name(), target);
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_name(), target);
   }
 
   // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
   if (this->tempunit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->tempunit(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_tempunit(), target);
   }
 
   // uint32 brightness = 4 [(.nanopb) = {
   if (this->brightness() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->brightness(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_brightness(), target);
   }
 
   // string timeZone = 5 [(.nanopb) = {
   if (this->timezone().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->timezone().data(), static_cast<int>(this->timezone().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_timezone().data(), static_cast<int>(this->_internal_timezone().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "blox_test.DisplaySettings.Block.timeZone");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        5, this->timezone(), target);
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_timezone(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.DisplaySettings.Block)
   return target;
@@ -1033,63 +807,62 @@ size_t Block::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.DisplaySettings.Block)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated .blox_test.DisplaySettings.Widget widgets = 1 [(.nanopb) = {
-  {
-    unsigned int count = static_cast<unsigned int>(this->widgets_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->widgets(static_cast<int>(i)));
-    }
+  total_size += 1UL * this->_internal_widgets_size();
+  for (const auto& msg : this->widgets_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // string name = 2 [(.nanopb) = {
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->name());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name());
   }
 
   // string timeZone = 5 [(.nanopb) = {
   if (this->timezone().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->timezone());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_timezone());
   }
 
   // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
   if (this->tempunit() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->tempunit());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_tempunit());
   }
 
   // uint32 brightness = 4 [(.nanopb) = {
   if (this->brightness() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->brightness());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_brightness());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void Block::MergeFrom(const ::google::protobuf::Message& from) {
+void Block::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.DisplaySettings.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Block>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.DisplaySettings.Block)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.DisplaySettings.Block)
     MergeFrom(*source);
@@ -1099,28 +872,26 @@ void Block::MergeFrom(const ::google::protobuf::Message& from) {
 void Block::MergeFrom(const Block& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.DisplaySettings.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   widgets_.MergeFrom(from.widgets_);
   if (from.name().size() > 0) {
-
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+    _internal_set_name(from._internal_name());
   }
   if (from.timezone().size() > 0) {
-
-    timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
+    _internal_set_timezone(from._internal_timezone());
   }
   if (from.tempunit() != 0) {
-    set_tempunit(from.tempunit());
+    _internal_set_tempunit(from._internal_tempunit());
   }
   if (from.brightness() != 0) {
-    set_brightness(from.brightness());
+    _internal_set_brightness(from._internal_brightness());
   }
 }
 
-void Block::CopyFrom(const ::google::protobuf::Message& from) {
+void Block::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.DisplaySettings.Block)
   if (&from == this) return;
   Clear();
@@ -1138,40 +909,36 @@ bool Block::IsInitialized() const {
   return true;
 }
 
-void Block::Swap(Block* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  CastToBase(&widgets_)->InternalSwap(CastToBase(&other->widgets_));
-  name_.Swap(&other->name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  timezone_.Swap(&other->timezone_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  swap(tempunit_, other->tempunit_);
-  swap(brightness_, other->brightness_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  widgets_.InternalSwap(&other->widgets_);
+  name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  timezone_.Swap(&other->timezone_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Block, brightness_)
+      + sizeof(Block::brightness_)
+      - PROTOBUF_FIELD_OFFSET(Block, tempunit_)>(
+          reinterpret_cast<char*>(&tempunit_),
+          reinterpret_cast<char*>(&other->tempunit_));
 }
 
-::google::protobuf::Metadata Block::GetMetadata() const {
-  protobuf_DisplaySettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_DisplaySettings_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata Block::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace DisplaySettings
 }  // namespace blox_test
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::DisplaySettings::Widget* Arena::CreateMaybeMessage< ::blox_test::DisplaySettings::Widget >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::DisplaySettings::Widget >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::blox_test::DisplaySettings::Widget* Arena::CreateMaybeMessage< ::blox_test::DisplaySettings::Widget >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::DisplaySettings::Widget >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::DisplaySettings::Block* Arena::CreateMaybeMessage< ::blox_test::DisplaySettings::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::DisplaySettings::Block >(arena);
+template<> PROTOBUF_NOINLINE ::blox_test::DisplaySettings::Block* Arena::CreateMaybeMessage< ::blox_test::DisplaySettings::Block >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::DisplaySettings::Block >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

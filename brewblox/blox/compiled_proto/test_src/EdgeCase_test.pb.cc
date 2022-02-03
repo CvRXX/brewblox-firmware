@@ -5,182 +5,163 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
-
-namespace protobuf_EdgeCase_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_EdgeCase_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_NestedLink;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_EdgeCase_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Settings;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_EdgeCase_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_State;
-}  // namespace protobuf_EdgeCase_5ftest_2eproto
+#include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_EdgeCase_5ftest_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_NestedLink_EdgeCase_5ftest_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_EdgeCase_5ftest_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Settings_EdgeCase_5ftest_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_EdgeCase_5ftest_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_State_EdgeCase_5ftest_2eproto;
 namespace blox_test {
 namespace EdgeCase {
 class SettingsDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Settings>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Settings> _instance;
 } _Settings_default_instance_;
 class StateDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<State>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<State> _instance;
 } _State_default_instance_;
 class NestedLinkDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<NestedLink>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<NestedLink> _instance;
 } _NestedLink_default_instance_;
 class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Block>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Block> _instance;
 } _Block_default_instance_;
 class SubCaseDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<SubCase>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SubCase> _instance;
 } _SubCase_default_instance_;
 }  // namespace EdgeCase
 }  // namespace blox_test
-namespace protobuf_EdgeCase_5ftest_2eproto {
-static void InitDefaultsSettings() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox_test::EdgeCase::_Settings_default_instance_;
-    new (ptr) ::blox_test::EdgeCase::Settings();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox_test::EdgeCase::Settings::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_Settings =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSettings}, {}};
-
-static void InitDefaultsState() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox_test::EdgeCase::_State_default_instance_;
-    new (ptr) ::blox_test::EdgeCase::State();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox_test::EdgeCase::State::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_State =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsState}, {}};
-
-static void InitDefaultsNestedLink() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::blox_test::EdgeCase::_NestedLink_default_instance_;
-    new (ptr) ::blox_test::EdgeCase::NestedLink();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::blox_test::EdgeCase::NestedLink::InitAsDefaultInstance();
-}
-
-::google::protobuf::internal::SCCInfo<0> scc_info_NestedLink =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsNestedLink}, {}};
-
-static void InitDefaultsBlock() {
+static void InitDefaultsscc_info_Block_EdgeCase_5ftest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::blox_test::EdgeCase::_Block_default_instance_;
     new (ptr) ::blox_test::EdgeCase::Block();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::blox_test::EdgeCase::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<3> scc_info_Block =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 3, InitDefaultsBlock}, {
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_Settings.base,
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_State.base,
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_NestedLink.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_Block_EdgeCase_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 3, 0, InitDefaultsscc_info_Block_EdgeCase_5ftest_2eproto}, {
+      &scc_info_Settings_EdgeCase_5ftest_2eproto.base,
+      &scc_info_State_EdgeCase_5ftest_2eproto.base,
+      &scc_info_NestedLink_EdgeCase_5ftest_2eproto.base,}};
 
-static void InitDefaultsSubCase() {
+static void InitDefaultsscc_info_NestedLink_EdgeCase_5ftest_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::blox_test::EdgeCase::_NestedLink_default_instance_;
+    new (ptr) ::blox_test::EdgeCase::NestedLink();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox_test::EdgeCase::NestedLink::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_NestedLink_EdgeCase_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_NestedLink_EdgeCase_5ftest_2eproto}, {}};
+
+static void InitDefaultsscc_info_Settings_EdgeCase_5ftest_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::blox_test::EdgeCase::_Settings_default_instance_;
+    new (ptr) ::blox_test::EdgeCase::Settings();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox_test::EdgeCase::Settings::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Settings_EdgeCase_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Settings_EdgeCase_5ftest_2eproto}, {}};
+
+static void InitDefaultsscc_info_State_EdgeCase_5ftest_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::blox_test::EdgeCase::_State_default_instance_;
+    new (ptr) ::blox_test::EdgeCase::State();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox_test::EdgeCase::State::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_State_EdgeCase_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_State_EdgeCase_5ftest_2eproto}, {}};
+
+static void InitDefaultsscc_info_SubCase_EdgeCase_5ftest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::blox_test::EdgeCase::_SubCase_default_instance_;
     new (ptr) ::blox_test::EdgeCase::SubCase();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::blox_test::EdgeCase::SubCase::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_SubCase =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSubCase}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SubCase_EdgeCase_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SubCase_EdgeCase_5ftest_2eproto}, {}};
 
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_Settings.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_State.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_NestedLink.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_SubCase.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_EdgeCase_5ftest_2eproto[5];
+static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_EdgeCase_5ftest_2eproto = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_EdgeCase_5ftest_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata[5];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_EdgeCase_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Settings, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Settings, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Settings, address_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Settings, offset_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Settings, address_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Settings, offset_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::State, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::State, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::State, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::State, connected_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::State, value_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::State, connected_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::NestedLink, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::NestedLink, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::NestedLink, connection_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::NestedLink, connection_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, settings_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, state_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, link_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, additionallinks_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, listvalues_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, deltav_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, logged_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, unlogged_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, drivendevice_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, strippedfields_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, settings_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, state_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, link_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, additionallinks_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, listvalues_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, deltav_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, logged_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, unlogged_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, drivendevice_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::Block, strippedfields_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::SubCase, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::SubCase, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::SubCase, subvalue_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::EdgeCase::SubCase, subvalue_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::EdgeCase::Settings)},
   { 7, -1, sizeof(::blox_test::EdgeCase::State)},
   { 14, -1, sizeof(::blox_test::EdgeCase::NestedLink)},
@@ -188,72 +169,54 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 35, -1, sizeof(::blox_test::EdgeCase::SubCase)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::EdgeCase::_Settings_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::EdgeCase::_State_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::EdgeCase::_NestedLink_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::EdgeCase::_Block_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::EdgeCase::_SubCase_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::EdgeCase::_Settings_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::EdgeCase::_State_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::EdgeCase::_NestedLink_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::EdgeCase::_Block_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::EdgeCase::_SubCase_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "EdgeCase_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
-}
+const char descriptor_table_protodef_EdgeCase_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\023EdgeCase_test.proto\022\022blox_test.EdgeCas"
+  "e\032\023brewblox_test.proto\032\021nanopb_test.prot"
+  "o\"B\n\010Settings\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 \001\022\035"
+  "\n\006offset\030\002 \001(\021B\r\212\265\030\002\010\006\212\265\030\003\020\200\002\"@\n\005State\022\034"
+  "\n\005value\030\001 \001(\021B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\031\n\tconnecte"
+  "d\030\002 \001(\010B\006\212\265\030\002(\001\"(\n\nNestedLink\022\032\n\nconnect"
+  "ion\030\001 \001(\rB\006\212\265\030\002\030\002\"\360\002\n\005Block\022.\n\010settings\030"
+  "\001 \001(\0132\034.blox_test.EdgeCase.Settings\022(\n\005s"
+  "tate\030\002 \001(\0132\031.blox_test.EdgeCase.State\022\024\n"
+  "\004link\030\003 \001(\rB\006\212\265\030\002\030\005\0227\n\017additionalLinks\030\004"
+  " \003(\0132\036.blox_test.EdgeCase.NestedLink\022!\n\n"
+  "listValues\030\005 \003(\002B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\035\n\006delta"
+  "V\030\006 \001(\rB\r\212\265\030\002\010\007\212\265\030\003\020\200\002\022\026\n\006logged\030\007 \001(\rB\006"
+  "\212\265\030\0020\001\022\020\n\010unLogged\030\010 \001(\r\022(\n\014drivenDevice"
+  "\030\t \001(\rB\022\212\265\030\003\030\273\002\212\265\030\002@\001\222\?\0028\020\022(\n\016strippedFi"
+  "elds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002\"#\n\007SubCase\022"
+  "\020\n\010subvalue\030\001 \001(\r:\006\212\265\030\002X\001b\006proto3"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_EdgeCase_5ftest_2eproto_deps[2] = {
+  &::descriptor_table_brewblox_5ftest_2eproto,
+  &::descriptor_table_nanopb_5ftest_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_EdgeCase_5ftest_2eproto_sccs[5] = {
+  &scc_info_Block_EdgeCase_5ftest_2eproto.base,
+  &scc_info_NestedLink_EdgeCase_5ftest_2eproto.base,
+  &scc_info_Settings_EdgeCase_5ftest_2eproto.base,
+  &scc_info_State_EdgeCase_5ftest_2eproto.base,
+  &scc_info_SubCase_EdgeCase_5ftest_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_EdgeCase_5ftest_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_EdgeCase_5ftest_2eproto = {
+  false, false, descriptor_table_protodef_EdgeCase_5ftest_2eproto, "EdgeCase_test.proto", 673,
+  &descriptor_table_EdgeCase_5ftest_2eproto_once, descriptor_table_EdgeCase_5ftest_2eproto_sccs, descriptor_table_EdgeCase_5ftest_2eproto_deps, 5, 2,
+  schemas, file_default_instances, TableStruct_EdgeCase_5ftest_2eproto::offsets,
+  file_level_metadata_EdgeCase_5ftest_2eproto, 5, file_level_enum_descriptors_EdgeCase_5ftest_2eproto, file_level_service_descriptors_EdgeCase_5ftest_2eproto,
+};
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 5);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\023EdgeCase_test.proto\022\022blox_test.EdgeCas"
-      "e\032\023brewblox_test.proto\032\021nanopb_test.prot"
-      "o\"B\n\010Settings\022\027\n\007address\030\001 \001(\006B\006\212\265\030\002 \001\022\035"
-      "\n\006offset\030\002 \001(\021B\r\212\265\030\002\010\006\212\265\030\003\020\200\002\"@\n\005State\022\034"
-      "\n\005value\030\001 \001(\021B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\031\n\tconnecte"
-      "d\030\002 \001(\010B\006\212\265\030\002(\001\"(\n\nNestedLink\022\032\n\nconnect"
-      "ion\030\001 \001(\rB\006\212\265\030\002\030\002\"\360\002\n\005Block\022.\n\010settings\030"
-      "\001 \001(\0132\034.blox_test.EdgeCase.Settings\022(\n\005s"
-      "tate\030\002 \001(\0132\031.blox_test.EdgeCase.State\022\024\n"
-      "\004link\030\003 \001(\rB\006\212\265\030\002\030\005\0227\n\017additionalLinks\030\004"
-      " \003(\0132\036.blox_test.EdgeCase.NestedLink\022!\n\n"
-      "listValues\030\005 \003(\002B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\035\n\006delta"
-      "V\030\006 \001(\rB\r\212\265\030\002\010\007\212\265\030\003\020\200\002\022\026\n\006logged\030\007 \001(\rB\006"
-      "\212\265\030\0020\001\022\020\n\010unLogged\030\010 \001(\r\022(\n\014drivenDevice"
-      "\030\t \001(\rB\022\212\265\030\003\030\273\002\212\265\030\002@\001\222\?\0028\020\022(\n\016strippedFi"
-      "elds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002\"#\n\007SubCase\022"
-      "\020\n\010subvalue\030\001 \001(\r:\006\212\265\030\002X\001b\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 673);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "EdgeCase_test.proto", &protobuf_RegisterTypes);
-  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
-  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_EdgeCase_5ftest_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+static bool dynamic_init_dummy_EdgeCase_5ftest_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_EdgeCase_5ftest_2eproto)), true);
 namespace blox_test {
 namespace EdgeCase {
 
@@ -261,22 +224,19 @@ namespace EdgeCase {
 
 void Settings::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Settings::kAddressFieldNumber;
-const int Settings::kOffsetFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class Settings::_Internal {
+ public:
+};
 
-Settings::Settings()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_Settings.base);
+Settings::Settings(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.EdgeCase.Settings)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.EdgeCase.Settings)
 }
 Settings::Settings(const Settings& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&address_, &from.address_,
     static_cast<size_t>(reinterpret_cast<char*>(&offset_) -
     reinterpret_cast<char*>(&address_)) + sizeof(offset_));
@@ -292,138 +252,105 @@ void Settings::SharedCtor() {
 Settings::~Settings() {
   // @@protoc_insertion_point(destructor:blox_test.EdgeCase.Settings)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Settings::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void Settings::ArenaDtor(void* object) {
+  Settings* _this = reinterpret_cast< Settings* >(object);
+  (void)_this;
+}
+void Settings::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void Settings::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Settings::descriptor() {
-  ::protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const Settings& Settings::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_EdgeCase_5ftest_2eproto::scc_info_Settings.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Settings_EdgeCase_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void Settings::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.EdgeCase.Settings)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   ::memset(&address_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&offset_) -
       reinterpret_cast<char*>(&address_)) + sizeof(offset_));
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool Settings::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.EdgeCase.Settings)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* Settings::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // fixed64 address = 1 [(.brewblox.field) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(9u /* 9 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_FIXED64>(
-                 input, &address_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 9)) {
+          address_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<::PROTOBUF_NAMESPACE_ID::uint64>(ptr);
+          ptr += sizeof(::PROTOBUF_NAMESPACE_ID::uint64);
+        } else goto handle_unusual;
+        continue;
       // sint32 offset = 2 [(.brewblox.field) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
-                 input, &offset_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          offset_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.EdgeCase.Settings)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.EdgeCase.Settings)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void Settings::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.EdgeCase.Settings)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // fixed64 address = 1 [(.brewblox.field) = {
-  if (this->address() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteFixed64(1, this->address(), output);
-  }
-
-  // sint32 offset = 2 [(.brewblox.field) = {
-  if (this->offset() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteSInt32(2, this->offset(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.EdgeCase.Settings)
-}
-
-::google::protobuf::uint8* Settings::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* Settings::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.EdgeCase.Settings)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // fixed64 address = 1 [(.brewblox.field) = {
   if (this->address() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFixed64ToArray(1, this->address(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFixed64ToArray(1, this->_internal_address(), target);
   }
 
   // sint32 offset = 2 [(.brewblox.field) = {
   if (this->offset() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->offset(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(2, this->_internal_offset(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.EdgeCase.Settings)
   return target;
@@ -433,11 +360,10 @@ size_t Settings::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.EdgeCase.Settings)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // fixed64 address = 1 [(.brewblox.field) = {
   if (this->address() != 0) {
     total_size += 1 + 8;
@@ -446,24 +372,28 @@ size_t Settings::ByteSizeLong() const {
   // sint32 offset = 2 [(.brewblox.field) = {
   if (this->offset() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::SInt32Size(
-        this->offset());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
+        this->_internal_offset());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void Settings::MergeFrom(const ::google::protobuf::Message& from) {
+void Settings::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.EdgeCase.Settings)
   GOOGLE_DCHECK_NE(&from, this);
   const Settings* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Settings>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Settings>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.EdgeCase.Settings)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.EdgeCase.Settings)
     MergeFrom(*source);
@@ -473,19 +403,19 @@ void Settings::MergeFrom(const ::google::protobuf::Message& from) {
 void Settings::MergeFrom(const Settings& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.EdgeCase.Settings)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.address() != 0) {
-    set_address(from.address());
+    _internal_set_address(from._internal_address());
   }
   if (from.offset() != 0) {
-    set_offset(from.offset());
+    _internal_set_offset(from._internal_offset());
   }
 }
 
-void Settings::CopyFrom(const ::google::protobuf::Message& from) {
+void Settings::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.EdgeCase.Settings)
   if (&from == this) return;
   Clear();
@@ -503,20 +433,19 @@ bool Settings::IsInitialized() const {
   return true;
 }
 
-void Settings::Swap(Settings* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void Settings::InternalSwap(Settings* other) {
   using std::swap;
-  swap(address_, other->address_);
-  swap(offset_, other->offset_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Settings, offset_)
+      + sizeof(Settings::offset_)
+      - PROTOBUF_FIELD_OFFSET(Settings, address_)>(
+          reinterpret_cast<char*>(&address_),
+          reinterpret_cast<char*>(&other->address_));
 }
 
-::google::protobuf::Metadata Settings::GetMetadata() const {
-  protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata Settings::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -524,22 +453,19 @@ void Settings::InternalSwap(Settings* other) {
 
 void State::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int State::kValueFieldNumber;
-const int State::kConnectedFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class State::_Internal {
+ public:
+};
 
-State::State()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_State.base);
+State::State(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.EdgeCase.State)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.EdgeCase.State)
 }
 State::State(const State& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&value_, &from.value_,
     static_cast<size_t>(reinterpret_cast<char*>(&connected_) -
     reinterpret_cast<char*>(&value_)) + sizeof(connected_));
@@ -555,138 +481,105 @@ void State::SharedCtor() {
 State::~State() {
   // @@protoc_insertion_point(destructor:blox_test.EdgeCase.State)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void State::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void State::ArenaDtor(void* object) {
+  State* _this = reinterpret_cast< State* >(object);
+  (void)_this;
+}
+void State::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void State::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* State::descriptor() {
-  ::protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const State& State::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_EdgeCase_5ftest_2eproto::scc_info_State.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_State_EdgeCase_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void State::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.EdgeCase.State)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   ::memset(&value_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&connected_) -
       reinterpret_cast<char*>(&value_)) + sizeof(connected_));
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool State::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.EdgeCase.State)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* State::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // sint32 value = 1 [(.brewblox.field) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
-                 input, &value_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // bool connected = 2 [(.brewblox.field) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &connected_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          connected_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.EdgeCase.State)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.EdgeCase.State)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void State::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.EdgeCase.State)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // sint32 value = 1 [(.brewblox.field) = {
-  if (this->value() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteSInt32(1, this->value(), output);
-  }
-
-  // bool connected = 2 [(.brewblox.field) = {
-  if (this->connected() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(2, this->connected(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.EdgeCase.State)
-}
-
-::google::protobuf::uint8* State::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* State::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.EdgeCase.State)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // sint32 value = 1 [(.brewblox.field) = {
   if (this->value() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->value(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(1, this->_internal_value(), target);
   }
 
   // bool connected = 2 [(.brewblox.field) = {
   if (this->connected() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(2, this->connected(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_connected(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.EdgeCase.State)
   return target;
@@ -696,16 +589,15 @@ size_t State::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.EdgeCase.State)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // sint32 value = 1 [(.brewblox.field) = {
   if (this->value() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::SInt32Size(
-        this->value());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
+        this->_internal_value());
   }
 
   // bool connected = 2 [(.brewblox.field) = {
@@ -713,20 +605,24 @@ size_t State::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void State::MergeFrom(const ::google::protobuf::Message& from) {
+void State::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.EdgeCase.State)
   GOOGLE_DCHECK_NE(&from, this);
   const State* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const State>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<State>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.EdgeCase.State)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.EdgeCase.State)
     MergeFrom(*source);
@@ -736,19 +632,19 @@ void State::MergeFrom(const ::google::protobuf::Message& from) {
 void State::MergeFrom(const State& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.EdgeCase.State)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.value() != 0) {
-    set_value(from.value());
+    _internal_set_value(from._internal_value());
   }
   if (from.connected() != 0) {
-    set_connected(from.connected());
+    _internal_set_connected(from._internal_connected());
   }
 }
 
-void State::CopyFrom(const ::google::protobuf::Message& from) {
+void State::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.EdgeCase.State)
   if (&from == this) return;
   Clear();
@@ -766,20 +662,19 @@ bool State::IsInitialized() const {
   return true;
 }
 
-void State::Swap(State* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void State::InternalSwap(State* other) {
   using std::swap;
-  swap(value_, other->value_);
-  swap(connected_, other->connected_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(State, connected_)
+      + sizeof(State::connected_)
+      - PROTOBUF_FIELD_OFFSET(State, value_)>(
+          reinterpret_cast<char*>(&value_),
+          reinterpret_cast<char*>(&other->value_));
 }
 
-::google::protobuf::Metadata State::GetMetadata() const {
-  protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata State::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -787,21 +682,19 @@ void State::InternalSwap(State* other) {
 
 void NestedLink::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int NestedLink::kConnectionFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class NestedLink::_Internal {
+ public:
+};
 
-NestedLink::NestedLink()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_NestedLink.base);
+NestedLink::NestedLink(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.EdgeCase.NestedLink)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.EdgeCase.NestedLink)
 }
 NestedLink::NestedLink(const NestedLink& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   connection_ = from.connection_;
   // @@protoc_insertion_point(copy_constructor:blox_test.EdgeCase.NestedLink)
 }
@@ -813,112 +706,90 @@ void NestedLink::SharedCtor() {
 NestedLink::~NestedLink() {
   // @@protoc_insertion_point(destructor:blox_test.EdgeCase.NestedLink)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void NestedLink::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void NestedLink::ArenaDtor(void* object) {
+  NestedLink* _this = reinterpret_cast< NestedLink* >(object);
+  (void)_this;
+}
+void NestedLink::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void NestedLink::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* NestedLink::descriptor() {
-  ::protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const NestedLink& NestedLink::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_EdgeCase_5ftest_2eproto::scc_info_NestedLink.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_NestedLink_EdgeCase_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void NestedLink::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.EdgeCase.NestedLink)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   connection_ = 0u;
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool NestedLink::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.EdgeCase.NestedLink)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* NestedLink::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // uint32 connection = 1 [(.brewblox.field) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &connection_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          connection_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.EdgeCase.NestedLink)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.EdgeCase.NestedLink)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void NestedLink::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.EdgeCase.NestedLink)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 connection = 1 [(.brewblox.field) = {
-  if (this->connection() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->connection(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.EdgeCase.NestedLink)
-}
-
-::google::protobuf::uint8* NestedLink::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* NestedLink::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.EdgeCase.NestedLink)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 connection = 1 [(.brewblox.field) = {
   if (this->connection() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->connection(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_connection(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.EdgeCase.NestedLink)
   return target;
@@ -928,32 +799,35 @@ size_t NestedLink::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.EdgeCase.NestedLink)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // uint32 connection = 1 [(.brewblox.field) = {
   if (this->connection() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->connection());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_connection());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void NestedLink::MergeFrom(const ::google::protobuf::Message& from) {
+void NestedLink::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.EdgeCase.NestedLink)
   GOOGLE_DCHECK_NE(&from, this);
   const NestedLink* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const NestedLink>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<NestedLink>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.EdgeCase.NestedLink)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.EdgeCase.NestedLink)
     MergeFrom(*source);
@@ -963,16 +837,16 @@ void NestedLink::MergeFrom(const ::google::protobuf::Message& from) {
 void NestedLink::MergeFrom(const NestedLink& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.EdgeCase.NestedLink)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.connection() != 0) {
-    set_connection(from.connection());
+    _internal_set_connection(from._internal_connection());
   }
 }
 
-void NestedLink::CopyFrom(const ::google::protobuf::Message& from) {
+void NestedLink::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.EdgeCase.NestedLink)
   if (&from == this) return;
   Clear();
@@ -990,19 +864,14 @@ bool NestedLink::IsInitialized() const {
   return true;
 }
 
-void NestedLink::Swap(NestedLink* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void NestedLink::InternalSwap(NestedLink* other) {
   using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   swap(connection_, other->connection_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata NestedLink::GetMetadata() const {
-  protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata NestedLink::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -1014,42 +883,44 @@ void Block::InitAsDefaultInstance() {
   ::blox_test::EdgeCase::_Block_default_instance_._instance.get_mutable()->state_ = const_cast< ::blox_test::EdgeCase::State*>(
       ::blox_test::EdgeCase::State::internal_default_instance());
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Block::kSettingsFieldNumber;
-const int Block::kStateFieldNumber;
-const int Block::kLinkFieldNumber;
-const int Block::kAdditionalLinksFieldNumber;
-const int Block::kListValuesFieldNumber;
-const int Block::kDeltaVFieldNumber;
-const int Block::kLoggedFieldNumber;
-const int Block::kUnLoggedFieldNumber;
-const int Block::kDrivenDeviceFieldNumber;
-const int Block::kStrippedFieldsFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class Block::_Internal {
+ public:
+  static const ::blox_test::EdgeCase::Settings& settings(const Block* msg);
+  static const ::blox_test::EdgeCase::State& state(const Block* msg);
+};
 
-Block::Block()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_Block.base);
+const ::blox_test::EdgeCase::Settings&
+Block::_Internal::settings(const Block* msg) {
+  return *msg->settings_;
+}
+const ::blox_test::EdgeCase::State&
+Block::_Internal::state(const Block* msg) {
+  return *msg->state_;
+}
+Block::Block(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  additionallinks_(arena),
+  listvalues_(arena),
+  strippedfields_(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.EdgeCase.Block)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.EdgeCase.Block)
 }
 Block::Block(const Block& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       additionallinks_(from.additionallinks_),
       listvalues_(from.listvalues_),
       strippedfields_(from.strippedfields_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  if (from.has_settings()) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_settings()) {
     settings_ = new ::blox_test::EdgeCase::Settings(*from.settings_);
   } else {
-    settings_ = NULL;
+    settings_ = nullptr;
   }
-  if (from.has_state()) {
+  if (from._internal_has_state()) {
     state_ = new ::blox_test::EdgeCase::State(*from.state_);
   } else {
-    state_ = NULL;
+    state_ = nullptr;
   }
   ::memcpy(&link_, &from.link_,
     static_cast<size_t>(reinterpret_cast<char*>(&drivendevice_) -
@@ -1058,6 +929,7 @@ Block::Block(const Block& from)
 }
 
 void Block::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Block_EdgeCase_5ftest_2eproto.base);
   ::memset(&settings_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&drivendevice_) -
       reinterpret_cast<char*>(&settings_)) + sizeof(drivendevice_));
@@ -1066,386 +938,241 @@ void Block::SharedCtor() {
 Block::~Block() {
   // @@protoc_insertion_point(destructor:blox_test.EdgeCase.Block)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Block::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
   if (this != internal_default_instance()) delete settings_;
   if (this != internal_default_instance()) delete state_;
 }
 
+void Block::ArenaDtor(void* object) {
+  Block* _this = reinterpret_cast< Block* >(object);
+  (void)_this;
+}
+void Block::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Block::descriptor() {
-  ::protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const Block& Block::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_EdgeCase_5ftest_2eproto::scc_info_Block.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Block_EdgeCase_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void Block::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.EdgeCase.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   additionallinks_.Clear();
   listvalues_.Clear();
   strippedfields_.Clear();
-  if (GetArenaNoVirtual() == NULL && settings_ != NULL) {
+  if (GetArena() == nullptr && settings_ != nullptr) {
     delete settings_;
   }
-  settings_ = NULL;
-  if (GetArenaNoVirtual() == NULL && state_ != NULL) {
+  settings_ = nullptr;
+  if (GetArena() == nullptr && state_ != nullptr) {
     delete state_;
   }
-  state_ = NULL;
+  state_ = nullptr;
   ::memset(&link_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&drivendevice_) -
       reinterpret_cast<char*>(&link_)) + sizeof(drivendevice_));
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool Block::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.EdgeCase.Block)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* Block::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // .blox_test.EdgeCase.Settings settings = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_settings()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_settings(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .blox_test.EdgeCase.State state = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_state()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_state(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 link = 3 [(.brewblox.field) = {
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &link_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          link_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_additionallinks()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_additionallinks(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else goto handle_unusual;
+        continue;
       // repeated float listValues = 5 [(.brewblox.field) = {
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, this->mutable_listvalues())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 1, 42u, input, this->mutable_listvalues())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_listvalues(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45) {
+          _internal_add_listvalues(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
       // uint32 deltaV = 6 [(.brewblox.field) = {
-      case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &deltav_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          deltav_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 logged = 7 [(.brewblox.field) = {
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &logged_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          logged_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 unLogged = 8;
-      case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &unlogged_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          unlogged_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // uint32 drivenDevice = 9 [(.nanopb) = {
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &drivendevice_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          drivendevice_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 99:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt32Parser(_internal_mutable_strippedfields(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24) {
+          _internal_add_strippedfields(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* Block::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.EdgeCase.Block)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .blox_test.EdgeCase.Settings settings = 1;
+  if (this->has_settings()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        1, _Internal::settings(this), target, stream);
+  }
+
+  // .blox_test.EdgeCase.State state = 2;
+  if (this->has_state()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::state(this), target, stream);
+  }
+
+  // uint32 link = 3 [(.brewblox.field) = {
+  if (this->link() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_link(), target);
+  }
+
+  // repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_additionallinks_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, this->_internal_additionallinks(i), target, stream);
+  }
+
+  // repeated float listValues = 5 [(.brewblox.field) = {
+  if (this->_internal_listvalues_size() > 0) {
+    target = stream->WriteFixedPacked(5, _internal_listvalues(), target);
+  }
+
+  // uint32 deltaV = 6 [(.brewblox.field) = {
+  if (this->deltav() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_deltav(), target);
+  }
+
+  // uint32 logged = 7 [(.brewblox.field) = {
+  if (this->logged() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_logged(), target);
+  }
+
+  // uint32 unLogged = 8;
+  if (this->unlogged() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_unlogged(), target);
+  }
+
+  // uint32 drivenDevice = 9 [(.nanopb) = {
+  if (this->drivendevice() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(9, this->_internal_drivendevice(), target);
+  }
+
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
+  {
+    int byte_size = _strippedfields_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteUInt32Packed(
+          99, _internal_strippedfields(), byte_size, target);
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:blox_test.EdgeCase.Block)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.EdgeCase.Block)
-  return false;
-#undef DO_
-}
 
-void Block::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.EdgeCase.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .blox_test.EdgeCase.Settings settings = 1;
-  if (this->has_settings()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->_internal_settings(), output);
-  }
-
-  // .blox_test.EdgeCase.State state = 2;
-  if (this->has_state()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->_internal_state(), output);
-  }
-
-  // uint32 link = 3 [(.brewblox.field) = {
-  if (this->link() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->link(), output);
-  }
-
-  // repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->additionallinks_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4,
-      this->additionallinks(static_cast<int>(i)),
-      output);
-  }
-
-  // repeated float listValues = 5 [(.brewblox.field) = {
-  if (this->listvalues_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(5, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _listvalues_cached_byte_size_));
-    ::google::protobuf::internal::WireFormatLite::WriteFloatArray(
-      this->listvalues().data(), this->listvalues_size(), output);
-  }
-
-  // uint32 deltaV = 6 [(.brewblox.field) = {
-  if (this->deltav() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->deltav(), output);
-  }
-
-  // uint32 logged = 7 [(.brewblox.field) = {
-  if (this->logged() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->logged(), output);
-  }
-
-  // uint32 unLogged = 8;
-  if (this->unlogged() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->unlogged(), output);
-  }
-
-  // uint32 drivenDevice = 9 [(.nanopb) = {
-  if (this->drivendevice() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->drivendevice(), output);
-  }
-
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.EdgeCase.Block)
-}
-
-::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:blox_test.EdgeCase.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .blox_test.EdgeCase.Settings settings = 1;
-  if (this->has_settings()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->_internal_settings(), deterministic, target);
-  }
-
-  // .blox_test.EdgeCase.State state = 2;
-  if (this->has_state()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->_internal_state(), deterministic, target);
-  }
-
-  // uint32 link = 3 [(.brewblox.field) = {
-  if (this->link() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->link(), target);
-  }
-
-  // repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->additionallinks_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        4, this->additionallinks(static_cast<int>(i)), deterministic, target);
-  }
-
-  // repeated float listValues = 5 [(.brewblox.field) = {
-  if (this->listvalues_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      5,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _listvalues_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteFloatNoTagToArray(this->listvalues_, target);
-  }
-
-  // uint32 deltaV = 6 [(.brewblox.field) = {
-  if (this->deltav() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->deltav(), target);
-  }
-
-  // uint32 logged = 7 [(.brewblox.field) = {
-  if (this->logged() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->logged(), target);
-  }
-
-  // uint32 unLogged = 8;
-  if (this->unlogged() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->unlogged(), target);
-  }
-
-  // uint32 drivenDevice = 9 [(.nanopb) = {
-  if (this->drivendevice() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->drivendevice(), target);
-  }
-
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.EdgeCase.Block)
   return target;
@@ -1455,117 +1182,114 @@ size_t Block::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.EdgeCase.Block)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated .blox_test.EdgeCase.NestedLink additionalLinks = 4;
-  {
-    unsigned int count = static_cast<unsigned int>(this->additionallinks_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->additionallinks(static_cast<int>(i)));
-    }
+  total_size += 1UL * this->_internal_additionallinks_size();
+  for (const auto& msg : this->additionallinks_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // repeated float listValues = 5 [(.brewblox.field) = {
   {
-    unsigned int count = static_cast<unsigned int>(this->listvalues_size());
+    unsigned int count = static_cast<unsigned int>(this->_internal_listvalues_size());
     size_t data_size = 4UL * count;
     if (data_size > 0) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _listvalues_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _listvalues_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
   // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
     if (data_size > 0) {
       total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
     }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _strippedfields_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
     total_size += data_size;
   }
 
   // .blox_test.EdgeCase.Settings settings = 1;
   if (this->has_settings()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *settings_);
   }
 
   // .blox_test.EdgeCase.State state = 2;
   if (this->has_state()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *state_);
   }
 
   // uint32 link = 3 [(.brewblox.field) = {
   if (this->link() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->link());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_link());
   }
 
   // uint32 deltaV = 6 [(.brewblox.field) = {
   if (this->deltav() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->deltav());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_deltav());
   }
 
   // uint32 logged = 7 [(.brewblox.field) = {
   if (this->logged() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->logged());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_logged());
   }
 
   // uint32 unLogged = 8;
   if (this->unlogged() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->unlogged());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_unlogged());
   }
 
   // uint32 drivenDevice = 9 [(.nanopb) = {
   if (this->drivendevice() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->drivendevice());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_drivendevice());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void Block::MergeFrom(const ::google::protobuf::Message& from) {
+void Block::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.EdgeCase.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Block>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.EdgeCase.Block)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.EdgeCase.Block)
     MergeFrom(*source);
@@ -1575,37 +1299,37 @@ void Block::MergeFrom(const ::google::protobuf::Message& from) {
 void Block::MergeFrom(const Block& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.EdgeCase.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   additionallinks_.MergeFrom(from.additionallinks_);
   listvalues_.MergeFrom(from.listvalues_);
   strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_settings()) {
-    mutable_settings()->::blox_test::EdgeCase::Settings::MergeFrom(from.settings());
+    _internal_mutable_settings()->::blox_test::EdgeCase::Settings::MergeFrom(from._internal_settings());
   }
   if (from.has_state()) {
-    mutable_state()->::blox_test::EdgeCase::State::MergeFrom(from.state());
+    _internal_mutable_state()->::blox_test::EdgeCase::State::MergeFrom(from._internal_state());
   }
   if (from.link() != 0) {
-    set_link(from.link());
+    _internal_set_link(from._internal_link());
   }
   if (from.deltav() != 0) {
-    set_deltav(from.deltav());
+    _internal_set_deltav(from._internal_deltav());
   }
   if (from.logged() != 0) {
-    set_logged(from.logged());
+    _internal_set_logged(from._internal_logged());
   }
   if (from.unlogged() != 0) {
-    set_unlogged(from.unlogged());
+    _internal_set_unlogged(from._internal_unlogged());
   }
   if (from.drivendevice() != 0) {
-    set_drivendevice(from.drivendevice());
+    _internal_set_drivendevice(from._internal_drivendevice());
   }
 }
 
-void Block::CopyFrom(const ::google::protobuf::Message& from) {
+void Block::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.EdgeCase.Block)
   if (&from == this) return;
   Clear();
@@ -1623,28 +1347,22 @@ bool Block::IsInitialized() const {
   return true;
 }
 
-void Block::Swap(Block* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  CastToBase(&additionallinks_)->InternalSwap(CastToBase(&other->additionallinks_));
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  additionallinks_.InternalSwap(&other->additionallinks_);
   listvalues_.InternalSwap(&other->listvalues_);
   strippedfields_.InternalSwap(&other->strippedfields_);
-  swap(settings_, other->settings_);
-  swap(state_, other->state_);
-  swap(link_, other->link_);
-  swap(deltav_, other->deltav_);
-  swap(logged_, other->logged_);
-  swap(unlogged_, other->unlogged_);
-  swap(drivendevice_, other->drivendevice_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Block, drivendevice_)
+      + sizeof(Block::drivendevice_)
+      - PROTOBUF_FIELD_OFFSET(Block, settings_)>(
+          reinterpret_cast<char*>(&settings_),
+          reinterpret_cast<char*>(&other->settings_));
 }
 
-::google::protobuf::Metadata Block::GetMetadata() const {
-  protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata Block::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -1652,21 +1370,19 @@ void Block::InternalSwap(Block* other) {
 
 void SubCase::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int SubCase::kSubvalueFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class SubCase::_Internal {
+ public:
+};
 
-SubCase::SubCase()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_EdgeCase_5ftest_2eproto::scc_info_SubCase.base);
+SubCase::SubCase(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.EdgeCase.SubCase)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.EdgeCase.SubCase)
 }
 SubCase::SubCase(const SubCase& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   subvalue_ = from.subvalue_;
   // @@protoc_insertion_point(copy_constructor:blox_test.EdgeCase.SubCase)
 }
@@ -1678,112 +1394,90 @@ void SubCase::SharedCtor() {
 SubCase::~SubCase() {
   // @@protoc_insertion_point(destructor:blox_test.EdgeCase.SubCase)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void SubCase::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void SubCase::ArenaDtor(void* object) {
+  SubCase* _this = reinterpret_cast< SubCase* >(object);
+  (void)_this;
+}
+void SubCase::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void SubCase::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* SubCase::descriptor() {
-  ::protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const SubCase& SubCase::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_EdgeCase_5ftest_2eproto::scc_info_SubCase.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SubCase_EdgeCase_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void SubCase::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.EdgeCase.SubCase)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   subvalue_ = 0u;
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool SubCase::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.EdgeCase.SubCase)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* SubCase::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // uint32 subvalue = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &subvalue_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          subvalue_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.EdgeCase.SubCase)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.EdgeCase.SubCase)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void SubCase::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.EdgeCase.SubCase)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 subvalue = 1;
-  if (this->subvalue() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->subvalue(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.EdgeCase.SubCase)
-}
-
-::google::protobuf::uint8* SubCase::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* SubCase::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.EdgeCase.SubCase)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 subvalue = 1;
   if (this->subvalue() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->subvalue(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_subvalue(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.EdgeCase.SubCase)
   return target;
@@ -1793,32 +1487,35 @@ size_t SubCase::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.EdgeCase.SubCase)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // uint32 subvalue = 1;
   if (this->subvalue() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->subvalue());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_subvalue());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void SubCase::MergeFrom(const ::google::protobuf::Message& from) {
+void SubCase::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.EdgeCase.SubCase)
   GOOGLE_DCHECK_NE(&from, this);
   const SubCase* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SubCase>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SubCase>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.EdgeCase.SubCase)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.EdgeCase.SubCase)
     MergeFrom(*source);
@@ -1828,16 +1525,16 @@ void SubCase::MergeFrom(const ::google::protobuf::Message& from) {
 void SubCase::MergeFrom(const SubCase& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.EdgeCase.SubCase)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.subvalue() != 0) {
-    set_subvalue(from.subvalue());
+    _internal_set_subvalue(from._internal_subvalue());
   }
 }
 
-void SubCase::CopyFrom(const ::google::protobuf::Message& from) {
+void SubCase::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.EdgeCase.SubCase)
   if (&from == this) return;
   Clear();
@@ -1855,43 +1552,37 @@ bool SubCase::IsInitialized() const {
   return true;
 }
 
-void SubCase::Swap(SubCase* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void SubCase::InternalSwap(SubCase* other) {
   using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   swap(subvalue_, other->subvalue_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata SubCase::GetMetadata() const {
-  protobuf_EdgeCase_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_EdgeCase_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata SubCase::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace EdgeCase
 }  // namespace blox_test
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::EdgeCase::Settings* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::Settings >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::EdgeCase::Settings >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::blox_test::EdgeCase::Settings* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::Settings >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::EdgeCase::Settings >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::EdgeCase::State* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::State >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::EdgeCase::State >(arena);
+template<> PROTOBUF_NOINLINE ::blox_test::EdgeCase::State* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::State >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::EdgeCase::State >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::EdgeCase::NestedLink* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::NestedLink >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::EdgeCase::NestedLink >(arena);
+template<> PROTOBUF_NOINLINE ::blox_test::EdgeCase::NestedLink* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::NestedLink >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::EdgeCase::NestedLink >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::EdgeCase::Block* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::EdgeCase::Block >(arena);
+template<> PROTOBUF_NOINLINE ::blox_test::EdgeCase::Block* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::Block >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::EdgeCase::Block >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::EdgeCase::SubCase* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::SubCase >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::EdgeCase::SubCase >(arena);
+template<> PROTOBUF_NOINLINE ::blox_test::EdgeCase::SubCase* Arena::CreateMaybeMessage< ::blox_test::EdgeCase::SubCase >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::EdgeCase::SubCase >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

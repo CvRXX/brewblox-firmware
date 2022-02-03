@@ -5,150 +5,116 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
-
-namespace protobuf_Balancer_5ftest_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_Balancer_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_BalancedActuator;
-}  // namespace protobuf_Balancer_5ftest_2eproto
+#include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_Balancer_5ftest_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_BalancedActuator_Balancer_5ftest_2eproto;
 namespace blox_test {
 namespace Balancer {
 class BalancedActuatorDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<BalancedActuator>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<BalancedActuator> _instance;
 } _BalancedActuator_default_instance_;
 class BlockDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<Block>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Block> _instance;
 } _Block_default_instance_;
 }  // namespace Balancer
 }  // namespace blox_test
-namespace protobuf_Balancer_5ftest_2eproto {
-static void InitDefaultsBalancedActuator() {
+static void InitDefaultsscc_info_BalancedActuator_Balancer_5ftest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::blox_test::Balancer::_BalancedActuator_default_instance_;
     new (ptr) ::blox_test::Balancer::BalancedActuator();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::blox_test::Balancer::BalancedActuator::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_BalancedActuator =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBalancedActuator}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_BalancedActuator_Balancer_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_BalancedActuator_Balancer_5ftest_2eproto}, {}};
 
-static void InitDefaultsBlock() {
+static void InitDefaultsscc_info_Block_Balancer_5ftest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::blox_test::Balancer::_Block_default_instance_;
     new (ptr) ::blox_test::Balancer::Block();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::blox_test::Balancer::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_Block =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
-      &protobuf_Balancer_5ftest_2eproto::scc_info_BalancedActuator.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Block_Balancer_5ftest_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Block_Balancer_5ftest_2eproto}, {
+      &scc_info_BalancedActuator_Balancer_5ftest_2eproto.base,}};
 
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_BalancedActuator.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_Balancer_5ftest_2eproto[2];
+static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_Balancer_5ftest_2eproto = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Balancer_5ftest_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata[2];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Balancer_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, requested_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, granted_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, id_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, requested_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::Balancer::BalancedActuator, granted_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Balancer::Block, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::Balancer::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Balancer::Block, clients_),
+  PROTOBUF_FIELD_OFFSET(::blox_test::Balancer::Block, clients_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::Balancer::BalancedActuator)},
   { 8, -1, sizeof(::blox_test::Balancer::Block)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::Balancer::_BalancedActuator_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::Balancer::_Block_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::Balancer::_BalancedActuator_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::Balancer::_Block_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "Balancer_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
-}
+const char descriptor_table_protodef_Balancer_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\023Balancer_test.proto\022\022blox_test.Balance"
+  "r\032\023brewblox_test.proto\032\021nanopb_test.prot"
+  "o\"\211\001\n\020BalancedActuator\022\035\n\002id\030\001 \001(\rB\021\212\265\030\002"
+  "0\001\212\265\030\002(\001\222\?\0028\010\022+\n\trequested\030\002 \001(\021B\030\212\265\030\0020\001"
+  "\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022)\n\007granted\030\003 \001(\021B\030\212\265\030"
+  "\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\"[\n\005Block\022C\n\007client"
+  "s\030\001 \003(\0132$.blox_test.Balancer.BalancedAct"
+  "uatorB\014\212\265\030\0020\001\212\265\030\002(\001:\r\212\265\030\003\030\265\002\212\265\030\002H\007b\006prot"
+  "o3"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Balancer_5ftest_2eproto_deps[2] = {
+  &::descriptor_table_brewblox_5ftest_2eproto,
+  &::descriptor_table_nanopb_5ftest_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Balancer_5ftest_2eproto_sccs[2] = {
+  &scc_info_BalancedActuator_Balancer_5ftest_2eproto.base,
+  &scc_info_Block_Balancer_5ftest_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Balancer_5ftest_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Balancer_5ftest_2eproto = {
+  false, false, descriptor_table_protodef_Balancer_5ftest_2eproto, "Balancer_test.proto", 322,
+  &descriptor_table_Balancer_5ftest_2eproto_once, descriptor_table_Balancer_5ftest_2eproto_sccs, descriptor_table_Balancer_5ftest_2eproto_deps, 2, 2,
+  schemas, file_default_instances, TableStruct_Balancer_5ftest_2eproto::offsets,
+  file_level_metadata_Balancer_5ftest_2eproto, 2, file_level_enum_descriptors_Balancer_5ftest_2eproto, file_level_service_descriptors_Balancer_5ftest_2eproto,
+};
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\023Balancer_test.proto\022\022blox_test.Balance"
-      "r\032\023brewblox_test.proto\032\021nanopb_test.prot"
-      "o\"\211\001\n\020BalancedActuator\022\035\n\002id\030\001 \001(\rB\021\212\265\030\002"
-      "0\001\212\265\030\002(\001\222\?\0028\010\022+\n\trequested\030\002 \001(\021B\030\212\265\030\0020\001"
-      "\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022)\n\007granted\030\003 \001(\021B\030\212\265\030"
-      "\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\"[\n\005Block\022C\n\007client"
-      "s\030\001 \003(\0132$.blox_test.Balancer.BalancedAct"
-      "uatorB\014\212\265\030\0020\001\212\265\030\002(\001:\r\212\265\030\003\030\265\002\212\265\030\002H\007b\006prot"
-      "o3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 322);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "Balancer_test.proto", &protobuf_RegisterTypes);
-  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
-  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_Balancer_5ftest_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+static bool dynamic_init_dummy_Balancer_5ftest_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_Balancer_5ftest_2eproto)), true);
 namespace blox_test {
 namespace Balancer {
 
@@ -156,23 +122,19 @@ namespace Balancer {
 
 void BalancedActuator::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int BalancedActuator::kIdFieldNumber;
-const int BalancedActuator::kRequestedFieldNumber;
-const int BalancedActuator::kGrantedFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class BalancedActuator::_Internal {
+ public:
+};
 
-BalancedActuator::BalancedActuator()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_Balancer_5ftest_2eproto::scc_info_BalancedActuator.base);
+BalancedActuator::BalancedActuator(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.Balancer.BalancedActuator)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.Balancer.BalancedActuator)
 }
 BalancedActuator::BalancedActuator(const BalancedActuator& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
     static_cast<size_t>(reinterpret_cast<char*>(&granted_) -
     reinterpret_cast<char*>(&id_)) + sizeof(granted_));
@@ -188,162 +150,118 @@ void BalancedActuator::SharedCtor() {
 BalancedActuator::~BalancedActuator() {
   // @@protoc_insertion_point(destructor:blox_test.Balancer.BalancedActuator)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void BalancedActuator::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void BalancedActuator::ArenaDtor(void* object) {
+  BalancedActuator* _this = reinterpret_cast< BalancedActuator* >(object);
+  (void)_this;
+}
+void BalancedActuator::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void BalancedActuator::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* BalancedActuator::descriptor() {
-  ::protobuf_Balancer_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_Balancer_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const BalancedActuator& BalancedActuator::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_Balancer_5ftest_2eproto::scc_info_BalancedActuator.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_BalancedActuator_Balancer_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void BalancedActuator::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.Balancer.BalancedActuator)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&granted_) -
       reinterpret_cast<char*>(&id_)) + sizeof(granted_));
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool BalancedActuator::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.Balancer.BalancedActuator)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* BalancedActuator::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // uint32 id = 1 [(.nanopb) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &id_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // sint32 requested = 2 [(.nanopb) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
-                 input, &requested_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          requested_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // sint32 granted = 3 [(.nanopb) = {
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
-                 input, &granted_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          granted_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.Balancer.BalancedActuator)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.Balancer.BalancedActuator)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void BalancedActuator::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.Balancer.BalancedActuator)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 id = 1 [(.nanopb) = {
-  if (this->id() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->id(), output);
-  }
-
-  // sint32 requested = 2 [(.nanopb) = {
-  if (this->requested() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteSInt32(2, this->requested(), output);
-  }
-
-  // sint32 granted = 3 [(.nanopb) = {
-  if (this->granted() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteSInt32(3, this->granted(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.Balancer.BalancedActuator)
-}
-
-::google::protobuf::uint8* BalancedActuator::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* BalancedActuator::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.Balancer.BalancedActuator)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 id = 1 [(.nanopb) = {
   if (this->id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->id(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
   }
 
   // sint32 requested = 2 [(.nanopb) = {
   if (this->requested() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->requested(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(2, this->_internal_requested(), target);
   }
 
   // sint32 granted = 3 [(.nanopb) = {
   if (this->granted() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(3, this->granted(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(3, this->_internal_granted(), target);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.Balancer.BalancedActuator)
   return target;
@@ -353,46 +271,49 @@ size_t BalancedActuator::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.Balancer.BalancedActuator)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // uint32 id = 1 [(.nanopb) = {
   if (this->id() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id());
   }
 
   // sint32 requested = 2 [(.nanopb) = {
   if (this->requested() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::SInt32Size(
-        this->requested());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
+        this->_internal_requested());
   }
 
   // sint32 granted = 3 [(.nanopb) = {
   if (this->granted() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::SInt32Size(
-        this->granted());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
+        this->_internal_granted());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void BalancedActuator::MergeFrom(const ::google::protobuf::Message& from) {
+void BalancedActuator::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.Balancer.BalancedActuator)
   GOOGLE_DCHECK_NE(&from, this);
   const BalancedActuator* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const BalancedActuator>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<BalancedActuator>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.Balancer.BalancedActuator)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.Balancer.BalancedActuator)
     MergeFrom(*source);
@@ -402,22 +323,22 @@ void BalancedActuator::MergeFrom(const ::google::protobuf::Message& from) {
 void BalancedActuator::MergeFrom(const BalancedActuator& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.Balancer.BalancedActuator)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.id() != 0) {
-    set_id(from.id());
+    _internal_set_id(from._internal_id());
   }
   if (from.requested() != 0) {
-    set_requested(from.requested());
+    _internal_set_requested(from._internal_requested());
   }
   if (from.granted() != 0) {
-    set_granted(from.granted());
+    _internal_set_granted(from._internal_granted());
   }
 }
 
-void BalancedActuator::CopyFrom(const ::google::protobuf::Message& from) {
+void BalancedActuator::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.Balancer.BalancedActuator)
   if (&from == this) return;
   Clear();
@@ -435,21 +356,19 @@ bool BalancedActuator::IsInitialized() const {
   return true;
 }
 
-void BalancedActuator::Swap(BalancedActuator* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void BalancedActuator::InternalSwap(BalancedActuator* other) {
   using std::swap;
-  swap(id_, other->id_);
-  swap(requested_, other->requested_);
-  swap(granted_, other->granted_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BalancedActuator, granted_)
+      + sizeof(BalancedActuator::granted_)
+      - PROTOBUF_FIELD_OFFSET(BalancedActuator, id_)>(
+          reinterpret_cast<char*>(&id_),
+          reinterpret_cast<char*>(&other->id_));
 }
 
-::google::protobuf::Metadata BalancedActuator::GetMetadata() const {
-  protobuf_Balancer_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_Balancer_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata BalancedActuator::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -457,142 +376,122 @@ void BalancedActuator::InternalSwap(BalancedActuator* other) {
 
 void Block::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Block::kClientsFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class Block::_Internal {
+ public:
+};
 
-Block::Block()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_Balancer_5ftest_2eproto::scc_info_Block.base);
+Block::Block(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  clients_(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:blox_test.Balancer.Block)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:blox_test.Balancer.Block)
 }
 Block::Block(const Block& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       clients_(from.clients_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:blox_test.Balancer.Block)
 }
 
 void Block::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Block_Balancer_5ftest_2eproto.base);
 }
 
 Block::~Block() {
   // @@protoc_insertion_point(destructor:blox_test.Balancer.Block)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Block::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void Block::ArenaDtor(void* object) {
+  Block* _this = reinterpret_cast< Block* >(object);
+  (void)_this;
+}
+void Block::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* Block::descriptor() {
-  ::protobuf_Balancer_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_Balancer_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const Block& Block::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_Balancer_5ftest_2eproto::scc_info_Block.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Block_Balancer_5ftest_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void Block::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.Balancer.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   clients_.Clear();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool Block::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:blox_test.Balancer.Block)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* Block::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // repeated .blox_test.Balancer.BalancedActuator clients = 1 [(.brewblox.field) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_clients()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_clients(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:blox_test.Balancer.Block)
-  return true;
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:blox_test.Balancer.Block)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void Block::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:blox_test.Balancer.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // repeated .blox_test.Balancer.BalancedActuator clients = 1 [(.brewblox.field) = {
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->clients_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->clients(static_cast<int>(i)),
-      output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:blox_test.Balancer.Block)
-}
-
-::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* Block::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.Balancer.Block)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // repeated .blox_test.Balancer.BalancedActuator clients = 1 [(.brewblox.field) = {
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->clients_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->clients(static_cast<int>(i)), deterministic, target);
+      n = static_cast<unsigned int>(this->_internal_clients_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, this->_internal_clients(i), target, stream);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.Balancer.Block)
   return target;
@@ -602,36 +501,35 @@ size_t Block::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.Balancer.Block)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated .blox_test.Balancer.BalancedActuator clients = 1 [(.brewblox.field) = {
-  {
-    unsigned int count = static_cast<unsigned int>(this->clients_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->clients(static_cast<int>(i)));
-    }
+  total_size += 1UL * this->_internal_clients_size();
+  for (const auto& msg : this->clients_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void Block::MergeFrom(const ::google::protobuf::Message& from) {
+void Block::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.Balancer.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Block>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.Balancer.Block)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.Balancer.Block)
     MergeFrom(*source);
@@ -641,14 +539,14 @@ void Block::MergeFrom(const ::google::protobuf::Message& from) {
 void Block::MergeFrom(const Block& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.Balancer.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   clients_.MergeFrom(from.clients_);
 }
 
-void Block::CopyFrom(const ::google::protobuf::Message& from) {
+void Block::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.Balancer.Block)
   if (&from == this) return;
   Clear();
@@ -666,34 +564,28 @@ bool Block::IsInitialized() const {
   return true;
 }
 
-void Block::Swap(Block* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  CastToBase(&clients_)->InternalSwap(CastToBase(&other->clients_));
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  clients_.InternalSwap(&other->clients_);
 }
 
-::google::protobuf::Metadata Block::GetMetadata() const {
-  protobuf_Balancer_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_Balancer_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata Block::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Balancer
 }  // namespace blox_test
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::Balancer::BalancedActuator* Arena::CreateMaybeMessage< ::blox_test::Balancer::BalancedActuator >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::Balancer::BalancedActuator >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::blox_test::Balancer::BalancedActuator* Arena::CreateMaybeMessage< ::blox_test::Balancer::BalancedActuator >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::Balancer::BalancedActuator >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::Balancer::Block* Arena::CreateMaybeMessage< ::blox_test::Balancer::Block >(Arena* arena) {
-  return Arena::CreateInternal< ::blox_test::Balancer::Block >(arena);
+template<> PROTOBUF_NOINLINE ::blox_test::Balancer::Block* Arena::CreateMaybeMessage< ::blox_test::Balancer::Block >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::blox_test::Balancer::Block >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>
