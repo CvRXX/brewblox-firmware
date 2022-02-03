@@ -113,10 +113,6 @@ std::vector<uint8_t> base64_decode(const std::string& encoded)
         if (groupIdx > 2) {
             decoded.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
         }
-
-        if (groupIdx > 3) {
-            decoded.push_back(((encodedBytes[2] & 0x3) << 6) + encodedBytes[3]);
-        }
     }
 
     return decoded;
