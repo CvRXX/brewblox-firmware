@@ -4,19 +4,16 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build_p1",
-      "command": "docker-compose",
+      "label": "Build P1",
+      "command": "bash",
       "args": [
-        "exec",
-        "compiler",
-        "bash",
         "../wrapped_make.sh",
         "APP=brewblox",
         "PLATFORM=p1"
       ],
       "group": "build",
       "options": {
-        "cwd": "${workspaceFolder}/docker"
+        "cwd": "${workspaceFolder}/build"
       },
       "presentation": {
         "echo": true,
@@ -29,19 +26,16 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build_photon",
-      "command": "docker-compose",
+      "label": "Build Photon",
+      "command": "bash",
       "args": [
-        "exec",
-        "compiler",
-        "bash",
         "../wrapped_make.sh",
         "APP=brewblox",
         "PLATFORM=photon"
       ],
       "group": "build",
       "options": {
-        "cwd": "${workspaceFolder}/docker"
+        "cwd": "${workspaceFolder}/build"
       },
       "presentation": {
         "echo": true,
@@ -54,7 +48,7 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build_gcc_local",
+      "label": "Build GCC",
       "command": "bash",
       "args": [
         "../wrapped_make.sh",
@@ -76,10 +70,49 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build_and_run_tests_docker",
+      "label": "Build ESP",
       "command": "bash",
       "args": [
-        "build-and-run-tests-docker.sh"
+        "build/idf.sh",
+        "build"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Build and run tests",
+      "command": "bash",
+      "args": [
+        "build/build-and-run-tests.sh"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Flash P1",
+      "command": "bash",
+      "args": [
+        "../wrapped_make.sh",
+        "APP=brewblox",
+        "PLATFORM=p1",
+        "all",
+        "program-dfu"
       ],
       "group": "build",
       "options": {
@@ -93,46 +126,16 @@
         "showReuseMessage": false,
         "clear": false
       },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "flash_p1",
-      "command": "docker-compose",
-      "args": [
-        "exec",
-        "compiler",
-        "bash",
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=p1",
-        "all",
-        "program-dfu"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": false
-      },
       "problemMatcher": "$gcc",
       "dependsOn": [
-        "trigger_dfu",
+        "Trigger DFU",
         "restart_compiler"
       ]
     },
     {
-      "label": "flash_photon",
-      "command": "docker-compose",
+      "label": "Flash Photon",
+      "command": "bash",
       "args": [
-        "exec",
-        "compiler",
-        "bash",
         "../wrapped_make.sh",
         "APP=brewblox",
         "PLATFORM=photon",
@@ -141,7 +144,7 @@
       ],
       "group": "build",
       "options": {
-        "cwd": "${workspaceFolder}/docker"
+        "cwd": "${workspaceFolder}/build"
       },
       "presentation": {
         "echo": true,
@@ -153,12 +156,11 @@
       },
       "problemMatcher": "$gcc",
       "dependsOn": [
-        "trigger_dfu",
-        "restart_compiler"
+        "Trigger DFU"
       ]
     },
     {
-      "label": "trigger_dfu",
+      "label": "Trigger DFU",
       "command": "docker",
       "args": [
         "run",
@@ -182,48 +184,7 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "start_compiler",
-      "command": "bash",
-      "args": [
-        "start-compiler.sh"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": false
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "restart_compiler",
-      "command": "bash",
-      "args": [
-        "start-compiler.sh",
-        "--force-recreate"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": false
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "touch_gcc",
+      "label": "Touch GCC",
       "type": "shell",
       "command": "touch",
       "args": [
@@ -244,26 +205,20 @@
       }
     },
     {
-      "label": "build_and_touch_gcc",
+      "label": "Build and touch GCC",
       "dependsOn": [
-        "build_gcc",
-        "touch_gcc"
+        "Build GCC",
+        "Touch GCC"
       ]
     },
     {
-      "label": "compile proto",
+      "label": "Compile proto",
       "type": "shell",
-      "command": "docker-compose",
+      "command": "bash",
       "args": [
-        "exec",
-        "compiler",
-        "bash",
-        "compile-proto.sh"
+        "build/compile-proto.sh"
       ],
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -275,96 +230,15 @@
       "problemMatcher": []
     },
     {
-      "label": "build app tests",
-      "type": "shell",
-      "command": "docker-compose",
-      "args": [
-        "exec",
-        "compiler",
-        "bash",
-        "../wrapped_make.sh",
-        "-C",
-        "../app/brewblox-particle/test"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build lib tests",
-      "type": "shell",
-      "command": "docker-compose",
-      "args": [
-        "exec",
-        "compiler",
-        "bash",
-        "../wrapped_make.sh",
-        "-C",
-        "../lib/test"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build cbox tests",
-      "type": "shell",
-      "command": "docker-compose",
-      "args": [
-        "exec",
-        "compiler",
-        "bash",
-        "../wrapped_make.sh",
-        "-C",
-        "../controlbox"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build cbox tests local",
+      "label": "Build app tests",
       "type": "shell",
       "command": "bash",
       "args": [
-        "../wrapped_make.sh",
+        "wrapped_make.sh",
         "-C",
-        "../controlbox"
+        "app/brewblox-particle/test"
       ],
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -376,63 +250,15 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "ci",
-      "command": "docker-compose",
-      "args": [
-        "exec",
-        "compiler",
-        "bash",
-        "run-ci.sh"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": false
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build lib tests local",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "-C",
-        "../lib/test"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "build app tests local",
+      "label": "Build lib tests",
       "type": "shell",
       "command": "bash",
       "args": [
-        "../wrapped_make.sh",
+        "wrapped_make.sh",
         "-C",
-        "../app/brewblox-particle/test"
+        "lib/test"
       ],
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -444,16 +270,15 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "clean all",
+      "label": "Build controlbox tests",
       "type": "shell",
       "command": "bash",
       "args": [
-        "clean-all.sh"
+        "wrapped_make.sh",
+        "-C",
+        "controlbox"
       ],
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -465,22 +290,35 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "build_p1 swd",
-      "command": "docker-compose",
+      "label": "Clean all",
+      "type": "shell",
+      "command": "bash",
       "args": [
-        "exec",
-        "compiler",
-        "bash",
+        "build/clean-all.sh"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Build P1 SWD",
+      "command": "bash",
+      "args": [
         "../wrapped_make.sh",
+        "-C build",
         "APP=brewblox",
         "PLATFORM=p1",
         "USE_SWD=y",
         "program-dfu"
       ],
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/docker"
-      },
       "presentation": {
         "echo": true,
         "reveal": "always",

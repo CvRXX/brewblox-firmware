@@ -1,22 +1,15 @@
 #! /usr/bin/env bash
-set -e 
-pushd () {
-    command pushd "$@" > /dev/null
-}
-popd () {
-    command popd > /dev/null
-}
+set -e
+MY_DIR=$(dirname "$0")
 
-MY_DIR=$(dirname "$(readlink -f "$0")")
-
-bear make $MAKE_ARGS $@ || exit 1
+# shellcheck disable=2086,2068
+bear -- make $MAKE_ARGS $@ || exit 1
 
 rm -f "$MY_DIR/compile_commands.json"
-pushd "$MY_DIR"
+pushd "$MY_DIR" > /dev/null
 shopt -s globstar
-cat ./**/compile_commands.json > compile_commands.json
-sed -i -e ':a;N;$!ba;s/\]\n\n\[/,/g' compile_commands.json
+jq -s '[.[][]]' ./**/compile_commands.json > compile_commands.json
 chmod 777 compile_commands.json
 find . -name "*.gcda" -type f -delete # remove old profile results
-popd
+popd > /dev/null
 rm -f "compile_commands.json"

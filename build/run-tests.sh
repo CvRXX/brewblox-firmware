@@ -7,7 +7,7 @@ pushd lib/test/build/
 subtask ./lib_test_runner --durations yes
 popd
 
-echo "Running ControlBox unit tests"
+echo "Running Controlbox unit tests"
 pushd controlbox/build/
 subtask ./cbox_test_runner --durations yes
 popd

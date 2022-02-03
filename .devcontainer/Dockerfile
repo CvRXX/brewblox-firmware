@@ -1,62 +1,117 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/debian/.devcontainer/base.Dockerfile
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
 
-# [Choice] Debian version (use bullseye or stretch on local arm64/Apple Silicon): bullseye, buster, stretch
-ARG VARIANT="bullseye"
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+ARG IDF_CLONE_URL=https://github.com/espressif/esp-idf.git
+ARG IDF_CLONE_BRANCH_OR_TAG=v4.4
+ARG IDF_CHECKOUT_REF=
 
-RUN apt-get update -q \
+ARG BOOST_VERSION=1_72_0
+
+RUN : \
+    && apt-get update -q \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
+        wget \
         curl \
     && apt-get -y install --no-install-recommends \
         build-essential \
+        git \
+        gcc-10 \
+        make \
         autoconf \
         automake \
-        libtool \
-        unzip \
-        pkg-config \
-        libprotobuf-dev \
+        ninja-build \
         protobuf-compiler \
+        zip \
+        unzip \
+        xz-utils \
+        pkg-config \
         tzdata \
+        ca-certificates \
+        ccache \
         dfu-util \
         python-is-python3 \
+        python3 \
         python3-pip \
         python3-protobuf \
+        libtool \
+        libpython2.7 \
+        libusb-1.0-0-dev \
+        libncurses-dev \
+        libffi-dev \
+        libprotobuf-dev \
         gcovr \
+        gperf \
+        lcov \
         rsync \
         bear \
-        gcc-10
+        bison \
+        check \
+        flex \
+        shellcheck \
+        jq \
+        ripgrep \
+    && python3 -m pip install --upgrade \
+        pip \
+        virtualenv \
+    && :
 
-# install arm compiler
+# install arm compiler (required for Particle builds)
 ENV GCC_ARM_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-x86_64-linux.tar.bz2" \
   GCC_ARM_VERSION="10.3-2021.07"
 
-RUN dpkg --add-architecture i386 \
-  && apt-get update -q \
-  && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get -y install --no-install-recommends \
-    isomd5sum \
-    bzip2 \
-    vim-common \
-    libarchive-zip-perl \
-    libc6:i386 \
-  && curl -o /tmp/gcc-arm-none-eabi.tar.bz2 -sSL ${GCC_ARM_URL} \
-  && tar xjvf /tmp/gcc-arm-none-eabi.tar.bz2 -C /usr/local \
-  && mv /usr/local/gcc-arm-none-eabi-${GCC_ARM_VERSION}/ /usr/local/gcc-arm-embedded \
-  && apt-get remove -qy bzip2 \
-  && apt-get clean \
-  && apt-get purge \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/local/gcc-arm-embedded/share
+RUN : \
+    && dpkg --add-architecture i386 \
+    && apt-get update -q \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends \
+        isomd5sum \
+        bzip2 \
+        vim-common \
+        libarchive-zip-perl \
+        libc6:i386 \
+    && curl -o /tmp/gcc-arm-none-eabi.tar.bz2 -sSL ${GCC_ARM_URL} \
+    && tar xjvf /tmp/gcc-arm-none-eabi.tar.bz2 -C /usr/local \
+    && mv /usr/local/gcc-arm-none-eabi-${GCC_ARM_VERSION}/ /usr/local/gcc-arm-embedded \
+    && rm -rf /usr/local/gcc-arm-embedded/share \
+    && :
 
 ENV PATH /usr/local/gcc-arm-embedded/bin:$PATH
 
 # download and compile boost and install as system includes (/usr/local)
-ENV BOOST_VERSION=1_72_0 \
-  BOOST_ROOT=/boost/boost_1_72_0
+ENV BOOST_ROOT=/boost/boost_1_72_0
 
-RUN mkdir -p /boost && curl -sSL https://s3.amazonaws.com/spark-assets/boost_$BOOST_VERSION.tar.gz | tar -xz -C /boost \
-  && export DYLD_LIBRARY_PATH="$BOOST_ROOT/stage/lib:$DYLD_LIBRARY_PATH" \
-  && export LD_LIBRARY_PATH="$BOOST_ROOT/stage/lib:$LD_LIBRARY_PATH" \
-  && cd $BOOST_ROOT \
-  && ./bootstrap.sh \  
-  && ./b2  --with-thread --with-system --with-program_options --with-random --with-regex --threading=multi link=static runtime-link=static
+RUN : \
+    && mkdir -p /boost \
+    && curl -sSL https://s3.amazonaws.com/spark-assets/boost_$BOOST_VERSION.tar.gz | tar -xz -C /boost \
+    && export DYLD_LIBRARY_PATH="$BOOST_ROOT/stage/lib:$DYLD_LIBRARY_PATH" \
+    && export LD_LIBRARY_PATH="$BOOST_ROOT/stage/lib:$LD_LIBRARY_PATH" \
+    && cd $BOOST_ROOT \
+    && ./bootstrap.sh \
+    && ./b2 --with-thread --with-system --with-program_options --with-random --with-regex --threading=multi link=static runtime-link=static \
+    && :
+
+# Install idf.py
+ENV IDF_PATH=/opt/esp/idf
+ENV IDF_TOOLS_PATH=/opt/esp
+ENV IDF_CCACHE_ENABLE=1
+
+RUN echo IDF_CHECKOUT_REF=$IDF_CHECKOUT_REF IDF_CLONE_BRANCH_OR_TAG=$IDF_CLONE_BRANCH_OR_TAG && \
+    git clone --recursive \
+      ${IDF_CLONE_BRANCH_OR_TAG:+-b $IDF_CLONE_BRANCH_OR_TAG} \
+      $IDF_CLONE_URL $IDF_PATH && \
+    if [ -n "$IDF_CHECKOUT_REF" ]; then \
+      cd $IDF_PATH && \
+      git checkout $IDF_CHECKOUT_REF && \
+      git submodule update --init --recursive; \
+    fi
+
+RUN : \
+    && update-ca-certificates --fresh \
+    && $IDF_PATH/tools/idf_tools.py --non-interactive install required \
+    && $IDF_PATH/tools/idf_tools.py --non-interactive install cmake \
+    && $IDF_PATH/tools/idf_tools.py --non-interactive install-python-env \
+    && rm -rf $IDF_TOOLS_PATH/dist \
+    && :
+
+RUN sudo apt update && sudo apt install -y linux-headers-amd64
