@@ -1,5 +1,4 @@
 #include "Base64.h"
-#include <iostream>
 
 char b64_to_char(uint8_t b)
 {
