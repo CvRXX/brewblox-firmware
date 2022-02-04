@@ -5,108 +5,140 @@
 
 #include <algorithm>
 
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/wire_format_lite_inl.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
+// This is a temporary google only hack
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+#include "third_party/protobuf/version.h"
+#endif
 // @@protoc_insertion_point(includes)
-#include <google/protobuf/port_def.inc>
+
 namespace blox_test {
 namespace SetpointSensorPair {
 class BlockDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Block> _instance;
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
+      _instance;
 } _Block_default_instance_;
 }  // namespace SetpointSensorPair
 }  // namespace blox_test
-static void InitDefaultsscc_info_Block_SetpointSensorPair_5ftest_2eproto() {
+namespace protobuf_SetpointSensorPair_5ftest_2eproto {
+static void InitDefaultsBlock() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::blox_test::SetpointSensorPair::_Block_default_instance_;
     new (ptr) ::blox_test::SetpointSensorPair::Block();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
   ::blox_test::SetpointSensorPair::Block::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Block_SetpointSensorPair_5ftest_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Block_SetpointSensorPair_5ftest_2eproto}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBlock}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_SetpointSensorPair_5ftest_2eproto[1];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_SetpointSensorPair_5ftest_2eproto[1];
-static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_SetpointSensorPair_5ftest_2eproto = nullptr;
+void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
+}
 
-const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_SetpointSensorPair_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
+
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, sensorid_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, setting_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, value_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, settingenabled_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, storedsetting_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filter_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filterthreshold_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, valueunfiltered_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, resetfilter_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, strippedfields_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, sensorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, settingenabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, storedsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filter_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filterthreshold_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, valueunfiltered_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, resetfilter_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, strippedfields_),
 };
-static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::SetpointSensorPair::Block)},
 };
 
-static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::blox_test::SetpointSensorPair::_Block_default_instance_),
+static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::SetpointSensorPair::_Block_default_instance_),
 };
 
-const char descriptor_table_protodef_SetpointSensorPair_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\035SetpointSensorPair_test.proto\022\034blox_te"
-  "st.SetpointSensorPair\032\023brewblox_test.pro"
-  "to\032\021nanopb_test.proto\"\305\003\n\005Block\022\035\n\010senso"
-  "rId\030\002 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022/\n\007setting\030\005 \001(\021B"
-  "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005value"
-  "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\026"
-  "\n\016settingEnabled\030\007 \001(\010\022/\n\rstoredSetting\030"
-  "\010 \001(\021B\030\212\265\030\0020\000\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022:\n\006filte"
-  "r\030\t \001(\0162*.blox_test.SetpointSensorPair.F"
-  "ilterChoice\022+\n\017filterThreshold\030\n \001(\021B\022\212\265"
-  "\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001("
-  "\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013res"
-  "etFilter\030\014 \001(\010\022(\n\016strippedFields\030c \003(\rB\020"
-  "\212\265\030\002(\001\222\?\0028\020\222\?\002\020\003:\023\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004*~\n"
-  "\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFILTER"
-  "_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s\020\003\022\r"
-  "\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFILTER_"
-  "30m\020\006b\006proto3"
-  ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_SetpointSensorPair_5ftest_2eproto_deps[2] = {
-  &::descriptor_table_brewblox_5ftest_2eproto,
-  &::descriptor_table_nanopb_5ftest_2eproto,
-};
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_SetpointSensorPair_5ftest_2eproto_sccs[1] = {
-  &scc_info_Block_SetpointSensorPair_5ftest_2eproto.base,
-};
-static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_SetpointSensorPair_5ftest_2eproto_once;
-const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_SetpointSensorPair_5ftest_2eproto = {
-  false, false, descriptor_table_protodef_SetpointSensorPair_5ftest_2eproto, "SetpointSensorPair_test.proto", 693,
-  &descriptor_table_SetpointSensorPair_5ftest_2eproto_once, descriptor_table_SetpointSensorPair_5ftest_2eproto_sccs, descriptor_table_SetpointSensorPair_5ftest_2eproto_deps, 1, 2,
-  schemas, file_default_instances, TableStruct_SetpointSensorPair_5ftest_2eproto::offsets,
-  file_level_metadata_SetpointSensorPair_5ftest_2eproto, 1, file_level_enum_descriptors_SetpointSensorPair_5ftest_2eproto, file_level_service_descriptors_SetpointSensorPair_5ftest_2eproto,
-};
+void protobuf_AssignDescriptors() {
+  AddDescriptors();
+  AssignDescriptors(
+      "SetpointSensorPair_test.proto", schemas, file_default_instances, TableStruct::offsets,
+      file_level_metadata, file_level_enum_descriptors, NULL);
+}
 
-// Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_SetpointSensorPair_5ftest_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_SetpointSensorPair_5ftest_2eproto)), true);
+void protobuf_AssignDescriptorsOnce() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
+}
+
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
+void protobuf_RegisterTypes(const ::std::string&) {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
+}
+
+void AddDescriptorsImpl() {
+  InitDefaults();
+  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+      "\n\035SetpointSensorPair_test.proto\022\034blox_te"
+      "st.SetpointSensorPair\032\023brewblox_test.pro"
+      "to\032\021nanopb_test.proto\"\305\003\n\005Block\022\035\n\010senso"
+      "rId\030\002 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022/\n\007setting\030\005 \001(\021B"
+      "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005value"
+      "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\026"
+      "\n\016settingEnabled\030\007 \001(\010\022/\n\rstoredSetting\030"
+      "\010 \001(\021B\030\212\265\030\0020\000\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022:\n\006filte"
+      "r\030\t \001(\0162*.blox_test.SetpointSensorPair.F"
+      "ilterChoice\022+\n\017filterThreshold\030\n \001(\021B\022\212\265"
+      "\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001("
+      "\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013res"
+      "etFilter\030\014 \001(\010\022(\n\016strippedFields\030c \003(\rB\020"
+      "\212\265\030\002(\001\222\?\0028\020\222\?\002\020\003:\023\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004*~\n"
+      "\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFILTER"
+      "_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s\020\003\022\r"
+      "\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFILTER_"
+      "30m\020\006b\006proto3"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 693);
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
+    "SetpointSensorPair_test.proto", &protobuf_RegisterTypes);
+  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
+  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
+}
+
+void AddDescriptors() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
+}
+// Force AddDescriptors() to be called at dynamic initialization time.
+struct StaticDescriptorInitializer {
+  StaticDescriptorInitializer() {
+    AddDescriptors();
+  }
+} static_descriptor_initializer;
+}  // namespace protobuf_SetpointSensorPair_5ftest_2eproto
 namespace blox_test {
 namespace SetpointSensorPair {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* FilterChoice_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_SetpointSensorPair_5ftest_2eproto);
-  return file_level_enum_descriptors_SetpointSensorPair_5ftest_2eproto[0];
+const ::google::protobuf::EnumDescriptor* FilterChoice_descriptor() {
+  protobuf_SetpointSensorPair_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_SetpointSensorPair_5ftest_2eproto::file_level_enum_descriptors[0];
 }
 bool FilterChoice_IsValid(int value) {
   switch (value) {
@@ -128,21 +160,31 @@ bool FilterChoice_IsValid(int value) {
 
 void Block::InitAsDefaultInstance() {
 }
-class Block::_Internal {
- public:
-};
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int Block::kSensorIdFieldNumber;
+const int Block::kSettingFieldNumber;
+const int Block::kValueFieldNumber;
+const int Block::kSettingEnabledFieldNumber;
+const int Block::kStoredSettingFieldNumber;
+const int Block::kFilterFieldNumber;
+const int Block::kFilterThresholdFieldNumber;
+const int Block::kValueUnfilteredFieldNumber;
+const int Block::kResetFilterFieldNumber;
+const int Block::kStrippedFieldsFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Block::Block(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  strippedfields_(arena) {
+Block::Block()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_SetpointSensorPair_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:blox_test.SetpointSensorPair.Block)
+  // @@protoc_insertion_point(constructor:blox_test.SetpointSensorPair.Block)
 }
 Block::Block(const Block& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
       strippedfields_(from.strippedfields_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&sensorid_, &from.sensorid_,
     static_cast<size_t>(reinterpret_cast<char*>(&valueunfiltered_) -
     reinterpret_cast<char*>(&sensorid_)) + sizeof(valueunfiltered_));
@@ -158,31 +200,28 @@ void Block::SharedCtor() {
 Block::~Block() {
   // @@protoc_insertion_point(destructor:blox_test.SetpointSensorPair.Block)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Block::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
-void Block::ArenaDtor(void* object) {
-  Block* _this = reinterpret_cast< Block* >(object);
-  (void)_this;
-}
-void Block::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* Block::descriptor() {
+  ::protobuf_SetpointSensorPair_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_SetpointSensorPair_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
 const Block& Block::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Block_SetpointSensorPair_5ftest_2eproto.base);
+  ::google::protobuf::internal::InitSCC(&protobuf_SetpointSensorPair_5ftest_2eproto::scc_info_Block.base);
   return *internal_default_instance();
 }
 
 
 void Block::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.SetpointSensorPair.Block)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -190,186 +229,324 @@ void Block::Clear() {
   ::memset(&sensorid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&valueunfiltered_) -
       reinterpret_cast<char*>(&sensorid_)) + sizeof(valueunfiltered_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
-const char* Block::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
+bool Block::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox_test.SetpointSensorPair.Block)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // uint32 sensorId = 2 [(.nanopb) = {
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          sensorid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &sensorid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 setting = 5 [(.nanopb) = {
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
-          setting_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &setting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 value = 6 [(.nanopb) = {
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
-          value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &value_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // bool settingEnabled = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
-          settingenabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &settingenabled_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 storedSetting = 8 [(.nanopb) = {
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
-          storedsetting_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &storedsetting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // .blox_test.SetpointSensorPair.FilterChoice filter = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_filter(static_cast<::blox_test::SetpointSensorPair::FilterChoice>(val));
-        } else goto handle_unusual;
-        continue;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_filter(static_cast< ::blox_test::SetpointSensorPair::FilterChoice >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 filterThreshold = 10 [(.nanopb) = {
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
-          filterthreshold_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &filterthreshold_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // sint32 valueUnfiltered = 11 [(.nanopb) = {
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
-          valueunfiltered_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarintZigZag32(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &valueunfiltered_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // bool resetFilter = 12;
-      case 12:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 96)) {
-          resetfilter_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &resetfilter_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt32Parser(_internal_mutable_strippedfields(), ptr, ctx);
-          CHK_(ptr);
-        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24) {
-          _internal_add_strippedfields(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
+      case 99: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_strippedfields())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 2, 794u, input, this->mutable_strippedfields())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
+        if (tag == 0) {
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
       }
-    }  // switch
-  }  // while
+    }
+  }
 success:
-  return ptr;
+  // @@protoc_insertion_point(parse_success:blox_test.SetpointSensorPair.Block)
+  return true;
 failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox_test.SetpointSensorPair.Block)
+  return false;
+#undef DO_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* Block::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox_test.SetpointSensorPair.Block)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+void Block::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox_test.SetpointSensorPair.Block)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // uint32 sensorId = 2 [(.nanopb) = {
   if (this->sensorid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_sensorid(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->sensorid(), output);
   }
 
   // sint32 setting = 5 [(.nanopb) = {
   if (this->setting() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(5, this->_internal_setting(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(5, this->setting(), output);
   }
 
   // sint32 value = 6 [(.nanopb) = {
   if (this->value() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(6, this->_internal_value(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->value(), output);
   }
 
   // bool settingEnabled = 7;
   if (this->settingenabled() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(7, this->_internal_settingenabled(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->settingenabled(), output);
   }
 
   // sint32 storedSetting = 8 [(.nanopb) = {
   if (this->storedsetting() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(8, this->_internal_storedsetting(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(8, this->storedsetting(), output);
   }
 
   // .blox_test.SetpointSensorPair.FilterChoice filter = 9;
   if (this->filter() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      9, this->_internal_filter(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      9, this->filter(), output);
   }
 
   // sint32 filterThreshold = 10 [(.nanopb) = {
   if (this->filterthreshold() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(10, this->_internal_filterthreshold(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(10, this->filterthreshold(), output);
   }
 
   // sint32 valueUnfiltered = 11 [(.nanopb) = {
   if (this->valueunfiltered() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteSInt32ToArray(11, this->_internal_valueunfiltered(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(11, this->valueunfiltered(), output);
   }
 
   // bool resetFilter = 12;
   if (this->resetfilter() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(12, this->_internal_resetfilter(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->resetfilter(), output);
   }
 
   // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  {
-    int byte_size = _strippedfields_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteUInt32Packed(
-          99, _internal_strippedfields(), byte_size, target);
-    }
+  if (this->strippedfields_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _strippedfields_cached_byte_size_));
+  }
+  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->strippedfields(i), output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox_test.SetpointSensorPair.Block)
+}
+
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.SetpointSensorPair.Block)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 sensorId = 2 [(.nanopb) = {
+  if (this->sensorid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->sensorid(), target);
+  }
+
+  // sint32 setting = 5 [(.nanopb) = {
+  if (this->setting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->setting(), target);
+  }
+
+  // sint32 value = 6 [(.nanopb) = {
+  if (this->value() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->value(), target);
+  }
+
+  // bool settingEnabled = 7;
+  if (this->settingenabled() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->settingenabled(), target);
+  }
+
+  // sint32 storedSetting = 8 [(.nanopb) = {
+  if (this->storedsetting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(8, this->storedsetting(), target);
+  }
+
+  // .blox_test.SetpointSensorPair.FilterChoice filter = 9;
+  if (this->filter() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      9, this->filter(), target);
+  }
+
+  // sint32 filterThreshold = 10 [(.nanopb) = {
+  if (this->filterthreshold() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(10, this->filterthreshold(), target);
+  }
+
+  // sint32 valueUnfiltered = 11 [(.nanopb) = {
+  if (this->valueunfiltered() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(11, this->valueunfiltered(), target);
+  }
+
+  // bool resetFilter = 12;
+  if (this->resetfilter() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->resetfilter(), target);
+  }
+
+  // repeated uint32 strippedFields = 99 [(.nanopb) = {
+  if (this->strippedfields_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      99,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _strippedfields_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->strippedfields_, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.SetpointSensorPair.Block)
   return target;
@@ -379,57 +556,59 @@ size_t Block::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.SetpointSensorPair.Block)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // repeated uint32 strippedFields = 99 [(.nanopb) = {
   {
-    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
       UInt32Size(this->strippedfields_);
     if (data_size > 0) {
       total_size += 2 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
     }
-    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
-    _strippedfields_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _strippedfields_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
 
   // uint32 sensorId = 2 [(.nanopb) = {
   if (this->sensorid() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_sensorid());
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->sensorid());
   }
 
   // sint32 setting = 5 [(.nanopb) = {
   if (this->setting() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_setting());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->setting());
   }
 
   // sint32 value = 6 [(.nanopb) = {
   if (this->value() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_value());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->value());
   }
 
   // sint32 storedSetting = 8 [(.nanopb) = {
   if (this->storedsetting() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_storedsetting());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->storedsetting());
   }
 
   // .blox_test.SetpointSensorPair.FilterChoice filter = 9;
   if (this->filter() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_filter());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->filter());
   }
 
   // bool settingEnabled = 7;
@@ -445,35 +624,31 @@ size_t Block::ByteSizeLong() const {
   // sint32 filterThreshold = 10 [(.nanopb) = {
   if (this->filterthreshold() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_filterthreshold());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->filterthreshold());
   }
 
   // sint32 valueUnfiltered = 11 [(.nanopb) = {
   if (this->valueunfiltered() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SInt32Size(
-        this->_internal_valueunfiltered());
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->valueunfiltered());
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void Block::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:blox_test.SetpointSensorPair.Block)
   GOOGLE_DCHECK_NE(&from, this);
   const Block* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Block>(
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
           &from);
-  if (source == nullptr) {
+  if (source == NULL) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.SetpointSensorPair.Block)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.SetpointSensorPair.Block)
     MergeFrom(*source);
@@ -483,41 +658,41 @@ void Block::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Block::MergeFrom(const Block& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.SetpointSensorPair.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   strippedfields_.MergeFrom(from.strippedfields_);
   if (from.sensorid() != 0) {
-    _internal_set_sensorid(from._internal_sensorid());
+    set_sensorid(from.sensorid());
   }
   if (from.setting() != 0) {
-    _internal_set_setting(from._internal_setting());
+    set_setting(from.setting());
   }
   if (from.value() != 0) {
-    _internal_set_value(from._internal_value());
+    set_value(from.value());
   }
   if (from.storedsetting() != 0) {
-    _internal_set_storedsetting(from._internal_storedsetting());
+    set_storedsetting(from.storedsetting());
   }
   if (from.filter() != 0) {
-    _internal_set_filter(from._internal_filter());
+    set_filter(from.filter());
   }
   if (from.settingenabled() != 0) {
-    _internal_set_settingenabled(from._internal_settingenabled());
+    set_settingenabled(from.settingenabled());
   }
   if (from.resetfilter() != 0) {
-    _internal_set_resetfilter(from._internal_resetfilter());
+    set_resetfilter(from.resetfilter());
   }
   if (from.filterthreshold() != 0) {
-    _internal_set_filterthreshold(from._internal_filterthreshold());
+    set_filterthreshold(from.filterthreshold());
   }
   if (from.valueunfiltered() != 0) {
-    _internal_set_valueunfiltered(from._internal_valueunfiltered());
+    set_valueunfiltered(from.valueunfiltered());
   }
 }
 
-void Block::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:blox_test.SetpointSensorPair.Block)
   if (&from == this) return;
   Clear();
@@ -535,31 +710,40 @@ bool Block::IsInitialized() const {
   return true;
 }
 
+void Block::Swap(Block* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   strippedfields_.InternalSwap(&other->strippedfields_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Block, valueunfiltered_)
-      + sizeof(Block::valueunfiltered_)
-      - PROTOBUF_FIELD_OFFSET(Block, sensorid_)>(
-          reinterpret_cast<char*>(&sensorid_),
-          reinterpret_cast<char*>(&other->sensorid_));
+  swap(sensorid_, other->sensorid_);
+  swap(setting_, other->setting_);
+  swap(value_, other->value_);
+  swap(storedsetting_, other->storedsetting_);
+  swap(filter_, other->filter_);
+  swap(settingenabled_, other->settingenabled_);
+  swap(resetfilter_, other->resetfilter_);
+  swap(filterthreshold_, other->filterthreshold_);
+  swap(valueunfiltered_, other->valueunfiltered_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata Block::GetMetadata() const {
-  return GetMetadataStatic();
+::google::protobuf::Metadata Block::GetMetadata() const {
+  protobuf_SetpointSensorPair_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_SetpointSensorPair_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace SetpointSensorPair
 }  // namespace blox_test
-PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::blox_test::SetpointSensorPair::Block* Arena::CreateMaybeMessage< ::blox_test::SetpointSensorPair::Block >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox_test::SetpointSensorPair::Block >(arena);
+namespace google {
+namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::SetpointSensorPair::Block* Arena::CreateMaybeMessage< ::blox_test::SetpointSensorPair::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::SetpointSensorPair::Block >(arena);
 }
-PROTOBUF_NAMESPACE_CLOSE
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
-#include <google/protobuf/port_undef.inc>
