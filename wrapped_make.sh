@@ -3,7 +3,7 @@ set -e
 MY_DIR=$(dirname "$0")
 
 # shellcheck disable=2086,2068
-bear -- make $MAKE_ARGS $@ || exit 1
+bear make $MAKE_ARGS $@ || exit 1
 
 rm -f "$MY_DIR/compile_commands.json"
 pushd "$MY_DIR" > /dev/null
