@@ -1,12 +1,6 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/debian/.devcontainer/base.Dockerfile
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-focal
 
-ARG IDF_CLONE_URL=https://github.com/espressif/esp-idf.git
-ARG IDF_CLONE_BRANCH_OR_TAG=v4.4
-ARG IDF_CHECKOUT_REF=
-
-ARG BOOST_VERSION=1_72_0
-
 RUN : \
     && apt-get update -q \
     && export DEBIAN_FRONTEND=noninteractive \
@@ -79,7 +73,8 @@ RUN : \
 ENV PATH /usr/local/gcc-arm-embedded/bin:$PATH
 
 # download and compile boost and install as system includes (/usr/local)
-ENV BOOST_ROOT=/boost/boost_1_72_0
+ARG BOOST_VERSION=1_72_0
+ENV BOOST_ROOT=/boost/boost_${BOOST_VERSION}
 
 RUN : \
     && mkdir -p /boost \
@@ -92,6 +87,10 @@ RUN : \
     && :
 
 # Install idf.py
+ARG IDF_CLONE_URL=https://github.com/espressif/esp-idf.git
+ARG IDF_CLONE_BRANCH_OR_TAG=v4.4
+ARG IDF_CHECKOUT_REF=
+
 ENV IDF_PATH=/opt/esp/idf
 ENV IDF_TOOLS_PATH=/opt/esp
 ENV IDF_CCACHE_ENABLE=1
@@ -113,3 +112,7 @@ RUN : \
     && $IDF_PATH/tools/idf_tools.py --non-interactive install-python-env \
     && rm -rf $IDF_TOOLS_PATH/dist \
     && :
+
+# Give the user the required permissions for using USB devices
+ARG USERNAME=vscode
+RUN usermod -aG dialout $USERNAME

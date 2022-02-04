@@ -1,10 +1,12 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/debian
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/ubuntu
 {
-  "name": "Debian",
+  "name": "Firmware",
   "build": {
     "dockerfile": "Dockerfile",
-    "args": {}
+    "args": {
+      "USERNAME": "vscode",
+    }
   },
   "containerEnv": {
     "MAKE_ARGS": "-j",
@@ -22,8 +24,11 @@
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
-  // Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
-  // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind", // mount the Docker socket
+    "source=/etc/timezone,target=/etc/timezone,readonly,type=bind", // mount timezone info
+    "source=/etc/localtime,target=/etc/localtime,readonly,type=bind", // mount localtime
+  ],
   // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
   "runArgs": [
     "--cap-add=SYS_PTRACE",
