@@ -1,5 +1,5 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/debian/.devcontainer/base.Dockerfile
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-focal
 
 ARG IDF_CLONE_URL=https://github.com/espressif/esp-idf.git
 ARG IDF_CLONE_BRANCH_OR_TAG=v4.4
@@ -113,5 +113,3 @@ RUN : \
     && $IDF_PATH/tools/idf_tools.py --non-interactive install-python-env \
     && rm -rf $IDF_TOOLS_PATH/dist \
     && :
-
-RUN sudo apt update && sudo apt install -y linux-headers-amd64
