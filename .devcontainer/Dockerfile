@@ -5,57 +5,57 @@ RUN : \
     && apt-get update -q \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-        wget \
         curl \
+        wget \
     && apt-get -y install --no-install-recommends \
-        build-essential \
-        git \
-        gcc-10 \
-        g++-10 \
-        make \
         autoconf \
         automake \
-        ninja-build \
-        protobuf-compiler \
-        zip \
-        unzip \
-        xz-utils \
-        pkg-config \
-        tzdata \
+        bear \
+        bison \
+        build-essential \
         ca-certificates \
         ccache \
+        check \
         dfu-util \
-        python-is-python3 \
+        flex \
+        g++-10 \
+        gcc-10 \
+        gcovr \
+        git \
+        gperf \
+        jq \
+        lcov \
+        libffi-dev \
+        libncurses-dev \
+        libprotobuf-dev \
+        libpython2.7 \
+        libtool \
+        libusb-1.0-0-dev \
+        make \
+        ninja-build \
+        pkg-config \
+        protobuf-compiler \
         python3 \
         python3-pip \
         python3-protobuf \
-        libtool \
-        libpython2.7 \
-        libusb-1.0-0-dev \
-        libncurses-dev \
-        libffi-dev \
-        libprotobuf-dev \
-        gcovr \
-        gperf \
-        lcov \
-        rsync \
-        bear \
-        bison \
-        check \
-        flex \
-        shellcheck \
-        jq \
+        python-is-python3 \
         ripgrep \
-        usbutils \
+        rsync \
+        shellcheck \
+        tzdata \
         udev \
+        unzip \
+        usbutils \
+        xz-utils \
+        zip \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 20 \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
     && python3 -m pip install --upgrade \
+        autopep8 \
         pip \
-        virtualenv \
         pyserial \
         pyusb \
-        autopep8 \
+        virtualenv \
     && :
 
 # Set udev rules so we can flash Particle devices
