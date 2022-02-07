@@ -23,6 +23,21 @@ To load them, run:
 git submodule update --init --recursive
 ```
 
+## USB devices
+Due to technical constraints, for USB devices to be visible in the development container, they must be plugged in before the container is started.
+If a device is plugged in after the editor , restart the Docker container and then reload the VSCode editor.
+
+## Protobuf
+Communication with the [Spark service](https://github.com/brewblox/brewblox-devcon-spark) is encoded using [Protocol Buffers](https://developers.google.com/protocol-buffers) (protobuf).
+
+The message definitions are stored in the [brewblox-proto](https://github.com/BrewBlox/brewblox-proto) repository, which is included as a submodule.
+The messages are compiled to C/C++, and the generated files are committed in this repository.
+A build-time check is done whether the compiled files match the active brewblox-proto submodule commit.
+
+To assist with tests, messages are compiled twice: once using [Nanopb](https://github.com/nanopb/nanopb) for the actual firmware, and once using the Google compiler for the brewblox-particle test suite.
+
+To compile proto files, use the [build/compile-proto.sh](build/compile-proto.sh) script. This is only required if the submodule commit for brewblox-proto was changed.
+
 ## Build targets
 The Spark firmware is built for six targets, using two separate toolchains.
 A generic simulator that does not depend on a device-specific toolchain is in the works.
@@ -40,17 +55,6 @@ In addition to this, there are three separate test suites:
 - [lib](./lib/test)
 - [brewblox-particle](./app/brewblox-particle/test)
 - [controlbox](./controlbox/test)
-
-## Protobuf
-Communication with the [Spark service](https://github.com/brewblox/brewblox-devcon-spark) is encoded using [Protocol Buffers](https://developers.google.com/protocol-buffers) (protobuf).
-
-The message definitions are stored in the [brewblox-proto](https://github.com/BrewBlox/brewblox-proto) repository, which is included as a submodule.
-The messages are compiled to C/C++, and the generated files are committed in this repository.
-A build-time check is done whether the compiled files match the active brewblox-proto submodule commit.
-
-To assist with tests, messages are compiled twice: once using [Nanopb](https://github.com/nanopb/nanopb) for the actual firmware, and once using the Google compiler for the brewblox-particle test suite.
-
-To compile proto files, use the [build/compile-proto.sh](build/compile-proto.sh) script. This is only required if the submodule commit for brewblox-proto was changed.
 
 ## Deployment and releases
 The CI build collects the artifacts for all build targets, and uploads a tarball to Azure file storage along with a `firmware.ini` file detailing build dates and version hashes. This is done for every non-PR CI build.
