@@ -15,23 +15,24 @@
   "settings": {},
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "ms-vscode.cpptools",
     "editorconfig.editorconfig",
+    "ms-vscode.cpptools",
+    "ms-python.python",
     "zxh404.vscode-proto3",
-    "huizhou.githd",
     "timonwong.shellcheck",
+    "huizhou.githd",
     "letmaik.git-tree-compare",
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind", // mount the Docker socket
-    "source=/etc/timezone,target=/etc/timezone,readonly,type=bind", // mount timezone info
-    "source=/etc/localtime,target=/etc/localtime,readonly,type=bind", // mount localtime
+    "source=/etc/localtime,target=/etc/localtime,type=bind,readonly", // mount localtime
+    "source=/dev,target=/dev,type=bind,readonly", // Required for recognizing new USB devices
   ],
-  // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
   "runArgs": [
-    "--cap-add=SYS_PTRACE",
+    "--rm",
+    "--cap-add=SYS_PTRACE", // required for attaching a C++ debugger
     "--security-opt",
     "seccomp=unconfined",
     "--privileged",

@@ -11,6 +11,7 @@ RUN : \
         build-essential \
         git \
         gcc-10 \
+        g++-10 \
         make \
         autoconf \
         automake \
@@ -45,9 +46,23 @@ RUN : \
         shellcheck \
         jq \
         ripgrep \
+        usbutils \
+        udev \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 20 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
     && python3 -m pip install --upgrade \
         pip \
         virtualenv \
+        pyserial \
+        pyusb \
+        autopep8 \
+    && :
+
+# Set udev rules so we can flash Particle devices
+RUN : \
+    && mkdir -p /etc/udev/rules.d \
+    && echo 'SUBSYSTEMS=="usb", ATTRS{idVendor}=="2b04", ATTRS{idProduct}=="[cd]00?", GROUP="plugdev", MODE="0666"' \
+        > /etc/udev/rules.d/50-particle.rules \
     && :
 
 # install arm compiler (required for Particle builds)
@@ -115,4 +130,7 @@ RUN : \
 
 # Give the user the required permissions for using USB devices
 ARG USERNAME=vscode
-RUN usermod -aG dialout $USERNAME
+RUN : \
+    && usermod -aG dialout $USERNAME \
+    && usermod -aG plugdev $USERNAME \
+    && :

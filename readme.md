@@ -23,10 +23,6 @@ To load them, run:
 git submodule update --init --recursive
 ```
 
-## USB devices
-Due to technical constraints, for USB devices to be visible in the development container, they must be plugged in before the container is started.
-If a device is plugged in after the editor , restart the Docker container and then reload the VSCode editor.
-
 ## Protobuf
 Communication with the [Spark service](https://github.com/brewblox/brewblox-devcon-spark) is encoded using [Protocol Buffers](https://developers.google.com/protocol-buffers) (protobuf).
 
