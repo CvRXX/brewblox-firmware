@@ -9,16 +9,16 @@
 Layout::Layout(cbox::Box& box)
     : box(box)
 {
-    mainContainer = lv_obj_create(lv_scr_act(), nullptr);
+    mainContainer = lv_obj_create(lv_scr_act());
     lv_obj_set_size(mainContainer, 480, 320);
-    lv_obj_add_style(mainContainer, LV_OBJ_PART_MAIN, &style::maincontainer);
+    lv_obj_add_style(mainContainer, &style::maincontainer, 0);
 
     bar = std::unique_ptr<Bar>(new Bar(mainContainer));
-    grid = lv_cont_create(mainContainer, nullptr);
-    lv_obj_add_style(grid, LV_CONT_PART_MAIN, &style::grid);
+    grid = lv_obj_create(mainContainer);
+    lv_obj_add_style(grid, &style::grid, 0);
     lv_obj_set_size(grid, 480, 298);
-    lv_obj_align(grid, nullptr, LV_ALIGN_IN_TOP_MID, 0, 22);
-    lv_cont_set_layout(grid, LV_LAYOUT_GRID);
+    lv_obj_align(grid, LV_ALIGN_OUT_TOP_MID, 0, 22);
+    lv_obj_set_layout(grid, LV_LAYOUT_GRID);
 }
 
 Layout::~Layout()

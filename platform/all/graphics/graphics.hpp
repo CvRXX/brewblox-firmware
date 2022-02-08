@@ -42,7 +42,7 @@ public:
     static void tick(uint32_t millisElapsed);
 
 private:
-    static bool checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data);
+    static void checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data);
     static lv_disp_drv_t disp_drv;
     static std::unique_ptr<TFT035> display;
     static std::unique_ptr<FT6236> touchscreen;

@@ -10,16 +10,16 @@ class Bar {
 
 public:
     Bar(lv_obj_t* mainContainer)
-        : barObj(lv_obj_create(mainContainer, nullptr))
-        , networksLabel(lv_label_create(barObj, nullptr))
-        , timeLabel(lv_label_create(barObj, nullptr))
+        : barObj(lv_obj_create(mainContainer))
+        , networksLabel(lv_label_create(barObj))
+        , timeLabel(lv_label_create(barObj))
     {
         lv_obj_set_size(barObj, 480, 22);
-        lv_obj_add_style(barObj, LV_CONT_PART_MAIN, &style::bar);
-        lv_obj_align(networksLabel, nullptr, LV_ALIGN_IN_LEFT_MID, 0, 0);
+        lv_obj_add_style(barObj, &style::bar, 0);
+        lv_obj_align(networksLabel, LV_ALIGN_LEFT_MID, 0, 0);
 
         lv_label_set_text(this->timeLabel, time);
-        lv_obj_align(timeLabel, nullptr, LV_ALIGN_IN_RIGHT_MID, -5, 0);
+        lv_obj_align(timeLabel, LV_ALIGN_RIGHT_MID, -5, 0);
     }
 
     ~Bar()

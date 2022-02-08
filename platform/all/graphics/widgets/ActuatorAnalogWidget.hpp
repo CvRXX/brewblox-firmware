@@ -18,20 +18,18 @@ public:
         : BaseWidget(grid, label, color)
         , lookup(ptr)
     {
-        value = lv_label_create(obj, nullptr);
-        lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
-        lv_obj_align(value, nullptr, LV_ALIGN_CENTER, 0, 0);
-        lv_obj_set_auto_realign(value, true);
+        value = lv_label_create(obj);
+        lv_obj_add_style(value, &style::number_large, 0);
+        lv_obj_align(value, LV_ALIGN_CENTER, 0, 0);
 
-        setting = lv_label_create(obj, nullptr);
-        lv_obj_add_style(setting, LV_LABEL_PART_MAIN, &style::number_medium);
+        setting = lv_label_create(obj);
+        lv_obj_add_style(setting, &style::number_medium, 0);
 
-        lv_obj_align(setting, nullptr, LV_ALIGN_CENTER, 0, -40);
-        lv_obj_set_auto_realign(setting, true);
+        lv_obj_align(setting, LV_ALIGN_CENTER, 0, -40);
 
         // led = lv_led_create(obj, nullptr);
         // lv_obj_set_size(led, 16, 16);
-        // lv_obj_align(led, nullptr, LV_ALIGN_CENTER, 00, 30);
+        // lv_obj_align(led, LV_ALIGN_CENTER, 00, 30);
     }
 
     virtual ~ActuatorAnalogWidget()
@@ -83,7 +81,7 @@ public:
     void setValue(const std::string& txt)
     {
         lv_label_set_text(value, txt.c_str());
-        lv_obj_align(value, nullptr, LV_ALIGN_CENTER, 0, 0);
+        lv_obj_align(value, LV_ALIGN_CENTER, 0, 0);
     }
 
     /**
@@ -93,7 +91,7 @@ public:
     void setSetting(const std::string& txt)
     {
         lv_label_set_text(setting, txt.c_str());
-        lv_obj_align(setting, nullptr, LV_ALIGN_CENTER, 0, -40);
+        lv_obj_align(setting, LV_ALIGN_CENTER, 0, -40);
     }
 
 private:

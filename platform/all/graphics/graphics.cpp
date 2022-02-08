@@ -18,14 +18,14 @@ void Graphics::init(cbox::Box& box)
     display->aquire_spi();
     display->init();
     lv_init();
-    static lv_disp_buf_t disp_buf1;
+    static lv_disp_draw_buf_t disp_buf1;
     static lv_color_t buf1_1[960];
     static lv_color_t buf1_2[960];
-    lv_disp_buf_init(&disp_buf1, buf1_1, buf1_2, 960);
+    lv_disp_draw_buf_init(&disp_buf1, buf1_1, buf1_2, 960);
 
     lv_disp_drv_init(&disp_drv);
 
-    disp_drv.buffer = &disp_buf1;
+    disp_drv.draw_buf = &disp_buf1;
     disp_drv.flush_cb = monitor_flush;
     disp_drv.hor_res = 320;
     disp_drv.ver_res = 480;
@@ -33,7 +33,7 @@ void Graphics::init(cbox::Box& box)
 
     static lv_disp_t* disp;
     disp = lv_disp_drv_register(&disp_drv);
-    lv_disp_set_bg_color(disp, LV_COLOR_BLACK);
+    lv_disp_set_bg_color(disp, lv_color_black());
 
     style::init();
 
@@ -85,7 +85,7 @@ void Graphics::tick(uint32_t millisElapsed)
     lv_tick_inc(millisElapsed);
 }
 
-bool Graphics::checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data)
+void Graphics::checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data)
 {
     if (auto touch = touchscreen->getTouch()) {
         data->point.x = touch->x;
@@ -97,5 +97,4 @@ bool Graphics::checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data)
         data->point.y = lastTouch.y;
         data->state = LV_INDEV_STATE_REL;
     }
-    return false;
 }

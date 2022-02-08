@@ -6,20 +6,20 @@ uint8_t luminance(const lv_color_t& color)
 }
 
 BaseWidget::BaseWidget(lv_obj_t* grid, const char* labelText, lv_color_t color)
-    : obj(lv_obj_create(grid, nullptr))
-    , label(lv_label_create(obj, nullptr))
+    : obj(lv_obj_create(grid))
+    , label(lv_label_create(obj))
     , bg_color(color)
 {
     lv_obj_set_size(obj, 148, 135);
-    lv_obj_add_style(obj, LV_OBJ_PART_MAIN, &style::block);
-    lv_obj_set_style_local_bg_color(obj, LV_BTN_PART_MAIN, LV_STATE_DEFAULT, color);
+    lv_obj_add_style(obj, &style::block, 0);
+    // lv_obj_set_style_local_bg_color(obj, LV_PART_MAIN, LV_STATE_DEFAULT, color);
 
     // set styling of object and its children based on luminance of background color
-    lv_obj_add_style(obj, LV_OBJ_PART_MAIN, luminance(color) < 128 ? &style::bg_dark : &style::bg_light);
+    lv_obj_add_style(obj, luminance(color) < 128 ? &style::bg_dark : &style::bg_light, 0);
 
-    lv_obj_add_style(label, LV_LABEL_PART_MAIN, &style::widget_name);
+    lv_obj_add_style(label, &style::widget_name, 0);
     lv_label_set_text(label, labelText);
-    lv_obj_align(label, nullptr, LV_ALIGN_IN_BOTTOM_MID, 0, -4);
+    lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, -4);
 }
 
 BaseWidget::~BaseWidget()
