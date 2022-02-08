@@ -21,6 +21,7 @@ RUN : \
         g++-10 \
         gcc-10 \
         gcovr \
+        gdb \
         git \
         gperf \
         jq \

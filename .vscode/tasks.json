@@ -5,9 +5,10 @@
   "tasks": [
     {
       "label": "Build P1",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "../wrapped_make.sh",
+        "--append",
+        "make",
         "APP=brewblox",
         "PLATFORM=p1"
       ],
@@ -27,9 +28,10 @@
     },
     {
       "label": "Build Photon",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "../wrapped_make.sh",
+        "--append",
+        "make",
         "APP=brewblox",
         "PLATFORM=photon"
       ],
@@ -49,9 +51,10 @@
     },
     {
       "label": "Build GCC",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "../wrapped_make.sh",
+        "--append",
+        "make",
         "APP=brewblox",
         "PLATFORM=gcc"
       ],
@@ -122,9 +125,10 @@
     },
     {
       "label": "Flash P1",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "../wrapped_make.sh",
+        "--append",
+        "make",
         "APP=brewblox",
         "PLATFORM=p1",
         "all",
@@ -149,9 +153,10 @@
     },
     {
       "label": "Flash Photon",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "../wrapped_make.sh",
+        "--append",
+        "make",
         "APP=brewblox",
         "PLATFORM=photon",
         "all",
@@ -244,13 +249,15 @@
     {
       "label": "Build app tests",
       "type": "shell",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "wrapped_make.sh",
-        "-C",
-        "app/brewblox-particle/test"
+        "--append",
+        "make",
       ],
       "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/app/brewblox-particle/test"
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -264,13 +271,15 @@
     {
       "label": "Build lib tests",
       "type": "shell",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "wrapped_make.sh",
-        "-C",
-        "lib/test"
+        "--append",
+        "make",
       ],
       "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/lib/test"
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -284,13 +293,15 @@
     {
       "label": "Build controlbox tests",
       "type": "shell",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "wrapped_make.sh",
-        "-C",
-        "controlbox"
+        "--append",
+        "make",
       ],
       "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/controlbox"
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -321,9 +332,10 @@
     },
     {
       "label": "Build P1 SWD",
-      "command": "bash",
+      "command": "bear",
       "args": [
-        "../wrapped_make.sh",
+        "--append",
+        "make",
         "APP=brewblox",
         "PLATFORM=p1",
         "USE_SWD=y",

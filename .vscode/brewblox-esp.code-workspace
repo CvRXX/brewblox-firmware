@@ -24,6 +24,7 @@
     //   "**/compile-commands.json": true,
     //   "**/build.ninja": true
     // },
+    "C_Cpp.configurationWarnings": "Disabled",
     "testMate.cpp.test.advancedExecutables": [
       {
         "pattern": "app/brewblox-particle/test/build/brewblox_test_runner"
