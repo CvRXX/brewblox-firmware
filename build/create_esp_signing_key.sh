@@ -3,5 +3,4 @@
 source /opt/esp/idf/export.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
-cd app/brewblox-esp
-idf.py "$@"
+espsecure.py generate_signing_key --version 1 app/brewblox-esp/secure_boot_signing_key.pem

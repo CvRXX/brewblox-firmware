@@ -1,0 +1,43 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/ubuntu
+{
+  "name": "Firmware",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "USERNAME": "vscode",
+    }
+  },
+  "containerEnv": {
+    "MAKE_ARGS": "-j",
+  },
+  // Set *default* container specific settings.json values on container create.
+  "settings": {},
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "editorconfig.editorconfig",
+    "ms-vscode.cpptools",
+    "ms-python.python",
+    "zxh404.vscode-proto3",
+    "timonwong.shellcheck",
+    "huizhou.githd",
+    "letmaik.git-tree-compare",
+  ],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind", // mount the Docker socket
+    "source=/etc/localtime,target=/etc/localtime,type=bind,readonly", // mount localtime
+    "source=/dev,target=/dev,type=bind,readonly", // Required for recognizing new USB devices
+  ],
+  "runArgs": [
+    "--rm",
+    "--cap-add=SYS_PTRACE", // required for attaching a C++ debugger
+    "--security-opt",
+    "seccomp=unconfined",
+    "--privileged",
+  ],
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode",
+  "features": {}
+}

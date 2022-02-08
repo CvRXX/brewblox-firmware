@@ -1,34 +1,40 @@
 {
-    "configurations": [
-        {
-            "name": "clang",
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE",
-                "PROTO_VERSION=\"ddccbbaa\"",
-                "GIT_VERSION=\"aabbccdd\"",
-                "GIT_DATE=\"2000-01-01\"",
-                "PLATFORM_ID=6" // gcc=3, photon=6, p1=8, esp32=100
-            ],
-            "intelliSenseMode": "clang-x64",
-            "includePath": [
-                ".",
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/lib/inc",
-                "${workspaceFolder}/controlbox/test",
-                "${workspaceFolder}/platform/spark/modules",
-                "${workspaceFolder}/platform/spark/device-os/user/inc",
-                "${workspaceFolder}/platform/spark/device-os/system/inc",
-                "${workspaceFolder}/platform/spark/device-os/wiring/inc",
-                "${workspaceFolder}/platform/spark/device-os/hal/inc",
-                "${workspaceFolder}/platform/spark/device-os/hal/shared",
-                "${workspaceFolder}/platform/spark/device-os/hal/src/gcc",
-                "${workspaceFolder}/platform/spark/device-os/services/inc",
-                "${workspaceFolder}/platform/spark/device-os/hal/src/newhal",
-                "${workspaceFolder}/platform/spark/device-os/communication/src"
-            ]
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "clang",
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE",
+        "PROTO_VERSION=\"ddccbbaa\"",
+        "GIT_VERSION=\"aabbccdd\"",
+        "GIT_DATE=\"2000-01-01\"",
+        "PLATFORM_ID=6" // gcc=3, photon=6, p1=8, esp32=100
+      ],
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "includePath": [
+        ".",
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/lib/inc",
+        "${workspaceFolder}/controlbox/test",
+        "${workspaceFolder}/platform/spark/modules",
+        "${workspaceFolder}/platform/spark/device-os/user/inc",
+        "${workspaceFolder}/platform/spark/device-os/system/inc",
+        "${workspaceFolder}/platform/spark/device-os/wiring/inc",
+        "${workspaceFolder}/platform/spark/device-os/hal/inc",
+        "${workspaceFolder}/platform/spark/device-os/hal/shared",
+        "${workspaceFolder}/platform/spark/device-os/hal/src/gcc",
+        "${workspaceFolder}/platform/spark/device-os/services/inc",
+        "${workspaceFolder}/platform/spark/device-os/hal/src/newhal",
+        "${workspaceFolder}/platform/spark/device-os/communication/src",
+        "/opt/esp/idf/components/**",
+        "/usr/include",
+        "/usr/include/x86_64-linux-gnu"
+      ],
+      "compilerPath": "/usr/bin/g++",
+      "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+    }
+  ],
+  "version": 4
 }
