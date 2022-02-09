@@ -8,8 +8,8 @@ RUN : \
         curl \
         wget \
         software-properties-common \
-    && apt-get update -q \
     && add-apt-repository ppa:aos1/diff-so-fancy \
+    && apt-get update -q \
     && apt-get -y install --no-install-recommends \
         autoconf \
         automake \
