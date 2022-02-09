@@ -7,15 +7,20 @@ RUN : \
     && apt-get -y install --no-install-recommends \
         curl \
         wget \
+        software-properties-common \
+    && add-apt-repository ppa:aos1/diff-so-fancy \
+    && apt-get update -q \
     && apt-get -y install --no-install-recommends \
         autoconf \
         automake \
+        bash-completion \
         bear \
         bison \
         build-essential \
         ca-certificates \
         ccache \
         check \
+        diff-so-fancy \
         dfu-util \
         flex \
         g++-10 \
