@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # generates cpp with google's protobuf implementation. Not used in firmware, but used in unit test code

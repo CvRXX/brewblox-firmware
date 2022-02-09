@@ -14,8 +14,9 @@ sed -i 's/-gdwarf-2//g' platform/spark/device-os/build/gcc-tools.mk
 # shellcheck disable=SC2016
 sed -i 's/-O$(GCC_OPTIMIZE)/-Os/g' platform/spark/device-os/build/gcc-tools.mk
 
-make -C build APP=brewblox PLATFORM=gcc
+subtask bear --append make -C build APP=brewblox PLATFORM=gcc
 
 # reset modified file
-cd platform/spark/device-os
-git checkout -- build/gcc-tools.mk 
+git -C platform/spark/device-os checkout -- build/gcc-tools.mk 
+
+exit $SUBTASK_STATUS

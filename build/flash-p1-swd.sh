@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
@@ -6,10 +6,10 @@ source "$(git rev-parse --show-toplevel)/build/_init.sh"
 pushd platform/spark/device-os/modules > /dev/null
 
 echo "Building system modules for P1 with SWD"
-subtask make clean -s all PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y
+make clean -s all PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y
 
 echo "Flashing system modules with SWD"
-subtask make -s program-dfu PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y
+make -s program-dfu PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y
 
 popd > /dev/null
 
@@ -17,11 +17,9 @@ popd > /dev/null
 pushd build
 
 echo "Building brewblox app for P1 with SWD"
-subtask make clean -s all PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y APP=brewblox
+make clean -s all PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y APP=brewblox
 
 echo "Flashing brewblox app with SWD"
-subtask make -s program-dfu PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y APP=brewblox
+make -s program-dfu PLATFORM=p1 PARTICLE_DEVELOP=y USE_SWD=y APP=brewblox
 
 popd > /dev/null
-
-exit $SUBTASK_STATUS

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 pushd "$(git rev-parse --show-toplevel)" > /dev/null # always init at repo root
 

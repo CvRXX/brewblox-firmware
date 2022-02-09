@@ -1,9 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
-
-TEST_RESULT=0
-bash build/run-tests.sh || TEST_RESULT=$?
 
 if [ "${1:-}" = "html" ]
 then
@@ -34,5 +31,3 @@ gcovr --root "$PWD" \
   $FORMAT_ARGS \
   --delete \
   --print-summary
-
-exit $TEST_RESULT

@@ -1,6 +1,0 @@
-compiler:
-  image: espressif/idf:release-v4.4
-  volumes:
-    - .:/project
-  working_dir: /project 
-  command: idf.py build

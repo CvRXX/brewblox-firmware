@@ -2,4 +2,5 @@
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
-bash build/idf.sh build
+cd build
+bear --append make APP=brewblox PLATFORM=gcc

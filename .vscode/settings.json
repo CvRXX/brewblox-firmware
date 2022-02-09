@@ -31,5 +31,5 @@
   "git.detectSubmodules": false,
   "files.exclude": {
     "**/.gitmodules": false
-  },
+  }
 }
