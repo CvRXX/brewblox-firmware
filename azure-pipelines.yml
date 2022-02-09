@@ -195,7 +195,6 @@ jobs:
 
       - script: build/build-esp.sh
         target: idf
-        workingDirectory: app/brewblox-esp
         displayName: Build ESP32
 
       - bash: |
