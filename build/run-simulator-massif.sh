@@ -11,7 +11,7 @@ SERVER_KEY="$EXECUTABLE_DIR/server_key.der"
 STATE_DIR="$EXECUTABLE_DIR/state"
 EEPROM_FILE="$EXECUTABLE_DIR/eeprom.bin"
 
-ls "$EXECUTABLE" 
+ls "$EXECUTABLE"
 if [ ! -f "$EXECUTABLE" ]; then
     echo "brewblox executable not found!"
     exit 1
@@ -28,10 +28,10 @@ rm "$EXECUTABLE_DIR/massif.out"
 rm "$EXECUTABLE_DIR/xtmemory.kcg"
 
 valgrind --tool=massif --threshold=0.1 \
---xtree-memory=full --xtree-memory-file="$EXECUTABLE_DIR/xtmemory.kcg" \
---ignore-fn=call_init.part.0 \
---ignore-fn=_IO_file_doallocate \
---massif-out-file="$EXECUTABLE_DIR/massif.out" "$EXECUTABLE" --device_id 123456789012345678901234 --device_key="$DEVICE_KEY" --server_key="$SERVER_KEY"
+    --xtree-memory=full --xtree-memory-file="$EXECUTABLE_DIR/xtmemory.kcg" \
+    --ignore-fn=call_init.part.0 \
+    --ignore-fn=_IO_file_doallocate \
+    --massif-out-file="$EXECUTABLE_DIR/massif.out" "$EXECUTABLE" --device_id 123456789012345678901234 --device_key="$DEVICE_KEY" --server_key="$SERVER_KEY"
 
 popd
 

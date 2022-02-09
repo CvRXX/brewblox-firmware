@@ -17,6 +17,6 @@ sed -i 's/-O$(GCC_OPTIMIZE)/-Os/g' platform/spark/device-os/build/gcc-tools.mk
 subtask make -C build PLATFORM=gcc
 
 # reset modified file
-git -C platform/spark/device-os checkout -- build/gcc-tools.mk 
+git -C platform/spark/device-os checkout -- build/gcc-tools.mk
 
 exit $SUBTASK_STATUS

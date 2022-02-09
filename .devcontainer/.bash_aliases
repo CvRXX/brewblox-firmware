@@ -25,4 +25,5 @@ function synchout() {
 }
 
 # ESP-IDF
-alias dotdf="source /opt/esp/idf/export.sh"
+alias dotdf=". /opt/esp/idf/export.sh"
+alias get_idf=". /opt/esp/idf/export.sh"
