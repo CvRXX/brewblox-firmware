@@ -22,6 +22,7 @@
     "timonwong.shellcheck",
     "huizhou.githd",
     "letmaik.git-tree-compare",
+    "foxundermoon.shell-format",
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

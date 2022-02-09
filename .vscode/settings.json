@@ -31,5 +31,11 @@
   "git.detectSubmodules": false,
   "files.exclude": {
     "**/.gitmodules": false
+  },
+  "shellformat.effectLanguages": [
+    "shellscript"
+  ],
+  "[dockerfile]": {
+    "editor.formatOnSave": false
   }
 }
