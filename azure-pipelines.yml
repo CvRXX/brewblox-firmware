@@ -39,13 +39,21 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/build-tests.sh
+      - script: build/test-brewblox.sh
         target: firmware-compiler
-        displayName: Build tests
+        displayName: Run Brewblox app tests
 
-      - script: bash build/run-tests-with-coverage.sh
+      - script: build/test-controlbox.sh
         target: firmware-compiler
-        displayName: Run tests
+        displayName: Run controlbox tests
+
+      - script: build/test-lib.sh
+        target: firmware-compiler
+        displayName: Run lib tests
+
+      - script: build/collect-test-coverage.sh
+        target: firmware-compiler
+        displayName: Collect test coverage
 
       - task: PublishCodeCoverageResults@1
         inputs:
@@ -63,7 +71,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/build-sim-native.sh
+      - script: build/build-sim-native.sh
         target: simulator-compiler
         displayName: Build executable
 
@@ -87,7 +95,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/build-sim-native.sh
+      - script: build/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -110,7 +118,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: bash build/build-sim-native.sh
+      - script: build/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -127,9 +135,8 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: make APP=brewblox PLATFORM=p1
+      - script: build/build-p1.sh
         target: firmware-compiler
-        workingDirectory: build
         displayName: Build p1
 
       - publish: build/target/brewblox-p1
@@ -146,9 +153,8 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: make APP=brewblox PLATFORM=photon
+      - script: build/build-photon.sh
         target: firmware-compiler
-        workingDirectory: build
         displayName: Build photon
 
       - publish: build/target/brewblox-photon
@@ -187,9 +193,8 @@ jobs:
         workingDirectory: app/brewblox-esp/
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-      - script: /opt/esp/entrypoint.sh idf.py build
+      - script: build/build-esp.sh
         target: idf
-        workingDirectory: app/brewblox-esp
         displayName: Build ESP32
 
       - bash: |
@@ -249,13 +254,13 @@ jobs:
         displayName: Copy release files
 
       - bash: |
-          bash build/release.sh $(TAG)
+          build/release.sh $(TAG)
         displayName: Upload release
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         env:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
 
       - bash: |
-          bash build/release.sh $(System.PullRequest.TargetBranch)
+          build/release.sh $(System.PullRequest.TargetBranch)
         displayName: Upload release (dry run)
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))

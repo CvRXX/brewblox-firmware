@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
 handle_error() {
-  echo "Encountered error when executing $(basename "$0")!" >&2
-  echo "Error on line $(caller)" >&2
-  exit 1
+    echo "Encountered error when executing $(basename "$0")!" >&2
+    echo "Error on line $(caller)" >&2
+    exit 1
 }
 trap handle_error ERR
 
@@ -14,7 +14,7 @@ GENERATOR_DIR="platform/spark/device-os/third_party/nanopb/nanopb/generator/prot
 
 # rebuild generator, particle doesn't keep the compiled version up to date
 if [ -f "${GENERATOR_DIR}/nanopb_pb2.py" ]; then
-  rm "${GENERATOR_DIR}/nanopb_pb2.py"
+    rm "${GENERATOR_DIR}/nanopb_pb2.py"
 fi
 make -C "${GENERATOR_DIR}"
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
@@ -10,7 +10,7 @@ SERVER_KEY="$EXECUTABLE_DIR/server_key.der"
 # EEPROM_FILE="$EXECUTABLE_DIR/eeprom.bin"
 STATE_DIR="$EXECUTABLE_DIR/state"
 
-ls "$EXECUTABLE" 
+ls "$EXECUTABLE"
 if [ ! -f "$EXECUTABLE" ]; then
     echo "brewblox executable not found!"
     exit 1

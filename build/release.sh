@@ -51,12 +51,12 @@ curl -sSfL -o ./release/system-part2-photon.bin "${particle_releases}/photon-sys
     echo "proto_version=${proto_version}"
     echo "proto_date=${proto_date}"
     echo "system_version=${particle_version}"
-} > "./release/firmware.ini"
+} >"./release/firmware.ini"
 
 # Create tarball archive
-pushd ./release > /dev/null
+pushd ./release >/dev/null
 tar -czf /tmp/brewblox-release.tar.gz ./*
-popd > /dev/null
+popd >/dev/null
 
 # Diagnostics
 echo "============env============="
@@ -68,8 +68,7 @@ ls -Ahl ./release
 
 # Azure SAS token must have been set to upload to Azure
 # Exit without error to allow for dry runs
-if [[ -z "${AZURE_STORAGE_SAS_TOKEN:-}" ]]
-then
+if [[ -z "${AZURE_STORAGE_SAS_TOKEN:-}" ]]; then
     echo ""
     echo "WARNING: AZURE_STORAGE_SAS_TOKEN variable was not set."
     echo "WARNING: Skipping release upload."
