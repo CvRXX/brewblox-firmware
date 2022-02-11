@@ -17,7 +17,6 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../main/ExpOwGpio.hpp"
 #include "ActuatorDigital.h"
 #include "DRV8908.hpp"
 #include "DRV8908Mock.hpp"
@@ -25,6 +24,7 @@
 #include "MockSpiDevice.hpp"
 #include "TCA9538.hpp"
 #include "TCA9538Mock.hpp"
+#include "main/ExpOwGpio.hpp"
 #include <catch.hpp>
 
 SCENARIO("OneWire + GPIO module using mock hw")
@@ -73,7 +73,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An single pin SSR is added using 1 pin")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00001000});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00001000});
 
         THEN("The pullups are configured as expected")
         {
@@ -88,7 +88,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An single pin SSR is added using 4 pins")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
 
         THEN("The pullups are configured as expected")
         {
@@ -101,7 +101,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An two pin SSR is added using 2 pins")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
 
         THEN("The pullups are configured as expected")
         {
@@ -130,7 +130,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("An two pin SSR is added using 4 pins")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P, 4, 0b00001111});
 
         THEN("The pullups are configured as expected")
         {
@@ -142,7 +142,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
         AND_THEN("When it is replaced by a 2 pin SSR, the now unused bits are reset")
         {
-            gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
+            gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P, 2, 0b00000011});
             CHECK(gpio->pullUpWhenActive() == 0b0010);
             CHECK(gpio->pullDownWhenActive() == 0b01);
             CHECK(gpio->pullUpWhenInactive() == 0b00);
@@ -152,7 +152,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("When the width doesn't match the number of ones in the mask")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 2, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 2, 0b00001111});
 
         THEN("Then no changes are made to the pull-up/pull-down settings")
         {
@@ -165,7 +165,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("When the ones in the mask are not consecutive")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00011011});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00011011});
 
         THEN("Then no changes are made to the pull-up/pull-down settings")
         {
@@ -178,9 +178,9 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("When the ones in the mask overlap with another channel")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00001111});
 
-        gpio->setupChannel(2, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00111100});
+        gpio->setupChannel(2, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 4, 0b00111100});
 
         THEN("Then no changes are made to the pull-up/pull-down settings")
         {
@@ -199,7 +199,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("A channel is moved to different pins")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00001111});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00001111});
 
         CHECK(gpio->pullUpWhenActive() == 0b1100);
         CHECK(gpio->pullDownWhenActive() == 0b0011);
@@ -208,7 +208,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
         CHECK(gpio->pullDownStatus() == 0b1100);
         CHECK(gpio->pullUpStatus() == 0b0011);
 
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00111100});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00111100});
 
         THEN("The bits related to the old pins are cleared")
         {
@@ -235,7 +235,7 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
                 AND_THEN("The bits correct after the move")
                 {
-                    gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00001111});
+                    gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL, 4, 0b00001111});
                     CHECK(gpio->pullUpWhenActive() == 0b1100);
                     CHECK(gpio->pullDownWhenActive() == 0b0011);
                     CHECK(gpio->pullUpWhenInactive() == 0b0011);
@@ -249,8 +249,8 @@ SCENARIO("OneWire + GPIO module using mock hw")
 
     WHEN("A 2 + only channels are created")
     {
-        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00000001});
-        gpio->setupChannel(2, ExpOwGpio::FlexChannel{blox_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00000010});
+        gpio->setupChannel(1, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00000001});
+        gpio->setupChannel(2, ExpOwGpio::FlexChannel{blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P, 1, 0b00000010});
 
         THEN("The masks are correct")
         {

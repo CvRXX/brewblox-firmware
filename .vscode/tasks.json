@@ -59,6 +59,17 @@
       "problemMatcher": "$gcc"
     },
     {
+      "label": "Test brewblox-esp",
+      "command": "build/test-brewblox-esp.sh",
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
       "label": "Test cbox",
       "command": "build/test-cbox.sh",
       "group": "build",
@@ -86,6 +97,7 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "Test brewblox-particle",
+        // "Test brewblox-esp", Tests are broken, ignoring for now
         "Test cbox",
         "Test control",
       ]
