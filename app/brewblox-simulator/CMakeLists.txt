@@ -11,9 +11,9 @@ add_definitions(-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE)
 
 file(GLOB SOURCES
 main/*.cpp
-../../lib/inc/graphics/fonts/*.cpp
+../../lib/control/inc/graphics/fonts/*.cpp
 ../../platform/simulator/*.cpp
-../../platform/compiled_proto/proto/*.c
+../../lib/compiled_proto/proto/*.c
 ../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
 ../../brewblox/blox
 ../../controlbox/src/
@@ -22,9 +22,9 @@ main/*.cpp
 include_directories(
     ../../platform/simulator
     ../../platform/all
-    ../../lib/inc
+    ../../lib/control/inc
     ../../lib/cnl/include
-    ../../platform/compiled_proto
+    ../../lib/compiled_proto
     ../../brewblox
     ../../platform/spark/device-os/third_party/nanopb/nanopb
     ../../controlbox/src/

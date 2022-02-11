@@ -36,8 +36,8 @@ here_files = $(patsubst $(ROOT_PATH)/%,%,$(wildcard $(ROOT_PATH)/$1/$2))
 CPPSRC += $(call here_files,test/control,*.cpp)
 
 # add all lib source files
-INCLUDE_DIRS += $(ROOT_PATH)/lib/inc
-CPPSRC += $(call here_files,lib/src,*.cpp)
+INCLUDE_DIRS += $(ROOT_PATH)/lib/control/inc
+CPPSRC += $(call here_files,lib/control/src,*.cpp)
 
 # include stubs for hal
 CPPSRC += $(call here_files,platform/stub,*.cpp)

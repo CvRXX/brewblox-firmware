@@ -16,8 +16,8 @@
       "includePath": [
         ".",
         "${workspaceFolder}/**",
-        "${workspaceFolder}/lib/inc",
-        "${workspaceFolder}/platform/compiled_proto",
+        "${workspaceFolder}/lib/control/inc",
+        "${workspaceFolder}/lib/compiled_proto",
         "${workspaceFolder}/platform/spark/modules",
         "${workspaceFolder}/platform/spark/device-os/user/inc",
         "${workspaceFolder}/platform/spark/device-os/system/inc",

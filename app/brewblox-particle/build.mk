@@ -3,10 +3,10 @@ include ../build/platform-id.mk
 here_files = $(patsubst $(SOURCE_PATH)/%,%,$(wildcard $(SOURCE_PATH)/$1/$2))
 
 # add all lib source files
-INCLUDE_DIRS += $(SOURCE_PATH)/lib/inc
-CPPSRC += $(call here_files,lib/src,*.cpp)
+INCLUDE_DIRS += $(SOURCE_PATH)/lib/control/inc
+CPPSRC += $(call here_files,lib/control/src,*.cpp)
 ifneq ($(PLATFORM_ID),3)
-CPPSRC += lib/src/spark/TimerInterrupts.cpp
+CPPSRC += lib/control/src/spark/TimerInterrupts.cpp
 endif
 
 ifeq ($(PLATFORM_ID),3)
@@ -29,8 +29,8 @@ INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
 CPPSRC += $(call here_files,brewblox,*.cpp)
 
 # add auto-generated protobuf includes
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/compiled_proto
-CSRC += $(call here_files,platform/compiled_proto/proto,*.c)
+INCLUDE_DIRS += $(SOURCE_PATH)/lib/compiled_proto
+CSRC += $(call here_files,lib/compiled_proto/proto,*.c)
 
 
 ifeq ($(PLATFORM_ID),6)

@@ -10,7 +10,7 @@ handle_error() {
 trap handle_error ERR
 
 PROTO_DIR="$(readlink -f external_libs/brewblox-proto)" # must be absolute
-OUT_DIR="$(readlink -f platform/compiled_proto/proto)"
+OUT_DIR="$(readlink -f lib/compiled_proto/proto)"
 TEST_PROTO_DIR="$(readlink -f test/proto/src)"
 TEST_OUT_DIR="$(readlink -f test/proto)"
 
