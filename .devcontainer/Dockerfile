@@ -140,3 +140,11 @@ RUN : \
     && usermod -aG dialout $USERNAME \
     && usermod -aG plugdev $USERNAME \
     && :
+
+ARG SHFMT_VERSION=v3.4.2
+RUN : \
+    && curl -sSfL \
+        -o /usr/local/bin/shfmt \
+        https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64 \
+    && chmod +x /usr/local/bin/shfmt \
+    && :
