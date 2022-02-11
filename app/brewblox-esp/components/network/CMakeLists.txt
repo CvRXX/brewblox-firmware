@@ -14,7 +14,4 @@ idf_component_register(
     qrcode
   REQUIRES
     main
-    controlbox
-    asio
-    mdns
 )

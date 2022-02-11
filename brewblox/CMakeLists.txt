@@ -28,6 +28,5 @@ idf_component_register(
   INCLUDE_DIRS
     .
   REQUIRES
-    compiled_proto
-    controlbox
+    main
 )

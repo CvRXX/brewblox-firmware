@@ -29,8 +29,8 @@ idf_component_register(
     src/Temperature.cpp
     src/TempSensorCombi.cpp
     src/TempSensorMock.cpp
-    
-  INCLUDE_DIRS 
+
+  INCLUDE_DIRS
     inc
   REQUIRES
     main

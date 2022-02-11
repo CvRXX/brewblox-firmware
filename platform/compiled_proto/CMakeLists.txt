@@ -4,5 +4,5 @@ idf_component_register(
   INCLUDE_DIRS
     .
   REQUIRES
-    external_libs
+    main
 )

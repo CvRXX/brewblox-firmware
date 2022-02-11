@@ -12,7 +12,7 @@ idf_component_register(
     src/cbox/ObjectContainer.cpp
     src/cbox/ObjectFactory.cpp
     src/cbox/Tracing.cpp
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     src
   REQUIRES
     main

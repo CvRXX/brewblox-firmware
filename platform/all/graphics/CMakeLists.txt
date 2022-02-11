@@ -11,7 +11,5 @@ idf_component_register(
   INCLUDE_DIRS
     ../
   REQUIRES
-    esp
-    brewblox
-    lvgl
+    main
 )
