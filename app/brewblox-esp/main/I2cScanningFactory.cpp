@@ -18,7 +18,7 @@
  */
 
 #include "I2cScanningFactory.hpp"
-#include "blox/ExpOwGpioBlock.hpp"
+#include "blocks/ExpOwGpioBlock.hpp"
 #include "hal/hal_i2c.h"
 #include <algorithm>
 #include <vector>

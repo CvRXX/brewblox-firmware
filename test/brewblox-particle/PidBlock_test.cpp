@@ -25,10 +25,10 @@
 #include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "Temperature.h"
-#include "blox/ActuatorAnalogMockBlock.h"
-#include "blox/PidBlock.h"
-#include "blox/SetpointSensorPairBlock.h"
-#include "blox/TempSensorMockBlock.h"
+#include "blocks/ActuatorAnalogMockBlock.h"
+#include "blocks/PidBlock.h"
+#include "blocks/SetpointSensorPairBlock.h"
+#include "blocks/TempSensorMockBlock.h"
 
 extern cbox::Box&
 makeBrewbloxBox();

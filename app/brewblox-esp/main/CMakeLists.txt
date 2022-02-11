@@ -10,7 +10,7 @@ idf_component_register(
     brewblox_esp.cpp
     ExpOwGpio.cpp
     I2cScanningFactory.cpp
-    blox/ExpOwGpioBlock.cpp
+    blocks/ExpOwGpioBlock.cpp
     TimerInterrupts.cpp
     ota.cpp
   INCLUDE_DIRS

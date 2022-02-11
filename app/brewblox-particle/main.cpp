@@ -21,7 +21,7 @@
 #include "Board.h"
 #include "Buzzer.h"
 #include "TimerInterrupts.h"
-#include "blox/stringify.h"
+#include "blocks/stringify.h"
 #include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/Object.h"

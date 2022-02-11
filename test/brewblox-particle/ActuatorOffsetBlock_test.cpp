@@ -24,9 +24,9 @@
 #include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "Temperature.h"
-#include "blox/ActuatorOffsetBlock.h"
-#include "blox/SetpointSensorPairBlock.h"
-#include "blox/TempSensorMockBlock.h"
+#include "blocks/ActuatorOffsetBlock.h"
+#include "blocks/SetpointSensorPairBlock.h"
+#include "blocks/TempSensorMockBlock.h"
 
 SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf data")
 {

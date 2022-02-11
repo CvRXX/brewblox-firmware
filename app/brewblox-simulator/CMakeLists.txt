@@ -15,8 +15,9 @@ main/*.cpp
 ../../platform/simulator/*.cpp
 ../../lib/compiled_proto/proto/*.c
 ../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
-../../brewblox/blox
-../../lib/cbox/src/
+../../lib/blocks/*.cpp
+../../lib/blocks/blocks/*.cpp
+../../lib/cbox/src/*.cpp
 )
 
 include_directories(
@@ -25,7 +26,7 @@ include_directories(
     ../../lib/control/inc
     ../../lib/cnl/include
     ../../lib/compiled_proto
-    ../../brewblox
+    ../../lib/blocks
     ../../platform/spark/device-os/third_party/nanopb/nanopb
     ../../lib/cbox/src/
     main

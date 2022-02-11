@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "blox/TicksBlock.h"
+#include "blocks/TicksBlock.h"
 
 #if defined(SPARK)
 #include "wiring/TicksWiring.h"

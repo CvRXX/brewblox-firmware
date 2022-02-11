@@ -2,7 +2,7 @@
 #include "OneWireAddress.h"
 #include "OneWireDevice.h"
 #include "OneWireScanningFactory.hpp"
-#include "blox/TempSensorOneWireBlock.h"
+#include "blocks/TempSensorOneWireBlock.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>

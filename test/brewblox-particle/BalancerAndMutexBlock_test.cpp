@@ -24,10 +24,10 @@
 #include "../proto/DigitalActuator_test.pb.h"
 #include "../proto/Mutex_test.pb.h"
 #include "BrewbloxTestBox.h"
-#include "blox/ActuatorPwmBlock.h"
-#include "blox/BalancerBlock.h"
-#include "blox/DigitalActuatorBlock.h"
-#include "blox/MutexBlock.h"
+#include "blocks/ActuatorPwmBlock.h"
+#include "blocks/BalancerBlock.h"
+#include "blocks/DigitalActuatorBlock.h"
+#include "blocks/MutexBlock.h"
 
 SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 {

@@ -20,7 +20,7 @@
 #pragma once
 
 #include "AppTicks.h"
-#include "blox/TicksBlock.h"
+#include "blocks/TicksBlock.h"
 #include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"

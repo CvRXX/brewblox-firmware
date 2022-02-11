@@ -24,9 +24,9 @@
 #include "../proto/MockPins_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "OneWireAddress.h"
-#include "blox/DS2413Block.h"
-#include "blox/DigitalActuatorBlock.h"
-#include "blox/MockPinsBlock.h"
+#include "blocks/DS2413Block.h"
+#include "blocks/DigitalActuatorBlock.h"
+#include "blocks/MockPinsBlock.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
 #include <sstream>

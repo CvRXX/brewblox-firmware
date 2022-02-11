@@ -19,7 +19,7 @@
 
 #include "PidWidget.h"
 #include "Temperature.h"
-#include "blox/ActuatorPwmBlock.h"
+#include "blocks/ActuatorPwmBlock.h"
 #include "brewblox_particle.hpp"
 #include "d4d.hpp"
 #include <algorithm>

@@ -24,10 +24,10 @@
 #include "../proto/SetpointSensorPair_test.pb.h"
 #include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
-#include "blox/ActuatorLogicBlock.h"
-#include "blox/DigitalActuatorBlock.h"
-#include "blox/SetpointSensorPairBlock.h"
-#include "blox/TempSensorMockBlock.h"
+#include "blocks/ActuatorLogicBlock.h"
+#include "blocks/DigitalActuatorBlock.h"
+#include "blocks/SetpointSensorPairBlock.h"
+#include "blocks/TempSensorMockBlock.h"
 #include "cbox/DataStreamIo.h"
 #include <sstream>
 

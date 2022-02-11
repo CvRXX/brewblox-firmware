@@ -23,10 +23,10 @@
 #include "../proto/Ticks_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "MockTicks.h"
-#include "blox/SetpointProfileBlock.h"
-#include "blox/SetpointSensorPairBlock.h"
-#include "blox/TempSensorMockBlock.h"
-#include "blox/TicksBlock.h"
+#include "blocks/SetpointProfileBlock.h"
+#include "blocks/SetpointSensorPairBlock.h"
+#include "blocks/TempSensorMockBlock.h"
+#include "blocks/TicksBlock.h"
 #include "cbox/DataStreamIo.h"
 #include <catch.hpp>
 #include <sstream>

@@ -17,14 +17,14 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blox/OneWireBusBlock.h"
+#include "blocks/OneWireBusBlock.h"
 
 #include <catch.hpp>
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
 
-#include "blox/Block.h"
+#include "blocks/Block.h"
 #include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"

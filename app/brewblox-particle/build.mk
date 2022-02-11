@@ -24,9 +24,10 @@ CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
 # arm-gcc doesn't support dirent
 CPPEXCLUDES += lib/cbox/src/cbox/FileObjectStorage.cpp
 
-# add brewblox files
-INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
-CPPSRC += $(call here_files,brewblox,*.cpp)
+# add blocks files
+INCLUDE_DIRS += $(SOURCE_PATH)/lib/blocks
+CPPSRC += $(call here_files,lib/blocks,*.cpp)
+CPPSRC += $(call here_files,lib/blocks/blocks,*.cpp)
 
 # add auto-generated protobuf includes
 INCLUDE_DIRS += $(SOURCE_PATH)/lib/compiled_proto
@@ -58,8 +59,6 @@ CFLAGS += -DBYTE_ORDER=LITTLE_ENDIAN
 INCLUDE_DIRS += $(SOURCE_PATH)/app/brewblox
 INCLUDE_DIRS += $(SOURCE_PATH)/app/brewblox-particle
 
-CPPSRC += $(call here_files,brewblox,*.cpp)
-CPPSRC += $(call here_files,brewblox/blox,*.cpp)
 CPPSRC += $(call here_files,app/brewblox-particle,*.cpp)
 CPPSRC += $(call here_files,app/brewblox-particle/blox,*.cpp)
 

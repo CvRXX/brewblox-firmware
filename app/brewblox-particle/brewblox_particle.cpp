@@ -23,12 +23,12 @@
 #include "Board.h"
 #include "OneWireScanningFactory.hpp"
 #include "SparkEepromAccess.h"
-#include "blox/DisplaySettingsBlock.h"
-#include "blox/OneWireBusBlock.h"
-#include "blox/SysInfoBlock.h"
-#include "blox/TouchSettingsBlock.h"
-#include "blox/WiFiSettingsBlock.h"
-#include "blox/stringify.h"
+#include "blocks/DisplaySettingsBlock.h"
+#include "blocks/OneWireBusBlock.h"
+#include "blocks/SysInfoBlock.h"
+#include "blocks/TouchSettingsBlock.h"
+#include "blocks/WiFiSettingsBlock.h"
+#include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
 #include "cbox/EepromObjectStorage.h"
@@ -87,10 +87,10 @@ testConnectionSource()
 #endif
 
 #if PLATFORM_ID == 6
-#include "blox/Spark2PinsBlock.h"
+#include "blocks/Spark2PinsBlock.h"
 using PinsBlock = Spark2PinsBlock;
 #else
-#include "blox/Spark3PinsBlock.h"
+#include "blocks/Spark3PinsBlock.h"
 using PinsBlock = Spark3PinsBlock;
 #endif
 

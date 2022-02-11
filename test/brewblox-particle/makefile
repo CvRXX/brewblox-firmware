@@ -38,10 +38,8 @@ CPPSRC += $(call here_files,test/brewblox-particle,*.cpp)
 
 # add all objects the user can create
 INCLUDE_DIRS += $(ROOT_PATH)/app/brewblox-particle/
-INCLUDE_DIRS += $(ROOT_PATH)/brewblox/
 INCLUDE_DIRS += $(ROOT_PATH)/platform/
-CPPSRC += $(call here_files,app/brewblox-particle/blox,*.cpp)
-CPPSRC += $(call here_files,brewblox/blox,*.cpp)
+CPPSRC += $(call here_files,app/brewblox-particle/blocks,*.cpp)
 
 # add all control source files
 INCLUDE_DIRS += $(ROOT_PATH)/lib/control/inc
@@ -51,13 +49,14 @@ CPPSRC += $(call here_files,lib/control/src,*.cpp)
 INCLUDE_DIRS += $(ROOT_PATH)/lib/cbox/src/
 CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
 
-# add shared brewblox sources for all platforms
-INCLUDE_DIRS += $(ROOT_PATH)/brewblox
-CPPSRC += $(call here_files,brewblox,*.cpp)
+# add all blocks source files
+INCLUDE_DIRS += $(ROOT_PATH)/lib/blocks/
+CPPSRC += $(call here_files,lib/blocks,*.cpp)
+CPPSRC += $(call here_files,lib/blocks/blocks,*.cpp)
 
 # exclude touch and wifi from test build
-CPPEXCLUDES += app/brewblox-particle/blox/TouchSettingsBlock.cpp
-CPPEXCLUDES += app/brewblox-particle/blox/WiFiSettingsBlock.cpp
+CPPEXCLUDES += app/brewblox-particle/blocks/TouchSettingsBlock.cpp
+CPPEXCLUDES += app/brewblox-particle/blocks/WiFiSettingsBlock.cpp
 
 # include stubs for hal
 CPPSRC += $(call here_files,platform/stub,*.cpp)

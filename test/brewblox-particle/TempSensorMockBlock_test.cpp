@@ -25,7 +25,7 @@
 #include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "Temperature.h"
-#include "blox/TempSensorMockBlock.h"
+#include "blocks/TempSensorMockBlock.h"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamIo.h"
