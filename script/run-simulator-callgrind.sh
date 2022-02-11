@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck source=./_init.sh
-source "$(git rev-parse --show-toplevel)/build/_init.sh"
+source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 # BUILD_DIR="build/target/user/platform-3/firmware/brewblox"
 EXECUTABLE_DIR="build/target/brewblox-gcc"

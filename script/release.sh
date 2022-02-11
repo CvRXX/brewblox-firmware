@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 # shellcheck source=./_init.sh
-source "$(git rev-parse --show-toplevel)/build/_init.sh"
+source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 # This script does not build various binary and executable files.
 # They are assumed to be present in {root}/release already.
@@ -10,6 +10,8 @@ source "$(git rev-parse --show-toplevel)/build/_init.sh"
 # This lets clients get firmware version/date associated with a tag.
 TAG="${1:?}"
 shift
+
+mkdir -p ./release/
 
 # Fetch git index for submodules
 git submodule sync --quiet
@@ -41,6 +43,9 @@ curl -sSfL -o ./release/system-part2-p1.bin "${particle_releases}/p1-system-part
 curl -sSfL -o ./release/bootloader-photon.bin "${particle_releases}/photon-bootloader@${particle_version}+lto.bin"
 curl -sSfL -o ./release/system-part1-photon.bin "${particle_releases}/photon-system-part1@${particle_version}.bin"
 curl -sSfL -o ./release/system-part2-photon.bin "${particle_releases}/photon-system-part2@${particle_version}.bin"
+
+# Copy runtime scritps to release
+cp -f ./script/runtime/* ./release/
 
 # Write to firmware.ini
 {

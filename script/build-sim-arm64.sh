@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 # shellcheck source=./_init.sh
-source "$(git rev-parse --show-toplevel)/build/_init.sh"
+source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 # Only use TTY flags if possible
 test -t 1 && USE_TTY="-it"

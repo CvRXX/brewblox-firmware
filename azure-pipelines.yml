@@ -39,24 +39,24 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/test-brewblox-particle.sh
+      - script: script/test-brewblox-particle.sh
         target: firmware-compiler
         displayName: Run brewblox-particle tests
 
       # Skipping broken tests for now
-      # - script: build/test-brewblox-esp.sh
+      # - script: script/test-brewblox-esp.sh
       #   target: firmware-compiler
       #   displayName: Run brewblox-esp tests
 
-      - script: build/test-cbox.sh
+      - script: script/test-cbox.sh
         target: firmware-compiler
         displayName: Run cbox tests
 
-      - script: build/test-control.sh
+      - script: script/test-control.sh
         target: firmware-compiler
         displayName: Run control tests
 
-      - script: build/collect-test-coverage.sh
+      - script: script/collect-test-coverage.sh
         target: firmware-compiler
         displayName: Collect test coverage
 
@@ -76,7 +76,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/build-sim-native.sh
+      - script: script/build-sim-native.sh
         target: simulator-compiler
         displayName: Build executable
 
@@ -100,7 +100,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/build-sim-native.sh
+      - script: script/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -123,7 +123,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/build-sim-native.sh
+      - script: script/build-sim-native.sh
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -140,7 +140,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/build-p1.sh
+      - script: script/build-p1.sh
         target: firmware-compiler
         displayName: Build p1
 
@@ -158,7 +158,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/build-photon.sh
+      - script: script/build-photon.sh
         target: firmware-compiler
         displayName: Build photon
 
@@ -198,7 +198,7 @@ jobs:
         workingDirectory: app/brewblox-esp/
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-      - script: build/build-esp.sh
+      - script: script/build-esp.sh
         target: idf
         displayName: Build ESP32
 
@@ -246,7 +246,6 @@ jobs:
       - bash: |
           set -euo pipefail
           mkdir -p ./release
-          cp ./runtime_scripts/* ./release/
           cp "$(Pipeline.Workspace)"/AMD64/brewblox-gcc ./release/brewblox-amd64.sim
           cp "$(Pipeline.Workspace)"/ARM32/brewblox-gcc ./release/brewblox-arm32.sim
           cp "$(Pipeline.Workspace)"/ARM64/brewblox-gcc ./release/brewblox-arm64.sim
@@ -259,13 +258,13 @@ jobs:
         displayName: Copy release files
 
       - bash: |
-          build/release.sh $(TAG)
+          script/release.sh $(TAG)
         displayName: Upload release
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         env:
           AZURE_STORAGE_SAS_TOKEN: $(FIRMWARE_SAS_TOKEN)
 
       - bash: |
-          build/release.sh $(System.PullRequest.TargetBranch)
+          script/release.sh $(System.PullRequest.TargetBranch)
         displayName: Upload release (dry run)
         condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))

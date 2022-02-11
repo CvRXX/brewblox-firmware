@@ -5,7 +5,7 @@
   "tasks": [
     {
       "label": "Build P1",
-      "command": "build/build-p1.sh",
+      "command": "script/build-p1.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -16,7 +16,7 @@
     },
     {
       "label": "Build Photon",
-      "command": "build/build-photon.sh",
+      "command": "script/build-photon.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -27,7 +27,7 @@
     },
     {
       "label": "Build GCC",
-      "command": "build/build-gcc.sh",
+      "command": "script/build-gcc.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -38,7 +38,7 @@
     },
     {
       "label": "Build ESP",
-      "command": "build/build-esp.sh",
+      "command": "script/build-esp.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -49,7 +49,7 @@
     },
     {
       "label": "Test brewblox-particle",
-      "command": "build/test-brewblox-particle.sh",
+      "command": "script/test-brewblox-particle.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -60,7 +60,7 @@
     },
     {
       "label": "Test brewblox-esp",
-      "command": "build/test-brewblox-esp.sh",
+      "command": "script/test-brewblox-esp.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -71,7 +71,7 @@
     },
     {
       "label": "Test cbox",
-      "command": "build/test-cbox.sh",
+      "command": "script/test-cbox.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -82,7 +82,7 @@
     },
     {
       "label": "Test control",
-      "command": "build/test-control.sh",
+      "command": "script/test-control.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -104,7 +104,7 @@
     },
     {
       "label": "Trigger DFU",
-      "command": "build/trigger-dfu.py",
+      "command": "script/trigger-dfu.py",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -114,7 +114,7 @@
     },
     {
       "label": "Flash P1",
-      "command": "build/flash-p1.sh",
+      "command": "script/flash-p1.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -128,7 +128,7 @@
     },
     {
       "label": "Flash P1 SWD",
-      "command": "build/flash-p1-swd.sh",
+      "command": "script/flash-p1-swd.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -142,7 +142,7 @@
     },
     {
       "label": "Flash Photon",
-      "command": "build/flash-photon.sh",
+      "command": "script/flash-photon.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -156,7 +156,7 @@
     },
     {
       "label": "Flash ESP",
-      "command": "build/flash-esp.sh",
+      "command": "script/flash-esp.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -167,7 +167,7 @@
     },
     {
       "label": "Run simulator",
-      "command": "build/run-simulator.sh",
+      "command": "script/run-simulator.sh",
       "group": "build",
       "presentation": {
         "panel": "dedicated",
@@ -177,7 +177,7 @@
     },
     {
       "label": "Compile proto",
-      "command": "build/compile-proto.sh",
+      "command": "script/compile-proto.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -187,7 +187,7 @@
     },
     {
       "label": "Clean all",
-      "command": "build/clean-all.sh",
+      "command": "script/clean-all.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",

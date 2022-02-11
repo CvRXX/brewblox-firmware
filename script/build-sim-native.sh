@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 # shellcheck source=./_init.sh
-source "$(git rev-parse --show-toplevel)/build/_init.sh"
+source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 if [[ $(arch) != 'x86_64' ]]; then
     # -m64 is not supported for ARM

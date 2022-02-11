@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck source=./_init.sh
-source "$(git rev-parse --show-toplevel)/build/_init.sh"
+source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 handle_error() {
     echo "Encountered error when executing $(basename "$0")!" >&2
