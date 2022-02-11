@@ -4,7 +4,7 @@
 #include "ActuatorDigitalConstrained.h"
 #include "Balancer.h"
 #include "cbox/CboxPtr.h"
-#include "compiled_proto/src/Constraints.pb.h"
+#include "proto/Constraints.pb.h"
 
 using Minimum = AAConstraints::Minimum<blox_Constraints_AnalogConstraint_min_tag>;
 using Maximum = AAConstraints::Maximum<blox_Constraints_AnalogConstraint_max_tag>;

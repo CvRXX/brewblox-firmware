@@ -30,9 +30,9 @@
 #include "ProcessValue.h"
 #include "SetpointSensorPair.h"
 #include "TempSensor.h"
-#include "blox/compiled_proto/src/Constraints.pb.h"
-#include "blox/compiled_proto/src/brewblox.pb.h"
 #include "cbox/ObjectBase.h"
+#include "proto/Constraints.pb.h"
+#include "proto/brewblox.pb.h"
 
 namespace cbox {
 

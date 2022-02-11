@@ -39,17 +39,17 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: build/test-brewblox.sh
+      - script: build/test-brewblox-particle.sh
         target: firmware-compiler
-        displayName: Run Brewblox app tests
+        displayName: Run brewblox-particle tests
 
-      - script: build/test-controlbox.sh
+      - script: build/test-cbox.sh
         target: firmware-compiler
-        displayName: Run controlbox tests
+        displayName: Run cbox tests
 
-      - script: build/test-lib.sh
+      - script: build/test-control.sh
         target: firmware-compiler
-        displayName: Run lib tests
+        displayName: Run control tests
 
       - script: build/collect-test-coverage.sh
         target: firmware-compiler

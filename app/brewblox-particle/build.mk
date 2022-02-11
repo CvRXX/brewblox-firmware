@@ -21,7 +21,7 @@ endif
 INCLUDE_DIRS += $(SOURCE_PATH)/controlbox/src/
 CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
 # don't include file based persistance on spark platform
-# arm-gcc doesn't support dirent 
+# arm-gcc doesn't support dirent
 CPPEXCLUDES += controlbox/src/cbox/FileObjectStorage.cpp
 
 # add brewblox files
@@ -29,8 +29,8 @@ INCLUDE_DIRS += $(SOURCE_PATH)/brewblox
 CPPSRC += $(call here_files,brewblox,*.cpp)
 
 # add auto-generated protobuf includes
-INCLUDE_DIRS += $(SOURCE_PATH)/brewblox/blox/compiled_proto/src
-CSRC += $(call here_files,brewblox/blox/compiled_proto/src,*.c)
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/compiled_proto
+CSRC += $(call here_files,platform/compiled_proto/proto,*.c)
 
 
 ifeq ($(PLATFORM_ID),6)
@@ -118,7 +118,7 @@ endif
 
 
 # the following warnings can help find opportunities for impromevent in virtual functions
-# they are disabled in the default build, because the dependencies (particle firmware, flashee) have many violations 
+# they are disabled in the default build, because the dependencies (particle firmware, flashee) have many violations
 
 # Warn when virtual functions are overriden without override/override final specifier (requires gcc 5.1)
 # CPPFLAGS += -Wsuggest-override
@@ -128,7 +128,7 @@ endif
 
 ifeq ($(PLATFORM_ID),3)
 ifeq ("$(TEST_BUILD)","y") # coverage, address sanitizer, undefined behavior
-include $(SOURCE_PATH)/build/checkers.mk # sanitizer and gcov
+include $(SOURCE_PATH)/test/checkers.mk # sanitizer and gcov
 endif
 endif
 
@@ -136,10 +136,10 @@ endif
 CPPFLAGS += -save-temps=obj
 
 # use C++17 and disable warnings about the deprecated register storage class specifier
-CPPFLAGS += -std=gnu++17 -Wno-register 
+CPPFLAGS += -std=gnu++17 -Wno-register
 
 CSRC := $(filter-out $(CEXCLUDES),$(CSRC))
-CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC)) 
+CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC))
 
 GIT_VERSION = $(shell cd $(SOURCE_PATH); git rev-parse --short=8 HEAD)
 $(info using $(GIT_VERSION) as version)
@@ -149,13 +149,13 @@ GIT_DATE = $(shell cd $(SOURCE_PATH); git log -1 --format=%cd --date=short)
 $(info using $(GIT_DATE) as release date)
 CFLAGS += -DGIT_DATE="\"$(GIT_DATE)\""
 
-PROTO_VERSION = $(shell cd $(SOURCE_PATH)/brewblox/blox/proto; git rev-parse --short=8 HEAD)
+PROTO_VERSION = $(shell cd $(SOURCE_PATH)/external_libs/brewblox-proto; git rev-parse --short=8 HEAD)
 $(info using $(PROTO_VERSION) as protocol version)
 CFLAGS += -DPROTO_VERSION="\"$(PROTO_VERSION)\""
 
-PROTO_DATE = $(shell cd $(SOURCE_PATH)/brewblox/blox/proto; git log -1 --format=%cd --date=short)
+PROTO_DATE = $(shell cd $(SOURCE_PATH)/external_libs/brewblox-proto; git log -1 --format=%cd --date=short)
 $(info using $(GIT_DATE) as protocol date)
 CFLAGS += -DPROTO_DATE="\"$(PROTO_DATE)\""
 
-COMPILER_VERSION = $(shell $(CC) -dumpfullversion) 
+COMPILER_VERSION = $(shell $(CC) -dumpfullversion)
 $(info using compiler: $(COMPILER_VERSION))

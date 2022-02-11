@@ -6,7 +6,7 @@
 #include "IoModule.hpp"
 #include "OneWire.h"
 #include "TCA9538.hpp"
-#include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
+#include "proto/OneWireGpioModule.pb.h"
 // #include "esp_err.h"
 // #include "esp_log.h"
 #include "hal/hal_delay.h"

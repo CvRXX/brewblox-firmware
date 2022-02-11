@@ -18,7 +18,7 @@
  */
 
 #include "MockPinsBlock.h"
-#include "compiled_proto/src/MockPins.pb.h"
+#include "proto/MockPins.pb.h"
 
 cbox::CboxError
 MockPinsBlock::streamTo(cbox::DataOut& out) const

@@ -17,7 +17,7 @@
         ".",
         "${workspaceFolder}/**",
         "${workspaceFolder}/lib/inc",
-        "${workspaceFolder}/controlbox/test",
+        "${workspaceFolder}/platform/compiled_proto",
         "${workspaceFolder}/platform/spark/modules",
         "${workspaceFolder}/platform/spark/device-os/user/inc",
         "${workspaceFolder}/platform/spark/device-os/system/inc",

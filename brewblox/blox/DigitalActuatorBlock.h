@@ -4,7 +4,7 @@
 #include "ActuatorDigitalConstrained.h"
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
-#include "compiled_proto/src/DigitalActuator.pb.h"
+#include "proto/DigitalActuator.pb.h"
 
 class DigitalActuatorBlock : public Block<brewblox_BlockType_DigitalActuator> {
 private:

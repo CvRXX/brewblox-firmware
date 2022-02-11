@@ -1,5 +1,3 @@
-file(GLOB compiled_proto blox/compiled_proto/src/*.c) 
-
 idf_component_register(
   SRCS
     nanopb_callbacks.cpp
@@ -27,10 +25,9 @@ idf_component_register(
     blox/SysInfoBlock.cpp
     blox/TempSensorCombiBlock.cpp
     blox/TempSensorOneWireBlock.cpp
-
-    ${compiled_proto}
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     .
   REQUIRES
-    main
+    compiled_proto
+    controlbox
 )

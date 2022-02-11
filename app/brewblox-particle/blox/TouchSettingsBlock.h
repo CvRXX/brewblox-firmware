@@ -20,8 +20,8 @@
 #pragma once
 
 #include "blox/Block.h"
-#include "blox/compiled_proto/src/TouchSettings.pb.h"
 #include "cbox/DataStream.h"
+#include "proto/TouchSettings.pb.h"
 
 // provides a protobuf interface to the read only system info
 class TouchSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_TouchSettings> {

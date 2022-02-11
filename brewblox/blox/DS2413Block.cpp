@@ -18,7 +18,7 @@
  */
 
 #include "DS2413Block.h"
-#include "compiled_proto/src/DS2413.pb.h"
+#include "proto/DS2413.pb.h"
 
 cbox::CboxError
 DS2413Block::streamFrom(cbox::DataIn& in)

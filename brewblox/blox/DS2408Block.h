@@ -22,7 +22,7 @@
 #include "DS2408.h"
 #include "OneWireDeviceBlock.h"
 #include "blox/Block.h"
-#include "compiled_proto/src/DS2408.pb.h"
+#include "proto/DS2408.pb.h"
 
 class OneWire;
 

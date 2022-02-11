@@ -18,8 +18,8 @@
  */
 
 #include "SysInfoBlock.h"
-#include "blox/compiled_proto/src/proto_version.h"
 #include "cbox/Tracing.h"
+#include "proto/proto_version.h"
 #include "stringify.h"
 #include <cstring>
 

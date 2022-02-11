@@ -21,7 +21,7 @@
 
 #include "OneWire.h"
 #include "blox/Block.h"
-#include "compiled_proto/src/OneWireBus.pb.h"
+#include "proto/OneWireBus.pb.h"
 
 class OneWireBusBlock : public Block<brewblox_BlockType_OneWireBus> {
 private:

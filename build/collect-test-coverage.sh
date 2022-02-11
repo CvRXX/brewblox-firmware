@@ -14,17 +14,17 @@ fi
 
 mkdir -p build/coverage/html
 gcovr --root "$PWD" \
-    "$PWD/controlbox/build/" \
-    "$PWD/lib/test/build/" \
-    "$PWD/app/brewblox-particle/test/build/" \
+    "$PWD/test/brewblox-particle/build/" \
+    "$PWD/test/cbox/build/" \
+    "$PWD/test/control/build/" \
     -e '.*/boost/.*' \
     -e '^/usr/.*' \
     -e "$PWD/platform/spark/device-os/.*" \
-    -e "$PWD/brewblox/blox/proto/.*" \
+    -e "$PWD/platform/proto/.*" \
     -e "$PWD/lib/cnl/.*" \
-    -e "$PWD/controlbox/test/.*" \
-    -e "$PWD/lib/test/" \
-    -e "$PWD/app/brewblox-particle/test/" \
+    -e "$PWD/test/brewblox-particle/.*" \
+    -e "$PWD/test/cbox/" \
+    -e "$PWD/test/control/" \
     --$FORMAT \
     --output "$OUTPUT" \
     $FORMAT_ARGS \

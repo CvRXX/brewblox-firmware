@@ -9,9 +9,13 @@ idf_component_register(
     Spark4.cpp
     TFT035.cpp
     TicksEsp.cpp
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     .
+  PRIV_REQUIRES
+    nvs_flash
+    esp_adc_cal
   REQUIRES
     main
+    network
     graphics
 )

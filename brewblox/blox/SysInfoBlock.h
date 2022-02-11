@@ -21,7 +21,7 @@
 
 #include "blox/Block.h"
 #include "cbox/DataStream.h"
-#include "compiled_proto/src/SysInfo.pb.h"
+#include "proto/SysInfo.pb.h"
 
 // provides a protobuf interface to the read only system info
 class SysInfoBlock : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {

@@ -35,9 +35,9 @@
 #include "blox/TempSensorCombiBlock.h"
 #include "blox/TempSensorMockBlock.h"
 #include "blox/TempSensorOneWireBlock.h"
-#include "blox/compiled_proto/src/proto_version.h"
 #include "blox/stringify.h"
 #include "cbox/ScanningFactory.hpp"
+#include "proto/proto_version.h"
 #include <memory>
 
 namespace brewblox {

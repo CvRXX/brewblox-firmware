@@ -2,7 +2,7 @@
 #include "ActuatorAnalogConstrained.h"
 #include "ConstraintsProto.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/ActuatorAnalogMock.pb.h"
+#include "proto/ActuatorAnalogMock.pb.h"
 
 cbox::CboxError
 ActuatorAnalogMockBlock::streamFrom(cbox::DataIn& dataIn)

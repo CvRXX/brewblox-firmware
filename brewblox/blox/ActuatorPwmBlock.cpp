@@ -1,8 +1,8 @@
 #include "ActuatorPwmBlock.h"
 #include "ConstraintsProto.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/ActuatorPwm.pb.h"
-#include "compiled_proto/src/Constraints.pb.h"
+#include "proto/ActuatorPwm.pb.h"
+#include "proto/Constraints.pb.h"
 
 cbox::CboxError
 ActuatorPwmBlock::streamFrom(cbox::DataIn& dataIn)

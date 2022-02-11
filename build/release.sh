@@ -13,7 +13,7 @@ shift
 
 # Fetch git index for submodules
 git submodule sync --quiet
-git submodule update --quiet --init --depth 1 brewblox/blox/proto
+git submodule update --quiet --init --depth 1 external_libs/brewblox-proto
 git submodule update --quiet --init --depth 1 platform/spark/device-os
 git --git-dir platform/spark/device-os/.git fetch --quiet --tags --no-recurse-submodules
 
@@ -24,8 +24,8 @@ firmware_sha="$(git rev-parse HEAD)"
 firmware_name="${firmware_date}-${firmware_version}"
 
 # Get proto metadata
-proto_version=$(git --git-dir brewblox/blox/proto/.git rev-parse --short=8 HEAD)
-proto_date=$(git --git-dir brewblox/blox/proto/.git log -1 --format=%cd --date=short)
+proto_version=$(git --git-dir external_libs/brewblox-proto/.git rev-parse --short=8 HEAD)
+proto_date=$(git --git-dir external_libs/brewblox-proto/.git log -1 --format=%cd --date=short)
 
 # Get particle metadata
 particle_tag=$(git --git-dir platform/spark/device-os/.git describe --tags --abbrev=0 --match v*)

@@ -21,7 +21,7 @@
 
 #include "blox/Spark3PinsBlock.h"
 #include "Board.h"
-#include "blox/compiled_proto/src/Spark3Pins.pb.h"
+#include "proto/Spark3Pins.pb.h"
 
 #if PLATFORM_ID != 3
 #include "BrewPiTouch.h"

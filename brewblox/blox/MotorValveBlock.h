@@ -24,7 +24,7 @@
 #include "MotorValve.h"
 #include "blox/Block.h"
 #include "cbox/CboxPtr.h"
-#include "compiled_proto/src/MotorValve.pb.h"
+#include "proto/MotorValve.pb.h"
 
 class MotorValveBlock : public Block<brewblox_BlockType_MotorValve> {
 private:

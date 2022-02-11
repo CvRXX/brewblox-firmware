@@ -3,7 +3,7 @@
 #include "ActuatorAnalogConstrained.h"
 #include "ActuatorDigitalConstrained.h"
 #include "cbox/ObjectContainer.h"
-#include "compiled_proto/src/Constraints.pb.h"
+#include "proto/Constraints.pb.h"
 
 void setAnalogConstraints(const blox_Constraints_AnalogConstraints& msg, ActuatorAnalogConstrained& act, cbox::ObjectContainer& objects);
 

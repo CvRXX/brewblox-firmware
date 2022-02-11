@@ -19,9 +19,9 @@
 
 #include "SetpointProfileBlock.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/SetpointProfile.pb.h"
 #include "pb_decode.h"
 #include "pb_encode.h"
+#include "proto/SetpointProfile.pb.h"
 
 bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {

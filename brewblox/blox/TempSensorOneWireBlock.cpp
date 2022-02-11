@@ -1,6 +1,6 @@
 #include "TempSensorOneWireBlock.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/TempSensorOneWire.pb.h"
+#include "proto/TempSensorOneWire.pb.h"
 
 TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::ObjectContainer& objects)
     : OneWireDeviceBlock(objects)

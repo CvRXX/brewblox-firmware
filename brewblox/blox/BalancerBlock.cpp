@@ -1,7 +1,7 @@
 #include "BalancerBlock.h"
 #include "ConstraintsProto.h"
-#include "compiled_proto/src/Balancer.pb.h"
 #include "nanopb_callbacks.h"
+#include "proto/Balancer.pb.h"
 
 // stream result of a bus search, with arg pointing to the onewire bus
 bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)

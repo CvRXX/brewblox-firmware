@@ -8,10 +8,10 @@ idf_component_register(
    fonts/font_main_small.c
    fonts/font_numbers_large.c
    fonts/font_numbers_medium.c
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     ../
   REQUIRES
-    main
     esp
-    external_libs
+    brewblox
+    lvgl
 )

@@ -19,7 +19,7 @@
 
 #include "SetpointSensorPairBlock.h"
 #include "blox/FieldTags.h"
-#include "blox/compiled_proto/src/SetpointSensorPair.pb.h"
+#include "proto/SetpointSensorPair.pb.h"
 
 cbox::CboxError
 SetpointSensorPairBlock::streamFrom(cbox::DataIn& in)

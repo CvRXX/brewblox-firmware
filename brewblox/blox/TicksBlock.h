@@ -22,7 +22,7 @@
 #include "Ticks.h"
 #include "blox/Block.h"
 #include "cbox/DataStream.h"
-#include "compiled_proto/src/Ticks.pb.h"
+#include "proto/Ticks.pb.h"
 
 // provides a protobuf interface to the ticks object
 template <typename T>

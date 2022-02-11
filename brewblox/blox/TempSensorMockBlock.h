@@ -4,7 +4,7 @@
 
 #include "blox/Block.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/TempSensorMock.pb.h"
+#include "proto/TempSensorMock.pb.h"
 
 class TempSensorMockBlock : public Block<brewblox_BlockType_TempSensorMock> {
 private:

@@ -21,7 +21,7 @@
 
 #include "../ExpOwGpio.hpp"
 #include "blox/Block.h"
-#include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
+#include "proto/OneWireGpioModule.pb.h"
 #include <string>
 #include <vector>
 

@@ -20,7 +20,7 @@
 #include "PidBlock.h"
 #include "ProcessValue.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/Pid.pb.h"
+#include "proto/Pid.pb.h"
 
 PidBlock::PidBlock(cbox::ObjectContainer& objects)
     : input(objects)

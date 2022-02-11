@@ -1,8 +1,8 @@
 #pragma once
 
 #include "cbox/ObjectBase.h"
-#include "compiled_proto/src/brewblox.pb.h"
 #include "pb.h"
+#include "proto/brewblox.pb.h"
 #include <type_traits>
 
 template <uint16_t id>

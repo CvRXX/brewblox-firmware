@@ -21,7 +21,7 @@
 
 #include "blox/Spark2PinsBlock.h"
 #include "Board.h"
-#include "blox/compiled_proto/src/Spark2Pins.pb.h"
+#include "proto/Spark2Pins.pb.h"
 
 pin_t Spark2PinsBlock::channelToPin(uint8_t channel) const
 {

@@ -1,8 +1,8 @@
 #include "ActuatorOffsetBlock.h"
 #include "ConstraintsProto.h"
 #include "blox/FieldTags.h"
-#include "compiled_proto/src/ActuatorOffset.pb.h"
-#include "compiled_proto/src/Constraints.pb.h"
+#include "proto/ActuatorOffset.pb.h"
+#include "proto/Constraints.pb.h"
 
 cbox::CboxError
 ActuatorOffsetBlock::streamFrom(cbox::DataIn& dataIn)

@@ -48,8 +48,8 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test brewblox app",
-      "command": "build/test-brewblox.sh",
+      "label": "Test brewblox-particle",
+      "command": "build/test-brewblox-particle.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -59,8 +59,8 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test controlbox",
-      "command": "build/test-controlbox.sh",
+      "label": "Test cbox",
+      "command": "build/test-cbox.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -70,8 +70,8 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test lib",
-      "command": "build/test-lib.sh",
+      "label": "Test control",
+      "command": "build/test-control.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -85,9 +85,9 @@
       "group": "build",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "Test brewblox app",
-        "Test controlbox",
-        "Test lib",
+        "Test brewblox-particle",
+        "Test cbox",
+        "Test control",
       ]
     },
     {
@@ -175,7 +175,7 @@
     },
     {
       "label": "Clean all",
-      "command": "build/clean.sh",
+      "command": "build/clean-all.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",

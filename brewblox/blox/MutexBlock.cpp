@@ -18,8 +18,8 @@
  */
 
 #include "MutexBlock.h"
-#include "compiled_proto/src/Mutex.pb.h"
 #include "nanopb_callbacks.h"
+#include "proto/Mutex.pb.h"
 
 cbox::CboxError
 MutexBlock::streamFrom(cbox::DataIn& dataIn)
