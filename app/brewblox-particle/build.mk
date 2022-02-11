@@ -17,12 +17,12 @@ else
 CPPFLAGS += -I $(SOURCE_PATH)/external_libs/cnl/include
 endif
 
-# add all controlbox source files
-INCLUDE_DIRS += $(SOURCE_PATH)/controlbox/src/
-CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
+# add all cbox source files
+INCLUDE_DIRS += $(SOURCE_PATH)/lib/cbox/src/
+CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
 # don't include file based persistance on spark platform
 # arm-gcc doesn't support dirent
-CPPEXCLUDES += controlbox/src/cbox/FileObjectStorage.cpp
+CPPEXCLUDES += lib/cbox/src/cbox/FileObjectStorage.cpp
 
 # add brewblox files
 INCLUDE_DIRS += $(SOURCE_PATH)/brewblox

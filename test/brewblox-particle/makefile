@@ -43,13 +43,13 @@ INCLUDE_DIRS += $(ROOT_PATH)/platform/
 CPPSRC += $(call here_files,app/brewblox-particle/blox,*.cpp)
 CPPSRC += $(call here_files,brewblox/blox,*.cpp)
 
-# add all lib source files
+# add all control source files
 INCLUDE_DIRS += $(ROOT_PATH)/lib/control/inc
 CPPSRC += $(call here_files,lib/control/src,*.cpp)
 
-# add all controlbox source files
-INCLUDE_DIRS += $(ROOT_PATH)/controlbox/src/
-CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
+# add all cbox source files
+INCLUDE_DIRS += $(ROOT_PATH)/lib/cbox/src/
+CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
 
 # add shared brewblox sources for all platforms
 INCLUDE_DIRS += $(ROOT_PATH)/brewblox

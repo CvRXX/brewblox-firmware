@@ -41,11 +41,11 @@ INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/catch2/catch2/
 CPPSRC += $(call here_files,test/cbox,*.cpp)
 
 # and sources
-INCLUDE_DIRS += $(ROOT_PATH)/controlbox/src/
-CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
+INCLUDE_DIRS += $(ROOT_PATH)/lib/cbox/src/
+CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
 
 # include dir
-CFLAGS += -I$(ROOT_PATH)/controlbox/src/cbox
+CFLAGS += -I$(ROOT_PATH)/lib/cbox/src/cbox
 
 CFLAGS += -ffunction-sections -Wall
 

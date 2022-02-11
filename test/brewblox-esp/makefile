@@ -47,8 +47,8 @@ INCLUDE_DIRS += $(ROOT_PATH)/lib/control/inc
 CPPSRC += $(call here_files,lib/control/src,*.cpp)
 
 # add all controlbox source files
-# INCLUDE_DIRS += $(ROOT_PATH)/controlbox/src/
-# CPPSRC += $(call here_files,controlbox/src/cbox,*.cpp)
+# INCLUDE_DIRS += $(ROOT_PATH)/lib/cbox/src/
+# CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
 
 # add shared brewblox sources for all platforms
 INCLUDE_DIRS += $(ROOT_PATH)/brewblox
@@ -87,8 +87,6 @@ INCLUDE_DIRS += $(ROOT_PATH)/platform/test
 
 # catch test
 INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/catch2/catch2/single_include/catch2
-
-# CPPSRC += controlbox/test/TestHelpers.cpp
 
 # CFLAGS += -DPLATFORM_ID=3
 
