@@ -1,5 +1,5 @@
 define add-symbol-file-auto
-  # Parse .text address to temp file  
+  # Parse .text address to temp file
   shell echo set \$text_address=(readelf -WS $arg0 | grep .text | awk '{ print "0x"$5 }') >/tmp/temp_gdb_text_address.txt
 
   # Source .text address
@@ -12,5 +12,5 @@ define add-symbol-file-auto
   add-symbol-file $arg0 $text_address
 end
 
-add-symbol-file-auto platform/spark/device-os/build/target/system-part1/platform-8-m/system-part1.elf
-add-symbol-file-auto platform/spark/device-os/build/target/system-part2/platform-8-m/system-part2.elf
+add-symbol-file-auto external_libs/device-os/build/target/system-part1/platform-8-m/system-part1.elf
+add-symbol-file-auto external_libs/device-os/build/target/system-part2/platform-8-m/system-part2.elf

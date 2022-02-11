@@ -35,7 +35,7 @@ target_files = $(patsubst $(ROOT_PATH)/%,%,$(call rwildcard,$(ROOT_PATH)/$1,$2))
 here_files = $(patsubst $(ROOT_PATH)/%,%,$(wildcard $(ROOT_PATH)/$1/$2))
 
 # catch test
-INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/catch2/catch2/single_include/catch2
+INCLUDE_DIRS += $(ROOT_PATH)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
 # add all tests
 CPPSRC += $(call here_files,test/cbox,*.cpp)

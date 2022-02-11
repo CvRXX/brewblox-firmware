@@ -3,7 +3,7 @@ $(MAKECMDGOALS) : run_make
 .PHONY: run_make
 
 current_dir := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-SPARKDIR :=  $(realpath $(current_dir)/../platform/spark/device-os)
+DEVICE_OS :=  $(realpath $(current_dir)/../external_libs/device-os)
 
 ifndef APP
 	APP=brewblox
@@ -26,7 +26,7 @@ override undefine APP
 
 run_make:
 	@echo "Building app $(APPNAME) from $(APP_MAKEFILE)"
-	@$(MAKE) -s -C $(SPARKDIR)/main \
+	@$(MAKE) -s -C $(DEVICE_OS)/main \
 	APPDIR=$(APPDIR) \
 	USER_MAKEFILE=$(APP_MAKEFILE) \
 	USE_PRINTF_FLOAT=$(USE_PRINTF_FLOAT) \

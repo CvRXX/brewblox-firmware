@@ -14,7 +14,7 @@ main/*.cpp
 ../../lib/control/inc/graphics/fonts/*.cpp
 ../../platform/simulator/*.cpp
 ../../lib/compiled_proto/proto/*.c
-../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
+../../external_libs/device-os/third_party/nanopb/nanopb/*.c
 ../../lib/blocks/*.cpp
 ../../lib/blocks/blocks/*.cpp
 ../../lib/cbox/src/*.cpp
@@ -24,11 +24,11 @@ include_directories(
     ../../platform/simulator
     ../../platform/all
     ../../lib/control/inc
-    ../../lib/cnl/include
+    ../../lib/cbox/src
     ../../lib/compiled_proto
     ../../lib/blocks
-    ../../platform/spark/device-os/third_party/nanopb/nanopb
-    ../../lib/cbox/src/
+    ../../external_libs/cnl/include
+    ../../external_libs/device-os/third_party/nanopb/nanopb
     main
     components/lvgl/src
     )

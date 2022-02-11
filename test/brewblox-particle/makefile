@@ -73,8 +73,8 @@ INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/modules/Board
 CPPSRC += $(call here_files,platform/spark/modules/Board,*.cpp)
 
 # add nanopb dependencies
-INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/nanopb/nanopb
-CSRC += $(call here_files,platform/spark/device-os/third_party/nanopb/nanopb,*.c)
+INCLUDE_DIRS += $(ROOT_PATH)/external_libs/device-os/third_party/nanopb/nanopb
+CSRC += $(call here_files,external_libs/device-os/third_party/nanopb/nanopb,*.c)
 # enable message id's
 CFLAGS += -DPB_MSGID=1
 
@@ -85,20 +85,20 @@ CPPSRC += app/brewblox-particle/brewblox_particle.cpp
 CPPSRC += app/brewblox-particle/AppTicks.cpp
 
 # catch test
-INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/catch2/catch2/single_include/catch2
+INCLUDE_DIRS += $(ROOT_PATH)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
 # spark HAL includes
-CPPFLAGS += -isystem $(ROOT_PATH)/platform/spark/device-os/hal/inc
-CPPFLAGS += -isystem $(ROOT_PATH)/platform/spark/device-os/hal/shared
-CPPFLAGS += -isystem $(ROOT_PATH)/platform/spark/device-os/services/inc
-CPPFLAGS += -isystem $(ROOT_PATH)/platform/spark/device-os/hal/src/gcc
-CPPFLAGS += -isystem $(ROOT_PATH)/platform/spark/device-os/hal/src/newhal
-CPPFLAGS += -isystem $(ROOT_PATH)/platform/spark/device-os/wiring/inc
+CPPFLAGS += -isystem $(ROOT_PATH)/external_libs/device-os/hal/inc
+CPPFLAGS += -isystem $(ROOT_PATH)/external_libs/device-os/hal/shared
+CPPFLAGS += -isystem $(ROOT_PATH)/external_libs/device-os/services/inc
+CPPFLAGS += -isystem $(ROOT_PATH)/external_libs/device-os/hal/src/gcc
+CPPFLAGS += -isystem $(ROOT_PATH)/external_libs/device-os/hal/src/newhal
+CPPFLAGS += -isystem $(ROOT_PATH)/external_libs/device-os/wiring/inc
 
-CPPSRC += /platform/spark/device-os/hal/src/gcc/gpio_hal.cpp
-CPPSRC += /platform/spark/device-os/hal/src/gcc/eeprom_hal.cpp
-CPPSRC += /platform/spark/device-os/hal/src/gcc/filesystem.cpp
-CPPSRC += /platform/spark/device-os/test/unit_tests/communication/hal_stubs.cpp
+CPPSRC += /external_libs/device-os/hal/src/gcc/gpio_hal.cpp
+CPPSRC += /external_libs/device-os/hal/src/gcc/eeprom_hal.cpp
+CPPSRC += /external_libs/device-os/hal/src/gcc/filesystem.cpp
+CPPSRC += /external_libs/device-os/test/unit_tests/communication/hal_stubs.cpp
 
 CPPSRC += test/cbox/TestHelpers.cpp
 

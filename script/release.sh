@@ -16,8 +16,8 @@ mkdir -p ./release/
 # Fetch git index for submodules
 git submodule sync --quiet
 git submodule update --quiet --init --depth 1 external_libs/brewblox-proto
-git submodule update --quiet --init --depth 1 platform/spark/device-os
-git --git-dir platform/spark/device-os/.git fetch --quiet --tags --no-recurse-submodules
+git submodule update --quiet --init --depth 1 external_libs/device-os
+git --git-dir external_libs/device-os/.git fetch --quiet --tags --no-recurse-submodules
 
 # Get firmware metadata
 firmware_version=$(git rev-parse --short=8 HEAD)
@@ -30,7 +30,7 @@ proto_version=$(git --git-dir external_libs/brewblox-proto/.git rev-parse --shor
 proto_date=$(git --git-dir external_libs/brewblox-proto/.git log -1 --format=%cd --date=short)
 
 # Get particle metadata
-particle_tag=$(git --git-dir platform/spark/device-os/.git describe --tags --abbrev=0 --match v*)
+particle_tag=$(git --git-dir external_libs/device-os/.git describe --tags --abbrev=0 --match v*)
 particle_releases=https://github.com/particle-iot/device-os/releases/download/${particle_tag}
 particle_version=${particle_tag:1} # remove the 'v' prefix
 

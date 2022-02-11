@@ -1,11 +1,7 @@
-[submodule "lib/cnl"]
+[submodule "external_libs/cnl"]
 	path = external_libs/cnl
 	url = https://github.com/johnmcfarlane/cnl.git
 	branch = develop
-[submodule "platform/spark/device-os"]
-	path = platform/spark/device-os
-	url = https://github.com/particle-iot/device-os.git
-	branch = brewblox
 [submodule "external_libs/lvgl"]
 	path = external_libs/lvgl
 	url = https://github.com/lvgl/lvgl.git
@@ -18,3 +14,6 @@
 [submodule "external_libs/brewblox-proto"]
 	path = external_libs/brewblox-proto
 	url = https://github.com/BrewBlox/brewblox-proto.git
+[submodule "external_libs/device-os"]
+	path = external_libs/device-os
+	url = https://github.com/particle-iot/device-os.git

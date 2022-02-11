@@ -14,7 +14,7 @@ OUT_DIR="$(readlink -f lib/compiled_proto/proto)"
 TEST_PROTO_DIR="$(readlink -f test/proto/src)"
 TEST_OUT_DIR="$(readlink -f test/proto)"
 
-NANOPB_DIR="$(readlink -f platform/spark/device-os/third_party/nanopb/nanopb)"
+NANOPB_DIR="$(readlink -f external_libs/device-os/third_party/nanopb/nanopb)"
 NANOPB_GENERATOR_DIR="${NANOPB_DIR}/generator/proto"
 NANOPB_PLUGIN="${NANOPB_DIR}/generator/protoc-gen-nanopb"
 

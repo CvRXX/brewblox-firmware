@@ -3,7 +3,7 @@
 source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 # Build device-os modules
-pushd platform/spark/device-os/modules >/dev/null
+pushd external_libs/device-os/modules >/dev/null
 
 echo "Building system modules for P1 with SWD"
 make -s clean all PLATFORM=p1 USE_SWD=y

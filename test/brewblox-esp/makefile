@@ -74,8 +74,8 @@ CSRC += $(call here_files,lib/compiled_proto/proto,*.c)
 # CCSRC += $(call here_files,test/proto,*.pb.cc)
 
 # add nanopb dependencies
-INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/nanopb/nanopb
-# CSRC += $(call here_files,platform/spark/device-os/third_party/nanopb/nanopb,*.c)
+INCLUDE_DIRS += $(ROOT_PATH)/external_libs/device-os/third_party/nanopb/nanopb
+# CSRC += $(call here_files,external_libs/device-os/third_party/nanopb/nanopb,*.c)
 # enable message id's
 # CFLAGS += -DPB_MSGID=1
 
@@ -86,7 +86,7 @@ INCLUDE_DIRS += $(ROOT_PATH)/platform/test
 # CPPSRC += app/brewblox-particle/AppTicks.cpp
 
 # catch test
-INCLUDE_DIRS += $(ROOT_PATH)/platform/spark/device-os/third_party/catch2/catch2/single_include/catch2
+INCLUDE_DIRS += $(ROOT_PATH)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
 # CFLAGS += -DPLATFORM_ID=3
 

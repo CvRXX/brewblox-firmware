@@ -19,9 +19,9 @@ gcovr --root "$PWD" \
     "$PWD/test/control/build/" \
     -e '.*/boost/.*' \
     -e '^/usr/.*' \
-    -e "$PWD/platform/spark/device-os/.*" \
-    -e "$PWD/platform/proto/.*" \
-    -e "$PWD/lib/cnl/.*" \
+    -e "$PWD/external_libs/device-os/.*" \
+    -e "$PWD/external_libs/cnl/.*" \
+    -e "$PWD/lib/compiled_proto/proto/.*" \
     -e "$PWD/test/brewblox-particle/.*" \
     -e "$PWD/test/cbox/" \
     -e "$PWD/test/control/" \
