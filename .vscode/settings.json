@@ -32,7 +32,6 @@
   "files.exclude": {
     "**/.gitmodules": false
   },
-  "shellformat.path": "/usr/local/bin/shfmt",
   "shellformat.effectLanguages": [
     "shellscript"
   ],
