@@ -17,9 +17,9 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ActuatorOffset.h"
-#include "SetpointSensorPair.h"
-#include "TempSensorMock.h"
+#include "control/ActuatorOffset.h"
+#include "control/SetpointSensorPair.h"
+#include "control/TempSensorMock.h"
 #include <catch.hpp>
 #include <memory>
 

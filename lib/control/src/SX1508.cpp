@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SX1508.hpp"
+#include "control/SX1508.hpp"
 
 bool SX1508::write_reg(RegAddr addr, uint8_t data)
 {

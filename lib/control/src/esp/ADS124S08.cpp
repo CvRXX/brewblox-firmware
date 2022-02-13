@@ -17,8 +17,8 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ADS124S08.hpp"
-#include "../inc/Logger.h"
+#include "control/ADS124S08.hpp"
+#include "control/Logger.h"
 
 //****************************************************************************
 //
@@ -42,7 +42,8 @@ ADS124S08::ADS124S08(uint8_t spi_idx, int ss,
     spi.init();
 }
 
-/************************************************************************************/ /**
+/************************************************************************************/
+/**
  *
  * @brief adcStartupRoutine()
  *          Startup function to be called before communicating with the ADC
@@ -83,7 +84,7 @@ bool ADS124S08::startup()
 
         writeRegs(initRegs.byName.status, initRegs.byName.sys);
 
-        //Read back all registers
+        // Read back all registers
         updateRegs(registers.byName.id, registers.byName.gpiocon);
         if (success) {
             for (uint8_t i = 2; i < registers.byIdx.size(); i++) {

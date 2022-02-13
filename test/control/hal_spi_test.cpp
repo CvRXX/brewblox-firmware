@@ -1,4 +1,4 @@
-// #include "hal/hal_spi.h"
+// #include "lib_hal/hal_spi.h"
 
 // hal_spi_err_t SpiDevice::init()
 // {

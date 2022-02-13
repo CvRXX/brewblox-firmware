@@ -17,13 +17,12 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ActuatorAnalogConstrained.h"
+#include "control/ActuatorAnalogConstrained.h"
 #include <algorithm>
 
 using value_t = ActuatorAnalog::value_t;
 
-void
-ActuatorAnalogConstrained::addConstraint(std::unique_ptr<Constraint>&& newConstraint)
+void ActuatorAnalogConstrained::addConstraint(std::unique_ptr<Constraint>&& newConstraint)
 {
     if (constraints.size() < 8) {
         constraints.push_back(std::move(newConstraint));
@@ -33,8 +32,7 @@ ActuatorAnalogConstrained::addConstraint(std::unique_ptr<Constraint>&& newConstr
               [](const std::unique_ptr<Constraint>& a, const std::unique_ptr<Constraint>& b) { return a->order() < b->order(); });
 }
 
-void
-ActuatorAnalogConstrained::removeAllConstraints()
+void ActuatorAnalogConstrained::removeAllConstraints()
 {
     constraints.clear();
 }
@@ -60,8 +58,7 @@ ActuatorAnalogConstrained::constrain(const value_t& val)
     return result;
 }
 
-void
-ActuatorAnalogConstrained::setting(const value_t& val)
+void ActuatorAnalogConstrained::setting(const value_t& val)
 {
     // first set actuator to requested value to check whether it constrains the setting itself
     actuator.setting(val);
@@ -75,8 +72,7 @@ ActuatorAnalogConstrained::setting(const value_t& val)
     }
 }
 
-void
-ActuatorAnalogConstrained::settingValid(bool v)
+void ActuatorAnalogConstrained::settingValid(bool v)
 {
     auto old = actuator.settingValid();
     actuator.settingValid(v);

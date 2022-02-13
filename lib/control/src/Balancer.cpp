@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Balancer.h"
+#include "control/Balancer.h"
 #include <algorithm>
 
 using value_t = ActuatorAnalog::value_t;

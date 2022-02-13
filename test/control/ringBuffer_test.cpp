@@ -1,4 +1,4 @@
-#include "ringBuffer.hpp"
+#include "control/ringBuffer.hpp"
 #include <catch.hpp>
 
 TEST_CASE("Elements can be taken from the ringbuffer", "[ringBuffer]")

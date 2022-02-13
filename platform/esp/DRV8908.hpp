@@ -1,5 +1,5 @@
 #pragma once
-#include "hal/hal_spi.hpp"
+#include "lib_hal/hal_spi.hpp"
 
 class DRV8908 {
 public:

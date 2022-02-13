@@ -17,10 +17,10 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../inc/OneWireDevice.h"
-#include "../inc/Logger.h"
-#include "../inc/OneWire.h"
-#include "../inc/OneWireAddress.h"
+#include "control/OneWireDevice.h"
+#include "control/Logger.h"
+#include "control/OneWire.h"
+#include "control/OneWireAddress.h"
 
 /**
  * Constructor

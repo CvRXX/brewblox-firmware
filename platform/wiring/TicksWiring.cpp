@@ -1,5 +1,5 @@
 #include "TicksWiring.h"
-#include "Ticks.h"
+#include "control/Ticks.h"
 #include "delay_hal.h"
 #include "rtc_hal.h"
 #include "timer_hal.h"
@@ -15,8 +15,7 @@ TicksWiring::utc() const
     return 0;
 }
 
-void
-TicksWiring::setUtc(const utc_seconds_t& t)
+void TicksWiring::setUtc(const utc_seconds_t& t)
 {
     timeval time;
     time.tv_sec = t;
@@ -35,8 +34,7 @@ TicksWiring::micros() const
     return HAL_Timer_Get_Micro_Seconds();
 }
 
-void
-TicksWiring::delayMillis(const duration_millis_t& duration) const
+void TicksWiring::delayMillis(const duration_millis_t& duration) const
 {
     HAL_Delay_Milliseconds(duration);
 }

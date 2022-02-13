@@ -17,10 +17,10 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ArrayEepromAccess.h"
-#include "EepromObjectStorage.h"
-#include "Object.h"
 #include "TestObjects.h"
+#include "cbox/ArrayEepromAccess.h"
+#include "cbox/EepromObjectStorage.h"
+#include "cbox/Object.h"
 #include <catch.hpp>
 #include <cstdio>
 

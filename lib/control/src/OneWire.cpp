@@ -120,12 +120,11 @@ sample code bearing this copyright.
 //--------------------------------------------------------------------------
  */
 
-#include "../inc/OneWire.h"
-#include "../inc/OneWireAddress.h"
-#include "../inc/OneWireCrc.h"
+#include "control/OneWire.h"
+#include "control/OneWireAddress.h"
+#include "control/OneWireCrc.h"
 
-bool
-OneWire::write_bytes(const uint8_t* buf, uint16_t count)
+bool OneWire::write_bytes(const uint8_t* buf, uint16_t count)
 {
     for (uint16_t i = 0; i < count; i++) {
         if (!driver.write(buf[i])) {
@@ -135,8 +134,7 @@ OneWire::write_bytes(const uint8_t* buf, uint16_t count)
     return true;
 }
 
-bool
-OneWire::read_bytes(uint8_t* buf, uint16_t count)
+bool OneWire::read_bytes(uint8_t* buf, uint16_t count)
 {
     for (uint16_t i = 0; i < count; i++) {
         if (!driver.read(buf[i])) {
@@ -150,8 +148,7 @@ OneWire::read_bytes(uint8_t* buf, uint16_t count)
 // Do a ROM select
 //
 
-bool
-OneWire::select(const OneWireAddress& rom)
+bool OneWire::select(const OneWireAddress& rom)
 {
     if (driver.write(0x55)) { // Choose ROM
         return write_bytes(&rom[0], 8);
@@ -163,14 +160,12 @@ OneWire::select(const OneWireAddress& rom)
 // Do a ROM skip
 //
 
-bool
-OneWire::skip()
+bool OneWire::skip()
 {
     return driver.write(0xCC); // Skip ROM
 }
 
-void
-OneWire::reset_search()
+void OneWire::reset_search()
 {
     // reset the search state
     ROM_NO = 0;
@@ -179,8 +174,7 @@ OneWire::reset_search()
     lockedSearchBits = 0;
 }
 
-void
-OneWire::target_search(uint8_t family_code)
+void OneWire::target_search(uint8_t family_code)
 {
     // set the search state to find SearchFamily type devices
     ROM_NO = family_code;
@@ -189,8 +183,7 @@ OneWire::target_search(uint8_t family_code)
     lastDeviceFlag = false;
 }
 
-bool
-OneWire::search(OneWireAddress& newAddr)
+bool OneWire::search(OneWireAddress& newAddr)
 {
     uint8_t id_bit_nr = 0;
     bool search_result = false;

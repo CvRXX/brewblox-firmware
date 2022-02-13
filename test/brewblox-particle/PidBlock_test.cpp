@@ -19,16 +19,16 @@
 
 #include <catch.hpp>
 
-#include "../proto/ActuatorAnalogMock_test.pb.h"
-#include "../proto/Pid_test.pb.h"
-#include "../proto/SetpointSensorPair_test.pb.h"
-#include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
-#include "Temperature.h"
 #include "blocks/ActuatorAnalogMockBlock.h"
 #include "blocks/PidBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
+#include "control/Temperature.h"
+#include "proto/ActuatorAnalogMock_test.pb.h"
+#include "proto/Pid_test.pb.h"
+#include "proto/SetpointSensorPair_test.pb.h"
+#include "proto/TempSensorMock_test.pb.h"
 
 extern cbox::Box&
 makeBrewbloxBox();

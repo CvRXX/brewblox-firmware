@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../inc/Pid.h"
+#include "control/Pid.h"
 
 void Pid::update()
 {

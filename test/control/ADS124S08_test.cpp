@@ -19,7 +19,7 @@
 
 #if 0
 
-#include "ADS124S08.hpp"
+#include "control/ADS124S08.hpp"
 #include <catch.hpp>
 
 SCENARIO("Test CRC calculation", "[ADS124S08]")

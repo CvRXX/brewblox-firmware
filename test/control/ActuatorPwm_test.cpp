@@ -22,20 +22,20 @@
 #include <algorithm>
 #include <stdlib.h> /* srand, rand */
 
-#include "ActuatorAnalogConstrained.h"
-#include "ActuatorDigital.h"
-#include "ActuatorDigitalConstrained.h"
-#include "ActuatorPwm.h"
-#include "Balancer.h"
-#include "DS2408.h"
-#include "DS2408Mock.h"
-#include "DS2413.h"
-#include "DS2413Mock.h"
-#include "MockIoArray.h"
-#include "MotorValve.h"
-#include "OneWire.h"
-#include "OneWireMockDriver.h"
 #include "TestLogger.h"
+#include "control/ActuatorAnalogConstrained.h"
+#include "control/ActuatorDigital.h"
+#include "control/ActuatorDigitalConstrained.h"
+#include "control/ActuatorPwm.h"
+#include "control/Balancer.h"
+#include "control/DS2408.h"
+#include "control/DS2408Mock.h"
+#include "control/DS2413.h"
+#include "control/DS2413Mock.h"
+#include "control/MockIoArray.h"
+#include "control/MotorValve.h"
+#include "control/OneWire.h"
+#include "control/OneWireMockDriver.h"
 #include <cmath> // for sin
 #include <cstring>
 #include <fstream>
@@ -1073,8 +1073,8 @@ SCENARIO("Two PWM actuators driving mutually exclusive digital actuators")
                 nextUpdate3 = now + 1000;
                 balancer->update();
                 // check that the reported value is close enough at all times
-                //CHECK(pwm1.value() == Approx(duty1).margin(1));
-                //CHECK(pwm2.value() == Approx(duty2).margin(1));
+                // CHECK(pwm1.value() == Approx(duty1).margin(1));
+                // CHECK(pwm2.value() == Approx(duty2).margin(1));
             }
             duration_millis_t interval = randomDelay ? 1 + std::rand() % randomDelay : 1;
             now += interval;

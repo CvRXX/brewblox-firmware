@@ -1,8 +1,8 @@
-#include "ActuatorPwm.h"
+#include "control/ActuatorPwm.h"
 #include <cstdint>
 
 #if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-#include "TimerInterrupts.h"
+#include "control/TimerInterrupts.h"
 #endif
 
 ActuatorPwm::ActuatorPwm(

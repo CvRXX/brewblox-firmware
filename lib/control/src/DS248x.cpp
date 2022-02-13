@@ -2,28 +2,28 @@
  * Copyright 2021 BrewPi B.V./Elco Jacobs.
  *
  * This file is part of Brewblox.
- * 
+ *
  * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Brewblox is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "DS248x.hpp"
-#include "hal/hal_delay.h"
+#include "control/DS248x.hpp"
+#include "lib_hal/hal_delay.h"
 
 constexpr const uint8_t PTR_STATUS = 0xf0;
 constexpr const uint8_t PTR_READ = 0xe1;
 constexpr const uint8_t PTR_CONFIG = 0xc3;
-constexpr const uint8_t PTR_PORTCONFIG = 0xb4; //DS2484 only
+constexpr const uint8_t PTR_PORTCONFIG = 0xb4; // DS2484 only
 
 bool DS248x::busyWait()
 {

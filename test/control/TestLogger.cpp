@@ -1,18 +1,16 @@
 #include "TestLogger.h"
-#include "Logger.h"
+#include "control/Logger.h"
 #include <string>
 #include <vector>
 
 std::vector<std::string> logs;
 
-void
-TestLogger::clear()
+void TestLogger::clear()
 {
     logs.clear();
 }
 
-bool
-TestLogger::contains(const std::string& s)
+bool TestLogger::contains(const std::string& s)
 {
     for (const auto& log : logs) {
         if (s == log) {
@@ -34,8 +32,7 @@ TestLogger::count(const std::string& s)
     return count;
 }
 
-void
-TestLogger::add(std::string&& s)
+void TestLogger::add(std::string&& s)
 {
     logs.push_back(s);
 }

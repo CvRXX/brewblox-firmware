@@ -19,7 +19,7 @@
 
 #if 0
 
-#include "../inc/ChemSense.hpp"
+#include "control/ChemSense.hpp"
 
 using namespace ADS124S08_detail;
 

@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "FixedPoint.h"
+#include "control/FixedPoint.h"
 
 std::string
 to_string_dec(const fp12_t& t, uint8_t decimals)

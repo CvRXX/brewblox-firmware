@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MotorValve.h"
+#include "control/MotorValve.h"
 
 void MotorValve::state(const State& v)
 {

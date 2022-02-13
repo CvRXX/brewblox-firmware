@@ -17,41 +17,36 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ActuatorDigitalChangeLogged.h"
-#include "TicksTypes.h"
+#include "control/ActuatorDigitalChangeLogged.h"
+#include "control/TicksTypes.h"
 #include <algorithm>
 #include <array>
 #include <cstdint>
 
 using State = ActuatorDigitalBase::State;
 
-void
-ActuatorDigitalChangeLogged::state(const State& val, const ticks_millis_t& now)
+void ActuatorDigitalChangeLogged::state(const State& val, const ticks_millis_t& now)
 {
     actuator.state(val);
     update(now);
 }
 
-void
-ActuatorDigitalChangeLogged::state(const State& val)
+void ActuatorDigitalChangeLogged::state(const State& val)
 {
     state(val, lastUpdateTime);
 }
 
-void
-ActuatorDigitalChangeLogged::setStateUnlogged(const State& val)
+void ActuatorDigitalChangeLogged::setStateUnlogged(const State& val)
 {
     actuator.state(val);
 }
 
-State
-ActuatorDigitalChangeLogged::state() const
+State ActuatorDigitalChangeLogged::state() const
 {
     return actuator.state();
 }
 
-void
-ActuatorDigitalChangeLogged::update(const ticks_millis_t& now)
+void ActuatorDigitalChangeLogged::update(const ticks_millis_t& now)
 {
     auto current = state();
     if (current != history.front().newState) {
@@ -132,16 +127,14 @@ ActuatorDigitalChangeLogged::activeDurations(const ticks_millis_t& now)
     return result;
 }
 
-void
-ActuatorDigitalChangeLogged::resetHistory()
+void ActuatorDigitalChangeLogged::resetHistory()
 {
     history.fill(StateChange{State::Unknown, ticks_millis_t(-1)});
     history[0] = {actuator.state(), 0};
     lastUpdateTime = 0;
 }
 
-bool
-ActuatorDigitalChangeLogged::supportsFastIo() const
+bool ActuatorDigitalChangeLogged::supportsFastIo() const
 {
     return actuator.supportsFastIo();
 }

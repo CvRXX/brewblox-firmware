@@ -22,16 +22,16 @@
 #include <iomanip>
 #include <iostream>
 
-#include "../proto/SetpointSensorPair_test.pb.h"
-#include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
-#include "Temperature.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamIo.h"
 #include "cbox/Object.h"
+#include "control/Temperature.h"
+#include "proto/SetpointSensorPair_test.pb.h"
+#include "proto/TempSensorMock_test.pb.h"
 #include "testHelpers.h"
 
 SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf data")

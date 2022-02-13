@@ -10,7 +10,7 @@ RM = rm -f
 RMDIR = rm -f -r
 MKDIR = mkdir -p
 
-TARGETDIR=build/
+TARGETDIR=build
 TARGET=test_runner
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
@@ -19,7 +19,7 @@ remove_slash = $(patsubst %/,%,$1)
 ROOT_PATH = $(abspath mkfile_dir/../../..)
 # ROOT_PATH = $(call remove_slash,$(abspath $(mkfile_dir)/../..))
 
-BUILD_PATH=$(TARGETDIR)test/
+BUILD_PATH=$(TARGETDIR)/test
 
 # Recursive wildcard function
 rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
@@ -40,6 +40,7 @@ INCLUDE_DIRS += $(ROOT_PATH)/lib/control/inc
 CPPSRC += $(call here_files,lib/control/src,*.cpp)
 
 # include stubs for hal
+INCLUDE_DIRS += $(ROOT_PATH)/lib/lib_hal/inc
 CPPSRC += $(call here_files,platform/stub,*.cpp)
 
 # set cnl as system includes to suppress warnings
@@ -110,9 +111,9 @@ ALLDEPS += $(addprefix $(BUILD_PATH), $(CPPSRC:.cpp=.o.d))
 
 all: runner
 
-runner: $(TARGETDIR)$(TARGET)
+runner: $(TARGETDIR)/$(TARGET)
 
-$(TARGETDIR)$(TARGET) : $(BUILD_PATH) $(ALLOBJ)
+$(TARGETDIR)/$(TARGET) : $(BUILD_PATH) $(ALLOBJ)
 	@echo Building target: $@
 	@$(MKDIR) $(dir $@)
 	@$(LD) $(CFLAGS) $(ALLOBJ) --output $@ $(LDFLAGS)
@@ -138,7 +139,7 @@ $(BUILD_PATH)%.o : $(ROOT_PATH)/%.cpp
 
 # Other Targets
 clean:
-	$(RM) $(ALLOBJ) $(ALLDEPS) $(TARGETDIR)$(TARGET)
+	$(RM) $(ALLOBJ) $(ALLDEPS) $(TARGETDIR)/$(TARGET)
 	$(RMDIR) $(TARGETDIR)
 	@echo
 

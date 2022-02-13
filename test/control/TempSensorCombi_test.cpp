@@ -19,8 +19,8 @@
 
 #include <catch.hpp>
 
-#include "../inc/TempSensorCombi.h"
-#include "../inc/TempSensorMock.h"
+#include "control/TempSensorCombi.h"
+#include "control/TempSensorMock.h"
 
 SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
 {

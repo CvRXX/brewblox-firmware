@@ -2,7 +2,7 @@
   CRC code moved from OneWire library, see OneWire.cpp for copyright
   */
 
-#include "../inc/OneWireCrc.h"
+#include "control/OneWireCrc.h"
 
 // Dow-CRC using polynomial X^8 + X^5 + X^4 + X^0
 // Tiny 2x16 entry CRC table created by Arjen Lentz

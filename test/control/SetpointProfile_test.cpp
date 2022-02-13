@@ -19,10 +19,10 @@
 
 #include <catch.hpp>
 
-#include "../inc/SetpointProfile.h"
-#include "../inc/SetpointSensorPair.h"
-#include "../inc/TempSensorMock.h"
-#include "../inc/Temperature.h"
+#include "control/SetpointProfile.h"
+#include "control/SetpointSensorPair.h"
+#include "control/TempSensorMock.h"
+#include "control/Temperature.h"
 #include <cstdint>
 
 SCENARIO("SetpointProfile test", "[SetpointProfile]")

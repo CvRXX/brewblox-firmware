@@ -1,32 +1,32 @@
 idf_component_register(
   SRCS
-    nanopb_callbacks.cpp
-    brewblox.cpp
+    src/nanopb_callbacks.cpp
+    src/brewblox.cpp
 
-    blocks/ConstraintsProto.cpp
-    blocks/ActuatorAnalogMockBlock.cpp
-    blocks/ActuatorLogicBlock.cpp
-    blocks/ActuatorOffsetBlock.cpp
-    blocks/ActuatorPwmBlock.cpp
-    blocks/BalancerBlock.cpp
-    blocks/Block.cpp
-    blocks/BlockInterfaces.cpp
-    blocks/DigitalActuatorBlock.cpp
-    blocks/DisplaySettingsBlock.cpp
-    blocks/DS2408Block.cpp
-    blocks/DS2413Block.cpp
-    blocks/MockPinsBlock.cpp
-    blocks/MotorValveBlock.cpp
-    blocks/MutexBlock.cpp
-    blocks/OneWireBusBlock.cpp
-    blocks/PidBlock.cpp
-    blocks/SetpointProfileBlock.cpp
-    blocks/SetpointSensorPairBlock.cpp
-    blocks/SysInfoBlock.cpp
-    blocks/TempSensorCombiBlock.cpp
-    blocks/TempSensorOneWireBlock.cpp
+    src/ConstraintsProto.cpp
+    src/ActuatorAnalogMockBlock.cpp
+    src/ActuatorLogicBlock.cpp
+    src/ActuatorOffsetBlock.cpp
+    src/ActuatorPwmBlock.cpp
+    src/BalancerBlock.cpp
+    src/Block.cpp
+    src/BlockInterfaces.cpp
+    src/DigitalActuatorBlock.cpp
+    src/DisplaySettingsBlock.cpp
+    src/DS2408Block.cpp
+    src/DS2413Block.cpp
+    src/MockPinsBlock.cpp
+    src/MotorValveBlock.cpp
+    src/MutexBlock.cpp
+    src/OneWireBusBlock.cpp
+    src/PidBlock.cpp
+    src/SetpointProfileBlock.cpp
+    src/SetpointSensorPairBlock.cpp
+    src/SysInfoBlock.cpp
+    src/TempSensorCombiBlock.cpp
+    src/TempSensorOneWireBlock.cpp
   INCLUDE_DIRS
-    .
+    inc
   REQUIRES
     main
 )

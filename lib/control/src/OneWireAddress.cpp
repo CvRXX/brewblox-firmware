@@ -20,12 +20,11 @@
 
 /* Old implementation, for backwards compatibility */
 
-#include "OneWireAddress.h"
-#include "OneWireCrc.h"
+#include "control/OneWireAddress.h"
+#include "control/OneWireCrc.h"
 #include <cstdint>
 
-char
-toHex(uint8_t b)
+char toHex(uint8_t b)
 {
     return ((b > 9) ? b - 10 + 'A' : b + '0');
 }
@@ -43,8 +42,7 @@ OneWireAddress::toString() const
     return retv;
 }
 
-bool
-OneWireAddress::valid() const
+bool OneWireAddress::valid() const
 {
     return OneWireCrc8(&asUint8ptr()[0], 7) == (*this)[7];
 }

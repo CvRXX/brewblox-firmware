@@ -19,9 +19,9 @@
 
 #include <catch.hpp>
 
-#include "../proto/SysInfo_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "blocks/SysInfoBlock.h"
+#include "proto/SysInfo_test.pb.h"
 #include "proto/proto_version.h"
 
 using namespace cbox;

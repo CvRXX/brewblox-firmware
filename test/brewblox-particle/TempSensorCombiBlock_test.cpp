@@ -22,16 +22,16 @@
 #include <iomanip>
 #include <iostream>
 
-#include "../proto/TempSensorCombi_test.pb.h"
-#include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
-#include "Temperature.h"
 #include "blocks/TempSensorCombiBlock.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamIo.h"
 #include "cbox/Object.h"
+#include "control/Temperature.h"
+#include "proto/TempSensorCombi_test.pb.h"
+#include "proto/TempSensorMock_test.pb.h"
 #include "testHelpers.h"
 
 SCENARIO("A TempSensorCombi block")

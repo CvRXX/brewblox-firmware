@@ -11,11 +11,6 @@ idf_component_register(
     TicksEsp.cpp
   INCLUDE_DIRS
     .
-  PRIV_REQUIRES
-    nvs_flash
-    esp_adc_cal
   REQUIRES
     main
-    network
-    graphics
 )

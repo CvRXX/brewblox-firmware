@@ -1,7 +1,7 @@
-#include "Object.h"
-#include "ObjectContainer.h"
-#include "ScanningFactory.hpp"
 #include "TestObjects.h"
+#include "cbox/Object.h"
+#include "cbox/ObjectContainer.h"
+#include "cbox/ScanningFactory.hpp"
 #include <memory>
 #include <vector>
 

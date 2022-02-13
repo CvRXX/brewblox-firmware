@@ -18,10 +18,7 @@
  */
 
 #include "AppTicks.h"
-#include "DS248x.hpp"
 #include "I2cScanningFactory.hpp"
-#include "Logger.h"
-#include "MockTicks.h"
 #include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
 #include "TicksEsp.h"
@@ -36,6 +33,9 @@
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
 #include "cbox/Tracing.h"
+#include "control/DS248x.hpp"
+#include "control/Logger.h"
+#include "control/MockTicks.h"
 #include <asio.hpp>
 #include <esp_log.h>
 #include <esp_wifi.h>

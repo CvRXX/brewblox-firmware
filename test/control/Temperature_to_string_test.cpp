@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "../inc/Temperature.h"
+#include "control/Temperature.h"
 
 TEST_CASE("Test temperature to string conversion in Celcius en Fahrenheit", "[tempformat]")
 {

@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "../inc/ActuatorAnalogMock.h"
+#include "control/ActuatorAnalogMock.h"
 
 SCENARIO("ActuatorAnalogMock test")
 {

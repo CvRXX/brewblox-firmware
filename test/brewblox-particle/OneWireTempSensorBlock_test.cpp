@@ -19,11 +19,11 @@
 
 #include <catch.hpp>
 
-#include "../proto/TempSensorOneWire_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "blocks/TempSensorOneWireBlock.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
+#include "proto/TempSensorOneWire_test.pb.h"
 #include <sstream>
 
 SCENARIO("A TempSensorOneWireBlock")

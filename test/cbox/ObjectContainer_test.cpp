@@ -17,16 +17,16 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ObjectContainer.h"
+#include "cbox/ObjectContainer.h"
 
 #include <catch.hpp>
 #include <cstdio>
 
-#include "DataStreamConverters.h"
-#include "Object.h"
-#include "ObjectStorage.h"
 #include "TestMatchers.hpp"
 #include "TestObjects.h"
+#include "cbox/DataStreamConverters.h"
+#include "cbox/Object.h"
+#include "cbox/ObjectStorage.h"
 
 using namespace cbox;
 

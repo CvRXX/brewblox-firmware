@@ -1,24 +1,24 @@
-#include "Box.h"
+#include "cbox/Box.h"
 
 #include "testinfo.h"
 #include <catch.hpp>
 #include <iomanip>
 #include <iostream>
 
-#include "ArrayEepromAccess.h"
-#include "Connections.h"
-#include "ConnectionsStringStream.h"
-#include "Crc.h"
-#include "DataStreamConverters.h"
-#include "EepromObjectStorage.h"
-#include "GroupsObject.h"
 #include "LongIntScanningFactory.hpp"
-#include "Object.h"
-#include "ObjectContainer.h"
-#include "ObjectFactory.h"
 #include "TestHelpers.h"
 #include "TestObjects.h"
-#include "Tracing.h"
+#include "cbox/ArrayEepromAccess.h"
+#include "cbox/Connections.h"
+#include "cbox/ConnectionsStringStream.h"
+#include "cbox/Crc.h"
+#include "cbox/DataStreamConverters.h"
+#include "cbox/EepromObjectStorage.h"
+#include "cbox/GroupsObject.h"
+#include "cbox/Object.h"
+#include "cbox/ObjectContainer.h"
+#include "cbox/ObjectFactory.h"
+#include "cbox/Tracing.h"
 
 using namespace cbox;
 

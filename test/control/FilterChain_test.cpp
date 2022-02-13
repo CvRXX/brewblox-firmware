@@ -19,8 +19,8 @@
 
 #include "catch.hpp"
 
-#include "FilterChain.h"
 #include "TestMatchers.hpp"
+#include "control/FilterChain.h"
 #include <algorithm> // std::copy
 #include <cassert>
 #include <fstream>
@@ -68,18 +68,18 @@ SCENARIO("Basic test of chain of filters")
         {
             uint32_t count = 0;
             int32_t step = 100000;
-            //char csv[] = "../test-results/test.csv";
-            ///std::ofstream csvFile(csv);
+            // char csv[] = "../test-results/test.csv";
+            /// std::ofstream csvFile(csv);
             while (count++ < 1000) {
                 chain.add(step);
                 /*				csvFile << count;
-				for(int i = 0; i < chain.length(); i++){
-					csvFile << "," << chain.read(i);
-				}
-				csvFile << std::endl;
+                for(int i = 0; i < chain.length(); i++){
+                    csvFile << "," << chain.read(i);
+                }
+                csvFile << std::endl;
 */
             }
-            //csvFile.close();
+            // csvFile.close();
             CHECK_THAT(chain.read(), IsWithinOf(1, 100000));
         }
     }

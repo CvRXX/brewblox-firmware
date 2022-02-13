@@ -17,8 +17,8 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "OneWireMockDevice.h"
-#include "OneWireMockDriver.h"
+#include "control/OneWireMockDevice.h"
+#include "control/OneWireMockDriver.h"
 #include <algorithm>
 
 uint8_t
@@ -41,8 +41,7 @@ OneWireMockDevice::read()
     return b;
 }
 
-void
-OneWireMockDevice::write(uint8_t b)
+void OneWireMockDevice::write(uint8_t b)
 {
     if (!flippedWriteBits.empty()) {
         auto flipMask = flippedWriteBits.front();
@@ -55,8 +54,7 @@ OneWireMockDevice::write(uint8_t b)
     }
 }
 
-void
-OneWireMockDevice::positionsToMasks(const std::vector<uint32_t>& positions, std::deque<uint8_t>& queue)
+void OneWireMockDevice::positionsToMasks(const std::vector<uint32_t>& positions, std::deque<uint8_t>& queue)
 {
     if (!positions.empty()) {
         auto maxPos = std::max_element(positions.cbegin(), positions.cend());
@@ -69,8 +67,7 @@ OneWireMockDevice::positionsToMasks(const std::vector<uint32_t>& positions, std:
     }
 }
 
-void
-OneWireMockDevice::recv(uint8_t* buf, uint16_t count)
+void OneWireMockDevice::recv(uint8_t* buf, uint16_t count)
 {
     for (uint16_t i = 0; i < count; i++) {
         buf[i] = recv();
@@ -88,22 +85,19 @@ OneWireMockDevice::recv()
     return retv;
 }
 
-void
-OneWireMockDevice::send(uint8_t b)
+void OneWireMockDevice::send(uint8_t b)
 {
     slaveToMaster.push_back(b);
 }
 
-void
-OneWireMockDevice::send(uint8_t* buf, uint16_t count)
+void OneWireMockDevice::send(uint8_t* buf, uint16_t count)
 {
     for (uint16_t i = 0; i < count; i++) {
         send(buf[i]);
     }
 }
 
-bool
-OneWireMockDevice::reset()
+bool OneWireMockDevice::reset()
 {
     while (!masterToSlave.empty()) {
         process(); // process any outstanding writes that don't expect a reply
@@ -116,8 +110,7 @@ OneWireMockDevice::reset()
     return connected;
 }
 
-void
-OneWireMockDevice::process()
+void OneWireMockDevice::process()
 {
     if (dropped || !connected) {
         masterToSlave.clear();
@@ -155,8 +148,7 @@ OneWireMockDevice::process()
     }
 }
 
-void
-OneWireMockDevice::search_triplet_read(bool* id_bit, bool* cmp_id_bit)
+void OneWireMockDevice::search_triplet_read(bool* id_bit, bool* cmp_id_bit)
 {
     while (!masterToSlave.empty()) {
         // process any outstanding writes first.
@@ -172,8 +164,7 @@ OneWireMockDevice::search_triplet_read(bool* id_bit, bool* cmp_id_bit)
     }
 }
 
-bool
-OneWireMockDevice::search_triplet_write(bool bit)
+bool OneWireMockDevice::search_triplet_write(bool bit)
 {
     bool my_bit = address.getBit(search_bitnr);
     if (my_bit != bit) {

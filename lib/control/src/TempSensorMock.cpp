@@ -17,7 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TempSensorMock.h"
+#include "control/TempSensorMock.h"
+
 temp_t
 calcFluctuation(const TempSensorMock::Fluctuation& f, ticks_millis_t now)
 {
@@ -53,8 +54,7 @@ TempSensorMock::update(ticks_millis_t now)
     return now + m_updateInterval;
 }
 
-void
-TempSensorMock::fluctuations(std::vector<Fluctuation>&& arg)
+void TempSensorMock::fluctuations(std::vector<Fluctuation>&& arg)
 {
     m_fluctuations = arg;
     m_updateInterval = 1000;

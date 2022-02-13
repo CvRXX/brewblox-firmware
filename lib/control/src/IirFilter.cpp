@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../inc/IirFilter.h"
+#include "control/IirFilter.h"
 #include <stdlib.h>
 
 IirFilter::IirFilter(uint8_t idx, int32_t threshold)
@@ -32,8 +32,7 @@ IirFilter::~IirFilter()
 {
 }
 
-void
-IirFilter::setStepThreshold(const int32_t threshold)
+void IirFilter::setStepThreshold(const int32_t threshold)
 {
     fastStepThreshold = threshold;
 }
@@ -44,14 +43,12 @@ IirFilter::getStepThreshold() const
     return fastStepThreshold;
 }
 
-bool
-IirFilter::add(const int32_t val)
+bool IirFilter::add(const int32_t val)
 {
     return add(val, 0);
 }
 
-bool
-IirFilter::add(const int64_t val, uint8_t fractionBits)
+bool IirFilter::add(const int64_t val, uint8_t fractionBits)
 {
     int64_t output = 0;
     FilterParams const& paramsRef = params();
@@ -83,14 +80,12 @@ IirFilter::add(const int64_t val, uint8_t fractionBits)
     return false;
 }
 
-void
-IirFilter::reset(const int32_t& value)
+void IirFilter::reset(const int32_t& value)
 {
     resetInternal(shift(value));
 }
 
-void
-IirFilter::resetInternal(const int64_t& value)
+void IirFilter::resetInternal(const int64_t& value)
 {
     for (uint8_t i = 0; i <= FILTER_ORDER; i++) {
         // set history to same value to prevent instability and ringing after the step
@@ -240,8 +235,7 @@ IirFilter::params() const
     return FilterDefinition(paramsIdx);
 }
 
-void
-IirFilter::setParamsIdx(const uint8_t idx)
+void IirFilter::setParamsIdx(const uint8_t idx)
 {
     // reset filter (all history same value) to prevent instability
     int64_t oldValue = readWithNFractionBits(FilterDefinition(idx).shift);

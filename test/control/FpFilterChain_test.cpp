@@ -19,9 +19,9 @@
 
 #include "catch.hpp"
 
-#include "../inc/Temperature.h"
-#include "FpFilterChain.h"
 #include "TestMatchers.hpp"
+#include "control/FpFilterChain.h"
+#include "control/Temperature.h"
 #include <iostream>
 #include <iterator>
 #include <sstream>

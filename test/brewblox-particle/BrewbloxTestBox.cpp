@@ -19,7 +19,7 @@
 
 #include "BrewbloxTestBox.h"
 #include "Board.h"
-#include "blocks/Spark3PinsBlock.h"
+#include "Spark3PinsBlock.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/ConnectionsStringStream.h"
 

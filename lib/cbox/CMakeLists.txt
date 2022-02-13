@@ -1,19 +1,19 @@
 idf_component_register(
   SRCS
-    src/cbox/Box.cpp
-    src/cbox/CboxPtr.cpp
-    src/cbox/ConnectionPool.cpp
-    src/cbox/Crc.cpp
-    src/cbox/DataStream.cpp
-    src/cbox/DataStreamConverters.cpp
-    src/cbox/EepromObjectStorage.cpp
-    src/cbox/FileObjectStorage.cpp
-    src/cbox/ObjectBase.cpp
-    src/cbox/ObjectContainer.cpp
-    src/cbox/ObjectFactory.cpp
-    src/cbox/Tracing.cpp
+    src/Box.cpp
+    src/CboxPtr.cpp
+    src/ConnectionPool.cpp
+    src/Crc.cpp
+    src/DataStream.cpp
+    src/DataStreamConverters.cpp
+    src/EepromObjectStorage.cpp
+    src/FileObjectStorage.cpp
+    src/ObjectBase.cpp
+    src/ObjectContainer.cpp
+    src/ObjectFactory.cpp
+    src/Tracing.cpp
   INCLUDE_DIRS
-    src
+    inc
   REQUIRES
     main
 )

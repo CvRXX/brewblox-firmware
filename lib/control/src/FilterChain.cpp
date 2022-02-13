@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <FilterChain.h>
+#include "control/FilterChain.h"
 #include <limits>
 #include <memory>
 
@@ -66,8 +66,7 @@ FilterChain::FilterChain(
 {
 }
 
-void
-FilterChain::add(int32_t val)
+void FilterChain::add(int32_t val)
 {
     uint32_t updatePeriod = 1;
     int64_t nextFilterIn = val;
@@ -90,8 +89,7 @@ FilterChain::add(int32_t val)
     }
 }
 
-void
-FilterChain::reset(int32_t value)
+void FilterChain::reset(int32_t value)
 {
     for (auto& s : stages) {
         if (!s.filter) {
@@ -101,8 +99,7 @@ FilterChain::reset(int32_t value)
     }
 }
 
-void
-FilterChain::expandStages(size_t numStages)
+void FilterChain::expandStages(size_t numStages)
 {
     auto currentSize = length();
     if (numStages <= currentSize) {
@@ -118,8 +115,7 @@ FilterChain::expandStages(size_t numStages)
     }
 }
 
-void
-FilterChain::setStepThreshold(int32_t threshold)
+void FilterChain::setStepThreshold(int32_t threshold)
 {
     int32_t adjustedThreshold = threshold;
     for (auto& s : stages) {

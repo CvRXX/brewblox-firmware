@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include "Ticks.h"
 #include "TicksEsp.h"
+#include "control/Ticks.h"
 using TicksClass = Ticks<TicksEsp>;
 
 extern TicksClass ticks;

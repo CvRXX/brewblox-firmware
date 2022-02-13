@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "../inc/FixedPoint.h"
+#include "control/FixedPoint.h"
 #include <boost/core/demangle.hpp>
 #include <cstdint>
 #include <iomanip>
@@ -437,10 +437,10 @@ SCENARIO("CNL fixed point formats", "[fixedpoint]")
 
         CHECK(t2 == 1.0);
 
-        //WARN(boost::core::demangle(typeid(t2).name()));
-        //WARN(boost::core::demangle(typeid(t3).name()));
-        //WARN(boost::core::demangle(typeid(t4).name()));
-        //WARN(boost::core::demangle(typeid(t5).name()));
+        // WARN(boost::core::demangle(typeid(t2).name()));
+        // WARN(boost::core::demangle(typeid(t3).name()));
+        // WARN(boost::core::demangle(typeid(t4).name()));
+        // WARN(boost::core::demangle(typeid(t5).name()));
     }
 
     WHEN("temp_t is converted to string")
@@ -470,7 +470,7 @@ SCENARIO("CNL fixed point formats", "[fixedpoint]")
         REQUIRE(bit == 1.0 / 4096);
         for (auto t = temp_t(-11); t < temp_t(11); t += bit) {
             auto d = std::round(float(t) * 100) / 100; // round away from zero
-            //auto d = float{t};
+            // auto d = float{t};
             std::ostringstream ostr;
             // Set Fixed -Point Notation
             ostr << std::fixed;
@@ -482,9 +482,9 @@ SCENARIO("CNL fixed point formats", "[fixedpoint]")
                 s = "0.00";
             }
 
-            //INFO(d);
-            //INFO(t);
-            //INFO(s);
+            // INFO(d);
+            // INFO(t);
+            // INFO(s);
 
             REQUIRE(to_string_dec(t, 2) == s);
         }

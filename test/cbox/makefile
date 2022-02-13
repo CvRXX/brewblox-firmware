@@ -10,7 +10,7 @@ RM = rm -f
 RMDIR = rm -f -r
 MKDIR = mkdir -p
 
-TARGETDIR=build/
+TARGETDIR=build
 TARGET=test_runner
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
@@ -21,7 +21,7 @@ ROOT_PATH = $(abspath mkfile_dir/../../..)
 
 include $(ROOT_PATH)/test/checkers.mk # sanitizer and gcov
 
-BUILD_PATH=$(TARGETDIR)
+BUILD_PATH=$(TARGETDIR)/test
 
 # Recursive wildcard function
 rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
@@ -41,8 +41,8 @@ INCLUDE_DIRS += $(ROOT_PATH)/external_libs/device-os/third_party/catch2/catch2/s
 CPPSRC += $(call here_files,test/cbox,*.cpp)
 
 # and sources
-INCLUDE_DIRS += $(ROOT_PATH)/lib/cbox/src/
-CPPSRC += $(call here_files,lib/cbox/src/cbox,*.cpp)
+INCLUDE_DIRS += $(ROOT_PATH)/lib/cbox/inc
+CPPSRC += $(call here_files,lib/cbox/src,*.cpp)
 
 # include dir
 CFLAGS += -I$(ROOT_PATH)/lib/cbox/src/cbox

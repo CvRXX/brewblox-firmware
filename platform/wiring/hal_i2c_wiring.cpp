@@ -1,4 +1,4 @@
-#include "hal/hal_i2c.h"
+#include "lib_hal/hal_i2c.h"
 #include "spark_wiring.h"
 #include "spark_wiring_i2c.h"
 

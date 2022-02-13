@@ -2,8 +2,8 @@
 #include "Spark4.hpp"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "hal/hal_delay.h"
-#include "hal/hal_spi_types.h"
+#include "lib_hal/hal_delay.h"
+#include "lib_hal/hal_spi_types.h"
 #include <cstring>
 #include <esp_log.h>
 #include <functional>
@@ -122,37 +122,37 @@ void TFT035::init()
                0x37,
                0x0F});
 
-    writeCommand(PWCTRL1); //Power Control 1
-    writeData(0x17);       //Vreg1out
-    writeData(0x15);       //Verg2out
+    writeCommand(PWCTRL1); // Power Control 1
+    writeData(0x17);       // Vreg1out
+    writeData(0x15);       // Verg2out
 
-    writeCommand(PWCTRL2); //Power Control 2
-    writeData(0x41);       //VGH,VGL
+    writeCommand(PWCTRL2); // Power Control 2
+    writeData(0x41);       // VGH,VGL
 
-    writeCommand(PWCTRL3); //Power Control 3
+    writeCommand(PWCTRL3); // Power Control 3
     writeData(0x00);
-    writeData(0x12); //Vcom
+    writeData(0x12); // Vcom
     writeData(0x80);
 
-    writeCommand(MADCTL); //Memory Access
+    writeCommand(MADCTL); // Memory Access
 
     writeData(0b00101000);
 
     writeCommand(COLMOD); // Interface Pixel Format
-    writeData(0x66);      //18 bit
+    writeData(0x66);      // 18 bit
 
     writeCommand(IFMODE); // Interface Mode Control
     writeData(0x00);
 
-    writeCommand(FRMCTR1); //Frame rate
-    writeData(0xA0);       //60Hz
+    writeCommand(FRMCTR1); // Frame rate
+    writeData(0xA0);       // 60Hz
 
-    writeCommand(INVTR); //Display Inversion Control
-    writeData(0x02);     //2-dot
+    writeCommand(INVTR); // Display Inversion Control
+    writeData(0x02);     // 2-dot
 
-    writeCommand(DISCTRL); //Display Function Control  RGB/MCU Interface Control
-    writeData(0x02);       //MCU
-    writeData(0x02);       //Source,Gate scan direction
+    writeCommand(DISCTRL); // Display Function Control  RGB/MCU Interface Control
+    writeData(0x02);       // MCU
+    writeData(0x02);       // Source,Gate scan direction
 
     writeCommand(SETIMAGE); // Set Image Function
     writeData(0x00);        // Disable 24 bit data
@@ -163,7 +163,7 @@ void TFT035::init()
     writeData(0x2C);
     writeData(0x82); // D7 stream, loose
 
-    writeCommand(SLPOUT); //Sleep out
+    writeCommand(SLPOUT); // Sleep out
     hal_delay_ms(120);
     writeCommand(DISON);
 }

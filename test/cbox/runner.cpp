@@ -1,29 +1,26 @@
 #define CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_CONSOLE_WIDTH 300 // workaround for compatiblity with vscode Test Explorer
 
-#include "CboxError.h"
-#include "Connections.h"
-#include "DataStream.h"
-#include "Tracing.h"
+#include "cbox/CboxError.h"
+#include "cbox/Connections.h"
+#include "cbox/DataStream.h"
+#include "cbox/Tracing.h"
 #include "testinfo.h"
 #include <catch.hpp>
 
 TestInfo testInfo;
 
-void
-handleReset(bool, uint8_t)
+void handleReset(bool, uint8_t)
 {
     ++testInfo.rebootCount;
 }
 
 namespace cbox {
-void
-connectionStarted(DataOut& out)
+void connectionStarted(DataOut& out)
 {
 }
 
-bool
-applicationCommand(uint8_t cmdId, DataIn& in, EncodedDataOut& out)
+bool applicationCommand(uint8_t cmdId, DataIn& in, EncodedDataOut& out)
 {
 
     switch (cmdId) {

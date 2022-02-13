@@ -1,4 +1,4 @@
-#include "staticAllocator.hpp"
+#include "control/staticAllocator.hpp"
 #include <catch.hpp>
 
 TEST_CASE("Elements can be taken from the StaticAllocator", "[StaticAllocator]")

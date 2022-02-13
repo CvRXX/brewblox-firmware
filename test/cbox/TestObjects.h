@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CboxPtr.h"
-#include "ObjectBase.h"
+#include "cbox/CboxPtr.h"
+#include "cbox/ObjectBase.h"
 #include <vector>
 
 /**

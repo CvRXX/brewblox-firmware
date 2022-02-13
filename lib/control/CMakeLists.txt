@@ -14,7 +14,6 @@ idf_component_register(
     src/DS248x.cpp
     src/FilterChain.cpp
     src/FixedPoint.cpp
-    src/hal_spi.cpp
     src/IirFilter.cpp
     src/MotorValve.cpp
     src/OneWireAddress.cpp

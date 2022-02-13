@@ -22,14 +22,14 @@
 #include <iomanip>
 #include <iostream>
 
-#include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
-#include "Temperature.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamIo.h"
 #include "cbox/Object.h"
+#include "control/Temperature.h"
+#include "proto/TempSensorMock_test.pb.h"
 #include "testHelpers.h"
 
 SCENARIO("A TempSensorMock block")

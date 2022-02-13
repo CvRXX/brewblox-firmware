@@ -1,5 +1,5 @@
 #include "MDNS.h"
-#include "hal/hal_delay.h"
+#include "lib_hal/hal_delay.h"
 #include "spark_wiring_wifi.h"
 #include <algorithm>
 #include <cctype> // for std::tolower

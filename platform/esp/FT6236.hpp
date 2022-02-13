@@ -1,7 +1,7 @@
 #pragma once
-#include "I2CDevice.hpp"
+#include "control/I2CDevice.hpp"
 #include "driver/gpio.h"
-#include "hal/hal_gpio.h"
+#include "lib_hal/hal_gpio.h"
 #include <atomic>
 #include <optional>
 
@@ -10,11 +10,11 @@
  */
 class FT6236 : public I2CDeviceBase<0x38> {
 public:
-    /** 
-    * Constructs the driver
-    * 
-    * @param address The lower address of the i2c device
-    */
+    /**
+     * Constructs the driver
+     *
+     * @param address The lower address of the i2c device
+     */
     FT6236(uint8_t address);
     ~FT6236();
 
@@ -39,7 +39,7 @@ public:
     /// Initialises the driver, needs to be called before other functions
     void init();
 
-    /** Returns the lastTouch that occurred. 
+    /** Returns the lastTouch that occurred.
      *  If no touch has happened it will return a touch at {0,0} with no gesture.
      */
     Touch getLastTouch();

@@ -19,16 +19,16 @@
 
 #include <catch.hpp>
 
-#include "../proto/ActuatorLogic_test.pb.h"
-#include "../proto/DigitalActuator_test.pb.h"
-#include "../proto/SetpointSensorPair_test.pb.h"
-#include "../proto/TempSensorMock_test.pb.h"
 #include "BrewbloxTestBox.h"
 #include "blocks/ActuatorLogicBlock.h"
 #include "blocks/DigitalActuatorBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "cbox/DataStreamIo.h"
+#include "proto/ActuatorLogic_test.pb.h"
+#include "proto/DigitalActuator_test.pb.h"
+#include "proto/SetpointSensorPair_test.pb.h"
+#include "proto/TempSensorMock_test.pb.h"
 #include <sstream>
 
 SCENARIO("Test", "[maklogicblock]")
