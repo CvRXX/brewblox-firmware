@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 set -euo pipefail
-pushd "$(dirname "$0")" > /dev/null
+pushd "$(dirname "$0")" >/dev/null
 
 # The particle image is expected to remain relatively stable
 # It wraps the Particle CLI in a docker image, so it can easily be used to flash the firmware

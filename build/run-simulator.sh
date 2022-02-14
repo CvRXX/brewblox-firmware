@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/build/_init.sh"
 
@@ -8,7 +8,7 @@ EXECUTABLE="$EXECUTABLE_DIR/brewblox-gcc"
 OUTPUT_DIR="build/coverage"
 DEVICE_KEY="$EXECUTABLE_DIR/device_key.der"
 SERVER_KEY="$EXECUTABLE_DIR/server_key.der"
-# EEPROM_FILE="$EXECUTABLE_DIR/eeprom.bin"
+EEPROM_FILE="$EXECUTABLE_DIR/eeprom.bin"
 STATE_DIR="$EXECUTABLE_DIR/state"
 
 ls "$EXECUTABLE"
@@ -17,7 +17,7 @@ if [ ! -f "$EXECUTABLE" ]; then
     exit 1
 fi
 
-touch "$DEVICE_KEY" "$SERVER_KEY" # "$EEPROM_FILE"
+touch "$DEVICE_KEY" "$SERVER_KEY" "$EEPROM_FILE"
 mkdir -p "$STATE_DIR"
 mkdir -p "$OUTPUT_DIR"
 

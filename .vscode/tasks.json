@@ -5,141 +5,122 @@
   "tasks": [
     {
       "label": "Build P1",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=p1"
-      ],
+      "command": "build/build-p1.sh",
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc"
     },
     {
       "label": "Build Photon",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=photon"
-      ],
+      "command": "build/build-photon.sh",
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc"
     },
     {
       "label": "Build GCC",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=gcc"
-      ],
+      "command": "build/build-gcc.sh",
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc"
     },
     {
       "label": "Build ESP",
-      "command": "bash",
-      "args": [
-        "build/idf.sh",
-        "build"
-      ],
+      "command": "build/build-esp.sh",
       "group": "build",
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Build and run tests",
-      "command": "bash",
-      "args": [
-        "build/build-and-run-tests.sh"
-      ],
+      "label": "Test brewblox app",
+      "command": "build/test-brewblox.sh",
       "group": "build",
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Test controlbox",
+      "command": "build/test-controlbox.sh",
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Test lib",
+      "command": "build/test-lib.sh",
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Test all",
+      "group": "build",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Test brewblox app",
+        "Test controlbox",
+        "Test lib",
+      ]
     },
     {
       "label": "Trigger DFU",
-      "command": "python3",
-      "args": [
-        "build/trigger-dfu.py"
-      ],
+      "command": "build/trigger-dfu.py",
       "group": "build",
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       }
     },
     {
       "label": "Flash P1",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=p1",
-        "all",
-        "program-dfu"
-      ],
+      "command": "build/flash-p1.sh",
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc",
+      "dependsOn": [
+        "Trigger DFU"
+      ]
+    },
+    {
+      "label": "Flash P1 SWD",
+      "command": "build/flash-p1-swd.sh",
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc",
@@ -149,24 +130,11 @@
     },
     {
       "label": "Flash Photon",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=photon",
-        "all",
-        "program-dfu"
-      ],
+      "command": "build/flash-photon.sh",
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc",
@@ -176,169 +144,42 @@
     },
     {
       "label": "Flash ESP",
-      "command": "bash",
-      "args": [
-        "idf.sh",
-        "flash"
-      ],
+      "command": "build/flash-esp.sh",
       "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
+        "focus": true,
         "clear": false
       },
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Touch GCC",
-      "type": "shell",
-      "command": "touch",
-      "args": [
-        "device_key.der",
-        "server_key.der",
-        "eeprom.bin"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/build/target/brewblox-gcc"
-      },
+      "label": "Run simulator",
+      "command": "build/run-simulator.sh",
+      "group": "build",
       "presentation": {
-        "echo": false,
-        "reveal": "never",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": false,
+        "panel": "dedicated",
+        "focus": true,
         "clear": false
       }
     },
     {
-      "label": "Build and touch GCC",
-      "dependsOn": [
-        "Build GCC",
-        "Touch GCC"
-      ]
-    },
-    {
       "label": "Compile proto",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "build/compile-proto.sh"
-      ],
+      "command": "build/compile-proto.sh",
       "group": "build",
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
         "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Build app tests",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "wrapped_make.sh",
-        "-C",
-        "app/brewblox-particle/test"
-      ],
-      "group": "build",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
         "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "Build lib tests",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "wrapped_make.sh",
-        "-C",
-        "lib/test"
-      ],
-      "group": "build",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "Build controlbox tests",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "wrapped_make.sh",
-        "-C",
-        "controlbox"
-      ],
-      "group": "build",
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
+        "clear": false
+      }
     },
     {
       "label": "Clean all",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        "build/clean-all.sh"
-      ],
+      "command": "build/clean.sh",
       "group": "build",
       "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
         "panel": "shared",
-        "showReuseMessage": false,
-        "clear": true
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "Build P1 SWD",
-      "command": "bash",
-      "args": [
-        "../wrapped_make.sh",
-        "APP=brewblox",
-        "PLATFORM=p1",
-        "USE_SWD=y",
-        "program-dfu"
-      ],
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/build"
-      },
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
         "focus": true,
-        "panel": "shared",
-        "showReuseMessage": false,
         "clear": false
       },
       "problemMatcher": "$gcc"

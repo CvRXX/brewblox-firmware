@@ -22,6 +22,7 @@
     "timonwong.shellcheck",
     "huizhou.githd",
     "letmaik.git-tree-compare",
+    "foxundermoon.shell-format",
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
@@ -29,6 +30,7 @@
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind", // mount the Docker socket
     "source=/etc/localtime,target=/etc/localtime,type=bind,readonly", // mount localtime
     "source=/dev,target=/dev,type=bind,readonly", // Required for recognizing new USB devices
+    "source=${localWorkspaceFolder}/.devcontainer/.bash_aliases,target=/home/vscode/.bash_aliases,type=bind",
   ],
   "runArgs": [
     "--rm",

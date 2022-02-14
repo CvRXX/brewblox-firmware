@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Early exit if current builder can handle ARM builds
 if [[ $(docker buildx inspect | grep 'linux/arm/v7') != '' ]]; then
-    exit 
+    exit
 fi
 
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes

@@ -7,20 +7,26 @@ RUN : \
     && apt-get -y install --no-install-recommends \
         curl \
         wget \
+        software-properties-common \
+    && add-apt-repository ppa:aos1/diff-so-fancy \
+    && apt-get update -q \
     && apt-get -y install --no-install-recommends \
         autoconf \
         automake \
+        bash-completion \
         bear \
         bison \
         build-essential \
         ca-certificates \
         ccache \
         check \
+        diff-so-fancy \
         dfu-util \
         flex \
         g++-10 \
         gcc-10 \
         gcovr \
+        gdb \
         git \
         gperf \
         jq \
@@ -133,4 +139,12 @@ ARG USERNAME=vscode
 RUN : \
     && usermod -aG dialout $USERNAME \
     && usermod -aG plugdev $USERNAME \
+    && :
+
+ARG SHFMT_VERSION=v3.4.2
+RUN : \
+    && curl -sSfL \
+        -o /usr/local/bin/shfmt \
+        https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64 \
+    && chmod +x /usr/local/bin/shfmt \
     && :

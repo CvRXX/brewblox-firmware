@@ -33,8 +33,8 @@ docker run \
     --platform=linux/arm/v7 \
     -v "$(pwd)/":/firmware/ \
     brewblox/simulator-compiler:8 \
-    make APP=brewblox PLATFORM=gcc
+    make PLATFORM=gcc
 
 # reset modified file
 cd platform/spark/device-os
-git checkout -- build/gcc-tools.mk 
+git checkout -- build/gcc-tools.mk
