@@ -14,7 +14,7 @@ sed -i 's/-gdwarf-2//g' external_libs/device-os/build/gcc-tools.mk
 # shellcheck disable=SC2016
 sed -i 's/-O$(GCC_OPTIMIZE)/-Os/g' external_libs/device-os/build/gcc-tools.mk
 
-subtask make -C build PLATFORM=gcc
+subtask make -C build PLATFORM=gcc $MAKE_ARGS
 
 # reset modified file
 git -C external_libs/device-os checkout -- build/gcc-tools.mk

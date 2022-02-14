@@ -3,4 +3,4 @@
 source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 cd build
-bear --append make PLATFORM=p1
+bear --append make PLATFORM=p1 $MAKE_ARGS

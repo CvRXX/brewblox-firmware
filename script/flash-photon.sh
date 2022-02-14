@@ -3,4 +3,4 @@
 source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 cd build
-make PLATFORM=photon all program-dfu
+make PLATFORM=photon $MAKE_ARGS all program-dfu

@@ -6,10 +6,10 @@ source "$(git rev-parse --show-toplevel)/script/_init.sh"
 pushd external_libs/device-os/modules >/dev/null
 
 echo "Building system modules for P1 with SWD"
-make -s clean all PLATFORM=p1 USE_SWD=y
+make -s PLATFORM=p1 USE_SWD=y $MAKE_ARGS clean all
 
 echo "Flashing system modules with SWD"
-make -s program-dfu PLATFORM=p1 USE_SWD=y
+make -s PLATFORM=p1 USE_SWD=y $MAKE_ARGS program-dfu
 
 popd >/dev/null
 
@@ -17,9 +17,9 @@ popd >/dev/null
 pushd build
 
 echo "Building brewblox app for P1 with SWD"
-make -s clean all PLATFORM=p1 USE_SWD=y
+make -s PLATFORM=p1 USE_SWD=y $MAKE_ARGS clean all
 
 echo "Flashing brewblox app with SWD"
-make -s program-dfu PLATFORM=p1 USE_SWD=y
+make -s PLATFORM=p1 USE_SWD=y $MAKE_ARGS program-dfu
 
 popd >/dev/null

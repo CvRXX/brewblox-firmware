@@ -3,4 +3,4 @@
 source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 cd build
-make PLATFORM=p1 all program-dfu
+make PLATFORM=p1 $MAKE_ARGS all program-dfu

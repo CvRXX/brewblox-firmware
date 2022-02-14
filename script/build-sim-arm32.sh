@@ -33,7 +33,7 @@ docker run \
     --platform=linux/arm/v7 \
     -v "$(pwd)/":/firmware/ \
     brewblox/simulator-compiler:8 \
-    make PLATFORM=gcc
+    make PLATFORM=gcc $MAKE_ARGS
 
 # reset modified file
 cd external_libs/device-os

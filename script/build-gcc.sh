@@ -3,4 +3,4 @@
 source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
 cd build
-bear --append make PLATFORM=gcc
+bear --append make PLATFORM=gcc $MAKE_ARGS
