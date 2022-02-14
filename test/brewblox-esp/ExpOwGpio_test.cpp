@@ -17,13 +17,13 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ActuatorDigital.h"
 #include "DRV8908.hpp"
 #include "DRV8908Mock.hpp"
 #include "MockI2CDevice.hpp"
 #include "MockSpiDevice.hpp"
 #include "TCA9538.hpp"
 #include "TCA9538Mock.hpp"
+#include "control/ActuatorDigital.h"
 #include "main/ExpOwGpio.hpp"
 #include <catch.hpp>
 

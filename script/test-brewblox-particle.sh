@@ -8,6 +8,6 @@ echo "Building brewblox-particle tests"
 subtask make $MAKE_ARGS -s
 
 echo "Running brewblox-particle tests"
-subtask build/test_runner --durations yes
+subtask build/runner --durations yes
 
 exit $SUBTASK_STATUS

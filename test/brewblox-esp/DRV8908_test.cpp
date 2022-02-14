@@ -17,43 +17,43 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "DRV8908.hpp"
-#include "DRV8908Mock.hpp"
-#include "MockSpiDevice.hpp"
-#include <catch.hpp>
+// #include "DRV8908.hpp"
+// #include "DRV8908Mock.hpp"
+// #include "MockSpiDevice.hpp"
+// #include <catch.hpp>
 
-SCENARIO("writing registers of DRV8908")
-{
-    addMockSpiDevice(std::make_shared<DRV8908Mock>(1));
+// SCENARIO("writing registers of DRV8908")
+// {
+//     addMockSpiDevice(std::make_shared<DRV8908Mock>(1));
 
-    SpiDevice spi(
-        hal_spi::Settings{
-            0,
-            100000,
-            1,
-            1,
-            hal_spi::Settings::Mode::SPI_MODE1,
-            hal_spi::Settings::BitOrder::MSBFIRST,
-        });
+//     SpiDevice spi(
+//         hal_spi::Settings{
+//             0,
+//             100000,
+//             1,
+//             1,
+//             hal_spi::Settings::Mode::SPI_MODE1,
+//             hal_spi::Settings::BitOrder::MSBFIRST,
+//         });
 
-    DRV8908 drv(spi);
+//     DRV8908 drv(spi);
 
-    WHEN("The op_ctrl registers are written")
-    {
-        spi.aquire_bus();
-        REQUIRE(!drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, 100));
-        REQUIRE(!drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, 101));
+//     WHEN("The op_ctrl registers are written")
+//     {
+//         spi.aquire_bus();
+//         REQUIRE(!drv.writeRegister(DRV8908::RegAddr::OP_CTRL_1, 100));
+//         REQUIRE(!drv.writeRegister(DRV8908::RegAddr::OP_CTRL_2, 101));
 
-        THEN("They read back the same as what was written")
-        {
-            uint8_t byte1, byte2;
-            REQUIRE(!drv.readRegister(DRV8908::RegAddr::OP_CTRL_1, byte1));
-            REQUIRE(!drv.readRegister(DRV8908::RegAddr::OP_CTRL_2, byte2));
-            CHECK(byte1 == 100);
-            CHECK(byte2 == 101);
-        }
-        spi.release_bus();
-    }
+//         THEN("They read back the same as what was written")
+//         {
+//             uint8_t byte1, byte2;
+//             REQUIRE(!drv.readRegister(DRV8908::RegAddr::OP_CTRL_1, byte1));
+//             REQUIRE(!drv.readRegister(DRV8908::RegAddr::OP_CTRL_2, byte2));
+//             CHECK(byte1 == 100);
+//             CHECK(byte2 == 101);
+//         }
+//         spi.release_bus();
+//     }
 
-    removeMockSpiDevice(1);
-}
+//     removeMockSpiDevice(1);
+// }
