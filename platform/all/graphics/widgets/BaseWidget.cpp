@@ -12,7 +12,7 @@ BaseWidget::BaseWidget(lv_obj_t* grid, const char* labelText, lv_color_t color)
 {
     lv_obj_set_size(obj, 148, 135);
     lv_obj_add_style(obj, &style::block, 0);
-    // lv_obj_set_style_local_bg_color(obj, LV_PART_MAIN, LV_STATE_DEFAULT, color);
+    lv_obj_set_style_bg_color(obj, color, 0);
 
     // set styling of object and its children based on luminance of background color
     lv_obj_add_style(obj, luminance(color) < 128 ? &style::bg_dark : &style::bg_light, 0);
