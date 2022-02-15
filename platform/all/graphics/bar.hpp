@@ -14,6 +14,7 @@ public:
         , networksLabel(lv_label_create(barObj))
         , timeLabel(lv_label_create(barObj))
     {
+        lv_obj_clear_flag(barObj, LV_OBJ_FLAG_SCROLLABLE);
         lv_obj_set_size(barObj, 480, 22);
         lv_obj_add_style(barObj, &style::bar, 0);
         lv_obj_align(networksLabel, LV_ALIGN_LEFT_MID, 0, 0);

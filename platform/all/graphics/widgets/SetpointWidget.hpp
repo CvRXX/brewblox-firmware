@@ -13,8 +13,8 @@ public:
      * @param label The user set label of the object.
      * @param color The background color of the widget.
      */
-    SetpointWidget(lv_obj_t* grid, cbox::CboxPtr<SetpointSensorPairBlock>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, label, color)
+    SetpointWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<SetpointSensorPairBlock>&& ptr, const char* label, lv_color_t color)
+        : BaseWidget(grid, row, col, label, color)
         , lookup(ptr)
         , value(lv_label_create(obj))
         , setting(lv_label_create(obj))

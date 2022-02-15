@@ -21,6 +21,7 @@ void init()
     lv_style_set_bg_color(&maincontainer, lv_color_black());
     lv_style_set_border_side(&maincontainer, LV_BORDER_SIDE_NONE);
     lv_style_set_text_font(&maincontainer, &fonts::main);
+    lv_style_set_radius(&maincontainer, 0);
 
     lv_style_init(&bar);
     lv_style_set_bg_color(&bar, lv_color_white());
@@ -35,11 +36,7 @@ void init()
 
     lv_style_init(&block);
     lv_style_set_radius(&block, 5);
-    lv_style_set_bg_opa(&block, LV_OPA_COVER);
-    lv_style_set_bg_opa(&block, 50);
-    lv_style_set_text_opa(&block, 50);
-    lv_style_set_border_width(&block, 1);
-    lv_style_set_border_opa(&block, 80);
+    lv_style_set_border_width(&block, 0);
     lv_style_set_pad_all(&block, 10);
 
     lv_style_init(&bg_light);
@@ -58,10 +55,8 @@ void init()
 
     lv_style_init(&widget_name);
     lv_style_set_text_font(&widget_name, &fonts::widget_name);
-    lv_style_set_text_opa(&widget_name, 160);
 
     lv_style_init(&field_label);
     lv_style_set_text_font(&field_label, &fonts::main_small);
-    lv_style_set_text_opa(&field_label, 160);
 }
 }

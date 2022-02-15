@@ -12,8 +12,8 @@ public:
      * @param label The user set label of the object.
      * @param color The background color of the widget.
      */
-    PidWidget(lv_obj_t* grid, cbox::CboxPtr<PidBlock>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, label, color)
+    PidWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<PidBlock>&& ptr, const char* label, lv_color_t color)
+        : BaseWidget(grid, row, col, label, color)
         , lookup(ptr)
         , inputValue(lv_label_create(obj))
         , inputSetting(lv_label_create(obj))

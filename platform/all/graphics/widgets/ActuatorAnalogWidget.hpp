@@ -14,8 +14,8 @@ public:
      * @param label The user set label of the object.
      * @param color The background color of the widget.
      */
-    ActuatorAnalogWidget(lv_obj_t* grid, cbox::CboxPtr<ActuatorAnalogConstrained>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, label, color)
+    ActuatorAnalogWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<ActuatorAnalogConstrained>&& ptr, const char* label, lv_color_t color)
+        : BaseWidget(grid, row, col, label, color)
         , lookup(ptr)
     {
         value = lv_label_create(obj);
@@ -26,10 +26,6 @@ public:
         lv_obj_add_style(setting, &style::number_medium, 0);
 
         lv_obj_align(setting, LV_ALIGN_CENTER, 0, -40);
-
-        // led = lv_led_create(obj, nullptr);
-        // lv_obj_set_size(led, 16, 16);
-        // lv_obj_align(led, LV_ALIGN_CENTER, 00, 30);
     }
 
     virtual ~ActuatorAnalogWidget()

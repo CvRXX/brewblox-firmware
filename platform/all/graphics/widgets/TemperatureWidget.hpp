@@ -14,8 +14,8 @@ public:
      * @param label The name printed at the bottom of the widget.
      * @param color The background color of the widget.
      */
-    TemperatureWidget(lv_obj_t* grid, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, label, color)
+    TemperatureWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
+        : BaseWidget(grid, row, col, label, color)
         , lookup(ptr)
         , value(lv_label_create(obj))
     {
@@ -40,6 +40,7 @@ public:
             } else {
                 lv_label_set_text(value, "-");
             }
+            lv_obj_align(value, LV_ALIGN_CENTER, 0, -10);
             return;
         }
     }
