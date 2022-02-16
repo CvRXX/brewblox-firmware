@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-focal
 
 RUN : \
     && apt-get update -q \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
         curl \
@@ -54,8 +55,11 @@ RUN : \
         usbutils \
         xz-utils \
         zip \
+        npm \
+        nodejs \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 20 \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
+    && npm i lv_font_conv -g \
     && python3 -m pip install --upgrade \
         autopep8 \
         pip \
