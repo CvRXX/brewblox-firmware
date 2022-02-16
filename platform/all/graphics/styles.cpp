@@ -27,10 +27,11 @@ void init()
     lv_style_set_bg_color(&bar, lv_color_white());
     lv_style_set_border_side(&bar, LV_BORDER_SIDE_NONE);
     lv_style_set_radius(&bar, 0);
+    lv_style_set_pad_all(&bar, 0);
 
     lv_style_init(&grid);
     lv_style_set_bg_color(&grid, lv_color_black());
-    lv_style_set_pad_all(&grid, 9);
+    lv_style_set_pad_all(&grid, 0);
     lv_style_set_border_side(&grid, LV_BORDER_SIDE_NONE);
     lv_style_set_radius(&grid, 0);
 

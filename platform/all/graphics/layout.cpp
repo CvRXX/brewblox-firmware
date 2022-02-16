@@ -25,11 +25,12 @@ Layout::Layout(cbox::Box& box)
     lv_obj_set_style_grid_column_dsc_array(grid, col_dsc, 0);
     lv_obj_set_style_grid_row_dsc_array(grid, row_dsc, 0);
     lv_obj_set_layout(grid, LV_LAYOUT_GRID);
-    lv_obj_set_style_pad_row(grid, 10, 0);
+    lv_obj_set_style_pad_row(grid, 9, 0);
     lv_obj_set_style_pad_column(grid, 9, 0);
     lv_obj_add_style(grid, &style::grid, 0);
     lv_obj_set_size(grid, 480, 298);
     lv_obj_align(grid, LV_ALIGN_OUT_TOP_MID, 0, 22);
+    lv_obj_set_grid_align(grid, LV_GRID_ALIGN_CENTER, LV_GRID_ALIGN_CENTER);
 }
 
 Layout::~Layout()
