@@ -7,6 +7,7 @@ lv_style_t bar;
 lv_style_t grid;
 lv_style_t maincontainer;
 lv_style_t block;
+lv_style_t block_disabled;
 lv_style_t bg_dark;
 lv_style_t bg_light;
 lv_style_t widget_name;
@@ -39,6 +40,11 @@ void init()
     lv_style_set_radius(&block, 5);
     lv_style_set_border_width(&block, 0);
     lv_style_set_pad_all(&block, 10);
+    lv_style_set_bg_opa(&block, LV_OPA_COVER);
+
+    lv_style_init(&block_disabled);
+    lv_style_set_bg_opa(&block_disabled, 50);
+    lv_style_set_text_opa(&block_disabled, 50);
 
     lv_style_init(&bg_light);
     lv_style_set_text_color(&bg_light, lv_color_black());

@@ -12,8 +12,10 @@ BaseWidget::BaseWidget(lv_obj_t* grid, uint8_t row, uint8_t col, const char* lab
 {
     lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_size(obj, 148, 134);
-    lv_obj_add_style(obj, &style::block, 0);
-    lv_obj_set_style_bg_color(obj, color, 0);
+    lv_obj_add_style(obj, &style::block, LV_STATE_DEFAULT);
+    lv_obj_add_style(obj, &style::block_disabled, LV_STATE_DISABLED);
+
+    lv_obj_set_style_bg_color(obj, color, LV_STATE_DEFAULT);
     lv_obj_set_grid_cell(obj, LV_GRID_ALIGN_STRETCH, col, 1,
                          LV_GRID_ALIGN_STRETCH, row, 1);
 
