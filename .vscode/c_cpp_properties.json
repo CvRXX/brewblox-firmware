@@ -15,7 +15,6 @@
       "cppStandard": "c++17",
       "includePath": [
         ".",
-        "${workspaceFolder}/**",
         "${workspaceFolder}/lib/blocks/inc",
         "${workspaceFolder}/lib/cbox/inc",
         "${workspaceFolder}/lib/control/inc",
@@ -38,7 +37,7 @@
         "/usr/include/x86_64-linux-gnu"
       ],
       "compilerPath": "/usr/bin/g++",
-      "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+      "compileCommands": "${workspaceFolder}/compile_commands.json"
     }
   ],
   "version": 4

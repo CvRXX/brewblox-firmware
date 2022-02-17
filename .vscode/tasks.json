@@ -5,7 +5,10 @@
   "tasks": [
     {
       "label": "Build P1",
-      "command": "script/build-p1.sh",
+      "command": "script/build.sh",
+      "args": [
+        "p1"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -16,7 +19,10 @@
     },
     {
       "label": "Build Photon",
-      "command": "script/build-photon.sh",
+      "command": "script/build.sh",
+      "args": [
+        "photon"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -27,7 +33,10 @@
     },
     {
       "label": "Build GCC",
-      "command": "script/build-gcc.sh",
+      "command": "script/build.sh",
+      "args": [
+        "gcc"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -38,7 +47,10 @@
     },
     {
       "label": "Build ESP",
-      "command": "script/build-esp.sh",
+      "command": "script/build.sh",
+      "args": [
+        "esp"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -48,19 +60,11 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test brewblox-particle",
-      "command": "script/test-brewblox-particle.sh",
-      "group": "build",
-      "presentation": {
-        "panel": "shared",
-        "focus": true,
-        "clear": false
-      },
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "Test brewblox-esp",
-      "command": "script/test-brewblox-esp.sh",
+      "label": "Test blocks",
+      "command": "script/test.sh",
+      "args": [
+        "blocks"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -71,7 +75,10 @@
     },
     {
       "label": "Test cbox",
-      "command": "script/test-cbox.sh",
+      "command": "script/test.sh",
+      "args": [
+        "cbox"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -82,7 +89,10 @@
     },
     {
       "label": "Test control",
-      "command": "script/test-control.sh",
+      "command": "script/test.sh",
+      "args": [
+        "control"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -96,8 +106,7 @@
       "group": "build",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "Test brewblox-particle",
-        // "Test brewblox-esp", Tests are broken, ignoring for now
+        "Test blocks",
         "Test cbox",
         "Test control",
       ]
@@ -114,7 +123,12 @@
     },
     {
       "label": "Flash P1",
-      "command": "script/flash-p1.sh",
+      "command": "script/build.sh",
+      "args": [
+        "p1",
+        "all",
+        "program-dfu"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -128,7 +142,13 @@
     },
     {
       "label": "Flash P1 SWD",
-      "command": "script/flash-p1-swd.sh",
+      "command": "script/build.sh",
+      "args": [
+        "p1",
+        "all",
+        "program-dfu",
+        "USE_SWD=y"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -142,7 +162,12 @@
     },
     {
       "label": "Flash Photon",
-      "command": "script/flash-photon.sh",
+      "command": "script/build.sh",
+      "args": [
+        "photon",
+        "all",
+        "program-dfu"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -156,7 +181,11 @@
     },
     {
       "label": "Flash ESP",
-      "command": "script/flash-esp.sh",
+      "command": "script/build.sh",
+      "args": [
+        "esp",
+        "flash"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",

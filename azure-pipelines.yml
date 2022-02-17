@@ -39,20 +39,20 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/test-brewblox-particle.sh
+      - script: script/test.sh blocks
         target: firmware-compiler
-        displayName: Run brewblox-particle tests
+        displayName: Run block tests
 
       # Skipping broken tests for now
       # - script: script/test-brewblox-esp.sh
       #   target: firmware-compiler
       #   displayName: Run brewblox-esp tests
 
-      - script: script/test-cbox.sh
+      - script: script/test.sh cbox
         target: firmware-compiler
         displayName: Run cbox tests
 
-      - script: script/test-control.sh
+      - script: script/test.sh control
         target: firmware-compiler
         displayName: Run control tests
 
@@ -76,7 +76,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build-sim-native.sh
+      - script: script/build.sh sim
         target: simulator-compiler
         displayName: Build executable
 
@@ -100,7 +100,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build-sim-native.sh
+      - script: script/build.sh sim
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -123,7 +123,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build-sim-native.sh
+      - script: script/build.sh sim
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -140,7 +140,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build-p1.sh
+      - script: script/build.sh p1
         target: firmware-compiler
         displayName: Build p1
 
@@ -158,7 +158,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build-photon.sh
+      - script: script/build.sh photon
         target: firmware-compiler
         displayName: Build photon
 
@@ -198,7 +198,7 @@ jobs:
         workingDirectory: app/brewblox-esp/
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
-      - script: script/build-esp.sh
+      - script: script/build.sh esp
         target: idf
         displayName: Build ESP32
 
