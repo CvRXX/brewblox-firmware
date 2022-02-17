@@ -1,7 +1,7 @@
 #include "graphics.hpp"
 #include "FT6236.hpp"
 #include "TFT035.hpp"
-#include "blox/DisplaySettingsBlock.h"
+#include "blocks/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
 #include "layout.hpp"
 #include "lvgl.h"

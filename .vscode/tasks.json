@@ -5,7 +5,10 @@
   "tasks": [
     {
       "label": "Build P1",
-      "command": "build/build-p1.sh",
+      "command": "script/build.sh",
+      "args": [
+        "p1"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -16,7 +19,10 @@
     },
     {
       "label": "Build Photon",
-      "command": "build/build-photon.sh",
+      "command": "script/build.sh",
+      "args": [
+        "photon"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -27,7 +33,10 @@
     },
     {
       "label": "Build GCC",
-      "command": "build/build-gcc.sh",
+      "command": "script/build.sh",
+      "args": [
+        "gcc"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -38,7 +47,10 @@
     },
     {
       "label": "Build ESP",
-      "command": "build/build-esp.sh",
+      "command": "script/build.sh",
+      "args": [
+        "esp"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -48,8 +60,11 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test brewblox app",
-      "command": "build/test-brewblox.sh",
+      "label": "Test blocks",
+      "command": "script/test.sh",
+      "args": [
+        "blocks"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -59,8 +74,11 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test controlbox",
-      "command": "build/test-controlbox.sh",
+      "label": "Test cbox",
+      "command": "script/test.sh",
+      "args": [
+        "cbox"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -70,8 +88,11 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test lib",
-      "command": "build/test-lib.sh",
+      "label": "Test control",
+      "command": "script/test.sh",
+      "args": [
+        "control"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -85,14 +106,14 @@
       "group": "build",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "Test brewblox app",
-        "Test controlbox",
-        "Test lib",
+        "Test blocks",
+        "Test cbox",
+        "Test control",
       ]
     },
     {
       "label": "Trigger DFU",
-      "command": "build/trigger-dfu.py",
+      "command": "script/trigger-dfu.py",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -102,7 +123,12 @@
     },
     {
       "label": "Flash P1",
-      "command": "build/flash-p1.sh",
+      "command": "script/build.sh",
+      "args": [
+        "p1",
+        "all",
+        "program-dfu"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -116,7 +142,13 @@
     },
     {
       "label": "Flash P1 SWD",
-      "command": "build/flash-p1-swd.sh",
+      "command": "script/build.sh",
+      "args": [
+        "p1",
+        "all",
+        "program-dfu",
+        "USE_SWD=y"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -130,7 +162,12 @@
     },
     {
       "label": "Flash Photon",
-      "command": "build/flash-photon.sh",
+      "command": "script/build.sh",
+      "args": [
+        "photon",
+        "all",
+        "program-dfu"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -144,7 +181,11 @@
     },
     {
       "label": "Flash ESP",
-      "command": "build/flash-esp.sh",
+      "command": "script/build.sh",
+      "args": [
+        "esp",
+        "flash"
+      ],
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -155,7 +196,7 @@
     },
     {
       "label": "Run simulator",
-      "command": "build/run-simulator.sh",
+      "command": "script/run-simulator.sh",
       "group": "build",
       "presentation": {
         "panel": "dedicated",
@@ -165,7 +206,7 @@
     },
     {
       "label": "Compile proto",
-      "command": "build/compile-proto.sh",
+      "command": "script/compile-proto.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",
@@ -175,7 +216,7 @@
     },
     {
       "label": "Clean all",
-      "command": "build/clean.sh",
+      "command": "script/clean-all.sh",
       "group": "build",
       "presentation": {
         "panel": "shared",

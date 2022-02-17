@@ -9,9 +9,8 @@ idf_component_register(
     Spark4.cpp
     TFT035.cpp
     TicksEsp.cpp
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     .
   REQUIRES
     main
-    graphics
 )

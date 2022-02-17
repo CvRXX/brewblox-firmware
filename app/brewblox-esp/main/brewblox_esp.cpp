@@ -18,24 +18,24 @@
  */
 
 #include "AppTicks.h"
-#include "DS248x.hpp"
 #include "I2cScanningFactory.hpp"
-#include "Logger.h"
-#include "MockTicks.h"
 #include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
 #include "TicksEsp.h"
-#include "blox/DisplaySettingsBlock.h"
-#include "blox/ExpOwGpioBlock.hpp"
-#include "blox/SysInfoBlock.h"
-#include "blox/TicksBlock.h"
-#include "blox/stringify.h"
+#include "blocks/DisplaySettingsBlock.h"
+#include "blocks/ExpOwGpioBlock.hpp"
+#include "blocks/SysInfoBlock.h"
+#include "blocks/TicksBlock.h"
+#include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
 #include "cbox/FileObjectStorage.h"
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
 #include "cbox/Tracing.h"
+#include "control/DS248x.hpp"
+#include "control/Logger.h"
+#include "control/MockTicks.h"
 #include <asio.hpp>
 #include <esp_log.h>
 #include <esp_wifi.h>

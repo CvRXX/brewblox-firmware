@@ -1,7 +1,7 @@
 #include "layout.hpp"
 #include "Spark4.hpp"
 #include "bar.hpp"
-#include "blox/DisplaySettingsBlock.h"
+#include "blocks/DisplaySettingsBlock.h"
 #include "cbox/Box.h"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"

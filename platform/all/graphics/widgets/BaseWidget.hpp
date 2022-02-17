@@ -1,7 +1,7 @@
 #pragma once
 #include "../fonts/fonts.hpp"
 #include "../styles.hpp"
-#include "Temperature.h"
+#include "control/Temperature.h"
 #include "lvgl.h"
 
 class BaseWidget {

@@ -9,12 +9,12 @@
 #include <nvs_flash.h>
 #pragma GCC diagnostic pop
 
-#include "SX1508.hpp"
+#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_i2c.h"
+#include "blox_hal/hal_spi.hpp"
+#include "control/SX1508.hpp"
 #include "driver/gpio.h"
 #include "esp_adc_cal.h"
-#include "hal/hal_delay.h"
-#include "hal/hal_i2c.h"
-#include "hal/hal_spi.hpp"
 #include "soc/adc_channel.h"
 #include <esp_log.h>
 
@@ -101,7 +101,7 @@ void set_led(uint8_t R, uint8_t G, uint8_t B, LED_MODE mode, uint8_t duration)
     uint8_t tFall7 = 0;
 
     if (mode == BREATHE) {
-        //green
+        // green
         tOn3 = 1;
         tRise3 = duration - 1;
         tFall3 = duration - 1;
