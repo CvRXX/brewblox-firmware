@@ -22,6 +22,7 @@
 #include "blocks/DS2408Block.h"
 #include "blocks/DS2413Block.h"
 #include "blocks/TempSensorOneWireBlock.h"
+#include "blox_hal/hal_delay.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
@@ -29,7 +30,6 @@
 #include "control/OneWire.h"
 #include "control/OneWireAddress.h"
 #include "control/OneWireDevice.h"
-#include "lib_hal/hal_delay.h"
 #include <memory>
 
 class OneWireScanningFactory : public cbox::ScanningFactory {

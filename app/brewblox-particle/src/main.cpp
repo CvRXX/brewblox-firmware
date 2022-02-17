@@ -18,9 +18,8 @@
  */
 
 #include "AppTicks.h"
-#include "Board.h"
-#include "Buzzer.h"
 #include "blocks/stringify.h"
+#include "blox_hal/hal_i2c.h"
 #include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/Object.h"
@@ -32,8 +31,9 @@
 #include "d4d_display/screens/startup_screen.h"
 #include "delay_hal.h"
 #include "eeprom_hal.h"
-#include "lib_hal/hal_i2c.h"
 #include "reset.h"
+#include "spark/Board.h"
+#include "spark/Buzzer.h"
 #include "spark_wiring_startup.h"
 #include "spark_wiring_system.h"
 #include "spark_wiring_timer.h"

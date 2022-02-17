@@ -18,9 +18,7 @@
  */
 
 #include "brewblox_particle.hpp"
-#include "./reset.h"
 #include "AppTicks.h"
-#include "Board.h"
 #include "OneWireScanningFactory.hpp"
 #include "SparkEepromAccess.h"
 #include "TouchSettingsBlock.h"
@@ -37,6 +35,8 @@
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
+#include "reset.h"
+#include "spark/Board.h"
 #include <memory>
 
 using EepromAccessImpl = cbox::SparkEepromAccess;

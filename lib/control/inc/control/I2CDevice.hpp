@@ -18,7 +18,7 @@
  */
 
 #pragma once
-#include "lib_hal/hal_i2c.h"
+#include "blox_hal/hal_i2c.h"
 #include <array>
 #include <initializer_list>
 

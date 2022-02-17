@@ -22,7 +22,7 @@
 #include "blocks/TicksBlock.h"
 
 #if defined(SPARK)
-#include "wiring/TicksWiring.h"
+#include "spark/TicksWiring.h"
 using TicksClass = Ticks<TicksWiring>;
 #else
 #include <control/MockTicks.h>

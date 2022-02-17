@@ -1,4 +1,4 @@
-#include "lib_hal/hal_i2c.h"
+#include "blox_hal/hal_i2c.h"
 
 hal_i2c_err_t hal_i2c_master_init()
 {

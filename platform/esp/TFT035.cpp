@@ -1,9 +1,9 @@
 #include "TFT035.hpp"
 #include "Spark4.hpp"
+#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_spi_types.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "lib_hal/hal_delay.h"
-#include "lib_hal/hal_spi_types.h"
 #include <cstring>
 #include <esp_log.h>
 #include <functional>

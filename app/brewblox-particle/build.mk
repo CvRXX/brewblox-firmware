@@ -28,11 +28,11 @@ ifneq ($(PLATFORM_ID),3)
 CPPSRC += lib/control/src/spark/TimerInterrupts.cpp
 endif
 
-# add lib/lib_hal
-INCLUDE_DIRS += $(SOURCE_PATH)/lib/lib_hal/inc
-CPPSRC += $(call here_files,lib/lib_hal/src,*.cpp)
+# lib/blox_hal
+INCLUDE_DIRS += $(SOURCE_PATH)/lib/blox_hal/inc
+CPPSRC += $(call here_files,lib/blox_hal/src,*.cpp)
 
-# add lib/proto
+# lib/proto
 INCLUDE_DIRS += $(SOURCE_PATH)/lib/proto/inc
 CSRC += $(call here_files,lib/proto/inc/proto,*.c)
 
@@ -47,7 +47,7 @@ ifeq ($(PLATFORM_ID),10)
 MODULAR?=y
 endif
 
-# add nanopb dependencies
+# nanopb
 include $(SOURCE_PATH)/external_libs/device-os/third_party/nanopb/import.mk
 ifeq ($(MODULAR),y)
 # include sources that are part of nanopb, but not included in shared libraries of particle
@@ -62,45 +62,31 @@ CFLAGS += -DBYTE_ORDER=LITTLE_ENDIAN
 INCLUDE_DIRS += $(SOURCE_PATH)/app/brewblox-particle/inc
 CPPSRC += $(call here_files,app/brewblox-particle/src,*.cpp)
 
-# platform
-INCLUDE_DIRS += $(SOURCE_PATH)/platform
+# platform/particle/d4d_display
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/particle/d4d_display/inc
+CPPSRC += $(call target_files,platform/particle/d4d_display/src,*.cpp)
+CSRC += $(call target_files,platform/particle/d4d_display/src,*.c)
 
-# d4d_display
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/d4d_display/inc
-CPPSRC += $(call target_files,platform/d4d_display/src,*.cpp)
-CSRC += $(call target_files,platform/d4d_display/src,*.c)
+# platform/particle/eGUI
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/particle/eGUI/D4D
+CSRC += $(call target_files,platform/particle/eGUI/D4D,*.c)
+CPPSRC +=  $(call target_files,platform/particle/eGUI/D4D,*.cpp)
 
-#wiring
-CSRC += $(call here_files,platform/wiring/,*.c)
-CPPSRC += $(call here_files,platform/wiring/,*.cpp)
+# platform/particle/mdns
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/particle/mdns/inc
+CPPSRC += $(call here_files,platform/particle/mdns/src,*.cpp)
 
-# buzzer
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/modules/Buzzer
-CPPSRC += $(call here_files,platform/spark/modules/Buzzer,*.cpp)
+# platform/particle/spark
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/particle/spark/inc
+CPPSRC += $(call target_files,platform/particle/spark/src,*.cpp)
 
-# add board files (tests use emulated hardware)
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/modules/Board
-CSRC += $(call here_files,platform/spark/modules/Board,*.c)
-CPPSRC += $(call here_files,platform/spark/modules/Board,*.cpp)
+# platform/particle/WebSockets
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/particle/WebSockets/firmware
+CPPSRC += $(call here_files,platform/particle/WebSockets/firmware,*.cpp)
+CSRC += $(call here_files,platform/particle/WebSockets/firmware/libb64,*.c)
+CSRC += $(call here_files,platform/particle/WebSockets/firmware/libsha1,*.c)
 
-INCLUDE_DIRS +=  $(SOURCE_PATH)/platform/spark/modules/eGUI/D4D
-CSRC += $(call target_files,platform/spark/modules/eGUI/D4D,*.c)
-CPPSRC +=  $(call target_files,platform/spark/modules/eGUI/D4D,*.cpp)
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/modules/BrewPiTouch
-CPPSRC += $(call here_files,platform/spark/modules/BrewPiTouch,*.cpp)
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/modules/SPIArbiter
-CPPSRC += $(call here_files,platform/spark/modules/SPIArbiter,*.cpp)
-
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/modules/WebSockets/firmware
-CPPSRC += $(call here_files,platform/spark/modules/WebSockets/firmware,*.cpp)
-CSRC += $(call here_files,platform/spark/modules/WebSockets/firmware/libb64,*.c)
-CSRC += $(call here_files,platform/spark/modules/WebSockets/firmware/libsha1,*.c)
-
-# mdns
-INCLUDE_DIRS += $(SOURCE_PATH)/platform/spark/modules/mdns/src
-CPPSRC += $(call here_files,platform/spark/modules/mdns/src,*.cpp)
-
-# include boost
+# Check whether boost is available
 ifeq ($(BOOST_ROOT),)
 $(error BOOST_ROOT not set. Download boost and add BOOST_ROOT to your environment variables.)
 endif

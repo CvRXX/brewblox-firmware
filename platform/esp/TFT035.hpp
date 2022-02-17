@@ -18,10 +18,10 @@
  */
 
 #pragma once
+#include "blox_hal/hal_gpio.h"
+#include "blox_hal/hal_spi.hpp"
+#include "blox_hal/hal_spi_types.h"
 #include "esp32/rom/ets_sys.h"
-#include "lib_hal/hal_gpio.h"
-#include "lib_hal/hal_spi.hpp"
-#include "lib_hal/hal_spi_types.h"
 
 /**
  * A driver for the TFT035 display controller.

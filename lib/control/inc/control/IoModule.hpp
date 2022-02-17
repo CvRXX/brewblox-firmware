@@ -1,5 +1,5 @@
 #pragma once
-#include "lib_hal/hal_spi.hpp"
+#include "blox_hal/hal_spi.hpp"
 #include <cstdint>
 
 class IoModule {

@@ -20,7 +20,7 @@ INCLUDE_DIRS += $(ROOT_DIR)/lib/control/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/control/src/*.cpp)
 
 # lib/hal - only build stubs
-INCLUDE_DIRS += $(ROOT_DIR)/lib/lib_hal/inc
+INCLUDE_DIRS += $(ROOT_DIR)/lib/blox_hal/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/platform/stub/*.cpp)
 
 # lib/proto
@@ -33,15 +33,14 @@ INCLUDE_DIRS += $(ROOT_DIR)/test/proto/inc
 CCSRC += $(wildcard $(ROOT_DIR)/test/proto/inc/proto/*.pb.cc)
 
 # platform
-INCLUDE_DIRS += $(ROOT_DIR)/platform
-INCLUDE_DIRS += $(ROOT_DIR)/platform/d4d_display/inc
-INCLUDE_DIRS += $(ROOT_DIR)/platform/spark/modules/eGUI/D4D
-INCLUDE_DIRS += $(ROOT_DIR)/platform/spark/modules/Buzzer
-INCLUDE_DIRS += $(ROOT_DIR)/platform/spark/modules/mdns/src
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/spark/inc
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/d4d_display/inc
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/mdns/inc
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/eGUI/D4D
 
 # add board files (tests use emulated hardware)
-INCLUDE_DIRS += $(ROOT_DIR)/platform/spark/modules/Board
-CPPSRC += $(wildcard $(ROOT_DIR)/platform/spark/modules/Board/*.cpp)
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/spark/inc
+CPPSRC += platform/particle/spark/src/Board.cpp
 
 # device-os nanopb
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb

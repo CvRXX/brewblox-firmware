@@ -18,10 +18,10 @@
  */
 
 #include "BrewbloxTestBox.h"
-#include "Board.h"
 #include "Spark3PinsBlock.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/ConnectionsStringStream.h"
+#include "spark/Board.h"
 
 std::shared_ptr<std::stringstream> BrewbloxTestBox::in = std::make_shared<std::stringstream>();
 std::shared_ptr<std::stringstream> BrewbloxTestBox::out = std::make_shared<std::stringstream>();

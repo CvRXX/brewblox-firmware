@@ -10,9 +10,9 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 INCLUDE_DIRS += $(ROOT_DIR)/lib/control/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/control/src/*.cpp)
 
-# lib/lib_hal
+# lib/blox_hal
 # only build the stubs
-INCLUDE_DIRS += $(ROOT_DIR)/lib/lib_hal/inc
+INCLUDE_DIRS += $(ROOT_DIR)/lib/blox_hal/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/platform/stub/*.cpp)
 
 # set cnl as system includes to suppress warnings

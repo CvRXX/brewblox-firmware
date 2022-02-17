@@ -1,7 +1,7 @@
 #pragma once
+#include "blox_hal/hal_gpio.h"
 #include "control/I2CDevice.hpp"
 #include "driver/gpio.h"
-#include "lib_hal/hal_gpio.h"
 #include <atomic>
 #include <optional>
 

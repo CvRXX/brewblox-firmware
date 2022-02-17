@@ -18,8 +18,8 @@
  */
 
 #include "SparkIoBase.h"
-#include "Board.h"
 #include "control/ActuatorDigital.h"
+#include "spark/Board.h"
 
 // generic ArrayIO interface
 bool SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const

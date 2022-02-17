@@ -9,7 +9,7 @@
 #include "proto/OneWireGpioModule.pb.h"
 // #include "esp_err.h"
 // #include "esp_log.h"
-#include "lib_hal/hal_delay.h"
+#include "blox_hal/hal_delay.h"
 #include <vector>
 
 class ExpOwGpio : public IoArray, public IoModule {

@@ -20,11 +20,11 @@
 #if PLATFORM_ID == 8 || PLATFORM_ID == 3
 
 #include "Spark3PinsBlock.h"
-#include "Board.h"
 #include "proto/Spark3Pins.pb.h"
+#include "spark/Board.h"
 
 #if PLATFORM_ID != 3
-#include "BrewPiTouch.h"
+#include "spark/BrewPiTouch.h"
 extern BrewPiTouch touch;
 #endif
 

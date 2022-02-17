@@ -9,12 +9,12 @@
 #include <nvs_flash.h>
 #pragma GCC diagnostic pop
 
+#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_i2c.h"
+#include "blox_hal/hal_spi.hpp"
 #include "control/SX1508.hpp"
 #include "driver/gpio.h"
 #include "esp_adc_cal.h"
-#include "lib_hal/hal_delay.h"
-#include "lib_hal/hal_i2c.h"
-#include "lib_hal/hal_spi.hpp"
 #include "soc/adc_channel.h"
 #include <esp_log.h>
 

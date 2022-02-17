@@ -18,14 +18,14 @@
  */
 
 #include "connectivity.h"
-#include "Board.h"
-#include "MDNS.h"
+#include "blox_hal/hal_delay.h"
 #include "brewblox.hpp"
 #include "brewblox_particle.hpp"
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
-#include "lib_hal/hal_delay.h"
+#include "mdns/MDNS.h"
 #include "reset.h"
+#include "spark/Board.h"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_usbserial.h"

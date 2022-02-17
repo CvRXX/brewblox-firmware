@@ -1,4 +1,4 @@
-#include "lib_hal/hal_delay.h"
+#include "blox_hal/hal_delay.h"
 
 void hal_delay_us(uint32_t /*duration*/)
 {

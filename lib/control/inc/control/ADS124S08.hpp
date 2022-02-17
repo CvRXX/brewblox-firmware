@@ -19,9 +19,9 @@
 
 // #pragma once
 
-// #include "lib_hal/hal_delay.h"
-// #include "lib_hal/hal_gpio.h"
-// #include "lib_hal/hal_spi.h"
+// #include "blox_hal/hal_delay.h"
+// #include "blox_hal/hal_gpio.h"
+// #include "blox_hal/hal_spi.h"
 // #include <array>
 // #include <limits>
 
