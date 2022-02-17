@@ -3,6 +3,7 @@ set -euo pipefail
 pushd "$(git rev-parse --show-toplevel)" >/dev/null # always init at repo root
 
 SUBTASK_STATUS=0
+SUBTASK_SILENT=
 MAKE_ARGS=${MAKE_ARGS:-}
 
 # Run command, and echo its result state
@@ -11,10 +12,12 @@ function subtask() {
     local_status=0
     "$@" || local_status=$?
 
-    if [ $local_status = 0 ]; then
-        echo "✓ SUCCESS"
-    else
-        echo "✗ FAILED"
+    if [[ -z "$SUBTASK_SILENT" ]]; then
+        if [ $local_status = 0 ]; then
+            echo "✓ SUCCESS"
+        else
+            echo "✗ FAILED"
+        fi
     fi
 
     if [ $SUBTASK_STATUS = 0 ]; then
