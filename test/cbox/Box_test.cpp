@@ -7,6 +7,7 @@
 
 #include "LongIntScanningFactory.hpp"
 #include "TestHelpers.h"
+#include "TestInjection.h"
 #include "TestObjects.h"
 #include "cbox/ArrayEepromAccess.h"
 #include "cbox/Connections.h"
@@ -24,32 +25,13 @@ using namespace cbox;
 
 SCENARIO("A controlbox Box")
 {
-    ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
-    ObjectContainer container{
-        // groups object will have id 1
-        // add 2 system objects
-        {ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-         ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222)))},
-        storage};
-
-    const ObjectFactory factory = {
-        makeFactoryEntry<LongIntObject>(),
-        makeFactoryEntry<LongIntVectorObject>(),
-        makeFactoryEntry<UpdateCounter>(),
-        makeFactoryEntry<PtrLongIntObject>(),
-        makeFactoryEntry<NameableLongIntObject>(),
-        makeFactoryEntry<MockStreamObject>(),
-    };
-
-    const std::vector<std::reference_wrapper<const ObjectFactory>> factories{{std::cref(factory)}};
+    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0x80, 2);
+    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0x80, 3);
 
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
 
-    static LongIntScanningFactory longIntScanner;
-    static const std::vector<std::reference_wrapper<ScanningFactory>> scanners{{std::reference_wrapper<ScanningFactory>(longIntScanner)}};
-    Box box(factories, container, storage, connPool, scanners);
+    Box box(connPool);
 
     auto in = std::make_shared<StringStreamAutoClear>();
     auto out = std::make_shared<std::stringstream>();
@@ -640,32 +622,12 @@ SCENARIO("A controlbox Box")
 
                 AND_WHEN("A new box is created from existing storage (for example after a reboot)")
                 {
-                    // note that only eeprom is not newly created here
-                    EepromObjectStorage storage2(eeprom);
-
-                    ObjectContainer container2{
-                        // groups obj is id 1
-                        {
-                            ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-                            ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
-                        },
-                        storage2};
-
-                    const ObjectFactory factory2 = {
-                        makeFactoryEntry<LongIntObject>(),
-                        makeFactoryEntry<LongIntVectorObject>(),
-                        makeFactoryEntry<UpdateCounter>(),
-                        makeFactoryEntry<PtrLongIntObject>(),
-                    };
-
-                    const std::vector<std::reference_wrapper<const ObjectFactory>> factories2{{std::cref(factory2)}};
-
                     StringStreamConnectionSource connSource2;
                     ConnectionPool connPool2 = {connSource2};
 
                     THEN("All objects can be restored from storage")
                     {
-                        Box box2(factories2, container2, storage2, connPool2, scanners);
+                        Box box2(connPool2);
                         box2.loadObjectsFromStorage();
 
                         auto in2 = std::make_shared<std::stringstream>();
@@ -682,12 +644,12 @@ SCENARIO("A controlbox Box")
                     THEN("Invalid EEPROM data is handled correctly due to CRC checking")
                     {
                         // Lambda that finds replaces something in EEPROM, given as hex string
-                        auto eepromReplace = [&eeprom](const std::string& from, const std::string& to) -> bool {
+                        auto eepromReplace = [](const std::string& from, const std::string& to) -> bool {
                             // copy the eeprom
                             const uint16_t start = 32;
                             const uint16_t length = 200;
                             uint8_t eepromCopy[length];
-                            eeprom.readBlock(eepromCopy, start, length);
+                            test::eeprom.readBlock(eepromCopy, start, length);
 
                             // convert to a hex string
                             std::stringstream ssEepromAsHex;
@@ -711,7 +673,7 @@ SCENARIO("A controlbox Box")
                             // Put the data back
                             uint16_t idx = start;
                             for (auto it = eepromAsHex.begin(); it < eepromAsHex.end() - 1; ++it, ++it) {
-                                eeprom.writeByte(idx++, (h2d(*it) << 4) + h2d(*(it + 1)));
+                                test::eeprom.writeByte(idx++, (h2d(*it) << 4) + h2d(*(it + 1)));
                             }
 
                             return true;
@@ -732,7 +694,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(originalObject, damagedObject));
 
-                            Box box2(factories2, container2, storage2, connPool2, scanners);
+                            Box box2(connPool2);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -779,7 +741,7 @@ SCENARIO("A controlbox Box")
 
                             CHECK(eepromReplace(addCrc(originalObject), addCrc(unsupportedTypeObject)));
 
-                            Box box2(factories2, container2, storage2, connPool2, scanners);
+                            Box box2(connPool2);
                             box2.loadObjectsFromStorage();
 
                             auto in2 = std::make_shared<std::stringstream>();
@@ -1263,10 +1225,12 @@ SCENARIO("A controlbox Box")
 
         clearStreams();
 
-        auto countNonZeroBytes = [&eeprom]() {
+        EepromObjectStorage& storage = (EepromObjectStorage&)cbox::getStorage();
+
+        auto countNonZeroBytes = []() {
             uint16_t nonZeroBytesInEeprom = 0;
-            for (uint16_t i = 32; i < eeprom.length(); ++i) {
-                if (eeprom.readByte(i) != 0) {
+            for (uint16_t i = 32; i < test::eeprom.length(); ++i) {
+                if (test::eeprom.readByte(i) != 0) {
                     ++nonZeroBytesInEeprom;
                 }
             }

@@ -21,11 +21,11 @@ public:
 
     virtual ~LongIntScanningFactory() = default;
 
-    virtual std::shared_ptr<Object> scan(ObjectContainer& objects) override final
+    virtual std::shared_ptr<Object> scan() override final
     {
         for (auto& value : candidates) {
             bool found = false;
-            for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
+            for (auto existing = cbox::objects.cbegin(); existing != cbox::objects.cend(); ++existing) {
                 LongIntObject* ptrIfCorrectType = reinterpret_cast<LongIntObject*>(existing->object()->implements(LongIntObject::staticTypeId()));
                 if (ptrIfCorrectType == nullptr) {
                     continue; // not the right type, no match
