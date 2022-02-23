@@ -18,24 +18,16 @@
  */
 
 #include "AppTicks.h"
-#include "I2cScanningFactory.hpp"
-#include "OneWireMultiScanningFactory.hpp"
 #include "RecurringTask.hpp"
 #include "TicksEsp.h"
 #include "blocks/DisplaySettingsBlock.h"
-#include "blocks/ExpOwGpioBlock.hpp"
 #include "blocks/SysInfoBlock.h"
 #include "blocks/TicksBlock.h"
 #include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
-#include "cbox/FileObjectStorage.h"
-#include "cbox/ObjectContainer.h"
-#include "cbox/ObjectFactory.h"
 #include "cbox/Tracing.h"
-#include "control/DS248x.hpp"
 #include "control/Logger.h"
-#include "control/MockTicks.h"
 #include <asio.hpp>
 #include <esp_log.h>
 #include <esp_wifi.h>
@@ -76,30 +68,15 @@ void handleReset(bool, uint8_t)
 cbox::Box&
 makeBrewbloxBox(asio::io_context& io)
 {
-    static cbox::FileObjectStorage objectStore{"/blocks/"};
-
     static Ticks<TicksEsp> ticks;
 
-    static cbox::ObjectContainer objects{
-        {
-            cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id))),
-            cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks))),
-            cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
-        },
-        objectStore};
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 0x80, 2);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 0x80, 3);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 0x80, 7);
 
     static cbox::ConnectionPool connections{{}}; // managed externally
 
-    static OneWireMultiScanningFactory oneWireScanner;
-    static I2cScanningFactory i2cScanner;
-
-    static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(i2cScanner), std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
-    static const cbox::ObjectFactory platformFactory{cbox::makeFactoryEntry<ExpOwGpioBlock>()};
-
-    static cbox::Box& box = brewblox::make_box(
-        objects,
-        platformFactory,
-        objectStore, connections, scanners);
+    static cbox::Box box(connections);
 
     box.loadObjectsFromStorage(); // init box and load stored objects
 

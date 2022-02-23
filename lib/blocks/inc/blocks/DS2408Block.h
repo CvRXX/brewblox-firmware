@@ -32,20 +32,20 @@ private:
     blox_DS2408_PinConnectMode connectMode = blox_DS2408_PinConnectMode_CONNECT_VALVE;
 
 public:
-    DS2408Block(cbox::ObjectContainer& objects)
-        : OneWireDeviceBlock(objects)
+    DS2408Block()
+        : OneWireDeviceBlock()
         , device(owBus.lockFunctor())
     {
     }
 
-    DS2408Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
-        : OneWireDeviceBlock(objects, busId)
+    DS2408Block(cbox::obj_id_t busId)
+        : OneWireDeviceBlock(busId)
         , device(owBus.lockFunctor())
     {
     }
 
-    DS2408Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId, const OneWireAddress& addr)
-        : OneWireDeviceBlock(objects, busId)
+    DS2408Block(cbox::obj_id_t busId, const OneWireAddress& addr)
+        : OneWireDeviceBlock(busId)
         , device(owBus.lockFunctor(), addr)
     {
     }

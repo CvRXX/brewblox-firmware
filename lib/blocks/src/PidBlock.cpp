@@ -22,9 +22,9 @@
 #include "control/ProcessValue.h"
 #include "proto/Pid.pb.h"
 
-PidBlock::PidBlock(cbox::ObjectContainer& objects)
-    : input(objects)
-    , output(objects)
+PidBlock::PidBlock()
+    : input()
+    , output()
     , pid(input.lockFunctor(), [this]() {
         // convert ActuatorConstrained to base ProcessValue
         return std::shared_ptr<ProcessValue<Pid::out_t>>(this->output.lock());

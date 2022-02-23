@@ -30,20 +30,20 @@ private:
     DS2413 device;
 
 public:
-    DS2413Block(cbox::ObjectContainer& objects)
-        : OneWireDeviceBlock(objects)
+    DS2413Block()
+        : OneWireDeviceBlock()
         , device(owBus.lockFunctor())
     {
     }
 
-    DS2413Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
-        : OneWireDeviceBlock(objects, busId)
+    DS2413Block(cbox::obj_id_t busId)
+        : OneWireDeviceBlock(busId)
         , device(owBus.lockFunctor())
     {
     }
 
-    DS2413Block(cbox::ObjectContainer& objects, cbox::obj_id_t busId, const OneWireAddress& addr)
-        : OneWireDeviceBlock(objects, busId)
+    DS2413Block(cbox::obj_id_t busId, const OneWireAddress& addr)
+        : OneWireDeviceBlock(busId)
         , device(owBus.lockFunctor(), addr)
     {
     }

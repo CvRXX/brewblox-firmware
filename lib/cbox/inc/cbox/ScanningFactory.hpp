@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "cbox/Injection.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>
@@ -36,11 +37,11 @@ public:
     virtual ~ScanningFactory() = default;
 
     // scan takes the existing object container to be able to check if the object already exists
-    virtual std::shared_ptr<Object> scan(ObjectContainer& objects) = 0;
+    virtual std::shared_ptr<Object> scan() = 0;
 
-    obj_id_t scanAndAdd(ObjectContainer& objects)
+    obj_id_t scanAndAdd()
     {
-        if (auto newObj = scan(objects)) {
+        if (auto newObj = scan()) {
             return objects.add(std::move(newObj), uint8_t(0x01)); // default to first profile
         }
         return 0;

@@ -27,23 +27,20 @@ namespace cbox {
 
 class ObjectContainer {
 private:
-    std::vector<ContainedObject> objects;
+    std::vector<ContainedObject> contained;
     obj_id_t startId = obj_id_t::start();
-    ObjectStorage& storage;
 
 public:
-    using Iterator = decltype(objects)::iterator;
-    using CIterator = decltype(objects)::const_iterator;
+    using Iterator = decltype(contained)::iterator;
+    using CIterator = decltype(contained)::const_iterator;
 
-    ObjectContainer(ObjectStorage& storage_)
-        : objects{}
-        , storage(storage_)
+    ObjectContainer()
+        : contained{}
     {
     }
 
-    ObjectContainer(std::initializer_list<ContainedObject> objects, ObjectStorage& storage_)
-        : objects{objects}
-        , storage(storage_)
+    ObjectContainer(std::initializer_list<ContainedObject> objects_)
+        : contained{objects_}
     {
     }
 
@@ -90,12 +87,12 @@ public:
     // only const iterators are exposed. We don't want the caller to be able to modify the container
     CIterator cbegin() const
     {
-        return objects.cbegin();
+        return contained.cbegin();
     }
 
     CIterator cend() const
     {
-        return objects.cend();
+        return contained.cend();
     }
 
     CIterator userbegin()

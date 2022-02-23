@@ -2,9 +2,8 @@
 #include "blocks/ConstraintsProto.h"
 #include "blocks/FieldTags.h"
 
-DigitalActuatorBlock::DigitalActuatorBlock(cbox::ObjectContainer& objects)
-    : objectsRef(objects)
-    , hwDevice(objects)
+DigitalActuatorBlock::DigitalActuatorBlock()
+    : hwDevice()
     , actuator(hwDevice.lockFunctor(), 0)
     , constrained(actuator)
 {
@@ -23,7 +22,7 @@ DigitalActuatorBlock::streamFrom(cbox::DataIn& dataIn)
         }
         actuator.channel(message.channel);
         actuator.invert(message.invert);
-        setDigitalConstraints(message.constrainedBy, constrained, objectsRef);
+        setDigitalConstraints(message.constrainedBy, constrained);
         constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
     }
 

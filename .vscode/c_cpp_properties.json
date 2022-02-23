@@ -20,6 +20,7 @@
         "${workspaceFolder}/lib/cbox/inc",
         "${workspaceFolder}/lib/control/inc",
         "${workspaceFolder}/lib/proto/inc",
+        "${workspaceFolder}/platform/esp",
         "${workspaceFolder}/platform/particle/d4d_display/inc",
         "${workspaceFolder}/platform/particle/eGUI/D4D",
         "${workspaceFolder}/platform/particle/mdns/inc",
@@ -34,10 +35,11 @@
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
         "${workspaceFolder}/external_libs/device-os/communication/src",
+        "${workspaceFolder}/external_libs/nanopb",
+        "${workspaceFolder}/external_libs/cnl/include",
         "${workspaceFolder}/app/brewblox-particle/inc",
         "/opt/esp/idf/components/**",
-        "/usr/include",
-        "/usr/include/x86_64-linux-gnu"
+        "/opt/esp/tools/xtensa-esp32-elf/**"
       ],
       "compilerPath": "/usr/bin/g++",
       "compileCommands": "${workspaceFolder}/compile_commands.json"

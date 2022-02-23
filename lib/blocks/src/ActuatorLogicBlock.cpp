@@ -82,10 +82,10 @@ ActuatorLogicBlock::streamFrom(cbox::DataIn& dataIn)
         analogs.clear();
 
         for (pb_size_t i = 0; i < newData.digital_count; i++) {
-            digitals.emplace_back(newData.digital[i], objectsRef);
+            digitals.emplace_back(newData.digital[i]);
         }
         for (pb_size_t i = 0; i < newData.analog_count; i++) {
-            analogs.emplace_back(newData.analog[i], objectsRef);
+            analogs.emplace_back(newData.analog[i]);
         }
 
         expression = std::string(newData.expression);

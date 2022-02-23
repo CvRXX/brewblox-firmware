@@ -20,8 +20,8 @@ private:
     Balanced_t m_balanced;
 
 public:
-    CboxBalanced(cbox::ObjectContainer& objects, const cbox::obj_id_t& objId)
-        : lookup(cbox::CboxPtr<Balancer_t>(objects, objId))
+    CboxBalanced(const cbox::obj_id_t& objId)
+        : lookup(cbox::CboxPtr<Balancer_t>(objId))
         , m_balanced(lookup.lockFunctor())
     {
     }
@@ -57,7 +57,7 @@ public:
     }
 };
 
-void setAnalogConstraints(const blox_Constraints_AnalogConstraints& msg, ActuatorAnalogConstrained& act, cbox::ObjectContainer& objects)
+void setAnalogConstraints(const blox_Constraints_AnalogConstraints& msg, ActuatorAnalogConstrained& act)
 {
     act.removeAllConstraints();
     pb_size_t numConstraints = std::min(msg.constraints_count, pb_size_t(sizeof(msg.constraints) / sizeof(msg.constraints[0])));
@@ -73,7 +73,7 @@ void setAnalogConstraints(const blox_Constraints_AnalogConstraints& msg, Actuato
                 cnl::wrap<ActuatorAnalog::value_t>(constraintDfn.constraint.max)));
             break;
         case blox_Constraints_AnalogConstraint_balanced_tag:
-            act.addConstraint(std::make_unique<CboxBalanced>(objects, constraintDfn.constraint.balanced.balancerId));
+            act.addConstraint(std::make_unique<CboxBalanced>(constraintDfn.constraint.balanced.balancerId));
             break;
         }
     }
@@ -127,8 +127,8 @@ private:
     Mutex_t m_mutexConstraint;
 
 public:
-    CboxMutex(cbox::ObjectContainer& objects, const cbox::obj_id_t& objId, duration_millis_t extraHoldTime, bool customHoldTime)
-        : lookup(cbox::CboxPtr<MutexTarget>(objects, objId))
+    CboxMutex(const cbox::obj_id_t& objId, duration_millis_t extraHoldTime, bool customHoldTime)
+        : lookup(cbox::CboxPtr<MutexTarget>(objId))
         , m_mutexConstraint(lookup.lockFunctor(), extraHoldTime, customHoldTime)
     {
     }
@@ -179,13 +179,13 @@ public:
     }
 };
 
-void setDigitalConstraints(const blox_Constraints_DigitalConstraints& msg, ActuatorDigitalConstrained& act, cbox::ObjectContainer& objects)
+void setDigitalConstraints(const blox_Constraints_DigitalConstraints& msg, ActuatorDigitalConstrained& act)
 {
     auto oldConstraints = act.removeAllConstraints();
     pb_size_t numConstraints = std::min(msg.constraints_count, pb_size_t(sizeof(msg.constraints) / sizeof(msg.constraints[0])));
 
     // for mutexes, find existing constraint in old constraints and re-use to avoid losing lock
-    auto addMutex = [&oldConstraints, &objects, &act](uint16_t id, duration_millis_t holdTime, bool customHoldTime) {
+    auto addMutex = [&oldConstraints, &act](uint16_t id, duration_millis_t holdTime, bool customHoldTime) {
         auto it = oldConstraints.begin();
         for (; it < oldConstraints.end(); it++) {
             if ((*it)->id() == blox_Constraints_DigitalConstraint_mutexed_tag) {
@@ -194,8 +194,8 @@ void setDigitalConstraints(const blox_Constraints_DigitalConstraints& msg, Actua
                     oldConstraint->holdAfterTurnOff(holdTime);
                     oldConstraint->useCustomHoldDuration(customHoldTime);
                     auto newConstraint = std::move(*it);
-                    *it = std::make_unique<CboxMutex>(objects, 0, 0, false); // replace with dummy in old vector
-                    act.addConstraint(std::move(newConstraint));             // place modified existing mutex back
+                    *it = std::make_unique<CboxMutex>(0, 0, false); // replace with dummy in old vector
+                    act.addConstraint(std::move(newConstraint));    // place modified existing mutex back
                     break;
                 }
             }
@@ -203,7 +203,7 @@ void setDigitalConstraints(const blox_Constraints_DigitalConstraints& msg, Actua
         if (it == oldConstraints.end()) {
             // no matching existing mutex constraint, create new
             act.addConstraint(
-                std::make_unique<CboxMutex>(objects, id, holdTime, customHoldTime));
+                std::make_unique<CboxMutex>(id, holdTime, customHoldTime));
         }
     };
 

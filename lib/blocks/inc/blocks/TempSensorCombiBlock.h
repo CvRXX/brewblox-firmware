@@ -29,12 +29,10 @@
 class TempSensorCombiBlock : public Block<brewblox_BlockType_TempSensorCombi> {
 private:
     TempSensorCombi sensor;
-    cbox::ObjectContainer& objectsRef; // remember object container reference to create CboxPtrs
     std::vector<cbox::CboxPtr<TempSensor>> inputs;
 
 public:
-    TempSensorCombiBlock(cbox::ObjectContainer& objects)
-        : objectsRef(objects)
+    TempSensorCombiBlock()
     {
     }
 

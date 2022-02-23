@@ -14,7 +14,7 @@ ActuatorOffsetBlock::streamFrom(cbox::DataIn& dataIn)
         reference.setId(newData.referenceId);
         offset.enabled(newData.enabled);
         offset.selectedReference(ActuatorOffset::ReferenceKind(newData.referenceSettingOrValue));
-        setAnalogConstraints(newData.constrainedBy, constrained, objectsRef);
+        setAnalogConstraints(newData.constrainedBy, constrained);
         constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(newData.desiredSetting));
     }
     return result;

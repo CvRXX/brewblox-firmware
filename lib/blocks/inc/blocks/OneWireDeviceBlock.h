@@ -10,13 +10,13 @@ protected:
     cbox::CboxPtr<OneWire> owBus;
 
 public:
-    OneWireDeviceBlock(cbox::ObjectContainer& objects)
-        : owBus(objects)
+    OneWireDeviceBlock()
+        : owBus()
     {
     }
 
-    OneWireDeviceBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
-        : owBus(objects, busId)
+    OneWireDeviceBlock(cbox::obj_id_t busId)
+        : owBus(busId)
     {
     }
 

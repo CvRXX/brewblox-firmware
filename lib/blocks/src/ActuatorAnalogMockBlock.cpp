@@ -14,7 +14,7 @@ ActuatorAnalogMockBlock::streamFrom(cbox::DataIn& dataIn)
         actuator.maxSetting(cnl::wrap<ActuatorAnalog::value_t>(newData.maxSetting));
         actuator.minValue(cnl::wrap<ActuatorAnalog::value_t>(newData.minValue));
         actuator.maxValue(cnl::wrap<ActuatorAnalog::value_t>(newData.maxValue));
-        setAnalogConstraints(newData.constrainedBy, constrained, objectsRef);
+        setAnalogConstraints(newData.constrainedBy, constrained);
         constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(newData.desiredSetting));
     }
     return result;

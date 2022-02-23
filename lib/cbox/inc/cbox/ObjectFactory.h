@@ -29,14 +29,8 @@
 
 namespace cbox {
 
-template <typename T, std::enable_if_t<std::is_constructible<T, ObjectContainer&>::value, std::nullptr_t> = nullptr>
-std::shared_ptr<Object> make(ObjectContainer& objects)
-{
-    return std::shared_ptr<Object>(new T(objects));
-}
-
 template <typename T, std::enable_if_t<std::is_constructible<T>::value, std::nullptr_t> = nullptr>
-std::shared_ptr<Object> make(ObjectContainer&)
+std::shared_ptr<Object> make()
 {
     return std::shared_ptr<Object>(new T());
 }
@@ -47,9 +41,9 @@ std::shared_ptr<Object> make(ObjectContainer&)
 // Therefore the factory creates a shared pointer right away to only have one allocation.
 struct ObjectFactoryEntry {
     obj_type_t typeId;
-    std::shared_ptr<Object> (*createFn)(ObjectContainer&);
+    std::shared_ptr<Object> (*createFn)();
 
-    ObjectFactoryEntry(const obj_type_t& id, std::shared_ptr<Object> (*f)(ObjectContainer&))
+    ObjectFactoryEntry(const obj_type_t& id, std::shared_ptr<Object> (*f)())
         : typeId(id)
         , createFn(f)
     {
@@ -82,7 +76,7 @@ public:
     {
     }
 
-    std::tuple<CboxError, std::shared_ptr<Object>> make(ObjectContainer& objects, const obj_type_t& t) const;
+    std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t) const;
 };
 
 } // end namespace cbox

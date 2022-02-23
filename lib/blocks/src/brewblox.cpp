@@ -42,13 +42,9 @@
 
 namespace brewblox {
 
-cbox::Box& make_box(cbox::ObjectContainer& objects,
-                    const cbox::ObjectFactory& platformFactory,
-                    cbox::ObjectStorage& storage,
-                    cbox::ConnectionPool& connectionPool,
-                    const std::vector<std::reference_wrapper<cbox::ScanningFactory>>& scanners)
+const cbox::ObjectFactory make_blocks_factory()
 {
-    static const cbox::ObjectFactory factory({
+    return cbox::ObjectFactory({
         cbox::makeFactoryEntry<TempSensorOneWireBlock>(),
         cbox::makeFactoryEntry<SetpointSensorPairBlock>(),
         cbox::makeFactoryEntry<TempSensorMockBlock>(),
@@ -67,12 +63,6 @@ cbox::Box& make_box(cbox::ObjectContainer& objects,
         cbox::makeFactoryEntry<MockPinsBlock>(),
         cbox::makeFactoryEntry<TempSensorCombiBlock>(),
     });
-
-    static const std::vector<std::reference_wrapper<const cbox::ObjectFactory>> factories{{std::cref(factory), std::cref(platformFactory)}};
-
-    static cbox::Box box(factories, objects, storage, connectionPool, scanners);
-
-    return box;
 }
 
 } // end namespace brewlbox

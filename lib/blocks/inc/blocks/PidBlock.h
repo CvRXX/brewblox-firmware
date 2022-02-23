@@ -35,7 +35,7 @@ private:
     bool previousActive = false;
 
 public:
-    PidBlock(cbox::ObjectContainer& objects);
+    PidBlock();
     virtual ~PidBlock() = default;
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;

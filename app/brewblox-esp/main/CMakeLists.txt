@@ -13,6 +13,7 @@ idf_component_register(
     blocks/ExpOwGpioBlock.cpp
     TimerInterrupts.cpp
     ota.cpp
+    CboxInjection.cpp
   INCLUDE_DIRS
     .
 )

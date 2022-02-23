@@ -33,7 +33,7 @@ MotorValveBlock::streamFrom(cbox::DataIn& dataIn)
             hwDevice.setId(message.hwDevice);
         }
         valve.startChannel(message.startChannel);
-        setDigitalConstraints(message.constrainedBy, constrained, objectsRef);
+        setDigitalConstraints(message.constrainedBy, constrained);
         constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
     }
 

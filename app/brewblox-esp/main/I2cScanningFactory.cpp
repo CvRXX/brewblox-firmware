@@ -20,12 +20,13 @@
 #include "I2cScanningFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "blox_hal/hal_i2c.h"
+#include "cbox/Injection.h"
 #include <algorithm>
 #include <vector>
 
 namespace detail {
 
-uint8_t find_next(const cbox::ObjectContainer& objects, uint8_t lastAddress)
+uint8_t find_next(uint8_t lastAddress)
 {
     uint8_t address = lastAddress;
     while (address < 128) {
@@ -39,7 +40,7 @@ uint8_t find_next(const cbox::ObjectContainer& objects, uint8_t lastAddress)
                 };
                 return false;
             };
-            if (std::find_if(objects.cbegin(), objects.cend(), samePosition) != objects.cend()) {
+            if (std::find_if(cbox::objects.cbegin(), cbox::objects.cend(), samePosition) != cbox::objects.cend()) {
                 // already initialized module at this position;
                 continue;
             }
@@ -51,11 +52,11 @@ uint8_t find_next(const cbox::ObjectContainer& objects, uint8_t lastAddress)
 }
 }
 
-std::shared_ptr<cbox::Object> I2cScanningFactory::scan(cbox::ObjectContainer& objects)
+std::shared_ptr<cbox::Object> I2cScanningFactory::scan()
 {
     uint8_t address = 0;
     while (true) {
-        address = detail::find_next(objects, address);
+        address = detail::find_next(address);
         if (!address) {
             return nullptr;
         }
