@@ -33,7 +33,6 @@
 
 SCENARIO("Test", "[maklogicblock]")
 {
-    CHECK(true);
     BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;
 

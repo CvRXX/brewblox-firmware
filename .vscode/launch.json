@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "brewblox app gcc",
+      "name": "Debug gcc",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/build/target/brewblox-gcc/brewblox-gcc",
@@ -13,6 +13,7 @@
         "--device_id",
         "123456789012345678901234"
       ],
+      "preLaunchTask": "Touch simulator files",
       "stopAtEntry": false,
       "cwd": "${workspaceRoot}/build/target/brewblox-gcc",
       "environment": [],
@@ -27,47 +28,11 @@
       ],
     },
     {
-      "name": "gdb lib test",
+      "name": "Debug test blocks",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceRoot}/lib/test/build/lib_test_runner",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceRoot}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit",
-    },
-    {
-      "name": "gdb brewblox app test",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceRoot}/app/brewblox-particle/test/build/brewblox_test_runner",
-      "stopAtEntry": false,
-      "cwd": "${workspaceRoot}",
-      "environment": [
-        {
-          "name": "LSAN_OPTIONS",
-          "value": "verbosity=1:log_threads=1"
-        }
-      ],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit",
-    },
-    {
-      "name": "gdb cbox test",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceRoot}/test/cbox/build/runner",
+      "program": "${workspaceRoot}/test/blocks/build/runner",
+      "preLaunchTask": "Test blocks",
       "args": [
         "-a"
       ],
@@ -86,11 +51,14 @@
       "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
     },
     {
-      "name": "controlbox unit tests",
+      "name": "Debug test cbox",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceRoot}/controlbox/build/cbox_test_runner",
-      "args": [],
+      "program": "${workspaceRoot}/test/cbox/build/runner",
+      "preLaunchTask": "Test cbox",
+      "args": [
+        "-a"
+      ],
       "stopAtEntry": false,
       "cwd": "${workspaceRoot}",
       "environment": [],
@@ -99,73 +67,97 @@
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
+          "text": "-enable-pretty-printing"
+          // "ignoreFailures": true
         }
-      ]
+      ],
+      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
     },
     {
-      "name": "brewblox p1 openocd debug",
-      "type": "cortex-debug",
-      "request": "attach",
-      "servertype": "openocd",
-      "cwd": "${workspaceRoot}",
-      "executable": "./build/target/brewblox-p1/brewblox-p1.elf",
-      "debuggerArgs": [
-        "-command=./tools/system.gdbinit",
-        "-command=./tools/arm-pretty.gdbinit",
-      ],
-      "rtos": "FreeRTOS",
-      "device": "STM32F205RG",
-      "configFiles": [
-        "/usr/local/share/openocd/scripts/interface/stlink.cfg",
-        "/usr/local/share/openocd/scripts/target/stm32f2x.cfg"
-      ],
-      "armToolchainPath": "/home/elco/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
-      // sudo apt-get install libpython2.7:i386 for the line below to work
-      "gdbpath": "/home/elco/opt/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py", // hidden setting
-      // "showDevDebugOutput": true,
-      "svdFile": "./tools/STM32F215.svd",
-    },
-    {
-      "name": "wifi-test p1 openocd debug",
-      "type": "cortex-debug",
-      "request": "attach",
-      "servertype": "openocd",
-      "cwd": "${workspaceRoot}",
-      "executable": "./build/target/wifi-test-p1/wifi-test.elf",
-      "debuggerArgs": [
-        "-command=./tools/system.gdbinit",
-      ],
-      "device": "STM32F205RG",
-      "configFiles": [
-        "/home/elco/opt/openocd/tcl/interface/stlink.cfg",
-        "/home/elco/opt/openocd/tcl/target/stm32f2x.cfg"
-      ],
-      "armToolchainPath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
-      "gdbpath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py", // hidden setting
-      // "showDevDebugOutput": true,
-      "svdFile": "./tools/STM32F215.svd",
-      "rtos": "FreeRTOS",
-      "interface": "swd"
-    },
-    {
-      "name": "system p1 openocd debug",
-      "type": "cortex-debug",
+      "name": "Debug test control",
+      "type": "cppdbg",
       "request": "launch",
-      "servertype": "openocd",
-      "cwd": "${workspaceRoot}",
-      "executable": "./platform/spark/device-os/build/target/user-part/platform-8-m/user-part.elf",
-      "device": "STM32F205RG",
-      "configFiles": [
-        "/usr/local/share/openocd/scripts/interface/stlink.cfg",
-        "/usr/local/share/openocd/scripts/target/stm32f2x.cfg"
+      "program": "${workspaceRoot}/test/control/build/runner",
+      "preLaunchTask": "Test control",
+      "args": [
+        "-a"
       ],
-      "armToolchainPath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
-      "showDevDebugOutput": true,
-      "runToMain": true,
-      "rtos": "FreeRTOS",
-      "interface": "swd"
-    }
+      "stopAtEntry": false,
+      "cwd": "${workspaceRoot}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing"
+          // "ignoreFailures": true
+        }
+      ],
+      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
+    },
+    // {
+    //   "name": "brewblox p1 openocd debug",
+    //   "type": "cortex-debug",
+    //   "request": "attach",
+    //   "servertype": "openocd",
+    //   "cwd": "${workspaceRoot}",
+    //   "executable": "./build/target/brewblox-p1/brewblox-p1.elf",
+    //   "debuggerArgs": [
+    //     "-command=./tools/system.gdbinit",
+    //     "-command=./tools/arm-pretty.gdbinit",
+    //   ],
+    //   "rtos": "FreeRTOS",
+    //   "device": "STM32F205RG",
+    //   "configFiles": [
+    //     "/usr/local/share/openocd/scripts/interface/stlink.cfg",
+    //     "/usr/local/share/openocd/scripts/target/stm32f2x.cfg"
+    //   ],
+    //   "armToolchainPath": "/home/elco/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
+    //   // sudo apt-get install libpython2.7:i386 for the line below to work
+    //   "gdbpath": "/home/elco/opt/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py", // hidden setting
+    //   // "showDevDebugOutput": true,
+    //   "svdFile": "./tools/STM32F215.svd",
+    // },
+    // {
+    //   "name": "wifi-test p1 openocd debug",
+    //   "type": "cortex-debug",
+    //   "request": "attach",
+    //   "servertype": "openocd",
+    //   "cwd": "${workspaceRoot}",
+    //   "executable": "./build/target/wifi-test-p1/wifi-test.elf",
+    //   "debuggerArgs": [
+    //     "-command=./tools/system.gdbinit",
+    //   ],
+    //   "device": "STM32F205RG",
+    //   "configFiles": [
+    //     "/home/elco/opt/openocd/tcl/interface/stlink.cfg",
+    //     "/home/elco/opt/openocd/tcl/target/stm32f2x.cfg"
+    //   ],
+    //   "armToolchainPath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
+    //   "gdbpath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb-py", // hidden setting
+    //   // "showDevDebugOutput": true,
+    //   "svdFile": "./tools/STM32F215.svd",
+    //   "rtos": "FreeRTOS",
+    //   "interface": "swd"
+    // },
+    // {
+    //   "name": "system p1 openocd debug",
+    //   "type": "cortex-debug",
+    //   "request": "launch",
+    //   "servertype": "openocd",
+    //   "cwd": "${workspaceRoot}",
+    //   "executable": "./platform/spark/device-os/build/target/user-part/platform-8-m/user-part.elf",
+    //   "device": "STM32F205RG",
+    //   "configFiles": [
+    //     "/usr/local/share/openocd/scripts/interface/stlink.cfg",
+    //     "/usr/local/share/openocd/scripts/target/stm32f2x.cfg"
+    //   ],
+    //   "armToolchainPath": "~/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
+    //   "showDevDebugOutput": true,
+    //   "runToMain": true,
+    //   "rtos": "FreeRTOS",
+    //   "interface": "swd"
+    // }
   ]
 }

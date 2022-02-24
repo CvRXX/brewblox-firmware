@@ -224,6 +224,15 @@
         "clear": false
       },
       "problemMatcher": "$gcc"
+    },
+    {
+      "label": "Touch simulator files",
+      "command": "touch",
+      "args": [
+        "build/target/brewblox-gcc/device_key.der",
+        "build/target/brewblox-gcc/server_key.der",
+        "build/target/brewblox-gcc/eeprom.bin",
+      ]
     }
   ]
 }

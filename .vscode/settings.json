@@ -47,5 +47,6 @@
   ],
   "[dockerfile]": {
     "editor.formatOnSave": false
-  }
+  },
+  "debug.onTaskErrors": "debugAnyway"
 }
