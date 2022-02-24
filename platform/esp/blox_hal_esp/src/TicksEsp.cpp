@@ -17,8 +17,9 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TicksEsp.h"
+
 #include "control/Ticks.hpp"
+#include "blox_hal_esp/TicksEsp.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

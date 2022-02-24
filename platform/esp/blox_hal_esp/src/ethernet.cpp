@@ -1,5 +1,5 @@
 #include "ethernet.hpp"
-#include "network.hpp"
+#include "blox_hal/hal_network.hpp"
 #include <cstring>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"

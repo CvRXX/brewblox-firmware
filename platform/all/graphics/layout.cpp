@@ -1,8 +1,9 @@
 #include "layout.hpp"
-#include "Spark4.hpp"
 #include "bar.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
 #include "cbox/CboxPtr.hpp"
+#include "cbox/Box.hpp"
+#include "drivers/Spark4.hpp"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
 #include <algorithm>

@@ -20,7 +20,7 @@
 #include "nvs_flash.h"
 #include <string.h>
 // #include "protocol_examples_common.h"
-#include "Spark4.hpp"
+#include "drivers/Spark4.hpp"
 #include "errno.h"
 #include "esp_wifi.h"
 #include "ota.hpp"

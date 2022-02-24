@@ -1,4 +1,4 @@
-#include "network.hpp"
+#include "blox_hal/hal_network.hpp"
 #include "driver/gpio.h"
 #include "esp_eth.h"
 #include "esp_log.h"
@@ -52,15 +52,15 @@ void setMode(Mode mode)
     current_mode = mode;
 }
 
-esp_ip4_addr_t ip4()
+uint32_t ip4()
 {
     if (ethernet::isConnected()) {
-        return ethernet::ip4();
+        return ethernet::ip4().addr;
     }
     if (wifi::isConnected()) {
-        return wifi::ip4();
+        return wifi::ip4().addr;
     }
-    return esp_ip4_addr_t{0};
+    return 0;
 }
 
 int8_t wifiStrength()

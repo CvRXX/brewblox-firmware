@@ -13,7 +13,7 @@
 #include <esp_wifi.h>
 #include <nvs_flash.h>
 
-#include "network.hpp"
+#include "blox_hal/hal_network.hpp"
 #include <string>
 #include <wifi_provisioning/manager.h>
 #include <wifi_provisioning/scheme_ble.h>

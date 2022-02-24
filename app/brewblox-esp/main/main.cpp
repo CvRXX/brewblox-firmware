@@ -1,23 +1,21 @@
 #include "intellisense.hpp"
-
+#include "drivers/Spark4.hpp"
+#include "drivers/TFT035.hpp"
 #include "Brewblox.hpp"
-#include "ExpOwGpio.hpp"
-#include "HttpHandler.hpp"
-#include "I2cScanningFactory.hpp"
 #include "RecurringTask.hpp"
-#include "Spark4.hpp"
-#include "TFT035.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "cbox/Box.hpp"
 #include "control/DS248x.hpp"
 #include "control/OneWire.hpp"
 #include "control/TempSensor.hpp"
+// #include "esp_heap_caps.h"
+// #include "esp_heap_trace.h"
+#include "blox_hal/hal_network.hpp"
 #include "graphics/graphics.hpp"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
-#include "network/network.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>

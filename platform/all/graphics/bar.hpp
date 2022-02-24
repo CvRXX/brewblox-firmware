@@ -1,6 +1,6 @@
+#include "blox_hal/hal_network.hpp"
 #include "fonts/fonts.hpp"
 #include "lvgl.h"
-#include "network/network.hpp"
 #include "styles.hpp"
 #include <ctime>
 #include <string>
@@ -63,7 +63,7 @@ public:
         }
 
         networkState.push_back(' ');
-        networkState.append(formatIp(network::ip4().addr));
+        networkState.append(formatIp(network::ip4()));
 
         lv_label_set_text(this->networksLabel, networkState.c_str());
     }
