@@ -3,7 +3,7 @@
 	url = https://github.com/johnmcfarlane/cnl.git
 	branch = develop
 [submodule "external_libs/lvgl"]
-	path = external_libs/lvgl
+	path = external_libs/lvgl_wrapper/lvgl
 	url = https://github.com/lvgl/lvgl.git
 [submodule "external_libs/lv_lib_qrcode"]
 	path = external_libs/lv_lib_qrcode

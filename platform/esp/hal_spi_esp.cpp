@@ -14,7 +14,7 @@
 
 using namespace hal_spi;
 
-DMA_ATTR auto transactionBuffer = StaticAllocator<spi_transaction_t, 10>();
+DMA_ATTR StaticAllocator<spi_transaction_t, 10> transactionBuffer{};
 
 namespace platform_spi {
 struct SpiHost {
@@ -38,7 +38,7 @@ SpiHost spiHosts[1] = {{
      .intr_flags = 0},
 }};
 
-spi_device_t* get_platform_ptr(Settings& settings)
+spi_device_t* get_platform_ptr(const Settings& settings)
 {
     return static_cast<spi_device_t*>(settings.platform_device_ptr);
 }
@@ -99,7 +99,7 @@ error_t init(Settings& settings)
 
     spi_device_t* dev_ptr = nullptr;
     auto err = spi_bus_add_device(spi_host.handle, &devcfg, &dev_ptr);
-    if (err == ESP_OK) {
+    if (err == ESP_OK && dev_ptr) {
         settings.platform_device_ptr = dev_ptr;
     } else {
         ESP_ERROR_CHECK(err);
@@ -107,14 +107,14 @@ error_t init(Settings& settings)
     return err;
 }
 
-void deInit(Settings& settings)
+void deInit(const Settings& settings)
 {
     if (settings.platform_device_ptr) {
         spi_bus_remove_device(get_platform_ptr(settings));
     }
 }
 
-error_t write(Settings& settings, const uint8_t* data, size_t size)
+error_t write(const Settings& settings, const uint8_t* data, size_t size)
 {
     auto trans = spi_transaction_t{};
     if (size <= 4) {
@@ -158,7 +158,7 @@ spi_transaction_t* allocateTransaction()
     return nullptr;
 }
 
-error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+error_t dmaWrite(const Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
 {
     if (auto trans = allocateTransaction()) {
 
@@ -172,8 +172,9 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
             .tx_buffer = data,
             .rx_buffer = nullptr,
         };
+        auto dev = get_platform_ptr(settings);
 
-        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(dev, trans, portMAX_DELAY);
         if (error != ESP_OK) {
             transactionBuffer.free(trans);
         }
@@ -183,7 +184,7 @@ error_t dmaWrite(Settings& settings, const uint8_t* data, size_t size, const Cal
     }
 }
 
-error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
+error_t dmaWriteValue(const Settings& settings, const uint8_t* data, size_t size, const CallbacksBase* callbacks)
 {
     if (auto trans = allocateTransaction()) {
 
@@ -199,8 +200,9 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
         };
 
         memcpy(trans->tx_data, data, size);
+        auto dev = get_platform_ptr(settings);
 
-        auto error = spi_device_queue_trans(get_platform_ptr(settings), trans, portMAX_DELAY);
+        auto error = spi_device_queue_trans(dev, trans, portMAX_DELAY);
         if (error != ESP_OK) {
             transactionBuffer.free(trans);
         }
@@ -211,7 +213,7 @@ error_t dmaWriteValue(Settings& settings, const uint8_t* data, size_t size, cons
     }
 }
 
-error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize)
+error_t writeAndRead(const Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize)
 {
     auto trans = spi_transaction_t{
         .flags = uint32_t{0},
@@ -227,12 +229,12 @@ error_t writeAndRead(Settings& settings, const uint8_t* tx, size_t txSize, uint8
     return spi_device_transmit(get_platform_ptr(settings), &trans);
 }
 
-void aquire_bus(Settings& settings)
+void aquire_bus(const Settings& settings)
 {
     spi_device_acquire_bus(get_platform_ptr(settings), portMAX_DELAY);
 }
 
-void release_bus(Settings& settings)
+void release_bus(const Settings& settings)
 {
     while (!transactionBuffer.isEmpty()) {
         taskYIELD();
