@@ -25,13 +25,9 @@ if [[ "${PLATFORM}" == esp ]]; then
     cd app/brewblox-esp
     subtask $CMD "$@"
 
-    if [[ -f build/compile_commands.json ]]; then
-        cp -f build/compile_commands.json ../../ # root
-    fi
-
 elif [[ "${PLATFORM}" =~ ^(photon|p1|gcc)$ ]]; then
     if [ -x "$(command -v bear)" ]; then
-        CMD="bear --append make -s ${MAKE_ARGS}"
+        CMD="bear --append -o build/compile_commands_${PLATFORM}.json make -s ${MAKE_ARGS}"
     else
         CMD="make -s ${MAKE_ARGS}"
     fi
