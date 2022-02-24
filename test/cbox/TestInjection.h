@@ -5,7 +5,7 @@
 
 namespace test {
 
-extern cbox::ArrayEepromAccess<2048> eeprom;
+cbox::ArrayEepromAccess<2048>& getEeprom();
 
 cbox::EepromObjectStorage& getStorage();
 

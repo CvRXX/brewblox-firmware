@@ -419,7 +419,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
             CHECK(id == 29); // failed to create id 29
         }
 
-        uint16_t expectedFreeSpace = originalSpace - (14 * bigSizeReserved + 14 * smallSizeReserved + 28 * headerSize); // header is 5 bytes
+        stream_size_t expectedFreeSpace = originalSpace - (14 * bigSizeReserved + 14 * smallSizeReserved + 28 * headerSize); // header is 5 bytes
 
         THEN("Free space left is as expected")
         {

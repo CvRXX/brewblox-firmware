@@ -253,13 +253,13 @@ SCENARIO("Basic test of chain of filters")
             auto result = testSmooth(chains[2], 200);
             CHECK(result.max == result.maxS);
             CHECK(result.maxD == result.maxDS);
-            CHECK(result.lag < chains[2].sampleInterval());
+            CHECK(result.lag < int32_t(chains[2].sampleInterval()));
 
             result = testSmooth(chains[5], 1000);
             CHECK(result.max == result.maxS);
 
             CHECK(result.maxD == result.maxDS);
-            CHECK(result.lag == chains[5].sampleInterval());
+            CHECK(result.lag == int32_t(chains[5].sampleInterval()));
         }
     }
 }

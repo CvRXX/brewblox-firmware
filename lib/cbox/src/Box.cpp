@@ -25,7 +25,6 @@
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamConverters.h"
 #include "cbox/DeprecatedObject.h"
-#include "cbox/GroupsObject.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
@@ -44,8 +43,6 @@ namespace cbox {
 Box::Box(ConnectionPool& _connections)
     : connections(_connections)
 {
-    objects.add(std::shared_ptr<Object>(new GroupsObject(this)), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
-    objects.setObjectsStartId(userStartId());                                        // set startId for user objects to 100
 }
 
 /**

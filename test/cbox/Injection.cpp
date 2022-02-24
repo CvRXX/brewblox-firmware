@@ -8,11 +8,15 @@
 
 namespace test {
 
-cbox::ArrayEepromAccess<2048> eeprom;
+cbox::ArrayEepromAccess<2048>& getEeprom()
+{
+    static cbox::ArrayEepromAccess<2048> eeprom;
+    return eeprom;
+}
 
 cbox::EepromObjectStorage& getStorage()
 {
-    static cbox::EepromObjectStorage objectStore(eeprom);
+    static cbox::EepromObjectStorage objectStore(getEeprom());
     return objectStore;
 }
 

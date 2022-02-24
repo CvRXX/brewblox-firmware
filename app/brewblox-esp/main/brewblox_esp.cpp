@@ -26,6 +26,7 @@
 #include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
+#include "cbox/GroupsObject.h"
 #include "cbox/Tracing.h"
 #include "control/Logger.h"
 #include <asio.hpp>
@@ -70,13 +71,15 @@ makeBrewbloxBox(asio::io_context& io)
 {
     static Ticks<TicksEsp> ticks;
 
+    static cbox::ConnectionPool connections{{}}; // managed externally
+    static cbox::Box box(connections);
+
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box)), 0x80, 1);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 0x80, 2);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 0x80, 3);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 0x80, 7);
 
-    static cbox::ConnectionPool connections{{}}; // managed externally
-
-    static cbox::Box box(connections);
+    cbox::objects.setObjectsStartId(box.userStartId());
 
     box.loadObjectsFromStorage(); // init box and load stored objects
 

@@ -15,6 +15,6 @@ echo "Building ${SUITE} unit tests"
 subtask $CMD -C "test/${SUITE}"
 
 echo "Running ${SUITE} unit tests"
-subtask "test/${SUITE}/build/runner"
+subtask "test/${SUITE}/build/runner" "$@"
 
 exit $SUBTASK_STATUS

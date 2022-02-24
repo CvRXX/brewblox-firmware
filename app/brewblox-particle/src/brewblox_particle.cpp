@@ -29,14 +29,13 @@
 #include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
+#include "cbox/GroupsObject.h"
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "reset.h"
 #include "spark/Board.h"
 #include <memory>
-
-using EepromAccessImpl = cbox::SparkEepromAccess;
 
 #if defined(SPARK)
 #include "rgbled.h"
@@ -124,6 +123,11 @@ void powerCyclePheripheral5V()
 cbox::Box&
 makeBrewbloxBox()
 {
+
+    static cbox::ConnectionPool& connections = theConnectionPool();
+    static cbox::Box box(connections);
+
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box)), 0x80, 1);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID)), 0x80, 2);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 0x80, 3);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V)), 0x80, 4);
@@ -134,8 +138,7 @@ makeBrewbloxBox()
     cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 0x80, 7);
     cbox::objects.add(std::shared_ptr<cbox::Object>(new PinsBlock()), 0x80, 19);
 
-    static cbox::ConnectionPool& connections = theConnectionPool();
-    static cbox::Box box(connections);
+    cbox::objects.setObjectsStartId(box.userStartId());
 
     return box;
 }

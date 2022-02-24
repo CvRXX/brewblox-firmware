@@ -157,7 +157,6 @@ void ObjectContainer::forcedUpdate(update_t now)
 
 CboxError ObjectContainer::store(const obj_id_t& id)
 {
-
     auto cobj = fetchContained(id);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
@@ -171,7 +170,6 @@ CboxError ObjectContainer::store(const obj_id_t& id)
 
 CboxError ObjectContainer::reloadStored(const obj_id_t& id)
 {
-
     ContainedObject* cobj = fetchContained(id);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;

@@ -39,7 +39,7 @@ SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
         {
 
             auto times = logged.getLastStartEndTime(State::Unknown, now);
-            CHECK(times.start == -1);
+            CHECK(times.start == ticks_millis_t(-1));
             CHECK(times.end == 0);
 
             auto millisSinceUnknown = now - times.end;
@@ -68,7 +68,7 @@ SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
             }
 
             auto times = logged.getLastStartEndTime(State::Unknown, now);
-            CHECK(times.start == -1);
+            CHECK(times.start == ticks_millis_t(-1));
             CHECK(times.end == 0);
 
             times = logged.getLastStartEndTime(State::Inactive, now);
