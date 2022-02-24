@@ -64,28 +64,13 @@
       "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit",
     },
     {
-      "name": "gdb esp app test",
+      "name": "gdb cbox test",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceRoot}/app/brewblox-esp/test/build/brewblox_esp_test_runner",
-      "stopAtEntry": false,
-      "cwd": "${workspaceRoot}",
-      "environment": [
-        {
-          "name": "LSAN_OPTIONS",
-          "value": "verbosity=1:log_threads=1"
-        }
+      "program": "${workspaceRoot}/test/cbox/build/runner",
+      "args": [
+        "-a"
       ],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit",
-    },
-    {
-      "name": "gdb controlbox test",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceRoot}/controlbox/build/cbox_test_runner",
-      "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceRoot}",
       "environment": [],
@@ -98,7 +83,7 @@
           // "ignoreFailures": true
         }
       ],
-      "miDebuggerArgs": "-x ~/repos/firmware/tools/gcc-pretty.gdbinit"
+      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
     },
     {
       "name": "controlbox unit tests",

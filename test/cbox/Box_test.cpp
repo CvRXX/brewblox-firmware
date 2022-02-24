@@ -25,11 +25,15 @@ using namespace cbox;
 
 SCENARIO("A controlbox Box")
 {
-    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0x80, 2);
-    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0x80, 3);
+    cbox::objects.clearAll();
+    test::getStorage().clear();
 
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
+
+    cbox::objects.setObjectsStartId(obj_id_t(1));
+    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0x80, 2);
+    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0x80, 3);
 
     Box box(connPool);
 
@@ -46,6 +50,7 @@ SCENARIO("A controlbox Box")
         expected.str("");
         expected.clear();
     };
+    clearStreams();
 
     WHEN("A connection sends a read object command, it is processed by the Box")
     {

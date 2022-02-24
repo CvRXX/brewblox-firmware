@@ -25,7 +25,7 @@
 
 namespace brewblox {
 
-const cbox::ObjectFactory make_blocks_factory();
+std::tuple<cbox::CboxError, std::shared_ptr<cbox::Object>> makeBlock(const cbox::obj_type_t& t);
 
 }
 

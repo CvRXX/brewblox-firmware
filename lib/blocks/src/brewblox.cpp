@@ -36,33 +36,36 @@
 #include "blocks/TempSensorMockBlock.h"
 #include "blocks/TempSensorOneWireBlock.h"
 #include "blocks/stringify.h"
+#include "cbox/ObjectFactory.h"
 #include "cbox/ScanningFactory.hpp"
 #include "proto/proto_version.h"
 #include <memory>
 
 namespace brewblox {
 
-const cbox::ObjectFactory make_blocks_factory()
+static const cbox::ObjectFactory blocksFactory({
+    cbox::makeFactoryEntry<TempSensorOneWireBlock>(),
+    cbox::makeFactoryEntry<SetpointSensorPairBlock>(),
+    cbox::makeFactoryEntry<TempSensorMockBlock>(),
+    cbox::makeFactoryEntry<ActuatorAnalogMockBlock>(),
+    cbox::makeFactoryEntry<PidBlock>(),
+    cbox::makeFactoryEntry<ActuatorPwmBlock>(),
+    cbox::makeFactoryEntry<ActuatorOffsetBlock>(),
+    cbox::makeFactoryEntry<BalancerBlock>(),
+    cbox::makeFactoryEntry<MutexBlock>(),
+    cbox::makeFactoryEntry<SetpointProfileBlock>(),
+    cbox::makeFactoryEntry<DS2413Block>(),
+    cbox::makeFactoryEntry<DigitalActuatorBlock>(),
+    cbox::makeFactoryEntry<DS2408Block>(),
+    cbox::makeFactoryEntry<MotorValveBlock>(),
+    cbox::makeFactoryEntry<ActuatorLogicBlock>(),
+    cbox::makeFactoryEntry<MockPinsBlock>(),
+    cbox::makeFactoryEntry<TempSensorCombiBlock>(),
+});
+
+std::tuple<cbox::CboxError, std::shared_ptr<cbox::Object>> makeBlock(const cbox::obj_type_t& t)
 {
-    return cbox::ObjectFactory({
-        cbox::makeFactoryEntry<TempSensorOneWireBlock>(),
-        cbox::makeFactoryEntry<SetpointSensorPairBlock>(),
-        cbox::makeFactoryEntry<TempSensorMockBlock>(),
-        cbox::makeFactoryEntry<ActuatorAnalogMockBlock>(),
-        cbox::makeFactoryEntry<PidBlock>(),
-        cbox::makeFactoryEntry<ActuatorPwmBlock>(),
-        cbox::makeFactoryEntry<ActuatorOffsetBlock>(),
-        cbox::makeFactoryEntry<BalancerBlock>(),
-        cbox::makeFactoryEntry<MutexBlock>(),
-        cbox::makeFactoryEntry<SetpointProfileBlock>(),
-        cbox::makeFactoryEntry<DS2413Block>(),
-        cbox::makeFactoryEntry<DigitalActuatorBlock>(),
-        cbox::makeFactoryEntry<DS2408Block>(),
-        cbox::makeFactoryEntry<MotorValveBlock>(),
-        cbox::makeFactoryEntry<ActuatorLogicBlock>(),
-        cbox::makeFactoryEntry<MockPinsBlock>(),
-        cbox::makeFactoryEntry<TempSensorCombiBlock>(),
-    });
+    return blocksFactory.make(t);
 }
 
 } // end namespace brewlbox

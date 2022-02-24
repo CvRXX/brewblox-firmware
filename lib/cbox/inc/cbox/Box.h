@@ -41,12 +41,8 @@ private:
     // A single container is used for both system and user objects.
     // The application can add the system objects first, then set the start ID to a higher value.
     // The objects with an ID lower than the start ID cannot be deleted.
-    // const std::vector<std::reference_wrapper<const ObjectFactory>>& factories;
-    // ObjectContainer& objects;
-    // ObjectStorage& storage;
     // Box receives commands from connections in the connection pool and streams back the answer to the same connection
     ConnectionPool& connections;
-    // const std::vector<std::reference_wrapper<ScanningFactory>>& scanners;
     uint8_t activeGroups = 0x81; // system group and first user group
     update_t lastUpdateTime = 0;
 

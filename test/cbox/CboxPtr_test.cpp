@@ -32,10 +32,10 @@ using namespace cbox;
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
     test::eeprom.clear();
-    cbox::objects.clearAll();
+    objects.clearAll();
 
-    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 1);
-    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 2);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 1);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 2);
 
     CboxPtr<LongIntObject> liPtr;
     CboxPtr<LongIntVectorObject> livPtr;
@@ -128,6 +128,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 CHECK(!ptr4);
             }
         }
+
         THEN("A Cbox Ptr can be locked as a different type if it supports the interface")
         {
             auto ptr = liPtr.lock_as<Nameable>();

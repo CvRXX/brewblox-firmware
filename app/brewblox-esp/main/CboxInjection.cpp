@@ -8,17 +8,18 @@
 
 namespace cbox {
 
-cbox::ObjectContainer objects;
+ObjectContainer objects;
+
+static const ObjectFactory platformFactory{
+    makeFactoryEntry<ExpOwGpioBlock>(),
+};
 
 std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
 {
-    static const cbox::ObjectFactory platformFactory{cbox::makeFactoryEntry<ExpOwGpioBlock>()};
-    static const cbox::ObjectFactory blocksFactory = brewblox::make_blocks_factory();
-
     auto retv = platformFactory.make(t);
 
     if (!std::get<1>(retv)) {
-        retv = blocksFactory.make(t);
+        retv = brewblox::makeBlock(t);
     }
 
     return retv;
@@ -40,7 +41,7 @@ std::shared_ptr<Object> scan()
 
 ObjectStorage& getStorage()
 {
-    static cbox::FileObjectStorage objectStore{"/blocks/"};
+    static FileObjectStorage objectStore{"/blocks/"};
     return objectStore;
 }
 

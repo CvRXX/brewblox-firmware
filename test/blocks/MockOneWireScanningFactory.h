@@ -25,8 +25,8 @@ private:
     std::vector<OneWireAddress>::const_iterator nextAddress;
 
 public:
-    MockOneWireScanningFactory(cbox::ObjectContainer& objects, OneWire& ow)
-        : OneWireScanningFactory(objects, ow)
+    MockOneWireScanningFactory(OneWire& ow)
+        : OneWireScanningFactory(ow)
     {
         reset();
     }
