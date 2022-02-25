@@ -127,16 +127,18 @@ makeBrewbloxBox()
     static cbox::ConnectionPool& connections = theConnectionPool();
     static cbox::Box box(connections);
 
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box)), 0x80, 1);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID)), 0x80, 2);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 0x80, 3);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V)), 0x80, 4);
+    cbox::objects.init({
+        cbox::ContainedObject(1, 0x80, std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box))),
+            cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
+            cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
+            cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V))),
 #if defined(SPARK)
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new WiFiSettingsBlock()), 0x80, 5);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new TouchSettingsBlock()), 0x80, 6);
+            cbox::ContainedObject(5, 0x80, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
+            cbox::ContainedObject(6, 0x80, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
 #endif
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 0x80, 7);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new PinsBlock()), 0x80, 19);
+            cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
+            cbox::ContainedObject(19, 0x80, std::shared_ptr<cbox::Object>(new PinsBlock())),
+    });
 
     cbox::objects.setObjectsStartId(box.userStartId());
 

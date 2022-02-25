@@ -32,9 +32,10 @@ SCENARIO("A controlbox Box")
     ConnectionPool connPool = {connSource};
     Box box(connPool);
 
-    objects.setObjectsStartId(obj_id_t(1));
-    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0x80, 2);
-    objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0x80, 3);
+    objects.init({
+        ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
+    });
     objects.setObjectsStartId(obj_id_t(100));
 
     auto in = std::make_shared<StringStreamAutoClear>();

@@ -32,11 +32,10 @@ using namespace cbox;
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
     test::getStorage().clear();
-    objects.clearAll();
-
-    objects.setObjectsStartId(obj_id_t(1));
-    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 1);
-    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 2);
+    objects.init({
+        ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+    });
     objects.setObjectsStartId(obj_id_t(100));
 
     CboxPtr<LongIntObject> liPtr;

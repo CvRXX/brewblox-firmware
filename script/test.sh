@@ -12,9 +12,7 @@ else
 fi
 
 echo "Building ${SUITE} unit tests"
-subtask $CMD -C "test/${SUITE}"
+$CMD -C "test/${SUITE}"
 
 echo "Running ${SUITE} unit tests"
-subtask "test/${SUITE}/build/runner" "$@"
-
-exit $SUBTASK_STATUS
+"test/${SUITE}/build/runner" "$@"
