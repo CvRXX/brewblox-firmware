@@ -116,12 +116,6 @@ public:
         return obj_id_t(100);
     }
 
-    template <typename T>
-    CboxPtr<T> makeCboxPtr(const obj_id_t& id = 0)
-    {
-        return CboxPtr<T>(id);
-    }
-
     obj_id_t
     discoverNewObject(std::function<std::shared_ptr<Object>()>& discoverObject, std::function<bool(Object&, Object&)> isSame);
 

@@ -30,8 +30,7 @@ private:
 
 public:
     SetpointSensorPairBlock()
-        : sensor()
-        , pair(sensor.lockFunctor())
+        : pair(sensor.lockFunctor())
     {
     }
 

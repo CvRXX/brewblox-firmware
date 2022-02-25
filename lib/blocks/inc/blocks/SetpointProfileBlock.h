@@ -35,7 +35,6 @@ private:
 public:
     SetpointProfileBlock()
         : ticksPtr(3)
-        , target()
         , profile(target.lockFunctor())
     {
     }

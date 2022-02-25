@@ -282,8 +282,6 @@ private:
 
 public:
     PtrLongIntObject()
-        : ptr1()
-        , ptr2()
     {
     }
     virtual ~PtrLongIntObject() = default;

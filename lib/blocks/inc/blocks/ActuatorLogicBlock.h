@@ -84,7 +84,6 @@ private:
 
 public:
     ActuatorLogicBlock()
-        : target()
     {
     }
     virtual ~ActuatorLogicBlock() = default;

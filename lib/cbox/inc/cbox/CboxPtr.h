@@ -41,12 +41,12 @@ public:
 
     CboxError store()
     {
-        return cbox::objects.store(id);
+        return objects.store(id);
     }
 
     ObjectContainer& container()
     {
-        return cbox::objects;
+        return objects;
     }
 
 protected:

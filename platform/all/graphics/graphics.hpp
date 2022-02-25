@@ -17,20 +17,20 @@ class BaseWidget;
 class Graphics {
 public:
     /**
-    * This function will be called by lvgl to write pixels to the screen. 
-    * @param disp_drv A pointer to the display driver as saved by lvgl.
-    * @param area The area of pixels to be written.
-    * @param color_p A pointer to the beginning of the pixels to be written.
-    */
+     * This function will be called by lvgl to write pixels to the screen.
+     * @param disp_drv A pointer to the display driver as saved by lvgl.
+     * @param area The area of pixels to be written.
+     * @param color_p A pointer to the beginning of the pixels to be written.
+     */
     static void monitor_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area, lv_color_t* color_p);
 
     /**
-     * Initialises the graphics module. 
+     * Initialises the graphics module.
      * @param box The Cbox box.
      */
-    static void init(cbox::Box& box);
+    static void init();
 
-    /** 
+    /**
      * Updates the layout and calls the lvgl task handler.
      */
     static void update();

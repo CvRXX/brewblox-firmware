@@ -89,7 +89,7 @@ SCENARIO("A TempSensorOneWireBlock")
 
             AND_THEN("The writable settings match what was sent")
             {
-                auto lookup = brewbloxBox().makeCboxPtr<TempSensorOneWireBlock>(100);
+                auto lookup = cbox::CboxPtr<TempSensorOneWireBlock>(100);
                 auto sensorPtr = lookup.lock();
                 REQUIRE(sensorPtr);
                 CHECK(sensorPtr->get().address() == OneWireAddress(0x7E11'1111'1111'1128));
@@ -105,7 +105,7 @@ SCENARIO("A TempSensorOneWireBlock")
 
         THEN("An incorrect busId is corrected during discovery")
         {
-            auto ptr = brewbloxBox().makeCboxPtr<OneWireDeviceBlock>(100);
+            auto ptr = cbox::CboxPtr<OneWireDeviceBlock>(100);
             auto block = ptr.lock();
             block->setBusId(0);
 

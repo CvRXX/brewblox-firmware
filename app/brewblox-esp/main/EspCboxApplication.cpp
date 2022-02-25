@@ -8,8 +8,6 @@
 
 namespace cbox {
 
-ObjectContainer objects;
-
 static const ObjectFactory platformFactory{
     makeFactoryEntry<ExpOwGpioBlock>(),
 };

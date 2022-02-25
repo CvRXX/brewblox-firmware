@@ -107,9 +107,9 @@ SCENARIO("A SetpointProfile block")
 
         testBox.update(10'000);
 
-        auto pairLookup = brewbloxBox().makeCboxPtr<SetpointSensorPairBlock>(101);
+        auto pairLookup = CboxPtr<SetpointSensorPairBlock>(101);
         auto pairPtr = pairLookup.lock();
-        auto profileLookup = brewbloxBox().makeCboxPtr<SetpointProfileBlock>(102);
+        auto profileLookup = CboxPtr<SetpointProfileBlock>(102);
         auto profilePtr = profileLookup.lock();
 
         REQUIRE(profilePtr);

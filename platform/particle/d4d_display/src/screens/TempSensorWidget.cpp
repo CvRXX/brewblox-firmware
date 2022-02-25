@@ -22,7 +22,7 @@
 
 TempSensorWidget::TempSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(brewbloxBox().makeCboxPtr<TempSensor>(id))
+    , lookup(cbox::CboxPtr<TempSensor>(id))
 {
 }
 

@@ -10,8 +10,6 @@
 
 namespace cbox {
 
-ObjectContainer objects;
-
 std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
 {
     return brewblox::makeBlock(t);

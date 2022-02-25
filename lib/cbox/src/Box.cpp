@@ -278,7 +278,7 @@ void Box::deleteObject(DataIn& in, EncodedDataOut& out)
 
     auto storageId = id;
 
-    auto deprecated = makeCboxPtr<DeprecatedObject>(id);
+    auto deprecated = CboxPtr<DeprecatedObject>(id);
     if (auto obj = deprecated.lock()) {
         // object is a deprecated one. We should delete the original object id from storage
         storageId = obj->storageId();

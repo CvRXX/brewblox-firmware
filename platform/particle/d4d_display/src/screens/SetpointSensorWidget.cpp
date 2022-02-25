@@ -22,7 +22,7 @@
 
 SetpointSensorWidget::SetpointSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(brewbloxBox().makeCboxPtr<SetpointSensorPairBlock>(id))
+    , lookup(cbox::CboxPtr<SetpointSensorPairBlock>(id))
 {
     setClickHandler(this, onClickStatic);
 }

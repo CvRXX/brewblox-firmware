@@ -11,7 +11,6 @@ protected:
 
 public:
     OneWireDeviceBlock()
-        : owBus()
     {
     }
 

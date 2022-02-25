@@ -23,7 +23,7 @@
 
 ActuatorAnalogWidget::ActuatorAnalogWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(brewbloxBox().makeCboxPtr<ActuatorAnalogConstrained>(id))
+    , lookup(cbox::CboxPtr<ActuatorAnalogConstrained>(id))
 {
     setClickHandler(this, onClickStatic);
 }

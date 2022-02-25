@@ -97,7 +97,7 @@ PidWidget::PidWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
           wrapper.scheme,       ///< Pointer on used color scheme.
           &iconsData,           ///< Pointer on runtime object data.
       }
-    , lookup(brewbloxBox().makeCboxPtr<PidBlock>(id))
+    , lookup(cbox::CboxPtr<PidBlock>(id))
 {
     wrapper.addChildren({&inputTarget, &inputValue, &outputTarget, &outputValue, &icons});
     wrapper.setEnabled(D4D_FALSE); // start widget disabled

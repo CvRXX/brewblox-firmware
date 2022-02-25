@@ -14,9 +14,7 @@ private:
 
 public:
     ActuatorOffsetBlock()
-        : target()
-        , reference()
-        , offset(target.lockFunctor(), reference.lockFunctor())
+        : offset(target.lockFunctor(), reference.lockFunctor())
         , constrained(offset)
     {
     }

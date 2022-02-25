@@ -25,17 +25,17 @@ using namespace cbox;
 
 SCENARIO("A controlbox Box")
 {
-    cbox::objects.clearAll();
+    objects.clearAll();
     test::getStorage().clear();
 
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
     Box box(connPool);
 
-    cbox::objects.setObjectsStartId(obj_id_t(1));
-    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0x80, 2);
-    cbox::objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0x80, 3);
-    cbox::objects.setObjectsStartId(obj_id_t(100));
+    objects.setObjectsStartId(obj_id_t(1));
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0x80, 2);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0x80, 3);
+    objects.setObjectsStartId(obj_id_t(100));
 
     auto in = std::make_shared<StringStreamAutoClear>();
     auto out = std::make_shared<std::stringstream>();
@@ -149,7 +149,7 @@ SCENARIO("A controlbox Box")
         WHEN("The object is modified by the application, not by an incoming command")
         {
 
-            auto objLookup = box.makeCboxPtr<LongIntObject>(100);
+            auto objLookup = CboxPtr<LongIntObject>(100);
             auto obj = objLookup.lock();
             REQUIRE(obj);
             obj->value(0x22222222);
@@ -1047,7 +1047,7 @@ SCENARIO("A controlbox Box")
                  << "\n";
         CHECK(out->str() == expected.str());
 
-        auto lookup = box.makeCboxPtr<MockStreamObject>(100);
+        auto lookup = CboxPtr<MockStreamObject>(100);
         auto obj = lookup.lock();
         REQUIRE(obj);
 

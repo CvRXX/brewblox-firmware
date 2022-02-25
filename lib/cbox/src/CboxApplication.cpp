@@ -1,6 +1,5 @@
-
 /*
- * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
+ * Copyright 2018 Elco Jacobs / Brewblox
  *
  * This file is part of ControlBox.
  *
@@ -18,26 +17,10 @@
  * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
 #include "cbox/CboxApplication.h"
-#include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
-#include <memory>
 
 namespace cbox {
 
-/**
- * A scanning factory has some kind of scan mechanism for new objects.
- * It has a reference to the object container to check if the new object already exists
- */
-class ScanningFactory {
-public:
-    ScanningFactory() = default;
-    virtual ~ScanningFactory() = default;
-
-    // scan takes the existing object container to be able to check if the object already exists
-    virtual std::shared_ptr<Object> scan() = 0;
-};
+ObjectContainer objects;
 
 } // end namespace cbox
