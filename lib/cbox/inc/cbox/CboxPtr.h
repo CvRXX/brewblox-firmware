@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "cbox/Injection.h"
+#include "cbox/CboxApplication.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>

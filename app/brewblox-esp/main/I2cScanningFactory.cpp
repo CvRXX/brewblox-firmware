@@ -20,7 +20,7 @@
 #include "I2cScanningFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "blox_hal/hal_i2c.h"
-#include "cbox/Injection.h"
+#include "cbox/CboxApplication.h"
 #include <algorithm>
 #include <vector>
 

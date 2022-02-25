@@ -18,7 +18,7 @@
  */
 
 #include "cbox/ObjectContainer.h"
-#include "cbox/Injection.h"
+#include "cbox/CboxApplication.h"
 #include <algorithm>
 
 namespace cbox {

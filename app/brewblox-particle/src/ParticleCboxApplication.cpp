@@ -1,9 +1,12 @@
-#include "cbox/Injection.h"
 #include "OneWireScanningFactory.hpp"
+#include "SparkEepromAccess.h"
+#include "blocks/OneWireBusBlock.h"
 #include "brewblox.hpp"
-#include "cbox/ArrayEepromAccess.h"
+#include "cbox/CboxApplication.h"
+#include "cbox/CboxPtr.h"
 #include "cbox/EepromObjectStorage.h"
 #include "cbox/ObjectFactory.h"
+#include "control/OneWire.h"
 
 namespace cbox {
 
@@ -22,8 +25,8 @@ std::shared_ptr<Object> scan()
 
 ObjectStorage& getStorage()
 {
-    static cbox::ArrayEepromAccess<2048> eeprom;
-    static cbox::EepromObjectStorage objectStore(eeprom);
+    static SparkEepromAccess eeprom;
+    static EepromObjectStorage objectStore(eeprom);
     return objectStore;
 }
 

@@ -8,12 +8,12 @@ idf_component_register(
     main.cpp
     AppTicks.cpp
     brewblox_esp.cpp
+    EspCboxApplication.cpp
     ExpOwGpio.cpp
     I2cScanningFactory.cpp
     blocks/ExpOwGpioBlock.cpp
     TimerInterrupts.cpp
     ota.cpp
-    CboxInjection.cpp
   INCLUDE_DIRS
     .
 )

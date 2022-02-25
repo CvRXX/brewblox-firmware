@@ -5,9 +5,9 @@
 #include <iomanip>
 #include <iostream>
 
+#include "CboxApplicationExtended.h"
 #include "LongIntScanningFactory.hpp"
 #include "TestHelpers.h"
-#include "TestInjection.h"
 #include "TestObjects.h"
 #include "cbox/ArrayEepromAccess.h"
 #include "cbox/Connections.h"

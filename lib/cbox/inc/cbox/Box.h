@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "Injection.h"
+#include "cbox/CboxApplication.h"
 #include "cbox/CboxError.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/ConnectionPool.h"

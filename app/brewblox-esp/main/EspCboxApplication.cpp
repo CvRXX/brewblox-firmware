@@ -2,8 +2,8 @@
 #include "OneWireMultiScanningFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "brewblox.hpp"
+#include "cbox/CboxApplication.h"
 #include "cbox/FileObjectStorage.h"
-#include "cbox/Injection.h"
 #include "cbox/ObjectFactory.h"
 
 namespace cbox {

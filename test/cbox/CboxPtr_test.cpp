@@ -19,11 +19,11 @@
 
 #include "cbox/CboxPtr.h"
 
-#include "TestInjection.h"
+#include "CboxApplicationExtended.h"
 #include "TestObjects.h"
 #include "cbox/ArrayEepromAccess.h"
+#include "cbox/CboxApplication.h"
 #include "cbox/EepromObjectStorage.h"
-#include "cbox/Injection.h"
 #include "cbox/ObjectContainer.h"
 #include <catch.hpp>
 

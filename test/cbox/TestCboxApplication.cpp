@@ -1,8 +1,8 @@
-#include "cbox/Injection.h"
+#include "CboxApplicationExtended.h"
 #include "LongIntScanningFactory.hpp"
-#include "TestInjection.h"
 #include "TestObjects.h"
 #include "cbox/ArrayEepromAccess.h"
+#include "cbox/CboxApplication.h"
 #include "cbox/EepromObjectStorage.h"
 #include "cbox/ObjectFactory.h"
 
