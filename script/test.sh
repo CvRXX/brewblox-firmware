@@ -6,7 +6,7 @@ SUITE="${1:?}"
 shift
 
 if [ -x "$(command -v bear)" ]; then
-    CMD="bear --append make -s ${MAKE_ARGS}"
+    CMD="bear --append -o test/compile_commands.json make -s ${MAKE_ARGS}"
 else
     CMD="make -s ${MAKE_ARGS}"
 fi
@@ -15,6 +15,6 @@ echo "Building ${SUITE} unit tests"
 subtask $CMD -C "test/${SUITE}"
 
 echo "Running ${SUITE} unit tests"
-subtask "test/${SUITE}/build/runner" --durations yes
+subtask "test/${SUITE}/build/runner" "$@"
 
 exit $SUBTASK_STATUS
