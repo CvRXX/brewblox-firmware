@@ -15,4 +15,5 @@ echo "Building ${SUITE} unit tests"
 $CMD -C "test/${SUITE}"
 
 echo "Running ${SUITE} unit tests"
+
 "test/${SUITE}/build/runner" "$@"
