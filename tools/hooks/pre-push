@@ -18,9 +18,9 @@ fi
 
 PROTO_SHA=$(cd "$REPO_ROOT/external_libs/brewblox-proto" && git rev-parse --short=8 HEAD)
 
-if grep -q "$PROTO_SHA" platform/proto/proto_version.h; then
+if grep -q "$PROTO_SHA" lib/proto/inc/proto/proto_version.h; then
 	exit 0
 else
-	echo "sha in platform/proto/proto_version.h doesn't match proto submodule. Re-run compile-proto.sh"
+	echo "sha in lib/proto/inc/proto/proto_version.h doesn't match proto submodule. Re-run compile-proto.sh"
 	exit 1
 fi
