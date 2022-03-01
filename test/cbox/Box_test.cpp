@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "CboxApplicationExtended.h"
 #include "LongIntScanningFactory.hpp"
 #include "TestHelpers.h"
 #include "TestObjects.h"
@@ -24,32 +25,18 @@ using namespace cbox;
 
 SCENARIO("A controlbox Box")
 {
-    ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
-    ObjectContainer container{
-        // groups object will have id 1
-        // add 2 system objects
-        {ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-         ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222)))},
-        storage};
-
-    const ObjectFactory factory = {
-        makeFactoryEntry<LongIntObject>(),
-        makeFactoryEntry<LongIntVectorObject>(),
-        makeFactoryEntry<UpdateCounter>(),
-        makeFactoryEntry<PtrLongIntObject>(),
-        makeFactoryEntry<NameableLongIntObject>(),
-        makeFactoryEntry<MockStreamObject>(),
-    };
-
-    const std::vector<std::reference_wrapper<const ObjectFactory>> factories{{std::cref(factory)}};
+    objects.clearAll();
+    test::getStorage().clear();
 
     StringStreamConnectionSource connSource;
     ConnectionPool connPool = {connSource};
+    Box box(connPool);
 
-    static LongIntScanningFactory longIntScanner;
-    static const std::vector<std::reference_wrapper<ScanningFactory>> scanners{{std::reference_wrapper<ScanningFactory>(longIntScanner)}};
-    Box box(factories, container, storage, connPool, scanners);
+    objects.init({
+        ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
+    });
+    objects.setObjectsStartId(obj_id_t(100));
 
     auto in = std::make_shared<StringStreamAutoClear>();
     auto out = std::make_shared<std::stringstream>();
@@ -64,6 +51,7 @@ SCENARIO("A controlbox Box")
         expected.str("");
         expected.clear();
     };
+    clearStreams();
 
     WHEN("A connection sends a read object command, it is processed by the Box")
     {
@@ -162,7 +150,7 @@ SCENARIO("A controlbox Box")
         WHEN("The object is modified by the application, not by an incoming command")
         {
 
-            auto objLookup = box.makeCboxPtr<LongIntObject>(100);
+            auto objLookup = CboxPtr<LongIntObject>(100);
             auto obj = objLookup.lock();
             REQUIRE(obj);
             obj->value(0x22222222);
@@ -285,7 +273,6 @@ SCENARIO("A controlbox Box")
 
         expected << addCrc("000005")
                  << "|" << addCrc("00")
-                 << "," << addCrc("010080FEFF81")
                  << "," << addCrc("020080E80311111111")
                  << "," << addCrc("030080E80322222222")
                  << "\n";
@@ -589,322 +576,6 @@ SCENARIO("A controlbox Box")
             CHECK(box.getObject(100).lock()->typeId() == InactiveObject::staticTypeId());
         }
 
-        WHEN("The active groups setting is changed (through the persisted block representing it)")
-        {
-            *in << "000002" // command
-                << "0100"   // id of groups object
-                << "80"     // groups of object
-                << "FEFF"   // type of groups object
-                << "02";    // value
-            *in << crc(in->str()) << "\n";
-            box.hexCommunicate();
-
-            expected << addCrc("000002010080FEFF02") << "|" << addCrc("00010080FEFF82") << "\n";
-            CHECK(out->str() == expected.str());
-            THEN("The system group always remains active")
-            {
-                CHECK(box.getActiveGroups() == 0x82);
-            }
-            THEN("Objects that are not active anymore are replaced with Inactive Object")
-            {
-                CHECK(box.getObject(100).lock()->typeId() == InactiveObject::staticTypeId());
-            }
-            THEN("Objects that where not active but should be are loaded from storage")
-            {
-                CHECK(box.getObject(101).lock()->typeId() == LongIntObject::staticTypeId());
-            }
-            THEN("Objects that should remain active are still active")
-            {
-                CHECK(box.getObject(102).lock()->typeId() == LongIntObject::staticTypeId());
-            }
-            THEN("The objects are listed correctly")
-            {
-                clearStreams();
-
-                *in << "000005"; // list all objects
-                *in << crc(in->str()) << "\n";
-                box.hexCommunicate();
-
-                expected << addCrc("000005") << "|"
-                         << addCrc("00")
-                         << "," << addCrc("010080FEFF82")
-                         << "," << addCrc("020080E80311111111")
-                         << "," << addCrc("030080E80312341234")
-                         << "," << addCrc("640001FFFFE803") // object 100 (0x64) is listed as inactive object of actual type 0xE803: 6400 - 01 - FFFF - E803
-                         << "," << addCrc("650002E80344444444")
-                         << "," << addCrc("660003E80344444444")
-                         << "\n";
-                CHECK(out->str() == expected.str());
-
-                std::string listObjectsOriginal(expected.str());
-
-                AND_WHEN("A new box is created from existing storage (for example after a reboot)")
-                {
-                    // note that only eeprom is not newly created here
-                    EepromObjectStorage storage2(eeprom);
-
-                    ObjectContainer container2{
-                        // groups obj is id 1
-                        {
-                            ContainedObject(2, 0x80, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-                            ContainedObject(3, 0x80, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
-                        },
-                        storage2};
-
-                    const ObjectFactory factory2 = {
-                        makeFactoryEntry<LongIntObject>(),
-                        makeFactoryEntry<LongIntVectorObject>(),
-                        makeFactoryEntry<UpdateCounter>(),
-                        makeFactoryEntry<PtrLongIntObject>(),
-                    };
-
-                    const std::vector<std::reference_wrapper<const ObjectFactory>> factories2{{std::cref(factory2)}};
-
-                    StringStreamConnectionSource connSource2;
-                    ConnectionPool connPool2 = {connSource2};
-
-                    THEN("All objects can be restored from storage")
-                    {
-                        Box box2(factories2, container2, storage2, connPool2, scanners);
-                        box2.loadObjectsFromStorage();
-
-                        auto in2 = std::make_shared<std::stringstream>();
-                        auto out2 = std::make_shared<std::stringstream>();
-                        connSource2.add(in2, out2);
-
-                        *in2 << "000005"; // list all objects
-                        *in2 << crc(in2->str()) << "\n";
-                        box2.hexCommunicate();
-
-                        CHECK(out2->str() == expected.str());
-                    }
-
-                    THEN("Invalid EEPROM data is handled correctly due to CRC checking")
-                    {
-                        // Lambda that finds replaces something in EEPROM, given as hex string
-                        auto eepromReplace = [&eeprom](const std::string& from, const std::string& to) -> bool {
-                            // copy the eeprom
-                            const uint16_t start = 32;
-                            const uint16_t length = 200;
-                            uint8_t eepromCopy[length];
-                            eeprom.readBlock(eepromCopy, start, length);
-
-                            // convert to a hex string
-                            std::stringstream ssEepromAsHex;
-
-                            for (uint8_t* b = eepromCopy; b < &eepromCopy[length]; ++b) {
-                                ssEepromAsHex << std::uppercase << std::setfill('0') << std::setw(2) << std::hex << +*b;
-                            }
-
-                            std::string eepromAsHex = ssEepromAsHex.str();
-                            REQUIRE(eepromAsHex.size() == 2 * length);
-
-                            // Replace the substring
-                            size_t pos = eepromAsHex.find(from);
-                            if (pos == std::string::npos) {
-                                return false;
-                            }
-
-                            eepromAsHex.replace(pos, from.length(), to);
-                            REQUIRE(eepromAsHex.size() == 2 * length); // replacement should not alter EEPROM length
-
-                            // Put the data back
-                            uint16_t idx = start;
-                            for (auto it = eepromAsHex.begin(); it < eepromAsHex.end() - 1; ++it, ++it) {
-                                eeprom.writeByte(idx++, (h2d(*it) << 4) + h2d(*(it + 1)));
-                            }
-
-                            return true;
-                        };
-
-                        THEN("Check that the lambda works")
-                        {
-                            CHECK(eepromReplace("650002E80344444444", "650002E80344444444"));  // old string is found, not replaced
-                            CHECK(eepromReplace("650002E80344444444", "650002E80344554444"));  // old string is found, and replaced
-                            CHECK(eepromReplace("650002E80344554444", "650002E80344554444"));  // new string is found, not replaced
-                            CHECK(!eepromReplace("650002E80344444444", "650002E80344444444")); // original is not found
-                        }
-
-                        WHEN("Object data has changed, it results in a CRC error and only the damaged object is not loaded")
-                        {
-                            const std::string originalObject = "650002E80344444444";
-                            const std::string damagedObject = "650002E80344554444";
-
-                            CHECK(eepromReplace(originalObject, damagedObject));
-
-                            Box box2(factories2, container2, storage2, connPool2, scanners);
-                            box2.loadObjectsFromStorage();
-
-                            auto in2 = std::make_shared<std::stringstream>();
-                            auto out2 = std::make_shared<std::stringstream>();
-                            connSource2.add(in2, out2);
-
-                            *in2 << "000005"; // list all objects
-                            *in2 << crc(in2->str()) << "\n";
-                            box2.hexCommunicate();
-
-                            // remove object with CRC error from expected string
-                            std::string listObjectsWithObjectMissing(listObjectsOriginal);
-                            std::string toRemove = "," + addCrc("650002E80344444444");
-                            size_t pos = listObjectsWithObjectMissing.find(toRemove);
-                            listObjectsWithObjectMissing.replace(pos, toRemove.length(), ""); // remove single element
-
-                            CHECK(out2->str() == listObjectsWithObjectMissing);
-
-                            AND_THEN("The EEPROM data can still be retrieved with READ_STORED_VALUE")
-                            {
-                                in2->str("");
-                                in2->clear();
-                                out2->str("");
-                                out2->clear();
-                                expected.str("");
-                                expected.clear();
-
-                                *in2 << "0000066500"; // read stored object 101
-                                *in2 << crc(in2->str()) << "\n";
-                                box2.hexCommunicate();
-
-                                expected << addCrc("0000066500") << "|"
-                                         << addCrc("00"             // status
-                                                   + damagedObject) // obj data
-                                         << "\n";
-                                CHECK(out2->str() == expected.str());
-                            }
-                        }
-
-                        WHEN("An object is found of a type that is no longer supported, it is replaced by a deprecated object with a new id")
-                        {
-                            const std::string originalObject = "650002E80344444444";
-                            const std::string unsupportedTypeObject = "650002EEEE44444444";
-
-                            CHECK(eepromReplace(addCrc(originalObject), addCrc(unsupportedTypeObject)));
-
-                            Box box2(factories2, container2, storage2, connPool2, scanners);
-                            box2.loadObjectsFromStorage();
-
-                            auto in2 = std::make_shared<std::stringstream>();
-                            auto out2 = std::make_shared<std::stringstream>();
-                            connSource2.add(in2, out2);
-
-                            *in2 << "000005"; // list all objects
-                            *in2 << crc(in2->str()) << "\n";
-                            box2.hexCommunicate();
-
-                            std::string newReply(listObjectsOriginal);
-                            std::string toRemove = "," + addCrc(originalObject);
-                            size_t pos = newReply.find(toRemove);
-                            newReply.replace(pos, toRemove.length(), "");
-
-                            auto deprecatedObject = addCrc(
-                                "6700"   // id
-                                "FF"     // all groups
-                                "FDFF"   // deprecated object
-                                "6500"); // original id
-
-                            newReply.pop_back(); // remove \n
-                            newReply += "," + deprecatedObject + "\n";
-
-                            CHECK(out2->str() == newReply);
-
-                            THEN("Deprecated object is never updated")
-                            {
-                                box2.update(0); // cover update function
-                            }
-
-                            THEN("Deprecated object is never rewritten to eeprom")
-                            {
-                                CHECK(box2.storeUpdatedObject(obj_id_t(0x67)) == CboxError::OBJECT_NOT_WRITABLE);
-                            }
-
-                            AND_THEN("The deprecated object is not writable")
-                            {
-                                in2->str("");
-                                in2->clear();
-                                out2->str("");
-                                out2->clear();
-                                expected.str("");
-                                expected.clear();
-
-                                *in2 << "000002"; // write counter object
-                                auto alteredObject =
-                                    "6700"  // id
-                                    "FF"    // all groups
-                                    "FDFF"  // deprecated object
-                                    "7000"; // overwrite original id
-                                *in2 << alteredObject;
-                                *in2 << crc(in2->str()) << "\n";
-                                box2.hexCommunicate();
-
-                                expected << addCrc("0000026700FFFDFF7000") << "|"
-                                         << addCrc("20") // status OBJECT_NOT_WRITABLE
-                                         << "\n";
-                                CHECK(out2->str() == expected.str());
-                            }
-
-                            AND_THEN("The original unsupported object can still be read from EEPROM with READ_STORED_VALUE")
-                            {
-                                in2->str("");
-                                in2->clear();
-                                out2->str("");
-                                out2->clear();
-                                expected.str("");
-                                expected.clear();
-
-                                *in2 << "0000066500"; // read stored object 101
-                                *in2 << crc(in2->str()) << "\n";
-                                box2.hexCommunicate();
-
-                                expected << addCrc("0000066500") << "|"
-                                         << addCrc("00"                     // status
-                                                   + unsupportedTypeObject) // obj data
-                                         << "\n";
-                                CHECK(out2->str() == expected.str());
-                            }
-
-                            AND_WHEN("The deprecated object is deleted)")
-                            {
-                                in2->str("");
-                                in2->clear();
-                                out2->str("");
-                                out2->clear();
-                                expected.str("");
-                                expected.clear();
-
-                                *in2 << "000004"
-                                     << "6700";
-                                *in2 << crc(in2->str()) << "\n";
-                                box2.hexCommunicate();
-
-                                expected << addCrc("0000046700")
-                                         << "|" << addCrc("00")
-                                         << "\n";
-                                CHECK(out2->str() == expected.str());
-
-                                THEN("the original object is also deleted from EERPOM")
-                                {
-                                    in2->str("");
-                                    in2->clear();
-                                    out2->str("");
-                                    out2->clear();
-                                    expected.str("");
-                                    expected.clear();
-
-                                    *in2 << "0000066500"; // read stored object 101
-                                    *in2 << crc(in2->str()) << "\n";
-                                    box2.hexCommunicate();
-
-                                    expected << addCrc("0000066500") << "|"
-                                             << addCrc("11") // status persisted object not found
-                                             << "\n";
-                                    CHECK(out2->str() == expected.str());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         THEN("When list stored objects command is received, eeprom data for all objects is streamed")
         {
             clearStreams();
@@ -940,7 +611,6 @@ SCENARIO("A controlbox Box")
             box.hexCommunicate();
 
             expected << addCrc("000005") << "|" << addCrc("00") // status OK
-                     << "," << addCrc("010080FEFF81")           // groups object
                      << "," << addCrc("020080E80311111111")     // obj 2
                      << "," << addCrc("030080E80312341234")     // obj 3
                      << "\n";
@@ -1263,17 +933,17 @@ SCENARIO("A controlbox Box")
 
         clearStreams();
 
-        auto countNonZeroBytes = [&eeprom]() {
+        auto countNonZeroBytes = []() {
             uint16_t nonZeroBytesInEeprom = 0;
-            for (uint16_t i = 32; i < eeprom.length(); ++i) {
-                if (eeprom.readByte(i) != 0) {
+            for (uint16_t i = 32; i < test::getEeprom().length(); ++i) {
+                if (test::getEeprom().readByte(i) != 0) {
                     ++nonZeroBytesInEeprom;
                 }
             }
             return nonZeroBytesInEeprom;
         };
 
-        CHECK(storage.freeSpace() < 2000);
+        CHECK(test::getStorage().freeSpace() < 2000);
         CHECK(countNonZeroBytes() > 10);
 
         *in << "00000A" // factory reset
@@ -1282,7 +952,7 @@ SCENARIO("A controlbox Box")
         box.hexCommunicate();
 
         CHECK(countNonZeroBytes() == 3); // just the disposed block header
-        CHECK(storage.freeSpace() == 2013);
+        CHECK(test::getStorage().freeSpace() == 2013);
 
         CHECK(testInfo.rebootCount == rebootCountBeforeCommand + 1);
     }
@@ -1316,7 +986,6 @@ SCENARIO("A controlbox Box")
 
             expected << addCrc("000005")
                      << "|" << addCrc("00")
-                     << "," << addCrc("010080FEFF81")
                      << "," << addCrc("020080E80311111111")
                      << "," << addCrc("030080E80322222222")
                      << "," << addCrc("640001E80333333333")
@@ -1379,7 +1048,7 @@ SCENARIO("A controlbox Box")
                  << "\n";
         CHECK(out->str() == expected.str());
 
-        auto lookup = box.makeCboxPtr<MockStreamObject>(100);
+        auto lookup = CboxPtr<MockStreamObject>(100);
         auto obj = lookup.lock();
         REQUIRE(obj);
 

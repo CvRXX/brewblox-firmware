@@ -1,8 +1,7 @@
-
 /*
- * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
- *
- * This file is part of ControlBox.
+ * Copyright 2014-2015 Matthew McGowan.
+ * Copyright 2018 Brewblox / Elco Jacobs
+ * This file is part of Controlbox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +19,20 @@
 
 #pragma once
 
-#include "cbox/CboxApplication.h"
-#include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>
 
 namespace cbox {
 
-/**
- * A scanning factory has some kind of scan mechanism for new objects.
- * It has a reference to the object container to check if the new object already exists
- */
-class ScanningFactory {
-public:
-    ScanningFactory() = default;
-    virtual ~ScanningFactory() = default;
+extern ObjectContainer objects;
 
-    // scan takes the existing object container to be able to check if the object already exists
-    virtual std::shared_ptr<Object> scan() = 0;
-};
+// must be implemented in application code
+std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t);
+
+// must be implemented in application code
+std::shared_ptr<Object> scan();
+
+// must be implemented in application code
+ObjectStorage& getStorage();
 
 } // end namespace cbox

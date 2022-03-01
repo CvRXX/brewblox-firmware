@@ -1,6 +1,5 @@
-
 /*
- * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
+ * Copyright 2018 Elco Jacobs / Brewblox
  *
  * This file is part of ControlBox.
  *
@@ -18,23 +17,10 @@
  * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ObjectFactory.h"
-#include <algorithm>
+#include "cbox/CboxApplication.h"
 
 namespace cbox {
 
-std::tuple<CboxError, std::shared_ptr<Object>> ObjectFactory::make(const obj_type_t& t) const
-{
-    auto factoryEntry = std::find_if(objTypes.begin(), objTypes.end(), [&t](const ObjectFactoryEntry& entry) { return entry.typeId == t; });
-    if (factoryEntry == objTypes.end()) {
-        return std::make_tuple(CboxError::OBJECT_NOT_CREATABLE, std::shared_ptr<Object>());
-    }
-    auto obj = (*factoryEntry).createFn();
-    if (!obj) {
-        return std::make_tuple(CboxError::INSUFFICIENT_HEAP, std::shared_ptr<Object>());
-    }
-
-    return std::make_tuple(CboxError::OK, std::move(obj));
-}
+ObjectContainer objects;
 
 } // end namespace cbox

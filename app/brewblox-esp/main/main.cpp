@@ -88,7 +88,7 @@ int main(int /*argc*/, char** /*argv*/)
     asio::io_context io;
     static auto& box = makeBrewbloxBox(io);
 
-    Graphics::init(box);
+    Graphics::init();
 
     static CboxServer cboxServer(io, 8332, box);
 

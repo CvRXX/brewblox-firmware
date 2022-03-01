@@ -31,7 +31,7 @@ cbox::CboxError TempSensorCombiBlock::streamFrom(cbox::DataIn& in)
         inputs.reserve(newData.sensors_count);
         sensor.inputs.reserve(newData.sensors_count);
         for (uint8_t i = 0; i < newData.sensors_count && i < 8; i++) {
-            inputs.emplace_back(objectsRef, newData.sensors[i]);
+            inputs.emplace_back(newData.sensors[i]);
         }
         for (auto& i : inputs) {
             sensor.inputs.push_back(i.lockFunctor());

@@ -94,7 +94,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
 
     WHEN("The sensor is invalid for over 10 seconds")
     {
-        auto cboxPtr = brewbloxBox().makeCboxPtr<TempSensorMockBlock>(100);
+        auto cboxPtr = cbox::CboxPtr<TempSensorMockBlock>(100);
         auto ptr = cboxPtr.lock();
         REQUIRE(ptr);
 
@@ -129,7 +129,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
 
     WHEN("The mock sensor value is changed to 25")
     {
-        auto cboxPtr = brewbloxBox().makeCboxPtr<TempSensorMockBlock>(100);
+        auto cboxPtr = cbox::CboxPtr<TempSensorMockBlock>(100);
         auto ptr = cboxPtr.lock();
         REQUIRE(ptr);
 

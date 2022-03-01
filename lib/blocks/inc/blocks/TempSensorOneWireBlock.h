@@ -10,9 +10,9 @@ private:
     DS18B20 sensor;
 
 public:
-    TempSensorOneWireBlock(cbox::ObjectContainer& objects);
-    TempSensorOneWireBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId);
-    TempSensorOneWireBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId, const OneWireAddress& addr);
+    TempSensorOneWireBlock();
+    TempSensorOneWireBlock(cbox::obj_id_t busId);
+    TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr);
 
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;

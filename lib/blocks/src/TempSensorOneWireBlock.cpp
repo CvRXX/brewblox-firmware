@@ -2,20 +2,20 @@
 #include "blocks/FieldTags.h"
 #include "proto/TempSensorOneWire.pb.h"
 
-TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::ObjectContainer& objects)
-    : OneWireDeviceBlock(objects)
+TempSensorOneWireBlock::TempSensorOneWireBlock()
+    : OneWireDeviceBlock()
     , sensor(owBus.lockFunctor())
 {
 }
 
-TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId)
-    : OneWireDeviceBlock(objects, busId)
+TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId)
+    : OneWireDeviceBlock(busId)
     , sensor(owBus.lockFunctor())
 {
 }
 
-TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::ObjectContainer& objects, cbox::obj_id_t busId, const OneWireAddress& addr)
-    : OneWireDeviceBlock(objects, busId)
+TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr)
+    : OneWireDeviceBlock(busId)
     , sensor(owBus.lockFunctor(), addr)
 {
 }

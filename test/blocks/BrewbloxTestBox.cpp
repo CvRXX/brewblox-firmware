@@ -31,7 +31,7 @@ cbox::EncodedDataOut BrewbloxTestBox::inEncoder(toHex);
 ProtoDataOut BrewbloxTestBox::inProto(inEncoder);
 
 BrewbloxTestBox::BrewbloxTestBox()
-    : ticks(brewbloxBox().makeCboxPtr<TicksBlock<TicksClass>>(3).lock()->get())
+    : ticks(3)
 {
     static bool connectionAdded = false;
     boardInit(); // simulate board init
@@ -99,7 +99,7 @@ void BrewbloxTestBox::endInput()
 
 void BrewbloxTestBox::update(const cbox::update_t& now)
 {
-    ticks.ticksImpl().reset(now);
+    ticks.lock()->get().ticksImpl().reset(now);
 
     brewbloxBox().update(now);
 }

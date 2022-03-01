@@ -25,11 +25,7 @@
 
 namespace brewblox {
 
-cbox::Box& make_box(cbox::ObjectContainer& objects,
-                    const cbox::ObjectFactory& platformFactory,
-                    cbox::ObjectStorage& storage,
-                    cbox::ConnectionPool& connectionPool,
-                    const std::vector<std::reference_wrapper<cbox::ScanningFactory>>& scanners);
+std::tuple<cbox::CboxError, std::shared_ptr<cbox::Object>> makeBlock(const cbox::obj_type_t& t);
 
 }
 

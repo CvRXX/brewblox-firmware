@@ -19,8 +19,10 @@
 
 #include "cbox/CboxPtr.h"
 
+#include "CboxApplicationExtended.h"
 #include "TestObjects.h"
 #include "cbox/ArrayEepromAccess.h"
+#include "cbox/CboxApplication.h"
 #include "cbox/EepromObjectStorage.h"
 #include "cbox/ObjectContainer.h"
 #include <catch.hpp>
@@ -29,15 +31,15 @@ using namespace cbox;
 
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
-    ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
+    test::getStorage().clear();
+    objects.init({
+        ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+    });
+    objects.setObjectsStartId(obj_id_t(100));
 
-    ObjectContainer objects{{ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-                             ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111)))},
-                            storage};
-
-    CboxPtr<LongIntObject> liPtr(objects);
-    CboxPtr<LongIntVectorObject> livPtr(objects);
+    CboxPtr<LongIntObject> liPtr;
+    CboxPtr<LongIntVectorObject> livPtr;
 
     WHEN("lock() is called on a CboxPtr that does not have a valid ID, it returns an empty shared pointer")
     {
@@ -53,7 +55,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
         CHECK(liPtr.lock());
         CHECK(!livPtr.lock());
 
-        CboxPtr<Nameable> nameablePtr(objects);
+        CboxPtr<Nameable> nameablePtr;
         nameablePtr.setId(1);
         CHECK(!nameablePtr.lock());
     }
@@ -61,9 +63,9 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
         objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
-        CboxPtr<NameableLongIntObject> nameableLiPtr(objects);
-        CboxPtr<LongIntObject> liPtr(objects);
-        CboxPtr<Nameable> nameablePtr(objects);
+        CboxPtr<NameableLongIntObject> nameableLiPtr;
+        CboxPtr<LongIntObject> liPtr;
+        CboxPtr<Nameable> nameablePtr;
 
         nameableLiPtr.setId(100);
         liPtr.setId(100);
@@ -127,6 +129,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 CHECK(!ptr4);
             }
         }
+
         THEN("A Cbox Ptr can be locked as a different type if it supports the interface")
         {
             auto ptr = liPtr.lock_as<Nameable>();

@@ -7,18 +7,14 @@
 
 class ActuatorOffsetBlock : public Block<brewblox_BlockType_ActuatorOffset> {
 private:
-    cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<SetpointSensorPair> target;
     cbox::CboxPtr<SetpointSensorPair> reference;
     ActuatorOffset offset;
     ActuatorAnalogConstrained constrained;
 
 public:
-    ActuatorOffsetBlock(cbox::ObjectContainer& objects)
-        : objectsRef(objects)
-        , target(objects)
-        , reference(objects)
-        , offset(target.lockFunctor(), reference.lockFunctor())
+    ActuatorOffsetBlock()
+        : offset(target.lockFunctor(), reference.lockFunctor())
         , constrained(offset)
     {
     }

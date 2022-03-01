@@ -28,16 +28,13 @@
 
 class MotorValveBlock : public Block<brewblox_BlockType_MotorValve> {
 private:
-    cbox::ObjectContainer& objectsRef; // remember object container reference to create constraints
     cbox::CboxPtr<DS2408> hwDevice;
     MotorValve valve;
     ActuatorDigitalConstrained constrained;
 
 public:
-    MotorValveBlock(cbox::ObjectContainer& objects)
-        : objectsRef(objects)
-        , hwDevice(objects)
-        , valve(hwDevice.lockFunctor(), 0)
+    MotorValveBlock()
+        : valve(hwDevice.lockFunctor(), 0)
         , constrained(valve)
     {
     }

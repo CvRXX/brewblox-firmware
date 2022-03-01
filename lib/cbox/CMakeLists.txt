@@ -2,6 +2,7 @@ idf_component_register(
   SRCS
     src/Box.cpp
     src/CboxPtr.cpp
+    src/CboxApplication.cpp
     src/ConnectionPool.cpp
     src/Crc.cpp
     src/DataStream.cpp

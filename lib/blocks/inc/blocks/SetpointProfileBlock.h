@@ -33,9 +33,8 @@ private:
     SetpointProfile profile;
 
 public:
-    SetpointProfileBlock(cbox::ObjectContainer& objects)
-        : ticksPtr(objects, 3)
-        , target(objects)
+    SetpointProfileBlock()
+        : ticksPtr(3)
         , profile(target.lockFunctor())
     {
     }

@@ -18,6 +18,7 @@
  */
 
 #include "cbox/ObjectContainer.h"
+#include "cbox/CboxApplication.h"
 #include <algorithm>
 
 namespace cbox {
@@ -35,8 +36,8 @@ std::pair<ObjectContainer::Iterator, ObjectContainer::Iterator> ObjectContainer:
     };
 
     auto pair = std::equal_range(
-        objects.begin(),
-        objects.end(),
+        contained.begin(),
+        contained.end(),
         id,
         IdLess{});
     return pair;
@@ -44,7 +45,7 @@ std::pair<ObjectContainer::Iterator, ObjectContainer::Iterator> ObjectContainer:
 
 obj_id_t ObjectContainer::nextId() const
 {
-    return std::max(startId, objects.empty() ? startId : ++obj_id_t(objects.back().id()));
+    return std::max(startId, contained.empty() ? startId : ++obj_id_t(contained.back().id()));
 }
 
 ContainedObject* ObjectContainer::fetchContained(obj_id_t id)
@@ -74,7 +75,7 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_g
 
     if (id == obj_id_t::invalid()) { // use 0 to let the container assign a free slot
         newId = nextId();
-        position = objects.end();
+        position = contained.end();
     } else {
         if (id < startId) {
             return obj_id_t::invalid(); // refuse to add system objects
@@ -95,7 +96,7 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_g
         *position = ContainedObject(newId, active_in_groups, std::move(obj));
     } else {
         // insert new entry in container in sorted position
-        objects.emplace(position, newId, active_in_groups, std::move(obj));
+        contained.emplace(position, newId, active_in_groups, std::move(obj));
     }
     return newId;
 }
@@ -107,14 +108,14 @@ CboxError ObjectContainer::remove(obj_id_t id)
     }
     // find existing object
     auto p = findPosition(id);
-    objects.erase(p.first, p.second); // doesn't remove anything if no objects found (first == second)
+    contained.erase(p.first, p.second); // doesn't remove anything if no objects found (first == second)
     return p.first == p.second ? CboxError::INVALID_OBJECT_ID : CboxError::OK;
 }
 
 // replace an object with an inactive object by const iterator
 void ObjectContainer::deactivate(const CIterator& cit)
 {
-    auto it = objects.erase(cit, cit); // convert to non-const iterator
+    auto it = contained.erase(cit, cit); // convert to non-const iterator
     it->deactivate();
 }
 
@@ -130,47 +131,45 @@ void ObjectContainer::deactivate(obj_id_t id)
 // remove all non-system objects from the container
 void ObjectContainer::clear()
 {
-    objects.erase(userbegin(), cend());
+    contained.erase(userbegin(), cend());
 }
 
 // remove all objects from the container
 void ObjectContainer::clearAll()
 {
-    objects.clear();
-    objects.shrink_to_fit();
+    contained.clear();
+    contained.shrink_to_fit();
 }
 
 void ObjectContainer::update(update_t now)
 {
-    for (auto& cobj : objects) {
+    for (auto& cobj : contained) {
         cobj.update(now);
     }
 }
 
 void ObjectContainer::forcedUpdate(update_t now)
 {
-    for (auto& cobj : objects) {
+    for (auto& cobj : contained) {
         cobj.forcedUpdate(now);
     }
 }
 
 CboxError ObjectContainer::store(const obj_id_t& id)
 {
-
     auto cobj = fetchContained(id);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
     }
 
-    auto storeContained = [&cobj](DataOut& storage) -> CboxError {
-        return cobj->streamPersistedTo(storage);
+    auto storeContained = [&cobj](DataOut& out) -> CboxError {
+        return cobj->streamPersistedTo(out);
     };
-    return storage.storeObject(id, storeContained);
+    return getStorage().storeObject(id, storeContained);
 }
 
 CboxError ObjectContainer::reloadStored(const obj_id_t& id)
 {
-
     ContainedObject* cobj = fetchContained(id);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
@@ -196,7 +195,7 @@ CboxError ObjectContainer::reloadStored(const obj_id_t& id)
 
         return cobj->object()->streamFrom(objWithoutCrc);
     };
-    CboxError status = storage.retrieveObject(storage_id_t(id), streamHandler);
+    CboxError status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
     if (!handlerCalled) {
         return CboxError::INVALID_OBJECT_ID; // write status if handler has not written it
     }

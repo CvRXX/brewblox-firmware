@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "cbox/CboxApplication.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>
@@ -28,7 +29,6 @@ namespace cbox {
 class CboxPtrBase {
 private:
     obj_id_t id;
-    ObjectContainer& objects;
     std::weak_ptr<Object> ptr;
 
 public:
@@ -50,9 +50,8 @@ public:
     }
 
 protected:
-    explicit CboxPtrBase(ObjectContainer& objects, const obj_id_t& id)
+    explicit CboxPtrBase(const obj_id_t& id)
         : id(id)
-        , objects(objects)
     {
     }
     ~CboxPtrBase() = default;
@@ -64,8 +63,8 @@ template <typename T>
 class CboxPtr : public CboxPtrBase {
 
 public:
-    explicit CboxPtr(ObjectContainer& objects, const obj_id_t& id = 0)
-        : CboxPtrBase(objects, id)
+    explicit CboxPtr(const obj_id_t& id = 0)
+        : CboxPtrBase(id)
     {
     }
     ~CboxPtr() = default;

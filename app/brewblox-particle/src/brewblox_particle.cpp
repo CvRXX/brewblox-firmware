@@ -29,17 +29,13 @@
 #include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
-#include "cbox/EepromObjectStorage.h"
-#include "cbox/ObjectContainer.h"
-#include "cbox/ObjectFactory.h"
+#include "cbox/GroupsObject.h"
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "reset.h"
 #include "spark/Board.h"
 #include <memory>
-
-using EepromAccessImpl = cbox::SparkEepromAccess;
 
 #if defined(SPARK)
 #include "rgbled.h"
@@ -127,36 +123,24 @@ void powerCyclePheripheral5V()
 cbox::Box&
 makeBrewbloxBox()
 {
-    static EepromAccessImpl eeprom;
-    static cbox::EepromObjectStorage objectStore(eeprom);
-
-    static cbox::ObjectContainer objects{{
-                                             // groups will be at position 1
-                                             cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
-                                             cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
-                                             cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V))),
-#if defined(SPARK)
-                                             cbox::ContainedObject(5, 0x80, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
-                                             cbox::ContainedObject(6, 0x80, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
-#endif
-                                             cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
-                                             cbox::ContainedObject(19, 0x80, std::shared_ptr<cbox::Object>(new PinsBlock())),
-                                         },
-                                         objectStore};
 
     static cbox::ConnectionPool& connections = theConnectionPool();
+    static cbox::Box box(connections);
 
-    static OneWireScanningFactory oneWireScanner{cbox::CboxPtr<OneWire>(objects, 4)};
+    cbox::objects.init({
+        cbox::ContainedObject(1, 0x80, std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box))),
+            cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
+            cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
+            cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V))),
+#if defined(SPARK)
+            cbox::ContainedObject(5, 0x80, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
+            cbox::ContainedObject(6, 0x80, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
+#endif
+            cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
+            cbox::ContainedObject(19, 0x80, std::shared_ptr<cbox::Object>(new PinsBlock())),
+    });
 
-    static const std::vector<std::reference_wrapper<cbox::ScanningFactory>> scanners{{std::reference_wrapper<cbox::ScanningFactory>(oneWireScanner)}};
-    static const cbox::ObjectFactory platformFactory{}; // no platform specific factories
-
-    static cbox::Box& box = brewblox::make_box(
-        objects,
-        platformFactory,
-        objectStore,
-        connections,
-        scanners);
+    cbox::objects.setObjectsStartId(box.userStartId());
 
     return box;
 }

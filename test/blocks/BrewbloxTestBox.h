@@ -38,7 +38,7 @@ public:
     static cbox::EncodedDataOut inEncoder;
     static ProtoDataOut inProto;
     bool lastReplyOk = false;
-    TicksClass& ticks;
+    cbox::CboxPtr<TicksBlock<TicksClass>> ticks;
 
     BrewbloxTestBox();
     ~BrewbloxTestBox() = default;

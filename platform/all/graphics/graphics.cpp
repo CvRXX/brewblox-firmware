@@ -2,7 +2,6 @@
 #include "FT6236.hpp"
 #include "TFT035.hpp"
 #include "blocks/DisplaySettingsBlock.h"
-#include "cbox/Box.h"
 #include "layout.hpp"
 #include "lvgl.h"
 #include <esp_log.h>
@@ -12,7 +11,7 @@ std::unique_ptr<TFT035> Graphics::display;
 std::unique_ptr<FT6236> Graphics::touchscreen;
 std::unique_ptr<Layout> Graphics::layout;
 
-void Graphics::init(cbox::Box& box)
+void Graphics::init()
 {
     display = std::make_unique<TFT035>([]() { lv_disp_flush_ready(&disp_drv); });
     display->aquire_spi();
@@ -37,7 +36,7 @@ void Graphics::init(cbox::Box& box)
 
     style::init();
 
-    layout = std::make_unique<Layout>(box);
+    layout = std::make_unique<Layout>();
 
     display->release_spi();
 

@@ -101,7 +101,7 @@ protected:
 
     bool isValidRange(uint16_t offset, uint16_t size) const
     {
-        return offset >= 0 && offset + size <= eeprom_size;
+        return offset + size <= eeprom_size;
     }
 
 private:

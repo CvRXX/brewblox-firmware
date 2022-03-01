@@ -23,6 +23,7 @@
 #include "blocks/DS2413Block.h"
 #include "blocks/TempSensorOneWireBlock.h"
 #include "blox_hal/hal_delay.h"
+#include "cbox/CboxApplication.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
@@ -44,7 +45,7 @@ public:
 
     virtual ~OneWireScanningFactory() = default;
 
-    virtual std::shared_ptr<cbox::Object> scan(cbox::ObjectContainer& objects) override final
+    virtual std::shared_ptr<cbox::Object> scan() override final
     {
         if (auto bus = busPtr.lock()) {
             bus->reset_search();
@@ -52,7 +53,7 @@ public:
                 OneWireAddress newAddr;
                 if (bus->search(newAddr)) {
                     bool found = false;
-                    for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
+                    for (auto existing = cbox::objects.cbegin(); existing != cbox::objects.cend(); ++existing) {
                         OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>(existing->object()->implements(cbox::interfaceId<OneWireDevice>()));
                         if (ptrIfCorrectType == nullptr) {
                             continue; // not the right type, no match
@@ -75,13 +76,13 @@ public:
                         uint8_t familyCode = newAddr[0];
                         switch (familyCode) {
                         case DS18B20::familyCode: {
-                            return std::shared_ptr<cbox::Object>(new TempSensorOneWireBlock(objects, busPtr.getId(), newAddr));
+                            return std::shared_ptr<cbox::Object>(new TempSensorOneWireBlock(busPtr.getId(), newAddr));
                         }
                         case DS2413::familyCode: {
-                            return std::shared_ptr<cbox::Object>(new DS2413Block(objects, busPtr.getId(), newAddr));
+                            return std::shared_ptr<cbox::Object>(new DS2413Block(busPtr.getId(), newAddr));
                         }
                         case DS2408::familyCode: {
-                            return std::shared_ptr<cbox::Object>(new DS2408Block(objects, busPtr.getId(), newAddr));
+                            return std::shared_ptr<cbox::Object>(new DS2408Block(busPtr.getId(), newAddr));
                         }
                         default:
                             break;

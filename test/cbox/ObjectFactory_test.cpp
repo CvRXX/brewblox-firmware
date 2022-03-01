@@ -29,10 +29,7 @@ using namespace cbox;
 
 SCENARIO("An object can be created by an ObjectFactory by resolving the type id")
 {
-
-    ObjectStorageStub storage;
-    ObjectContainer objects(storage);
-    static const auto outOfMemoryTester = [](ObjectContainer&) {
+    static const auto outOfMemoryTester = []() {
         return std::shared_ptr<Object>{}; // return nullptr
     };
 
@@ -48,13 +45,13 @@ SCENARIO("An object can be created by an ObjectFactory by resolving the type id"
     {
         std::shared_ptr<Object> obj1;
         CboxError status1;
-        std::tie(status1, obj1) = factory.make(objects, longIntType);
+        std::tie(status1, obj1) = factory.make(longIntType);
         CHECK(status1 == CboxError::OK);
         CHECK(obj1->typeId() == longIntType);
 
         CboxError status2;
         std::shared_ptr<Object> obj2;
-        std::tie(status2, obj2) = factory.make(objects, longIntVectorType);
+        std::tie(status2, obj2) = factory.make(longIntVectorType);
 
         CHECK(status2 == CboxError::OK);
         CHECK(obj2->typeId() == longIntVectorType);
@@ -64,7 +61,7 @@ SCENARIO("An object can be created by an ObjectFactory by resolving the type id"
     {
         std::shared_ptr<Object> obj;
         CboxError status;
-        std::tie(status, obj) = factory.make(objects, 9999);
+        std::tie(status, obj) = factory.make(9999);
         CHECK(status == CboxError::OBJECT_NOT_CREATABLE);
         CHECK(obj == nullptr);
     }
@@ -73,7 +70,7 @@ SCENARIO("An object can be created by an ObjectFactory by resolving the type id"
     {
         std::shared_ptr<Object> obj;
         CboxError status;
-        std::tie(status, obj) = factory.make(objects, 1234);
+        std::tie(status, obj) = factory.make(1234);
         CHECK(status == CboxError::INSUFFICIENT_HEAP);
         CHECK(obj == nullptr);
     }

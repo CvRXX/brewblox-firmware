@@ -281,9 +281,7 @@ private:
     cbox::CboxPtr<LongIntObject> ptr2;
 
 public:
-    PtrLongIntObject(cbox::ObjectContainer& objects)
-        : ptr1(objects)
-        , ptr2(objects)
+    PtrLongIntObject()
     {
     }
     virtual ~PtrLongIntObject() = default;

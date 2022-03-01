@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "cbox/CboxApplication.h"
 #include "cbox/CboxError.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/ConnectionPool.h"
@@ -40,12 +41,8 @@ private:
     // A single container is used for both system and user objects.
     // The application can add the system objects first, then set the start ID to a higher value.
     // The objects with an ID lower than the start ID cannot be deleted.
-    const std::vector<std::reference_wrapper<const ObjectFactory>>& factories;
-    ObjectContainer& objects;
-    ObjectStorage& storage;
     // Box receives commands from connections in the connection pool and streams back the answer to the same connection
     ConnectionPool& connections;
-    const std::vector<std::reference_wrapper<ScanningFactory>>& scanners;
     uint8_t activeGroups = 0x81; // system group and first user group
     update_t lastUpdateTime = 0;
 
@@ -72,11 +69,7 @@ public:
     // temporary for testing
     void discoverNewObjects();
 
-    Box(const std::vector<std::reference_wrapper<const ObjectFactory>>& _factories,
-        ObjectContainer& _objects,
-        ObjectStorage& _storage,
-        ConnectionPool& _connections,
-        const std::vector<std::reference_wrapper<ScanningFactory>>& _scanners);
+    Box(ConnectionPool& _connections);
 
     Box(const Box&) = delete;
     Box(Box&&) = delete;
@@ -121,12 +114,6 @@ public:
     inline const obj_id_t userStartId() const
     {
         return obj_id_t(100);
-    }
-
-    template <typename T>
-    CboxPtr<T> makeCboxPtr(const obj_id_t& id = 0)
-    {
-        return CboxPtr<T>(objects, id);
     }
 
     obj_id_t

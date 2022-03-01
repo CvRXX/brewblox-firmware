@@ -201,8 +201,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         CHECK(testBox.lastReplyHasStatusOk());
 
         brewbloxBox().update(now + 2000);
-        auto pidLookup = brewbloxBox().makeCboxPtr<PidBlock>(pidId);
-        auto actuatorLookup = brewbloxBox().makeCboxPtr<ActuatorAnalogMockBlock>(actuatorId);
+        auto pidLookup = cbox::CboxPtr<PidBlock>(pidId);
+        auto actuatorLookup = cbox::CboxPtr<ActuatorAnalogMockBlock>(actuatorId);
         THEN("The PID becomes inactive")
         {
             auto pid = pidLookup.lock();

@@ -21,7 +21,7 @@ public:
 
     virtual ~LongIntScanningFactory() = default;
 
-    virtual std::shared_ptr<Object> scan(ObjectContainer& objects) override final
+    virtual std::shared_ptr<Object> scan() override final
     {
         for (auto& value : candidates) {
             bool found = false;

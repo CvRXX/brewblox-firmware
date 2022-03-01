@@ -12,7 +12,7 @@ ActuatorPwmBlock::streamFrom(cbox::DataIn& dataIn)
     if (result == cbox::CboxError::OK) {
         actuator.setId(newData.actuatorId);
         pwm.period(newData.period);
-        setAnalogConstraints(newData.constrainedBy, constrained, objectsRef);
+        setAnalogConstraints(newData.constrainedBy, constrained);
         constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(newData.desiredSetting));
         pwm.enabled(newData.enabled);
     }

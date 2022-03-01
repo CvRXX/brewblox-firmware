@@ -81,7 +81,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 
         THEN("The writable settings match what was sent")
         {
-            auto lookup = brewbloxBox().makeCboxPtr<DS2413Block>(ds2413Id);
+            auto lookup = cbox::CboxPtr<DS2413Block>(ds2413Id);
             auto devicePtr = lookup.lock();
             REQUIRE(devicePtr);
             CHECK(devicePtr->get().address() == OneWireAddress(0x0644'4444'4444'443A));

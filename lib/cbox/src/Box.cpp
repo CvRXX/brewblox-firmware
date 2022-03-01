@@ -25,7 +25,6 @@
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamConverters.h"
 #include "cbox/DeprecatedObject.h"
-#include "cbox/GroupsObject.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
@@ -41,19 +40,9 @@ handleReset(bool exit, uint8_t reason);
 
 namespace cbox {
 
-Box::Box(const std::vector<std::reference_wrapper<const ObjectFactory>>& _factories,
-         ObjectContainer& _objects,
-         ObjectStorage& _storage,
-         ConnectionPool& _connections,
-         const std::vector<std::reference_wrapper<ScanningFactory>>& _scanners)
-    : factories(_factories)
-    , objects(_objects)
-    , storage(_storage)
-    , connections(_connections)
-    , scanners(_scanners)
+Box::Box(ConnectionPool& _connections)
+    : connections(_connections)
 {
-    objects.add(std::shared_ptr<Object>(new GroupsObject(this)), 0x80, obj_id_t(1)); // add groups object to give access to the active groups setting on id 1
-    objects.setObjectsStartId(userStartId());                                        // set startId for user objects to 100
 }
 
 /**
@@ -148,7 +137,7 @@ void Box::writeObject(DataIn& in, EncodedDataOut& out)
 
                 return status;
             };
-            status = storage.retrieveObject(storage_id_t(id), streamHandler);
+            status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
 
             if (!handlerCalled) {
                 status = CboxError::INVALID_OBJECT_ID; // write status if handler has not written it
@@ -162,7 +151,7 @@ void Box::writeObject(DataIn& in, EncodedDataOut& out)
             auto storeContained = [&cobj](DataOut& storage) -> CboxError {
                 return cobj->streamPersistedTo(storage);
             };
-            status = storage.storeObject(id, storeContained);
+            status = getStorage().storeObject(id, storeContained);
         }
 
         // deactivate object if it is not a system object and is not in an active group
@@ -201,14 +190,11 @@ Box::createObjectFromStream(DataIn& in)
 
     std::shared_ptr<Object> obj;
     CboxError result;
-    for (auto f_it = factories.begin(); f_it < factories.end(); f_it++) {
-        auto retv = f_it->get().make(objects, typeId);
-        result = std::get<0>(retv);
-        obj = std::get<1>(retv);
-        if (obj) {
-            obj->streamFrom(in);
-            break;
-        }
+    auto retv = make(typeId);
+    result = std::get<0>(retv);
+    obj = std::get<1>(retv);
+    if (obj) {
+        obj->streamFrom(in);
     }
     return std::make_tuple(std::move(result), std::move(obj), groups);
 }
@@ -250,7 +236,7 @@ void Box::createObject(DataIn& in, EncodedDataOut& out)
             auto storeContained = [&ptrCobj](DataOut& out) -> CboxError {
                 return ptrCobj->streamPersistedTo(out);
             };
-            status = storage.storeObject(id, storeContained);
+            status = getStorage().storeObject(id, storeContained);
             if (status != CboxError::OK) {
                 objects.remove(id);
             } else if (id >= userStartId() && !(ptrCobj->groups() & activeGroups)) {
@@ -292,7 +278,7 @@ void Box::deleteObject(DataIn& in, EncodedDataOut& out)
 
     auto storageId = id;
 
-    auto deprecated = makeCboxPtr<DeprecatedObject>(id);
+    auto deprecated = CboxPtr<DeprecatedObject>(id);
     if (auto obj = deprecated.lock()) {
         // object is a deprecated one. We should delete the original object id from storage
         storageId = obj->storageId();
@@ -300,7 +286,7 @@ void Box::deleteObject(DataIn& in, EncodedDataOut& out)
 
     if (status == CboxError::OK) {
         status = objects.remove(id);
-        storage.disposeObject(storageId);
+        getStorage().disposeObject(storageId);
     }
 
     out.writeResponseSeparator();
@@ -392,7 +378,7 @@ void Box::readStoredObject(DataIn& in, EncodedDataOut& out)
         }
         return CboxError::OK;
     };
-    status = storage.retrieveObject(storage_id_t(id), objectStreamer);
+    status = getStorage().retrieveObject(storage_id_t(id), objectStreamer);
     if (!handlerCalled) {
         out.write(asUint8(CboxError::PERSISTED_OBJECT_NOT_FOUND)); // write status if handler has not written it
     } else if (status != CboxError::OK) {
@@ -421,7 +407,7 @@ void Box::listStoredObjects(DataIn& in, EncodedDataOut& out)
         }
         return objWithoutCrc.push(out);
     };
-    storage.retrieveObjects(listObjectStreamer);
+    getStorage().retrieveObjects(listObjectStreamer);
 }
 
 // load all objects from storage
@@ -475,7 +461,7 @@ void Box::loadObjectsFromStorage()
         return status;
     };
     // now apply the loader above to all objects in storage
-    storage.retrieveObjects(objectLoader);
+    getStorage().retrieveObjects(objectLoader);
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {
@@ -515,7 +501,7 @@ void Box::factoryReset(DataIn& in, EncodedDataOut& out)
         return;
     }
     out.write(asUint8(CboxError::OK));
-    storage.clear();
+    getStorage().clear();
 
     ::handleReset(true, 3);
 }
@@ -543,7 +529,7 @@ void Box::clearObjects(DataIn& in, EncodedDataOut& out)
         auto id = cit->id();
         cit++;
         bool mergeDisposed = cit == objects.cend(); // merge disposed blocks on last delete
-        storage.disposeObject(id, mergeDisposed);
+        getStorage().disposeObject(id, mergeDisposed);
     }
 
     // remove all user objects from vector
@@ -571,35 +557,26 @@ void Box::discoverNewObjects(DataIn& in, EncodedDataOut& out)
 
     out.write(asUint8(CboxError::OK));
 
-    for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
-        auto& scanner = scanner_it->get();
-        auto newId = obj_id_t(0);
-        do {
-            newId = scanner.scanAndAdd(objects);
-            if (newId) {
-                auto cobj = objects.fetchContained(newId);
+    while (auto newObj = scan()) {
+        auto newId = objects.add(std::move(newObj), uint8_t(0x01)); // default to first profile
+        auto cobj = objects.fetchContained(newId);
 
-                out.writeListSeparator();
-                out.put(newId);
-                if (cobj != nullptr) { // always true,  but just in case
-                    out.put(cobj->object()->typeId());
-                    auto storeContained = [&cobj](DataOut& out) -> CboxError {
-                        return cobj->streamPersistedTo(out);
-                    };
-                    storage.storeObject(newId, storeContained);
-                }
-            }
-        } while (newId);
+        out.writeListSeparator();
+        out.put(newId);
+        if (cobj != nullptr) { // always true,  but just in case
+            out.put(cobj->object()->typeId());
+            auto storeContained = [&cobj](DataOut& out) -> CboxError {
+                return cobj->streamPersistedTo(out);
+            };
+            getStorage().storeObject(newId, storeContained);
+        }
     }
 }
 
 void Box::discoverNewObjects()
 {
-    for (auto scanner_it = scanners.begin(); scanner_it < scanners.end(); scanner_it++) {
-        auto newId = obj_id_t(0);
-        do {
-            newId = scanner_it->get().scanAndAdd(objects);
-        } while (newId);
+    while (auto newObj = scan()) {
+        objects.add(std::move(newObj), uint8_t(0x01)); // default to first profile
     }
 }
 
@@ -731,7 +708,7 @@ void Box::setActiveGroupsAndUpdateObjects(const uint8_t newGroups)
                 return status;
             };
 
-            CboxError status = storage.retrieveObject(storage_id_t(objId), retrieveContained);
+            CboxError status = getStorage().retrieveObject(storage_id_t(objId), retrieveContained);
             if (status != CboxError::OK) {
                 // TODO emit log event about reloading object from storage failing?
             }

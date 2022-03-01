@@ -29,9 +29,8 @@ private:
     IntervalHelper<1000> m_intervalHelper;
 
 public:
-    SetpointSensorPairBlock(cbox::ObjectContainer& objects)
-        : sensor(objects)
-        , pair(sensor.lockFunctor())
+    SetpointSensorPairBlock()
+        : pair(sensor.lockFunctor())
     {
     }
 

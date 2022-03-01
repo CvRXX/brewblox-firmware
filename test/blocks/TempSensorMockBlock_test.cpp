@@ -56,7 +56,7 @@ SCENARIO("A TempSensorMock block")
 
     WHEN("The mock sensor value is changed to 25")
     {
-        auto cboxPtr = brewbloxBox().makeCboxPtr<TempSensorMockBlock>(100);
+        auto cboxPtr = cbox::CboxPtr<TempSensorMockBlock>(100);
         auto ptr = cboxPtr.lock();
         REQUIRE(ptr);
 
