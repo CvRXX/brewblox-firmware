@@ -1,12 +1,12 @@
-#include "SlotMemPool.hpp"
+#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_spi_impl.hpp"
+#include "blox_hal/hal_spi_types.h"
+#include "control/SlotMemPool.hpp"
+#include "control/staticAllocator.hpp"
 #include "driver/gpio.h"
 #include "driver/spi_master.h"
 #include "esp_err.h"
 #include "freertos/FreeRTOS.h"
-#include "hal/hal_delay.h"
-#include "hal/hal_spi_impl.hpp"
-#include "hal/hal_spi_types.h"
-#include "staticAllocator.hpp"
 #include <stdio.h>
 #include <string.h>
 

@@ -47,11 +47,6 @@ A generic simulator that does not depend on a device-specific toolchain is in th
 | ARM32 | Simulator | Particle |
 | ARM64 | Simulator | Particle |
 
-In addition to this, there are three separate test suites:
-- [lib](./lib/test)
-- [brewblox-particle](./app/brewblox-particle/test)
-- [controlbox](./controlbox/test)
-
 ## Deployment and releases
 The CI build collects the artifacts for all build targets, and uploads a tarball to Azure file storage along with a `firmware.ini` file detailing build dates and version hashes. This is done for every non-PR CI build.
 

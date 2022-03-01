@@ -2,19 +2,19 @@
 #include "TFT035.hpp"
 
 // #include "SDCard.hpp"
-#include "DS248x.hpp"
 #include "ExpOwGpio.hpp"
 #include "HttpHandler.hpp"
 #include "I2cScanningFactory.hpp"
-#include "OneWire.h"
 #include "RecurringTask.hpp"
-#include "TempSensor.h"
 #include "brewblox_esp.hpp"
+#include "control/DS248x.hpp"
+#include "control/OneWire.h"
+#include "control/TempSensor.h"
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
+#include "blox_hal/hal_delay.h"
 #include "graphics/graphics.hpp"
 #include "graphics/widgets.hpp"
-#include "hal/hal_delay.h"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
@@ -88,7 +88,7 @@ int main(int /*argc*/, char** /*argv*/)
     asio::io_context io;
     static auto& box = makeBrewbloxBox(io);
 
-    Graphics::init(box);
+    Graphics::init();
 
     static CboxServer cboxServer(io, 8332, box);
 

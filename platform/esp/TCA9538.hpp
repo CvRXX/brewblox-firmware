@@ -1,5 +1,5 @@
 #pragma once
-#include "I2CDevice.hpp"
+#include "control/I2CDevice.hpp"
 
 class TCA9538 : public I2CDeviceBase<0x70> {
 public:

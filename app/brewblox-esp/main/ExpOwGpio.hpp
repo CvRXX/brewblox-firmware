@@ -1,15 +1,15 @@
 #pragma once
 
 #include "DRV8908.hpp"
-#include "DS248x.hpp"
-#include "IoArray.h"
-#include "IoModule.hpp"
-#include "OneWire.h"
 #include "TCA9538.hpp"
-#include "blox/compiled_proto/src/OneWireGpioModule.pb.h"
+#include "control/DS248x.hpp"
+#include "control/IoArray.h"
+#include "control/IoModule.hpp"
+#include "control/OneWire.h"
+#include "proto/OneWireGpioModule.pb.h"
 // #include "esp_err.h"
 // #include "esp_log.h"
-#include "hal/hal_delay.h"
+#include "blox_hal/hal_delay.h"
 #include <vector>
 
 class ExpOwGpio : public IoArray, public IoModule {

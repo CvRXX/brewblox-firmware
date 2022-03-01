@@ -1,0 +1,32 @@
+idf_component_register(
+  SRCS
+    src/nanopb_callbacks.cpp
+    src/brewblox.cpp
+
+    src/ConstraintsProto.cpp
+    src/ActuatorAnalogMockBlock.cpp
+    src/ActuatorLogicBlock.cpp
+    src/ActuatorOffsetBlock.cpp
+    src/ActuatorPwmBlock.cpp
+    src/BalancerBlock.cpp
+    src/Block.cpp
+    src/BlockInterfaces.cpp
+    src/DigitalActuatorBlock.cpp
+    src/DisplaySettingsBlock.cpp
+    src/DS2408Block.cpp
+    src/DS2413Block.cpp
+    src/MockPinsBlock.cpp
+    src/MotorValveBlock.cpp
+    src/MutexBlock.cpp
+    src/OneWireBusBlock.cpp
+    src/PidBlock.cpp
+    src/SetpointProfileBlock.cpp
+    src/SetpointSensorPairBlock.cpp
+    src/SysInfoBlock.cpp
+    src/TempSensorCombiBlock.cpp
+    src/TempSensorOneWireBlock.cpp
+  INCLUDE_DIRS
+    inc
+  REQUIRES
+    main
+)
