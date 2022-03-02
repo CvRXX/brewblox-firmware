@@ -1,9 +1,8 @@
 
 #include "RecurringTask.hpp"
-#include "graphics/graphics.hpp"
-#include "graphics/widgets.hpp"
-#include "websocketserver.hpp"
+#include "lvgl.h"
 
+#include "websocketserver.hpp"
 #include <boost/asio.hpp>
 #include <boost/asio/dispatch.hpp>
 #include <boost/asio/strand.hpp>
@@ -25,17 +24,17 @@ int main()
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
 
-    auto graphics = Graphics::getInstance();
+    // auto graphics = Graphics::getInstance();
 
     static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(1000),
                                            RecurringTask::IntervalType::FROM_EXPIRY,
-                                           [&graphics]() {
+                                           []() {
                                                auto tickMinutes = boost::asio::chrono::system_clock::now().time_since_epoch() / asio::chrono::minutes(1);
                                                auto minutes = tickMinutes % (60);
 
                                                auto tickHours = boost::asio::chrono::system_clock::now().time_since_epoch() / asio::chrono::hours(1);
                                                auto hours = tickHours % (24) + 2;
-                                               graphics.bar.setTime(hours, minutes);
+                                               //    graphics.bar.setTime(hours, minutes);
                                            });
     timeSetter.start();
 
@@ -53,13 +52,13 @@ int main()
                                             });
     displayTick.start();
 
-    static std::array<NormalWidget, 5> sensorWidgets{{
-        NormalWidget(graphics.grid, "Widget 1", "IPA", "21.0"),
-        NormalWidget(graphics.grid, "Widget 2", "Blond", "21.0"),
-        NormalWidget(graphics.grid, "Widget 3", "Lager", "5.1"),
-        NormalWidget(graphics.grid, "Widget 4", "Stout", "23.1"),
-        NormalWidget(graphics.grid, "Widget 5", "Wit", "21.4"),
-    }};
+    // static std::array<NormalWidget, 5> sensorWidgets{{
+    //     NormalWidget(graphics.grid, "Widget 1", "IPA", "21.0"),
+    //     NormalWidget(graphics.grid, "Widget 2", "Blond", "21.0"),
+    //     NormalWidget(graphics.grid, "Widget 3", "Lager", "5.1"),
+    //     NormalWidget(graphics.grid, "Widget 4", "Stout", "23.1"),
+    //     NormalWidget(graphics.grid, "Widget 5", "Wit", "21.4"),
+    // }};
 
     ioc.run();
 }

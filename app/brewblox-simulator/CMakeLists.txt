@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
-project(simulator)    
+project(simulator)
 set(CMAKE_CXX_STANDARD 17)
 find_package(Threads REQUIRED)
 
@@ -9,12 +9,12 @@ add_definitions(-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE)
 
 
 
-file(GLOB SOURCES 
+file(GLOB SOURCES
 main/*.cpp
 ../../lib/inc/graphics/fonts/*.cpp
 ../../platform/simulator/*.cpp
-../../brewblox/blox/compiled_proto/src/*.c
-../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
+# ../../brewblox/blox/compiled_proto/src/*.c
+# ../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
 ../../brewblox/blox
 ../../controlbox/src/
 )
@@ -22,9 +22,9 @@ main/*.cpp
 include_directories(
     ../../platform/simulator
     ../../platform/all
-    ../../lib/inc
-    ../../lib/cnl/include
-    ../../brewblox/blox/compiled_proto/src
+    # ../../lib/inc
+    ../../external_libs/cnl/include
+    # ../../brewblox/blox/compiled_proto/src
     ../../brewblox
     ../../platform/spark/device-os/third_party/nanopb/nanopb
     ../../controlbox/src/
