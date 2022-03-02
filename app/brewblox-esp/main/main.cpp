@@ -15,6 +15,7 @@
 #include "FT6236.hpp"
 #include "TFT035.hpp"
 #include "blox_hal/hal_delay.h"
+#include "dynamic_gui/dynamicGui.hpp"
 #include "graphics.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"

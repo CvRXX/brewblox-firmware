@@ -1,6 +1,7 @@
 
 #include "FT6236.hpp"
 #include "RecurringTask.hpp"
+#include "dynamic_gui/dynamicGui.hpp"
 #include "graphics.hpp"
 #include "lvgl.h"
 #include "virtualScreen.hpp"
@@ -14,7 +15,6 @@
 #include <thread>
 std::shared_ptr<listener> webSocketServer;
 net::io_context ioc{1};
-Graphics<VirtualScreen, FT6236, Layout>;
 
 int main()
 {
@@ -27,7 +27,8 @@ int main()
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
 
-    using graphics = Graphics<VirtualScreen, FT6236, Layout>;
+    using graphics = Graphics<VirtualScreen, FT6236, DynamicGui>;
+    graphics::init();
 
     static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(1000),
                                            RecurringTask::IntervalType::FROM_EXPIRY,
