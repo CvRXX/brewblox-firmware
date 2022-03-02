@@ -21,6 +21,7 @@ RUN : \
         ca-certificates \
         ccache \
         check \
+        cmake \
         diff-so-fancy \
         dfu-util \
         flex \
@@ -32,6 +33,7 @@ RUN : \
         gperf \
         jq \
         lcov \
+        libboost-all-dev \
         libffi-dev \
         libncurses-dev \
         libprotobuf-dev \

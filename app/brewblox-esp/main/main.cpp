@@ -12,15 +12,17 @@
 #include "control/TempSensor.h"
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
+#include "FT6236.hpp"
+#include "TFT035.hpp"
 #include "blox_hal/hal_delay.h"
-#include "graphics/graphics.hpp"
-#include "graphics/widgets.hpp"
+#include "graphics.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
 #include "network/ethernet.hpp"
 #include "network/mdns.hpp"
 #include "network/wifi.hpp"
+#include "static_gui/staticGui.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -88,7 +90,9 @@ int main(int /*argc*/, char** /*argv*/)
     asio::io_context io;
     static auto& box = makeBrewbloxBox(io);
 
-    Graphics::init();
+    using graphics = Graphics<TFT035, FT6236, StaticGui>;
+
+    graphics::init();
 
     static CboxServer cboxServer(io, 8332, box);
 
@@ -114,8 +118,8 @@ int main(int /*argc*/, char** /*argv*/)
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
                                               []() -> bool {
-                                                  Graphics::update();
-                                                  Graphics::tick(100);
+                                                  graphics::update();
+                                                  graphics::tick(100);
                                                   return true;
                                               });
 

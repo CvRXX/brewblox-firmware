@@ -1,7 +1,9 @@
 
+#include "FT6236.hpp"
 #include "RecurringTask.hpp"
+#include "graphics.hpp"
 #include "lvgl.h"
-
+#include "virtualScreen.hpp"
 #include "websocketserver.hpp"
 #include <boost/asio.hpp>
 #include <boost/asio/dispatch.hpp>
@@ -12,6 +14,7 @@
 #include <thread>
 std::shared_ptr<listener> webSocketServer;
 net::io_context ioc{1};
+Graphics<VirtualScreen, FT6236, Layout>;
 
 int main()
 {
@@ -24,7 +27,7 @@ int main()
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
 
-    // auto graphics = Graphics::getInstance();
+    using graphics = Graphics<VirtualScreen, FT6236, Layout>;
 
     static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(1000),
                                            RecurringTask::IntervalType::FROM_EXPIRY,
@@ -51,14 +54,6 @@ int main()
                                                 lv_tick_inc(10);
                                             });
     displayTick.start();
-
-    // static std::array<NormalWidget, 5> sensorWidgets{{
-    //     NormalWidget(graphics.grid, "Widget 1", "IPA", "21.0"),
-    //     NormalWidget(graphics.grid, "Widget 2", "Blond", "21.0"),
-    //     NormalWidget(graphics.grid, "Widget 3", "Lager", "5.1"),
-    //     NormalWidget(graphics.grid, "Widget 4", "Stout", "23.1"),
-    //     NormalWidget(graphics.grid, "Widget 5", "Wit", "21.4"),
-    // }};
 
     ioc.run();
 }
