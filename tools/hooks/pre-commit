@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# This hook is not for everyone but can prevent breaking commits from happening.
+# If a test breaks or can't be build commiting won't be possible.
+
+set -eou pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+script/test-brewblox-particle.sh
+script/test-cbox.sh
+script/test-control.sh

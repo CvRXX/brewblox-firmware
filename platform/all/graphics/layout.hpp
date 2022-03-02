@@ -5,10 +5,6 @@
 #include <lvgl.h>
 #include <memory>
 
-namespace cbox {
-class Box;
-}
-
 class Bar;
 class BaseWidget;
 
@@ -19,14 +15,14 @@ public:
      * Constructs the layout.
      * @param box The Cbox box.
      */
-    Layout(cbox::Box& box);
+    Layout();
     ~Layout();
 
     /** Updates the following:
      *   - Checks if a new config is available the layout will be redrawn based on the new config.
      *   - Updates alle the widgets with the latest information about the objects they represent.
      *   - Updates the status bar with the current ip and network status.
-     *   - Updates the status bar with the latest time. 
+     *   - Updates the status bar with the latest time.
      */
     void update();
 
@@ -39,7 +35,6 @@ public:
     std::unique_ptr<Bar> bar;
 
 private:
-    cbox::Box& box;
     std::array<std::unique_ptr<BaseWidget>, 6> sensorWidgets{};
     lv_obj_t* mainContainer = nullptr;
     lv_obj_t* grid = nullptr;

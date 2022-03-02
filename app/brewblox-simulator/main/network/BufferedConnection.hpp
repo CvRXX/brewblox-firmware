@@ -4,8 +4,8 @@
 
 #include "CircularBuffer.hpp"
 #include "CircularBufferView.hpp"
+#include "blox_hal/hal_delay.h"
 #include "esp_log.h"
-#include "hal/hal_delay.h"
 #include <asio.hpp>
 #include <functional>
 using namespace std::placeholders;

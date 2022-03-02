@@ -29,14 +29,14 @@ execute_process (
 execute_process (
     COMMAND git rev-parse --short=8 HEAD
     OUTPUT_VARIABLE PROTO_VERSION
-    WORKING_DIRECTORY ${REPO_ROOT}/brewblox/blox/proto
+    WORKING_DIRECTORY ${REPO_ROOT}/external_libs/brewblox-proto
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
 execute_process (
     COMMAND git log -1 --format=%cd --date=short
     OUTPUT_VARIABLE PROTO_DATE
-    WORKING_DIRECTORY ${REPO_ROOT}/brewblox/blox/proto
+    WORKING_DIRECTORY ${REPO_ROOT}/external_libs/brewblox-proto
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
@@ -54,10 +54,9 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/platform)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/platform/all)
-list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/controlbox)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/lib)
-list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/brewblox)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs)
+list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs/lvgl_wrapper)
 
 set(SYSTEM_VERSION_STRING ${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR}.${IDF_VERSION_PATCH})
 

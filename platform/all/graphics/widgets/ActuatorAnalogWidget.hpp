@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./BaseWidget.hpp"
-#include "blox/ActuatorPwmBlock.h"
+#include "blocks/ActuatorPwmBlock.h"
 #include "lvgl.h"
 
 /// A widget which represents an analog actuator.

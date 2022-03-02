@@ -11,12 +11,20 @@ add_definitions(-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE)
 
 file(GLOB SOURCES
 main/*.cpp
-../../lib/inc/graphics/fonts/*.cpp
+../../lib/control/inc/graphics/fonts/*.cpp
 ../../platform/simulator/*.cpp
+<<<<<<< HEAD
 # ../../brewblox/blox/compiled_proto/src/*.c
 # ../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
 ../../brewblox/blox
 ../../controlbox/src/
+=======
+../../lib/compiled_proto/proto/*.c
+../../external_libs/device-os/third_party/nanopb/nanopb/*.c
+../../lib/blocks/*.cpp
+../../lib/blocks/blocks/*.cpp
+../../lib/cbox/src/*.cpp
+>>>>>>> feature/lvgl-v8.2.0
 )
 
 include_directories(

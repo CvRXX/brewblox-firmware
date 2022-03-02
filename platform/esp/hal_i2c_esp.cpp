@@ -1,7 +1,7 @@
+#include "blox_hal/hal_i2c.h"
 #include "driver/i2c.h"
 #include "esp_debug_helpers.h"
 #include "esp_log.h"
-#include "hal/hal_i2c.h"
 #include <mutex>
 
 namespace detail {
