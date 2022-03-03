@@ -53,9 +53,26 @@ public:
 
         disp_drv.draw_buf = &disp_buf1;
         disp_drv.flush_cb = monitor_flush;
-        disp_drv.hor_res = 320;
-        disp_drv.ver_res = 480;
-        disp_drv.rotated = LV_DISP_ROT_270;
+        disp_drv.hor_res = display->horResolution;
+        disp_drv.ver_res = display->verResolution;
+        lv_disp_rot_t rotation;
+        switch (display->rotation) {
+        case 0:
+            rotation = LV_DISP_ROT_NONE;
+            break;
+        case 90:
+            rotation = LV_DISP_ROT_90;
+            break;
+        case 180:
+            rotation = LV_DISP_ROT_180;
+            break;
+        case 270:
+            rotation = LV_DISP_ROT_270;
+            break;
+        default:
+            rotation = LV_DISP_ROT_NONE;
+        }
+        disp_drv.rotated = rotation;
 
         static lv_disp_t* disp;
         disp = lv_disp_drv_register(&disp_drv);

@@ -143,9 +143,7 @@ public:
 
         std::uint16_t x = (xh * 256) + xl;
         std::uint16_t y = (yh * 256) + yl;
-        // std::cout << "index: " << static_cast<int>(index) << "\n";
-        // std::cout << "x: " << static_cast<int>(x) << "\n";
-        // std::cout << "y: " << static_cast<int>(y) << "\n";
+
         if (index == 1) {
             this->touch.x = 320 - y;
             this->touch.y = x;

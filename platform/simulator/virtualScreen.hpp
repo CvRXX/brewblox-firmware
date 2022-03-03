@@ -42,6 +42,10 @@ public:
     /// Releases the spi bus after writing to the display.
     void release_spi();
 
+    const uint16_t horResolution = 320;
+    const uint16_t verResolution = 480;
+    const uint16_t rotation = 270;
+
     /**
      * Writing a n of pixels to the screen in a defined area.
      *
