@@ -1,10 +1,10 @@
 
-#include "FT6236.hpp"
 #include "RecurringTask.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
 #include "graphics.hpp"
 #include "lvgl.h"
 #include "virtualScreen.hpp"
+#include "virtualTouchScreen.hpp"
 #include "websocketserver.hpp"
 #include <boost/asio.hpp>
 #include <boost/asio/dispatch.hpp>
@@ -27,7 +27,7 @@ int main()
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
 
-    using graphics = Graphics<VirtualScreen, FT6236, DynamicGui>;
+    using graphics = Graphics<VirtualScreen, VirtualTouchScreen, DynamicGui>;
     graphics::init();
 
     static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(1000),
@@ -45,14 +45,14 @@ int main()
     static auto graphicsLooper = RecurringTask(ioc, boost::asio::chrono::milliseconds(10),
                                                RecurringTask::IntervalType::FROM_EXPIRY,
                                                []() {
-                                                   lv_task_handler();
+                                                   graphics::update();
                                                });
     graphicsLooper.start();
 
     static auto displayTick = RecurringTask(ioc, boost::asio::chrono::milliseconds(10),
                                             RecurringTask::IntervalType::FROM_EXPIRY,
                                             []() {
-                                                lv_tick_inc(10);
+                                                graphics::tick(10);
                                             });
     displayTick.start();
 

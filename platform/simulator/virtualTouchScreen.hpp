@@ -1,21 +1,22 @@
 #pragma once
+#include "websocketserver.hpp"
 #include <atomic>
 #include <optional>
+extern std::shared_ptr<listener> webSocketServer;
 
 /**
  * A driver for the FT6236 touchscreen controller
  */
-class FT6236 {
+class VirtualTouchScreen {
 public:
     /**
      * Constructs the driver
      *
      * @param address The lower address of the i2c device
      */
-    FT6236(uint8_t address){};
-    ~FT6236(){};
+    VirtualTouchScreen(uint8_t address){};
+    ~VirtualTouchScreen(){};
 
-    /// The different gestures the FT6236 supports
     enum class Gesture {
         moveUp,
         moveRight,
@@ -41,7 +42,7 @@ public:
      */
     Touch getLastTouch()
     {
-        return Touch{};
+        return Touch{webSocketServer->touch.x, webSocketServer->touch.y, Gesture::noGesture};
     };
 
     /**
@@ -50,30 +51,16 @@ public:
      */
     std::optional<Touch> getTouch()
     {
+        if (webSocketServer->touch.touchAvailable) {
+            webSocketServer->touch.touchAvailable = false;
+            return Touch{webSocketServer->touch.x, webSocketServer->touch.y, Gesture::noGesture};
+        }
         return std::nullopt;
     };
 
 private:
-    enum class Register : uint8_t {
-        P1_XH = 0x03,
-        P1_XL = 0x04,
-        P1_YH = 0x05,
-        P1_YL = 0x06,
-        GEST_ID = 0x01,
-        G_MODE = 0xA4
-    };
-
-    bool writeRegister(Register reg, uint8_t value)
-    {
-        return false;
-    }
-    std::optional<uint8_t> readRegister(Register reg)
-    {
-        return std::nullopt;
-    }
-
     Gesture getGesture()
     {
-        return Gesture{};
+        return Gesture::noGesture;
     }
 };
