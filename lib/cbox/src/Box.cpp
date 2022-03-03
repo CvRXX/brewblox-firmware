@@ -40,6 +40,62 @@ handleReset(bool exit, uint8_t reason);
 
 namespace cbox {
 
+CboxError noop(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError readObject(CboxCommand& cmd)
+{
+    if (!cmd.requestPayload.has_value()) {
+        return CboxError::INVALID_COMMAND;
+    }
+
+    ContainedObject* cobj = objects.fetchContained(cmd.requestPayload.value().blockId);
+
+    return CboxError::OK;
+}
+
+CboxError writeObject(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError createObject(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError deleteObject(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError listActiveObjects(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError readStoredObject(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError listStoredObjects(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError clearObjects(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
+CboxError discoverNewObjects(CboxCommand& cmd)
+{
+    return CboxError::OK;
+}
+
 Box::Box(ConnectionPool& _connections)
     : connections(_connections)
 {

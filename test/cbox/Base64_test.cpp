@@ -32,6 +32,10 @@ SCENARIO("Base64 encoding/decoding")
         decoded = {'h', 'e', 'l', 'l', 'o', ' '};
         CHECK(base64_decode("aGVsbG8g") == decoded);
 
+        // unneccessary padding character
+        decoded = {'h', 'e', 'l', 'l', 'o', ' '};
+        CHECK(base64_decode("aGVsbG8g=") == decoded);
+
         // 1 remainder byte
         decoded = {'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l'};
         CHECK(base64_decode("aGVsbG8gd29ybA==") == decoded);

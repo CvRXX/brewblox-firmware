@@ -41,6 +41,8 @@ public:
     virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
     virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
 
+    virtual cbox::CboxError write(cbox::CboxCommand& cmd) override final;
+
     virtual cbox::CboxError
     streamPersistedTo(cbox::DataOut& out) const override final;
 

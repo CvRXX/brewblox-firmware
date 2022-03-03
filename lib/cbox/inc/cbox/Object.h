@@ -20,6 +20,7 @@
 #pragma once
 
 #include "cbox/CboxError.h"
+#include "cbox/Command.h"
 #include "cbox/DataStream.h"
 #include "cbox/ObjectIds.h"
 #include <limits>
@@ -74,6 +75,16 @@ public:
      * An object can (optionally) receive new data from a DataIn stream.
      */
     virtual CboxError streamFrom(DataIn& in) = 0;
+
+    /**
+     * Each object can yield its own data on request.
+     */
+    virtual CboxError read(CboxCommand& cmd) = 0;
+
+    /**
+     * Objects can optionally receive new data from an incoming command;
+     */
+    virtual CboxError write(CboxCommand& cmd) = 0;
 
     /**
      * Objects can stream data they want persisted.

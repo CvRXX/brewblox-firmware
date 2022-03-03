@@ -22,6 +22,7 @@
 #include "cbox/CboxApplication.h"
 #include "cbox/CboxError.h"
 #include "cbox/CboxPtr.h"
+#include "cbox/Command.h"
 #include "cbox/ConnectionPool.h"
 #include "cbox/Connections.h"
 #include "cbox/DataStream.h"
@@ -31,10 +32,22 @@
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
 #include "cbox/ScanningFactory.hpp"
+
 #include <memory>
 #include <vector>
 
 namespace cbox {
+
+CboxError noop(CboxCommand& cmd);
+CboxError readObject(CboxCommand& cmd);
+CboxError writeObject(CboxCommand& cmd);
+CboxError createObject(CboxCommand& cmd);
+CboxError deleteObject(CboxCommand& cmd);
+CboxError listActiveObjects(CboxCommand& cmd);
+CboxError readStoredObject(CboxCommand& cmd);
+CboxError listStoredObjects(CboxCommand& cmd);
+CboxError clearObjects(CboxCommand& cmd);
+CboxError discoverNewObjects(CboxCommand& cmd);
 
 class Box {
 private:

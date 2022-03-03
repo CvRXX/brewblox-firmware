@@ -55,6 +55,31 @@ PidBlock::streamFrom(cbox::DataIn& in)
     return res;
 }
 
+cbox::CboxError PidBlock::write(cbox::CboxCommand& cmd)
+{
+    blox_Pid_Block newData = blox_Pid_Block_init_zero;
+    auto value = cmd.requestPayload.value();
+    // cmd.requestPayload.value().content.data();
+    cbox::CboxError res = readProtoFromVector(cmd.requestPayload.value().content, &newData, blox_Pid_Block_fields);
+    if (res == cbox::CboxError::OK) {
+        blox_Pid_Block outData = blox_Pid_Block_init_zero;
+        std::vector<uint8_t> outContent;
+        outContent.reserve(blox_Pid_Block_size);
+        res = writeProtoToVector(outContent, &outData, blox_Pid_Block_fields);
+
+        if (res == cbox::CboxError::OK) {
+            cbox::CboxPayload payload(
+                value.blockId,
+                value.blockType,
+                value.subtype,
+                std::move(outContent));
+            res = cmd.respond(payload);
+        }
+    }
+    return res;
+    // fill in data
+}
+
 cbox::CboxError
 PidBlock::streamTo(cbox::DataOut& out) const
 {
