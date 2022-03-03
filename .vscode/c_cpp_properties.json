@@ -50,7 +50,7 @@
         "${workspaceFolder}/platform/simulator",
         "${workspaceFolder}/external_libs/nanopb",
         "${workspaceFolder}/external_libs/cnl/include",
-        "${workspaceFolder}/app/brewblox-esp/components/*",
+        "${workspaceFolder}/app/brewblox-esp/components/*"
       ],
       "compilerPath": "/usr/bin/g++",
       "compileCommands": "${workspaceFolder}/app/brewblox-simulator/build/compile_commands.json"
