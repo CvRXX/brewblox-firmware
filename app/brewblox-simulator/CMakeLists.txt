@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(simulator)
 set(CMAKE_CXX_STANDARD 17)
 find_package(Threads REQUIRED)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 add_definitions(-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE)
 
