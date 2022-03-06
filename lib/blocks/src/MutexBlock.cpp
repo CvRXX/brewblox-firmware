@@ -22,24 +22,37 @@
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError
-MutexBlock::streamFrom(cbox::DataIn& dataIn)
-{
-    blox_Mutex_Block newData = blox_Mutex_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Mutex_Block_fields, blox_Mutex_Block_size);
-    if (result == cbox::CboxError::OK) {
-        m_mutex.holdAfterTurnOff(newData.differentActuatorWait);
-    }
-    return result;
-}
-
-cbox::CboxError
-MutexBlock::streamTo(cbox::DataOut& out) const
+MutexBlock::read(cbox::Command& cmd) const
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
     message.waitRemaining = m_mutex.timeRemaining();
 
-    return streamProtoTo(out, &message, blox_Mutex_Block_fields, blox_Mutex_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_Mutex_Block_fields,
+                               blox_Mutex_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+MutexBlock::readPersisted(cbox::Command& cmd) const
+{
+    return read(cmd);
+}
+
+cbox::CboxError
+MutexBlock::write(cbox::Command& cmd)
+{
+    blox_Mutex_Block message = blox_Mutex_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_Mutex_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        m_mutex.holdAfterTurnOff(message.differentActuatorWait);
+    }
+
+    return res;
 }
 
 void* MutexBlock::implements(const cbox::obj_type_t& iface)

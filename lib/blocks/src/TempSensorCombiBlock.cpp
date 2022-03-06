@@ -14,31 +14,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "blocks/TempSensorCombiBlock.h"
 #include "blocks/FieldTags.h"
-
-cbox::CboxError TempSensorCombiBlock::streamFrom(cbox::DataIn& in)
-{
-    blox_TempSensorCombi_Block newData = blox_TempSensorCombi_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &newData, blox_TempSensorCombi_Block_fields, blox_TempSensorCombi_Block_size);
-    if (result == cbox::CboxError::OK) {
-        sensor.func = TempSensorCombi::CombineFunc(newData.combineFunc);
-        inputs.clear();
-        sensor.inputs.clear();
-        inputs.reserve(newData.sensors_count);
-        sensor.inputs.reserve(newData.sensors_count);
-        for (uint8_t i = 0; i < newData.sensors_count && i < 8; i++) {
-            inputs.emplace_back(newData.sensors[i]);
-        }
-        for (auto& i : inputs) {
-            sensor.inputs.push_back(i.lockFunctor());
-        }
-    }
-    return result;
-}
 
 void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, bool includeReadOnly) const
 {
@@ -60,19 +40,55 @@ void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, boo
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 }
 
-cbox::CboxError TempSensorCombiBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError
+TempSensorCombiBlock::read(cbox::Command& cmd) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, true);
 
-    return streamProtoTo(out, &message, blox_TempSensorCombi_Block_fields, blox_TempSensorCombi_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_TempSensorCombi_Block_fields,
+                               blox_TempSensorCombi_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
-cbox::CboxError TempSensorCombiBlock::streamPersistedTo(cbox::DataOut& out) const
+cbox::CboxError
+TempSensorCombiBlock::readPersisted(cbox::Command& cmd) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, false);
-    return streamProtoTo(out, &message, blox_TempSensorCombi_Block_fields, blox_TempSensorCombi_Block_size);
+
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_TempSensorCombi_Block_fields,
+                               blox_TempSensorCombi_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+TempSensorCombiBlock::write(cbox::Command& cmd)
+{
+    blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_TempSensorCombi_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);
+        inputs.clear();
+        sensor.inputs.clear();
+        inputs.reserve(message.sensors_count);
+        sensor.inputs.reserve(message.sensors_count);
+        for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
+            inputs.emplace_back(message.sensors[i]);
+        }
+        for (auto& i : inputs) {
+            sensor.inputs.push_back(i.lockFunctor());
+        }
+    }
+
+    return res;
 }
 
 cbox::update_t TempSensorCombiBlock::update(const cbox::update_t& now)

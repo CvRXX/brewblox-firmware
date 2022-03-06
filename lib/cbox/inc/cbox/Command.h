@@ -1,7 +1,7 @@
 /*
  * Copyright 2014-2015 Matthew McGowan.
  * Copyright 2018 Brewblox / Elco Jacobs
- * This file is part of Controlbox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,29 +14,30 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 
-#include "proto/brewblox.pb.h"
-#include "proto/controlbox.pb.h"
+#include "cbox/CboxError.h"
+#include "cbox/CboxOpcode.h"
+#include "cbox/ObjectIds.h"
 #include <optional>
 #include <vector>
 
 namespace cbox {
 
-class CboxPayload {
+class Payload {
 public:
-    const uint32_t blockId;
-    const brewblox_BlockType blockType;
+    const obj_id_t blockId;
+    const obj_type_t blockType;
     const uint32_t subtype;
-    const std::vector<uint8_t> content;
+    std::vector<uint8_t> content;
 
-    CboxPayload(uint32_t _blockId,
-                brewblox_BlockType _blockType,
-                uint32_t _subtype,
-                std::vector<uint8_t>&& _content)
+    Payload(obj_id_t _blockId,
+            obj_type_t _blockType,
+            uint32_t _subtype,
+            std::vector<uint8_t>&& _content)
         : blockId(_blockId)
         , blockType(_blockType)
         , subtype(_subtype)
@@ -44,31 +45,55 @@ public:
     {
     }
 
-    ~CboxPayload() = default;
+    Payload(obj_id_t _blockId,
+            obj_type_t _blockType,
+            uint32_t _subtype)
+        : blockId(_blockId)
+        , blockType(_blockType)
+        , subtype(_subtype)
+    {
+    }
+
+    virtual ~Payload() = default;
 };
 
-class CboxCommand {
+class Command {
 public:
     const uint32_t msgId;
-    const controlbox_Opcode opcode;
-    const std::optional<CboxPayload> requestPayload;
+    const CboxOpcode opcode;
+    std::optional<Payload> requestPayload;
 
-    CboxCommand(uint32_t _msgId,
-                controlbox_Opcode _opcode,
-                std::optional<CboxPayload>&& _requestPayload = std::nullopt)
+    Command(uint32_t _msgId,
+            CboxOpcode _opcode,
+            std::optional<Payload>&& _requestPayload = std::nullopt)
         : msgId(_msgId)
         , opcode(_opcode)
         , requestPayload(std::move(_requestPayload))
     {
     }
 
-    CboxCommand(const CboxCommand&) = delete;
-    CboxCommand(CboxCommand&&) = delete;
-    CboxCommand& operator=(const CboxCommand&) = delete;
+    Command(const Command&) = delete;
+    Command(Command&&) = delete;
+    Command& operator=(const Command&) = delete;
 
-    ~CboxCommand() = default;
+    virtual ~Command() = default;
 
-    virtual CboxError respond(const CboxPayload& payload) = 0;
+    virtual CboxError respond(const Payload& payload) = 0;
+};
+
+class StubCommand : public Command {
+public:
+    StubCommand()
+        : Command(0, CboxOpcode::NONE)
+    {
+    }
+
+    virtual ~StubCommand() = default;
+
+    virtual CboxError respond(const Payload& payload)
+    {
+        return CboxError::OK;
+    }
 };
 
 } // end namespace cbox

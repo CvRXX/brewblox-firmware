@@ -12,6 +12,7 @@ idf_component_register(
     src/ObjectBase.cpp
     src/ObjectContainer.cpp
     src/ObjectFactory.cpp
+    src/ObjectStream.cpp
     src/Tracing.cpp
   INCLUDE_DIRS
     inc

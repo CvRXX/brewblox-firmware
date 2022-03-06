@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "cbox/Box.h"
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
 

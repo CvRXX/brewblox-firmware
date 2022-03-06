@@ -23,68 +23,18 @@
 #include "proto/Pid.pb.h"
 
 PidBlock::PidBlock()
-    : input()
-    , output()
-    , pid(input.lockFunctor(), [this]() {
+    : pid(input.lockFunctor(), [this]() {
         // convert ActuatorConstrained to base ProcessValue
         return std::shared_ptr<ProcessValue<Pid::out_t>>(this->output.lock());
     })
 {
 }
 
-cbox::CboxError
-PidBlock::streamFrom(cbox::DataIn& in)
+cbox::CboxError PidBlock::read(cbox::Command& cmd) const
 {
-    blox_Pid_Block newData = blox_Pid_Block_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_Pid_Block_fields, blox_Pid_Block_size);
-    /* if no errors occur, write new settings to wrapped object */
-    if (res == cbox::CboxError::OK) {
-        pid.enabled(newData.enabled);
-        input.setId(newData.inputId);
-        output.setId(newData.outputId);
-        pid.kp(cnl::wrap<Pid::in_t>(newData.kp));
-        pid.ti(newData.ti);
-        pid.td(newData.td);
-        if (newData.integralReset != 0) {
-            pid.setIntegral(cnl::wrap<Pid::out_t>(newData.integralReset));
-        }
-        pid.boilPointAdjust(cnl::wrap<Pid::in_t>(newData.boilPointAdjust));
-        pid.boilMinOutput(cnl::wrap<Pid::out_t>(newData.boilMinOutput));
-        pid.update(); // force an update that bypasses the update interval
-    }
-    return res;
-}
-
-cbox::CboxError PidBlock::write(cbox::CboxCommand& cmd)
-{
-    blox_Pid_Block newData = blox_Pid_Block_init_zero;
-    auto value = cmd.requestPayload.value();
-    // cmd.requestPayload.value().content.data();
-    cbox::CboxError res = readProtoFromVector(cmd.requestPayload.value().content, &newData, blox_Pid_Block_fields);
-    if (res == cbox::CboxError::OK) {
-        blox_Pid_Block outData = blox_Pid_Block_init_zero;
-        std::vector<uint8_t> outContent;
-        outContent.reserve(blox_Pid_Block_size);
-        res = writeProtoToVector(outContent, &outData, blox_Pid_Block_fields);
-
-        if (res == cbox::CboxError::OK) {
-            cbox::CboxPayload payload(
-                value.blockId,
-                value.blockType,
-                value.subtype,
-                std::move(outContent));
-            res = cmd.respond(payload);
-        }
-    }
-    return res;
-    // fill in data
-}
-
-cbox::CboxError
-PidBlock::streamTo(cbox::DataOut& out) const
-{
-    FieldTags stripped;
     blox_Pid_Block message = blox_Pid_Block_init_zero;
+    FieldTags stripped;
+
     message.inputId = input.getId();
     message.outputId = output.getId();
 
@@ -142,13 +92,19 @@ PidBlock::streamTo(cbox::DataOut& out) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
 
-    return streamProtoTo(out, &message, blox_Pid_Block_fields, blox_Pid_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_Pid_Block_fields,
+                               blox_Pid_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
 cbox::CboxError
-PidBlock::streamPersistedTo(cbox::DataOut& out) const
+PidBlock::readPersisted(cbox::Command& cmd) const
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
+
     message.inputId = input.getId();
     message.outputId = output.getId();
     message.enabled = pid.enabled();
@@ -158,7 +114,35 @@ PidBlock::streamPersistedTo(cbox::DataOut& out) const
     message.boilPointAdjust = cnl::unwrap(pid.boilPointAdjust());
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
-    return streamProtoTo(out, &message, blox_Pid_Block_fields, blox_Pid_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_Pid_Block_fields,
+                               blox_Pid_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError PidBlock::write(cbox::Command& cmd)
+{
+    blox_Pid_Block message = blox_Pid_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_Pid_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        pid.enabled(message.enabled);
+        input.setId(message.inputId);
+        output.setId(message.outputId);
+        pid.kp(cnl::wrap<Pid::in_t>(message.kp));
+        pid.ti(message.ti);
+        pid.td(message.td);
+        if (message.integralReset != 0) {
+            pid.setIntegral(cnl::wrap<Pid::out_t>(message.integralReset));
+        }
+        pid.boilPointAdjust(cnl::wrap<Pid::in_t>(message.boilPointAdjust));
+        pid.boilMinOutput(cnl::wrap<Pid::out_t>(message.boilMinOutput));
+        pid.update(); // force an update that bypasses the update interval
+    }
+
+    return res;
 }
 
 cbox::update_t

@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -31,6 +31,8 @@ using update_t = uint32_t;
 
 class Object {
 public:
+    obj_id_t objectId;
+
     Object() = default;
     virtual ~Object() = default;
 
@@ -67,30 +69,20 @@ public:
     }
 
     /**
-     * Each object is at least stream readable. StreamTo streams to the given output
-     */
-    virtual CboxError streamTo(DataOut& out) const = 0;
-
-    /**
-     * An object can (optionally) receive new data from a DataIn stream.
-     */
-    virtual CboxError streamFrom(DataIn& in) = 0;
-
-    /**
      * Each object can yield its own data on request.
      */
-    virtual CboxError read(CboxCommand& cmd) = 0;
+    virtual CboxError read(Command& cmd) const = 0;
+
+    /**
+     * Objects can yield data they want persisted.
+     * The persisted data should be compatible with write(Command&).
+     */
+    virtual CboxError readPersisted(Command& cmd) const = 0;
 
     /**
      * Objects can optionally receive new data from an incoming command;
      */
-    virtual CboxError write(CboxCommand& cmd) = 0;
-
-    /**
-     * Objects can stream data they want persisted.
-     * The persisted data should be compatible with streamFrom, which is used to re-instantiate the object from the persisted data.
-     */
-    virtual CboxError streamPersistedTo(DataOut& out) const = 0;
+    virtual CboxError write(Command& cmd) = 0;
 
     /**
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it

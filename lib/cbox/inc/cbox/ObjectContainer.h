@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox
  *
- * This file is part of ControlBox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -56,8 +56,17 @@ public:
     const std::weak_ptr<Object> fetch(obj_id_t id);
 
     /**
+     * get start ID for user objects.
+     * ID's smaller than the start ID are assumed to be system objects and considered undeletable.
+     **/
+    obj_id_t getObjectsStartId()
+    {
+        return startId;
+    }
+
+    /**
      * set start ID for user objects.
-     * ID's smaller than the start ID are  assumed to be system objects and considered undeletable.
+     * ID's smaller than the start ID are assumed to be system objects and considered undeletable.
      **/
     void setObjectsStartId(obj_id_t id)
     {
@@ -70,22 +79,22 @@ public:
     }
 
     // create a new object and let box assign id
-    obj_id_t add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups)
+    obj_id_t add(std::shared_ptr<Object>&& obj)
     {
-        return add(std::move(obj), active_in_groups, obj_id_t::invalid());
+        return add(std::move(obj), obj_id_t::invalid());
     }
 
     // create a new object with specific id, optionally replacing an existing object
-    obj_id_t add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups, obj_id_t id, bool replace = false);
+    obj_id_t add(std::shared_ptr<Object>&& obj, obj_id_t id, bool replace = false);
 
     // force to pass an object pointer, not a derived shared::ptr
     // this creates code bloat. It is better to use shared_ptr<Object>(new Derived()) directly than to convert from make_shared<Derived>()
     template <class T>
-    obj_id_t add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups, obj_id_t id = 0, bool replace = false) = delete;
+    obj_id_t add(std::shared_ptr<Object>&& obj, obj_id_t id = 0, bool replace = false) = delete;
 
     // also catch passing unique_ptr, as this also results in unnecessary conversions
     template <class T>
-    obj_id_t add(std::unique_ptr<T>&& obj, uint8_t active_in_groups, obj_id_t id = 0, bool replace = false) = delete;
+    obj_id_t add(std::unique_ptr<T>&& obj, obj_id_t id = 0, bool replace = false) = delete;
 
     CboxError remove(obj_id_t id);
 
@@ -104,12 +113,6 @@ public:
     {
         return findPosition(startId).first;
     }
-
-    // replace an object with an inactive object by const iterator
-    void deactivate(const CIterator& cit);
-
-    // replace an object with an inactive object by id
-    void deactivate(obj_id_t id);
 
     // remove all non-system objects from the container
     void clear();

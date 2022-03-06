@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of Controlbox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +14,14 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "WiFiSettingsBlock.h"
 #include "connectivity.h"
+#include "proto/WiFiSettings.pb.h"
 
-cbox::CboxError
-WiFiSettingsBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError WiFiSettingsBlock::read(cbox::Command& cmd) const
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
 
@@ -29,25 +29,30 @@ WiFiSettingsBlock::streamTo(cbox::DataOut& out) const
     printWifiSSID(message.ssid, sizeof(message.ssid));
     message.signal = wifiSignal();
 
-    return streamProtoTo(out, &message, blox_WiFiSettings_Block_fields, blox_WiFiSettings_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_WiFiSettings_Block_fields,
+                               blox_WiFiSettings_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
-cbox::CboxError
-WiFiSettingsBlock::streamFrom(cbox::DataIn& in)
+cbox::CboxError WiFiSettingsBlock::readPersisted(cbox::Command& cmd) const
+{
+    return writeEmptyToCommand(cmd, objectId, staticTypeId());
+}
+
+cbox::CboxError WiFiSettingsBlock::write(cbox::Command& cmd)
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_WiFiSettings_Block_fields, blox_WiFiSettings_Block_size);
-    if (result == cbox::CboxError::OK) {
+    auto res = readProtoFromCommand(cmd, &message, blox_WiFiSettings_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
         if (message.password[0] != 0) {
             // new wifi credentials received
             setWifiCredentials(message.ssid, message.password, message.security, message.cipher);
         }
     }
-    return result;
-};
 
-cbox::CboxError
-WiFiSettingsBlock::streamPersistedTo(cbox::DataOut& out) const
-{
-    return cbox::CboxError::OK;
+    return res;
 }

@@ -62,7 +62,7 @@ OneWireBusBlock::OneWireBusBlock(OneWire& ow, void (*onShortDetected_)())
  * - cmd 02: search bus: a sequence of 0 or more 8-byte addresses, MSB first that were found on the bus
  */
 cbox::CboxError
-OneWireBusBlock::streamTo(cbox::DataOut& out) const
+OneWireBusBlock::read(cbox::Command& cmd) const
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
     message.command = command;
@@ -85,11 +85,23 @@ OneWireBusBlock::streamTo(cbox::DataOut& out) const
     // commands are one-shot - once the command is done clear it.
     command.opcode = NO_OP;
     command.data = 0;
-    return streamProtoTo(out, &message, blox_OneWireBus_Block_fields, std::numeric_limits<size_t>::max());
+
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_OneWireBus_Block_fields,
+                               100, // TODO(Bob): pick sensible value
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+OneWireBusBlock::readPersisted(cbox::Command& cmd) const
+{
+    return cbox::CboxError::PERSISTING_NOT_NEEDED;
 }
 
 /**
- * Set the command to be executed next form the input stream
+ * Set the command to be executed next from the input stream
  * - byte 0: command
  *   00: no-op
  *   01: reset bus
@@ -99,15 +111,15 @@ OneWireBusBlock::streamTo(cbox::DataOut& out) const
  *   (later: set bus power? (off if next byte is 00, on if it's 01) )
  */
 cbox::CboxError
-OneWireBusBlock::streamFrom(cbox::DataIn& dataIn)
+OneWireBusBlock::write(cbox::Command& cmd)
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_OneWireBus_Block_fields);
 
-    cbox::CboxError res = streamProtoFrom(dataIn, &message, blox_OneWireBus_Block_fields, std::numeric_limits<size_t>::max());
-    /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         command = message.command;
     }
+
     return res;
 }
 

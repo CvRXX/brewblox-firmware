@@ -96,8 +96,8 @@ void onSetupModeBegin()
 {
     ListeningScreen::activate();
     manageConnections(ticks.millis()); // stop http server
-    brewbloxBox().unloadAllObjects();
-    brewbloxBox().disconnect();
+    cbox::unloadAllObjects();
+    theConnectionPool().disconnect();
     HAL_Delay_Milliseconds(100);
 }
 
@@ -151,18 +151,18 @@ void setup()
     HAL_Delay_Milliseconds(1);
     StartupScreen::setProgress(60);
     StartupScreen::setStep("Init Brewblox framework");
-    brewbloxBox();
+    setupSystemBlocks();
 
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(70);
     StartupScreen::setStep("Loading blocks");
-    brewbloxBox().loadObjectsFromStorage(); // init box and load stored objects
+    cbox::loadObjectsFromStorage();
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Scanning for new devices");
-    brewbloxBox().discoverNewObjects();
+    cbox::discoverNewObjects();
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Enabling WiFi and mDNS");
@@ -183,7 +183,7 @@ void setup()
     System.on(out_of_memory, onOutOfMemory);
 #endif
 
-    brewbloxBox().startConnectionSources();
+    theConnectionPool().startAll();
     WidgetsScreen::activate();
 }
 
@@ -195,10 +195,10 @@ void loop()
     if (!listeningModeEnabled()) {
         ticks.switchTaskTimer(TicksClass::TaskId::Communication);
         manageConnections(ticks.millis());
-        brewbloxBox().hexCommunicate();
+        communicate();
 
         ticks.switchTaskTimer(TicksClass::TaskId::BlocksUpdate);
-        updateBrewbloxBox();
+        update();
 
         watchdogCheckin(); // not done while listening, so 60s timeout for stuck listening mode
     }

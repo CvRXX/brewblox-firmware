@@ -23,13 +23,40 @@ bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void
 }
 
 cbox::CboxError
-BalancerBlock::streamTo(cbox::DataOut& out) const
+BalancerBlock::read(cbox::Command& cmd) const
 {
     blox_Balancer_Block message = blox_Balancer_Block_init_zero;
+
     message.clients.funcs.encode = streamBalancedActuators;
     message.clients.arg = const_cast<Balancer_t*>(&balancer); // arg is not const in message, but it is in callback
 
-    return streamProtoTo(out, &message, blox_Balancer_Block_fields, std::numeric_limits<size_t>::max());
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_Balancer_Block_fields,
+                               // Include a byte for field tags
+                               (blox_Balancer_BalancedActuator_size + 1) * balancer.clients().size(),
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+BalancerBlock::readPersisted(cbox::Command& cmd) const
+{
+    // no settings to persist
+    return writeEmptyToCommand(cmd, objectId, staticTypeId());
+}
+
+cbox::CboxError
+BalancerBlock::write(cbox::Command& cmd)
+{
+    // no settings to write (actuators register themselves)
+    return cbox::CboxError::OK;
+}
+
+cbox::update_t BalancerBlock::update(const cbox::update_t& now)
+{
+    balancer.update();
+    return now + 1000;
 }
 
 void* BalancerBlock::implements(const cbox::obj_type_t& iface)

@@ -29,11 +29,12 @@
 #include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
-#include "cbox/GroupsObject.h"
 #include "cbox/Tracing.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
+#include "proto/controlbox.pb.h"
 #include "reset.h"
+#include "rgbled.h"
 #include "spark/Board.h"
 #include <memory>
 
@@ -90,9 +91,7 @@ using PinsBlock = Spark2PinsBlock;
 using PinsBlock = Spark3PinsBlock;
 #endif
 
-cbox::ConnectionPool&
-
-theConnectionPool()
+cbox::ConnectionPool& theConnectionPool()
 {
 #if defined(SPARK)
     static cbox::TcpConnectionSource tcpSource(8332);
@@ -120,41 +119,8 @@ void powerCyclePheripheral5V()
 #endif
 }
 
-cbox::Box&
-makeBrewbloxBox()
-{
-
-    static cbox::ConnectionPool& connections = theConnectionPool();
-    static cbox::Box box(connections);
-
-    cbox::objects.init({
-        cbox::ContainedObject(1, 0x80, std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box))),
-            cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
-            cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
-            cbox::ContainedObject(4, 0x80, std::shared_ptr<cbox::Object>(new OneWireBusBlock(setupOneWire(), powerCyclePheripheral5V))),
-#if defined(SPARK)
-            cbox::ContainedObject(5, 0x80, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
-            cbox::ContainedObject(6, 0x80, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
-#endif
-            cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
-            cbox::ContainedObject(19, 0x80, std::shared_ptr<cbox::Object>(new PinsBlock())),
-    });
-
-    cbox::objects.setObjectsStartId(box.userStartId());
-
-    return box;
-}
-
-cbox::Box&
-brewbloxBox()
-{
-    static cbox::Box& box = makeBrewbloxBox();
-    return box;
-}
-
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3
-OneWire&
-setupOneWire()
+OneWire& theOneWire()
 {
     static auto owDriver = OneWireMockDriver();
     static auto ow = OneWire(owDriver);
@@ -166,8 +132,7 @@ setupOneWire()
     return ow;
 }
 #else
-OneWire&
-setupOneWire()
+OneWire& theOneWire()
 {
     static auto owDriver = DS248x(0x00);
     static auto ow = OneWire(owDriver);
@@ -175,8 +140,7 @@ setupOneWire()
 }
 #endif
 
-Logger&
-logger()
+Logger& logger()
 {
     static Logger logger([](Logger::LogLevel level, const std::string& log) {
         cbox::DataOut& out = theConnectionPool().logDataOut();
@@ -209,6 +173,23 @@ logger()
     return logger;
 }
 
+void setupSystemBlocks()
+{
+    cbox::objects.init({
+        cbox::ContainedObject(2, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
+            cbox::ContainedObject(3, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
+            cbox::ContainedObject(4, std::shared_ptr<cbox::Object>(new OneWireBusBlock(theOneWire(), powerCyclePheripheral5V))),
+#if defined(SPARK)
+            cbox::ContainedObject(5, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
+            cbox::ContainedObject(6, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
+#endif
+            cbox::ContainedObject(7, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
+            cbox::ContainedObject(19, std::shared_ptr<cbox::Object>(new PinsBlock())),
+    });
+
+    cbox::objects.setObjectsStartId(cbox::userStartId);
+}
+
 void logEvent(const std::string& event)
 {
     cbox::DataOut& out = theConnectionPool().logDataOut();
@@ -220,9 +201,38 @@ void logEvent(const std::string& event)
     out.write('>');
 }
 
-void updateBrewbloxBox()
+cbox::CboxError AppCommand::respond(const cbox::Payload& payload)
 {
-    brewbloxBox().update(ticks.millis());
+    return cbox::CboxError::OK;
+}
+
+void AppCommand::finalize(cbox::CboxError status)
+{
+}
+
+void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
+{
+    // TODO(Bob)
+    // grab until newline
+    // create proto request
+    // handle app-level opcodes
+    // delegate cbox-level opcodes
+    // finalize response
+    // have a snack
+}
+
+void communicate()
+{
+    theConnectionPool().process([](cbox::DataIn& in, cbox::DataOut& out) {
+        while (in.peek() >= 0) {
+            handleCommand(in, out);
+        }
+    });
+}
+
+void update()
+{
+    cbox::update(ticks.millis());
 #if PLATFORM_ID == 3
     ticks.delayMillis(10); // prevent 100% cpu usage
 #endif
@@ -328,36 +338,36 @@ int resetReasonData()
 #endif
 }
 
-namespace cbox {
-// handler for custom commands outside of controlbox
-bool applicationCommand(uint8_t cmdId, cbox::DataIn& in, cbox::EncodedDataOut& out)
-{
-    switch (cmdId) {
-    case 100: // firmware update
-    {
-        CboxError status = CboxError::OK;
-        in.spool();
-        if (out.crc()) {
-            status = CboxError::CRC_ERROR_IN_COMMAND;
-        }
-        out.writeResponseSeparator();
-        out.write(asUint8(status));
-        out.endMessage();
-        ticks.delayMillis(10);
-        if (status == CboxError::OK) {
-            cbox::tracing::add(AppTrace::FIRMWARE_UPDATE_STARTED);
-            changeLedColor();
-            brewbloxBox().disconnect();
-            ticks.delayMillis(10);
-#if PLATFORM_ID != PLATFORM_GCC
-            updateFirmwareFromStream(in.streamType());
-            // reset in case the firmware update failed
-            System.reset(RESET_USER_REASON::FIRMWARE_UPDATE_FAILED, RESET_NO_WAIT);
-#endif
-        }
-        return true;
-    }
-    }
-    return false;
-}
-} // end namespace cbox
+// namespace cbox {
+// // handler for custom commands outside of controlbox
+// bool applicationCommand(uint8_t cmdId, cbox::DataIn& in, cbox::EncodedDataOut& out)
+// {
+//     switch (cmdId) {
+//     case 100: // firmware update
+//     {
+//         CboxError status = CboxError::OK;
+//         in.spool();
+//         if (out.crc()) {
+//             status = CboxError::CRC_ERROR_IN_COMMAND;
+//         }
+//         out.writeResponseSeparator();
+//         out.write(asUint8(status));
+//         out.endMessage();
+//         ticks.delayMillis(10);
+//         if (status == CboxError::OK) {
+//             cbox::tracing::add(AppTrace::FIRMWARE_UPDATE_STARTED);
+//             changeLedColor();
+//             brewbloxBox().disconnect();
+//             ticks.delayMillis(10);
+// #if PLATFORM_ID != PLATFORM_GCC
+//             updateFirmwareFromStream(in.streamType());
+//             // reset in case the firmware update failed
+//             System.reset(RESET_USER_REASON::FIRMWARE_UPDATE_FAILED, RESET_NO_WAIT);
+// #endif
+//         }
+//         return true;
+//     }
+//     }
+//     return false;
+// }
+// } // end namespace cbox

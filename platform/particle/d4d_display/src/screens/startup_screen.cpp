@@ -20,6 +20,7 @@
 #include "d4d_display/d4d.hpp"
 
 #include "brewblox_particle.hpp"
+#include "cbox/CboxApplication.h"
 #include "d4d_display/brewblox_logo.h"
 #include "d4d_display/fonts.h"
 #include "d4d_display/screens/memory_info.h"
@@ -92,7 +93,7 @@ void StartupScreen::calibrateTouch()
 #if PLATFORM_ID != 3
 #endif
     if (D4D_TCH_GetCalibrationStatus()) {
-        brewbloxBox().storeUpdatedObject(2); // save system object
+        cbox::objects.store(2); // save system object
     }
 }
 

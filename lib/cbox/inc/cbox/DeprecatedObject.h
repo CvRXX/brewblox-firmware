@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -40,18 +40,20 @@ public:
     }
     virtual ~DeprecatedObject() = default;
 
-    virtual CboxError streamTo(DataOut& out) const override final
+    virtual CboxError read(Command& cmd) const override final
     {
-        out.put(originalId);
-        return CboxError::OK;
+        auto p = reinterpret_cast<const uint8_t*>(std::addressof(originalId));
+        Payload outPayload(objectId, typeId(), 0);
+        outPayload.content.assign(p, p + sizeof(obj_type_t));
+        return cmd.respond(outPayload);
     }
 
-    virtual CboxError streamFrom(DataIn&) override final
+    virtual CboxError readPersisted(Command& cmd) const override final
     {
-        return CboxError::OBJECT_NOT_WRITABLE;
+        return read(cmd);
     }
 
-    virtual CboxError streamPersistedTo(DataOut&) const override final
+    virtual CboxError write(Command& cmd) override final
     {
         return CboxError::OBJECT_NOT_WRITABLE;
     }

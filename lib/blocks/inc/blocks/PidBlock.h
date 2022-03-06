@@ -38,39 +38,28 @@ public:
     PidBlock();
     virtual ~PidBlock() = default;
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError write(cbox::Command& cmd) override final;
+    virtual cbox::update_t update(const cbox::update_t& now) override final;
+    virtual void* implements(const cbox::obj_type_t& iface) override final;
 
-    virtual cbox::CboxError write(cbox::CboxCommand& cmd) override final;
-
-    virtual cbox::CboxError
-    streamPersistedTo(cbox::DataOut& out) const override final;
-
-    virtual cbox::update_t
-    update(const cbox::update_t& now) override final;
-    virtual void*
-    implements(const cbox::obj_type_t& iface) override final;
-
-    Pid&
-    get()
+    Pid& get()
     {
         return pid;
     }
 
-    const Pid&
-    get() const
+    const Pid& get() const
     {
         return pid;
     }
 
-    const auto&
-    getInputLookup() const
+    const auto& getInputLookup() const
     {
         return input;
     }
 
-    const auto&
-    getOutputLookup() const
+    const auto& getOutputLookup() const
     {
         return output;
     }

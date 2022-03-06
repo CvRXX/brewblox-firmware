@@ -38,6 +38,7 @@
 #include "blocks/stringify.h"
 #include "cbox/ObjectFactory.h"
 #include "cbox/ScanningFactory.hpp"
+#include "cbox/hex_utility.h"
 #include "proto/proto_version.h"
 #include <memory>
 

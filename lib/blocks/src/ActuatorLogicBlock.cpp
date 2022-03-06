@@ -70,29 +70,6 @@ void AnalogCompare::write(blox_ActuatorLogic_AnalogCompare& dest, bool includeNo
     }
 }
 
-cbox::CboxError
-ActuatorLogicBlock::streamFrom(cbox::DataIn& dataIn)
-{
-    blox_ActuatorLogic_Block newData = blox_ActuatorLogic_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorLogic_Block_fields, blox_ActuatorLogic_Block_size);
-    if (result == cbox::CboxError::OK) {
-        target.setId(newData.targetId);
-        enabled = newData.enabled;
-        digitals.clear();
-        analogs.clear();
-
-        for (pb_size_t i = 0; i < newData.digital_count; i++) {
-            digitals.emplace_back(newData.digital[i]);
-        }
-        for (pb_size_t i = 0; i < newData.analog_count; i++) {
-            analogs.emplace_back(newData.analog[i]);
-        }
-
-        expression = std::string(newData.expression);
-    }
-    return result;
-}
-
 void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool includeNotPersisted) const
 {
     message.targetId = target.getId();
@@ -117,22 +94,55 @@ void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool in
     expression.copy(message.expression, 64);
 }
 
-cbox::CboxError
-ActuatorLogicBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError ActuatorLogicBlock::read(cbox::Command& cmd) const
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, true);
 
-    return streamProtoTo(out, &message, blox_ActuatorLogic_Block_fields, blox_ActuatorLogic_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_ActuatorLogic_Block_fields,
+                               blox_ActuatorLogic_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
 cbox::CboxError
-ActuatorLogicBlock::streamPersistedTo(cbox::DataOut& out) const
+ActuatorLogicBlock::readPersisted(cbox::Command& cmd) const
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, false);
 
-    return streamProtoTo(out, &message, blox_ActuatorLogic_Block_fields, blox_ActuatorLogic_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_ActuatorLogic_Block_fields,
+                               blox_ActuatorLogic_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError ActuatorLogicBlock::write(cbox::Command& cmd)
+{
+    blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_ActuatorLogic_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        target.setId(message.targetId);
+        enabled = message.enabled;
+        digitals.clear();
+        analogs.clear();
+
+        for (pb_size_t i = 0; i < message.digital_count; i++) {
+            digitals.emplace_back(message.digital[i]);
+        }
+        for (pb_size_t i = 0; i < message.analog_count; i++) {
+            analogs.emplace_back(message.analog[i]);
+        }
+
+        expression = std::string(message.expression);
+    }
+
+    return res;
 }
 
 cbox::update_t

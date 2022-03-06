@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of Controlbox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,15 +14,15 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "TouchSettingsBlock.h"
 #include "d4d_display/d4d.hpp"
+#include "proto/TouchSettings.pb.h"
 #include <cstring>
 
-cbox::CboxError
-TouchSettingsBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError TouchSettingsBlock::read(cbox::Command& cmd) const
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
 
@@ -34,15 +34,25 @@ TouchSettingsBlock::streamTo(cbox::DataOut& out) const
     message.xBitsPerPixelX16 = calib.TouchScreenXBitsPerPixelx16;
     message.yBitsPerPixelX16 = calib.TouchScreenYBitsPerPixelx16;
 
-    return streamProtoTo(out, &message, blox_TouchSettings_Block_fields, blox_TouchSettings_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_TouchSettings_Block_fields,
+                               blox_TouchSettings_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
-cbox::CboxError
-TouchSettingsBlock::streamFrom(cbox::DataIn& in)
+cbox::CboxError TouchSettingsBlock::readPersisted(cbox::Command& cmd) const
+{
+    return read(cmd);
+}
+
+cbox::CboxError TouchSettingsBlock::write(cbox::Command& cmd)
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_TouchSettings_Block_fields, blox_TouchSettings_Block_size);
-    if (result == cbox::CboxError::OK) {
+    auto res = readProtoFromCommand(cmd, &message, blox_TouchSettings_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
         auto calib = D4D_GetTouchScreenCalibration();
         if (message.calibrated == blox_TouchSettings_Calibrated_CALIBRATED_NEW || calib.ScreenCalibrated == 0) {
             calib.ScreenCalibrated = 1;
@@ -53,11 +63,6 @@ TouchSettingsBlock::streamFrom(cbox::DataIn& in)
             D4D_TCH_SetCalibration(calib);
         }
     }
-    return result;
-};
 
-cbox::CboxError
-TouchSettingsBlock::streamPersistedTo(cbox::DataOut& out) const
-{
-    return streamTo(out);
+    return res;
 }

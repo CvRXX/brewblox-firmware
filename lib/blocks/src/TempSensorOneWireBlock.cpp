@@ -1,3 +1,22 @@
+/*
+ * Copyright 2022 BrewPi B.V.
+ *
+ * This file is part of Brewblox
+ *
+ * Brewblox is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "blocks/TempSensorOneWireBlock.h"
 #include "blocks/FieldTags.h"
 #include "proto/TempSensorOneWire.pb.h"
@@ -20,22 +39,8 @@ TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWi
 {
 }
 
-cbox::CboxError TempSensorOneWireBlock::streamFrom(cbox::DataIn& in)
-{
-    blox_TempSensorOneWire_Block newData = blox_TempSensorOneWire_Block_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_TempSensorOneWire_Block_fields, blox_TempSensorOneWire_Block_size);
-    /* if no errors occur, write new settings to wrapped object */
-    if (res == cbox::CboxError::OK) {
-        if (newData.oneWireBusId) {
-            owBus.setId(newData.oneWireBusId);
-        }
-        sensor.address(OneWireAddress(newData.address));
-        sensor.setCalibration(cnl::wrap<temp_t>(newData.offset));
-    }
-    return res;
-}
-
-cbox::CboxError TempSensorOneWireBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError
+TempSensorOneWireBlock::read(cbox::Command& cmd) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     FieldTags stripped;
@@ -51,16 +56,47 @@ cbox::CboxError TempSensorOneWireBlock::streamTo(cbox::DataOut& out) const
     message.offset = cnl::unwrap(sensor.getCalibration());
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-    return streamProtoTo(out, &message, blox_TempSensorOneWire_Block_fields, blox_TempSensorOneWire_Block_size);
+
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_TempSensorOneWire_Block_fields,
+                               blox_TempSensorOneWire_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
-cbox::CboxError TempSensorOneWireBlock::streamPersistedTo(cbox::DataOut& out) const
+cbox::CboxError
+TempSensorOneWireBlock::readPersisted(cbox::Command& cmd) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
+
     message.oneWireBusId = owBus.getId();
     message.address = sensor.address();
     message.offset = cnl::unwrap(sensor.getCalibration());
-    return streamProtoTo(out, &message, blox_TempSensorOneWire_Block_fields, blox_TempSensorOneWire_Block_size);
+
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_TempSensorOneWire_Block_fields,
+                               blox_TempSensorOneWire_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+TempSensorOneWireBlock::write(cbox::Command& cmd)
+{
+    blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_TempSensorOneWire_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        if (message.oneWireBusId) {
+            owBus.setId(message.oneWireBusId);
+        }
+        sensor.address(OneWireAddress(message.address));
+        sensor.setCalibration(cnl::wrap<temp_t>(message.offset));
+    }
+
+    return res;
 }
 
 cbox::update_t TempSensorOneWireBlock::update(const cbox::update_t& now)

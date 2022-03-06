@@ -24,7 +24,6 @@
 #include "control/ActuatorDigitalConstrained.h"
 #include "control/DS2408.h"
 #include "control/MotorValve.h"
-#include "proto/MotorValve.pb.h"
 
 class MotorValveBlock : public Block<brewblox_BlockType_MotorValve> {
 private:
@@ -40,14 +39,10 @@ public:
     }
     virtual ~MotorValveBlock() = default;
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& dataIn) override final;
-
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final;
-
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError write(cbox::Command& cmd) override final;
     virtual cbox::update_t update(const cbox::update_t& now) override final;
-
     virtual void* implements(const cbox::obj_type_t& iface) override final;
 
     ActuatorDigitalConstrained& getConstrained()
@@ -56,5 +51,5 @@ public:
     }
 
 private:
-    void writePersistedStateToMessage(blox_MotorValve_Block& message) const;
+    void addPersistedStateToMessage(blox_MotorValve_Block& message) const;
 };

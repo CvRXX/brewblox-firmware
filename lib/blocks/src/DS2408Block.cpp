@@ -20,23 +20,7 @@
 #include "blocks/DS2408Block.h"
 
 cbox::CboxError
-DS2408Block::streamFrom(cbox::DataIn& in)
-{
-    blox_DS2408_Block newData = blox_DS2408_Block_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_DS2408_Block_fields, blox_DS2408_Block_size);
-    /* if no errors occur, write new settings to wrapped object */
-    if (res == cbox::CboxError::OK) {
-        if (newData.oneWireBusId) {
-            owBus.setId(newData.oneWireBusId);
-        }
-        device.address(OneWireAddress(newData.address));
-        connectMode = newData.connectMode;
-    }
-    return res;
-}
-
-cbox::CboxError
-DS2408Block::streamTo(cbox::DataOut& out) const
+DS2408Block::read(cbox::Command& cmd) const
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
 
@@ -60,18 +44,46 @@ DS2408Block::streamTo(cbox::DataOut& out) const
         message.channels[1].id = blox_DS2408_ChannelId_DS2408_VALVE_B;
     }
 
-    return streamProtoTo(out, &message, blox_DS2408_Block_fields, blox_DS2408_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_DS2408_Block_fields,
+                               blox_DS2408_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
 cbox::CboxError
-DS2408Block::streamPersistedTo(cbox::DataOut& out) const
+DS2408Block::readPersisted(cbox::Command& cmd) const
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
 
     message.oneWireBusId = owBus.getId();
     message.address = device.address();
     message.connectMode = connectMode;
-    return streamProtoTo(out, &message, blox_DS2408_Block_fields, blox_DS2408_Block_size);
+
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_DS2408_Block_fields,
+                               blox_DS2408_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+DS2408Block::write(cbox::Command& cmd)
+{
+    blox_DS2408_Block message = blox_DS2408_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_DS2408_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        if (message.oneWireBusId) {
+            owBus.setId(message.oneWireBusId);
+        }
+        device.address(OneWireAddress(message.address));
+        connectMode = message.connectMode;
+    }
+
+    return res;
 }
 
 cbox::update_t

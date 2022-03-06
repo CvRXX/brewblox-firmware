@@ -16,33 +16,13 @@ public:
     BalancerBlock() = default;
     virtual ~BalancerBlock() = default;
 
-    virtual cbox::CboxError
-    streamFrom(cbox::DataIn&) override final
-    {
-        return cbox::CboxError::OK; // no settings to write (actuators register themselves)
-    }
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError write(cbox::Command& cmd) override final;
+    virtual cbox::update_t update(const cbox::update_t& now) override final;
+    virtual void* implements(const cbox::obj_type_t& iface) override final;
 
-    virtual cbox::CboxError
-    streamTo(cbox::DataOut& out) const override final;
-
-    virtual cbox::CboxError
-    streamPersistedTo(cbox::DataOut&) const override final
-    {
-        return cbox::CboxError::OK; // no settings to persist
-    }
-
-    virtual cbox::update_t
-    update(const cbox::update_t& now) override final
-    {
-        balancer.update();
-        return now + 1000;
-    }
-
-    virtual void*
-    implements(const cbox::obj_type_t& iface) override final;
-
-    Balancer_t&
-    getBalancer()
+    Balancer_t& getBalancer()
     {
         return balancer;
     }

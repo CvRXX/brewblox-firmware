@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 BrewPi B.V.
  *
- * This file is part of Controlbox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "blocks/SysInfoBlock.h"
@@ -28,7 +28,7 @@
 #endif
 
 cbox::CboxError
-SysInfoBlock::streamTo(cbox::DataOut& out) const
+SysInfoBlock::read(cbox::Command& cmd) const
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
@@ -59,22 +59,29 @@ SysInfoBlock::streamTo(cbox::DataOut& out) const
 
     command = Command::NONE;
 
-    return streamProtoTo(out, &message, blox_SysInfo_Block_fields, blox_SysInfo_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_SysInfo_Block_fields,
+                               blox_SysInfo_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
 cbox::CboxError
-SysInfoBlock::streamFrom(cbox::DataIn& in)
+SysInfoBlock::readPersisted(cbox::Command& cmd) const
+{
+    return cbox::CboxError::PERSISTING_NOT_NEEDED;
+}
+
+cbox::CboxError
+SysInfoBlock::write(cbox::Command& cmd)
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
-    auto res = streamProtoFrom(in, &message, blox_SysInfo_Block_fields, blox_SysInfo_Block_size);
+    auto res = readProtoFromCommand(cmd, &message, blox_SysInfo_Block_fields);
+
     if (res == cbox::CboxError::OK) {
         command = Command(message.command);
     }
-    return res;
-}
 
-cbox::CboxError
-SysInfoBlock::streamPersistedTo(cbox::DataOut&) const
-{
-    return cbox::CboxError::PERSISTING_NOT_NEEDED;
+    return res;
 }

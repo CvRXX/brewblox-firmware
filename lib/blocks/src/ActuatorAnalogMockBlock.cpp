@@ -4,24 +4,7 @@
 #include "control/ActuatorAnalogConstrained.h"
 #include "proto/ActuatorAnalogMock.pb.h"
 
-cbox::CboxError
-ActuatorAnalogMockBlock::streamFrom(cbox::DataIn& dataIn)
-{
-    blox_ActuatorAnalogMock_Block newData = blox_ActuatorAnalogMock_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorAnalogMock_Block_fields, blox_ActuatorAnalogMock_Block_size);
-    if (result == cbox::CboxError::OK) {
-        actuator.minSetting(cnl::wrap<ActuatorAnalog::value_t>(newData.minSetting));
-        actuator.maxSetting(cnl::wrap<ActuatorAnalog::value_t>(newData.maxSetting));
-        actuator.minValue(cnl::wrap<ActuatorAnalog::value_t>(newData.minValue));
-        actuator.maxValue(cnl::wrap<ActuatorAnalog::value_t>(newData.maxValue));
-        setAnalogConstraints(newData.constrainedBy, constrained);
-        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(newData.desiredSetting));
-    }
-    return result;
-}
-
-cbox::CboxError
-ActuatorAnalogMockBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError ActuatorAnalogMockBlock::read(cbox::Command& cmd) const
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
     FieldTags stripped;
@@ -45,14 +28,18 @@ ActuatorAnalogMockBlock::streamTo(cbox::DataOut& out) const
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
-    return streamProtoTo(out, &message, blox_ActuatorAnalogMock_Block_fields, blox_ActuatorAnalogMock_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_ActuatorAnalogMock_Block_fields,
+                               blox_ActuatorAnalogMock_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
-cbox::CboxError
-ActuatorAnalogMockBlock::streamPersistedTo(cbox::DataOut& out) const
+cbox::CboxError ActuatorAnalogMockBlock::readPersisted(cbox::Command& cmd) const
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
+
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     message.minSetting = cnl::unwrap(actuator.minSetting());
     message.maxSetting = cnl::unwrap(actuator.maxSetting());
@@ -61,7 +48,29 @@ ActuatorAnalogMockBlock::streamPersistedTo(cbox::DataOut& out) const
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return streamProtoTo(out, &message, blox_ActuatorAnalogMock_Block_fields, blox_ActuatorAnalogMock_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_ActuatorAnalogMock_Block_fields,
+                               blox_ActuatorAnalogMock_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError ActuatorAnalogMockBlock::write(cbox::Command& cmd)
+{
+    blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_ActuatorAnalogMock_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        actuator.minSetting(cnl::wrap<ActuatorAnalog::value_t>(message.minSetting));
+        actuator.maxSetting(cnl::wrap<ActuatorAnalog::value_t>(message.maxSetting));
+        actuator.minValue(cnl::wrap<ActuatorAnalog::value_t>(message.minValue));
+        actuator.maxValue(cnl::wrap<ActuatorAnalog::value_t>(message.maxValue));
+        setAnalogConstraints(message.constrainedBy, constrained);
+        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+    }
+
+    return res;
 }
 
 void* ActuatorAnalogMockBlock::implements(const cbox::obj_type_t& iface)

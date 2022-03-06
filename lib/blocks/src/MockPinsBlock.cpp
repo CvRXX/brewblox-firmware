@@ -14,17 +14,18 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "blocks/MockPinsBlock.h"
 #include "proto/MockPins.pb.h"
 
 cbox::CboxError
-MockPinsBlock::streamTo(cbox::DataOut& out) const
+MockPinsBlock::read(cbox::Command& cmd) const
 {
     blox_MockPins_Block message = blox_MockPins_Block_init_zero;
-    // looks a bit silly, but this way it is implemented the same as teh Spark2 and Spark3 blocks
+
+    // looks a bit silly, but this way it is implemented the same as the Spark2 and Spark3 blocks
     message.channels_count = 8;
     message.channels[0].id = 1;
     message.channels[1].id = 2;
@@ -35,7 +36,24 @@ MockPinsBlock::streamTo(cbox::DataOut& out) const
     message.channels[6].id = 7;
     message.channels[7].id = 8;
 
-    return streamProtoTo(out, &message, blox_MockPins_Block_fields, blox_MockPins_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_MockPins_Block_fields,
+                               blox_MockPins_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError
+MockPinsBlock::readPersisted(cbox::Command& cmd) const
+{
+    return writeEmptyToCommand(cmd, objectId, staticTypeId());
+}
+
+cbox::CboxError
+MockPinsBlock::write(cbox::Command& cmd)
+{
+    return cbox::CboxError::OK;
 }
 
 void* MockPinsBlock::implements(const cbox::obj_type_t& iface)

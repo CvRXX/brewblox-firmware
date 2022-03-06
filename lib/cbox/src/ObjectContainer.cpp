@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox
  *
- * This file is part of ControlBox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "cbox/ObjectContainer.h"
 #include "cbox/CboxApplication.h"
+#include "cbox/ObjectStream.h"
 #include <algorithm>
 
 namespace cbox {
@@ -68,7 +69,7 @@ const std::weak_ptr<Object> ObjectContainer::fetch(obj_id_t id)
 }
 
 // create a new object with specific id, optionally replacing an existing object
-obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups, obj_id_t id, bool replace)
+obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool replace)
 {
     obj_id_t newId;
     Iterator position;
@@ -92,11 +93,14 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_g
         position = p.first;
     }
 
+    // Make obj itself aware of its id
+    obj->objectId = newId;
+
     if (replace) {
-        *position = ContainedObject(newId, active_in_groups, std::move(obj));
+        *position = ContainedObject(newId, std::move(obj));
     } else {
         // insert new entry in container in sorted position
-        contained.emplace(position, newId, active_in_groups, std::move(obj));
+        contained.emplace(position, newId, std::move(obj));
     }
     return newId;
 }
@@ -110,22 +114,6 @@ CboxError ObjectContainer::remove(obj_id_t id)
     auto p = findPosition(id);
     contained.erase(p.first, p.second); // doesn't remove anything if no objects found (first == second)
     return p.first == p.second ? CboxError::INVALID_OBJECT_ID : CboxError::OK;
-}
-
-// replace an object with an inactive object by const iterator
-void ObjectContainer::deactivate(const CIterator& cit)
-{
-    auto it = contained.erase(cit, cit); // convert to non-const iterator
-    it->deactivate();
-}
-
-// replace an object with an inactive object by id
-void ObjectContainer::deactivate(obj_id_t id)
-{
-    auto p = findPosition(id);
-    if (p.first != p.second) {
-        p.first->deactivate();
-    }
 }
 
 // remove all non-system objects from the container
@@ -163,7 +151,7 @@ CboxError ObjectContainer::store(const obj_id_t& id)
     }
 
     auto storeContained = [&cobj](DataOut& out) -> CboxError {
-        return cobj->streamPersistedTo(out);
+        return saveToStream(out, cobj->object());
     };
     return getStorage().storeObject(id, storeContained);
 }
@@ -176,24 +164,9 @@ CboxError ObjectContainer::reloadStored(const obj_id_t& id)
     }
 
     bool handlerCalled = false;
-    auto streamHandler = [&cobj, &handlerCalled](RegionDataIn& objInStorage) -> CboxError {
+    auto streamHandler = [&cobj, &handlerCalled](RegionDataIn& in) -> CboxError {
         handlerCalled = true;
-        RegionDataIn objWithoutCrc(objInStorage, objInStorage.available() - 1);
-
-        obj_type_t typeId;
-        uint8_t groups; // discarded
-
-        if (!objWithoutCrc.get(groups)) {
-            return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
-        }
-        if (!objWithoutCrc.get(typeId)) {
-            return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
-        }
-        if (typeId != cobj->object()->typeId()) {
-            return CboxError::INVALID_OBJECT_TYPE;
-        }
-
-        return cobj->object()->streamFrom(objWithoutCrc);
+        return loadFromStream(in, cobj->object());
     };
     CboxError status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
     if (!handlerCalled) {

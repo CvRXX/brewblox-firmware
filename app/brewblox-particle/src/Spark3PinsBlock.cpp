@@ -48,27 +48,7 @@ pin_t Spark3PinsBlock::channelToPin(uint8_t channel) const
     return -1;
 }
 
-cbox::CboxError
-Spark3PinsBlock::streamFrom(cbox::DataIn& in)
-{
-    blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &message, blox_Spark3Pins_Block_fields, blox_Spark3Pins_Block_size);
-
-    if (result == cbox::CboxError::OK) {
-        // io pins are not writable through this block. They are configured by creating Digital Actuators
-        digitalWriteFast(PIN_ALARM, message.soundAlarm);
-#if defined(PIN_5V_ENABLE)
-        digitalWriteFast(PIN_5V_ENABLE, message.enableIoSupply5V);
-#endif
-#if defined(PIN_12V_ENABLE)
-        digitalWriteFast(PIN_12V_ENABLE, message.enableIoSupply12V);
-#endif
-    }
-    return result;
-}
-
-cbox::CboxError
-Spark3PinsBlock::streamTo(cbox::DataOut& out) const
+cbox::CboxError Spark3PinsBlock::read(cbox::Command& cmd) const
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
@@ -94,11 +74,16 @@ Spark3PinsBlock::streamTo(cbox::DataOut& out) const
     message.voltage5 = 5 * 410;
     message.voltage12 = 12 * 149;
 #endif
-    return streamProtoTo(out, &message, blox_Spark3Pins_Block_fields, blox_Spark3Pins_Block_size);
+
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_Spark3Pins_Block_fields,
+                               blox_Spark3Pins_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
-cbox::CboxError
-Spark3PinsBlock::streamPersistedTo(cbox::DataOut& out) const
+cbox::CboxError Spark3PinsBlock::readPersisted(cbox::Command& cmd) const
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
@@ -110,7 +95,31 @@ Spark3PinsBlock::streamPersistedTo(cbox::DataOut& out) const
     message.enableIoSupply12V = HAL_GPIO_Read(PIN_12V_ENABLE);
 #endif
 
-    return streamProtoTo(out, &message, blox_Spark3Pins_Block_fields, blox_Spark3Pins_Block_size);
+    return writeProtoToCommand(cmd,
+                               &message,
+                               blox_Spark3Pins_Block_fields,
+                               blox_Spark3Pins_Block_size,
+                               objectId,
+                               staticTypeId());
+}
+
+cbox::CboxError Spark3PinsBlock::write(cbox::Command& cmd)
+{
+    blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_Spark3Pins_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        // io pins are not writable through this block. They are configured by creating Digital Actuators
+        digitalWriteFast(PIN_ALARM, message.soundAlarm);
+#if defined(PIN_5V_ENABLE)
+        digitalWriteFast(PIN_5V_ENABLE, message.enableIoSupply5V);
+#endif
+#if defined(PIN_12V_ENABLE)
+        digitalWriteFast(PIN_12V_ENABLE, message.enableIoSupply12V);
+#endif
+    }
+
+    return res;
 }
 
 void* Spark3PinsBlock::implements(const cbox::obj_type_t& iface)

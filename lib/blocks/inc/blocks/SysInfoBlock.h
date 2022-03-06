@@ -30,11 +30,10 @@ public:
         : device_id_func(device_id_func_)
     {
     }
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final;
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError write(cbox::Command& cmd) override final;
 
     virtual cbox::update_t update(const cbox::update_t& now) override final
     {

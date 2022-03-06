@@ -20,17 +20,13 @@
 #pragma once
 
 #include "blocks/Block.h"
-#include "cbox/DataStream.h"
-#include "proto/DisplaySettings.pb.h"
 
 // provides a protobuf interface to the read only system info
 class DisplaySettingsBlock : public cbox::ObjectBase<brewblox_BlockType_DisplaySettings> {
 public:
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
-
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final;
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final;
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError write(cbox::Command& cmd) override final;
 
     virtual cbox::update_t update(const cbox::update_t& now) override final
     {

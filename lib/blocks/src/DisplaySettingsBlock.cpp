@@ -18,30 +18,37 @@
  */
 
 #include "blocks/DisplaySettingsBlock.h"
+#include "proto/DisplaySettings.pb.h"
 
 cbox::CboxError
-DisplaySettingsBlock::streamTo(cbox::DataOut& out) const
+DisplaySettingsBlock::read(cbox::Command& cmd) const
 {
-    return streamProtoTo(out, &m_settings, blox_DisplaySettings_Block_fields, blox_DisplaySettings_Block_size);
+    return writeProtoToCommand(cmd,
+                               &m_settings,
+                               blox_DisplaySettings_Block_fields,
+                               blox_DisplaySettings_Block_size,
+                               objectId,
+                               staticTypeId());
 }
 
 cbox::CboxError
-DisplaySettingsBlock::streamFrom(cbox::DataIn& in)
+DisplaySettingsBlock::readPersisted(cbox::Command& cmd) const
 {
-    blox_DisplaySettings_Block msg = blox_DisplaySettings_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(in, &msg, blox_DisplaySettings_Block_fields, blox_DisplaySettings_Block_size);
+    return read(cmd);
+}
 
-    if (result == cbox::CboxError::OK) {
-        m_settings = msg;
+cbox::CboxError
+DisplaySettingsBlock::write(cbox::Command& cmd)
+{
+    blox_DisplaySettings_Block message = blox_DisplaySettings_Block_init_zero;
+    auto res = readProtoFromCommand(cmd, &message, blox_DisplaySettings_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        m_settings = message;
         m_newSettingsReceived = true;
     }
-    return result;
-}
 
-cbox::CboxError
-DisplaySettingsBlock::streamPersistedTo(cbox::DataOut& out) const
-{
-    return streamTo(out);
+    return res;
 }
 
 // use global static settings, because we only have one display
