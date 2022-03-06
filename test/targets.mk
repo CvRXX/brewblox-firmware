@@ -64,21 +64,21 @@ $(BUILD_DIR):
 $(BUILD_DIR)/%.o : $(ROOT_DIR)/%.c
 	@echo Building file: $<
 	@$(MKDIR) $(dir $@)
-	@$(CCC) $(CFLAGS) $(CCFLAGS) -c -o $@ $<
+	@$(CCC) $(CFLAGS) -c -o $@ $<
 
 # CPP compiler to build .o from .cpp in $(BUILD_DIR)
 # Note: Calls standard $(CC) - gcc will invoke g++ as appropriate
 $(BUILD_DIR)/%.o : $(ROOT_DIR)/%.cpp
 	@echo Building file: $<
 	@$(MKDIR) $(dir $@)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $<
+	@$(CXX) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 # CPP compiler to build .pb.o from .pb.cc in $(BUILD_DIR)
 # Note: Calls standard $(CC) - gcc will invoke g++ as appropriate
 $(BUILD_DIR)/%.pb.o : $(ROOT_DIR)/%.pb.cc
 	@echo Building file: $<
 	@$(MKDIR) $(dir $@)
-	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) -s -c -o $@ $<
+	@$(CCC) $(CFLAGS) -s -c -o $@ $<
 
 # Other Targets
 clean:
