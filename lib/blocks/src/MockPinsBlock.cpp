@@ -51,7 +51,7 @@ MockPinsBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-MockPinsBlock::write(cbox::Command& cmd)
+MockPinsBlock::write(cbox::Command&)
 {
     return cbox::CboxError::OK;
 }

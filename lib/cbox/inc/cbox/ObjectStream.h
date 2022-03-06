@@ -38,7 +38,7 @@ public:
 
     virtual ~DataInCommand() = default;
 
-    virtual CboxError respond(const Payload& payload) override final
+    virtual CboxError respond(const Payload&) override final
     {
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }

@@ -40,7 +40,7 @@ namespace cbox {
 
 update_t lastUpdateTime = 0;
 
-CboxError noop(Command& cmd)
+CboxError noop(Command&)
 {
     // TODO(Bob) send welcome message
     return CboxError::OK;
@@ -57,8 +57,8 @@ CboxError readObject(Command& cmd)
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
     }
-
-    return cobj->read(cmd);
+    auto status = cobj->read(cmd);
+    return status;
 }
 
 CboxError writeObject(Command& cmd)
@@ -204,7 +204,7 @@ CboxError listStoredObjects(Command& cmd)
     return status;
 }
 
-CboxError clearObjects(Command& cmd)
+CboxError clearObjects(Command&)
 {
     // remove user objects from storage
     auto cit = objects.userbegin();

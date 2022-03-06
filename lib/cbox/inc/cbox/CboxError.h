@@ -19,6 +19,7 @@
 
 #pragma once
 #include <cstdint>
+#include <string>
 
 namespace cbox {
 
@@ -73,3 +74,34 @@ asUint8(CboxError e)
 }
 
 } // end namespace cbox
+
+// CATCH_REGISTER_ENUM(
+//     cbox::CboxError,
+//     cbox::CboxError::OK,
+//     cbox::CboxError::UNKNOWN_ERROR,
+//     cbox::CboxError::INSUFFICIENT_HEAP,
+//     cbox::CboxError::STREAM_ERROR_UNSPECIFIED,
+//     cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR,
+//     cbox::CboxError::INPUT_STREAM_READ_ERROR,
+//     cbox::CboxError::INPUT_STREAM_DECODING_ERROR,
+//     cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR,
+//     cbox::CboxError::INSUFFICIENT_PERSISTENT_STORAGE,
+//     cbox::CboxError::PERSISTED_OBJECT_NOT_FOUND,
+//     cbox::CboxError::INVALID_PERSISTED_BLOCK_TYPE,
+//     cbox::CboxError::COULD_NOT_READ_PERSISTED_BLOCK_SIZE,
+//     cbox::CboxError::PERSISTED_BLOCK_STREAM_ERROR,
+//     cbox::CboxError::PERSISTED_STORAGE_WRITE_ERROR,
+//     cbox::CboxError::CRC_ERROR_IN_STORED_OBJECT,
+//     cbox::CboxError::PERSISTING_NOT_NEEDED,
+//     cbox::CboxError::OBJECT_NOT_WRITABLE,
+//     cbox::CboxError::OBJECT_NOT_READABLE,
+//     cbox::CboxError::OBJECT_NOT_CREATABLE,
+//     cbox::CboxError::OBJECT_NOT_DELETABLE,
+//     cbox::CboxError::INVALID_COMMAND,
+//     cbox::CboxError::INVALID_OBJECT_ID,
+//     cbox::CboxError::INVALID_OBJECT_TYPE,
+//     cbox::CboxError::INVALID_OBJECT_GROUPS,
+//     cbox::CboxError::CRC_ERROR_IN_COMMAND,
+//     cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED,
+//     cbox::CboxError::INVALID_OBJECT_PTR,
+//     cbox::CboxError::PERSISTING_TO_INACTIVE_OBJECT)

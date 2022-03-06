@@ -31,7 +31,7 @@
 #include "proto/TempSensorMock_test.pb.h"
 #include <sstream>
 
-SCENARIO("Test", "[maklogicblock]")
+SCENARIO("Test", "[makelogicblock]")
 {
     BrewbloxTestBox testBox;
     using commands = cbox::Box::CommandID;

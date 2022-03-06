@@ -20,6 +20,7 @@
 #pragma once
 
 #include "blocks/Block.h"
+#include "proto/DisplaySettings.pb.h"
 
 // provides a protobuf interface to the read only system info
 class DisplaySettingsBlock : public cbox::ObjectBase<brewblox_BlockType_DisplaySettings> {

@@ -20,7 +20,6 @@
 #include "blocks/MotorValveBlock.h"
 #include "blocks/ConstraintsProto.h"
 #include "blocks/FieldTags.h"
-#include "proto/MotorValve.pb.h"
 
 void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message) const
 {

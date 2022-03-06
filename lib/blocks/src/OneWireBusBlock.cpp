@@ -95,7 +95,7 @@ OneWireBusBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-OneWireBusBlock::readPersisted(cbox::Command& cmd) const
+OneWireBusBlock::readPersisted(cbox::Command&) const
 {
     return cbox::CboxError::PERSISTING_NOT_NEEDED;
 }

@@ -53,7 +53,7 @@ public:
         return read(cmd);
     }
 
-    virtual CboxError write(Command& cmd) override final
+    virtual CboxError write(Command&) override final
     {
         return CboxError::OBJECT_NOT_WRITABLE;
     }

@@ -24,6 +24,7 @@
 #include "control/ActuatorDigitalConstrained.h"
 #include "control/DS2408.h"
 #include "control/MotorValve.h"
+#include "proto/MotorValve.pb.h"
 
 class MotorValveBlock : public Block<brewblox_BlockType_MotorValve> {
 private:

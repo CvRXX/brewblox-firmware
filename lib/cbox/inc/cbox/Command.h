@@ -90,7 +90,7 @@ public:
 
     virtual ~StubCommand() = default;
 
-    virtual CboxError respond(const Payload& payload)
+    virtual CboxError respond(const Payload&) override final
     {
         return CboxError::OK;
     }

@@ -33,8 +33,8 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 {
     test::getStorage().clear();
     objects.init({
-        ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-        ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(1, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
     });
     objects.setObjectsStartId(obj_id_t(100));
 
@@ -120,13 +120,6 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                     auto ptr5 = nameablePtr.lock();
                     CHECK(ptr5);
                 }
-            }
-
-            THEN("When an object is deactivated, the CboxPtr cannot be locked")
-            {
-                objects.deactivate(obj_id_t(100));
-                auto ptr4 = nameablePtr.lock();
-                CHECK(!ptr4);
             }
         }
 

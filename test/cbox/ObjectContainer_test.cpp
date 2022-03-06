@@ -23,6 +23,7 @@
 #include <cstdio>
 
 #include "CboxApplicationExtended.h"
+#include "TestHelpers.h"
 #include "TestMatchers.hpp"
 #include "TestObjects.h"
 #include "cbox/DataStreamConverters.h"
@@ -70,19 +71,19 @@ SCENARIO("A container to hold objects")
 
         THEN("An object can be added with a specific id")
         {
-            obj_id_t id4 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, obj_id_t(123));
+            obj_id_t id4 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), obj_id_t(123));
             CHECK(id4 == 123);
             CHECK(container.fetch(id4).lock());
 
             AND_WHEN("the id already exist, adding fails")
             {
-                obj_id_t id5 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, obj_id_t(123));
+                obj_id_t id5 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), obj_id_t(123));
                 CHECK(id5 == obj_id_t::invalid());
             }
 
             AND_WHEN("replace is used instead of add, it succeeds")
             {
-                obj_id_t id6 = container.add(std::shared_ptr<Object>(new LongIntObject(0x44444444)), 0xFF, obj_id_t(123), true);
+                obj_id_t id6 = container.add(std::shared_ptr<Object>(new LongIntObject(0x44444444)), obj_id_t(123), true);
                 CHECK(id6 == obj_id_t(123));
                 auto obj6 = container.fetch(id6).lock();
                 REQUIRE(obj6);
@@ -107,19 +108,14 @@ SCENARIO("A container to hold objects")
 
         THEN("All contained objects can be streamed out using the container's const_iterators")
         {
-            char buf[1000] = {0};
-            BufferDataOut outBuffer(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
-            EncodedDataOut out(outBuffer);
+            TestCommand cmd(CboxOpcode::NONE);
             CboxError res = CboxError::OK;
 
             for (auto it = container.cbegin(); it != container.cend() && res == CboxError::OK; it++) {
-                out.writeListSeparator();
-                res = it->streamTo(out);
+                res = it->read(cmd);
             }
 
             CHECK(res == CboxError::OK);
-
-            INFO(std::string(buf));
         }
     }
 
@@ -145,18 +141,19 @@ SCENARIO("A container to hold objects")
 
     WHEN("Objects with an invalid object pointer are added")
     {
-        container.add(std::shared_ptr<Object>(), 0xFF, 20);
+        container.add(std::shared_ptr<Object>(), 20);
 
         BlackholeDataOut out;
         EmptyDataIn in;
+        TestCommand cmd(CboxOpcode::NONE);
         THEN("They generate the INVALID_OBJECT_PTR error on streaming functions")
         {
             auto cobj = container.fetchContained(20);
-            auto res = cobj->streamFrom(in);
+            auto res = cobj->read(cmd);
             CHECK(res == CboxError::INVALID_OBJECT_PTR);
-            res = cobj->streamTo(out);
+            res = cobj->readPersisted(cmd);
             CHECK(res == CboxError::INVALID_OBJECT_PTR);
-            res = cobj->streamPersistedTo(out);
+            res = cobj->write(cmd);
             CHECK(res == CboxError::INVALID_OBJECT_PTR);
         }
 
@@ -179,8 +176,8 @@ SCENARIO("A container to hold objects")
 SCENARIO("A container with system objects")
 {
     test::getStorage().clear();
-    ObjectContainer container{ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-                              ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x22222222)))};
+    ObjectContainer container{ContainedObject(1, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                              ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x22222222)))};
 
     container.setObjectsStartId(3); // this locks the system objects
 
@@ -189,25 +186,22 @@ SCENARIO("A container with system objects")
 
     THEN("The system objects can be read like normal objects")
     {
-        uint8_t buf[100] = {0};
-        BufferDataOut out(buf, sizeof(buf));
-        EncodedDataOut hexOut(out);
+        TestCommand cmd(CboxOpcode::READ_OBJECT);
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
-        spobj->streamTo(hexOut);
+        spobj->read(cmd);
         uint8_t hexRepresentation[] = "11111111";
-        CHECK_THAT(buf, (equalsArray<uint8_t, sizeof(hexRepresentation)>(hexRepresentation)));
+        CHECK_THAT(cmd.responses.at(0).content.data(), (equalsArray<uint8_t, sizeof(hexRepresentation)>(hexRepresentation)));
     }
 
     THEN("The system objects can be read written")
     {
-        uint8_t buf[] = "44332211"; // LSB first
-        BufferDataIn in(buf, sizeof(buf));
-        HexTextToBinaryIn hexIn(in);
+        TestCommand cmd(CboxOpcode::WRITE_OBJECT, 1, 1000);
+        cmd.requestPayload.value().content = {0x44, 0x33, 0x22, 0x11}; // LSB first
 
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
-        spobj->streamFrom(hexIn);
+        spobj->write(cmd);
         CHECK(*static_cast<LongIntObject*>(&(*spobj)) == LongIntObject(0x11223344));
     }
 
@@ -227,7 +221,7 @@ SCENARIO("A container with system objects")
     THEN("No objects can be added in the system ID range")
     {
         container.setObjectsStartId(100);
-        CHECK(obj_id_t::invalid() == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 99, true));
+        CHECK(obj_id_t::invalid() == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 99, true));
     }
 
     THEN("Objects added after construction can also be marked system by moving the start ID")

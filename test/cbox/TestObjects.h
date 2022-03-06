@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cbox/CboxPtr.h"
+#include "cbox/DataStream.h"
 #include "cbox/ObjectBase.h"
 #include <vector>
 
@@ -47,10 +48,12 @@ public:
         : obj(0)
     {
     }
+
     LongIntObject(uint32_t rhs)
         : obj(std::move(rhs))
     {
     }
+
     virtual ~LongIntObject() = default;
 
     bool operator==(const LongIntObject& rhs) const
@@ -58,27 +61,34 @@ public:
         return obj == rhs.obj;
     }
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final
     {
-        if (out.put(obj)) {
-            return cbox::CboxError::OK;
-        }
-        return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(uint32_t));
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+        out.put(obj);
+        return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
     {
+        return read(cmd);
+    }
+
+    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    {
+        if (!cmd.requestPayload.has_value()) {
+            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        }
+
         uint32_t newValue = 0;
+        auto& payload = cmd.requestPayload.value();
+        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
         if (in.get(newValue)) {
             obj = newValue;
             return cbox::CboxError::OK;
         }
         return cbox::CboxError::INPUT_STREAM_READ_ERROR;
-    }
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
-    {
-        return streamTo(out);
     }
 
     virtual cbox::update_t update(const cbox::update_t& now) override
@@ -115,43 +125,52 @@ public:
     {
     }
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final
     {
-        cbox::CboxError res = cbox::CboxError::OK;
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(uint16_t) + values.size() * sizeof(uint32_t));
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+
         // first write number of elements as uint16_t
         uint16_t size = values.size();
         if (!out.put(size)) {
             return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
         }
+
+        // write value for all elements
         for (auto& value : values) {
-            res = value.streamTo(out);
-            if (res != cbox::CboxError::OK) {
-                break;
-            }
+            out.put(value.value());
         }
-        return res;
+        return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
     {
-        cbox::CboxError res = cbox::CboxError::OK;
+        return read(cmd);
+    }
+
+    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    {
+        if (!cmd.requestPayload.has_value()) {
+            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        }
+
+        auto& payload = cmd.requestPayload.value();
+        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+
         uint16_t newSize = 0;
         if (!in.get(newSize)) {
             return cbox::CboxError::INPUT_STREAM_READ_ERROR;
         }
         values.resize(newSize);
         for (auto& value : values) {
-            res = value.streamFrom(in);
-            if (res != cbox::CboxError::OK) {
-                break;
+            uint32_t content = 0;
+            if (!in.get(content)) {
+                return cbox::CboxError::INPUT_STREAM_READ_ERROR;
             }
+            value.value(content);
         }
-        return res;
-    }
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
-    {
-        return streamTo(out);
+        return cbox::CboxError::OK;
     }
 
     virtual cbox::update_t update(const cbox::update_t& now) override final
@@ -195,8 +214,12 @@ public:
         return _interval;
     }
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final
     {
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(_interval) + sizeof(_count));
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+
         // stream out all values
         if (!out.put(_interval)) {
             return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
@@ -205,11 +228,31 @@ public:
             return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
         }
 
-        return cbox::CboxError::OK;
+        return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
     {
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(_interval));
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+
+        if (!out.put(_interval)) {
+            return cbox::CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+        }
+
+        return cmd.respond(payload);
+    }
+
+    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    {
+        if (!cmd.requestPayload.has_value()) {
+            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        }
+
+        auto& payload = cmd.requestPayload.value();
+        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+
         uint16_t newInterval;
 
         if (!in.get(newInterval)) {
@@ -220,16 +263,6 @@ public:
         }
 
         _interval = newInterval;
-
-        return cbox::CboxError::OK;
-    }
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
-    {
-        if (!out.put(_interval)) {
-            return cbox::CboxError::PERSISTED_STORAGE_WRITE_ERROR;
-        }
-
         return cbox::CboxError::OK;
     }
 
@@ -286,12 +319,34 @@ public:
     }
     virtual ~PtrLongIntObject() = default;
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final
     {
-        auto status = streamPersistedTo(out);
-        if (status != cbox::CboxError::OK) {
-            return status;
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(cbox::obj_id_t) * 2);
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+
+        if (!out.put(ptr1.getId())) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
         }
+        if (!out.put(ptr2.getId())) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
+        return cmd.respond(payload);
+    }
+
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    {
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize((sizeof(cbox::obj_id_t) + sizeof(bool) + sizeof(uint32_t)) * 2);
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+
+        if (!out.put(ptr1.getId())) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
+        if (!out.put(ptr2.getId())) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
+
         auto sptr1 = ptr1.const_lock();
         auto sptr2 = ptr2.const_lock();
         bool valid1 = bool(sptr1);
@@ -309,11 +364,22 @@ public:
         success &= out.put(value1);
         success &= out.put(value2);
 
-        return success ? cbox::CboxError::OK : cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        if (!success) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
+
+        return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final
+    virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
+        if (!cmd.requestPayload.has_value()) {
+            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        }
+
+        auto& payload = cmd.requestPayload.value();
+        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+
         cbox::obj_id_t newId1, newId2;
         if (!in.get(newId1)) {
             return cbox::CboxError::INPUT_STREAM_READ_ERROR;
@@ -324,17 +390,6 @@ public:
 
         ptr1.setId(newId1);
         ptr2.setId(newId2);
-        return cbox::CboxError::OK;
-    }
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
-    {
-        if (!out.put(ptr1.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
-        }
-        if (!out.put(ptr2.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
-        }
         return cbox::CboxError::OK;
     }
 
@@ -349,24 +404,23 @@ public:
     MockStreamObject() = default;
     virtual ~MockStreamObject() = default;
 
-    std::function<cbox::CboxError(cbox::DataOut&)> streamToFunc = [](cbox::DataOut& /*out*/) { return cbox::CboxError::OK; };
-    std::function<cbox::CboxError(cbox::DataIn&)> streamFromFunc = [](cbox::DataIn& /*in*/) { return cbox::CboxError::OK; };
-    std::function<cbox::CboxError(cbox::DataOut&)> streamPersistedToFunc = [](cbox::DataOut& /*out*/) { return cbox::CboxError::OK; };
+    std::function<cbox::CboxError(cbox::Command&)> readFunc = [](cbox::Command& /*out*/) { return cbox::CboxError::OK; };
+    std::function<cbox::CboxError(cbox::Command&)> readPersistedFunc = [](cbox::Command& /*in*/) { return cbox::CboxError::OK; };
+    std::function<cbox::CboxError(cbox::Command&)> writeFunc = [](cbox::Command& /*out*/) { return cbox::CboxError::OK; };
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError read(cbox::Command& cmd) const override final
     {
-        return streamToFunc(out);
+        return readFunc(cmd);
     }
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& in) override final
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
     {
-
-        return streamFromFunc(in);
+        return readPersistedFunc(cmd);
     }
 
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
-        return streamPersistedToFunc(out);
+        return writeFunc(cmd);
     }
 
     virtual cbox::update_t update(const cbox::update_t& now) override
