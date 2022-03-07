@@ -31,12 +31,12 @@ class Payload {
 public:
     const obj_id_t blockId;
     const obj_type_t blockType;
-    const uint32_t subtype;
+    const uint16_t subtype;
     std::vector<uint8_t> content;
 
     Payload(obj_id_t _blockId,
             obj_type_t _blockType,
-            uint32_t _subtype,
+            uint16_t _subtype,
             std::vector<uint8_t>&& _content)
         : blockId(_blockId)
         , blockType(_blockType)
@@ -47,7 +47,7 @@ public:
 
     Payload(obj_id_t _blockId,
             obj_type_t _blockType,
-            uint32_t _subtype)
+            uint16_t _subtype)
         : blockId(_blockId)
         , blockType(_blockType)
         , subtype(_subtype)

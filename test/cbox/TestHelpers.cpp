@@ -32,4 +32,4 @@ addCrc(const std::string& in)
     return in + crc(in);
 }
 
-}
+} // end namespace cbox

@@ -36,15 +36,15 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
 
     // storage doesn't know about the Object class, these functors handle the conversion to streams
     auto retrieveObjectFromStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& target) -> CboxError {
-        auto dataHandler = [&target](RegionDataIn& in) -> CboxError {
-            return loadFromStream(in, target);
+        auto dataHandler = [&target, &id](RegionDataIn& in) -> CboxError {
+            return loadFromStream(in, id, target);
         };
         return storage.retrieveObject(id, dataHandler);
     };
 
     auto saveObjectToStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& source) -> CboxError {
-        auto dataHandler = [&source](DataOut& out) -> CboxError {
-            return saveToStream(out, source);
+        auto dataHandler = [&source, &id](DataOut& out) -> CboxError {
+            return saveToStream(out, id, source);
         };
         return storage.storeObject(id, dataHandler);
     };
@@ -68,10 +68,16 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
             }
 
             THEN(
-                "Free space has decreased by 16 bytes "
-                "(4 bytes object data + 2 bytes object id + 4 bytes overprovision + 5 bytes object header + 1 byte CRC")
+                "Free space has decreased by 19 bytes"
+                ", 1 byte reserved (previously groups)"
+                ", 2 bytes object type"
+                ", 4 bytes object data"
+                ", 2 bytes object id"
+                ", 4 bytes overprovision"
+                ", 5 bytes object header"
+                ", 1 byte CRC")
             {
-                CHECK(storage.freeSpace() == totalSpace - 16);
+                CHECK(storage.freeSpace() == totalSpace - 19);
             }
 
             THEN("The data can be streamed back from EEPROM")
@@ -202,7 +208,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
 
             THEN("It can be changed and rewritten to EEPROM, 8 bytes smaller size (empty vector)")
             {
-                obj = {};
+                obj->values.clear();
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -269,14 +275,14 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
             {
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(1), received));
-                CHECK(obj1 == received);
+                CHECK(*obj1 == *received);
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(2), received));
-                CHECK(obj2 == received);
+                CHECK(*obj2 == *received);
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(3), received));
-                CHECK(obj3 == received);
+                CHECK(*obj3 == *received);
                 auto received2 = std::make_shared<LongIntObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(4), received2));
-                CHECK(obj4 == received2);
+                CHECK(*obj4 == *received2);
             }
 
             AND_THEN("They can be updated in EEPROM")
@@ -285,7 +291,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
                 CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(2), obj2));
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(2), received));
-                CHECK(obj2 == received);
+                CHECK(*obj2 == *received);
             }
 
             AND_THEN("If one is deleted, it doesn't affect the others")
@@ -293,13 +299,13 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
                 storage.disposeObject(obj_id_t(2));
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(1), received));
-                CHECK(obj1 == received);
+                CHECK(*obj1 == *received);
                 CHECK(CboxError::PERSISTED_OBJECT_NOT_FOUND == retrieveObjectFromStorage(obj_id_t(2), received));
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(3), received));
-                CHECK(obj3 == received);
+                CHECK(*obj3 == *received);
                 auto received2 = std::make_shared<LongIntObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(4), received2));
-                CHECK(obj4 == received2);
+                CHECK(*obj4 == *received2);
 
                 AND_THEN("A handler handling all objects does not see the deleted object")
                 {
@@ -387,15 +393,18 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
             }
         }
 
-        uint16_t bigSize = 2 + 24 * sizeof(uint32_t) + 1;  // 2 bytes (number of elements) + vector + CRC
-        uint16_t smallSize = 2 + 2 * sizeof(uint32_t) + 1; // 2 bytes (number of elements) + vector + CRC
+        CHECK(res == CboxError::INSUFFICIENT_PERSISTENT_STORAGE);
+
+        uint16_t sharedSize = 1 + 2 + 1;                                               // reserved byte, object type, CRC
+        uint16_t bigSize = sharedSize + 2 + big->values.size() * sizeof(uint32_t);     // 2 bytes (number of elements) + vector
+        uint16_t smallSize = sharedSize + 2 + small->values.size() * sizeof(uint32_t); // 2 bytes (number of elements) + vector
 
         uint16_t bigSizeReserved = bigSize + (bigSize >> 3);
         uint16_t smallSizeReserved = smallSize + 4;
 
         uint16_t headerSize = 7; // blocktype(1) + blocksize(2) + obj_id(2) + obj_actual_size(2)
 
-        THEN("Retreiving objects gives a reader of the actually written size")
+        THEN("Retrieving objects gives a reader of the actually written size")
         {
             uint16_t readSize;
             auto readSizeFetcher = [&readSize](RegionDataIn& in) -> CboxError {
@@ -411,12 +420,12 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
         // checking the write size is more difficult, because there is no limit. If it doesn't fit, the object will be reallocated.
 
         // last id was not successfully created
-        THEN("28 objects have been created")
+        THEN("26 objects have been created")
         {
-            CHECK(id == 29); // failed to create id 29
+            CHECK(id == 27); // failed to create id 27
         }
 
-        stream_size_t expectedFreeSpace = originalSpace - (14 * bigSizeReserved + 14 * smallSizeReserved + 28 * headerSize); // header is 5 bytes
+        stream_size_t expectedFreeSpace = originalSpace - (13 * bigSizeReserved + 13 * smallSizeReserved + 26 * headerSize); // header is 5 bytes
 
         THEN("Free space left is as expected")
         {
@@ -426,7 +435,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
         THEN("Continuous free space left is the same, which is too small for another big object")
         {
             CHECK(storage.continuousFreeSpace() == expectedFreeSpace);
-            CHECK(expectedFreeSpace < bigSizeReserved);
+            CHECK(expectedFreeSpace < bigSizeReserved + headerSize);
         }
 
         THEN("Last object has not been stored")
@@ -495,7 +504,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
                             auto received = std::make_shared<LongIntVectorObject>();
                             res = retrieveObjectFromStorage(obj_id_t(id), received);
                             CHECK(res == CboxError::OK);
-                            CHECK(big == received);
+                            CHECK(*big == *received);
                         }
                     }
                 }
@@ -505,7 +514,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
         AND_WHEN("Only the small objects are deleted")
         {
             obj_id_t id;
-            for (id = 1; id <= 28; id++) {
+            for (id = 1; id <= 26; id++) {
                 if (id % 2 == 0) {
                     bool deleted = storage.disposeObject(id);
                     CHECK(deleted);
@@ -517,7 +526,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
             }
             THEN("But free space has increased by the size of all small objects combined")
             {
-                CHECK(storage.freeSpace() == expectedFreeSpace + 14 * (smallSizeReserved + 7));
+                CHECK(storage.freeSpace() == expectedFreeSpace + 13 * (smallSizeReserved + 7));
             }
 
             AND_WHEN("We create 2 big objects again")
@@ -541,7 +550,7 @@ SCENARIO("Storing and retreiving blocks with EEPROM storage")
                     for (id = 1; id < 10; id = id + 2) {
                         auto received = std::make_shared<LongIntVectorObject>();
                         CHECK(CboxError::OK == retrieveObjectFromStorage(id, received));
-                        CHECK(received == big);
+                        CHECK(*received == *big);
                     }
                 }
             }

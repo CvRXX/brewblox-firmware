@@ -67,8 +67,10 @@ public:
 std::pair<CboxError, std::shared_ptr<Object>>
 createFromStream(RegionDataIn& in, obj_id_t objId);
 
-CboxError loadFromStream(RegionDataIn& in, std::shared_ptr<Object> obj);
+CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Object> obj);
 
-CboxError saveToStream(DataOut& out, std::shared_ptr<Object> obj);
+CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd);
+
+CboxError saveToStream(DataOut& out, obj_id_t objId, std::shared_ptr<Object> obj);
 
 } // end namespace cbox

@@ -53,4 +53,4 @@ public:
         return nextError;
     }
 };
-}
+} // end namespace cbox

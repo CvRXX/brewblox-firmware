@@ -28,7 +28,7 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
 {
     CboxError status = CboxError::OK;
     obj_type_t typeId;
-    uint8_t reservedByte; // previously the groups byte, now unused and reserved
+    uint8_t flags; // previously the groups byte, now unused and reserved
 
     tracing::add(tracing::Action::LOAD_STORED_OBJECT, objId, typeId);
 
@@ -40,7 +40,7 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
     // id is part of CRC, but not part of the stream we get from storage
     crcCalculator.put(objId);
 
-    if (!tee.get(reservedByte)) {
+    if (!tee.get(flags)) {
         return std::make_pair(CboxError::INPUT_STREAM_READ_ERROR, std::shared_ptr<Object>()); // LCOV_EXCL_LINE
     }
 
@@ -72,18 +72,19 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
     }
 
     // CRC is OK, write data to object
+    obj->objectId = objId;
     status = obj->write(inCmd);
 
     return std::make_pair(std::move(status), std::move(obj));
 }
 
-CboxError loadFromStream(RegionDataIn& in, std::shared_ptr<Object> obj)
+CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Object> obj)
 {
     if (!obj) {
         return CboxError::INVALID_OBJECT_PTR;
     }
 
-    tracing::add(tracing::Action::STREAM_FROM_OBJECT, obj->objectId, obj->typeId());
+    tracing::add(tracing::Action::STREAM_FROM_OBJECT, objId, obj->typeId());
 
     // use a CrcDataOut to a black hole to check the CRC
     BlackholeDataOut hole;
@@ -91,12 +92,12 @@ CboxError loadFromStream(RegionDataIn& in, std::shared_ptr<Object> obj)
     TeeDataIn tee(in, crcCalculator);
 
     // id is part of CRC, but not part of the stream we get from storage
-    crcCalculator.put(obj->objectId);
+    crcCalculator.put(objId);
 
-    uint8_t reservedByte; // previously the groups byte, now unused and reserved
+    uint8_t flags; // previously the groups byte, now unused and reserved
     obj_type_t inType;
 
-    if (!tee.get(reservedByte)) {
+    if (!tee.get(flags)) {
         return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
     }
 
@@ -118,21 +119,59 @@ CboxError loadFromStream(RegionDataIn& in, std::shared_ptr<Object> obj)
         return CboxError::CRC_ERROR_IN_STORED_OBJECT;
     }
 
+    obj->objectId = objId;
     return obj->write(inCmd);
 }
 
-CboxError saveToStream(DataOut& out, std::shared_ptr<Object> obj)
+CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd)
+{
+    // use a CrcDataOut to a black hole to check the CRC
+    BlackholeDataOut hole;
+    CrcDataOut crcCalculator(hole);
+    TeeDataIn tee(in, crcCalculator);
+
+    // id is part of CRC, but not part of the stream we get from storage
+    crcCalculator.put(objId);
+
+    uint8_t flags; // previously the groups byte, now unused and reserved
+    obj_type_t inType;
+
+    if (!tee.get(flags)) {
+        return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
+    }
+
+    if (!tee.get(inType)) {
+        return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
+    }
+
+    // Grab all data except the last byte
+    // The last byte is the CRC, and should not be included
+    auto len = in.available() - 1;
+    Payload resp(objId, inType, 0);
+    resp.content.resize(len);
+    tee.readBytes(resp.content.data(), len);
+
+    // Read the CRC byte, and check the total
+    tee.spool();
+    if (crcCalculator.crc() != 0) {
+        return CboxError::CRC_ERROR_IN_STORED_OBJECT;
+    }
+
+    return cmd.respond(resp);
+}
+
+CboxError saveToStream(DataOut& out, obj_id_t objId, std::shared_ptr<Object> obj)
 {
     if (!obj) {
         return CboxError::INVALID_OBJECT_PTR;
     }
 
-    tracing::add(tracing::Action::PERSIST_OBJECT, obj->objectId, obj->typeId());
+    tracing::add(tracing::Action::PERSIST_OBJECT, objId, obj->typeId());
 
     // id is not streamed out. It is passed to storage separately
 
-    uint8_t reservedByte; // previously the groups byte, now unused and reserved
-    if (!out.put(reservedByte)) {
+    uint8_t flags(0); // previously the groups byte, now unused and reserved
+    if (!out.put(flags)) {
         return CboxError::PERSISTED_STORAGE_WRITE_ERROR; // LCOV_EXCL_LINE
     }
 

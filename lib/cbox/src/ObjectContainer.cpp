@@ -93,9 +93,6 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool r
         position = p.first;
     }
 
-    // Make obj itself aware of its id
-    obj->objectId = newId;
-
     if (replace) {
         *position = ContainedObject(newId, std::move(obj));
     } else {
@@ -150,8 +147,8 @@ CboxError ObjectContainer::store(const obj_id_t& id)
         return CboxError::INVALID_OBJECT_ID;
     }
 
-    auto storeContained = [&cobj](DataOut& out) -> CboxError {
-        return saveToStream(out, cobj->object());
+    auto storeContained = [&cobj, &id](DataOut& out) -> CboxError {
+        return saveToStream(out, id, cobj->object());
     };
     return getStorage().storeObject(id, storeContained);
 }
@@ -164,9 +161,9 @@ CboxError ObjectContainer::reloadStored(const obj_id_t& id)
     }
 
     bool handlerCalled = false;
-    auto streamHandler = [&cobj, &handlerCalled](RegionDataIn& in) -> CboxError {
+    auto streamHandler = [&cobj, &id, &handlerCalled](RegionDataIn& in) -> CboxError {
         handlerCalled = true;
-        return loadFromStream(in, cobj->object());
+        return loadFromStream(in, id, cobj->object());
     };
     CboxError status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
     if (!handlerCalled) {

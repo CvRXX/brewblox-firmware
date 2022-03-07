@@ -38,9 +38,9 @@ SCENARIO("A container to hold objects")
 
     WHEN("Some objects are added to the container")
     {
-        obj_id_t id1 = container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF);
-        obj_id_t id2 = container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0xFF);
-        obj_id_t id3 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF);
+        obj_id_t id1 = container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)));
+        obj_id_t id2 = container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)));
+        obj_id_t id3 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)));
 
         THEN("They are assigned a valid unique ID")
         {
@@ -121,12 +121,12 @@ SCENARIO("A container to hold objects")
 
     WHEN("Objects with out of order IDs are added to the container, the container stays sorted by id")
     {
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 20);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0xFF, 18);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 23);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 2);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 19);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 20);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 18);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 23);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 2);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 19);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)));
         uint16_t lastId = 0;
         uint16_t count = 0;
         for (auto it = container.cbegin(); it != container.cend(); it++) {
@@ -181,8 +181,8 @@ SCENARIO("A container with system objects")
 
     container.setObjectsStartId(3); // this locks the system objects
 
-    CHECK(obj_id_t(3) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get next free ID (3)))
-    CHECK(obj_id_t(4) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get next free ID (4)))
+    CHECK(obj_id_t(3) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get next free ID (3)))
+    CHECK(obj_id_t(4) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get next free ID (4)))
 
     THEN("The system objects can be read like normal objects")
     {
@@ -190,8 +190,7 @@ SCENARIO("A container with system objects")
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
         spobj->read(cmd);
-        uint8_t hexRepresentation[] = "11111111";
-        CHECK_THAT(cmd.responses.at(0).content.data(), (equalsArray<uint8_t, sizeof(hexRepresentation)>(hexRepresentation)));
+        CHECK_THAT(cmd.responses.at(0).content, Catch::Matchers::Equals(std::vector<uint8_t>{0x11, 0x11, 0x11, 0x11}));
     }
 
     THEN("The system objects can be read written")
@@ -233,6 +232,6 @@ SCENARIO("A container with system objects")
         CHECK(container.remove(3) == CboxError::OBJECT_NOT_DELETABLE);
         CHECK(container.remove(4) == CboxError::OBJECT_NOT_DELETABLE);
 
-        CHECK(obj_id_t(100) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get start ID (100)
+        CHECK(obj_id_t(100) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get start ID (100)
     }
 }

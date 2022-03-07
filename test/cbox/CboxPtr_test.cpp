@@ -62,7 +62,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
-        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
+        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
         CboxPtr<NameableLongIntObject> nameableLiPtr;
         CboxPtr<LongIntObject> liPtr;
         CboxPtr<Nameable> nameablePtr;
@@ -114,7 +114,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 auto ptr4 = nameablePtr.lock();
                 CHECK(!ptr4);
 
-                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
+                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
                 THEN("If a new compatible object is created with the same id, the CboxPtr can be locked again")
                 {
                     auto ptr5 = nameablePtr.lock();

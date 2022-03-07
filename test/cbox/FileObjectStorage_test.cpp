@@ -39,15 +39,15 @@ SCENARIO("Storing and retreiving blocks with file storage")
 
     // storage doesn't know about the Object class, these functors handle the conversion to streams
     auto retrieveObjectFromStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& target) -> CboxError {
-        auto dataHandler = [&target](RegionDataIn& in) -> CboxError {
-            return loadFromStream(in, target);
+        auto dataHandler = [&id, &target](RegionDataIn& in) -> CboxError {
+            return loadFromStream(in, id, target);
         };
         return storage.retrieveObject(id, dataHandler);
     };
 
     auto saveObjectToStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& source) -> CboxError {
-        auto dataHandler = [&source](DataOut& out) -> CboxError {
-            return saveToStream(out, source);
+        auto dataHandler = [&id, &source](DataOut& out) -> CboxError {
+            return saveToStream(out, id, source);
         };
         return storage.storeObject(id, dataHandler);
     };
@@ -71,13 +71,17 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 REQUIRE(file);
 
                 AND_THEN(
-                    "The file size is 7 bytes "
-                    "(2 bytes object id, 4 bytes object data + 1 byte CRC")
+                    "The file size is 10 bytes"
+                    ", 2 bytes object id"
+                    ", 1 byte reserved"
+                    ", 2 bytes object type"
+                    ", 4 bytes object data"
+                    ", 1 byte CRC")
                 {
                     fseek(file, 0, SEEK_END); // seek to end of file
                     auto size = ftell(file);  // get current file pointer
 
-                    CHECK(size == 7);
+                    CHECK(size == 10);
                 }
             }
 
@@ -119,7 +123,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 }
                 THEN("The id can be re-used to store another object")
                 {
-                    auto otherObject = std::shared_ptr<LongIntObject>(new LongIntObject((0xFFFFFFFF)));
+                    auto otherObject = std::shared_ptr<LongIntObject>(new LongIntObject((0xAAAAAAAA)));
                     auto res = saveObjectToStorage(obj_id_t(1), otherObject);
 
                     THEN("Return value is success")
@@ -302,13 +306,13 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 storage.disposeObject(obj_id_t(2));
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(1), received));
-                CHECK(obj1 == received);
+                CHECK(*obj1 == *received);
                 CHECK(CboxError::PERSISTED_OBJECT_NOT_FOUND == retrieveObjectFromStorage(obj_id_t(2), received));
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(3), received));
-                CHECK(obj3 == received);
+                CHECK(*obj3 == *received);
                 auto received2 = std::make_shared<LongIntObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(4), received2));
-                CHECK(obj4 == received2);
+                CHECK(*obj4 == *received2);
 
                 AND_THEN("A handler handling all objects does not see the deleted object")
                 {

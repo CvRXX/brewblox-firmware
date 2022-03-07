@@ -42,10 +42,11 @@ public:
 
     virtual CboxError read(Command& cmd) const override final
     {
-        auto p = reinterpret_cast<const uint8_t*>(std::addressof(originalId));
-        Payload outPayload(objectId, typeId(), 0);
-        outPayload.content.assign(p, p + sizeof(obj_type_t));
-        return cmd.respond(outPayload);
+        Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(originalId));
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+        out.put(originalId);
+        return cmd.respond(payload);
     }
 
     virtual CboxError readPersisted(Command& cmd) const override final

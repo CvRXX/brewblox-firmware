@@ -50,7 +50,7 @@ CboxError readObject(Command& cmd)
 {
     auto payload = cmd.requestPayload;
     if (!payload.has_value()) {
-        return CboxError::INPUT_STREAM_DECODING_ERROR;
+        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
     ContainedObject* cobj = objects.fetchContained(payload.value().blockId);
@@ -65,14 +65,18 @@ CboxError writeObject(Command& cmd)
 {
     CboxError status = CboxError::OK;
 
-    auto& payload = cmd.requestPayload;
-    if (!payload.has_value()) {
-        return CboxError::INPUT_STREAM_DECODING_ERROR;
+    if (!cmd.requestPayload.has_value()) {
+        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    ContainedObject* cobj = objects.fetchContained(payload.value().blockId);
+    auto& payload = cmd.requestPayload.value();
+    ContainedObject* cobj = objects.fetchContained(payload.blockId);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
+    }
+
+    if (payload.blockType != cobj->object()->typeId()) {
+        return CboxError::INVALID_OBJECT_TYPE;
     }
 
     status = cobj->write(cmd);
@@ -82,7 +86,7 @@ CboxError writeObject(Command& cmd)
 
     // save new settings to storage
     auto storeContained = [&cobj](DataOut& out) -> CboxError {
-        return saveToStream(out, cobj->object());
+        return saveToStream(out, cobj->id(), cobj->object());
     };
     status = getStorage().storeObject(cobj->id(), storeContained);
     if (status != CboxError::OK) {
@@ -97,7 +101,7 @@ CboxError createObject(Command& cmd)
     CboxError status = CboxError::OK;
 
     if (!cmd.requestPayload.has_value()) {
-        return CboxError::INPUT_STREAM_DECODING_ERROR;
+        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
     obj_id_t id(cmd.requestPayload.value().blockId);
@@ -128,8 +132,8 @@ CboxError createObject(Command& cmd)
     }
 
     // persist newly created object to storage
-    auto storeContained = [&cobj](DataOut& out) -> CboxError {
-        return saveToStream(out, cobj->object());
+    auto storeContained = [&cobj, &id](DataOut& out) -> CboxError {
+        return saveToStream(out, id, cobj->object());
     };
     status = getStorage().storeObject(id, storeContained);
     if (status != CboxError::OK) {
@@ -150,7 +154,7 @@ CboxError deleteObject(Command& cmd)
 
     auto payload = cmd.requestPayload;
     if (!payload.has_value()) {
-        return CboxError::INPUT_STREAM_DECODING_ERROR;
+        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
     obj_id_t id(payload.value().blockId);
@@ -181,27 +185,23 @@ CboxError readStoredObject(Command& cmd)
 {
     auto payload = cmd.requestPayload;
     if (!payload.has_value()) {
-        return CboxError::INPUT_STREAM_DECODING_ERROR;
+        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    ContainedObject* cobj = objects.fetchContained(payload.value().blockId);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
-    }
+    auto objId = cmd.requestPayload.value().blockId;
 
-    return cobj->readPersisted(cmd);
+    const auto loader = [&cmd, &objId](RegionDataIn& in) -> CboxError {
+        return readPersistedFromStream(in, objId, cmd);
+    };
+    return getStorage().retrieveObject(objId, loader);
 }
 
 CboxError listStoredObjects(Command& cmd)
 {
-    CboxError status = CboxError::OK;
-    for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
-        status = it->readPersisted(cmd);
-        if (status == CboxError::PERSISTING_NOT_NEEDED) {
-            status = CboxError::OK;
-        }
-    }
-    return status;
+    const auto objectLoader = [&cmd](storage_id_t id, RegionDataIn& in) -> CboxError {
+        return readPersistedFromStream(in, id, cmd);
+    };
+    return getStorage().retrieveObjects(objectLoader);
 }
 
 CboxError clearObjects(Command&)
@@ -225,7 +225,7 @@ CboxError discoverNewObjects(Command& cmd)
 {
     CboxError status = CboxError::OK;
     while (auto newObj = scan()) {
-        auto newId = objects.add(std::move(newObj), uint8_t(0x01)); // default to first profile
+        auto newId = objects.add(std::move(newObj));
         auto cobj = objects.fetchContained(newId);
 
         if (cobj != nullptr) { // always true, but just in case
@@ -234,8 +234,8 @@ CboxError discoverNewObjects(Command& cmd)
                 return status;
             }
 
-            auto storeContained = [&cobj](DataOut& out) -> CboxError {
-                return saveToStream(out, cobj->object());
+            auto storeContained = [&cobj, &newId](DataOut& out) -> CboxError {
+                return saveToStream(out, newId, cobj->object());
             };
             status = getStorage().storeObject(newId, storeContained);
             if (status != CboxError::OK) {
@@ -265,7 +265,7 @@ void loadObjectsFromStorage()
 
         if (auto cobj = objects.fetchContained(objId)) {
             // existing object
-            status = loadFromStream(in, cobj->object());
+            status = loadFromStream(in, objId, cobj->object());
         } else {
             // new object
             auto created = createFromStream(in, objId);

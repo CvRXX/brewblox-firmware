@@ -76,9 +76,6 @@ public:
     void init(std::initializer_list<ContainedObject> objects_)
     {
         contained = std::move(decltype(contained)(objects_));
-        for (auto& obj : contained) {
-            obj.object()->objectId = obj.id();
-        }
     }
 
     // create a new object and let box assign id

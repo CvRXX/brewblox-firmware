@@ -25,10 +25,10 @@ writeProtoToCommand(cbox::Command& cmd,
                     size_t maxSize,
                     cbox::obj_id_t objId,
                     cbox::obj_type_t typeId,
-                    uint32_t subtype = 0);
+                    uint16_t subtype = 0);
 
 cbox::CboxError
 writeEmptyToCommand(cbox::Command& cmd,
                     cbox::obj_id_t objId,
                     cbox::obj_type_t typeId,
-                    uint32_t subtype = 0);
+                    uint16_t subtype = 0);

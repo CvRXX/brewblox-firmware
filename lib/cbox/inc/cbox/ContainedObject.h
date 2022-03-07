@@ -39,6 +39,7 @@ public:
     {
         if (_obj) {
             tracing::add(tracing::Action::CONSTRUCT_OBJECT, _id, _obj->typeId());
+            _obj->objectId = _id;
         }
     }
 
