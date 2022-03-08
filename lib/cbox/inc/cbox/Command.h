@@ -20,9 +20,8 @@
 #pragma once
 
 #include "cbox/CboxError.h"
-#include "cbox/CboxOpcode.h"
 #include "cbox/ObjectIds.h"
-#include <optional>
+#include <memory>
 #include <vector>
 
 namespace cbox {
@@ -59,36 +58,25 @@ public:
 
 class Command {
 public:
-    const uint32_t msgId;
-    const CboxOpcode opcode;
-    std::optional<Payload> requestPayload;
-
-    Command(uint32_t _msgId,
-            CboxOpcode _opcode,
-            std::optional<Payload>&& _requestPayload = std::nullopt)
-        : msgId(_msgId)
-        , opcode(_opcode)
-        , requestPayload(std::move(_requestPayload))
-    {
-    }
-
+    Command() = default;
     Command(const Command&) = delete;
-    Command(Command&&) = delete;
     Command& operator=(const Command&) = delete;
 
     virtual ~Command() = default;
 
+    virtual Payload* request() = 0;
     virtual CboxError respond(const Payload& payload) = 0;
 };
 
 class StubCommand : public Command {
 public:
-    StubCommand()
-        : Command(0, CboxOpcode::NONE)
-    {
-    }
-
+    StubCommand() = default;
     virtual ~StubCommand() = default;
+
+    virtual Payload* request() override final
+    {
+        return nullptr;
+    }
 
     virtual CboxError respond(const Payload&) override final
     {

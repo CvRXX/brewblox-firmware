@@ -22,7 +22,6 @@
 #include "cbox/CompositeDataStream.h"
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamConverters.h"
-#include "cbox/Tracing.h"
 #include <functional>
 #include <memory>
 #include <vector>

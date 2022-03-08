@@ -62,7 +62,6 @@ void ConnectionPool::updateConnections()
 
 void ConnectionPool::process(std::function<void(DataIn& in, DataOut& out)> handler)
 {
-    tracing::add(tracing::Action::UPDATE_CONNECTIONS);
     updateConnections();
     for (auto& conn : connections) {
         DataIn& in = conn->getDataIn();

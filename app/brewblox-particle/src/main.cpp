@@ -128,7 +128,6 @@ void setup()
 #endif
     appWatchdog = new ApplicationWatchdog(60000, watchdogReset, 256);
     hal_i2c_master_init();
-    cbox::tracing::pause(); // ensure tracing is paused until service resumes it
 
     // init display
     D4D_Init(nullptr);
@@ -190,7 +189,6 @@ void setup()
 void loop()
 {
     ticks.switchTaskTimer(TicksClass::TaskId::DisplayUpdate);
-    cbox::tracing::add(AppTrace::UPDATE_DISPLAY);
     displayTick();
     if (!listeningModeEnabled()) {
         ticks.switchTaskTimer(TicksClass::TaskId::Communication);
@@ -203,7 +201,6 @@ void loop()
         watchdogCheckin(); // not done while listening, so 60s timeout for stuck listening mode
     }
     ticks.switchTaskTimer(TicksClass::TaskId::System);
-    cbox::tracing::add(AppTrace::SYSTEM_TASKS);
     HAL_Delay_Milliseconds(1);
 }
 

@@ -21,7 +21,6 @@
 #include "blox_hal/hal_delay.h"
 #include "brewblox.hpp"
 #include "brewblox_particle.hpp"
-#include "cbox/Tracing.h"
 #include "deviceid_hal.h"
 #include "mdns/MDNS.h"
 #include "reset.h"
@@ -146,21 +145,18 @@ MDNS& theMdns()
 void manageConnections(uint32_t now)
 {
     static uint32_t lastChecked = 0;
-    cbox::tracing::add(AppTrace::MANAGE_CONNECTIVITY);
     if (now - lastChecked >= 1000) {
         updateWifiSignal();
         lastChecked = now;
     }
 
     if (wifiConnected()) {
-        cbox::tracing::add(AppTrace::MDNS_PROCESS);
         theMdns().process();
     } else {
         theMdns().stop();
     }
 
     while (auto client = httpserver.available()) {
-        cbox::tracing::add(AppTrace::HTTP_RESPONSE);
         const uint8_t start[] =
             "HTTP/1.1 200 Ok\n\n<html><body>"
             "<p>Your Brewblox Spark is online but it does not run its own web server. "

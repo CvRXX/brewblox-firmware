@@ -19,7 +19,6 @@
 
 #include "blocks/SysInfoBlock.h"
 #include "blocks/stringify.h"
-#include "cbox/Tracing.h"
 #include "proto/proto_version.h"
 #include <cstring>
 
@@ -41,21 +40,6 @@ SysInfoBlock::read(cbox::Command& cmd) const
     strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
 
     message.platform = blox_SysInfo_Platform(PLATFORM_ID);
-
-    if (command == Command::SYS_CMD_TRACE_READ || command == Command::READ_AND_SYS_CMD_TRACE_RESUME) {
-        auto history = cbox::tracing::history();
-        auto it = history.cbegin();
-        auto end = history.cend();
-        for (uint8_t i = 0; i < 10 && it < end; i++, it++) {
-            message.trace[i].action = blox_SysInfo_Trace_Action(it->action);
-            message.trace[i].id = it->id;
-            message.trace[i].type = it->type;
-        }
-        message.trace_count = 10;
-    }
-    if (command == Command::SYS_CMD_TRACE_RESUME || command == Command::READ_AND_SYS_CMD_TRACE_RESUME) {
-        cbox::tracing::unpause();
-    }
 
     command = Command::NONE;
 

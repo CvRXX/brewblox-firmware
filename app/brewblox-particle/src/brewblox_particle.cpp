@@ -29,7 +29,6 @@
 #include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
-#include "cbox/Tracing.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "proto/controlbox.pb.h"
@@ -201,6 +200,11 @@ void logEvent(const std::string& event)
     out.write('>');
 }
 
+cbox::Payload* AppCommand::request()
+{
+    return _request.get();
+}
+
 cbox::CboxError AppCommand::respond(const cbox::Payload& payload)
 {
     return cbox::CboxError::OK;
@@ -355,7 +359,6 @@ int resetReasonData()
 //         out.endMessage();
 //         ticks.delayMillis(10);
 //         if (status == CboxError::OK) {
-//             cbox::tracing::add(AppTrace::FIRMWARE_UPDATE_STARTED);
 //             changeLedColor();
 //             brewbloxBox().disconnect();
 //             ticks.delayMillis(10);

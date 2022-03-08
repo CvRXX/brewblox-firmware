@@ -4,7 +4,6 @@
 #include "cbox/CboxError.h"
 #include "cbox/Connections.h"
 #include "cbox/DataStream.h"
-#include "cbox/Tracing.h"
 #include "testinfo.h"
 #include <catch.hpp>
 

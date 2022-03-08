@@ -7,6 +7,7 @@
 namespace cbox {
 std::string addCrc(const std::string& in);
 std::string crc(const std::string& in);
+std::string hexed(const std::vector<uint8_t>& data);
 
 /* Wrapper class around std::stringstream that clears error flags when new data is added.
  * Otherwise EOF flag is still set after data has been added to the stream
@@ -24,24 +25,35 @@ public:
 };
 
 class TestCommand : public Command {
-public:
-    std::vector<Payload> responses;
-    CboxError nextError = CboxError::OK;
+private:
+    std::unique_ptr<Payload> _request;
 
-    TestCommand(CboxOpcode _opcode,
-                std::optional<Payload>&& _requestPayload = std::nullopt)
-        : Command(1, _opcode, std::move(_requestPayload))
+public:
+    CboxError nextError = CboxError::OK;
+    std::vector<Payload> responses;
+
+    TestCommand()
     {
     }
 
-    TestCommand(CboxOpcode _opcode,
-                obj_id_t _blockId,
-                obj_type_t _blockType)
-        : Command(1, _opcode, std::move(Payload(_blockId, _blockType, 0)))
+    TestCommand(Payload&& _payload)
+        : _request(std::make_unique<Payload>(std::move(_payload)))
+    {
+    }
+
+    TestCommand(obj_id_t _blockId,
+                obj_type_t _blockType,
+                std::initializer_list<uint8_t>&& _content = {})
+        : _request(std::make_unique<Payload>(_blockId, _blockType, 0, std::move(_content)))
     {
     }
 
     virtual ~TestCommand() = default;
+
+    virtual Payload* request() override final
+    {
+        return _request.get();
+    }
 
     virtual CboxError respond(const Payload& payload) override final
     {

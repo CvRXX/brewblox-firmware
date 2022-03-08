@@ -19,7 +19,6 @@
 
 #include "cbox/ObjectStream.h"
 #include "cbox/CboxApplication.h"
-#include "cbox/Tracing.h"
 
 namespace cbox {
 
@@ -29,8 +28,6 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
     CboxError status = CboxError::OK;
     obj_type_t typeId;
     uint8_t flags; // previously the groups byte, now unused and reserved
-
-    tracing::add(tracing::Action::LOAD_STORED_OBJECT, objId, typeId);
 
     // use a CrcDataOut to a black hole to check the CRC
     BlackholeDataOut hole;
@@ -83,8 +80,6 @@ CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Objec
     if (!obj) {
         return CboxError::INVALID_OBJECT_PTR;
     }
-
-    tracing::add(tracing::Action::STREAM_FROM_OBJECT, objId, obj->typeId());
 
     // use a CrcDataOut to a black hole to check the CRC
     BlackholeDataOut hole;
@@ -165,8 +160,6 @@ CboxError saveToStream(DataOut& out, obj_id_t objId, std::shared_ptr<Object> obj
     if (!obj) {
         return CboxError::INVALID_OBJECT_PTR;
     }
-
-    tracing::add(tracing::Action::PERSIST_OBJECT, objId, obj->typeId());
 
     // id is not streamed out. It is passed to storage separately
 

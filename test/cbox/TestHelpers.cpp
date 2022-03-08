@@ -32,4 +32,15 @@ addCrc(const std::string& in)
     return in + crc(in);
 }
 
+std::string hexed(const std::vector<uint8_t>& data)
+{
+    std::string retv;
+    retv.reserve(data.size() * 2);
+    for (auto v : data) {
+        retv += d2h(uint8_t(v & 0xF0) >> 4);
+        retv += d2h(uint8_t(v & 0xF));
+    }
+    return retv;
+}
+
 } // end namespace cbox

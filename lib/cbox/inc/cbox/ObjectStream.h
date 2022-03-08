@@ -22,21 +22,27 @@
 #include "cbox/Command.h"
 #include "cbox/DataStream.h"
 #include "cbox/Object.h"
-#include <memory>
 
 namespace cbox {
 
 class DataInCommand : public Command {
+private:
+    std::unique_ptr<Payload> _request;
+
 public:
     DataInCommand(DataIn& in, size_t available, std::shared_ptr<Object> obj)
-        : Command(0, CboxOpcode::NONE) // not relevant
     {
         std::vector<uint8_t> objData(available);
         in.readBytes(objData.data(), available);
-        requestPayload.emplace(obj->objectId, obj->typeId(), 0, std::move(objData));
+        _request = std::make_unique<Payload>(obj->objectId, obj->typeId(), 0, std::move(objData));
     }
 
     virtual ~DataInCommand() = default;
+
+    virtual Payload* request() override final
+    {
+        return _request.get();
+    }
 
     virtual CboxError respond(const Payload&) override final
     {
@@ -50,12 +56,16 @@ private:
 
 public:
     DataOutCommand(DataOut& _out)
-        : Command(0, CboxOpcode::NONE) // not relevant
-        , out(_out)
+        : out(_out)
     {
     }
 
     virtual ~DataOutCommand() = default;
+
+    virtual Payload* request() override final
+    {
+        return nullptr;
+    }
 
     virtual CboxError respond(const Payload& payload) override final
     {

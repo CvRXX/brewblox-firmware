@@ -1,10 +1,3 @@
-/*
- * Block.cpp TODO
- *
- *  Created on: Jul 23, 2018
- *      Author: elco
- */
-
 #include "blocks/Block.h"
 #include "cbox/DataStream.h"
 #include "nanopb_callbacks.h"
@@ -21,12 +14,11 @@ readProtoFromVector(std::vector<uint8_t>& in, void* destStruct, const pb_field_t
 cbox::CboxError
 readProtoFromCommand(cbox::Command& cmd, void* destStruct, const pb_field_t fields[])
 {
-    if (!cmd.requestPayload.has_value()) {
+    if (!cmd.request()) {
         return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    auto payload = cmd.requestPayload.value();
-    return readProtoFromVector(payload.content, destStruct, fields);
+    return readProtoFromVector(cmd.request()->content, destStruct, fields);
 }
 
 cbox::CboxError

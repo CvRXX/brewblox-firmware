@@ -22,24 +22,41 @@
 #include "cbox/Command.h"
 #include "cbox/ConnectionPool.h"
 #include "cbox/DataStream.h"
+#include "proto/controlbox.pb.h"
 
 class OneWire;
 
 class AppCommand : public cbox::Command {
-public:
-    cbox::DataOut& out;
+private:
+    uint32_t _msgId;
+    controlbox_Opcode _opcode;
+    std::unique_ptr<cbox::Payload> _request;
+    cbox::DataOut& _out;
 
-    AppCommand(uint32_t _msgId,
-               cbox::CboxOpcode _opcode,
-               std::optional<cbox::Payload>&& _requestPayload,
-               cbox::DataOut& _out)
-        : cbox::Command(_msgId, _opcode, std::move(_requestPayload))
-        , out(_out)
+public:
+    AppCommand(uint32_t msgId,
+               controlbox_Opcode opcode,
+               cbox::Payload&& request,
+               cbox::DataOut& out)
+        : _msgId(msgId)
+        , _opcode(opcode)
+        , _request(std::make_unique<cbox::Payload>(std::move(request)))
+        , _out(out)
+    {
+    }
+
+    AppCommand(uint32_t msgId,
+               controlbox_Opcode opcode,
+               cbox::DataOut& out)
+        : _msgId(msgId)
+        , _opcode(opcode)
+        , _out(out)
     {
     }
 
     virtual ~AppCommand() = default;
 
+    virtual cbox::Payload* request() override final;
     virtual cbox::CboxError respond(const cbox::Payload& payload) override final;
     void finalize(cbox::CboxError status);
 };

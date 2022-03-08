@@ -77,13 +77,12 @@ public:
 
     virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
-        if (!cmd.requestPayload.has_value()) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        if (!cmd.request()) {
+            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
         }
 
         uint32_t newValue = 0;
-        auto& payload = cmd.requestPayload.value();
-        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+        cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
         if (in.get(newValue)) {
             obj = newValue;
             return cbox::CboxError::OK;
@@ -151,16 +150,15 @@ public:
 
     virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
-        if (!cmd.requestPayload.has_value()) {
+        if (!cmd.request()) {
             return cbox::CboxError::INPUT_STREAM_READ_ERROR;
         }
 
-        auto& payload = cmd.requestPayload.value();
-        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+        cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
 
         uint16_t newSize = 0;
         if (!in.get(newSize)) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
         }
         values.resize(newSize);
         for (auto& value : values) {
@@ -246,12 +244,11 @@ public:
 
     virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
-        if (!cmd.requestPayload.has_value()) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        if (!cmd.request()) {
+            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
         }
 
-        auto& payload = cmd.requestPayload.value();
-        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+        cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
 
         uint16_t newInterval;
 
@@ -322,21 +319,6 @@ public:
     virtual cbox::CboxError read(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
-        payload.content.resize(sizeof(cbox::obj_id_t) * 2);
-        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
-
-        if (!out.put(ptr1.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
-        }
-        if (!out.put(ptr2.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
-        }
-        return cmd.respond(payload);
-    }
-
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
-    {
-        cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize((sizeof(cbox::obj_id_t) + sizeof(bool) + sizeof(uint32_t)) * 2);
         cbox::BufferDataOut out(payload.content.data(), payload.content.size());
 
@@ -371,14 +353,28 @@ public:
         return cmd.respond(payload);
     }
 
+    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    {
+        cbox::Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(cbox::obj_id_t) * 2);
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
+
+        if (!out.put(ptr1.getId())) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
+        if (!out.put(ptr2.getId())) {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
+        return cmd.respond(payload);
+    }
+
     virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
-        if (!cmd.requestPayload.has_value()) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        if (!cmd.request()) {
+            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
         }
 
-        auto& payload = cmd.requestPayload.value();
-        cbox::BufferDataIn in(payload.content.data(), payload.content.size());
+        cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
 
         cbox::obj_id_t newId1, newId2;
         if (!in.get(newId1)) {

@@ -31,7 +31,6 @@
 #include "cbox/ObjectStorage.h"
 #include "cbox/ObjectStream.h"
 #include "cbox/ScanningFactory.hpp"
-#include "cbox/Tracing.h"
 #include <memory>
 #include <tuple>
 #include <vector>
@@ -48,12 +47,11 @@ CboxError noop(Command&)
 
 CboxError readObject(Command& cmd)
 {
-    auto payload = cmd.requestPayload;
-    if (!payload.has_value()) {
+    if (!cmd.request()) {
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    ContainedObject* cobj = objects.fetchContained(payload.value().blockId);
+    ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
     }
@@ -65,17 +63,16 @@ CboxError writeObject(Command& cmd)
 {
     CboxError status = CboxError::OK;
 
-    if (!cmd.requestPayload.has_value()) {
+    if (!cmd.request()) {
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    auto& payload = cmd.requestPayload.value();
-    ContainedObject* cobj = objects.fetchContained(payload.blockId);
+    ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
     }
 
-    if (payload.blockType != cobj->object()->typeId()) {
+    if (cmd.request()->blockType != cobj->object()->typeId()) {
         return CboxError::INVALID_OBJECT_TYPE;
     }
 
@@ -93,6 +90,7 @@ CboxError writeObject(Command& cmd)
         return status;
     }
 
+    cobj->forcedUpdate(lastUpdateTime);
     return cobj->read(cmd);
 }
 
@@ -100,12 +98,12 @@ CboxError createObject(Command& cmd)
 {
     CboxError status = CboxError::OK;
 
-    if (!cmd.requestPayload.has_value()) {
+    if (!cmd.request()) {
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    obj_id_t id(cmd.requestPayload.value().blockId);
-    obj_type_t typeId(cmd.requestPayload.value().blockType);
+    obj_id_t id(cmd.request()->blockId);
+    obj_type_t typeId(cmd.request()->blockType);
 
     if (id > 0 && id < objects.getObjectsStartId()) {
         return CboxError::INVALID_OBJECT_ID;
@@ -152,12 +150,11 @@ CboxError deleteObject(Command& cmd)
 {
     CboxError status = CboxError::OK;
 
-    auto payload = cmd.requestPayload;
-    if (!payload.has_value()) {
+    if (!cmd.request()) {
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    obj_id_t id(payload.value().blockId);
+    obj_id_t id(cmd.request()->blockId);
     obj_id_t storageId = id;
 
     auto deprecated = CboxPtr<DeprecatedObject>(id);
@@ -183,12 +180,11 @@ CboxError listActiveObjects(Command& cmd)
 
 CboxError readStoredObject(Command& cmd)
 {
-    auto payload = cmd.requestPayload;
-    if (!payload.has_value()) {
+    if (!cmd.request()) {
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    auto objId = cmd.requestPayload.value().blockId;
+    auto objId = cmd.request()->blockId;
 
     const auto loader = [&cmd, &objId](RegionDataIn& in) -> CboxError {
         return readPersistedFromStream(in, objId, cmd);
@@ -304,7 +300,6 @@ void unloadAllObjects()
 void update(const update_t& now)
 {
     lastUpdateTime = now;
-    tracing::add(tracing::Action::UPDATE_OBJECTS);
     objects.update(now);
 }
 

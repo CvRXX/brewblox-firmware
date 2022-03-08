@@ -27,7 +27,6 @@
 #include "brewblox.hpp"
 #include "cbox/Box.h"
 #include "cbox/GroupsObject.h"
-#include "cbox/Tracing.h"
 #include "control/Logger.h"
 #include <asio.hpp>
 #include <esp_log.h>

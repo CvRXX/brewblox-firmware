@@ -108,7 +108,7 @@ SCENARIO("A container to hold objects")
 
         THEN("All contained objects can be streamed out using the container's const_iterators")
         {
-            TestCommand cmd(CboxOpcode::NONE);
+            TestCommand cmd;
             CboxError res = CboxError::OK;
 
             for (auto it = container.cbegin(); it != container.cend() && res == CboxError::OK; it++) {
@@ -145,7 +145,7 @@ SCENARIO("A container to hold objects")
 
         BlackholeDataOut out;
         EmptyDataIn in;
-        TestCommand cmd(CboxOpcode::NONE);
+        TestCommand cmd;
         THEN("They generate the INVALID_OBJECT_PTR error on streaming functions")
         {
             auto cobj = container.fetchContained(20);
@@ -155,20 +155,6 @@ SCENARIO("A container to hold objects")
             CHECK(res == CboxError::INVALID_OBJECT_PTR);
             res = cobj->write(cmd);
             CHECK(res == CboxError::INVALID_OBJECT_PTR);
-        }
-
-        THEN("The object is skipped in an update")
-        {
-            for (update_t now = 0; now < 5500; now += 100) {
-                container.update(now);
-            }
-            int updates = 0;
-            for (auto& item : tracing::history()) {
-                if (item.action == tracing::UPDATE_OBJECT && item.id == 20) {
-                    updates++;
-                }
-            }
-            CHECK(updates == 0);
         }
     }
 }
@@ -186,17 +172,16 @@ SCENARIO("A container with system objects")
 
     THEN("The system objects can be read like normal objects")
     {
-        TestCommand cmd(CboxOpcode::READ_OBJECT);
+        TestCommand cmd;
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
         spobj->read(cmd);
-        CHECK_THAT(cmd.responses.at(0).content, Catch::Matchers::Equals(std::vector<uint8_t>{0x11, 0x11, 0x11, 0x11}));
+        CHECK(hexed(cmd.responses.at(0).content) == "11111111");
     }
 
     THEN("The system objects can be read written")
     {
-        TestCommand cmd(CboxOpcode::WRITE_OBJECT, 1, 1000);
-        cmd.requestPayload.value().content = {0x44, 0x33, 0x22, 0x11}; // LSB first
+        TestCommand cmd(1, 1000, {0x44, 0x33, 0x22, 0x11}); // LSB first
 
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);

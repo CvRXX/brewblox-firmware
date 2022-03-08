@@ -21,7 +21,6 @@
 
 #include "cbox/DataStream.h"
 #include "cbox/Object.h"
-#include "cbox/Tracing.h"
 #include <limits>
 #include <memory>
 
@@ -38,7 +37,6 @@ public:
         , _nextUpdateTime(0)
     {
         if (_obj) {
-            tracing::add(tracing::Action::CONSTRUCT_OBJECT, _id, _obj->typeId());
             _obj->objectId = _id;
         }
     }
@@ -48,13 +46,7 @@ public:
     template <typename T>
     explicit ContainedObject(obj_id_t id, std::shared_ptr<T>&& obj) = delete;
 
-    virtual ~ContainedObject()
-    {
-        if (_obj) {
-            // this check is needed because otherwise a trace would be created if a vector is relocated and reserved space is destructed
-            tracing::add(tracing::Action::DESTRUCT_OBJECT, _id, _obj->typeId());
-        }
-    }
+    virtual ~ContainedObject() = default;
 
     ContainedObject(const ContainedObject&) = default;           // no copy
     ContainedObject& operator=(const ContainedObject&) = delete; // no copy
@@ -88,7 +80,6 @@ public:
     void forcedUpdate(const uint32_t& now)
     {
         if (_obj) {
-            tracing::add(tracing::Action::UPDATE_OBJECT, _id, _obj->typeId());
             _nextUpdateTime = _obj->update(now);
             return;
         }
