@@ -17,6 +17,22 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 BUILD_DIR = $(shell pwd)/build
 TARGET = runner
 
+GIT_VERSION = $(shell cd $(ROOT_DIR); git rev-parse --short=8 HEAD)
+$(info using $(GIT_VERSION) as version)
+CFLAGS += -DGIT_VERSION="\"$(GIT_VERSION)\""
+
+GIT_DATE = $(shell cd $(ROOT_DIR); git log -1 --format=%cd --date=short)
+$(info using $(GIT_DATE) as release date)
+CFLAGS += -DGIT_DATE="\"$(GIT_DATE)\""
+
+PROTO_VERSION = $(shell cd $(ROOT_DIR)/external_libs/brewblox-proto; git rev-parse --short=8 HEAD)
+$(info using $(PROTO_VERSION) as protocol version)
+CFLAGS += -DPROTO_VERSION="\"$(PROTO_VERSION)\""
+
+PROTO_DATE = $(shell cd $(ROOT_DIR)/external_libs/brewblox-proto; git log -1 --format=%cd --date=short)
+$(info using $(GIT_DATE) as protocol date)
+CFLAGS += -DPROTO_DATE="\"$(PROTO_DATE)\""
+
 # Check boost availability
 # This does not add it to the include path.
 # To do that, use `CPPFLAGS += -isystem $(BOOST_ROOT)`

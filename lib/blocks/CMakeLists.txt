@@ -1,6 +1,5 @@
 idf_component_register(
   SRCS
-    src/nanopb_callbacks.cpp
     src/brewblox.cpp
 
     src/ConstraintsProto.cpp

@@ -19,7 +19,6 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
 #include "blocks/TempSensorOneWireBlock.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"

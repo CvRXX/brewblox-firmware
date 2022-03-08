@@ -18,7 +18,6 @@
  */
 
 #include "blocks/MutexBlock.h"
-#include "nanopb_callbacks.h"
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError

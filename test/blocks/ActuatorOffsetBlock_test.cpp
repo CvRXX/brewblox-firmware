@@ -19,10 +19,12 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/ActuatorOffsetBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
+#include "brewblox_particle.hpp"
+#include "cbox/Box.h"
 #include "control/Temperature.h"
 #include "proto/ActuatorOffset_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
@@ -30,119 +32,92 @@
 
 SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf data")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
-    testBox.reset();
-
-    // create mock sensor 1
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(100));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
-
-    auto newSensor1 = blox_test::TempSensorMock::Block();
-    newSensor1.set_setting(cnl::unwrap(temp_t(21.0)));
-    newSensor1.set_connected(true);
-    testBox.put(newSensor1);
-
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
-
-    // create pair 1 (target)
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(101));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(SetpointSensorPairBlock::staticTypeId());
-
-    auto newPair1 = blox_test::SetpointSensorPair::Block();
-    newPair1.set_sensorid(100);
-    newPair1.set_storedsetting(cnl::unwrap(temp_t(20.0)));
-    newPair1.set_settingenabled(true);
-    testBox.put(newPair1);
-
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
-
-    // create mock sensor 2
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(102));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
-
-    auto newSensor2 = blox_test::TempSensorMock::Block();
-    newSensor2.set_setting(cnl::unwrap(temp_t(27.0)));
-    newSensor2.set_connected(true);
-    testBox.put(newSensor2);
-
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
-
-    // create pair 2 (reference)
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(103));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(SetpointSensorPairBlock::staticTypeId());
-
-    auto newPair2 = blox_test::SetpointSensorPair::Block();
-    newPair2.set_sensorid(102);
-    newPair2.set_storedsetting(cnl::unwrap(temp_t(20.0)));
-    newPair2.set_settingenabled(true);
-    testBox.put(newPair2);
-
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
-
-    // create actuator
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(104));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(ActuatorOffsetBlock::staticTypeId());
-
-    blox_test::ActuatorOffset::Block newAct;
-    newAct.set_targetid(101);
-    newAct.set_referenceid(103);
-    newAct.set_referencesettingorvalue(blox_test::ActuatorOffset::ReferenceKind(ActuatorOffset::ReferenceKind::SETTING));
-    newAct.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(12)));
-    newAct.set_enabled(true);
-
-    testBox.put(newAct);
-
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
-
-    testBox.update(0);
-
-    // read actuator
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::READ_OBJECT);
-    testBox.put(cbox::obj_id_t(104));
+    // Create mock sensor 1
     {
-        auto decoded = blox_test::ActuatorOffset::Block();
-        testBox.processInputToProto(decoded);
-        CHECK(testBox.lastReplyHasStatusOk());
-        CHECK(decoded.ShortDebugString() ==
+        auto cmd = cbox::TestCommand(100, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
+        message.set_setting(cnl::unwrap(temp_t(21.0)));
+        message.set_connected(true);
+
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
+
+    // Create pair 1 (target)
+    {
+        auto cmd = cbox::TestCommand(101, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
+        message.set_sensorid(100);
+        message.set_storedsetting(cnl::unwrap(temp_t(20.0)));
+        message.set_settingenabled(true);
+
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
+
+    // Create mock sensor 2
+    {
+        auto cmd = cbox::TestCommand(102, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
+        message.set_setting(cnl::unwrap(temp_t(27.0)));
+        message.set_connected(true);
+
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
+
+    // Create pair 2 (reference)
+    {
+        auto cmd = cbox::TestCommand(103, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
+        message.set_sensorid(102);
+        message.set_storedsetting(cnl::unwrap(temp_t(20.0)));
+        message.set_settingenabled(true);
+
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
+
+    // Create actuator
+    {
+        auto cmd = cbox::TestCommand(104, ActuatorOffsetBlock::staticTypeId());
+        auto message = blox_test::ActuatorOffset::Block();
+        message.set_targetid(101);
+        message.set_referenceid(103);
+        message.set_referencesettingorvalue(blox_test::ActuatorOffset::ReferenceKind(ActuatorOffset::ReferenceKind::SETTING));
+        message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(12)));
+        message.set_enabled(true);
+
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
+
+    cbox::update(0);
+
+    // Read actuator
+    {
+        auto cmd = cbox::TestCommand(104, ActuatorOffsetBlock::staticTypeId());
+        auto message = blox_test::ActuatorOffset::Block();
+        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+        parseFromResponse(cmd, message);
+        CHECK(message.ShortDebugString() ==
               "targetId: 101 referenceId: 103 "
               "setting: 49152 value: 4096 " // setting is 12 (setpoint difference), value is 1 (21 - 20)
               "drivenTargetId: 101 enabled: true "
               "desiredSetting: 49152");
     }
 
-    // read reference pair
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::READ_OBJECT);
-    testBox.put(cbox::obj_id_t(101));
-
+    // Read target pair
     {
-        auto decoded = blox_test::SetpointSensorPair::Block();
-        testBox.processInputToProto(decoded);
-        CHECK(testBox.lastReplyHasStatusOk());
-        CHECK(decoded.ShortDebugString() ==
+        auto cmd = cbox::TestCommand(101, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
+        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+        parseFromResponse(cmd, message);
+        CHECK(message.ShortDebugString() ==
               "sensorId: 100 "
               "setting: 131072 "
               "value: 86016 "
@@ -152,16 +127,13 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
               "valueUnfiltered: 86016"); // setting 32, value 21 (setpoint adjusted to 20 + 12)
     }
 
-    // read target pair
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::READ_OBJECT);
-    testBox.put(cbox::obj_id_t(103));
-
+    // Read reference pair
     {
-        auto decoded = blox_test::SetpointSensorPair::Block();
-        testBox.processInputToProto(decoded);
-        CHECK(testBox.lastReplyHasStatusOk());
-        CHECK(decoded.ShortDebugString() ==
+        auto cmd = cbox::TestCommand(103, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
+        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+        parseFromResponse(cmd, message);
+        CHECK(message.ShortDebugString() ==
               "sensorId: 102 "
               "setting: 81920 "
               "value: 110592 "
@@ -173,38 +145,30 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
 
     AND_WHEN("The reference setpoint is disabled")
     {
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::WRITE_OBJECT);
-        testBox.put(cbox::obj_id_t(103));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(SetpointSensorPairBlock::staticTypeId());
+        auto writeCmd = cbox::TestCommand(103, SetpointSensorPairBlock::staticTypeId());
+        auto writeMsg = blox_test::SetpointSensorPair::Block();
+        writeMsg.set_storedsetting(cnl::unwrap(temp_t(20.0)));
+        writeMsg.set_settingenabled(false);
+        serializeToRequest(writeCmd, writeMsg);
+        CHECK(cbox::writeObject(writeCmd) == cbox::CboxError::OK);
 
-        auto newPair = blox_test::SetpointSensorPair::Block();
-        newPair.set_storedsetting(cnl::unwrap(temp_t(20.0)));
-        newPair.set_settingenabled(false);
-        testBox.put(newPair);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-
-        testBox.update(1000);
+        cbox::update(5000);
 
         THEN("The actuator is not driving the target setpoint and setting and value are stripped")
         {
-            // read actuator
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(104));
-            {
-                auto decoded = blox_test::ActuatorOffset::Block();
-                testBox.processInputToProto(decoded);
-                CHECK(testBox.lastReplyHasStatusOk());
-                CHECK(decoded.ShortDebugString() ==
-                      "targetId: 101 referenceId: 103 "
-                      "enabled: true "
-                      "desiredSetting: 49152 "
-                      "strippedFields: 7 strippedFields: 6");
-            }
+            auto readCmd = cbox::TestCommand(104, ActuatorOffsetBlock::staticTypeId());
+            CHECK(cbox::readObject(readCmd) == cbox::CboxError::OK);
+
+            auto readMsg = blox_test::ActuatorOffset::Block();
+            parseFromResponse(readCmd, readMsg);
+
+            CHECK(readMsg.ShortDebugString() ==
+                  "targetId: 101 "
+                  "referenceId: 103 "
+                  "enabled: true "
+                  "desiredSetting: 49152 "
+                  "strippedFields: 7 "
+                  "strippedFields: 6");
         }
     }
 }

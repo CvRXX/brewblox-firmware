@@ -10,10 +10,14 @@ include ../checkers.mk # sanitizer and gcov
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
-# add all tests
+# test/cbox
 CPPSRC += $(wildcard $(ROOT_DIR)/test/cbox/*.cpp)
 
-# and sources
+# test/shared
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
+
+# lib/cbox
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)
 

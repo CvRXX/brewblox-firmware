@@ -56,7 +56,7 @@ public:
                                    staticTypeId());
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    virtual cbox::CboxError readPersisted(cbox::Command&) const override final
     {
         return cbox::CboxError::PERSISTING_NOT_NEEDED;
     }

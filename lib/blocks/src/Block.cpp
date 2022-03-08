@@ -1,14 +1,19 @@
 #include "blocks/Block.h"
 #include "cbox/DataStream.h"
-#include "nanopb_callbacks.h"
+#include <pb_decode.h>
+#include <pb_encode.h>
 
 cbox::CboxError
 readProtoFromVector(std::vector<uint8_t>& in, void* destStruct, const pb_field_t fields[])
 {
-    pb_istream_t stream = {dataInStreamCallback, in.data(), in.size()};
+    auto stream = pb_istream_from_buffer(in.data(), in.size());
     bool success = pb_decode(&stream, fields, destStruct);
 
-    return (success) ? cbox::CboxError::OK : cbox::CboxError::INPUT_STREAM_DECODING_ERROR;
+    if (success) {
+        return cbox::CboxError::OK;
+    } else {
+        return cbox::CboxError::INPUT_STREAM_DECODING_ERROR;
+    }
 }
 
 cbox::CboxError
@@ -24,11 +29,15 @@ readProtoFromCommand(cbox::Command& cmd, void* destStruct, const pb_field_t fiel
 cbox::CboxError
 writeProtoToVector(std::vector<uint8_t>& out, const void* srcStruct, const pb_field_t fields[])
 {
-    pb_ostream_t stream = {dataOutStreamCallback, out.data(), out.size(), 0};
+    auto stream = pb_ostream_from_buffer(out.data(), out.size());
     bool success = pb_encode(&stream, fields, srcStruct);
     out.resize(stream.bytes_written);
 
-    return (success) ? cbox::CboxError::OK : cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+    if (success) {
+        return cbox::CboxError::OK;
+    } else {
+        return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+    }
 }
 
 cbox::CboxError

@@ -1,6 +1,8 @@
-// helper function for testing. Appends the CRC to a hex string, the same way CrcDataOut would do
 #pragma once
 #include "cbox/Command.h"
+#include "cbox/DataStream.h"
+#include "cbox/DataStreamConverters.h"
+#include "cbox/DataStreamIo.h"
 #include <sstream>
 #include <string>
 
@@ -66,3 +68,28 @@ public:
     }
 };
 } // end namespace cbox
+
+namespace google {
+namespace protobuf {
+    class Message;
+}
+}
+
+class ProtoDataOut {
+public:
+    cbox::EncodedDataOut& out;
+    ProtoDataOut(cbox::EncodedDataOut& target)
+        : out(target)
+    {
+    }
+
+    void put(const ::google::protobuf::Message& message);
+};
+
+void decodeProtoFromReply(std::stringstream& ss, ::google::protobuf::Message& message);
+
+void serializeToRequest(cbox::Command& cmd, ::google::protobuf::Message& message);
+
+void parseFromResponse(cbox::Payload& payload, ::google::protobuf::Message& message);
+
+void parseFromResponse(cbox::TestCommand& cmd, ::google::protobuf::Message& message);

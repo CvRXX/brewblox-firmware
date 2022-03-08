@@ -19,74 +19,68 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/ActuatorPwmBlock.h"
 #include "blocks/DigitalActuatorBlock.h"
+#include "brewblox_particle.hpp"
+#include "cbox/Box.h"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 
-SCENARIO("A Blox ActuatorPwm object can be created from streamed protobuf data")
+SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
-
-    testBox.reset();
+    cbox::objects.clearAll();
+    setupSystemBlocks();
 
     auto actId = cbox::obj_id_t(100);
     auto pwmId = cbox::obj_id_t(101);
     auto sparkPinsId = cbox::obj_id_t(19); // system object 19 is Spark IO pins
 
-    // create digital actuator with Spark pin as target
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(actId));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(DigitalActuatorBlock::staticTypeId());
+    // Create digital actuator with Spark pin as target
+    {
+        auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+        auto message = blox_test::DigitalActuator::Block();
 
-    auto message = blox_test::DigitalActuator::Block();
-    message.set_hwdevice(sparkPinsId);
-    message.set_channel(1);
-    message.set_state(blox_test::IoArray::DigitalState::Inactive);
+        message.set_hwdevice(sparkPinsId);
+        message.set_channel(1);
+        message.set_state(blox_test::IoArray::DigitalState::Inactive);
 
-    testBox.put(message);
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+    // Create PWM actuator
+    {
+        auto cmd = cbox::TestCommand(pwmId, ActuatorPwmBlock::staticTypeId());
+        auto message = blox_test::ActuatorPwm::Block();
 
-    // create pwm actuator
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(pwmId));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(ActuatorPwmBlock::staticTypeId());
+        message.set_actuatorid(actId); // predefined system object for pin actuator
+        message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(20)));
+        message.set_period(4000);
+        message.set_enabled(true);
+        auto c = message.mutable_constrainedby()->add_constraints();
+        c->set_min(cnl::unwrap(ActuatorAnalog::value_t(10)));
 
-    blox_test::ActuatorPwm::Block newPwm;
-    newPwm.set_actuatorid(actId); // predefined system object for pin actuator
-    newPwm.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(20)));
-    newPwm.set_period(4000);
-    newPwm.set_enabled(true);
-    auto c = newPwm.mutable_constrainedby()->add_constraints();
-    c->set_min(cnl::unwrap(ActuatorAnalog::value_t(10)));
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
 
-    testBox.put(newPwm);
+    // Read PWM actuator
+    {
+        auto cmd = cbox::TestCommand(pwmId, ActuatorPwmBlock::staticTypeId());
+        auto message = blox_test::ActuatorPwm::Block();
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+        parseFromResponse(cmd, message);
 
-    // read pwm
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::READ_OBJECT);
-    testBox.put(cbox::obj_id_t(pwmId));
-
-    auto decoded = blox_test::ActuatorPwm::Block();
-    testBox.processInputToProto(decoded);
-
-    CHECK(testBox.lastReplyHasStatusOk());
-    CHECK(decoded.ShortDebugString() ==
-          "actuatorId: 100 "
-          "period: 4000 setting: 81920 "
-          "constrainedBy { constraints { min: 40960 } } "
-          "drivenActuatorId: 100 "
-          "enabled: true "
-          "desiredSetting: 81920");
+        CHECK(message.ShortDebugString() ==
+              "actuatorId: 100 "
+              "period: 4000 "
+              "setting: 81920 "
+              "value: 36404 "
+              "constrainedBy { constraints { min: 40960 } } "
+              "drivenActuatorId: 100 "
+              "enabled: true "
+              "desiredSetting: 81920");
+    }
 }

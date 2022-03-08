@@ -1,6 +1,6 @@
 #include "blocks/BalancerBlock.h"
 #include "blocks/ConstraintsProto.h"
-#include "nanopb_callbacks.h"
+#include "pb_encode.h"
 #include "proto/Balancer.pb.h"
 
 // stream result of a bus search, with arg pointing to the onewire bus
@@ -47,7 +47,7 @@ BalancerBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-BalancerBlock::write(cbox::Command& cmd)
+BalancerBlock::write(cbox::Command&)
 {
     // no settings to write (actuators register themselves)
     return cbox::CboxError::OK;

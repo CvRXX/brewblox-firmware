@@ -20,9 +20,8 @@
 #include "blocks/OneWireBusBlock.h"
 #include "control/OneWire.h"
 #include "control/OneWireAddress.h"
+#include "pb_encode.h"
 #include <limits>
-
-#include "nanopb_callbacks.h"
 
 bool streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {

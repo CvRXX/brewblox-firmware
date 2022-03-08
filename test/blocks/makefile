@@ -1,10 +1,11 @@
 ## -*- Makefile -*-
 
-CFLAGS = -g
 CCFLAGS = $(CFLAGS)
 CXXFLAGS = $(CFLAGS)
 
 ROOT_DIR = $(shell git rev-parse --show-toplevel)
+
+# include ../checkers.mk # sanitizer and gcov
 
 # lib/blocks
 INCLUDE_DIRS += $(ROOT_DIR)/lib/blocks/inc
@@ -46,9 +47,20 @@ CPPSRC += platform/particle/spark/src/Board.cpp
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb
 CSRC += $(wildcard $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb/*.c)
 
+# test/shared
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
+
 # tests
-CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
-CPPSRC += test/cbox/TestHelpers.cpp
+CPPSRC += test/blocks/runner.cpp
+CPPSRC += test/blocks/TestCboxApplication.cpp
+CPPSRC += test/blocks/ActuatorLogicBlock_test.cpp
+CPPSRC += test/blocks/ActuatorOffsetBlock_test.cpp
+CPPSRC += test/blocks/ActuatorPwmBlock_test.cpp
+CPPSRC += test/blocks/AutoDiscover_test.cpp
+CPPSRC += test/blocks/BalancerAndMutexBlock_test.cpp
+CPPSRC += test/blocks/DigitalActuatorBlock_test.cpp
+# CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
 
 # app/brewblox-particle
 INCLUDE_DIRS += $(ROOT_DIR)/app/brewblox-particle/inc
@@ -59,9 +71,6 @@ CPPSRC += app/brewblox-particle/src/AppTicks.cpp
 CPPSRC += app/brewblox-particle/src/Spark2PinsBlock.cpp
 CPPSRC += app/brewblox-particle/src/Spark3PinsBlock.cpp
 CPPSRC += app/brewblox-particle/src/SparkIoBase.cpp
-
-# enable message id's
-CFLAGS += -DPB_MSGID=1
 
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
@@ -85,64 +94,26 @@ CFLAGS += -DPLATFORM_ID=3
 # include boost
 CPPFLAGS += -isystem $(BOOST_ROOT)
 
-CFLAGS += $(patsubst %,-I%,$(INCLUDE_DIRS)) -I.
-CFLAGS += -ffunction-sections -Wall
-CFLAGS += -Wno-deprecated
-CFLAGS += -Wnull-dereference
-CPPFLAGS += -fdiagnostics-show-template-tree -fno-elide-type # GCC8 required
-CFLAGS += -Wextra
-CFLAGS += -Wpedantic -Wvla -Wswitch-enum -fvar-tracking-assignments
-CFLAGS += -Wduplicated-cond -Wduplicated-branches -rdynamic
-CPPFLAGS += -Wextra-semi
-
-# Flag compiler error for [-Wdeprecated-declarations]
-CFLAGS += -Werror=deprecated-declarations
+# include google protobuf dependencies
+CPPFLAGS += $(shell pkg-config --cflags protobuf)
+LDFLAGS += $(shell pkg-config --libs protobuf)
+CFLAGS += -DPB_MSGID=1
 
 # Generate dependency files automatically.
 CFLAGS += -MD -MP -MF $@.d
 CFLAGS += -DDEBUG_BUILD
-# OSX includes sys/wait.h which defines "wait"
-CFLAGS += -D_SYS_WAIT_H_ -D_SYS_WAIT_H
+
+CFLAGS += -ffunction-sections -Wall
+CFLAGS += -Werror=deprecated-declarations
 
 CPPFLAGS += -std=gnu++17
 CFLAGS += -pthread
 
-
-# compile with coverage
-CFLAGS += -g -fprofile-arcs -ftest-coverage
-LDFLAGS += -lgcov
-
-# compile with coverage and sanitizer (commented because cnl doesn't work well with it)
-# include $(ROOT_DIR)/test/checkers.mk # sanitizer and gcov
-
-# the following warnings can help find opportunities for impromevent in virtual functions
-# Warn when virtual functions are overriden without override/override final specifier (requires gcc 5.1)
-# CPPFLAGS += -Wsuggest-override
-# Warn when functions and classes can be marked final
-# CPPFLAGS += -Wsuggest-final-types
-# CPPFLAGS += -Wsuggest-final-methods
-
-# include google protobuf dependencies
-CPPFLAGS += $(shell pkg-config --cflags protobuf)
-LDFLAGS += $(shell pkg-config --libs protobuf)
+CPPFLAGS += -Wsuggest-override
+CPPFLAGS += -Wsuggest-final-types
+CPPFLAGS += -Wsuggest-final-methods
 
 # don't generate warnings for system headers
 CFLAGS += -Wno-system-headers
-
-GIT_VERSION = $(shell cd $(ROOT_DIR); git rev-parse --short=8 HEAD)
-$(info using $(GIT_VERSION) as version)
-CFLAGS += -DGIT_VERSION="\"$(GIT_VERSION)\""
-
-GIT_DATE = $(shell cd $(ROOT_DIR); git log -1 --format=%cd --date=short)
-$(info using $(GIT_DATE) as release date)
-CFLAGS += -DGIT_DATE="\"$(GIT_DATE)\""
-
-PROTO_VERSION = $(shell cd $(ROOT_DIR)/external_libs/brewblox-proto; git rev-parse --short=8 HEAD)
-$(info using $(PROTO_VERSION) as protocol version)
-CFLAGS += -DPROTO_VERSION="\"$(PROTO_VERSION)\""
-
-PROTO_DATE = $(shell cd $(ROOT_DIR)/external_libs/brewblox-proto; git log -1 --format=%cd --date=short)
-$(info using $(GIT_DATE) as protocol date)
-CFLAGS += -DPROTO_DATE="\"$(PROTO_DATE)\""
 
 include ../targets.mk

@@ -155,7 +155,7 @@ CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd
     return cmd.respond(resp);
 }
 
-CboxError saveToStream(DataOut& out, obj_id_t objId, std::shared_ptr<Object> obj)
+CboxError saveToStream(DataOut& out, obj_id_t /*objId*/, std::shared_ptr<Object> obj)
 {
     if (!obj) {
         return CboxError::INVALID_OBJECT_PTR;

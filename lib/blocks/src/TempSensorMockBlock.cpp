@@ -52,6 +52,16 @@ bool TempSensorMockBlock::streamFluctuationsIn(pb_istream_t* stream, const pb_fi
     return true;
 }
 
+size_t TempSensorMockBlock::protoSize() const
+{
+    return (blox_TempSensorMock_Fluctuation_size + 2) * sensor.fluctuations().size()
+           + 6 // value
+           + 3 // connected
+           + 6 // setting
+           + 4 // strippedFields
+        ;
+}
+
 void TempSensorMockBlock::writeMessage(blox_TempSensorMock_Block& message) const
 {
     FieldTags stripped;
@@ -80,7 +90,7 @@ TempSensorMockBlock::read(cbox::Command& cmd) const
     return writeProtoToCommand(cmd,
                                &message,
                                blox_TempSensorMock_Block_fields,
-                               (blox_TempSensorMock_Fluctuation_size + 1) * sensor.fluctuations().size(),
+                               protoSize(),
                                objectId,
                                staticTypeId());
 }
@@ -96,7 +106,7 @@ TempSensorMockBlock::readPersisted(cbox::Command& cmd) const
     return writeProtoToCommand(cmd,
                                &message,
                                blox_TempSensorMock_Block_fields,
-                               (blox_TempSensorMock_Fluctuation_size + 1) * sensor.fluctuations().size(),
+                               protoSize(),
                                objectId,
                                staticTypeId());
 }

@@ -52,7 +52,7 @@ SysInfoBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-SysInfoBlock::readPersisted(cbox::Command& cmd) const
+SysInfoBlock::readPersisted(cbox::Command&) const
 {
     return cbox::CboxError::PERSISTING_NOT_NEEDED;
 }

@@ -19,7 +19,6 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
 #include "blocks/ActuatorAnalogMockBlock.h"
 #include "blocks/PidBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"

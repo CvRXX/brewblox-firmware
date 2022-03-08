@@ -19,11 +19,13 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/ActuatorLogicBlock.h"
 #include "blocks/DigitalActuatorBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
+#include "brewblox_particle.hpp"
+#include "cbox/Box.h"
 #include "cbox/DataStreamIo.h"
 #include "proto/ActuatorLogic_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
@@ -33,110 +35,112 @@
 
 SCENARIO("Test", "[makelogicblock]")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
-
-    testBox.reset();
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
     // acuators 101-105
     // sensors 111-115
     // setpoints 121-125
     // logic 130
 
-    auto setAct = [&testBox](cbox::obj_id_t id, blox_test::IoArray::DigitalState state, bool firstCreate = false) {
+    auto setAct = [](cbox::obj_id_t id, blox_test::IoArray::DigitalState state, bool firstCreate = false) -> cbox::CboxError {
         // configure digital actuator by writing to the object
         auto sparkPinsId = cbox::obj_id_t(19); // system object 19 is Spark IO pins
 
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(firstCreate ? commands::CREATE_OBJECT : commands::WRITE_OBJECT);
-        testBox.put(id);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(DigitalActuatorBlock::staticTypeId());
+        cbox::TestCommand cmd(id, DigitalActuatorBlock::staticTypeId());
 
         auto message = blox_test::DigitalActuator::Block();
         message.set_hwdevice(sparkPinsId);
         message.set_channel(uint8_t(id - 100));
         message.set_desiredstate(state);
 
-        testBox.put(message);
+        serializeToRequest(cmd, message);
 
-        testBox.processInput();
-        REQUIRE(testBox.lastReplyHasStatusOk());
+        if (firstCreate) {
+            return cbox::createObject(cmd);
+        } else {
+            return cbox::writeObject(cmd);
+        }
     };
 
-    auto setSensor = [&testBox](cbox::obj_id_t id, temp_t setting, bool firstCreate = false) {
-        // create mock sensor or write to existing
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(firstCreate ? commands::CREATE_OBJECT : commands::WRITE_OBJECT);
-        testBox.put(id);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(TempSensorMockBlock::staticTypeId());
+    auto setSensor = [](cbox::obj_id_t id, temp_t setting, bool firstCreate = false) -> cbox::CboxError {
+        auto cmd = cbox::TestCommand(id, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
 
-        auto newSensor = blox_test::TempSensorMock::Block();
-        newSensor.set_setting(cnl::unwrap(setting));
-        newSensor.set_connected(true);
-        testBox.put(newSensor);
+        message.set_setting(cnl::unwrap(setting));
+        message.set_connected(true);
 
-        testBox.processInput();
-        REQUIRE(testBox.lastReplyHasStatusOk());
+        serializeToRequest(cmd, message);
+
+        if (firstCreate) {
+            return cbox::createObject(cmd);
+        } else {
+            return cbox::writeObject(cmd);
+        }
     };
 
-    auto setSetpoint = [&testBox](cbox::obj_id_t id, temp_t setting, bool firstCreate = false) {
-        // create setpoint or write to existing
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(firstCreate ? commands::CREATE_OBJECT : commands::WRITE_OBJECT);
-        testBox.put(id);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(SetpointSensorPairBlock::staticTypeId());
+    auto setSetpoint = [](cbox::obj_id_t id, temp_t setting, bool firstCreate = false) -> cbox::CboxError {
+        auto cmd = cbox::TestCommand(id, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
 
-        blox_test::SetpointSensorPair::Block newPair;
-        newPair.set_sensorid(id - 10);
-        newPair.set_settingenabled(true);
-        newPair.set_storedsetting(cnl::unwrap(setting));
-        newPair.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
-        newPair.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
-        testBox.put(newPair);
-        testBox.processInput();
-        REQUIRE(testBox.lastReplyHasStatusOk());
+        message.set_sensorid(id - 10);
+        message.set_settingenabled(true);
+        message.set_storedsetting(cnl::unwrap(setting));
+        message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
+        message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
+
+        serializeToRequest(cmd, message);
+
+        if (firstCreate) {
+            return cbox::createObject(cmd);
+        } else {
+            return cbox::writeObject(cmd);
+        }
     };
 
-    // create 5 digital actuators
-    for (cbox::obj_id_t i = 101; i <= 105; i++) {
-        setAct(i, blox_test::IoArray::DigitalState::Inactive, true);
-    }
-
-    // create 5 mock sensors
-    for (cbox::obj_id_t i = 111; i <= 115; i++) {
-        setSensor(i, temp_t{20}, true);
-    }
-
-    // create 5 setpoints
-    for (cbox::obj_id_t i = 121; i <= 125; i++) {
-        setSetpoint(i, temp_t{21}, true);
-    }
-
-    auto setLogic = [&testBox](blox_test::ActuatorLogic::Block& message, bool firstCreate = false) {
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(firstCreate ? commands::CREATE_OBJECT : commands::WRITE_OBJECT);
-        testBox.put(cbox::obj_id_t{130});
-        testBox.put(uint8_t(0xFF));
-        testBox.put(ActuatorLogicBlock::staticTypeId());
+    auto setLogic = [](blox_test::ActuatorLogic::Block& message, bool firstCreate = false) {
+        auto cmd = cbox::TestCommand(130, ActuatorLogicBlock::staticTypeId());
 
         message.set_targetid(105);
         message.set_enabled(true);
 
-        testBox.put(message);
+        serializeToRequest(cmd, message);
 
-        auto decoded = blox_test::ActuatorLogic::Block();
-        testBox.processInputToProto(decoded);
-        REQUIRE(testBox.lastReplyHasStatusOk());
-        return decoded;
+        if (firstCreate) {
+            cbox::createObject(cmd);
+        } else {
+            cbox::writeObject(cmd);
+        }
+
+        auto responseMsg = blox_test::ActuatorLogic::Block();
+        parseFromResponse(cmd, responseMsg);
+        return responseMsg;
     };
+
+    // create 5 digital actuators
+    for (cbox::obj_id_t i = 101; i <= 105; i++) {
+        CHECK(setAct(i, blox_test::IoArray::DigitalState::Inactive, true) == cbox::CboxError::OK);
+    }
+
+    // create 5 mock sensors
+    for (cbox::obj_id_t i = 111; i <= 115; i++) {
+        CHECK(setSensor(i, temp_t{20}, true) == cbox::CboxError::OK);
+    }
+
+    // create 5 setpoints
+    for (cbox::obj_id_t i = 121; i <= 125; i++) {
+        CHECK(setSetpoint(i, temp_t{21}, true) == cbox::CboxError::OK);
+    }
 
     // create logic block with emty logic
     auto message = blox_test::ActuatorLogic::Block();
     auto result = setLogic(message, true);
-    CHECK(result.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_EMPTY");
+    CHECK(result.ShortDebugString() ==
+          "targetId: 105 "
+          "drivenTargetId: 105 "
+          "enabled: true "
+          "result: RESULT_EMPTY");
 
     WHEN("4 digital actuators are combined with various expressions")
     {
@@ -172,22 +176,37 @@ SCENARIO("Test", "[makelogicblock]")
             message.set_expression("a|b|c");
 
             auto result = setLogic(message);
-            CHECK(result.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true expression: \"a|b|c\" digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 102 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 103 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
+            CHECK(result.ShortDebugString() ==
+                  "targetId: 105 "
+                  "drivenTargetId: 105 "
+                  "enabled: true "
+                  "expression: \"a|b|c\" "
+                  "digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } "
+                  "digital { op: OP_DESIRED_IS id: 102 rhs: STATE_ACTIVE } "
+                  "digital { op: OP_DESIRED_IS id: 103 rhs: STATE_ACTIVE } "
+                  "digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
 
             setAct(101, blox_test::IoArray::DigitalState::Inactive);
             setAct(102, blox_test::IoArray::DigitalState::Active);
             setAct(103, blox_test::IoArray::DigitalState::Inactive);
 
-            testBox.update(1000);
-
             {
-                testBox.put(uint16_t(0));
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t{130});
+                cbox::update(1000);
+
+                cbox::TestCommand cmd(130, 0);
+                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
                 auto decoded = blox_test::ActuatorLogic::Block();
-                testBox.processInputToProto(decoded);
-                CHECK(testBox.lastReplyHasStatusOk());
-                CHECK(decoded.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_TRUE expression: \"a|b|c\" digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS result: RESULT_TRUE id: 102 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 103 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
+                parseFromResponse(cmd, decoded);
+                CHECK(decoded.ShortDebugString() ==
+                      "targetId: 105 "
+                      "drivenTargetId: 105 "
+                      "enabled: true "
+                      "result: RESULT_TRUE "
+                      "expression: \"a|b|c\" "
+                      "digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } "
+                      "digital { op: OP_DESIRED_IS result: RESULT_TRUE id: 102 rhs: STATE_ACTIVE } "
+                      "digital { op: OP_DESIRED_IS id: 103 rhs: STATE_ACTIVE } "
+                      "digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
             }
 
             setAct(101, blox_test::IoArray::DigitalState::Inactive);
@@ -195,16 +214,22 @@ SCENARIO("Test", "[makelogicblock]")
             setAct(103, blox_test::IoArray::DigitalState::Active);
 
             {
-                testBox.update(2000);
+                cbox::update(2000);
 
-                testBox.put(uint16_t(0));
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t{130});
-
+                cbox::TestCommand cmd(130, 0);
+                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
                 auto decoded = blox_test::ActuatorLogic::Block();
-                testBox.processInputToProto(decoded);
-                CHECK(testBox.lastReplyHasStatusOk());
-                CHECK(decoded.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_TRUE expression: \"a|b|c\" digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 102 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS result: RESULT_TRUE id: 103 rhs: STATE_ACTIVE } digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
+                parseFromResponse(cmd, decoded);
+                CHECK(decoded.ShortDebugString() ==
+                      "targetId: 105 "
+                      "drivenTargetId: 105 "
+                      "enabled: true "
+                      "result: RESULT_TRUE "
+                      "expression: \"a|b|c\" "
+                      "digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } "
+                      "digital { op: OP_DESIRED_IS id: 102 rhs: STATE_ACTIVE } "
+                      "digital { op: OP_DESIRED_IS result: RESULT_TRUE id: 103 rhs: STATE_ACTIVE } "
+                      "digital { op: OP_DESIRED_IS id: 104 rhs: STATE_ACTIVE }");
             }
 
             // brackets
@@ -343,11 +368,10 @@ SCENARIO("Test", "[makelogicblock]")
             CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_UNEXPECTED_OPEN_BRACKET);
             CHECK(result.errorpos() == 1);
 
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::DELETE_OBJECT);
-            testBox.put(cbox::obj_id_t(102));
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+            {
+                cbox::TestCommand cmd(102, 0);
+                CHECK(cbox::deleteObject(cmd) == cbox::CboxError::OK);
+            }
 
             message.set_expression("b");
             result = setLogic(message);
@@ -391,7 +415,16 @@ SCENARIO("Test", "[makelogicblock]")
             message.set_expression("A|B|C|D");
             result = setLogic(message);
             CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
-            CHECK(result.ShortDebugString() == "targetId: 105 drivenTargetId: 105 enabled: true result: RESULT_TRUE expression: \"A|B|C|D\" analog { op: OP_VALUE_GE id: 121 rhs: 86016 } analog { op: OP_SETTING_GE result: RESULT_TRUE id: 122 rhs: 86016 } analog { result: RESULT_TRUE id: 123 rhs: 86016 } analog { op: OP_SETTING_LE id: 124 rhs: 83968 }");
+            CHECK(result.ShortDebugString() ==
+                  "targetId: 105 "
+                  "drivenTargetId: 105 "
+                  "enabled: true "
+                  "result: RESULT_TRUE "
+                  "expression: \"A|B|C|D\" "
+                  "analog { op: OP_VALUE_GE id: 121 rhs: 86016 } "
+                  "analog { op: OP_SETTING_GE result: RESULT_TRUE id: 122 rhs: 86016 } "
+                  "analog { result: RESULT_TRUE id: 123 rhs: 86016 } "
+                  "analog { op: OP_SETTING_LE id: 124 rhs: 83968 }");
 
             message.set_expression("(A|B)&(C|D)");
             result = setLogic(message);

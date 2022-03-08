@@ -22,7 +22,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "cbox/Box.h"
@@ -32,7 +32,6 @@
 #include "control/Temperature.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "testHelpers.h"
 
 SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf data")
 {

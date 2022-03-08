@@ -158,6 +158,8 @@
       ],
       "includePath": [
         ".",
+        "${workspaceFolder}/test/shared",
+        "${workspaceFolder}/test/proto/inc",
         "${workspaceFolder}/lib/blocks/inc",
         "${workspaceFolder}/lib/blox_hal/inc",
         "${workspaceFolder}/lib/cbox/inc",
