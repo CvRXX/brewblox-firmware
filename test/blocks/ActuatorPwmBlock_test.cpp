@@ -31,6 +31,7 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {
     cbox::objects.clearAll();
     setupSystemBlocks();
+    cbox::update(0);
 
     auto actId = cbox::obj_id_t(100);
     auto pwmId = cbox::obj_id_t(101);
@@ -64,6 +65,8 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
         serializeToRequest(cmd, message);
         CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
     }
+
+    cbox::update(5000);
 
     // Read PWM actuator
     {

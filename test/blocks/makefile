@@ -52,18 +52,7 @@ INCLUDE_DIRS += $(ROOT_DIR)/test/shared
 CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
 
 # tests
-CPPSRC += test/blocks/runner.cpp
-CPPSRC += test/blocks/TestCboxApplication.cpp
-CPPSRC += test/blocks/ActuatorLogicBlock_test.cpp
-CPPSRC += test/blocks/ActuatorOffsetBlock_test.cpp
-CPPSRC += test/blocks/ActuatorPwmBlock_test.cpp
-CPPSRC += test/blocks/AutoDiscover_test.cpp
-CPPSRC += test/blocks/BalancerAndMutexBlock_test.cpp
-CPPSRC += test/blocks/DigitalActuatorBlock_test.cpp
-CPPSRC += test/blocks/OneWireBusBlock_test.cpp
-CPPSRC += test/blocks/OneWireTempSensorBlock_test.cpp
-CPPSRC += test/blocks/PidBlock_test.cpp
-# CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
+CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
 
 # app/brewblox-particle
 INCLUDE_DIRS += $(ROOT_DIR)/app/brewblox-particle/inc

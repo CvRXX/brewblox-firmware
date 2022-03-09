@@ -24,34 +24,29 @@
 
 #include "TestHelpers.h"
 #include "blocks/TempSensorMockBlock.h"
+#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
-#include "cbox/DataStream.h"
-#include "cbox/DataStreamIo.h"
-#include "cbox/Object.h"
 #include "control/Temperature.h"
 #include "proto/TempSensorMock_test.pb.h"
 
 SCENARIO("A TempSensorMock block")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
-    testBox.reset();
+    auto sensorId = cbox::obj_id_t(100);
 
-    // create mock sensor
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(100));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
+    {
+        auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
 
-    auto newSensor = blox_test::TempSensorMock::Block();
-    newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
-    newSensor.set_connected(true);
-    testBox.put(newSensor);
+        message.set_setting(cnl::unwrap(temp_t(20.0)));
+        message.set_connected(true);
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+        serializeToRequest(cmd, message);
+        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+    }
 
     WHEN("The mock sensor value is changed to 25")
     {
@@ -61,67 +56,64 @@ SCENARIO("A TempSensorMock block")
 
         ptr->get().setting(25);
 
-        testBox.update(1000);
+        cbox::update(1000);
 
         THEN("The value that is read back is correct")
         {
-            // read pair
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
+            auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
 
-            auto decoded = blox_test::TempSensorMock::Block();
-            testBox.processInputToProto(decoded);
+            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+            parseFromResponse(cmd, message);
 
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "value: 102400 connected: true setting: 102400");
+            CHECK(message.ShortDebugString() ==
+                  "value: 102400 "
+                  "connected: true "
+                  "setting: 102400");
         }
     }
 
     WHEN("Fluctuations are set")
     {
-
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::WRITE_OBJECT);
-        testBox.put(cbox::obj_id_t(100));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(TempSensorMockBlock::staticTypeId());
-
-        auto newSensor = blox_test::TempSensorMock::Block();
-        newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
-        newSensor.set_connected(true);
-
         {
-            auto newFluct = newSensor.add_fluctuations();
-            newFluct->set_amplitude(cnl::unwrap(temp_t{2}));
-            newFluct->set_period(2000);
+            auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
+
+            message.set_setting(cnl::unwrap(temp_t(20.0)));
+            message.set_connected(true);
+
+            {
+                auto newFluct = message.add_fluctuations();
+                newFluct->set_amplitude(cnl::unwrap(temp_t{2}));
+                newFluct->set_period(2000);
+            }
+
+            {
+                auto newFluct = message.add_fluctuations();
+                newFluct->set_amplitude(cnl::unwrap(temp_t{3}));
+                newFluct->set_period(3000);
+            }
+
+            serializeToRequest(cmd, message);
+            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
         }
 
-        {
-            auto newFluct = newSensor.add_fluctuations();
-            newFluct->set_amplitude(cnl::unwrap(temp_t{3}));
-            newFluct->set_period(3000);
-        }
-
-        testBox.put(newSensor);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-
-        testBox.update(1000);
+        cbox::update(1000);
 
         THEN("The value that is read back is correct")
         {
-            // read pair
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
+            auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
 
-            auto decoded = blox_test::TempSensorMock::Block();
-            testBox.processInputToProto(decoded);
+            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+            parseFromResponse(cmd, message);
 
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "value: 91627 connected: true setting: 81920 fluctuations { amplitude: 8192 period: 2000 } fluctuations { amplitude: 12288 period: 3000 }");
+            CHECK(message.ShortDebugString() ==
+                  "value: 91627 "
+                  "connected: true "
+                  "setting: 81920 "
+                  "fluctuations { amplitude: 8192 period: 2000 } "
+                  "fluctuations { amplitude: 12288 period: 3000 }");
         }
     }
 }
