@@ -19,9 +19,10 @@
 
 #include <catch.hpp>
 
+#include "TestHelpers.h"
 #include "blocks/TempSensorOneWireBlock.h"
-#include "cbox/CboxPtr.h"
-#include "cbox/DataStreamIo.h"
+#include "brewblox_particle.hpp"
+#include "cbox/Box.h"
 #include "proto/TempSensorOneWire_test.pb.h"
 #include <sstream>
 
@@ -29,58 +30,48 @@ SCENARIO("A TempSensorOneWireBlock")
 {
     WHEN("a TempSensorOneWire object is created")
     {
-        BrewbloxTestBox testBox;
-        using commands = cbox::Box::CommandID;
+        cbox::objects.clearAll();
+        setupSystemBlocks();
+        cbox::update(0);
 
-        testBox.reset();
+        // Create sensor
+        {
+            auto cmd = cbox::TestCommand(100, TempSensorOneWireBlock::staticTypeId());
+            auto message = blox_test::TempSensorOneWire::Block();
 
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::CREATE_OBJECT);
-        testBox.put(cbox::obj_id_t(100));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(TempSensorOneWireBlock::staticTypeId());
+            message.set_address(0x7E11'1111'1111'1128);
+            message.set_offset(2048);
+            message.set_value(123); // value is not writable, so this should not have effect
+            message.set_onewirebusid(4);
 
-        auto message = blox_test::TempSensorOneWire::Block();
-        message.set_address(0x7E11'1111'1111'1128);
-        message.set_offset(2048);
-        message.set_value(123); // value is not writable, so this should not have effect
-        message.set_onewirebusid(4);
-
-        testBox.put(message);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(cbox::obj_id_t(100));
-
-        auto decoded = blox_test::TempSensorOneWire::Block();
-        testBox.processInputToProto(decoded);
+            serializeToRequest(cmd, message);
+            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        }
 
         THEN("The returned protobuf data is as expected")
         {
-            CHECK(testBox.lastReplyHasStatusOk());
+            auto cmd = cbox::TestCommand(100, TempSensorOneWireBlock::staticTypeId());
+            auto message = blox_test::TempSensorOneWire::Block();
 
             // When the sensor is not yet updated the value is invalid and therefore
             // added to stripped fields to distinguish from value zero
-            CHECK(decoded.ShortDebugString() ==
+            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+            parseFromResponse(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
                   "offset: 2048 "
                   "address: 9084060688381448488 "
                   "oneWireBusId: 4 "
                   "strippedFields: 1");
 
-            testBox.put(uint16_t(1)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
-
-            testBox.update(1000);
-
-            auto decoded = blox_test::TempSensorOneWire::Block();
-            testBox.processInputToProto(decoded);
+            cbox::update(1000);
 
             // After an update, the sensor returns a valid temperature
-            CHECK(decoded.ShortDebugString() ==
+            cmd.responses.clear();
+            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+            parseFromResponse(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
                   "value: 83968 " // 20*4096 + 2048
                   "offset: 2048 "
                   "address: 9084060688381448488 "
@@ -108,7 +99,7 @@ SCENARIO("A TempSensorOneWireBlock")
             auto block = ptr.lock();
             block->setBusId(0);
 
-            brewbloxBox().discoverNewObjects();
+            cbox::discoverNewObjects();
 
             CHECK(block->getBusId() == 4);
         }

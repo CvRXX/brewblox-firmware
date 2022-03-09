@@ -60,6 +60,9 @@ CPPSRC += test/blocks/ActuatorPwmBlock_test.cpp
 CPPSRC += test/blocks/AutoDiscover_test.cpp
 CPPSRC += test/blocks/BalancerAndMutexBlock_test.cpp
 CPPSRC += test/blocks/DigitalActuatorBlock_test.cpp
+CPPSRC += test/blocks/OneWireBusBlock_test.cpp
+CPPSRC += test/blocks/OneWireTempSensorBlock_test.cpp
+# CPPSRC += test/blocks/PidBlock_test.cpp
 # CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
 
 # app/brewblox-particle

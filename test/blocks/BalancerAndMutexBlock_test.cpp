@@ -45,6 +45,7 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
     {
         auto cmd = cbox::TestCommand(mutexId, MutexBlock::staticTypeId());
         auto message = blox_test::Mutex::Block();
+
         message.set_differentactuatorwait(100);
 
         serializeToRequest(cmd, message);

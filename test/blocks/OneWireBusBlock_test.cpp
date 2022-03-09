@@ -24,11 +24,13 @@
 #include <iomanip>
 #include <iostream>
 
+#include "TestHelpers.h"
 #include "blocks/Block.h"
 #include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"
 #include "cbox/Object.h"
+#include "proto/OneWireBus_test.pb.h"
 
 using namespace cbox;
 
@@ -42,52 +44,42 @@ void streamHex(std::stringstream& ss, uint8_t* buf, size_t len)
 
 SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
 {
+
     GIVEN("A Blox OneWireBus")
     {
-        OneWireBusBlock ow(setupOneWire());
+        cbox::objects.clearAll();
+        setupSystemBlocks();
+        cbox::update(0);
+        cbox::obj_id_t owId(4);
 
         WHEN("it is encoded to a buffer")
         {
-            uint8_t outbuf[100] = {0};
-            BufferDataOut out(outbuf, sizeof(outbuf));
-            ow.streamTo(out);
-            std::stringstream ss;
-            streamHex(ss, outbuf, out.bytesWritten());
-            INFO("OneWireBus result is " << ss.str());
+            auto cmd = cbox::TestCommand(owId, OneWireBusBlock::staticTypeId());
+            auto message = blox_test::OneWireBus::Block();
+
+            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+            parseFromResponse(cmd, message);
+
+            INFO(message.ShortDebugString());
         }
 
         WHEN("a family search command is streamed in")
         {
+            auto cmd = cbox::TestCommand(owId, OneWireBusBlock::staticTypeId());
+            auto message = blox_test::OneWireBus::Block();
 
-            blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
-            message.command.opcode = 2;  // OneWire search
-            message.command.data = 0x28; // family code for onewire temp sensor
-            message.address.funcs.encode = nullptr;
-            message.address.arg = nullptr;
+            auto owCmd = message.mutable_command();
+            owCmd->set_opcode(2);  // OneWire search
+            owCmd->set_data(0x28); // family code for onewire temp sensors
 
-            uint8_t inbuf[100] = {0};
+            serializeToRequest(cmd, message);
+            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
 
-            BufferDataOut tempOut(inbuf, sizeof(inbuf));
+            auto respMessage = blox_test::OneWireBus::Block();
+            parseFromResponse(cmd, respMessage);
 
-            CboxError res = streamProtoTo(tempOut, &message, blox_OneWireBus_Block_fields, sizeof(inbuf));
-            CHECK(res == CboxError::OK);
-
-            BufferDataIn in(inbuf, sizeof(inbuf));
-
-            ow.streamFrom(in);
-
-            uint8_t outbuf[100] = {0};
-            BufferDataOut out(outbuf, sizeof(outbuf));
-            ow.streamTo(out);
-            std::stringstream ss;
-            streamHex(ss, outbuf, out.bytesWritten());
-            INFO("OneWireBus result 2 is " << ss.str());
-
-            out.reset();
-            ow.streamTo(out);
-            std::stringstream ss2;
-            streamHex(ss2, outbuf, out.bytesWritten());
-            INFO("OneWireBus result 3 is " << ss2.str());
+            INFO(respMessage.ShortDebugString());
+            CHECK(respMessage.address_size() == 3); // temp sensors declared in theOneWire()
         }
     }
 }
