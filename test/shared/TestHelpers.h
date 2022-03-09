@@ -3,6 +3,7 @@
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamConverters.h"
 #include "cbox/DataStreamIo.h"
+#include <google/protobuf/message.h>
 #include <sstream>
 #include <string>
 

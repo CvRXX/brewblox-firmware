@@ -21,6 +21,11 @@ CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)
 
+# include google protobuf dependencies
+CPPFLAGS += $(shell pkg-config --cflags protobuf)
+LDFLAGS += $(shell pkg-config --libs protobuf)
+CFLAGS += -DPB_MSGID=1
+
 CFLAGS += -ffunction-sections -Wall
 
 # Flag compiler error for [-Wdeprecated-declarations]
