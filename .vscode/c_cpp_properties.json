@@ -62,7 +62,8 @@
         "${workspaceFolder}/external_libs/device-os/hal/src/gcc",
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
-        "${workspaceFolder}/external_libs/device-os/communication/inc"
+        "${workspaceFolder}/external_libs/device-os/communication/inc",
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc"
       ],
       "compilerPath": "/usr/local/gcc-arm-embedded/bin/arm-none-eabi-g++",
       "compileCommands": "${workspaceFolder}/build/compile_commands_p1.json"
@@ -101,7 +102,8 @@
         "${workspaceFolder}/external_libs/device-os/hal/src/gcc",
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
-        "${workspaceFolder}/external_libs/device-os/communication/inc"
+        "${workspaceFolder}/external_libs/device-os/communication/inc",
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc"
       ],
       "compilerPath": "/usr/local/gcc-arm-embedded/bin/arm-none-eabi-g++",
       "compileCommands": "${workspaceFolder}/build/compile_commands_photon.json"
@@ -140,7 +142,8 @@
         "${workspaceFolder}/external_libs/device-os/hal/src/gcc",
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
-        "${workspaceFolder}/external_libs/device-os/communication/inc"
+        "${workspaceFolder}/external_libs/device-os/communication/inc",
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc"
       ],
       "compilerPath": "/usr/bin/g++",
       "compileCommands": "${workspaceFolder}/build/compile_commands_gcc.json"
@@ -181,6 +184,7 @@
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
         "${workspaceFolder}/external_libs/device-os/communication/inc",
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc",
         "${workspaceFolder}/external_libs/device-os/third_party/catch2/catch2/single_include/catch2"
       ],
       "compilerPath": "/usr/bin/g++",

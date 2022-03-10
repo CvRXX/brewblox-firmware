@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+bool is_base64(uint8_t c);
+
 size_t base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out);
 
 size_t base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out);

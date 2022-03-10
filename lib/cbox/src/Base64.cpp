@@ -31,6 +31,11 @@ int16_t b64_to_byte(uint8_t c) // uint8_t or -1
     }
 }
 
+bool is_base64(uint8_t c)
+{
+    return b64_to_byte(c) != -1;
+}
+
 size_t base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 {
     size_t inIdx = 0;

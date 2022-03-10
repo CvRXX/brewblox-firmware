@@ -294,7 +294,7 @@ bool parseMessage(cbox::DataIn& in, cbox::DataOut& out, controlbox_Request* mess
 
     while (true) {
         auto c = in.peek();
-        if (c < 0 || (c >= '+' && c <= 'z')) {
+        if (c < 0 || is_base64(c)) {
             break;
         }
         in.read();
