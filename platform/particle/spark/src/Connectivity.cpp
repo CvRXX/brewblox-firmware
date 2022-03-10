@@ -18,6 +18,7 @@
  */
 
 #include "spark/Connectivity.h"
+#include "blocks/stringify.h"
 #include "blox_hal/hal_delay.h"
 #include "deviceid_hal.h"
 #include "mdns/MDNS.h"

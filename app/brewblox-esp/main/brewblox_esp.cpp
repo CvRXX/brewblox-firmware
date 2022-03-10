@@ -23,7 +23,6 @@
 #include "blocks/DisplaySettingsBlock.h"
 #include "blocks/SysInfoBlock.h"
 #include "blocks/TicksBlock.h"
-#include "blocks/stringify.h"
 #include "brewblox.hpp"
 #include "cbox/Box.h"
 #include "cbox/GroupsObject.h"

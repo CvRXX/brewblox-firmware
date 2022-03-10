@@ -18,12 +18,17 @@
  */
 
 #include "blocks/SysInfoBlock.h"
-#include "blocks/stringify.h"
 #include "proto/proto_version.h"
 #include <cstring>
 
 #ifndef GIT_VERSION
 #error GIT_VERSION not set
+#endif
+
+// Intellisense fails to consider the quotes around the defined value
+#ifdef __INTELLISENSE__
+#define GIT_VERSION ""
+#define GIT_DATE ""
 #endif
 
 cbox::CboxError

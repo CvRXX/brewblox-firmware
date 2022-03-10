@@ -19,7 +19,6 @@
 
 #include "AppBox.h"
 #include "AppTicks.h"
-#include "blocks/stringify.h"
 #include "blox_hal/hal_i2c.h"
 #include "cbox/Box.h"
 #include "cbox/Object.h"
@@ -225,4 +224,7 @@ constexpr bool equal(char const* lhs, char const* rhs)
     return true;
 }
 
+// Intellisense fails to include the quotes in PROTO_VERSION
+#ifndef __INTELLISENSE__
 static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
+#endif
