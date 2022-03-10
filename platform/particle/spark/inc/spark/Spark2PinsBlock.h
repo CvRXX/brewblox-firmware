@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "SparkIoBase.h"
+#include "spark/SparkIoBase.h"
 #include "blocks/Block.h"
 
 class Spark2PinsBlock : public SparkIoBase, public Block<brewblox_BlockType_Spark2Pins> {

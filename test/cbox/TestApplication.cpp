@@ -1,8 +1,8 @@
-#include "CboxApplicationExtended.h"
+#include "TestApplication.h"
 #include "LongIntScanningFactory.hpp"
 #include "TestObjects.h"
+#include "cbox/Application.h"
 #include "cbox/ArrayEepromAccess.h"
-#include "cbox/CboxApplication.h"
 #include "cbox/EepromObjectStorage.h"
 #include "cbox/ObjectFactory.h"
 
@@ -24,6 +24,17 @@ cbox::EepromObjectStorage& getStorage()
 
 namespace cbox {
 
+ObjectContainer& getObjects()
+{
+    static ObjectContainer objects;
+    return objects;
+}
+
+ObjectStorage& getStorage()
+{
+    return test::getStorage();
+}
+
 std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
 {
     static const ObjectFactory factory = {
@@ -42,11 +53,6 @@ std::shared_ptr<Object> scan()
 {
     static LongIntScanningFactory longIntScanner;
     return longIntScanner.scan();
-}
-
-ObjectStorage& getStorage()
-{
-    return test::getStorage();
 }
 
 } // end namespace cbox

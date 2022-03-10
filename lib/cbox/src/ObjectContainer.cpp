@@ -18,7 +18,7 @@
  */
 
 #include "cbox/ObjectContainer.h"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/ObjectStream.h"
 #include <algorithm>
 

@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SparkIoBase.h"
+#include "spark/SparkIoBase.h"
 #include "control/ActuatorDigital.h"
 #include "spark/Board.h"
 

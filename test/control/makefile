@@ -22,7 +22,7 @@ CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/include
 # catch2
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
-# add all tests
+# test/control
 CPPSRC += $(wildcard $(ROOT_DIR)/test/control/*.cpp)
 
 CFLAGS += -DPLATFORM_ID=3

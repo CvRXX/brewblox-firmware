@@ -13,9 +13,10 @@ INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/si
 # test/cbox
 CPPSRC += $(wildcard $(ROOT_DIR)/test/cbox/*.cpp)
 
-# test/shared
+# test/shared (only add sources we need)
 INCLUDE_DIRS += $(ROOT_DIR)/test/shared
-CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
+CPPSRC += test/shared/TestHelpers.cpp
+CPPSRC += test/shared/TestObjects.cpp
 
 # lib/cbox
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc

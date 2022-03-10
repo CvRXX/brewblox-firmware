@@ -24,18 +24,18 @@
 #include "blocks/DigitalActuatorBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/DataStreamIo.h"
 #include "proto/ActuatorLogic_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
+#include "spark/Brewblox.h"
 #include <sstream>
 
 SCENARIO("Test", "[makelogicblock]")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

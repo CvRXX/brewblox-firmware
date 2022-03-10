@@ -21,10 +21,10 @@
 
 #include "TestHelpers.h"
 #include "blocks/SysInfoBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "proto/SysInfo_test.pb.h"
 #include "proto/proto_version.h"
+#include "spark/Brewblox.h"
 
 SCENARIO("SysInfo Block")
 {

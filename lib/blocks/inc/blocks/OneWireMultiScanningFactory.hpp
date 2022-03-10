@@ -20,7 +20,7 @@
 #pragma once
 
 #include "OneWireScanningFactory.hpp"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/CboxPtr.h"
 
 class OneWireMultiScanningFactory : public cbox::ScanningFactory {
@@ -33,7 +33,7 @@ public:
 
     virtual std::shared_ptr<cbox::Object> scan() override final
     {
-        for (auto obj_it = cbox::objects.cbegin(); obj_it != cbox::objects.cend(); ++obj_it) {
+        for (auto obj_it = cbox::getObjects().cbegin(); obj_it != cbox::getObjects().cend(); ++obj_it) {
             OneWire* bus = const_cast<OneWire*>(cbox::asInterface<OneWire>(obj_it->object()));
             if (bus == nullptr) {
                 continue; // not a OneWire bus

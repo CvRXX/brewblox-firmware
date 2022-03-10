@@ -24,17 +24,17 @@
 #include "blocks/PidBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "control/Temperature.h"
 #include "proto/ActuatorAnalogMock_test.pb.h"
 #include "proto/Pid_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
+#include "spark/Brewblox.h"
 
 SCENARIO("A Blox Pid object with mock analog actuator")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

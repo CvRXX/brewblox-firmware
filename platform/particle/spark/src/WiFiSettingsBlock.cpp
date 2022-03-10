@@ -17,9 +17,9 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "WiFiSettingsBlock.h"
-#include "connectivity.h"
+#include "spark/WiFiSettingsBlock.h"
 #include "proto/WiFiSettings.pb.h"
+#include "spark/Connectivity.h"
 
 cbox::CboxError WiFiSettingsBlock::read(cbox::Command& cmd) const
 {

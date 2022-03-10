@@ -21,16 +21,16 @@
 
 #include "TestHelpers.h"
 #include "blocks/TempSensorOneWireBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "proto/TempSensorOneWire_test.pb.h"
+#include "spark/Brewblox.h"
 #include <sstream>
 
 SCENARIO("A TempSensorOneWireBlock")
 {
     WHEN("a TempSensorOneWire object is created")
     {
-        cbox::objects.clearAll();
+        cbox::getObjects().clearAll();
         setupSystemBlocks();
         cbox::update(0);
 

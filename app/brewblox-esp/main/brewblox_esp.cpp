@@ -73,14 +73,14 @@ makeBrewbloxBox(asio::io_context& io)
     static cbox::ConnectionPool connections{{}}; // managed externally
     static cbox::Box box(connections);
 
-    cbox::objects.init({
+    cbox::getObjects().init({
         cbox::ContainedObject(1, 0x80, std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box))),
         cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id))),
         cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks))),
         cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
     });
 
-    cbox::objects.setObjectsStartId(box.userStartId());
+    cbox::getObjects().setObjectsStartId(box.userStartId());
 
     box.loadObjectsFromStorage(); // init box and load stored objects
 
@@ -113,7 +113,7 @@ Logger&
 logger()
 {
     static Logger logger([](Logger::LogLevel level, const std::string& log) {
-        // cbox::DataOut& out = theConnectionPool().logDataOut();
+        // cbox::DataOut& out = getConnectionPool().logDataOut();
         // out.write('<');
         // const char debug[] = "DEBUG";
         // const char info[] = "INFO";
@@ -145,7 +145,7 @@ logger()
 
 void logEvent(const std::string& event)
 {
-    // cbox::DataOut& out = theConnectionPool().logDataOut();
+    // cbox::DataOut& out = getConnectionPool().logDataOut();
     // out.write('<');
     // out.write('!');
     // for (const auto& c : event) {

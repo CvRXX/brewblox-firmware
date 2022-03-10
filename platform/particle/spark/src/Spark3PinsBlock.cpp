@@ -19,7 +19,7 @@
 
 #if PLATFORM_ID == 8 || PLATFORM_ID == 3
 
-#include "Spark3PinsBlock.h"
+#include "spark/Spark3PinsBlock.h"
 #include "proto/Spark3Pins.pb.h"
 #include "spark/Board.h"
 

@@ -23,7 +23,6 @@
 #include "blocks/DS2413Block.h"
 #include "blocks/DigitalActuatorBlock.h"
 #include "blocks/MockPinsBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
@@ -31,6 +30,7 @@
 #include "proto/DS2413_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/MockPins_test.pb.h"
+#include "spark/Brewblox.h"
 #include <sstream>
 
 namespace Catch {
@@ -45,7 +45,7 @@ struct StringMaker<OneWireAddress> {
 
 SCENARIO("A DigitalActuator Block with a DS2413 target")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 
@@ -172,7 +172,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 
 SCENARIO("A DigitalActuator Block with Mockpins as target")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

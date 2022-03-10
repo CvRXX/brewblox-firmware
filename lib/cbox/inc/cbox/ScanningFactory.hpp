@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>

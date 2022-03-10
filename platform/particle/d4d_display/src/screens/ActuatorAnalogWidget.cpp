@@ -18,8 +18,8 @@
  */
 
 #include "d4d_display/screens/ActuatorAnalogWidget.h"
-#include "brewblox_particle.hpp"
 #include "control/FixedPoint.h"
+#include "spark/Brewblox.h"
 
 ActuatorAnalogWidget::ActuatorAnalogWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)

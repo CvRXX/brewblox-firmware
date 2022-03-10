@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/ObjectBase.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>
@@ -41,12 +41,12 @@ public:
 
     CboxError store()
     {
-        return objects.store(id);
+        return getObjects().store(id);
     }
 
     ObjectContainer& container()
     {
-        return objects;
+        return getObjects();
     }
 
 protected:

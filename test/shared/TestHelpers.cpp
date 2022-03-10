@@ -3,7 +3,6 @@
 #include "cbox/hex_utility.h"
 #include <google/protobuf/message.h>
 
-namespace cbox {
 /*
  * calculates 2 CRC characters to a hex string, used for testing
  */
@@ -15,11 +14,11 @@ crc(const std::string& in)
     for (auto it = in.begin(); it != in.end() && it + 1 != in.end();) {
         char char1 = *(it++);
         char char2 = *(it++);
-        uint8_t data = (h2d(char1) << 4) | h2d(char2);
-        crc = calc_crc(crc, data);
+        uint8_t data = (cbox::h2d(char1) << 4) | cbox::h2d(char2);
+        crc = cbox::calc_crc(crc, data);
     }
-    result.push_back(d2h(uint8_t(crc & 0xF0) >> 4));
-    result.push_back(d2h(uint8_t(crc & 0xF)));
+    result.push_back(cbox::d2h(uint8_t(crc & 0xF0) >> 4));
+    result.push_back(cbox::d2h(uint8_t(crc & 0xF)));
 
     return result;
 }
@@ -38,20 +37,10 @@ std::string hexed(const std::vector<uint8_t>& data)
     std::string retv;
     retv.reserve(data.size() * 2);
     for (auto v : data) {
-        retv += d2h(uint8_t(v & 0xF0) >> 4);
-        retv += d2h(uint8_t(v & 0xF));
+        retv += cbox::d2h(uint8_t(v & 0xF0) >> 4);
+        retv += cbox::d2h(uint8_t(v & 0xF));
     }
     return retv;
-}
-
-} // end namespace cbox
-
-void ProtoDataOut::put(const ::google::protobuf::Message& message)
-{
-    for (auto& c : message.SerializeAsString()) {
-        out.write(c);
-    }
-    out.write(0); // zero terminate protobuf message
 }
 
 void decodeProtoFromReply(std::stringstream& ss, ::google::protobuf::Message& message)

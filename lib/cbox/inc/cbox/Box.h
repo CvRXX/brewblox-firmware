@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/CboxError.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/Command.h"

@@ -20,7 +20,7 @@
 #include "I2cScanningFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "blox_hal/hal_i2c.h"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include <algorithm>
 #include <vector>
 
@@ -40,7 +40,7 @@ uint8_t find_next(uint8_t lastAddress)
                 };
                 return false;
             };
-            if (std::find_if(cbox::objects.cbegin(), cbox::objects.cend(), samePosition) != cbox::objects.cend()) {
+            if (std::find_if(cbox::getObjects().cbegin(), cbox::getObjects().cend(), samePosition) != cbox::getObjects().cend()) {
                 // already initialized module at this position;
                 continue;
             }

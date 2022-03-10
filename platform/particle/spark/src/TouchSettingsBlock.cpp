@@ -17,7 +17,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TouchSettingsBlock.h"
+#include "spark/TouchSettingsBlock.h"
 #include "d4d_display/d4d.hpp"
 #include "proto/TouchSettings.pb.h"
 #include <cstring>

@@ -5,8 +5,8 @@
 #include <iomanip>
 #include <iostream>
 
-#include "CboxApplicationExtended.h"
 #include "LongIntScanningFactory.hpp"
+#include "TestApplication.h"
 #include "TestHelpers.h"
 #include "TestObjects.h"
 #include "cbox/ArrayEepromAccess.h"
@@ -24,14 +24,14 @@ using namespace cbox;
 
 SCENARIO("Box commands")
 {
-    objects.clearAll();
+    getObjects().clearAll();
     test::getStorage().clear();
 
-    objects.init({
+    getObjects().init({
         ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
         ContainedObject(3, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
     });
-    objects.setObjectsStartId(userStartId);
+    getObjects().setObjectsStartId(userStartId);
 
     WHEN("Read object")
     {
@@ -90,7 +90,7 @@ SCENARIO("Box commands")
 
         CHECK(createObject(createCmd) == CboxError::OK);
         CHECK(createCmd.responses.at(0).blockId == 100);
-        CHECK(objects.fetchContained(100) != nullptr);
+        CHECK(getObjects().fetchContained(100) != nullptr);
 
         WHEN("The object is modified by the application, not by an incoming command")
         {
@@ -113,25 +113,25 @@ SCENARIO("Box commands")
 
                 AND_THEN("The eeprom data can be reloaded")
                 {
-                    objects.reloadStored(100);
+                    getObjects().reloadStored(100);
                     CHECK(obj->value() == 0x44444444);
                 }
             }
 
-            AND_WHEN("objects.store() is invoked, the object is written to eeprom")
+            AND_WHEN("getObjects().store() is invoked, the object is written to eeprom")
             {
-                CHECK(objects.store(100) == CboxError::OK);
+                CHECK(getObjects().store(100) == CboxError::OK);
                 checkEepromVal("22222222");
-                objects.reloadStored(100);
+                getObjects().reloadStored(100);
                 CHECK(obj->value() == 0x22222222);
 
-                AND_WHEN("objects.store() is called with a non-existing id, an error is returned")
+                AND_WHEN("getObjects().store() is called with a non-existing id, an error is returned")
                 {
-                    CHECK(objects.store(200) == CboxError::INVALID_OBJECT_ID);
+                    CHECK(getObjects().store(200) == CboxError::INVALID_OBJECT_ID);
                 }
-                AND_WHEN("objects.reloadStored() is called with a non-existing id, an error is returned")
+                AND_WHEN("getObjects().reloadStored() is called with a non-existing id, an error is returned")
                 {
-                    CHECK(objects.reloadStored(200) == CboxError::INVALID_OBJECT_ID);
+                    CHECK(getObjects().reloadStored(200) == CboxError::INVALID_OBJECT_ID);
                 }
             }
         }
@@ -140,8 +140,8 @@ SCENARIO("Box commands")
         {
             TestCommand deleteCmd(100, 1000);
             CHECK(deleteObject(deleteCmd) == CboxError::OK);
-            CHECK(objects.fetchContained(100) == nullptr);
-            CHECK(objects.reloadStored(100) == CboxError::INVALID_OBJECT_ID);
+            CHECK(getObjects().fetchContained(100) == nullptr);
+            CHECK(getObjects().reloadStored(100) == CboxError::INVALID_OBJECT_ID);
         }
     }
 
@@ -204,8 +204,8 @@ SCENARIO("Box commands")
         );
         CHECK(createObject(create2) == CboxError::OK);
 
-        auto counterObjPtr1 = objects.fetch(100).lock();
-        auto counterObjPtr2 = objects.fetch(101).lock();
+        auto counterObjPtr1 = getObjects().fetch(100).lock();
+        auto counterObjPtr2 = getObjects().fetch(101).lock();
 
         REQUIRE(counterObjPtr1);
         REQUIRE(counterObjPtr2);

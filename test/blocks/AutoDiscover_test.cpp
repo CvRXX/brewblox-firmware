@@ -23,16 +23,16 @@
 #include "blocks/DS2408Block.h"
 #include "blocks/DS2413Block.h"
 #include "blocks/TempSensorOneWireBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
 #include "proto/TempSensorOneWire_test.pb.h"
+#include "spark/Brewblox.h"
 #include <sstream>
 
 SCENARIO("Auto discovery of OneWire devices")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

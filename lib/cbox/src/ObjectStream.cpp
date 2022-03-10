@@ -18,7 +18,7 @@
  */
 
 #include "cbox/ObjectStream.h"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 
 namespace cbox {
 

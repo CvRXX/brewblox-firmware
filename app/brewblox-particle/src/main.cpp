@@ -17,13 +17,12 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "AppBox.h"
 #include "AppTicks.h"
 #include "blocks/stringify.h"
 #include "blox_hal/hal_i2c.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/Object.h"
-#include "connectivity.h"
 #include "control/TimerInterrupts.h"
 #include "d4d_display/d4d.hpp"
 #include "d4d_display/screens/WidgetsScreen.h"
@@ -31,12 +30,16 @@
 #include "d4d_display/screens/startup_screen.h"
 #include "delay_hal.h"
 #include "eeprom_hal.h"
+#include "proto/proto_version.h"
 #include "reset.h"
 #include "spark/Board.h"
+#include "spark/Brewblox.h"
 #include "spark/Buzzer.h"
+#include "spark/Connectivity.h"
 #include "spark_wiring_startup.h"
 #include "spark_wiring_system.h"
 #include "spark_wiring_timer.h"
+
 #if PLATFORM_ID == PLATFORM_GCC
 #include <csignal>
 #endif
@@ -97,7 +100,7 @@ void onSetupModeBegin()
     ListeningScreen::activate();
     manageConnections(ticks.millis()); // stop http server
     cbox::unloadAllObjects();
-    theConnectionPool().disconnect();
+    getConnectionPool().disconnect();
     HAL_Delay_Milliseconds(100);
 }
 
@@ -151,7 +154,6 @@ void setup()
     StartupScreen::setProgress(60);
     StartupScreen::setStep("Init Brewblox framework");
     setupSystemBlocks();
-
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(70);
@@ -182,7 +184,7 @@ void setup()
     System.on(out_of_memory, onOutOfMemory);
 #endif
 
-    theConnectionPool().startAll();
+    getConnectionPool().startAll();
     WidgetsScreen::activate();
 }
 
@@ -193,10 +195,10 @@ void loop()
     if (!listeningModeEnabled()) {
         ticks.switchTaskTimer(TicksClass::TaskId::Communication);
         manageConnections(ticks.millis());
-        communicate();
+        app::communicate();
 
         ticks.switchTaskTimer(TicksClass::TaskId::BlocksUpdate);
-        update();
+        app::update();
 
         watchdogCheckin(); // not done while listening, so 60s timeout for stuck listening mode
     }
@@ -214,3 +216,13 @@ void handleReset(bool exitFlag, uint8_t reason)
 #endif
     }
 }
+
+constexpr bool equal(char const* lhs, char const* rhs)
+{
+    while (*lhs || *rhs)
+        if (*lhs++ != *rhs++)
+            return false;
+    return true;
+}
+
+static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));

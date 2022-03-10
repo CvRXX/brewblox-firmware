@@ -19,12 +19,12 @@
 
 #include "d4d_display/d4d.hpp"
 
-#include "brewblox_particle.hpp"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "d4d_display/brewblox_logo.h"
 #include "d4d_display/fonts.h"
 #include "d4d_display/screens/memory_info.h"
 #include "d4d_display/screens/startup_screen.h"
+#include "spark/Brewblox.h"
 #include "spark_wiring_ticks.h"
 #include "spark_wiring_timer.h"
 #include "stdio.h"
@@ -93,7 +93,7 @@ void StartupScreen::calibrateTouch()
 #if PLATFORM_ID != 3
 #endif
     if (D4D_TCH_GetCalibrationStatus()) {
-        cbox::objects.store(2); // save system object
+        cbox::getObjects().store(2); // save system object
     }
 }
 

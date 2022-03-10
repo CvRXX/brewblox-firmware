@@ -2,7 +2,7 @@
 #include "OneWireMultiScanningFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "brewblox.hpp"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/FileObjectStorage.h"
 #include "cbox/ObjectFactory.h"
 

@@ -8,10 +8,6 @@
 #include <string>
 
 namespace cbox {
-std::string addCrc(const std::string& in);
-std::string crc(const std::string& in);
-std::string hexed(const std::vector<uint8_t>& data);
-
 /* Wrapper class around std::stringstream that clears error flags when new data is added.
  * Otherwise EOF flag is still set after data has been added to the stream
  */
@@ -70,22 +66,11 @@ public:
 };
 } // end namespace cbox
 
-namespace google {
-namespace protobuf {
-    class Message;
-}
-}
+std::string addCrc(const std::string& in);
 
-class ProtoDataOut {
-public:
-    cbox::EncodedDataOut& out;
-    ProtoDataOut(cbox::EncodedDataOut& target)
-        : out(target)
-    {
-    }
+std::string crc(const std::string& in);
 
-    void put(const ::google::protobuf::Message& message);
-};
+std::string hexed(const std::vector<uint8_t>& data);
 
 void decodeProtoFromReply(std::stringstream& ss, ::google::protobuf::Message& message);
 

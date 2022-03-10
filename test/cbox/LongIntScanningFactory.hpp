@@ -23,6 +23,7 @@ public:
 
     virtual std::shared_ptr<Object> scan() override final
     {
+        auto& objects = getObjects();
         for (auto& value : candidates) {
             bool found = false;
             for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {

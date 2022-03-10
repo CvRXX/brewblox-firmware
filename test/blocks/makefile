@@ -39,9 +39,12 @@ INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/d4d_display/inc
 INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/mdns/inc
 INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/eGUI/D4D
 
-# add board files (tests use emulated hardware)
-INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/spark/inc
+# add spark files (tests use emulated hardware)
 CPPSRC += platform/particle/spark/src/Board.cpp
+CPPSRC += platform/particle/spark/src/Brewblox.cpp
+CPPSRC += platform/particle/spark/src/Spark2PinsBlock.cpp
+CPPSRC += platform/particle/spark/src/Spark3PinsBlock.cpp
+CPPSRC += platform/particle/spark/src/SparkIoBase.cpp
 
 # device-os nanopb
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb
@@ -53,16 +56,6 @@ CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
 
 # tests
 CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
-
-# app/brewblox-particle
-INCLUDE_DIRS += $(ROOT_DIR)/app/brewblox-particle/inc
-
-# Only include source files without external dependencies
-CPPSRC += app/brewblox-particle/src/brewblox_particle.cpp
-CPPSRC += app/brewblox-particle/src/AppTicks.cpp
-CPPSRC += app/brewblox-particle/src/Spark2PinsBlock.cpp
-CPPSRC += app/brewblox-particle/src/Spark3PinsBlock.cpp
-CPPSRC += app/brewblox-particle/src/SparkIoBase.cpp
 
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2

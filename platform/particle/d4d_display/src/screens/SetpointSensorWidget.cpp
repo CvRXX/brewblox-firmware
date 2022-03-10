@@ -18,7 +18,7 @@
  */
 
 #include "d4d_display/screens/SetpointSensorWidget.h"
-#include "brewblox_particle.hpp"
+#include "spark/Brewblox.h"
 
 SetpointSensorWidget::SetpointSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)

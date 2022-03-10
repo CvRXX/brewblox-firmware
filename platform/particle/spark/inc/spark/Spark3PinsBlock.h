@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include "SparkIoBase.h"
 #include "blocks/Block.h"
+#include "spark/SparkIoBase.h"
 
 class Spark3PinsBlock : public SparkIoBase, public Block<brewblox_BlockType_Spark3Pins> {
 private:

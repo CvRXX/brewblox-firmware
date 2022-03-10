@@ -22,13 +22,13 @@
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "blocks/TicksBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "control/MockTicks.h"
 #include "proto/SetpointProfile_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
 #include "proto/Ticks_test.pb.h"
+#include "spark/Brewblox.h"
 #include <catch.hpp>
 #include <sstream>
 
@@ -36,7 +36,7 @@ SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
-        cbox::objects.clearAll();
+        cbox::getObjects().clearAll();
         setupSystemBlocks();
 
         auto ticksId = cbox::obj_id_t(3);

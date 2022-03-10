@@ -17,37 +17,23 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/OneWireBusBlock.h"
-
 #include <catch.hpp>
-#include <cstdio>
-#include <iomanip>
-#include <iostream>
 
 #include "TestHelpers.h"
 #include "blocks/Block.h"
-#include "brewblox_particle.hpp"
+#include "blocks/OneWireBusBlock.h"
 #include "cbox/Box.h"
 #include "cbox/DataStream.h"
 #include "cbox/Object.h"
 #include "proto/OneWireBus_test.pb.h"
-
-using namespace cbox;
-
-void streamHex(std::stringstream& ss, uint8_t* buf, size_t len)
-{
-    ss << "0x" << std::setfill('0') << std::hex;
-    for (size_t i = 0; i < len; i++) {
-        ss << std::setw(2) << static_cast<unsigned>(buf[i]);
-    }
-}
+#include "spark/Brewblox.h"
 
 SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
 {
 
     GIVEN("A Blox OneWireBus")
     {
-        cbox::objects.clearAll();
+        cbox::getObjects().clearAll();
         setupSystemBlocks();
         cbox::update(0);
         cbox::obj_id_t owId(4);

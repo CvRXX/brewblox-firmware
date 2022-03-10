@@ -24,16 +24,16 @@
 #include "blocks/BalancerBlock.h"
 #include "blocks/DigitalActuatorBlock.h"
 #include "blocks/MutexBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/Balancer_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/Mutex_test.pb.h"
+#include "spark/Brewblox.h"
 
 SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

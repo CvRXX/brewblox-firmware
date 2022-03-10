@@ -23,7 +23,7 @@
 #include "blocks/DS2413Block.h"
 #include "blocks/TempSensorOneWireBlock.h"
 #include "blox_hal/hal_delay.h"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
@@ -53,7 +53,7 @@ public:
                 OneWireAddress newAddr;
                 if (bus->search(newAddr)) {
                     bool found = false;
-                    for (auto existing = cbox::objects.cbegin(); existing != cbox::objects.cend(); ++existing) {
+                    for (auto existing = cbox::getObjects().cbegin(); existing != cbox::getObjects().cend(); ++existing) {
                         OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>(existing->object()->implements(cbox::interfaceId<OneWireDevice>()));
                         if (ptrIfCorrectType == nullptr) {
                             continue; // not the right type, no match

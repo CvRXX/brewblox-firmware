@@ -19,10 +19,10 @@
 
 #include "cbox/CboxPtr.h"
 
-#include "CboxApplicationExtended.h"
+#include "TestApplication.h"
 #include "TestObjects.h"
+#include "cbox/Application.h"
 #include "cbox/ArrayEepromAccess.h"
-#include "cbox/CboxApplication.h"
 #include "cbox/EepromObjectStorage.h"
 #include "cbox/ObjectContainer.h"
 #include <catch.hpp>
@@ -32,11 +32,11 @@ using namespace cbox;
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
     test::getStorage().clear();
-    objects.init({
+    getObjects().init({
         ContainedObject(1, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
         ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
     });
-    objects.setObjectsStartId(obj_id_t(100));
+    getObjects().setObjectsStartId(obj_id_t(100));
 
     CboxPtr<LongIntObject> liPtr;
     CboxPtr<LongIntVectorObject> livPtr;
@@ -62,7 +62,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
-        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
+        getObjects().add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
         CboxPtr<NameableLongIntObject> nameableLiPtr;
         CboxPtr<LongIntObject> liPtr;
         CboxPtr<Nameable> nameablePtr;
@@ -103,18 +103,18 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
                 THEN("If an object is removed, the pointers are still valid, because they share ownership")
                 {
-                    objects.remove(100);
+                    getObjects().remove(100);
                     CHECK(ptr1.use_count() == 3); // objects doesn't share ownership anymore
                 }
             }
 
             THEN("After all shared pointers go out of scope, we cannot get a new shared pointer from the CboxPtr class")
             {
-                objects.remove(100);
+                getObjects().remove(100);
                 auto ptr4 = nameablePtr.lock();
                 CHECK(!ptr4);
 
-                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
+                getObjects().add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
                 THEN("If a new compatible object is created with the same id, the CboxPtr can be locked again")
                 {
                     auto ptr5 = nameablePtr.lock();
@@ -153,7 +153,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 if (auto ptr = liPtr.lock()) {
                     *ptr = uint32_t{0x1}; // change object without storing
                 }
-                auto res = objects.reloadStored(obj_id_t(100));
+                auto res = getObjects().reloadStored(obj_id_t(100));
                 CHECK(res == CboxError::OK);
                 if (auto ptr = liPtr.lock()) {
                     CHECK(uint32_t(*ptr) == uint32_t{0x22222222});

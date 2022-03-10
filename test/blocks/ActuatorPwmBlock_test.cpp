@@ -22,14 +22,14 @@
 #include "TestHelpers.h"
 #include "blocks/ActuatorPwmBlock.h"
 #include "blocks/DigitalActuatorBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
+#include "spark/Brewblox.h"
 
 SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

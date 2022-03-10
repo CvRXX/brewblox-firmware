@@ -35,7 +35,7 @@ std::shared_ptr<Object> CboxPtrBase::lockObject()
     auto sptr = ptr.lock();
     if (!sptr) {
         // Try to find the object in the container
-        ptr = objects.fetch(id);
+        ptr = getObjects().fetch(id);
         sptr = ptr.lock();
     }
     return sptr;

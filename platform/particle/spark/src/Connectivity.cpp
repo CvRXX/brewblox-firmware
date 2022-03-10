@@ -17,14 +17,12 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "connectivity.h"
+#include "spark/Connectivity.h"
 #include "blox_hal/hal_delay.h"
-#include "brewblox.hpp"
-#include "brewblox_particle.hpp"
 #include "deviceid_hal.h"
 #include "mdns/MDNS.h"
-#include "reset.h"
 #include "spark/Board.h"
+#include "spark/Brewblox.h"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_usbserial.h"

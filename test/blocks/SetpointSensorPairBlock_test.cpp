@@ -25,15 +25,15 @@
 #include "TestHelpers.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "control/Temperature.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
+#include "spark/Brewblox.h"
 
 SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf data")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     setupSystemBlocks();
     cbox::update(0);
 
