@@ -1,7 +1,9 @@
 #include "AppBox.h"
 #include "AppTicks.h"
 #include "ConnectionsTcp.h"
+#include "cbox/Base64.h"
 #include "cbox/Box.h"
+#include "cbox/Connections.h"
 #include "cbox/DataStream.h"
 #include "delay_hal.h"
 #include "deviceid_hal.h"
@@ -12,10 +14,63 @@
 #include "spark/Brewblox.h"
 #include "spark_wiring_stream.h"
 #include "spark_wiring_usbserial.h"
+#include <pb.h>
+#include <pb_decode.h>
+#include <pb_encode.h>
 
 namespace app {
 
-class Command : public cbox::Command {
+/* This binds the pb_ostream_t into the DataOut stream, which is passed as state in pb_ostream */
+bool dataOutStreamCallback(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)
+{
+    auto out = static_cast<cbox::DataOut*>(stream->state);
+    return out->writeBuffer(buf, count);
+}
+
+bool encodePayloadContent(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+{
+    auto content = reinterpret_cast<std::vector<uint8_t>*>(*arg);
+    auto encoded = base64_encode(*content);
+    return pb_write(stream, (const uint8_t*)encoded.c_str(), encoded.size());
+}
+
+bool decodePayloadContent(pb_istream_t* stream, const pb_field_t* field, void** arg)
+{
+    auto content = reinterpret_cast<std::vector<uint8_t>*>(*arg);
+    auto buf = std::vector<uint8_t>(stream->bytes_left);
+    if (!pb_read(stream, buf.data(), stream->bytes_left)) {
+        return false;
+    }
+    auto decoded = base64_decode(buf);
+    buf.clear();
+    content->reserve(decoded.size());
+    content->insert(content->end(), decoded.begin(), decoded.end());
+    return true;
+}
+
+bool encodePayloadField(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+{
+    auto payload = reinterpret_cast<cbox::Payload*>(*arg);
+    controlbox_Payload submsg = controlbox_Payload_init_zero;
+
+    submsg.blockId = payload->blockId;
+    submsg.objtype = brewblox_BlockType(uint16_t(payload->blockType));
+    submsg.subtype = payload->subtype;
+    submsg.data.funcs.encode = &encodePayloadContent;
+    submsg.data.arg = &payload->content;
+
+    if (!pb_encode_tag_for_field(stream, field)) {
+        return false;
+    }
+
+    if (!pb_encode_submessage(stream, controlbox_Payload_fields, &submsg)) {
+        return false;
+    }
+
+    return true;
+}
+
+class AppCommand : public cbox::Command {
 private:
     uint32_t _msgId;
     controlbox_Opcode _opcode;
@@ -23,10 +78,10 @@ private:
     cbox::DataOut& _out;
 
 public:
-    Command(uint32_t msgId,
-            controlbox_Opcode opcode,
-            cbox::Payload&& request,
-            cbox::DataOut& out)
+    AppCommand(uint32_t msgId,
+               controlbox_Opcode opcode,
+               cbox::Payload&& request,
+               cbox::DataOut& out)
         : _msgId(msgId)
         , _opcode(opcode)
         , _request(std::make_unique<cbox::Payload>(std::move(request)))
@@ -34,16 +89,16 @@ public:
     {
     }
 
-    Command(uint32_t msgId,
-            controlbox_Opcode opcode,
-            cbox::DataOut& out)
+    AppCommand(uint32_t msgId,
+               controlbox_Opcode opcode,
+               cbox::DataOut& out)
         : _msgId(msgId)
         , _opcode(opcode)
         , _out(out)
     {
     }
 
-    virtual ~Command() = default;
+    virtual ~AppCommand() = default;
 
     virtual cbox::Payload* request() override final
     {
@@ -52,23 +107,33 @@ public:
 
     virtual cbox::CboxError respond(const cbox::Payload& payload) override final
     {
-        return cbox::CboxError::OK;
+        // Don't set message ID yet. The response is invalid until finalized
+        controlbox_Response message = controlbox_Response_init_zero;
+        message.payload.funcs.encode = &encodePayloadField;
+        message.payload.arg = (void*)&payload;
+
+        pb_ostream_t stream = {dataOutStreamCallback, &_out, PB_SIZE_MAX, 0};
+        bool success = pb_encode(&stream, controlbox_Response_fields, &message);
+
+        if (success) {
+            _out.write(',');
+            return cbox::CboxError::OK;
+        } else {
+            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+        }
     }
 
     void finalize(cbox::CboxError status)
     {
+        controlbox_Response message = controlbox_Response_init_zero;
+        message.msgId = _msgId;
+        message.error = controlbox_ErrorCode(status);
+
+        pb_ostream_t stream = {dataOutStreamCallback, &_out, PB_SIZE_MAX, 0};
+        pb_encode(&stream, controlbox_Response_fields, &message);
+        _out.write('\n');
     }
 };
-
-cbox::CboxError reboot(Command& cmd)
-{
-    return cbox::CboxError::OK;
-}
-
-cbox::CboxError factoryReset(Command& cmd)
-{
-    return cbox::CboxError::OK;
-}
 
 #if PLATFORM_ID != PLATFORM_GCC
 void updateFirmwareStreamHandler(Stream* stream)
@@ -127,11 +192,6 @@ void updateFirmwareStreamHandler(Stream* stream)
     }
 }
 
-void changeLedColor()
-{
-    LED_SetRGBColor(RGB_COLOR_MAGENTA);
-}
-
 void updateFirmwareFromStream(cbox::StreamType streamType)
 {
     getConnectionPool().stopAll();
@@ -152,15 +212,128 @@ void updateFirmwareFromStream(cbox::StreamType streamType)
 }
 #endif
 
+void startFirmwareUpdate(cbox::DataIn& in)
+{
+    LED_SetRGBColor(RGB_COLOR_MAGENTA);
+    getConnectionPool().disconnect();
+    ticks.delayMillis(10);
+#if PLATFORM_ID != PLATFORM_GCC
+    updateFirmwareFromStream(in.streamType());
+    // reset in case the firmware update failed
+    System.reset(RESET_USER_REASON::FIRMWARE_UPDATE_FAILED, RESET_NO_WAIT);
+#endif
+}
+
 void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
 {
-    // TODO(Bob)
-    // grab until newline
-    // create proto request
-    // handle app-level opcodes
-    // delegate cbox-level opcodes
-    // finalize response
-    // have a snack
+    uint32_t msgId = 0;
+    controlbox_Opcode opcode = controlbox_Opcode_OPCODE_NONE;
+    uint32_t blockId = 0;
+    brewblox_BlockType blockType = brewblox_BlockType_Invalid;
+    uint32_t subtype = 0;
+    std::vector<uint8_t> content;
+
+    {
+        std::string serialized;
+        serialized.reserve(200);
+
+        while (int16_t c = in.read() >= 0) {
+            if (c == '\n') {
+                break;
+            }
+
+            // TODO(Bob): what is a sane max request size?
+            // TODO(Bob): is serialized.size() performance acceptable?
+            if (serialized.size() > 1000) {
+                in.spool();
+                return;
+            }
+
+            serialized.push_back((uint8_t)c);
+        }
+
+        auto raw = base64_decode(serialized);
+        serialized.clear();
+        serialized.shrink_to_fit();
+
+        controlbox_Request message = controlbox_Request_init_zero;
+        message.payload.data.funcs.decode = &decodePayloadContent;
+        message.payload.data.arg = &content;
+
+        auto stream = pb_istream_from_buffer(raw.data(), raw.size());
+        bool success = pb_decode(&stream, controlbox_Request_fields, &message);
+        if (!success) {
+            // We don't even have message ID, so can't return an error
+            return;
+        }
+
+        msgId = message.msgId;
+        opcode = message.opcode;
+        blockId = message.payload.blockId;
+        blockType = message.payload.objtype;
+        subtype = message.payload.subtype;
+        // content is set by the callback
+    }
+
+    auto cmd = AppCommand(
+        msgId,
+        opcode,
+        std::move(cbox::Payload(blockId, blockType, subtype, std::move(content))),
+        out);
+
+    auto status = cbox::CboxError::UNKNOWN_ERROR;
+
+    switch (opcode) {
+    case controlbox_Opcode_OPCODE_NONE:
+        status = cbox::CboxError::OK;
+        cbox::connectionStarted(out);
+        break;
+    case controlbox_Opcode_OPCODE_READ_OBJECT:
+        status = cbox::readObject(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_WRITE_OBJECT:
+        status = cbox::writeObject(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_CREATE_OBJECT:
+        status = cbox::createObject(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_DELETE_OBJECT:
+        status = cbox::deleteObject(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_LIST_OBJECTS:
+        status = cbox::listActiveObjects(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_READ_STORED_OBJECT:
+        status = cbox::readStoredObject(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_LIST_STORED_OBJECTS:
+        status = cbox::listStoredObjects(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_CLEAR_OBJECTS:
+        status = cbox::clearObjects(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_REBOOT:
+        cmd.finalize(cbox::CboxError::OK);
+        ::handleReset(true, 2);
+        return; // unreachable
+    case controlbox_Opcode_OPCODE_FACTORY_RESET:
+        cmd.finalize(cbox::CboxError::OK);
+        cbox::getObjects().clear();
+        ::handleReset(true, 3);
+        return; // unreachable
+    case controlbox_Opcode_OPCODE_DISCOVER_OBJECTS:
+        status = cbox::discoverNewObjects(cmd);
+        break;
+    case controlbox_Opcode_OPCODE_FIRMWARE_UPDATE:
+        cmd.finalize(cbox::CboxError::OK);
+        startFirmwareUpdate(in);
+        return; // already finalized
+    default:
+        status = cbox::CboxError::INVALID_COMMAND;
+        break;
+    }
+
+    cmd.finalize(status);
 }
 
 void communicate()
@@ -181,36 +354,3 @@ void update()
 }
 
 } // end namespace app
-
-// namespace cbox {
-// // handler for custom commands outside of controlbox
-// bool applicationCommand(uint8_t cmdId, cbox::DataIn& in, cbox::EncodedDataOut& out)
-// {
-//     switch (cmdId) {
-//     case 100: // firmware update
-//     {
-//         CboxError status = CboxError::OK;
-//         in.spool();
-//         if (out.crc()) {
-//             status = CboxError::CRC_ERROR_IN_COMMAND;
-//         }
-//         out.writeResponseSeparator();
-//         out.write(asUint8(status));
-//         out.endMessage();
-//         ticks.delayMillis(10);
-//         if (status == CboxError::OK) {
-//             changeLedColor();
-//             brewbloxBox().disconnect();
-//             ticks.delayMillis(10);
-// #if PLATFORM_ID != PLATFORM_GCC
-//             updateFirmwareFromStream(in.streamType());
-//             // reset in case the firmware update failed
-//             System.reset(RESET_USER_REASON::FIRMWARE_UPDATE_FAILED, RESET_NO_WAIT);
-// #endif
-//         }
-//         return true;
-//     }
-//     }
-//     return false;
-// }
-// } // end namespace cbox

@@ -73,13 +73,17 @@ std::string base64_encode(const uint8_t* decoded, size_t length)
     return encoded;
 }
 
-std::vector<uint8_t> base64_decode(const std::string& encoded)
+std::string base64_encode(const std::vector<uint8_t>& decoded)
 {
-    const size_t length = encoded.size();
+    return base64_encode(decoded.data(), decoded.size());
+}
+
+std::vector<uint8_t> base64_decode(const uint8_t* encoded, size_t length)
+{
     uint8_t groupIdx = 0;
     uint8_t encodedBytes[4];
     std::vector<uint8_t> decoded;
-    decoded.reserve(encoded.size() * (3 / 4) + 2);
+    decoded.reserve(length * (3 / 4) + 2);
 
     for (size_t i = 0; i < length; i++) {
         auto byte = b64_to_byte(encoded[i]);
@@ -117,4 +121,14 @@ std::vector<uint8_t> base64_decode(const std::string& encoded)
     }
 
     return decoded;
+}
+
+std::vector<uint8_t> base64_decode(const std::string& encoded)
+{
+    return base64_decode((const uint8_t*)encoded.c_str(), encoded.size());
+}
+
+std::vector<uint8_t> base64_decode(const std::vector<uint8_t>& encoded)
+{
+    return base64_decode(encoded.data(), encoded.size());
 }
