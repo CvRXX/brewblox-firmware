@@ -31,24 +31,26 @@ int16_t b64_to_byte(uint8_t c) // uint8_t or -1
     }
 }
 
-std::string base64_encode(const uint8_t* decoded, size_t length)
+size_t base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 {
+    size_t inIdx = 0;
+    size_t length = in.size();
     uint8_t groupIdx = 0;
     uint8_t decodedBytes[3];
-    std::string encoded;
-    encoded.reserve(length * (4 / 3) + 2);
+    out.reserve(length * (4 / 3) + 2);
 
-    for (size_t bufIdx = 0; bufIdx < length; bufIdx++) {
-        decodedBytes[groupIdx] = decoded[bufIdx];
+    while (inIdx < length) {
+        decodedBytes[groupIdx] = in[inIdx];
         groupIdx++;
+        inIdx++;
 
         if (groupIdx == 3) {
             groupIdx = 0;
 
-            encoded += b64_to_char((decodedBytes[0] & 0xfc) >> 2);
-            encoded += b64_to_char(((decodedBytes[0] & 0x03) << 4) + ((decodedBytes[1] & 0xf0) >> 4));
-            encoded += b64_to_char(((decodedBytes[1] & 0x0f) << 2) + ((decodedBytes[2] & 0xc0) >> 6));
-            encoded += b64_to_char((decodedBytes[2] & 0x3f));
+            out.push_back(b64_to_char((decodedBytes[0] & 0xfc) >> 2));
+            out.push_back(b64_to_char(((decodedBytes[0] & 0x03) << 4) + ((decodedBytes[1] & 0xf0) >> 4)));
+            out.push_back(b64_to_char(((decodedBytes[1] & 0x0f) << 2) + ((decodedBytes[2] & 0xc0) >> 6)));
+            out.push_back(b64_to_char((decodedBytes[2] & 0x3f)));
         }
     }
 
@@ -60,33 +62,29 @@ std::string base64_encode(const uint8_t* decoded, size_t length)
             decodedBytes[i] = 0;
         }
 
-        encoded += b64_to_char((decodedBytes[0] & 0xfc) >> 2);
-        encoded += b64_to_char(((decodedBytes[0] & 0x03) << 4) + ((decodedBytes[1] & 0xf0) >> 4));
+        out.push_back(b64_to_char((decodedBytes[0] & 0xfc) >> 2));
+        out.push_back(b64_to_char(((decodedBytes[0] & 0x03) << 4) + ((decodedBytes[1] & 0xf0) >> 4)));
 
         if (groupIdx > 1) {
-            encoded += b64_to_char(((decodedBytes[1] & 0x0f) << 2) + ((decodedBytes[2] & 0xc0) >> 6));
+            out.push_back(b64_to_char(((decodedBytes[1] & 0x0f) << 2) + ((decodedBytes[2] & 0xc0) >> 6)));
         }
 
-        encoded += std::string("==", 3 - groupIdx);
+        out.insert(out.end(), 3 - groupIdx, '=');
     }
 
-    return encoded;
+    return inIdx;
 }
 
-std::string base64_encode(const std::vector<uint8_t>& decoded)
+size_t base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 {
-    return base64_encode(decoded.data(), decoded.size());
-}
-
-std::vector<uint8_t> base64_decode(const uint8_t* encoded, size_t length)
-{
+    size_t length = in.size();
+    size_t inIdx = 0;
     uint8_t groupIdx = 0;
     uint8_t encodedBytes[4];
-    std::vector<uint8_t> decoded;
-    decoded.reserve(length * (3 / 4) + 2);
+    out.reserve(length * (3 / 4) + 2);
 
-    for (size_t i = 0; i < length; i++) {
-        auto byte = b64_to_byte(encoded[i]);
+    while (inIdx < length) {
+        auto byte = b64_to_byte(in[inIdx]);
 
         if (byte < 0) {
             // Break on invalid characters (includes '\n' and '=').
@@ -96,13 +94,14 @@ std::vector<uint8_t> base64_decode(const uint8_t* encoded, size_t length)
 
         encodedBytes[groupIdx] = byte;
         groupIdx++;
+        inIdx++;
 
         if (groupIdx == 4) {
             groupIdx = 0;
 
-            decoded.push_back((encodedBytes[0] << 2) + ((encodedBytes[1] & 0x30) >> 4));
-            decoded.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
-            decoded.push_back(((encodedBytes[2] & 0x3) << 6) + encodedBytes[3]);
+            out.push_back((encodedBytes[0] << 2) + ((encodedBytes[1] & 0x30) >> 4));
+            out.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
+            out.push_back(((encodedBytes[2] & 0x3) << 6) + encodedBytes[3]);
         }
     }
 
@@ -113,22 +112,12 @@ std::vector<uint8_t> base64_decode(const uint8_t* encoded, size_t length)
             encodedBytes[i] = 0;
         }
 
-        decoded.push_back((encodedBytes[0] << 2) + ((encodedBytes[1] & 0x30) >> 4));
+        out.push_back((encodedBytes[0] << 2) + ((encodedBytes[1] & 0x30) >> 4));
 
         if (groupIdx > 2) {
-            decoded.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
+            out.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
         }
     }
 
-    return decoded;
-}
-
-std::vector<uint8_t> base64_decode(const std::string& encoded)
-{
-    return base64_decode((const uint8_t*)encoded.c_str(), encoded.size());
-}
-
-std::vector<uint8_t> base64_decode(const std::vector<uint8_t>& encoded)
-{
-    return base64_decode(encoded.data(), encoded.size());
+    return inIdx;
 }

@@ -8,56 +8,69 @@
 #include "delay_hal.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
+#include "proto/controlbox.pb.h"
 #include "reset.h"
 #include "rgbled.h"
 #include "spark/Board.h"
 #include "spark/Brewblox.h"
 #include "spark_wiring_stream.h"
 #include "spark_wiring_usbserial.h"
-#include <pb.h>
 #include <pb_decode.h>
 #include <pb_encode.h>
 
 namespace app {
 
-/* This binds the pb_ostream_t into the DataOut stream, which is passed as state in pb_ostream */
-bool dataOutStreamCallback(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)
-{
-    auto out = static_cast<cbox::DataOut*>(stream->state);
-    return out->writeBuffer(buf, count);
-}
+class SerializedPayload {
+public:
+    uint32_t blockId;
+    brewblox_BlockType blockType;
+    uint16_t subtype;
+    std::vector<uint8_t> encodedContent;
 
-bool encodePayloadContent(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
-{
-    auto content = reinterpret_cast<std::vector<uint8_t>*>(*arg);
-    auto encoded = base64_encode(*content);
-    return pb_write(stream, (const uint8_t*)encoded.c_str(), encoded.size());
-}
+    SerializedPayload(const cbox::Payload& src)
+        : blockId(src.blockId)
+        , blockType((brewblox_BlockType)uint16_t(src.blockType))
+        , subtype(src.subtype)
+    {
+        base64_encode(src.content, encodedContent);
+    }
+
+    virtual ~SerializedPayload() = default;
+};
 
 bool decodePayloadContent(pb_istream_t* stream, const pb_field_t* field, void** arg)
 {
     auto content = reinterpret_cast<std::vector<uint8_t>*>(*arg);
-    auto buf = std::vector<uint8_t>(stream->bytes_left);
-    if (!pb_read(stream, buf.data(), stream->bytes_left)) {
+    auto encoded = std::vector<uint8_t>(stream->bytes_left);
+    if (!pb_read(stream, encoded.data(), stream->bytes_left)) {
         return false;
     }
-    auto decoded = base64_decode(buf);
-    buf.clear();
-    content->reserve(decoded.size());
-    content->insert(content->end(), decoded.begin(), decoded.end());
+    base64_decode(encoded, *content);
     return true;
 }
 
-bool encodePayloadField(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool encodeSerializedPayloadContent(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    auto payload = reinterpret_cast<cbox::Payload*>(*arg);
+    auto serialized = reinterpret_cast<SerializedPayload*>(*arg);
+    if (!pb_encode_tag_for_field(stream, field)) {
+        return false;
+    }
+    if (!pb_encode_string(stream, serialized->encodedContent.data(), serialized->encodedContent.size())) {
+        return false;
+    }
+    return true;
+}
+
+bool encodeSerializedPayload(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+{
+    auto serialized = reinterpret_cast<SerializedPayload*>(*arg);
     controlbox_Payload submsg = controlbox_Payload_init_zero;
 
-    submsg.blockId = payload->blockId;
-    submsg.objtype = brewblox_BlockType(uint16_t(payload->blockType));
-    submsg.subtype = payload->subtype;
-    submsg.data.funcs.encode = &encodePayloadContent;
-    submsg.data.arg = &payload->content;
+    submsg.blockId = serialized->blockId;
+    submsg.objtype = serialized->blockType;
+    submsg.subtype = serialized->subtype;
+    submsg.data.funcs.encode = &encodeSerializedPayloadContent;
+    submsg.data.arg = serialized;
 
     if (!pb_encode_tag_for_field(stream, field)) {
         return false;
@@ -105,32 +118,71 @@ public:
         return _request.get();
     }
 
+    cbox::CboxError encodeResponse(const cbox::Payload& payload, std::vector<uint8_t>& protoEncoded)
+    {
+        size_t actualSize;
+        auto serialized = SerializedPayload(payload);
+        controlbox_Response message = controlbox_Response_init_zero;
+
+        // Don't set message ID yet. The response is invalid until finalized
+        message.payload.funcs.encode = &encodeSerializedPayload;
+        message.payload.arg = &serialized;
+
+        if (!pb_get_encoded_size(&actualSize, controlbox_Response_fields, &message)) {
+            return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+        }
+
+        protoEncoded.resize(actualSize);
+        auto stream = pb_ostream_from_buffer(protoEncoded.data(), protoEncoded.size());
+
+        if (!pb_encode(&stream, controlbox_Response_fields, &message)) {
+            return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+        }
+
+        return cbox::CboxError::OK;
+    }
+
     virtual cbox::CboxError respond(const cbox::Payload& payload) override final
     {
-        // Don't set message ID yet. The response is invalid until finalized
-        controlbox_Response message = controlbox_Response_init_zero;
-        message.payload.funcs.encode = &encodePayloadField;
-        message.payload.arg = (void*)&payload;
+        auto protoEncoded = std::vector<uint8_t>();
+        auto b64Encoded = std::vector<uint8_t>();
 
-        pb_ostream_t stream = {dataOutStreamCallback, &_out, PB_SIZE_MAX, 0};
-        bool success = pb_encode(&stream, controlbox_Response_fields, &message);
+        auto status = encodeResponse(payload, protoEncoded);
+        if (status != cbox::CboxError::OK) {
+            return status;
+        }
 
-        if (success) {
-            _out.write(',');
-            return cbox::CboxError::OK;
-        } else {
+        base64_encode(protoEncoded, b64Encoded);
+
+        if (!_out.writeBuffer(b64Encoded.data(), b64Encoded.size())) {
             return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
         }
+
+        _out.write(',');
+        return cbox::CboxError::OK;
     }
 
     void finalize(cbox::CboxError status)
     {
+        auto protoEncoded = std::vector<uint8_t>();
+        auto b64Encoded = std::vector<uint8_t>();
+
         controlbox_Response message = controlbox_Response_init_zero;
         message.msgId = _msgId;
         message.error = controlbox_ErrorCode(status);
 
-        pb_ostream_t stream = {dataOutStreamCallback, &_out, PB_SIZE_MAX, 0};
-        pb_encode(&stream, controlbox_Response_fields, &message);
+        size_t actualSize;
+        pb_get_encoded_size(&actualSize, controlbox_Response_fields, &message);
+        protoEncoded.resize(actualSize);
+
+        auto stream = pb_ostream_from_buffer(protoEncoded.data(), protoEncoded.size());
+        if (!pb_encode(&stream, controlbox_Response_fields, &message)) {
+            _out.write('\n');
+        }
+
+        base64_encode(protoEncoded, b64Encoded);
+
+        _out.writeBuffer(b64Encoded.data(), b64Encoded.size());
         _out.write('\n');
     }
 };
@@ -224,66 +276,65 @@ void startFirmwareUpdate(cbox::DataIn& in)
 #endif
 }
 
-void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
+bool parseMessage(cbox::DataIn& in, cbox::DataOut& out, controlbox_Request* message)
 {
-    uint32_t msgId = 0;
-    controlbox_Opcode opcode = controlbox_Opcode_OPCODE_NONE;
-    uint32_t blockId = 0;
-    brewblox_BlockType blockType = brewblox_BlockType_Invalid;
-    uint32_t subtype = 0;
-    std::vector<uint8_t> content;
+    std::vector<uint8_t> b64Encoded;
+    std::vector<uint8_t> protoEncoded;
+    b64Encoded.reserve(200);
 
-    {
-        std::string serialized;
-        serialized.reserve(200);
+    while (true) {
+        auto c = in.read();
 
-        while (int16_t c = in.read() >= 0) {
-            if (c == '\n') {
-                break;
-            }
-
-            // TODO(Bob): what is a sane max request size?
-            // TODO(Bob): is serialized.size() performance acceptable?
-            if (serialized.size() > 1000) {
-                in.spool();
-                return;
-            }
-
-            serialized.push_back((uint8_t)c);
+        if (c < 0 || c == '\n') {
+            break;
         }
 
-        auto raw = base64_decode(serialized);
-        serialized.clear();
-        serialized.shrink_to_fit();
-
-        controlbox_Request message = controlbox_Request_init_zero;
-        message.payload.data.funcs.decode = &decodePayloadContent;
-        message.payload.data.arg = &content;
-
-        auto stream = pb_istream_from_buffer(raw.data(), raw.size());
-        bool success = pb_decode(&stream, controlbox_Request_fields, &message);
-        if (!success) {
-            // We don't even have message ID, so can't return an error
-            return;
-        }
-
-        msgId = message.msgId;
-        opcode = message.opcode;
-        blockId = message.payload.blockId;
-        blockType = message.payload.objtype;
-        subtype = message.payload.subtype;
-        // content is set by the callback
+        b64Encoded.push_back((uint8_t)c);
     }
 
+    while (true) {
+        auto c = in.peek();
+        if (c < 0 || (c >= '+' && c <= 'z')) {
+            break;
+        }
+        in.read();
+    }
+
+    if (b64Encoded.size() == 0) {
+        return false;
+    }
+
+    base64_decode(b64Encoded, protoEncoded);
+    auto stream = pb_istream_from_buffer(protoEncoded.data(), protoEncoded.size());
+    return pb_decode(&stream, controlbox_Request_fields, message);
+}
+
+void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
+{
+    controlbox_Request message = controlbox_Request_init_zero;
+    std::vector<uint8_t> content;
+
+    message.payload.data.funcs.decode = &decodePayloadContent;
+    message.payload.data.arg = &content;
+
+    if (!parseMessage(in, out, &message)) {
+        return;
+    }
+
+    auto payload = cbox::Payload(message.payload.blockId,
+                                 message.payload.objtype,
+                                 message.payload.subtype,
+                                 std::move(content));
+
     auto cmd = AppCommand(
-        msgId,
-        opcode,
-        std::move(cbox::Payload(blockId, blockType, subtype, std::move(content))),
+        message.msgId,
+        message.opcode,
+        std::move(payload),
         out);
 
     auto status = cbox::CboxError::UNKNOWN_ERROR;
 
-    switch (opcode) {
+    switch (message.opcode) {
     case controlbox_Opcode_OPCODE_NONE:
         status = cbox::CboxError::OK;
         cbox::connectionStarted(out);

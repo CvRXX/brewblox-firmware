@@ -48,5 +48,5 @@
   "[dockerfile]": {
     "editor.formatOnSave": false
   },
-  "debug.onTaskErrors": "debugAnyway"
+  "remote.localPortHost": "allInterfaces"
 }

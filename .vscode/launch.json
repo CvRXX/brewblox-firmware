@@ -26,6 +26,7 @@
           "ignoreFailures": true
         }
       ],
+      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
     },
     {
       "name": "Debug test blocks",
