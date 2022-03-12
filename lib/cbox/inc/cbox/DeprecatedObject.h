@@ -40,7 +40,7 @@ public:
     }
     virtual ~DeprecatedObject() = default;
 
-    virtual CboxError read(Command& cmd) const override final
+    virtual CboxError toResponse(Command& cmd) const override final
     {
         Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(originalId));
@@ -49,12 +49,12 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual CboxError readPersisted(Command& cmd) const override final
+    virtual CboxError toStoredResponse(Command& cmd) const override final
     {
-        return read(cmd);
+        return toResponse(cmd);
     }
 
-    virtual CboxError write(Command&) override final
+    virtual CboxError fromRequest(Command&) override final
     {
         return CboxError::OBJECT_NOT_WRITABLE;
     }

@@ -86,31 +86,31 @@ public:
         _nextUpdateTime += 1000;
     }
 
-    CboxError read(Command& cmd) const
+    CboxError toResponse(Command& cmd) const
     {
         if (!_obj) {
             return CboxError::INVALID_OBJECT_PTR;
         }
 
-        return _obj->read(cmd);
+        return _obj->toResponse(cmd);
     }
 
-    CboxError readPersisted(Command& cmd) const
+    CboxError toStoredResponse(Command& cmd) const
     {
         if (!_obj) {
             return CboxError::INVALID_OBJECT_PTR;
         }
 
-        return _obj->readPersisted(cmd);
+        return _obj->toStoredResponse(cmd);
     }
 
-    CboxError write(Command& cmd)
+    CboxError fromRequest(Command& cmd)
     {
         if (!_obj) {
             return CboxError::INVALID_OBJECT_PTR;
         }
 
-        return _obj->write(cmd);
+        return _obj->fromRequest(cmd);
     }
 };
 

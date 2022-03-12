@@ -4,7 +4,7 @@
 #include "proto/ActuatorOffset.pb.h"
 #include "proto/Constraints.pb.h"
 
-cbox::CboxError ActuatorOffsetBlock::read(cbox::Command& cmd) const
+cbox::CboxError ActuatorOffsetBlock::toResponse(cbox::Command& cmd) const
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
     FieldTags stripped;
@@ -42,7 +42,7 @@ cbox::CboxError ActuatorOffsetBlock::read(cbox::Command& cmd) const
                                     blox_ActuatorOffset_Block_size);
 }
 
-cbox::CboxError ActuatorOffsetBlock::readPersisted(cbox::Command& cmd) const
+cbox::CboxError ActuatorOffsetBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
 
@@ -62,7 +62,7 @@ cbox::CboxError ActuatorOffsetBlock::readPersisted(cbox::Command& cmd) const
                                     blox_ActuatorOffset_Block_size);
 }
 
-cbox::CboxError ActuatorOffsetBlock::write(cbox::Command& cmd)
+cbox::CboxError ActuatorOffsetBlock::fromRequest(cbox::Command& cmd)
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_ActuatorOffset_Block_fields);

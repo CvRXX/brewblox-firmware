@@ -25,9 +25,9 @@
 // provides a protobuf interface to the read only system info
 class DisplaySettingsBlock : public cbox::ObjectBase<brewblox_BlockType_DisplaySettings> {
 public:
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError write(cbox::Command& cmd) override final;
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final;
 
     virtual cbox::update_t update(const cbox::update_t& now) override final
     {

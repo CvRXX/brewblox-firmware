@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include "spark/SparkIoBase.h"
 #include "blocks/Block.h"
+#include "spark/SparkIoBase.h"
 
 class Spark2PinsBlock : public SparkIoBase, public Block<brewblox_BlockType_Spark2Pins> {
 private:
@@ -30,9 +30,9 @@ private:
 public:
     Spark2PinsBlock();
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError write(cbox::Command& cmd) override final;
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final;
 
     virtual cbox::update_t update(const cbox::update_t& now) override final
     {

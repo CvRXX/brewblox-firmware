@@ -21,7 +21,7 @@
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError
-MutexBlock::read(cbox::Command& cmd) const
+MutexBlock::toResponse(cbox::Command& cmd) const
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
@@ -37,13 +37,13 @@ MutexBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-MutexBlock::readPersisted(cbox::Command& cmd) const
+MutexBlock::toStoredResponse(cbox::Command& cmd) const
 {
-    return read(cmd);
+    return toResponse(cmd);
 }
 
 cbox::CboxError
-MutexBlock::write(cbox::Command& cmd)
+MutexBlock::fromRequest(cbox::Command& cmd)
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_Mutex_Block_fields);

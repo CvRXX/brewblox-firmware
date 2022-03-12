@@ -54,7 +54,7 @@ CboxError readObject(Command& cmd)
         return CboxError::INVALID_OBJECT_ID;
     }
 
-    auto status = cobj->read(cmd);
+    auto status = cobj->toResponse(cmd);
     return status;
 }
 
@@ -75,7 +75,7 @@ CboxError writeObject(Command& cmd)
         return CboxError::INVALID_OBJECT_TYPE;
     }
 
-    status = cobj->write(cmd);
+    status = cobj->fromRequest(cmd);
     if (status != CboxError::OK) {
         return status;
     }
@@ -90,7 +90,7 @@ CboxError writeObject(Command& cmd)
     }
 
     cobj->forcedUpdate(lastUpdateTime);
-    return cobj->read(cmd);
+    return cobj->toResponse(cmd);
 }
 
 CboxError createObject(Command& cmd)
@@ -113,7 +113,7 @@ CboxError createObject(Command& cmd)
     auto newObj = std::get<1>(makeResult);
 
     if (newObj) {
-        status = newObj->write(cmd);
+        status = newObj->fromRequest(cmd);
     }
 
     if (status != CboxError::OK) {
@@ -140,7 +140,7 @@ CboxError createObject(Command& cmd)
 
     // immediately trigger an update
     cobj->forcedUpdate(lastUpdateTime);
-    status = cobj->read(cmd);
+    status = cobj->toResponse(cmd);
 
     return status;
 }
@@ -172,7 +172,7 @@ CboxError listActiveObjects(Command& cmd)
 {
     CboxError status = CboxError::OK;
     for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
-        status = it->read(cmd);
+        status = it->toResponse(cmd);
     }
     return status;
 }
@@ -224,7 +224,7 @@ CboxError discoverNewObjects(Command& cmd)
         auto cobj = objects.fetchContained(newId);
 
         if (cobj != nullptr) { // always true, but just in case
-            status = cobj->read(cmd);
+            status = cobj->toResponse(cmd);
             if (status != CboxError::OK) {
                 return status;
             }

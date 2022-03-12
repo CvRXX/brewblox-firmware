@@ -48,7 +48,7 @@ pin_t Spark3PinsBlock::channelToPin(uint8_t channel) const
     return -1;
 }
 
-cbox::CboxError Spark3PinsBlock::read(cbox::Command& cmd) const
+cbox::CboxError Spark3PinsBlock::toResponse(cbox::Command& cmd) const
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
@@ -84,7 +84,7 @@ cbox::CboxError Spark3PinsBlock::read(cbox::Command& cmd) const
                                     blox_Spark3Pins_Block_size);
 }
 
-cbox::CboxError Spark3PinsBlock::readPersisted(cbox::Command& cmd) const
+cbox::CboxError Spark3PinsBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
@@ -105,7 +105,7 @@ cbox::CboxError Spark3PinsBlock::readPersisted(cbox::Command& cmd) const
                                     blox_Spark3Pins_Block_size);
 }
 
-cbox::CboxError Spark3PinsBlock::write(cbox::Command& cmd)
+cbox::CboxError Spark3PinsBlock::fromRequest(cbox::Command& cmd)
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_Spark3Pins_Block_fields);

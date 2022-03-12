@@ -41,7 +41,7 @@ void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, boo
 }
 
 cbox::CboxError
-TempSensorCombiBlock::read(cbox::Command& cmd) const
+TempSensorCombiBlock::toResponse(cbox::Command& cmd) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, true);
@@ -56,7 +56,7 @@ TempSensorCombiBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-TempSensorCombiBlock::readPersisted(cbox::Command& cmd) const
+TempSensorCombiBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, false);
@@ -71,7 +71,7 @@ TempSensorCombiBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-TempSensorCombiBlock::write(cbox::Command& cmd)
+TempSensorCombiBlock::fromRequest(cbox::Command& cmd)
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_TempSensorCombi_Block_fields);

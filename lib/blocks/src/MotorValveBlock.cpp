@@ -30,7 +30,7 @@ void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message)
 }
 
 cbox::CboxError
-MotorValveBlock::read(cbox::Command& cmd) const
+MotorValveBlock::toResponse(cbox::Command& cmd) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     FieldTags stripped;
@@ -62,7 +62,7 @@ MotorValveBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-MotorValveBlock::readPersisted(cbox::Command& cmd) const
+MotorValveBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     addPersistedStateToMessage(message);
@@ -77,7 +77,7 @@ MotorValveBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-MotorValveBlock::write(cbox::Command& cmd)
+MotorValveBlock::fromRequest(cbox::Command& cmd)
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_MotorValve_Block_fields);

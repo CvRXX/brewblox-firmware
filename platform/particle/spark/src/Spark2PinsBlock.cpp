@@ -44,7 +44,7 @@ Spark2PinsBlock::Spark2PinsBlock()
 {
 }
 
-cbox::CboxError Spark2PinsBlock::read(cbox::Command& cmd) const
+cbox::CboxError Spark2PinsBlock::toResponse(cbox::Command& cmd) const
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
 
@@ -83,7 +83,7 @@ cbox::CboxError Spark2PinsBlock::read(cbox::Command& cmd) const
                                     blox_Spark2Pins_Block_size);
 }
 
-cbox::CboxError Spark2PinsBlock::readPersisted(cbox::Command& cmd) const
+cbox::CboxError Spark2PinsBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
 
@@ -98,7 +98,7 @@ cbox::CboxError Spark2PinsBlock::readPersisted(cbox::Command& cmd) const
                                     blox_Spark2Pins_Block_size);
 }
 
-cbox::CboxError Spark2PinsBlock::write(cbox::Command& cmd)
+cbox::CboxError Spark2PinsBlock::fromRequest(cbox::Command& cmd)
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_Spark2Pins_Block_fields);

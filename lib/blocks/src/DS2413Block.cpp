@@ -21,7 +21,7 @@
 #include "proto/DS2413.pb.h"
 
 cbox::CboxError
-DS2413Block::read(cbox::Command& cmd) const
+DS2413Block::toResponse(cbox::Command& cmd) const
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
@@ -43,7 +43,7 @@ DS2413Block::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DS2413Block::readPersisted(cbox::Command& cmd) const
+DS2413Block::toStoredResponse(cbox::Command& cmd) const
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
@@ -60,7 +60,7 @@ DS2413Block::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DS2413Block::write(cbox::Command& cmd)
+DS2413Block::fromRequest(cbox::Command& cmd)
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_DS2413_Block_fields);

@@ -21,7 +21,7 @@
 #include "proto/DisplaySettings.pb.h"
 
 cbox::CboxError
-DisplaySettingsBlock::read(cbox::Command& cmd) const
+DisplaySettingsBlock::toResponse(cbox::Command& cmd) const
 {
     return serializeResponsePayload(cmd,
                                     objectId,
@@ -33,13 +33,13 @@ DisplaySettingsBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DisplaySettingsBlock::readPersisted(cbox::Command& cmd) const
+DisplaySettingsBlock::toStoredResponse(cbox::Command& cmd) const
 {
-    return read(cmd);
+    return toResponse(cmd);
 }
 
 cbox::CboxError
-DisplaySettingsBlock::write(cbox::Command& cmd)
+DisplaySettingsBlock::fromRequest(cbox::Command& cmd)
 {
     blox_DisplaySettings_Block message = blox_DisplaySettings_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_DisplaySettings_Block_fields);

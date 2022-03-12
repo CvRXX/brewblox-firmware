@@ -94,7 +94,7 @@ void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool in
     expression.copy(message.expression, 64);
 }
 
-cbox::CboxError ActuatorLogicBlock::read(cbox::Command& cmd) const
+cbox::CboxError ActuatorLogicBlock::toResponse(cbox::Command& cmd) const
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, true);
@@ -109,7 +109,7 @@ cbox::CboxError ActuatorLogicBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-ActuatorLogicBlock::readPersisted(cbox::Command& cmd) const
+ActuatorLogicBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, false);
@@ -123,7 +123,7 @@ ActuatorLogicBlock::readPersisted(cbox::Command& cmd) const
                                     blox_ActuatorLogic_Block_size);
 }
 
-cbox::CboxError ActuatorLogicBlock::write(cbox::Command& cmd)
+cbox::CboxError ActuatorLogicBlock::fromRequest(cbox::Command& cmd)
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_ActuatorLogic_Block_fields);

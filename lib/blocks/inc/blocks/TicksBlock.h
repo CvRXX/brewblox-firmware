@@ -36,7 +36,7 @@ public:
     }
     virtual ~TicksBlock() = default;
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
 
@@ -57,12 +57,12 @@ public:
                                         blox_Ticks_Block_size);
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command&) const override final
+    virtual cbox::CboxError toStoredResponse(cbox::Command&) const override final
     {
         return cbox::CboxError::PERSISTING_NOT_NEEDED;
     }
 
-    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
         auto res = parseRequestPayload(cmd, &message, blox_Ticks_Block_fields);

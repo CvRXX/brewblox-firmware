@@ -5,7 +5,7 @@
 #include "proto/Constraints.pb.h"
 
 cbox::CboxError
-ActuatorPwmBlock::read(cbox::Command& cmd) const
+ActuatorPwmBlock::toResponse(cbox::Command& cmd) const
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
     FieldTags stripped;
@@ -43,7 +43,7 @@ ActuatorPwmBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-ActuatorPwmBlock::readPersisted(cbox::Command& cmd) const
+ActuatorPwmBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
 
@@ -63,7 +63,7 @@ ActuatorPwmBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-ActuatorPwmBlock::write(cbox::Command& cmd)
+ActuatorPwmBlock::fromRequest(cbox::Command& cmd)
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_ActuatorPwm_Block_fields);

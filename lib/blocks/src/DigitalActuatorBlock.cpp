@@ -20,7 +20,7 @@ void DigitalActuatorBlock::addPersistedStateToMessage(blox_DigitalActuator_Block
 }
 
 cbox::CboxError
-DigitalActuatorBlock::read(cbox::Command& cmd) const
+DigitalActuatorBlock::toResponse(cbox::Command& cmd) const
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
     FieldTags stripped;
@@ -45,7 +45,7 @@ DigitalActuatorBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DigitalActuatorBlock::readPersisted(cbox::Command& cmd) const
+DigitalActuatorBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
 
@@ -61,7 +61,7 @@ DigitalActuatorBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DigitalActuatorBlock::write(cbox::Command& cmd)
+DigitalActuatorBlock::fromRequest(cbox::Command& cmd)
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_DigitalActuator_Block_fields);

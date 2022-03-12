@@ -81,7 +81,7 @@ void TempSensorMockBlock::writeMessage(blox_TempSensorMock_Block& message) const
 }
 
 cbox::CboxError
-TempSensorMockBlock::read(cbox::Command& cmd) const
+TempSensorMockBlock::toResponse(cbox::Command& cmd) const
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
 
@@ -97,7 +97,7 @@ TempSensorMockBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-TempSensorMockBlock::readPersisted(cbox::Command& cmd) const
+TempSensorMockBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
 
@@ -114,7 +114,7 @@ TempSensorMockBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-TempSensorMockBlock::write(cbox::Command& cmd)
+TempSensorMockBlock::fromRequest(cbox::Command& cmd)
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
     std::vector<Fluctuation> newFlucts;

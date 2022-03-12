@@ -22,7 +22,7 @@
 #include "proto/TouchSettings.pb.h"
 #include <cstring>
 
-cbox::CboxError TouchSettingsBlock::read(cbox::Command& cmd) const
+cbox::CboxError TouchSettingsBlock::toResponse(cbox::Command& cmd) const
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
 
@@ -43,12 +43,12 @@ cbox::CboxError TouchSettingsBlock::read(cbox::Command& cmd) const
                                     blox_TouchSettings_Block_size);
 }
 
-cbox::CboxError TouchSettingsBlock::readPersisted(cbox::Command& cmd) const
+cbox::CboxError TouchSettingsBlock::toStoredResponse(cbox::Command& cmd) const
 {
-    return read(cmd);
+    return toResponse(cmd);
 }
 
-cbox::CboxError TouchSettingsBlock::write(cbox::Command& cmd)
+cbox::CboxError TouchSettingsBlock::fromRequest(cbox::Command& cmd)
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_TouchSettings_Block_fields);

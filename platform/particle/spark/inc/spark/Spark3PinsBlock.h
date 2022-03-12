@@ -33,9 +33,9 @@ public:
     {
     }
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError write(cbox::Command& cmd) override final;
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final;
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final;
 
     virtual void* implements(const cbox::obj_type_t& iface) override final;
 

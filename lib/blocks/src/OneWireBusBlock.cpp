@@ -61,7 +61,7 @@ OneWireBusBlock::OneWireBusBlock(OneWire& ow, void (*onShortDetected_)())
  * - cmd 02: search bus: a sequence of 0 or more 8-byte addresses, MSB first that were found on the bus
  */
 cbox::CboxError
-OneWireBusBlock::read(cbox::Command& cmd) const
+OneWireBusBlock::toResponse(cbox::Command& cmd) const
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
     message.command = command;
@@ -95,7 +95,7 @@ OneWireBusBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-OneWireBusBlock::readPersisted(cbox::Command&) const
+OneWireBusBlock::toStoredResponse(cbox::Command&) const
 {
     return cbox::CboxError::PERSISTING_NOT_NEEDED;
 }
@@ -111,7 +111,7 @@ OneWireBusBlock::readPersisted(cbox::Command&) const
  *   (later: set bus power? (off if next byte is 00, on if it's 01) )
  */
 cbox::CboxError
-OneWireBusBlock::write(cbox::Command& cmd)
+OneWireBusBlock::fromRequest(cbox::Command& cmd)
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_OneWireBus_Block_fields);

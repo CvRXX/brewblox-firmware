@@ -70,7 +70,7 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
 
     // CRC is OK, write data to object
     obj->objectId = objId;
-    status = obj->write(inCmd);
+    status = obj->fromRequest(inCmd);
 
     return std::make_pair(std::move(status), std::move(obj));
 }
@@ -115,7 +115,7 @@ CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Objec
     }
 
     obj->objectId = objId;
-    return obj->write(inCmd);
+    return obj->fromRequest(inCmd);
 }
 
 CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd)
@@ -175,7 +175,7 @@ CboxError saveToStream(DataOut& out, obj_id_t /*objId*/, std::shared_ptr<Object>
     // TODO(Bob): CRC handling is asymmetric
     // When loading, it is checked here, but when saving, it is added in storage
     DataOutCommand outCmd(out);
-    return obj->readPersisted(outCmd);
+    return obj->toStoredResponse(outCmd);
 }
 
 } // end namespace cbox

@@ -70,19 +70,22 @@ public:
 
     /**
      * Each object can yield its own data on request.
+     * It can do so by calling cmd.respond(Payload&) during this function.
      */
-    virtual CboxError read(Command& cmd) const = 0;
+    virtual CboxError toResponse(Command& cmd) const = 0;
 
     /**
      * Objects can yield data they want persisted.
-     * The persisted data should be compatible with write(Command&).
+     * The persisted data should be compatible with fromRequest(Command&).
+     * It can do so by calling cmd.respond(Payload&) during this function.
      */
-    virtual CboxError readPersisted(Command& cmd) const = 0;
+    virtual CboxError toStoredResponse(Command& cmd) const = 0;
 
     /**
-     * Objects can optionally receive new data from an incoming command;
+     * Objects can optionally receive new data from an incoming command.
+     * It fetches the incoming data from cmd.request().
      */
-    virtual CboxError write(Command& cmd) = 0;
+    virtual CboxError fromRequest(Command& cmd) = 0;
 
     /**
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it

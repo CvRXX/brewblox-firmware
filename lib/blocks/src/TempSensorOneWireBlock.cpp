@@ -40,7 +40,7 @@ TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWi
 }
 
 cbox::CboxError
-TempSensorOneWireBlock::read(cbox::Command& cmd) const
+TempSensorOneWireBlock::toResponse(cbox::Command& cmd) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     FieldTags stripped;
@@ -67,7 +67,7 @@ TempSensorOneWireBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-TempSensorOneWireBlock::readPersisted(cbox::Command& cmd) const
+TempSensorOneWireBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
 
@@ -85,7 +85,7 @@ TempSensorOneWireBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-TempSensorOneWireBlock::write(cbox::Command& cmd)
+TempSensorOneWireBlock::fromRequest(cbox::Command& cmd)
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_TempSensorOneWire_Block_fields);

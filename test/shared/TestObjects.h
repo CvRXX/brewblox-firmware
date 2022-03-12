@@ -61,7 +61,7 @@ public:
         return obj == rhs.obj;
     }
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(uint32_t));
@@ -70,12 +70,12 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final
     {
-        return read(cmd);
+        return toResponse(cmd);
     }
 
-    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
             return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
@@ -124,7 +124,7 @@ public:
     {
     }
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(uint16_t) + values.size() * sizeof(uint32_t));
@@ -143,12 +143,12 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final
     {
-        return read(cmd);
+        return toResponse(cmd);
     }
 
-    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
             return cbox::CboxError::INPUT_STREAM_READ_ERROR;
@@ -212,7 +212,7 @@ public:
         return _interval;
     }
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(_interval) + sizeof(_count));
@@ -229,7 +229,7 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(_interval));
@@ -242,7 +242,7 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
             return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
@@ -316,7 +316,7 @@ public:
     }
     virtual ~PtrLongIntObject() = default;
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize((sizeof(cbox::obj_id_t) + sizeof(bool) + sizeof(uint32_t)) * 2);
@@ -353,7 +353,7 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(cbox::obj_id_t) * 2);
@@ -368,7 +368,7 @@ public:
         return cmd.respond(payload);
     }
 
-    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
             return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
@@ -404,17 +404,17 @@ public:
     std::function<cbox::CboxError(cbox::Command&)> readPersistedFunc = [](cbox::Command& /*in*/) { return cbox::CboxError::OK; };
     std::function<cbox::CboxError(cbox::Command&)> writeFunc = [](cbox::Command& /*out*/) { return cbox::CboxError::OK; };
 
-    virtual cbox::CboxError read(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
     {
         return readFunc(cmd);
     }
 
-    virtual cbox::CboxError readPersisted(cbox::Command& cmd) const override final
+    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final
     {
         return readPersistedFunc(cmd);
     }
 
-    virtual cbox::CboxError write(cbox::Command& cmd) override final
+    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         return writeFunc(cmd);
     }

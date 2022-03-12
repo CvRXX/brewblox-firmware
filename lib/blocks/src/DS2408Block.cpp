@@ -20,7 +20,7 @@
 #include "blocks/DS2408Block.h"
 
 cbox::CboxError
-DS2408Block::read(cbox::Command& cmd) const
+DS2408Block::toResponse(cbox::Command& cmd) const
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
 
@@ -54,7 +54,7 @@ DS2408Block::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DS2408Block::readPersisted(cbox::Command& cmd) const
+DS2408Block::toStoredResponse(cbox::Command& cmd) const
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
 
@@ -72,7 +72,7 @@ DS2408Block::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-DS2408Block::write(cbox::Command& cmd)
+DS2408Block::fromRequest(cbox::Command& cmd)
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_DS2408_Block_fields);

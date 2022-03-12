@@ -23,7 +23,7 @@ bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void
 }
 
 cbox::CboxError
-BalancerBlock::read(cbox::Command& cmd) const
+BalancerBlock::toResponse(cbox::Command& cmd) const
 {
     blox_Balancer_Block message = blox_Balancer_Block_init_zero;
 
@@ -41,14 +41,14 @@ BalancerBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-BalancerBlock::readPersisted(cbox::Command& cmd) const
+BalancerBlock::toStoredResponse(cbox::Command& cmd) const
 {
     // no settings to persist
     return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError
-BalancerBlock::write(cbox::Command&)
+BalancerBlock::fromRequest(cbox::Command&)
 {
     // no settings to write (actuators register themselves)
     return cbox::CboxError::OK;

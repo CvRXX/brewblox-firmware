@@ -21,7 +21,7 @@
 #include "proto/WiFiSettings.pb.h"
 #include "spark/Connectivity.h"
 
-cbox::CboxError WiFiSettingsBlock::read(cbox::Command& cmd) const
+cbox::CboxError WiFiSettingsBlock::toResponse(cbox::Command& cmd) const
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
 
@@ -38,12 +38,12 @@ cbox::CboxError WiFiSettingsBlock::read(cbox::Command& cmd) const
                                     blox_WiFiSettings_Block_size);
 }
 
-cbox::CboxError WiFiSettingsBlock::readPersisted(cbox::Command& cmd) const
+cbox::CboxError WiFiSettingsBlock::toStoredResponse(cbox::Command& cmd) const
 {
     return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
 }
 
-cbox::CboxError WiFiSettingsBlock::write(cbox::Command& cmd)
+cbox::CboxError WiFiSettingsBlock::fromRequest(cbox::Command& cmd)
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_WiFiSettings_Block_fields);

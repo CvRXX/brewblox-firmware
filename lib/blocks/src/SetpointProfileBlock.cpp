@@ -56,7 +56,7 @@ bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
 }
 
 cbox::CboxError
-SetpointProfileBlock::read(cbox::Command& cmd) const
+SetpointProfileBlock::toResponse(cbox::Command& cmd) const
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     FieldTags stripped;
@@ -87,13 +87,13 @@ SetpointProfileBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-SetpointProfileBlock::readPersisted(cbox::Command& cmd) const
+SetpointProfileBlock::toStoredResponse(cbox::Command& cmd) const
 {
-    return read(cmd);
+    return toResponse(cmd);
 }
 
 cbox::CboxError
-SetpointProfileBlock::write(cbox::Command& cmd)
+SetpointProfileBlock::fromRequest(cbox::Command& cmd)
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     std::vector<Point> newPoints;

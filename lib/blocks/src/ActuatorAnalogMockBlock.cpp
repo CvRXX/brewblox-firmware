@@ -4,7 +4,7 @@
 #include "control/ActuatorAnalogConstrained.h"
 #include "proto/ActuatorAnalogMock.pb.h"
 
-cbox::CboxError ActuatorAnalogMockBlock::read(cbox::Command& cmd) const
+cbox::CboxError ActuatorAnalogMockBlock::toResponse(cbox::Command& cmd) const
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
     FieldTags stripped;
@@ -37,7 +37,7 @@ cbox::CboxError ActuatorAnalogMockBlock::read(cbox::Command& cmd) const
                                     blox_ActuatorAnalogMock_Block_size);
 }
 
-cbox::CboxError ActuatorAnalogMockBlock::readPersisted(cbox::Command& cmd) const
+cbox::CboxError ActuatorAnalogMockBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
 
@@ -58,7 +58,7 @@ cbox::CboxError ActuatorAnalogMockBlock::readPersisted(cbox::Command& cmd) const
                                     blox_ActuatorAnalogMock_Block_size);
 }
 
-cbox::CboxError ActuatorAnalogMockBlock::write(cbox::Command& cmd)
+cbox::CboxError ActuatorAnalogMockBlock::fromRequest(cbox::Command& cmd)
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_ActuatorAnalogMock_Block_fields);

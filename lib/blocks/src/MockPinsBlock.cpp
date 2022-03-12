@@ -21,7 +21,7 @@
 #include "proto/MockPins.pb.h"
 
 cbox::CboxError
-MockPinsBlock::read(cbox::Command& cmd) const
+MockPinsBlock::toResponse(cbox::Command& cmd) const
 {
     blox_MockPins_Block message = blox_MockPins_Block_init_zero;
 
@@ -46,14 +46,14 @@ MockPinsBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-MockPinsBlock::readPersisted(cbox::Command& cmd) const
+MockPinsBlock::toStoredResponse(cbox::Command& cmd) const
 {
     // We have no persisted data
     return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError
-MockPinsBlock::write(cbox::Command&)
+MockPinsBlock::fromRequest(cbox::Command&)
 {
     return cbox::CboxError::OK;
 }

@@ -32,7 +32,7 @@
 #endif
 
 cbox::CboxError
-SysInfoBlock::read(cbox::Command& cmd) const
+SysInfoBlock::toResponse(cbox::Command& cmd) const
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
@@ -58,13 +58,13 @@ SysInfoBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-SysInfoBlock::readPersisted(cbox::Command&) const
+SysInfoBlock::toStoredResponse(cbox::Command&) const
 {
     return cbox::CboxError::PERSISTING_NOT_NEEDED;
 }
 
 cbox::CboxError
-SysInfoBlock::write(cbox::Command& cmd)
+SysInfoBlock::fromRequest(cbox::Command& cmd)
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_SysInfo_Block_fields);

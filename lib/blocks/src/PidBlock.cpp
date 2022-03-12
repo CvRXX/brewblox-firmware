@@ -30,7 +30,7 @@ PidBlock::PidBlock()
 {
 }
 
-cbox::CboxError PidBlock::read(cbox::Command& cmd) const
+cbox::CboxError PidBlock::toResponse(cbox::Command& cmd) const
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
     FieldTags stripped;
@@ -102,7 +102,7 @@ cbox::CboxError PidBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-PidBlock::readPersisted(cbox::Command& cmd) const
+PidBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
 
@@ -124,7 +124,7 @@ PidBlock::readPersisted(cbox::Command& cmd) const
                                     blox_Pid_Block_size);
 }
 
-cbox::CboxError PidBlock::write(cbox::Command& cmd)
+cbox::CboxError PidBlock::fromRequest(cbox::Command& cmd)
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_Pid_Block_fields);

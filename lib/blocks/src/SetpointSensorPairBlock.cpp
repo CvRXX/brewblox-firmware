@@ -22,7 +22,7 @@
 #include "proto/SetpointSensorPair.pb.h"
 
 cbox::CboxError
-SetpointSensorPairBlock::read(cbox::Command& cmd) const
+SetpointSensorPairBlock::toResponse(cbox::Command& cmd) const
 {
     blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
     FieldTags stripped;
@@ -61,7 +61,7 @@ SetpointSensorPairBlock::read(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-SetpointSensorPairBlock::readPersisted(cbox::Command& cmd) const
+SetpointSensorPairBlock::toStoredResponse(cbox::Command& cmd) const
 {
     blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
 
@@ -81,7 +81,7 @@ SetpointSensorPairBlock::readPersisted(cbox::Command& cmd) const
 }
 
 cbox::CboxError
-SetpointSensorPairBlock::write(cbox::Command& cmd)
+SetpointSensorPairBlock::fromRequest(cbox::Command& cmd)
 {
     blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
     auto res = parseRequestPayload(cmd, &message, blox_SetpointSensorPair_Block_fields);
