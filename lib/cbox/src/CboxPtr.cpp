@@ -18,8 +18,14 @@
  */
 
 #include "cbox/CboxPtr.h"
+#include "cbox/Box.h"
 
 namespace cbox {
+
+obj_id_t CboxPtrBase::getId() const
+{
+    return id;
+}
 
 void CboxPtrBase::setId(obj_id_t newId)
 {
@@ -29,13 +35,18 @@ void CboxPtrBase::setId(obj_id_t newId)
     }
 }
 
+CboxError CboxPtrBase::store()
+{
+    return objects.store(id);
+}
+
 std::shared_ptr<Object> CboxPtrBase::lockObject()
 {
     // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
     auto sptr = ptr.lock();
     if (!sptr) {
         // Try to find the object in the container
-        ptr = getObjects().fetch(id);
+        ptr = objects.fetch(id);
         sptr = ptr.lock();
     }
     return sptr;

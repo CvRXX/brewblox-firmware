@@ -30,7 +30,6 @@
 #include "delay_hal.h"
 #include "eeprom_hal.h"
 #include "proto/proto_version.h"
-#include "reset.h"
 #include "spark/Board.h"
 #include "spark/Brewblox.h"
 #include "spark/Buzzer.h"
@@ -71,7 +70,7 @@ ApplicationWatchdog* appWatchdog = nullptr;
 
 void watchdogReset()
 {
-    System.reset(RESET_USER_REASON::WATCHDOG, RESET_NO_WAIT);
+    app::reset(true, UserResetReason::WATCHDOG);
 }
 
 inline void watchdogCheckin()
@@ -105,13 +104,13 @@ void onSetupModeBegin()
 
 void onSetupModeEnd()
 {
-    System.reset(RESET_USER_REASON::LISTENING_MODE_EXIT, RESET_NO_WAIT);
+    app::reset(true, UserResetReason::LISTENING_MODE_EXIT);
 }
 
 void onOutOfMemory(system_event_t event, int param)
 {
     // reboot when out of memory, better than undefined behavior
-    System.reset(RESET_USER_REASON::OUT_OF_MEMORY, RESET_NO_WAIT);
+    app::reset(true, UserResetReason::OUT_OF_MEMORY);
 }
 
 void setup()
@@ -203,17 +202,6 @@ void loop()
     }
     ticks.switchTaskTimer(TicksClass::TaskId::System);
     HAL_Delay_Milliseconds(1);
-}
-
-void handleReset(bool exitFlag, uint8_t reason)
-{
-    if (exitFlag) {
-#if PLATFORM_ID == PLATFORM_GCC
-        exit(0);
-#else
-        System.reset(reason, RESET_NO_WAIT);
-#endif
-    }
 }
 
 constexpr bool equal(char const* lhs, char const* rhs)

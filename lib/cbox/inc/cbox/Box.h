@@ -19,26 +19,15 @@
 
 #pragma once
 
-#include "cbox/Application.h"
 #include "cbox/CboxError.h"
-#include "cbox/CboxPtr.h"
 #include "cbox/Command.h"
-#include "cbox/ConnectionPool.h"
-#include "cbox/Connections.h"
-#include "cbox/DataStream.h"
-#include "cbox/DataStreamConverters.h"
-#include "cbox/EepromObjectStorage.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
-#include "cbox/ObjectFactory.h"
-#include "cbox/ScanningFactory.hpp"
-
-#include <memory>
-#include <vector>
 
 namespace cbox {
 
-CboxError noop(Command& cmd);
+extern ObjectContainer objects;
+
 CboxError readObject(Command& cmd);
 CboxError writeObject(Command& cmd);
 CboxError createObject(Command& cmd);

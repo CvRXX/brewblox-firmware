@@ -35,7 +35,7 @@
 
 SCENARIO("Test", "[makelogicblock]")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

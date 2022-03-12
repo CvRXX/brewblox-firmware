@@ -32,22 +32,10 @@ private:
     std::weak_ptr<Object> ptr;
 
 public:
+    obj_id_t getId() const;
     void setId(obj_id_t newId);
 
-    obj_id_t getId() const
-    {
-        return id;
-    }
-
-    CboxError store()
-    {
-        return getObjects().store(id);
-    }
-
-    ObjectContainer& container()
-    {
-        return getObjects();
-    }
+    CboxError store();
 
 protected:
     explicit CboxPtrBase(const obj_id_t& id)

@@ -33,7 +33,7 @@
 
 SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

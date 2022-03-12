@@ -25,6 +25,8 @@
 
 namespace cbox {
 
+const obj_id_t userStartId(100);
+
 class ObjectContainer {
 private:
     std::vector<ContainedObject> contained;

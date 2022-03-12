@@ -32,7 +32,7 @@
 
 SCENARIO("Auto discovery of OneWire devices")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

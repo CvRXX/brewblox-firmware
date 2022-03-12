@@ -36,7 +36,7 @@ SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
-        cbox::getObjects().clearAll();
+        cbox::objects.clearAll();
         setupSystemBlocks();
 
         auto ticksId = cbox::obj_id_t(3);

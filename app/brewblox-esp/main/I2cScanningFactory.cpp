@@ -40,7 +40,7 @@ uint8_t find_next(uint8_t lastAddress)
                 };
                 return false;
             };
-            if (std::find_if(cbox::getObjects().cbegin(), cbox::getObjects().cend(), samePosition) != cbox::getObjects().cend()) {
+            if (std::find_if(cbox::objects.cbegin(), cbox::objects.cend(), samePosition) != cbox::objects.cend()) {
                 // already initialized module at this position;
                 continue;
             }

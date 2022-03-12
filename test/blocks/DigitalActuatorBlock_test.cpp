@@ -45,7 +45,7 @@ struct StringMaker<OneWireAddress> {
 
 SCENARIO("A DigitalActuator Block with a DS2413 target")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 
@@ -172,7 +172,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 
 SCENARIO("A DigitalActuator Block with Mockpins as target")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

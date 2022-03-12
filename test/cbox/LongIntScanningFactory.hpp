@@ -1,6 +1,6 @@
 #include "TestObjects.h"
+#include "cbox/Box.h"
 #include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
 #include "cbox/ScanningFactory.hpp"
 #include <memory>
 #include <vector>
@@ -23,7 +23,6 @@ public:
 
     virtual std::shared_ptr<Object> scan() override final
     {
-        auto& objects = getObjects();
         for (auto& value : candidates) {
             bool found = false;
             for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {

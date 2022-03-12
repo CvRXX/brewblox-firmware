@@ -33,7 +33,7 @@
 
 SCENARIO("A TempSensorCombi block")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

@@ -72,14 +72,14 @@ makeBrewbloxBox(asio::io_context& io)
     static cbox::ConnectionPool connections{{}}; // managed externally
     static cbox::Box box(connections);
 
-    cbox::getObjects().init({
+    cbox::objects.init({
         cbox::ContainedObject(1, 0x80, std::shared_ptr<cbox::Object>(new cbox::GroupsObject(&box))),
         cbox::ContainedObject(2, 0x80, std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id))),
         cbox::ContainedObject(3, 0x80, std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks))),
         cbox::ContainedObject(7, 0x80, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
     });
 
-    cbox::getObjects().setObjectsStartId(box.userStartId());
+    cbox::objects.setObjectsStartId(box.userStartId());
 
     box.loadObjectsFromStorage(); // init box and load stored objects
 

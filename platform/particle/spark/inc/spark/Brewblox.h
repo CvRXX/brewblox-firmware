@@ -18,8 +18,6 @@ Logger& getLogger();
 
 void setupSystemBlocks();
 
-void logEvent(const std::string& event);
-
 const std::string& deviceIdString();
 
 // write device id as raw bytes to destination buffer

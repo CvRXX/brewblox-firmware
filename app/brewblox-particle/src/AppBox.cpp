@@ -1,6 +1,5 @@
 #include "AppBox.h"
 #include "AppTicks.h"
-#include "ConnectionsTcp.h"
 #include "cbox/Base64.h"
 #include "cbox/Box.h"
 #include "cbox/Connections.h"
@@ -9,10 +8,10 @@
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "proto/controlbox.pb.h"
-#include "reset.h"
 #include "rgbled.h"
 #include "spark/Board.h"
 #include "spark/Brewblox.h"
+#include "spark/ConnectionsTcp.h"
 #include "spark_wiring_stream.h"
 #include "spark_wiring_usbserial.h"
 #include <pb_decode.h>
@@ -20,57 +19,41 @@
 
 namespace app {
 
-class SerializedPayload {
-public:
-    uint32_t blockId;
-    brewblox_BlockType blockType;
-    uint16_t subtype;
-    std::vector<uint8_t> encodedContent;
-
-    SerializedPayload(const cbox::Payload& src)
-        : blockId(src.blockId)
-        , blockType((brewblox_BlockType)uint16_t(src.blockType))
-        , subtype(src.subtype)
-    {
-        base64_encode(src.content, encodedContent);
-    }
-
-    virtual ~SerializedPayload() = default;
-};
-
 bool decodePayloadContent(pb_istream_t* stream, const pb_field_t* field, void** arg)
 {
-    auto content = reinterpret_cast<std::vector<uint8_t>*>(*arg);
-    auto encoded = std::vector<uint8_t>(stream->bytes_left);
-    if (!pb_read(stream, encoded.data(), stream->bytes_left)) {
+    auto payloadBytes = static_cast<std::vector<uint8_t>*>(*arg);
+    auto b64Bytes = std::vector<uint8_t>(stream->bytes_left);
+    if (!pb_read(stream, b64Bytes.data(), stream->bytes_left)) {
         return false;
     }
-    base64_decode(encoded, *content);
+    base64_decode(b64Bytes, *payloadBytes);
     return true;
 }
 
-bool encodeSerializedPayloadContent(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool encodePayloadContent(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    auto serialized = reinterpret_cast<SerializedPayload*>(*arg);
+    auto payload = static_cast<const cbox::Payload*>(*arg);
+    std::vector<uint8_t> b64Content;
+    base64_encode(payload->content, b64Content);
     if (!pb_encode_tag_for_field(stream, field)) {
         return false;
     }
-    if (!pb_encode_string(stream, serialized->encodedContent.data(), serialized->encodedContent.size())) {
+    if (!pb_encode_string(stream, b64Content.data(), b64Content.size())) {
         return false;
     }
     return true;
 }
 
-bool encodeSerializedPayload(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool encodePayload(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    auto serialized = reinterpret_cast<SerializedPayload*>(*arg);
+    auto payload = static_cast<const cbox::Payload*>(*arg);
     controlbox_Payload submsg = controlbox_Payload_init_zero;
 
-    submsg.blockId = serialized->blockId;
-    submsg.objtype = serialized->blockType;
-    submsg.subtype = serialized->subtype;
-    submsg.data.funcs.encode = &encodeSerializedPayloadContent;
-    submsg.data.arg = serialized;
+    submsg.blockId = payload->blockId;
+    submsg.objtype = brewblox_BlockType(uint16_t(payload->blockType));
+    submsg.subtype = payload->subtype;
+    submsg.data.funcs.encode = &encodePayloadContent;
+    submsg.data.arg = *arg;
 
     if (!pb_encode_tag_for_field(stream, field)) {
         return false;
@@ -83,31 +66,55 @@ bool encodeSerializedPayload(pb_ostream_t* stream, const pb_field_t* field, void
     return true;
 }
 
+cbox::CboxError encodeResponse(const cbox::Payload& payload, std::vector<uint8_t>& protoBytes)
+{
+    controlbox_Response message = controlbox_Response_init_zero;
+    size_t actualSize(0);
+
+    // Don't set message ID yet. The response is invalid until finalized
+    message.payload.funcs.encode = &encodePayload;
+    message.payload.arg = const_cast<cbox::Payload*>(&payload); // will be cast to a const ptr in handlers
+
+    if (!pb_get_encoded_size(&actualSize, controlbox_Response_fields, &message)) {
+        return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+    }
+
+    protoBytes.resize(actualSize);
+    auto stream = pb_ostream_from_buffer(protoBytes.data(), protoBytes.size());
+
+    if (!pb_encode(&stream, controlbox_Response_fields, &message)) {
+        return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+    }
+
+    return cbox::CboxError::OK;
+}
+
 class AppCommand : public cbox::Command {
 private:
-    uint32_t _msgId;
-    controlbox_Opcode _opcode;
-    std::unique_ptr<cbox::Payload> _request;
-    cbox::DataOut& _out;
+    cbox::DataOut& out;
+    std::unique_ptr<cbox::Payload> requestPtr;
 
 public:
-    AppCommand(uint32_t msgId,
-               controlbox_Opcode opcode,
-               cbox::Payload&& request,
-               cbox::DataOut& out)
-        : _msgId(msgId)
-        , _opcode(opcode)
-        , _request(std::make_unique<cbox::Payload>(std::move(request)))
-        , _out(out)
+    const uint32_t msgId;
+    const controlbox_Opcode opcode;
+
+    AppCommand(uint32_t _msgId,
+               controlbox_Opcode _opcode,
+               cbox::DataOut& _out,
+               cbox::Payload&& _request)
+        : out(_out)
+        , requestPtr(std::make_unique<cbox::Payload>(std::move(_request)))
+        , msgId(_msgId)
+        , opcode(_opcode)
     {
     }
 
-    AppCommand(uint32_t msgId,
-               controlbox_Opcode opcode,
-               cbox::DataOut& out)
-        : _msgId(msgId)
-        , _opcode(opcode)
-        , _out(out)
+    AppCommand(uint32_t _msgId,
+               controlbox_Opcode _opcode,
+               cbox::DataOut& _out)
+        : out(_out)
+        , msgId(_msgId)
+        , opcode(_opcode)
     {
     }
 
@@ -115,75 +122,50 @@ public:
 
     virtual cbox::Payload* request() override final
     {
-        return _request.get();
-    }
-
-    cbox::CboxError encodeResponse(const cbox::Payload& payload, std::vector<uint8_t>& protoEncoded)
-    {
-        size_t actualSize;
-        auto serialized = SerializedPayload(payload);
-        controlbox_Response message = controlbox_Response_init_zero;
-
-        // Don't set message ID yet. The response is invalid until finalized
-        message.payload.funcs.encode = &encodeSerializedPayload;
-        message.payload.arg = &serialized;
-
-        if (!pb_get_encoded_size(&actualSize, controlbox_Response_fields, &message)) {
-            return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
-        }
-
-        protoEncoded.resize(actualSize);
-        auto stream = pb_ostream_from_buffer(protoEncoded.data(), protoEncoded.size());
-
-        if (!pb_encode(&stream, controlbox_Response_fields, &message)) {
-            return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
-        }
-
-        return cbox::CboxError::OK;
+        return requestPtr.get();
     }
 
     virtual cbox::CboxError respond(const cbox::Payload& payload) override final
     {
-        auto protoEncoded = std::vector<uint8_t>();
-        auto b64Encoded = std::vector<uint8_t>();
+        auto protoBytes = std::vector<uint8_t>();
+        auto b64Bytes = std::vector<uint8_t>();
 
-        auto status = encodeResponse(payload, protoEncoded);
+        auto status = encodeResponse(payload, protoBytes);
         if (status != cbox::CboxError::OK) {
             return status;
         }
 
-        base64_encode(protoEncoded, b64Encoded);
+        base64_encode(protoBytes, b64Bytes);
 
-        if (!_out.writeBuffer(b64Encoded.data(), b64Encoded.size())) {
+        if (!out.writeBuffer(b64Bytes.data(), b64Bytes.size())) {
             return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
         }
 
-        _out.write(',');
+        out.write(',');
         return cbox::CboxError::OK;
     }
 
     void finalize(cbox::CboxError status)
     {
-        auto protoEncoded = std::vector<uint8_t>();
-        auto b64Encoded = std::vector<uint8_t>();
-
         controlbox_Response message = controlbox_Response_init_zero;
-        message.msgId = _msgId;
+        message.msgId = msgId;
         message.error = controlbox_ErrorCode(status);
 
         size_t actualSize;
         pb_get_encoded_size(&actualSize, controlbox_Response_fields, &message);
-        protoEncoded.resize(actualSize);
 
-        auto stream = pb_ostream_from_buffer(protoEncoded.data(), protoEncoded.size());
+        auto protoBytes = std::vector<uint8_t>(actualSize);
+        auto stream = pb_ostream_from_buffer(protoBytes.data(), protoBytes.size());
+
         if (!pb_encode(&stream, controlbox_Response_fields, &message)) {
-            _out.write('\n');
+            out.write('\n');
         }
 
-        base64_encode(protoEncoded, b64Encoded);
+        auto b64Bytes = std::vector<uint8_t>();
+        base64_encode(protoBytes, b64Bytes);
 
-        _out.writeBuffer(b64Encoded.data(), b64Encoded.size());
-        _out.write('\n');
+        out.writeBuffer(b64Bytes.data(), b64Bytes.size());
+        out.write('\n');
     }
 };
 
@@ -222,7 +204,7 @@ void updateFirmwareStreamHandler(Stream* stream)
                 HAL_Core_System_Reset_Ex(RESET_REASON_UPDATE, 0, nullptr);
 #else
                 bool success = system_firmwareUpdate(stream);
-                System.reset(success ? RESET_USER_REASON::FIRMWARE_UPDATE_SUCCESS : RESET_USER_REASON::FIRMWARE_UPDATE_FAILED, RESET_NO_WAIT);
+                reset(true, success ? UserResetReason::FIRMWARE_UPDATE_SUCCESS : UserResetReason::FIRMWARE_UPDATE_FAILED);
 #endif
                 break;
             } else {
@@ -272,69 +254,83 @@ void startFirmwareUpdate(cbox::DataIn& in)
 #if PLATFORM_ID != PLATFORM_GCC
     updateFirmwareFromStream(in.streamType());
     // reset in case the firmware update failed
-    System.reset(RESET_USER_REASON::FIRMWARE_UPDATE_FAILED, RESET_NO_WAIT);
+    reset(true, UserResetReason::FIRMWARE_UPDATE_FAILED);
 #endif
 }
 
-bool parseMessage(cbox::DataIn& in, cbox::DataOut& out, controlbox_Request* message)
+std::optional<AppCommand> parseMessage(cbox::DataIn& in, cbox::DataOut& out)
 {
-    std::vector<uint8_t> b64Encoded;
-    std::vector<uint8_t> protoEncoded;
-    b64Encoded.reserve(200);
+    std::vector<uint8_t> protoBytes;
 
-    while (true) {
-        auto c = in.read();
+    {
+        std::vector<uint8_t> b64Bytes;
+        b64Bytes.reserve(200);
 
-        if (c < 0 || c == '\n') {
-            break;
+        while (true) {
+            auto c = in.read();
+            if (c < 0 || c == '\n') {
+                break;
+            }
+            b64Bytes.push_back((uint8_t)c);
         }
 
-        b64Encoded.push_back((uint8_t)c);
-    }
-
-    while (true) {
-        auto c = in.peek();
-        if (c < 0 || is_base64(c)) {
-            break;
+        // Spool in stream until either the end or a new message is reached
+        while (true) {
+            auto c = in.peek();
+            if (c < 0 || is_base64(c)) {
+                break;
+            }
+            in.read();
         }
-        in.read();
+
+        if (b64Bytes.size() == 0) {
+            return std::nullopt;
+        }
+
+        base64_decode(b64Bytes, protoBytes);
     }
 
-    if (b64Encoded.size() == 0) {
-        return false;
-    }
-
-    base64_decode(b64Encoded, protoEncoded);
-    auto stream = pb_istream_from_buffer(protoEncoded.data(), protoEncoded.size());
-    return pb_decode(&stream, controlbox_Request_fields, message);
-}
-
-void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
-{
     controlbox_Request message = controlbox_Request_init_zero;
-    std::vector<uint8_t> content;
+    std::vector<uint8_t> payloadBytes;
 
     message.payload.data.funcs.decode = &decodePayloadContent;
-    message.payload.data.arg = &content;
+    message.payload.data.arg = &payloadBytes;
 
-    if (!parseMessage(in, out, &message)) {
-        return;
+    auto stream = pb_istream_from_buffer(protoBytes.data(), protoBytes.size());
+    if (!pb_decode(&stream, controlbox_Request_fields, &message)) {
+        return std::nullopt;
+    }
+
+    // no payload
+    if (message.payload.blockId == 0 && message.payload.objtype == 0) {
+        return std::make_optional<AppCommand>(message.msgId,
+                                              message.opcode,
+                                              out);
     }
 
     auto payload = cbox::Payload(message.payload.blockId,
                                  message.payload.objtype,
                                  message.payload.subtype,
-                                 std::move(content));
+                                 std::move(payloadBytes));
 
-    auto cmd = AppCommand(
-        message.msgId,
-        message.opcode,
-        std::move(payload),
-        out);
+    return std::make_optional<AppCommand>(message.msgId,
+                                          message.opcode,
+                                          out,
+                                          std::move(payload));
+}
 
+void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
+{
+    auto parsed = parseMessage(in, out);
+
+    if (parsed == std::nullopt) {
+        return;
+    }
+
+    auto& cmd = parsed.value();
     auto status = cbox::CboxError::UNKNOWN_ERROR;
 
-    switch (message.opcode) {
+    switch (cmd.opcode) {
     case controlbox_Opcode_OPCODE_NONE:
         status = cbox::CboxError::OK;
         cbox::connectionStarted(out);
@@ -365,13 +361,13 @@ void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
         break;
     case controlbox_Opcode_OPCODE_REBOOT:
         cmd.finalize(cbox::CboxError::OK);
-        ::handleReset(true, 2);
-        return; // unreachable
+        reset(true, UserResetReason::CBOX_RESET);
+        return; // already finalized
     case controlbox_Opcode_OPCODE_FACTORY_RESET:
         cmd.finalize(cbox::CboxError::OK);
-        cbox::getObjects().clear();
-        ::handleReset(true, 3);
-        return; // unreachable
+        cbox::objects.clear();
+        reset(true, UserResetReason::CBOX_FACTORY_RESET);
+        return; // already finalized
     case controlbox_Opcode_OPCODE_DISCOVER_OBJECTS:
         status = cbox::discoverNewObjects(cmd);
         break;
@@ -402,6 +398,17 @@ void update()
 #if PLATFORM_ID == PLATFORM_GCC
     ticks.delayMillis(10); // prevent 100% cpu usage
 #endif
+}
+
+void reset(bool exitFlag, UserResetReason reason)
+{
+    if (exitFlag) {
+#if PLATFORM_ID == PLATFORM_GCC
+        exit(0);
+#else
+        System.reset(reason, RESET_NO_WAIT);
+#endif
+    }
 }
 
 } // end namespace app

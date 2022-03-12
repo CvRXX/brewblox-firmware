@@ -23,6 +23,7 @@
 #include "blocks/OneWireBusBlock.h"
 #include "blocks/SysInfoBlock.h"
 #include "blocks/stringify.h"
+#include "cbox/Box.h"
 #include "cbox/Connections.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
@@ -49,9 +50,9 @@
 // Include serial connection for platform
 #if defined(SPARK)
 #if PLATFORM_ID != PLATFORM_GCC
-#include "ConnectionsSerial.h"
+#include "spark/ConnectionsSerial.h"
 #endif
-#include "ConnectionsTcp.h"
+#include "spark/ConnectionsTcp.h"
 #else
 #include "cbox/ConnectionsStringStream.h"
 
@@ -155,7 +156,7 @@ Logger& getLogger()
 
 void setupSystemBlocks()
 {
-    cbox::getObjects().init({
+    cbox::objects.init({
         cbox::ContainedObject(2, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
             cbox::ContainedObject(3, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
             cbox::ContainedObject(4, std::shared_ptr<cbox::Object>(new OneWireBusBlock(getOneWire(), powerCyclePheripheral5V))),
@@ -167,18 +168,7 @@ void setupSystemBlocks()
             cbox::ContainedObject(19, std::shared_ptr<cbox::Object>(new PinsBlock())),
     });
 
-    cbox::getObjects().setObjectsStartId(cbox::userStartId);
-}
-
-void logEvent(const std::string& event)
-{
-    cbox::DataOut& out = getConnectionPool().logDataOut();
-    out.write('<');
-    out.write('!');
-    for (const auto& c : event) {
-        out.write(c);
-    }
-    out.write('>');
+    cbox::objects.setObjectsStartId(cbox::userStartId);
 }
 
 std::string deviceIdStringInit()
@@ -211,19 +201,12 @@ unsigned get_device_id(uint8_t* dest, unsigned max_len)
 
 const std::string& versionCsv()
 {
-#if PLATFORM_ID == PLATFORM_GCC
-#define PLATFORM_STRING "gcc"
-#elif PLATFORM_ID == PLATFORM_PHOTON
-#define PLATFORM_STRING "photon"
-#elif PLATFORM_ID == PLATFORM_P1
-#define PLATFORM_STRING "p1"
-#elif PLATFORM_ID == 100
-#define PLATFORM_STRING "esp32"
-#else
-#define PLATFORM_STRING "unknown"
+#ifdef __INTELLISENSE__
+#define GIT_VERSION ""
+#define GIT_DATE ""
 #endif
 
-    static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_STRING;
+    static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," stringify(PLATFORM_NAME);
     return version;
 }
 

@@ -43,29 +43,11 @@ std::string hexed(const std::vector<uint8_t>& data)
     return retv;
 }
 
-void decodeProtoFromReply(std::stringstream& ss, ::google::protobuf::Message& message)
-{
-    cbox::IStreamDataIn hex(ss);
-    cbox::HexTextToBinaryIn decoder(hex);
-    while (hex.read() != '|') { // spool command echo
-    }
-    // spool status, id, groups and object type
-    uint8_t header[6];
-    decoder.readBytes(header, 6);
-
-    // pass the rest to the protobuf decoder
-    std::stringstream ssProto;
-    cbox::OStreamDataOut protoData(ssProto);
-    decoder.push(protoData);
-    message.ParseFromIstream(&ssProto);
-}
-
 void serializeToRequest(cbox::Command& cmd, ::google::protobuf::Message& message)
 {
     size_t len = message.ByteSizeLong();
     cmd.request()->content.resize(len);
     message.SerializeToArray(cmd.request()->content.data(), len);
-    cmd.request()->content.push_back(0);
 }
 
 void parseFromResponse(cbox::Payload& payload, ::google::protobuf::Message& message)

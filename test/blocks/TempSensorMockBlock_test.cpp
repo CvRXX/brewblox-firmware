@@ -25,13 +25,14 @@
 #include "TestHelpers.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "cbox/Box.h"
+#include "cbox/CboxPtr.h"
 #include "control/Temperature.h"
 #include "proto/TempSensorMock_test.pb.h"
 #include "spark/Brewblox.h"
 
 SCENARIO("A TempSensorMock block")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

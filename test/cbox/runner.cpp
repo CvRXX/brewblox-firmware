@@ -4,15 +4,7 @@
 #include "cbox/CboxError.h"
 #include "cbox/Connections.h"
 #include "cbox/DataStream.h"
-#include "testinfo.h"
 #include <catch.hpp>
-
-TestInfo testInfo;
-
-void handleReset(bool, uint8_t)
-{
-    ++testInfo.rebootCount;
-}
 
 namespace cbox {
 void connectionStarted(DataOut& out)

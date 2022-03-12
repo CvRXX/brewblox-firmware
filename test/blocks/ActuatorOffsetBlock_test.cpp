@@ -32,7 +32,7 @@
 
 SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf data")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

@@ -122,6 +122,8 @@ CPPFLAGS += -save-temps=obj
 # use C++17 and disable warnings about the deprecated register storage class specifier
 CPPFLAGS += -std=gnu++17 -Wno-register
 
+LDFLAGS += -Wl,-Map,output.map
+
 CSRC := $(filter-out $(CEXCLUDES),$(CSRC))
 CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC))
 

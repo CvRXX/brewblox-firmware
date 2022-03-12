@@ -34,7 +34,7 @@
 
 SCENARIO("A Blox Pid object with mock analog actuator")
 {
-    cbox::getObjects().clearAll();
+    cbox::objects.clearAll();
     setupSystemBlocks();
     cbox::update(0);
 

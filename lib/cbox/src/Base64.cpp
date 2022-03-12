@@ -36,18 +36,16 @@ bool is_base64(uint8_t c)
     return b64_to_byte(c) != -1;
 }
 
-size_t base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
+void base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 {
-    size_t inIdx = 0;
     size_t length = in.size();
     uint8_t groupIdx = 0;
     uint8_t decodedBytes[3];
-    out.reserve(length * (4 / 3) + 2);
+    out.reserve(length * 4 / 3 + 2);
 
-    while (inIdx < length) {
-        decodedBytes[groupIdx] = in[inIdx];
+    for (auto inByte : in) {
+        decodedBytes[groupIdx] = inByte;
         groupIdx++;
-        inIdx++;
 
         if (groupIdx == 3) {
             groupIdx = 0;
@@ -76,20 +74,17 @@ size_t base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 
         out.insert(out.end(), 3 - groupIdx, '=');
     }
-
-    return inIdx;
 }
 
-size_t base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
+void base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 {
     size_t length = in.size();
-    size_t inIdx = 0;
     uint8_t groupIdx = 0;
     uint8_t encodedBytes[4];
-    out.reserve(length * (3 / 4) + 2);
+    out.reserve(length * 3 / 4 + 2);
 
-    while (inIdx < length) {
-        auto byte = b64_to_byte(in[inIdx]);
+    for (auto inByte : in) {
+        auto byte = b64_to_byte(inByte);
 
         if (byte < 0) {
             // Break on invalid characters (includes '\n' and '=').
@@ -99,7 +94,6 @@ size_t base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 
         encodedBytes[groupIdx] = byte;
         groupIdx++;
-        inIdx++;
 
         if (groupIdx == 4) {
             groupIdx = 0;
@@ -123,6 +117,4 @@ size_t base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
             out.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
         }
     }
-
-    return inIdx;
 }

@@ -20,6 +20,7 @@
 
 #include "cbox/Box.h"
 #include "cbox/CboxError.h"
+#include "cbox/CboxPtr.h"
 #include "cbox/Connections.h"
 #include "cbox/ContainedObject.h"
 #include "cbox/DataStream.h"
@@ -31,19 +32,16 @@
 #include "cbox/ObjectStorage.h"
 #include "cbox/ObjectStream.h"
 #include "cbox/ScanningFactory.hpp"
+
 #include <memory>
 #include <tuple>
 #include <vector>
 
 namespace cbox {
 
-update_t lastUpdateTime = 0;
+ObjectContainer objects;
 
-CboxError noop(Command&)
-{
-    // TODO(Bob) send welcome message
-    return CboxError::OK;
-}
+update_t lastUpdateTime = 0;
 
 CboxError readObject(Command& cmd)
 {
@@ -51,7 +49,7 @@ CboxError readObject(Command& cmd)
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    ContainedObject* cobj = getObjects().fetchContained(cmd.request()->blockId);
+    ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
     }
@@ -68,7 +66,7 @@ CboxError writeObject(Command& cmd)
         return CboxError::OBJECT_DATA_NOT_ACCEPTED;
     }
 
-    ContainedObject* cobj = getObjects().fetchContained(cmd.request()->blockId);
+    ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
     }
@@ -106,7 +104,7 @@ CboxError createObject(Command& cmd)
     obj_id_t id(cmd.request()->blockId);
     obj_type_t typeId(cmd.request()->blockType);
 
-    if (id > 0 && id < getObjects().getObjectsStartId()) {
+    if (id > 0 && id < objects.getObjectsStartId()) {
         return CboxError::INVALID_OBJECT_ID;
     }
 
@@ -123,8 +121,8 @@ CboxError createObject(Command& cmd)
     }
 
     // add object to container. Id is returned because id from command can be 0 to let the box assign it
-    id = getObjects().add(std::move(newObj), id, false);
-    ContainedObject* cobj = getObjects().fetchContained(id);
+    id = objects.add(std::move(newObj), id, false);
+    ContainedObject* cobj = objects.fetchContained(id);
 
     if (cobj == nullptr) {
         return CboxError::INVALID_OBJECT_ID;
@@ -136,7 +134,7 @@ CboxError createObject(Command& cmd)
     };
     status = getStorage().storeObject(id, storeContained);
     if (status != CboxError::OK) {
-        getObjects().remove(id);
+        objects.remove(id);
         return status;
     }
 
@@ -164,7 +162,7 @@ CboxError deleteObject(Command& cmd)
         storageId = obj->storageId();
     }
 
-    status = getObjects().remove(id);
+    status = objects.remove(id);
     getStorage().disposeObject(storageId);
 
     return status;
@@ -173,7 +171,6 @@ CboxError deleteObject(Command& cmd)
 CboxError listActiveObjects(Command& cmd)
 {
     CboxError status = CboxError::OK;
-    auto& objects = getObjects();
     for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
         status = it->read(cmd);
     }
@@ -205,7 +202,6 @@ CboxError listStoredObjects(Command& cmd)
 CboxError clearObjects(Command&)
 {
     // remove user objects from storage
-    auto& objects = getObjects();
     auto cit = objects.userbegin();
     while (cit != objects.cend()) {
         auto id = cit->id();
@@ -224,8 +220,8 @@ CboxError discoverNewObjects(Command& cmd)
 {
     CboxError status = CboxError::OK;
     while (auto newObj = scan()) {
-        auto newId = getObjects().add(std::move(newObj));
-        auto cobj = getObjects().fetchContained(newId);
+        auto newId = objects.add(std::move(newObj));
+        auto cobj = objects.fetchContained(newId);
 
         if (cobj != nullptr) { // always true, but just in case
             status = cobj->read(cmd);
@@ -262,7 +258,7 @@ void loadObjectsFromStorage()
         obj_id_t objId = obj_id_t(id);
         CboxError status = CboxError::OK;
 
-        if (auto cobj = getObjects().fetchContained(objId)) {
+        if (auto cobj = objects.fetchContained(objId)) {
             // existing object
             status = loadFromStream(in, objId, cobj->object());
         } else {
@@ -281,7 +277,7 @@ void loadObjectsFromStorage()
             }
 
             if (newObj) {
-                getObjects().add(std::move(newObj), id);
+                objects.add(std::move(newObj), id);
             }
         }
         return status;
@@ -291,25 +287,25 @@ void loadObjectsFromStorage()
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {
-        getObjects().add(std::shared_ptr<Object>(new DeprecatedObject(id)), 0xFF);
+        objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)), 0xFF);
     }
 }
 
 void unloadAllObjects()
 {
-    getObjects().clearAll();
+    objects.clearAll();
 }
 
 void update(const update_t& now)
 {
     lastUpdateTime = now;
-    getObjects().update(now);
+    objects.update(now);
 }
 
 void forcedUpdate(const update_t& now)
 {
     lastUpdateTime = now;
-    getObjects().forcedUpdate(now);
+    objects.forcedUpdate(now);
 }
 
 } // end namespace cbox
