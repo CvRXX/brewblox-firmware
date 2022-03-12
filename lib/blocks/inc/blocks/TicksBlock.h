@@ -48,12 +48,13 @@ public:
         message.avgDisplayTask = ticks.taskTime(2);
         message.avgSystemTask = ticks.taskTime(3);
 
-        return writeProtoToCommand(cmd,
-                                   &message,
-                                   blox_Ticks_Block_fields,
-                                   blox_Ticks_Block_size,
-                                   objectId,
-                                   staticTypeId());
+        return serializeResponsePayload(cmd,
+                                        objectId,
+                                        staticTypeId(),
+                                        0,
+                                        &message,
+                                        blox_Ticks_Block_fields,
+                                        blox_Ticks_Block_size);
     }
 
     virtual cbox::CboxError readPersisted(cbox::Command&) const override final
@@ -64,7 +65,7 @@ public:
     virtual cbox::CboxError write(cbox::Command& cmd) override final
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
-        auto res = readProtoFromCommand(cmd, &message, blox_Ticks_Block_fields);
+        auto res = parseRequestPayload(cmd, &message, blox_Ticks_Block_fields);
 
         if (res == cbox::CboxError::OK) {
             ticks.setUtc(message.secondsSinceEpoch);

@@ -85,12 +85,13 @@ OneWireBusBlock::read(cbox::Command& cmd) const
     command.opcode = NO_OP;
     command.data = 0;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_OneWireBus_Block_fields,
-                               100, // TODO(Bob): pick sensible value
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_OneWireBus_Block_fields,
+                                    100); // TODO(Bob): pick sensible value
 }
 
 cbox::CboxError
@@ -113,7 +114,7 @@ cbox::CboxError
 OneWireBusBlock::write(cbox::Command& cmd)
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_OneWireBus_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_OneWireBus_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         command = message.command;

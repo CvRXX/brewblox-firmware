@@ -87,12 +87,13 @@ TempSensorMockBlock::read(cbox::Command& cmd) const
 
     writeMessage(message);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TempSensorMock_Block_fields,
-                               protoSize(),
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TempSensorMock_Block_fields,
+                                    protoSize());
 }
 
 cbox::CboxError
@@ -103,12 +104,13 @@ TempSensorMockBlock::readPersisted(cbox::Command& cmd) const
     writeMessage(message);
     message.value = 0; // value does not need persisting
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TempSensorMock_Block_fields,
-                               protoSize(),
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TempSensorMock_Block_fields,
+                                    protoSize());
 }
 
 cbox::CboxError
@@ -119,7 +121,7 @@ TempSensorMockBlock::write(cbox::Command& cmd)
     message.fluctuations.funcs.decode = &streamFluctuationsIn;
     message.fluctuations.arg = &newFlucts;
 
-    auto res = readProtoFromCommand(cmd, &message, blox_TempSensorMock_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_TempSensorMock_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         sensor.fluctuations(std::move(newFlucts));

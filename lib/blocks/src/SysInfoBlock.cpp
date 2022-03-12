@@ -48,12 +48,13 @@ SysInfoBlock::read(cbox::Command& cmd) const
 
     command = Command::NONE;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_SysInfo_Block_fields,
-                               blox_SysInfo_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_SysInfo_Block_fields,
+                                    blox_SysInfo_Block_size);
 }
 
 cbox::CboxError
@@ -66,7 +67,7 @@ cbox::CboxError
 SysInfoBlock::write(cbox::Command& cmd)
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_SysInfo_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_SysInfo_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         command = Command(message.command);

@@ -23,12 +23,13 @@
 cbox::CboxError
 DisplaySettingsBlock::read(cbox::Command& cmd) const
 {
-    return writeProtoToCommand(cmd,
-                               &m_settings,
-                               blox_DisplaySettings_Block_fields,
-                               blox_DisplaySettings_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &m_settings,
+                                    blox_DisplaySettings_Block_fields,
+                                    blox_DisplaySettings_Block_size);
 }
 
 cbox::CboxError
@@ -41,7 +42,7 @@ cbox::CboxError
 DisplaySettingsBlock::write(cbox::Command& cmd)
 {
     blox_DisplaySettings_Block message = blox_DisplaySettings_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_DisplaySettings_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_DisplaySettings_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         m_settings = message;

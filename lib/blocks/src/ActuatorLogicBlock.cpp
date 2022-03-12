@@ -99,12 +99,13 @@ cbox::CboxError ActuatorLogicBlock::read(cbox::Command& cmd) const
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, true);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_ActuatorLogic_Block_fields,
-                               blox_ActuatorLogic_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_ActuatorLogic_Block_fields,
+                                    blox_ActuatorLogic_Block_size);
 }
 
 cbox::CboxError
@@ -113,18 +114,19 @@ ActuatorLogicBlock::readPersisted(cbox::Command& cmd) const
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, false);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_ActuatorLogic_Block_fields,
-                               blox_ActuatorLogic_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_ActuatorLogic_Block_fields,
+                                    blox_ActuatorLogic_Block_size);
 }
 
 cbox::CboxError ActuatorLogicBlock::write(cbox::Command& cmd)
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_ActuatorLogic_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_ActuatorLogic_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         target.setId(message.targetId);

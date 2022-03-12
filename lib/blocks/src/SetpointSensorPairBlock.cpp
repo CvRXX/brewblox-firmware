@@ -51,12 +51,13 @@ SetpointSensorPairBlock::read(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 3);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_SetpointSensorPair_Block_fields,
-                               blox_SetpointSensorPair_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_SetpointSensorPair_Block_fields,
+                                    blox_SetpointSensorPair_Block_size);
 }
 
 cbox::CboxError
@@ -70,19 +71,20 @@ SetpointSensorPairBlock::readPersisted(cbox::Command& cmd) const
     message.filter = blox_SetpointSensorPair_FilterChoice(pair.filterChoice());
     message.filterThreshold = cnl::unwrap(pair.filterThreshold());
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_SetpointSensorPair_Block_fields,
-                               blox_SetpointSensorPair_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_SetpointSensorPair_Block_fields,
+                                    blox_SetpointSensorPair_Block_size);
 }
 
 cbox::CboxError
 SetpointSensorPairBlock::write(cbox::Command& cmd)
 {
     blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_SetpointSensorPair_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_SetpointSensorPair_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         pair.setting(cnl::wrap<temp_t>(message.storedSetting));

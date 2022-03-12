@@ -46,12 +46,13 @@ TempSensorCombiBlock::read(cbox::Command& cmd) const
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, true);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TempSensorCombi_Block_fields,
-                               blox_TempSensorCombi_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TempSensorCombi_Block_fields,
+                                    blox_TempSensorCombi_Block_size);
 }
 
 cbox::CboxError
@@ -60,19 +61,20 @@ TempSensorCombiBlock::readPersisted(cbox::Command& cmd) const
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, false);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TempSensorCombi_Block_fields,
-                               blox_TempSensorCombi_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TempSensorCombi_Block_fields,
+                                    blox_TempSensorCombi_Block_size);
 }
 
 cbox::CboxError
 TempSensorCombiBlock::write(cbox::Command& cmd)
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_TempSensorCombi_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_TempSensorCombi_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);

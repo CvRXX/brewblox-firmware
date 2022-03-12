@@ -29,23 +29,24 @@ cbox::CboxError WiFiSettingsBlock::read(cbox::Command& cmd) const
     printWifiSSID(message.ssid, sizeof(message.ssid));
     message.signal = wifiSignal();
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_WiFiSettings_Block_fields,
-                               blox_WiFiSettings_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_WiFiSettings_Block_fields,
+                                    blox_WiFiSettings_Block_size);
 }
 
 cbox::CboxError WiFiSettingsBlock::readPersisted(cbox::Command& cmd) const
 {
-    return writeEmptyToCommand(cmd, objectId, staticTypeId());
+    return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError WiFiSettingsBlock::write(cbox::Command& cmd)
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_WiFiSettings_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_WiFiSettings_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.password[0] != 0) {

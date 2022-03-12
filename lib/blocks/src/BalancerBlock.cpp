@@ -30,20 +30,21 @@ BalancerBlock::read(cbox::Command& cmd) const
     message.clients.funcs.encode = streamBalancedActuators;
     message.clients.arg = const_cast<Balancer_t*>(&balancer); // arg is not const in message, but it is in callback
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Balancer_Block_fields,
-                               // Include a byte for field tags
-                               (blox_Balancer_BalancedActuator_size + 1) * balancer.clients().size(),
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Balancer_Block_fields,
+                                    // Include bytes for field tags
+                                    (blox_Balancer_BalancedActuator_size + 2) * balancer.clients().size());
 }
 
 cbox::CboxError
 BalancerBlock::readPersisted(cbox::Command& cmd) const
 {
     // no settings to persist
-    return writeEmptyToCommand(cmd, objectId, staticTypeId());
+    return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError

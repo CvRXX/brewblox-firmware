@@ -33,12 +33,13 @@ cbox::CboxError ActuatorOffsetBlock::read(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_ActuatorOffset_Block_fields,
-                               blox_ActuatorOffset_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_ActuatorOffset_Block_fields,
+                                    blox_ActuatorOffset_Block_size);
 }
 
 cbox::CboxError ActuatorOffsetBlock::readPersisted(cbox::Command& cmd) const
@@ -52,18 +53,19 @@ cbox::CboxError ActuatorOffsetBlock::readPersisted(cbox::Command& cmd) const
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_ActuatorOffset_Block_fields,
-                               blox_ActuatorOffset_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_ActuatorOffset_Block_fields,
+                                    blox_ActuatorOffset_Block_size);
 }
 
 cbox::CboxError ActuatorOffsetBlock::write(cbox::Command& cmd)
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_ActuatorOffset_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_ActuatorOffset_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         target.setId(message.targetId);

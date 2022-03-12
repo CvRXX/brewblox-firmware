@@ -33,12 +33,13 @@ DS2413Block::read(cbox::Command& cmd) const
     message.channels[0].id = blox_DS2413_ChannelId_DS2413_CHAN_A;
     message.channels[1].id = blox_DS2413_ChannelId_DS2413_CHAN_B;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_DS2413_Block_fields,
-                               blox_DS2413_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_DS2413_Block_fields,
+                                    blox_DS2413_Block_size);
 }
 
 cbox::CboxError
@@ -49,19 +50,20 @@ DS2413Block::readPersisted(cbox::Command& cmd) const
     message.oneWireBusId = owBus.getId();
     message.address = device.address();
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_DS2413_Block_fields,
-                               blox_DS2413_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_DS2413_Block_fields,
+                                    blox_DS2413_Block_size);
 }
 
 cbox::CboxError
 DS2413Block::write(cbox::Command& cmd)
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_DS2413_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_DS2413_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {

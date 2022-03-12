@@ -28,12 +28,13 @@ cbox::CboxError ActuatorAnalogMockBlock::read(cbox::Command& cmd) const
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_ActuatorAnalogMock_Block_fields,
-                               blox_ActuatorAnalogMock_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_ActuatorAnalogMock_Block_fields,
+                                    blox_ActuatorAnalogMock_Block_size);
 }
 
 cbox::CboxError ActuatorAnalogMockBlock::readPersisted(cbox::Command& cmd) const
@@ -48,18 +49,19 @@ cbox::CboxError ActuatorAnalogMockBlock::readPersisted(cbox::Command& cmd) const
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_ActuatorAnalogMock_Block_fields,
-                               blox_ActuatorAnalogMock_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_ActuatorAnalogMock_Block_fields,
+                                    blox_ActuatorAnalogMock_Block_size);
 }
 
 cbox::CboxError ActuatorAnalogMockBlock::write(cbox::Command& cmd)
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_ActuatorAnalogMock_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_ActuatorAnalogMock_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         actuator.minSetting(cnl::wrap<ActuatorAnalog::value_t>(message.minSetting));

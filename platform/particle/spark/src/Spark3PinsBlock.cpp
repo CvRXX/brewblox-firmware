@@ -75,12 +75,13 @@ cbox::CboxError Spark3PinsBlock::read(cbox::Command& cmd) const
     message.voltage12 = 12 * 149;
 #endif
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Spark3Pins_Block_fields,
-                               blox_Spark3Pins_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Spark3Pins_Block_fields,
+                                    blox_Spark3Pins_Block_size);
 }
 
 cbox::CboxError Spark3PinsBlock::readPersisted(cbox::Command& cmd) const
@@ -95,18 +96,19 @@ cbox::CboxError Spark3PinsBlock::readPersisted(cbox::Command& cmd) const
     message.enableIoSupply12V = HAL_GPIO_Read(PIN_12V_ENABLE);
 #endif
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Spark3Pins_Block_fields,
-                               blox_Spark3Pins_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Spark3Pins_Block_fields,
+                                    blox_Spark3Pins_Block_size);
 }
 
 cbox::CboxError Spark3PinsBlock::write(cbox::Command& cmd)
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_Spark3Pins_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_Spark3Pins_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         // io pins are not writable through this block. They are configured by creating Digital Actuators

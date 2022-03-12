@@ -19,7 +19,8 @@
 
 #if PLATFORM_ID == 6
 
-#include "Spark2PinsBlock.h"
+#include "spark/Spark2PinsBlock.h"
+#include "pinmap_defines.h"
 #include "proto/Spark2Pins.pb.h"
 #include "spark/Board.h"
 
@@ -73,12 +74,13 @@ cbox::CboxError Spark2PinsBlock::read(cbox::Command& cmd) const
     }
     message.hardware = hw;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Spark2Pins_Block_fields,
-                               blox_Spark2Pins_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Spark2Pins_Block_fields,
+                                    blox_Spark2Pins_Block_size);
 }
 
 cbox::CboxError Spark2PinsBlock::readPersisted(cbox::Command& cmd) const
@@ -87,18 +89,19 @@ cbox::CboxError Spark2PinsBlock::readPersisted(cbox::Command& cmd) const
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Spark2Pins_Block_fields,
-                               blox_Spark2Pins_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Spark2Pins_Block_fields,
+                                    blox_Spark2Pins_Block_size);
 }
 
 cbox::CboxError Spark2PinsBlock::write(cbox::Command& cmd)
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_Spark2Pins_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_Spark2Pins_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         // io pins are not writable through this block. They are configured by creating Digital Actuators

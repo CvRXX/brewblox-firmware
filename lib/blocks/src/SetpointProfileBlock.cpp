@@ -77,12 +77,13 @@ SetpointProfileBlock::read(cbox::Command& cmd) const
                        + 6 // start
         ;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_SetpointProfile_Block_fields,
-                               blockSize,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_SetpointProfile_Block_fields,
+                                    blockSize);
 }
 
 cbox::CboxError
@@ -99,7 +100,7 @@ SetpointProfileBlock::write(cbox::Command& cmd)
     message.points.funcs.decode = &streamPointsIn;
     message.points.arg = &newPoints;
 
-    auto res = readProtoFromCommand(cmd, &message, blox_SetpointProfile_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_SetpointProfile_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         profile.points(std::move(newPoints));

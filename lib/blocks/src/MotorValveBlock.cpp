@@ -52,12 +52,13 @@ MotorValveBlock::read(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_MotorValve_Block_fields,
-                               blox_MotorValve_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_MotorValve_Block_fields,
+                                    blox_MotorValve_Block_size);
 }
 
 cbox::CboxError
@@ -66,19 +67,20 @@ MotorValveBlock::readPersisted(cbox::Command& cmd) const
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     addPersistedStateToMessage(message);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_MotorValve_Block_fields,
-                               blox_MotorValve_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_MotorValve_Block_fields,
+                                    blox_MotorValve_Block_size);
 }
 
 cbox::CboxError
 MotorValveBlock::write(cbox::Command& cmd)
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_MotorValve_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_MotorValve_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (hwDevice.getId() != message.hwDevice) {

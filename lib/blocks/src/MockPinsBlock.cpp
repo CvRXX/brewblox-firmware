@@ -36,18 +36,20 @@ MockPinsBlock::read(cbox::Command& cmd) const
     message.channels[6].id = 7;
     message.channels[7].id = 8;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_MockPins_Block_fields,
-                               blox_MockPins_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_MockPins_Block_fields,
+                                    blox_MockPins_Block_size);
 }
 
 cbox::CboxError
 MockPinsBlock::readPersisted(cbox::Command& cmd) const
 {
-    return writeEmptyToCommand(cmd, objectId, staticTypeId());
+    // We have no persisted data
+    return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError

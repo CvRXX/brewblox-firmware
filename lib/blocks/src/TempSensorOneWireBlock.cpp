@@ -57,12 +57,13 @@ TempSensorOneWireBlock::read(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TempSensorOneWire_Block_fields,
-                               blox_TempSensorOneWire_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TempSensorOneWire_Block_fields,
+                                    blox_TempSensorOneWire_Block_size);
 }
 
 cbox::CboxError
@@ -74,19 +75,20 @@ TempSensorOneWireBlock::readPersisted(cbox::Command& cmd) const
     message.address = sensor.address();
     message.offset = cnl::unwrap(sensor.getCalibration());
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TempSensorOneWire_Block_fields,
-                               blox_TempSensorOneWire_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TempSensorOneWire_Block_fields,
+                                    blox_TempSensorOneWire_Block_size);
 }
 
 cbox::CboxError
 TempSensorOneWireBlock::write(cbox::Command& cmd)
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_TempSensorOneWire_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_TempSensorOneWire_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {

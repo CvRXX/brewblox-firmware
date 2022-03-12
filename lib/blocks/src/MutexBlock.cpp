@@ -27,12 +27,13 @@ MutexBlock::read(cbox::Command& cmd) const
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
     message.waitRemaining = m_mutex.timeRemaining();
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Mutex_Block_fields,
-                               blox_Mutex_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Mutex_Block_fields,
+                                    blox_Mutex_Block_size);
 }
 
 cbox::CboxError
@@ -45,7 +46,7 @@ cbox::CboxError
 MutexBlock::write(cbox::Command& cmd)
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_Mutex_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_Mutex_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         m_mutex.holdAfterTurnOff(message.differentActuatorWait);

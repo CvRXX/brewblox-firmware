@@ -34,12 +34,13 @@ cbox::CboxError TouchSettingsBlock::read(cbox::Command& cmd) const
     message.xBitsPerPixelX16 = calib.TouchScreenXBitsPerPixelx16;
     message.yBitsPerPixelX16 = calib.TouchScreenYBitsPerPixelx16;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_TouchSettings_Block_fields,
-                               blox_TouchSettings_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_TouchSettings_Block_fields,
+                                    blox_TouchSettings_Block_size);
 }
 
 cbox::CboxError TouchSettingsBlock::readPersisted(cbox::Command& cmd) const
@@ -50,7 +51,7 @@ cbox::CboxError TouchSettingsBlock::readPersisted(cbox::Command& cmd) const
 cbox::CboxError TouchSettingsBlock::write(cbox::Command& cmd)
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_TouchSettings_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_TouchSettings_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         auto calib = D4D_GetTouchScreenCalibration();

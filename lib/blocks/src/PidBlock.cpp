@@ -92,12 +92,13 @@ cbox::CboxError PidBlock::read(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Pid_Block_fields,
-                               blox_Pid_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Pid_Block_fields,
+                                    blox_Pid_Block_size);
 }
 
 cbox::CboxError
@@ -114,18 +115,19 @@ PidBlock::readPersisted(cbox::Command& cmd) const
     message.boilPointAdjust = cnl::unwrap(pid.boilPointAdjust());
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_Pid_Block_fields,
-                               blox_Pid_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_Pid_Block_fields,
+                                    blox_Pid_Block_size);
 }
 
 cbox::CboxError PidBlock::write(cbox::Command& cmd)
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_Pid_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_Pid_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         pid.enabled(message.enabled);

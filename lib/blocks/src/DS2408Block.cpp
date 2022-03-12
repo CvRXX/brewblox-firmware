@@ -44,12 +44,13 @@ DS2408Block::read(cbox::Command& cmd) const
         message.channels[1].id = blox_DS2408_ChannelId_DS2408_VALVE_B;
     }
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_DS2408_Block_fields,
-                               blox_DS2408_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_DS2408_Block_fields,
+                                    blox_DS2408_Block_size);
 }
 
 cbox::CboxError
@@ -61,19 +62,20 @@ DS2408Block::readPersisted(cbox::Command& cmd) const
     message.address = device.address();
     message.connectMode = connectMode;
 
-    return writeProtoToCommand(cmd,
-                               &message,
-                               blox_DS2408_Block_fields,
-                               blox_DS2408_Block_size,
-                               objectId,
-                               staticTypeId());
+    return serializeResponsePayload(cmd,
+                                    objectId,
+                                    staticTypeId(),
+                                    0,
+                                    &message,
+                                    blox_DS2408_Block_fields,
+                                    blox_DS2408_Block_size);
 }
 
 cbox::CboxError
 DS2408Block::write(cbox::Command& cmd)
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
-    auto res = readProtoFromCommand(cmd, &message, blox_DS2408_Block_fields);
+    auto res = parseRequestPayload(cmd, &message, blox_DS2408_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {
