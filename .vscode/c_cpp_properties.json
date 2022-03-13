@@ -21,7 +21,7 @@
         "${workspaceFolder}/platform/esp",
         "${workspaceFolder}/external_libs/nanopb",
         "${workspaceFolder}/external_libs/cnl/include",
-        "${workspaceFolder}/app/brewblox-esp/components/*",
+        "${workspaceFolder}/app/brewblox-esp/components/**",
         "/opt/esp/idf/components/**",
         "/opt/esp/tools/xtensa-esp32-elf/**"
       ],

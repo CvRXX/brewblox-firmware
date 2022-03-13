@@ -67,24 +67,24 @@ TFT035::TFT035(void (*finishCallback)(void))
 error_t TFT035::writeCommand(const std::vector<uint8_t>& cmd)
 {
     dcPinCommand();
-    return spiDevice.fromRequest(cmd);
+    return spiDevice.write(cmd);
 }
 
 error_t TFT035::writeData(const std::vector<uint8_t>& cmd)
 {
     dcPinData();
-    return spiDevice.fromRequest(cmd);
+    return spiDevice.write(cmd);
 }
 
 error_t TFT035::writeCommand(uint8_t cmd)
 {
     dcPinCommand();
-    return spiDevice.fromRequest(cmd);
+    return spiDevice.write(cmd);
 }
 error_t TFT035::writeData(uint8_t cmd)
 {
     dcPinData();
-    return spiDevice.fromRequest(cmd);
+    return spiDevice.write(cmd);
 }
 
 void TFT035::init()

@@ -6,9 +6,8 @@
 
 CboxStdioConnection::CboxStdioConnection(
     asio::io_context& io_context_,
-    CboxConnectionManager& connection_manager_,
-    cbox::Box& box_)
-    : CboxConnection(connection_manager_, box_)
+    CboxConnectionManager& connection_manager_)
+    : CboxConnection(connection_manager_)
     , in(io_context_, ::dup(STDIN_FILENO))
     , out(io_context_, ::dup(STDOUT_FILENO))
 {

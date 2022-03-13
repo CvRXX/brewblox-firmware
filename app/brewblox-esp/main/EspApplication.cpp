@@ -1,7 +1,7 @@
 #include "I2cScanningFactory.hpp"
-#include "OneWireMultiScanningFactory.hpp"
+#include "blocks/BlockFactory.h"
 #include "blocks/ExpOwGpioBlock.hpp"
-#include "brewblox.hpp"
+#include "blocks/OneWireMultiScanningFactory.hpp"
 #include "cbox/Application.h"
 #include "cbox/FileObjectStorage.h"
 #include "cbox/ObjectFactory.h"
@@ -17,7 +17,7 @@ std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
     auto retv = platformFactory.make(t);
 
     if (!std::get<1>(retv)) {
-        retv = brewblox::makeBlock(t);
+        retv = makeBlock(t);
     }
 
     return retv;

@@ -8,8 +8,7 @@ class CboxStdioConnection : public CboxConnection {
 public:
     explicit CboxStdioConnection(
         asio::io_context& io_context_,
-        CboxConnectionManager& connection_manager_,
-        cbox::Box& box_);
+        CboxConnectionManager& connection_manager_);
     virtual ~CboxStdioConnection() = default;
 
     // virtual void start();

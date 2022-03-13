@@ -2,9 +2,8 @@
 
 CboxTcpConnection::CboxTcpConnection(
     asio::ip::tcp::socket socket_,
-    CboxConnectionManager& connection_manager_,
-    cbox::Box& box_)
-    : CboxConnection(connection_manager_, box_)
+    CboxConnectionManager& connection_manager_)
+    : CboxConnection(connection_manager_)
     , socket(std::move(socket_))
 {
 }

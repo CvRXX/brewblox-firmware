@@ -1,7 +1,5 @@
 idf_component_register(
   SRCS
-    src/brewblox.cpp
-
     src/ConstraintsProto.cpp
     src/ActuatorAnalogMockBlock.cpp
     src/ActuatorLogicBlock.cpp
@@ -24,6 +22,7 @@ idf_component_register(
     src/SetpointSensorPairBlock.cpp
     src/SysInfoBlock.cpp
     src/TempSensorCombiBlock.cpp
+    src/TempSensorMockBlock.cpp
     src/TempSensorOneWireBlock.cpp
   INCLUDE_DIRS
     inc
