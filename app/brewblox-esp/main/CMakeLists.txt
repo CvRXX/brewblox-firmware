@@ -7,6 +7,7 @@ idf_component_register(
   SRCS
     main.cpp
     AppTicks.cpp
+    AppBox.cpp
     Brewblox.cpp
     EspApplication.cpp
     ExpOwGpio.cpp

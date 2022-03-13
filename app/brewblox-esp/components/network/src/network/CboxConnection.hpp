@@ -1,4 +1,6 @@
 #pragma once
+#include "intellisense.hpp"
+
 #include "cbox/DataStreamIo.h"
 #include <asio.hpp>
 

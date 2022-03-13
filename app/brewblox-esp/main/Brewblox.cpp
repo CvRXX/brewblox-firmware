@@ -1,5 +1,7 @@
-#include "Brewblox.hpp"
+#include "intellisense.hpp"
+
 #include "AppTicks.h"
+#include "Brewblox.hpp"
 #include "blocks/DisplaySettingsBlock.h"
 #include "blocks/SysInfoBlock.h"
 #include "blocks/TicksBlock.h"
@@ -70,13 +72,7 @@ const std::string& deviceIdString()
 
 const std::string& versionCsv()
 {
-#define PLATFORM_STRING "esp32"
-#ifdef __INTELLISENSE__
-#define GIT_VERSION ""
-#define GIT_DATE ""
-#endif
-
-    static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_STRING;
+    static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_NAME;
     return version;
 }
 
@@ -90,9 +86,8 @@ int resetReasonData()
     return 0; // todo
 }
 
-namespace cbox {
 // Implements extern function in cbox/Connections.h
-void connectionStarted(DataOut& out)
+void cbox::connectionStarted(DataOut& out)
 {
     char header[] = "<!BREWBLOX,";
 
@@ -108,5 +103,4 @@ void connectionStarted(DataOut& out)
 
     out.writeBuffer(deviceIdString().data(), deviceIdString().size());
     out.write('>');
-}
 }

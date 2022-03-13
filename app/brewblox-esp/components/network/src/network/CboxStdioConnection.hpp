@@ -11,9 +11,6 @@ public:
         CboxConnectionManager& connection_manager_);
     virtual ~CboxStdioConnection() = default;
 
-    // virtual void start();
-    // virtual void stop();
-
     virtual void async_read_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
     virtual void async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
 

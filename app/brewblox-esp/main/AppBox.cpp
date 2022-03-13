@@ -1,23 +1,13 @@
-#include "AppBox.h"
-#include "AppTicks.h"
+#include "AppBox.hpp"
+#include "Brewblox.hpp"
 #include "cbox/Base64.h"
-#include "cbox/Box.h"
 #include "cbox/Connections.h"
-#include "cbox/DataStream.h"
-#include "delay_hal.h"
-#include "deviceid_hal.h"
-#include "platforms.h"
+#include "esp_system.h"
+#include "network/CboxConnection.hpp"
 #include "proto/controlbox.pb.h"
-#include "rgbled.h"
-#include "spark/Board.h"
-#include "spark/Brewblox.h"
-#include "spark/ConnectionsTcp.h"
-#include "spark_wiring_stream.h"
-#include "spark_wiring_usbserial.h"
+#include <optional>
 #include <pb_decode.h>
 #include <pb_encode.h>
-
-namespace app {
 
 bool decodePayloadContent(pb_istream_t* stream, const pb_field_t* field, void** arg)
 {
@@ -170,95 +160,6 @@ public:
     }
 };
 
-#if PLATFORM_ID != PLATFORM_GCC
-void updateFirmwareStreamHandler(Stream* stream)
-{
-    enum class DCMD : uint8_t {
-        None,
-        Ack,
-        FlashFirmware,
-    };
-
-    auto command = DCMD::Ack;
-    uint8_t invalidCommands = 0;
-
-    while (true) {
-        HAL_Delay_Milliseconds(1);
-        int recv = stream->read();
-        switch (recv) {
-        case 'F':
-            command = DCMD::FlashFirmware;
-            break;
-        case '\n':
-            if (command == DCMD::Ack) {
-                stream->write("<!FIRMWARE_UPDATER,");
-                stream->write(versionCsv().c_str());
-                stream->write(">\n");
-                stream->flush();
-                HAL_Delay_Milliseconds(10);
-            } else if (command == DCMD::FlashFirmware) {
-                stream->write("<!READY_FOR_FIRMWARE>\n");
-                stream->flush();
-                HAL_Delay_Milliseconds(10);
-#if PLATFORM_ID == PLATFORM_GCC
-                // just exit for sim
-                HAL_Core_System_Reset_Ex(RESET_REASON_UPDATE, 0, nullptr);
-#else
-                bool success = system_firmwareUpdate(stream);
-                reset(true, success ? UserResetReason::FIRMWARE_UPDATE_SUCCESS : UserResetReason::FIRMWARE_UPDATE_FAILED);
-#endif
-                break;
-            } else {
-                stream->write("<Invalid command received>\n");
-                stream->flush();
-                HAL_Delay_Milliseconds(10);
-                if (++invalidCommands > 2) {
-                    return;
-                }
-            }
-            command = DCMD::Ack;
-            break;
-        case -1:
-            continue; // empty
-        default:
-            command = DCMD::None;
-            break;
-        }
-    }
-}
-
-void updateFirmwareFromStream(cbox::StreamType streamType)
-{
-    getConnectionPool().stopAll();
-    if (streamType == cbox::StreamType::Usb) {
-        updateFirmwareStreamHandler(&_fetch_usbserial());
-    } else {
-        TCPServer server(8332); // re-open a TCP server
-        while (true) {
-            HAL_Delay_Milliseconds(10); // allow thread switch so system thread can set up client
-            {
-                TCPClient client = server.available();
-                if (client) {
-                    updateFirmwareStreamHandler(&client);
-                }
-            }
-        }
-    }
-}
-#endif
-
-void startFirmwareUpdate(cbox::DataIn& in)
-{
-    LED_SetRGBColor(RGB_COLOR_MAGENTA);
-    getConnectionPool().disconnect();
-    ticks.delayMillis(10);
-#if PLATFORM_ID != PLATFORM_GCC
-    updateFirmwareFromStream(in.streamType());
-    // reset in case the firmware update failed
-    reset(true, UserResetReason::FIRMWARE_UPDATE_FAILED);
-#endif
-}
-
 std::optional<AppCommand> parseMessage(cbox::DataIn& in, cbox::DataOut& out)
 {
     std::vector<uint8_t> protoBytes;
@@ -362,20 +263,19 @@ void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
         break;
     case controlbox_Opcode_OPCODE_REBOOT:
         cmd.finalize(cbox::CboxError::OK);
-        reset(true, UserResetReason::CBOX_RESET);
+        esp_restart();
         return; // already finalized
     case controlbox_Opcode_OPCODE_FACTORY_RESET:
         cmd.finalize(cbox::CboxError::OK);
         cbox::objects.clear();
-        reset(true, UserResetReason::CBOX_FACTORY_RESET);
+        esp_restart();
         return; // already finalized
     case controlbox_Opcode_OPCODE_DISCOVER_OBJECTS:
         status = cbox::discoverNewObjects(cmd);
         break;
     case controlbox_Opcode_OPCODE_FIRMWARE_UPDATE:
-        cmd.finalize(cbox::CboxError::OK);
-        startFirmwareUpdate(in);
-        return; // already finalized
+        status = cbox::CboxError::INVALID_COMMAND;
+        break;
     default:
         status = cbox::CboxError::INVALID_COMMAND;
         break;
@@ -383,33 +283,3 @@ void handleCommand(cbox::DataIn& in, cbox::DataOut& out)
 
     cmd.finalize(status);
 }
-
-void communicate()
-{
-    getConnectionPool().process([](cbox::DataIn& in, cbox::DataOut& out) {
-        while (in.peek() >= 0) {
-            handleCommand(in, out);
-        }
-    });
-}
-
-void update()
-{
-    cbox::update(ticks.millis());
-#if PLATFORM_ID == PLATFORM_GCC
-    ticks.delayMillis(10); // prevent 100% cpu usage
-#endif
-}
-
-void reset(bool exitFlag, UserResetReason reason)
-{
-    if (exitFlag) {
-#if PLATFORM_ID == PLATFORM_GCC
-        exit(0);
-#else
-        System.reset(reason, RESET_NO_WAIT);
-#endif
-    }
-}
-
-} // end namespace app

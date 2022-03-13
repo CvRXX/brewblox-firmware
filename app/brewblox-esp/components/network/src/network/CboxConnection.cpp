@@ -1,4 +1,5 @@
 #include "CboxConnection.hpp"
+#include "AppBox.hpp"
 #include "Brewblox.hpp"
 #include "CboxConnectionManager.hpp"
 #include "cbox/Box.h"
@@ -52,8 +53,7 @@ void CboxConnection::finish_read(std::error_code ec, std::size_t bytes_transferr
         cbox::StreamBufDataIn in_cbox(buffer_in);
         cbox::StreamBufDataOut out_cbox(buffer_out);
         cbox::RegionDataIn transferred{in_cbox, bytes_transferred};
-        // box.handleCommand(transferred, out_cbox);
-        // TODO(Bob) handle command
+        handleCommand(transferred, out_cbox);
 
         start_write(); // send reply
         start_read();  // read next
