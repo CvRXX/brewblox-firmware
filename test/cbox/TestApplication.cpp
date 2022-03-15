@@ -49,4 +49,9 @@ std::shared_ptr<Object> scan()
     return longIntScanner.scan();
 }
 
+// Implements extern function in cbox/Connections.h
+void connectionStarted(DataOut& out)
+{
+}
+
 } // end namespace cbox
