@@ -53,6 +53,39 @@ void Layout::updateWidgets()
         }
     }
 }
+auto Layout::makeWidget(uint8_t pos) -> std::unique_ptr<BaseWidget>
+{
+    auto& settings = DisplaySettingsBlock::settings();
+    auto row = (pos - 1) / 3;
+    auto col = (pos - 1) % 3;
+
+    auto widget = std::find_if(std::begin(settings.widgets), std::end(settings.widgets), [pos](auto& widget) {
+        return widget.pos == pos;
+    });
+
+    if (widget != std::end(settings.widgets)) {
+        auto color = lv_color_make(widget->color[0], widget->color[1], widget->color[2]);
+        switch (widget->which_WidgetType) {
+        case blox_DisplaySettings_Widget_tempSensor_tag: {
+            auto lookup = cbox::CboxPtr<TempSensor>(cbox::obj_id_t(widget->WidgetType.tempSensor));
+            return std::unique_ptr<BaseWidget>(new TemperatureWidget(grid, row, col, std::move(lookup), widget->name, color));
+        } break;
+        case blox_DisplaySettings_Widget_setpointSensorPair_tag: {
+            auto lookup = cbox::CboxPtr<SetpointSensorPairBlock>(cbox::obj_id_t(widget->WidgetType.setpointSensorPair));
+            return std::unique_ptr<BaseWidget>(new SetpointWidget(grid, row, col, std::move(lookup), widget->name, color));
+        } break;
+        case blox_DisplaySettings_Widget_actuatorAnalog_tag: {
+            auto lookup = cbox::CboxPtr<ActuatorAnalogConstrained>(cbox::obj_id_t(widget->WidgetType.setpointSensorPair));
+            return std::unique_ptr<BaseWidget>(new ActuatorAnalogWidget(grid, row, col, std::move(lookup), widget->name, color));
+        } break;
+        case blox_DisplaySettings_Widget_pid_tag: {
+            auto lookup = cbox::CboxPtr<PidBlock>(cbox::obj_id_t(widget->WidgetType.pid));
+            return std::unique_ptr<BaseWidget>(new PidWidget(grid, row, col, std::move(lookup), widget->name, color));
+        } break;
+        }
+    }
+    return std::unique_ptr<BaseWidget>(new BaseWidget(grid, row, col, "", LV_COLOR_MAKE(0x20, 0x20, 0x20)));
+};
 
 void Layout::updateConfig()
 {
@@ -70,37 +103,6 @@ void Layout::updateConfig()
         setenv("TZ", settings.timeZone, 1);
         tzset();
 
-        auto makeWidget = [&settings, this](uint8_t pos) -> std::unique_ptr<BaseWidget> {
-            auto row = (pos - 1) / 3;
-            auto col = (pos - 1) % 3;
-
-            auto widget = std::find_if(std::begin(settings.widgets), std::end(settings.widgets), [pos](auto& widget) {
-                return widget.pos == pos;
-            });
-
-            if (widget != std::end(settings.widgets)) {
-                auto color = lv_color_make(widget->color[0], widget->color[1], widget->color[2]);
-                switch (widget->which_WidgetType) {
-                case blox_DisplaySettings_Widget_tempSensor_tag: {
-                    auto lookup = cbox::CboxPtr<TempSensor>(cbox::obj_id_t(widget->WidgetType.tempSensor));
-                    return std::unique_ptr<BaseWidget>(new TemperatureWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                case blox_DisplaySettings_Widget_setpointSensorPair_tag: {
-                    auto lookup = cbox::CboxPtr<SetpointSensorPairBlock>(cbox::obj_id_t(widget->WidgetType.setpointSensorPair));
-                    return std::unique_ptr<BaseWidget>(new SetpointWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                case blox_DisplaySettings_Widget_actuatorAnalog_tag: {
-                    auto lookup = cbox::CboxPtr<ActuatorAnalogConstrained>(cbox::obj_id_t(widget->WidgetType.setpointSensorPair));
-                    return std::unique_ptr<BaseWidget>(new ActuatorAnalogWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                case blox_DisplaySettings_Widget_pid_tag: {
-                    auto lookup = cbox::CboxPtr<PidBlock>(cbox::obj_id_t(widget->WidgetType.pid));
-                    return std::unique_ptr<BaseWidget>(new PidWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                }
-            }
-            return std::unique_ptr<BaseWidget>(new BaseWidget(grid, row, col, "", LV_COLOR_MAKE(0x20, 0x20, 0x20)));
-        };
         for (uint8_t pos = 0; pos < 6; pos++) {
             // find widget settings for position
             sensorWidgets[pos] = makeWidget(pos + 1);
