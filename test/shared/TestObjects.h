@@ -78,7 +78,7 @@ public:
     virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
-            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
+            return cbox::CboxError::INVALID_BLOCK;
         }
 
         uint32_t newValue = 0;
@@ -87,7 +87,7 @@ public:
             obj = newValue;
             return cbox::CboxError::OK;
         }
-        return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+        return cbox::CboxError::NETWORK_READ_ERROR;
     }
 
     virtual cbox::update_t update(const cbox::update_t& now) override
@@ -133,7 +133,7 @@ public:
         // first write number of elements as uint16_t
         uint16_t size = values.size();
         if (!out.put(size)) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
         // write value for all elements
@@ -151,20 +151,20 @@ public:
     virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+            return cbox::CboxError::NETWORK_READ_ERROR;
         }
 
         cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
 
         uint16_t newSize = 0;
         if (!in.get(newSize)) {
-            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
+            return cbox::CboxError::INVALID_BLOCK;
         }
         values.resize(newSize);
         for (auto& value : values) {
             uint32_t content = 0;
             if (!in.get(content)) {
-                return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+                return cbox::CboxError::NETWORK_READ_ERROR;
             }
             value.value(content);
         }
@@ -220,10 +220,10 @@ public:
 
         // stream out all values
         if (!out.put(_interval)) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
         if (!out.put(_count)) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
         return cmd.respond(payload);
@@ -236,7 +236,7 @@ public:
         cbox::BufferDataOut out(payload.content.data(), payload.content.size());
 
         if (!out.put(_interval)) {
-            return cbox::CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+            return cbox::CboxError::STORAGE_WRITE_ERROR;
         }
 
         return cmd.respond(payload);
@@ -245,7 +245,7 @@ public:
     virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
-            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
+            return cbox::CboxError::INVALID_BLOCK;
         }
 
         cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
@@ -253,10 +253,10 @@ public:
         uint16_t newInterval;
 
         if (!in.get(newInterval)) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+            return cbox::CboxError::NETWORK_READ_ERROR;
         }
         if (newInterval < 10) {
-            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
+            return cbox::CboxError::INVALID_BLOCK;
         }
 
         _interval = newInterval;
@@ -323,10 +323,10 @@ public:
         cbox::BufferDataOut out(payload.content.data(), payload.content.size());
 
         if (!out.put(ptr1.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
         if (!out.put(ptr2.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
         auto sptr1 = ptr1.const_lock();
@@ -347,7 +347,7 @@ public:
         success &= out.put(value2);
 
         if (!success) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
         return cmd.respond(payload);
@@ -360,10 +360,10 @@ public:
         cbox::BufferDataOut out(payload.content.data(), payload.content.size());
 
         if (!out.put(ptr1.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
         if (!out.put(ptr2.getId())) {
-            return cbox::CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
         return cmd.respond(payload);
     }
@@ -371,17 +371,17 @@ public:
     virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
     {
         if (!cmd.request()) {
-            return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
+            return cbox::CboxError::INVALID_BLOCK;
         }
 
         cbox::BufferDataIn in(cmd.request()->content.data(), cmd.request()->content.size());
 
         cbox::obj_id_t newId1, newId2;
         if (!in.get(newId1)) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+            return cbox::CboxError::NETWORK_READ_ERROR;
         }
         if (!in.get(newId2)) {
-            return cbox::CboxError::INPUT_STREAM_READ_ERROR;
+            return cbox::CboxError::NETWORK_READ_ERROR;
         }
 
         ptr1.setId(newId1);

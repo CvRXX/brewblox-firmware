@@ -56,7 +56,7 @@ public:
         const storage_id_t& /*id*/,
         const std::function<CboxError(RegionDataIn&)>& /*handler*/) override final
     {
-        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
+        return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
     virtual CboxError storeObject(
@@ -69,7 +69,7 @@ public:
     virtual CboxError retrieveObjects(
         const std::function<CboxError(const storage_id_t& /*id*/, RegionDataIn&)>& /*handler*/) override final
     {
-        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
+        return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
     virtual bool disposeObject(const storage_id_t& /*id*/, bool /*mergeDisposed = true*/) override final

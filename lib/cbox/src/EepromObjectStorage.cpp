@@ -42,7 +42,7 @@ CboxError EepromObjectStorage::storeObject(
     const std::function<CboxError(DataOut&)>& handler)
 {
     if (!id) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     // write to counter to get size and to do a test serialization
@@ -50,7 +50,7 @@ CboxError EepromObjectStorage::storeObject(
     CboxError res = handler(counter);
     uint16_t dataSize = counter.count() + 1;
 
-    if (res == CboxError::PERSISTING_NOT_NEEDED) {
+    if (res == CboxError::BLOCK_NOT_STORED) {
         // exit for objects that don't need to exist in EEPROM. Not even their id/groups/existence
         return CboxError::OK;
     }
@@ -79,7 +79,7 @@ CboxError EepromObjectStorage::storeObject(
         }
         bool crcWritten = crcOut.writeCrc(); // write CRC after object data so we can check integrity
         if (!crcWritten) {
-            return CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+            return CboxError::STORAGE_WRITE_ERROR;
         }
 
         return res;
@@ -102,7 +102,7 @@ CboxError EepromObjectStorage::storeObject(
         if (eepromBlockSize < requestedSize) {
             // not enough continuous free space
             if (freeSpace() < stream_size_t(requestedSize) + (objectHeaderLength() - blockHeaderLength())) {
-                return CboxError::INSUFFICIENT_PERSISTENT_STORAGE; // not even enough total free space
+                return CboxError::INSUFFICIENT_STORAGE; // not even enough total free space
             }
 
             // if there is enough free space, but it is not continuous, do a defrag to and try again
@@ -111,7 +111,7 @@ CboxError EepromObjectStorage::storeObject(
             dataLocation = writer.offset();
             if (objectEepromData.availableForWrite() < requestedSize) {
                 // LCOV_EXCL_LINE still not enough free space, exclude from coverage, because this should not be possible with the check above
-                return CboxError::INSUFFICIENT_PERSISTENT_STORAGE; // LCOV_EXCL_LINE
+                return CboxError::INSUFFICIENT_STORAGE; // LCOV_EXCL_LINE
             }
         }
         // looks like we can relocate the object, remove the old and write the new block
@@ -143,7 +143,7 @@ CboxError EepromObjectStorage::retrieveObject(
 {
     RegionDataIn objectEepromData = getObjectReader(id, true);
     if (objectEepromData.available() == 0) {
-        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
+        return CboxError::INVALID_STORED_BLOCK_ID;
     }
     return handler(objectEepromData);
 }
@@ -164,7 +164,7 @@ CboxError EepromObjectStorage::retrieveObjects(
         // loop over all blocks and write objects to output stream
         uint16_t blockSize = 0;
         if (!reader.get(blockSize)) {
-            return CboxError::COULD_NOT_READ_PERSISTED_BLOCK_SIZE;
+            return CboxError::STORAGE_READ_ERROR;
         }
 
         switch (BlockType(type)) {
@@ -174,11 +174,11 @@ CboxError EepromObjectStorage::retrieveObjects(
                 // first 2 bytes of block are actual data size. Limit reading to this region
                 uint16_t actualSize;
                 if (!blockData.get(actualSize)) {
-                    return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                    return CboxError::STORAGE_ERROR;
                 }
                 storage_id_t id;
                 if (!blockData.get(id)) {
-                    return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                    return CboxError::STORAGE_ERROR;
                 }
 
                 auto objectData = RegionDataIn(blockData, actualSize);
@@ -186,8 +186,8 @@ CboxError EepromObjectStorage::retrieveObjects(
             };
             auto result = handleBlock();
             if (result != CboxError::OK) {
-                if (result == CboxError::PERSISTED_BLOCK_STREAM_ERROR) {
-                    return CboxError::PERSISTED_BLOCK_STREAM_ERROR; // stop on read errors
+                if (result == CboxError::STORAGE_ERROR) {
+                    return CboxError::STORAGE_ERROR; // stop on read errors
                 }
                 // log event. Do not return, because we do want to handle the next block
             }
@@ -195,13 +195,13 @@ CboxError EepromObjectStorage::retrieveObjects(
         } break;
         case BlockType::disposed_block:
             if (!reader.skip(blockSize)) {
-                return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                return CboxError::STORAGE_ERROR;
             }
             break;
         case BlockType::invalid:
-            return CboxError::INVALID_PERSISTED_BLOCK_TYPE; // unknown block type encountered!
+            return CboxError::INVALID_STORED_BLOCK_TYPE; // unknown block type encountered!
         default:
-            return CboxError::INVALID_PERSISTED_BLOCK_TYPE; // unknown block type encountered!
+            return CboxError::INVALID_STORED_BLOCK_TYPE; // unknown block type encountered!
             break;
         }
     }

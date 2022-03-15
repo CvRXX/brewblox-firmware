@@ -59,7 +59,7 @@ public:
 
     virtual cbox::CboxError toStoredResponse(cbox::Command&) const override final
     {
-        return cbox::CboxError::PERSISTING_NOT_NEEDED;
+        return cbox::CboxError::BLOCK_NOT_STORED;
     }
 
     virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final

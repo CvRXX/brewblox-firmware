@@ -38,11 +38,11 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
     crcCalculator.put(objId);
 
     if (!tee.get(flags)) {
-        return std::make_pair(CboxError::INPUT_STREAM_READ_ERROR, std::shared_ptr<Object>()); // LCOV_EXCL_LINE
+        return std::make_pair(CboxError::NETWORK_READ_ERROR, std::shared_ptr<Object>()); // LCOV_EXCL_LINE
     }
 
     if (!tee.get(typeId)) {
-        return std::make_pair(CboxError::INPUT_STREAM_READ_ERROR, std::shared_ptr<Object>()); // LCOV_EXCL_LINE
+        return std::make_pair(CboxError::NETWORK_READ_ERROR, std::shared_ptr<Object>()); // LCOV_EXCL_LINE
     }
 
     auto makeResult = make(typeId);
@@ -65,7 +65,7 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
     // Read the CRC byte, and check the total
     tee.spool();
     if (crcCalculator.crc() != 0) {
-        return std::make_pair(CboxError::CRC_ERROR_IN_STORED_OBJECT, std::shared_ptr<Object>());
+        return std::make_pair(CboxError::STORAGE_CRC_ERROR, std::shared_ptr<Object>());
     }
 
     // CRC is OK, write data to object
@@ -78,7 +78,7 @@ createFromStream(RegionDataIn& in, obj_id_t objId)
 CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Object> obj)
 {
     if (!obj) {
-        return CboxError::INVALID_OBJECT_PTR;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     // use a CrcDataOut to a black hole to check the CRC
@@ -93,15 +93,15 @@ CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Objec
     obj_type_t inType;
 
     if (!tee.get(flags)) {
-        return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
+        return CboxError::NETWORK_READ_ERROR; // LCOV_EXCL_LINE
     }
 
     if (!tee.get(inType)) {
-        return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
+        return CboxError::NETWORK_READ_ERROR; // LCOV_EXCL_LINE
     }
 
     if (inType != obj->typeId()) {
-        return CboxError::INVALID_OBJECT_TYPE;
+        return CboxError::INVALID_BLOCK_TYPE;
     }
 
     // The command will immediately collect data bytes
@@ -111,7 +111,7 @@ CboxError loadFromStream(RegionDataIn& in, obj_id_t objId, std::shared_ptr<Objec
     // Read the CRC byte, and check the total
     tee.spool();
     if (crcCalculator.crc() != 0) {
-        return CboxError::CRC_ERROR_IN_STORED_OBJECT;
+        return CboxError::STORAGE_CRC_ERROR;
     }
 
     obj->objectId = objId;
@@ -132,11 +132,11 @@ CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd
     obj_type_t inType;
 
     if (!tee.get(flags)) {
-        return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
+        return CboxError::NETWORK_READ_ERROR; // LCOV_EXCL_LINE
     }
 
     if (!tee.get(inType)) {
-        return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
+        return CboxError::NETWORK_READ_ERROR; // LCOV_EXCL_LINE
     }
 
     // Grab all data except the last byte
@@ -149,7 +149,7 @@ CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd
     // Read the CRC byte, and check the total
     tee.spool();
     if (crcCalculator.crc() != 0) {
-        return CboxError::CRC_ERROR_IN_STORED_OBJECT;
+        return CboxError::STORAGE_CRC_ERROR;
     }
 
     return cmd.respond(resp);
@@ -158,18 +158,18 @@ CboxError readPersistedFromStream(RegionDataIn& in, obj_id_t objId, Command& cmd
 CboxError saveToStream(DataOut& out, obj_id_t /*objId*/, std::shared_ptr<Object> obj)
 {
     if (!obj) {
-        return CboxError::INVALID_OBJECT_PTR;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     // id is not streamed out. It is passed to storage separately
 
     uint8_t flags(0); // previously the groups byte, now unused and reserved
     if (!out.put(flags)) {
-        return CboxError::PERSISTED_STORAGE_WRITE_ERROR; // LCOV_EXCL_LINE
+        return CboxError::STORAGE_WRITE_ERROR; // LCOV_EXCL_LINE
     }
 
     if (!out.put(obj->typeId())) {
-        return CboxError::PERSISTED_STORAGE_WRITE_ERROR; // LCOV_EXCL_LINE
+        return CboxError::STORAGE_WRITE_ERROR; // LCOV_EXCL_LINE
     }
 
     // TODO(Bob): CRC handling is asymmetric

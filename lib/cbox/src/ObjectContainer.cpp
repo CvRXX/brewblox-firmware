@@ -105,12 +105,12 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool r
 CboxError ObjectContainer::remove(obj_id_t id)
 {
     if (id < startId) {
-        return CboxError::OBJECT_NOT_DELETABLE; // refuse to remove system objects
+        return CboxError::BLOCK_NOT_DELETABLE; // refuse to remove system objects
     }
     // find existing object
     auto p = findPosition(id);
     contained.erase(p.first, p.second); // doesn't remove anything if no objects found (first == second)
-    return p.first == p.second ? CboxError::INVALID_OBJECT_ID : CboxError::OK;
+    return p.first == p.second ? CboxError::INVALID_BLOCK_ID : CboxError::OK;
 }
 
 // remove all non-system objects from the container
@@ -144,7 +144,7 @@ CboxError ObjectContainer::store(const obj_id_t& id)
 {
     auto cobj = fetchContained(id);
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     auto storeContained = [&cobj, &id](DataOut& out) -> CboxError {
@@ -157,7 +157,7 @@ CboxError ObjectContainer::reloadStored(const obj_id_t& id)
 {
     ContainedObject* cobj = fetchContained(id);
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     bool handlerCalled = false;
@@ -167,7 +167,7 @@ CboxError ObjectContainer::reloadStored(const obj_id_t& id)
     };
     CboxError status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
     if (!handlerCalled) {
-        return CboxError::INVALID_OBJECT_ID; // write status if handler has not written it
+        return CboxError::INVALID_BLOCK_ID; // write status if handler has not written it
     }
 
     return status;

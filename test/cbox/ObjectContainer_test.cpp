@@ -92,7 +92,7 @@ SCENARIO("A container to hold objects")
 
         THEN("Removing an object that doesn't exist returns invalid_object_id")
         {
-            CHECK(container.remove(obj_id_t(10)) == CboxError::INVALID_OBJECT_ID);
+            CHECK(container.remove(obj_id_t(10)) == CboxError::INVALID_BLOCK_ID);
         }
 
         THEN("A list of all object IDs can be created using the container's const iterators")
@@ -149,11 +149,11 @@ SCENARIO("A container to hold objects")
         {
             auto cobj = container.fetchContained(20);
             auto res = cobj->toResponse(cmd);
-            CHECK(res == CboxError::INVALID_OBJECT_PTR);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
             res = cobj->toStoredResponse(cmd);
-            CHECK(res == CboxError::INVALID_OBJECT_PTR);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
             res = cobj->fromRequest(cmd);
-            CHECK(res == CboxError::INVALID_OBJECT_PTR);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
         }
     }
 }
@@ -190,10 +190,10 @@ SCENARIO("A container with system objects")
 
     THEN("The system objects cannot be deleted, but user objects can be deleted")
     {
-        CHECK(container.remove(1) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(container.remove(1) == CboxError::BLOCK_NOT_DELETABLE);
         CHECK(container.fetch(1).lock());
 
-        CHECK(container.remove(2) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(container.remove(2) == CboxError::BLOCK_NOT_DELETABLE);
         CHECK(container.fetch(2).lock());
 
         CHECK(container.fetch(3).lock());
@@ -211,10 +211,10 @@ SCENARIO("A container with system objects")
     {
         container.setObjectsStartId(100); // all objects with id  < 100 will now be system objects
 
-        CHECK(container.remove(1) == CboxError::OBJECT_NOT_DELETABLE);
-        CHECK(container.remove(2) == CboxError::OBJECT_NOT_DELETABLE);
-        CHECK(container.remove(3) == CboxError::OBJECT_NOT_DELETABLE);
-        CHECK(container.remove(4) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(container.remove(1) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(container.remove(2) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(container.remove(3) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(container.remove(4) == CboxError::BLOCK_NOT_DELETABLE);
 
         CHECK(obj_id_t(100) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get start ID (100)
     }

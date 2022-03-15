@@ -62,7 +62,7 @@ SCENARIO("An object can be created by an ObjectFactory by resolving the type id"
         std::shared_ptr<Object> obj;
         CboxError status;
         std::tie(status, obj) = factory.make(9999);
-        CHECK(status == CboxError::OBJECT_NOT_CREATABLE);
+        CHECK(status == CboxError::BLOCK_NOT_CREATABLE);
         CHECK(obj == nullptr);
     }
 

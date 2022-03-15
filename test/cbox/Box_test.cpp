@@ -48,14 +48,14 @@ SCENARIO("Box commands")
     WHEN("Read non-existent object")
     {
         TestCommand cmd(8, 0);
-        CHECK(readObject(cmd) == CboxError::INVALID_OBJECT_ID);
+        CHECK(readObject(cmd) == CboxError::INVALID_BLOCK_ID);
         CHECK(cmd.responses.size() == 0);
     }
 
     WHEN("Read non-existent stored object")
     {
         TestCommand cmd(8, 0);
-        CHECK(readStoredObject(cmd) == CboxError::PERSISTED_OBJECT_NOT_FOUND);
+        CHECK(readStoredObject(cmd) == CboxError::INVALID_STORED_BLOCK_ID);
         CHECK(cmd.responses.size() == 0);
     }
 
@@ -75,7 +75,7 @@ SCENARIO("Box commands")
         AND_WHEN("Write object with the wrong object type")
         {
             TestCommand cmd2(2, 10001, {0x44, 0x44, 0x44, 0x44});
-            CHECK(writeObject(cmd2) == CboxError::INVALID_OBJECT_TYPE);
+            CHECK(writeObject(cmd2) == CboxError::INVALID_BLOCK_TYPE);
 
             CHECK(cmd2.responses.size() == 0);
         }
@@ -126,11 +126,11 @@ SCENARIO("Box commands")
 
                 AND_WHEN("objects.store() is called with a non-existing id, an error is returned")
                 {
-                    CHECK(objects.store(200) == CboxError::INVALID_OBJECT_ID);
+                    CHECK(objects.store(200) == CboxError::INVALID_BLOCK_ID);
                 }
                 AND_WHEN("objects.reloadStored() is called with a non-existing id, an error is returned")
                 {
-                    CHECK(objects.reloadStored(200) == CboxError::INVALID_OBJECT_ID);
+                    CHECK(objects.reloadStored(200) == CboxError::INVALID_BLOCK_ID);
                 }
             }
         }
@@ -140,26 +140,26 @@ SCENARIO("Box commands")
             TestCommand deleteCmd(100, 1000);
             CHECK(deleteObject(deleteCmd) == CboxError::OK);
             CHECK(objects.fetchContained(100) == nullptr);
-            CHECK(objects.reloadStored(100) == CboxError::INVALID_OBJECT_ID);
+            CHECK(objects.reloadStored(100) == CboxError::INVALID_BLOCK_ID);
         }
     }
 
     WHEN("Create system object is refused with INVALID_OBJECT_ID")
     {
         TestCommand cmd(5, 1000, {0x11, 0x11, 0x11, 0x11});
-        CHECK(createObject(cmd) == CboxError::INVALID_OBJECT_ID);
+        CHECK(createObject(cmd) == CboxError::INVALID_BLOCK_ID);
     }
 
     WHEN("Delete system object is refused with OBJECT_NOT_DELETABLE")
     {
         TestCommand cmd(2, 0);
-        CHECK(deleteObject(cmd) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(deleteObject(cmd) == CboxError::BLOCK_NOT_DELETABLE);
     }
 
     WHEN("Delete non-existent object is refused with INVALID_OBJECT_ID")
     {
         TestCommand cmd(256, 0);
-        CHECK(deleteObject(cmd) == CboxError::INVALID_OBJECT_ID);
+        CHECK(deleteObject(cmd) == CboxError::INVALID_BLOCK_ID);
     }
 
     WHEN("List objects")

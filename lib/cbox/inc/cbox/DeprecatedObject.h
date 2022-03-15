@@ -56,7 +56,7 @@ public:
 
     virtual CboxError fromRequest(Command&) override final
     {
-        return CboxError::OBJECT_NOT_WRITABLE;
+        return CboxError::BLOCK_NOT_WRITABLE;
     }
 
     virtual update_t update(const update_t& now) override final

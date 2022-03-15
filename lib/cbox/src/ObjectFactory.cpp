@@ -27,7 +27,7 @@ std::tuple<CboxError, std::shared_ptr<Object>> ObjectFactory::make(const obj_typ
 {
     auto factoryEntry = std::find_if(objTypes.begin(), objTypes.end(), [&t](const ObjectFactoryEntry& entry) { return entry.typeId == t; });
     if (factoryEntry == objTypes.end()) {
-        return std::make_tuple(CboxError::OBJECT_NOT_CREATABLE, std::shared_ptr<Object>());
+        return std::make_tuple(CboxError::BLOCK_NOT_CREATABLE, std::shared_ptr<Object>());
     }
     auto obj = (*factoryEntry).createFn();
     if (!obj) {

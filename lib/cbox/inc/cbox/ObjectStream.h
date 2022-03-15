@@ -46,7 +46,7 @@ public:
 
     virtual CboxError respond(const Payload&) override final
     {
-        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return CboxError::INVALID_BLOCK;
     }
 };
 
@@ -70,7 +70,7 @@ public:
     virtual CboxError respond(const Payload& payload) override final
     {
         auto success = out.writeBuffer(payload.content.data(), payload.content.size());
-        return (success) ? CboxError::OK : CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+        return (success) ? CboxError::OK : CboxError::STORAGE_WRITE_ERROR;
     }
 };
 

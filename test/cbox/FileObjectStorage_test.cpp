@@ -118,7 +118,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 {
                     auto received = std::shared_ptr<LongIntObject>(new LongIntObject((0xFFFFFFFF)));
                     auto res = retrieveObjectFromStorage(obj_id_t(1), received);
-                    CHECK(res == CboxError::PERSISTED_OBJECT_NOT_FOUND);
+                    CHECK(res == CboxError::INVALID_STORED_BLOCK_ID);
                     CHECK(0xFFFFFFFF == received->value()); // received is unchanged
                 }
                 THEN("The id can be re-used to store another object")
@@ -235,7 +235,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 {
                     target = std::make_shared<LongIntVectorObject>();
                     auto res = retrieveObjectFromStorage(obj_id_t(1), target);
-                    CHECK(res == CboxError::PERSISTED_OBJECT_NOT_FOUND);
+                    CHECK(res == CboxError::INVALID_STORED_BLOCK_ID);
                 }
                 THEN("The id can be re-used, for a different object type")
                 {
@@ -307,7 +307,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(1), received));
                 CHECK(*obj1 == *received);
-                CHECK(CboxError::PERSISTED_OBJECT_NOT_FOUND == retrieveObjectFromStorage(obj_id_t(2), received));
+                CHECK(CboxError::INVALID_STORED_BLOCK_ID == retrieveObjectFromStorage(obj_id_t(2), received));
                 CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(3), received));
                 CHECK(*obj3 == *received);
                 auto received2 = std::make_shared<LongIntObject>();
@@ -332,7 +332,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 std::vector<obj_id_t> ids;
                 auto errorOn3 = [&ids](const storage_id_t& id, DataIn& objInStorage) -> CboxError {
                     if (id == 3) {
-                        return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                        return CboxError::STORAGE_ERROR;
                     }
                     ids.push_back(id);
                     return CboxError::OK;
@@ -355,7 +355,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
 
         THEN("an error is returned")
         {
-            CHECK(res == CboxError::INVALID_OBJECT_ID);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
         }
     }
 
@@ -365,13 +365,13 @@ SCENARIO("Storing and retreiving blocks with file storage")
 
         WHEN("The error occurs during test serialization, the error raised is returned")
         {
-            obj->readPersistedFunc = [](Command& cmd) { return CboxError::OUTPUT_STREAM_WRITE_ERROR; };
+            obj->readPersistedFunc = [](Command& cmd) { return CboxError::NETWORK_WRITE_ERROR; };
             auto res = saveObjectToStorage(obj_id_t(1234), obj);
-            CHECK(res == CboxError::OUTPUT_STREAM_WRITE_ERROR);
+            CHECK(res == CboxError::NETWORK_WRITE_ERROR);
 
-            obj->readPersistedFunc = [](Command& cmd) { return CboxError::OUTPUT_STREAM_ENCODING_ERROR; };
+            obj->readPersistedFunc = [](Command& cmd) { return CboxError::NETWORK_ENCODING_ERROR; };
             res = saveObjectToStorage(obj_id_t(1234), obj);
-            CHECK(res == CboxError::OUTPUT_STREAM_ENCODING_ERROR);
+            CHECK(res == CboxError::NETWORK_ENCODING_ERROR);
         }
     }
 
@@ -380,7 +380,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
         storage.clear();
         auto obj = std::make_shared<MockStreamObject>();
         obj->readPersistedFunc = [](Command& cmd) {
-            return CboxError::PERSISTING_NOT_NEEDED;
+            return CboxError::BLOCK_NOT_STORED;
         };
 
         THEN("The file is not created")
@@ -388,7 +388,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
             auto res = saveObjectToStorage(obj_id_t(1), obj);
             CHECK(res == CboxError::OK);
 
-            CHECK(CboxError::PERSISTED_OBJECT_NOT_FOUND == retrieveObjectFromStorage(1, obj));
+            CHECK(CboxError::INVALID_STORED_BLOCK_ID == retrieveObjectFromStorage(1, obj));
 
             CHECK(fopen((tmpPath / "1").c_str(), "r") == nullptr);
         }

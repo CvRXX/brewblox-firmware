@@ -60,7 +60,7 @@ SysInfoBlock::toResponse(cbox::Command& cmd) const
 cbox::CboxError
 SysInfoBlock::toStoredResponse(cbox::Command&) const
 {
-    return cbox::CboxError::PERSISTING_NOT_NEEDED;
+    return cbox::CboxError::BLOCK_NOT_STORED;
 }
 
 cbox::CboxError

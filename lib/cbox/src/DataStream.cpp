@@ -53,10 +53,10 @@ CboxError DataIn::push(DataOut& out, stream_size_t length)
     while (length-- > 0) {
         auto v = read();
         if (v < 0) {
-            return CboxError::INPUT_STREAM_READ_ERROR;
+            return CboxError::NETWORK_READ_ERROR;
         }
         if (!out.write(v)) {
-            return CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return CboxError::NETWORK_WRITE_ERROR;
         }
     }
     return CboxError::OK;
@@ -72,7 +72,7 @@ CboxError DataIn::push(DataOut& out)
             return CboxError::OK;
         }
         if (!out.write(v)) {
-            return CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return CboxError::NETWORK_WRITE_ERROR;
         }
     }
 }

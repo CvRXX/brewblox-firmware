@@ -89,7 +89,7 @@ public:
     CboxError toResponse(Command& cmd) const
     {
         if (!_obj) {
-            return CboxError::INVALID_OBJECT_PTR;
+            return CboxError::INVALID_BLOCK_ID;
         }
 
         return _obj->toResponse(cmd);
@@ -98,7 +98,7 @@ public:
     CboxError toStoredResponse(Command& cmd) const
     {
         if (!_obj) {
-            return CboxError::INVALID_OBJECT_PTR;
+            return CboxError::INVALID_BLOCK_ID;
         }
 
         return _obj->toStoredResponse(cmd);
@@ -107,7 +107,7 @@ public:
     CboxError fromRequest(Command& cmd)
     {
         if (!_obj) {
-            return CboxError::INVALID_OBJECT_PTR;
+            return CboxError::INVALID_BLOCK_ID;
         }
 
         return _obj->fromRequest(cmd);

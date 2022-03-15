@@ -9,7 +9,7 @@ parseRequestPayload(cbox::Command& cmd,
                     const pb_field_t fields[])
 {
     if (!cmd.request()) {
-        return cbox::CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return cbox::CboxError::INVALID_BLOCK;
     }
 
     auto& protoBytes = cmd.request()->content;
@@ -17,7 +17,7 @@ parseRequestPayload(cbox::Command& cmd,
     bool success = pb_decode(&stream, fields, destStruct);
 
     if (!success) {
-        return cbox::CboxError::INPUT_STREAM_DECODING_ERROR;
+        return cbox::CboxError::NETWORK_DECODING_ERROR;
     }
 
     return cbox::CboxError::OK;
@@ -48,7 +48,7 @@ serializeResponsePayload(cbox::Command& cmd,
     bool success = pb_encode(&stream, fields, srcStruct);
 
     if (!success) {
-        return cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+        return cbox::CboxError::NETWORK_ENCODING_ERROR;
     }
 
     payload.content.resize(stream.bytes_written);

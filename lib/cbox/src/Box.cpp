@@ -46,12 +46,12 @@ update_t lastUpdateTime = 0;
 CboxError readObject(Command& cmd)
 {
     if (!cmd.request()) {
-        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return CboxError::INVALID_BLOCK;
     }
 
     ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     auto status = cobj->toResponse(cmd);
@@ -63,16 +63,16 @@ CboxError writeObject(Command& cmd)
     CboxError status = CboxError::OK;
 
     if (!cmd.request()) {
-        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return CboxError::INVALID_BLOCK;
     }
 
     ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     if (cmd.request()->blockType != cobj->object()->typeId()) {
-        return CboxError::INVALID_OBJECT_TYPE;
+        return CboxError::INVALID_BLOCK_TYPE;
     }
 
     status = cobj->fromRequest(cmd);
@@ -98,14 +98,14 @@ CboxError createObject(Command& cmd)
     CboxError status = CboxError::OK;
 
     if (!cmd.request()) {
-        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return CboxError::INVALID_BLOCK;
     }
 
     obj_id_t id(cmd.request()->blockId);
     obj_type_t typeId(cmd.request()->blockType);
 
     if (id > 0 && id < objects.getObjectsStartId()) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     auto makeResult = make(typeId);
@@ -125,7 +125,7 @@ CboxError createObject(Command& cmd)
     ContainedObject* cobj = objects.fetchContained(id);
 
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     // persist newly created object to storage
@@ -150,7 +150,7 @@ CboxError deleteObject(Command& cmd)
     CboxError status = CboxError::OK;
 
     if (!cmd.request()) {
-        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return CboxError::INVALID_BLOCK;
     }
 
     obj_id_t id(cmd.request()->blockId);
@@ -180,7 +180,7 @@ CboxError listActiveObjects(Command& cmd)
 CboxError readStoredObject(Command& cmd)
 {
     if (!cmd.request()) {
-        return CboxError::OBJECT_DATA_NOT_ACCEPTED;
+        return CboxError::INVALID_BLOCK;
     }
 
     auto objId = cmd.request()->blockId;
@@ -267,7 +267,7 @@ void loadObjectsFromStorage()
             auto newObj = created.second;
             status = created.first;
 
-            if (status == CboxError::OBJECT_NOT_CREATABLE) {
+            if (status == CboxError::BLOCK_NOT_CREATABLE) {
                 deprecatedList.emplace_back(id);
                 status = CboxError::OK;
             }

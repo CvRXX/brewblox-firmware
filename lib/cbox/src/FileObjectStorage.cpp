@@ -51,14 +51,14 @@ CboxError FileObjectStorage::storeObject(
     const std::function<CboxError(DataOut&)>& handler)
 {
     if (!id) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     // Do a test serialization
     BlackholeDataOut hole;
     CboxError res = handler(hole);
 
-    if (res == CboxError::PERSISTING_NOT_NEEDED) {
+    if (res == CboxError::BLOCK_NOT_STORED) {
         // exit for objects that don't need to exist in EEPROM. Not even their id/groups/existence
         return CboxError::OK;
     }
@@ -70,7 +70,7 @@ CboxError FileObjectStorage::storeObject(
     setPath(id);
     std::fstream fs(path, std::fstream::out | std::fstream::binary);
     if (!fs.is_open()) {
-        return CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+        return CboxError::STORAGE_WRITE_ERROR;
     }
     OStreamDataOut outStream{fs};
 
@@ -88,7 +88,7 @@ CboxError FileObjectStorage::storeObject(
                 return CboxError::OK;
             }
         }
-        return CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+        return CboxError::STORAGE_WRITE_ERROR;
     };
 
     res = writeWithCrc();
@@ -116,7 +116,7 @@ CboxError FileObjectStorage::retrieveObject(
     setPath(id);
     std::fstream fs(path, std::fstream::in | std::fstream::binary);
     if (!fs.is_open()) {
-        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
+        return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
     IStreamDataIn inStream{fs};
@@ -126,7 +126,7 @@ CboxError FileObjectStorage::retrieveObject(
     if (objectData.get(stored_id) && stored_id == id) {
         return handler(objectData);
     }
-    return CboxError::PERSISTED_OBJECT_NOT_FOUND;
+    return CboxError::INVALID_STORED_BLOCK_ID;
 }
 
 /**

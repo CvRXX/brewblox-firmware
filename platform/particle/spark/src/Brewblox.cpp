@@ -27,7 +27,6 @@
 #include "cbox/Connections.h"
 #include "deviceid_hal.h"
 #include "platforms.h"
-#include "proto/controlbox.pb.h"
 #include "proto/proto_version.h"
 #include "rgbled.h"
 #include "spark/Board.h"
