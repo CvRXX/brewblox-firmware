@@ -19,6 +19,14 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
+
 namespace cbox {
-uint8_t calc_crc(uint8_t crc, uint8_t data);
+
+uint8_t calc_crc_8(uint8_t crc, uint8_t data);
+
+uint8_t calc_crc_16(uint8_t crc, uint16_t data);
+
+uint8_t calc_crc_vector(uint8_t crc, const std::vector<uint8_t>& data);
 }

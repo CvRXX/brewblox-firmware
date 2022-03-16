@@ -47,6 +47,9 @@ ifeq ($(PLATFORM_ID),10)
 MODULAR?=y
 endif
 
+# expected
+INCLUDE_DIRS += $(SOURCE_PATH)/external_libs/expected/expected/include
+
 # nanopb
 include $(SOURCE_PATH)/external_libs/device-os/third_party/nanopb/import.mk
 ifeq ($(MODULAR),y)

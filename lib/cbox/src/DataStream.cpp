@@ -79,13 +79,13 @@ CboxError DataIn::push(DataOut& out)
 
 bool CrcDataOut::write(uint8_t data)
 {
-    crcValue = calc_crc(crcValue, data);
+    crcValue = calc_crc_8(crcValue, data);
     return out.write(data);
 }
 
 bool EncodedDataOut::write(uint8_t data)
 {
-    crcValue = calc_crc(crcValue, data);
+    crcValue = calc_crc_8(crcValue, data);
     bool success = out.write(d2h(uint8_t(data & 0xF0) >> 4));
     success = success && out.write(d2h(uint8_t(data & 0xF)));
     return success;

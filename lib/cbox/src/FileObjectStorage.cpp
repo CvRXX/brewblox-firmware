@@ -18,6 +18,7 @@
  */
 
 #include "cbox/FileObjectStorage.h"
+#include "cbox/Crc.h"
 #include "cbox/DataStreamIo.h"
 #include <cstdio>
 extern "C" {
@@ -38,80 +39,43 @@ FileObjectStorage::FileObjectStorage(const std::string& root)
     }
 }
 
-/**
- * storeObject saves the data streamed by the handler under the given id.
- * it allocates a large enough block in EEPROM automatically and re-allocates if needed.
- * the handler should therefore stream the same data if it is called twice.
- * @param id: id to store the object with
- * @param handler: a callable that is provided with a DataOut to stream the new data to
- * @return CboxError
- */
-CboxError FileObjectStorage::storeObject(
-    const storage_id_t& id,
-    const std::function<CboxError(DataOut&)>& handler)
+CboxError FileObjectStorage::saveObject(const Payload& payload)
 {
-    if (!id) {
+    if (!payload.blockId) {
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    // Do a test serialization
-    BlackholeDataOut hole;
-    CboxError res = handler(hole);
+    // ID is included in the CRC calculation
+    uint8_t crc = calc_crc_16(0, payload.blockId);
+    crc = calc_crc_16(crc, payload.blockType);
+    crc = calc_crc_vector(crc, payload.content);
 
-    if (res == CboxError::BLOCK_NOT_STORED) {
-        // exit for objects that don't need to exist in EEPROM. Not even their id/groups/existence
-        return CboxError::OK;
-    }
-
-    if (res != CboxError::OK) {
-        return res;
-    };
-
-    setPath(id);
+    setPath(payload.blockId);
     std::fstream fs(path, std::fstream::out | std::fstream::binary);
     if (!fs.is_open()) {
         return CboxError::STORAGE_WRITE_ERROR;
     }
     OStreamDataOut outStream{fs};
 
-    // Write to file overwriting old data
-    auto writeWithCrc
-        = [&id, &outStream, &handler]() -> CboxError {
-        // write id to file as first 2 bytes
-        CrcDataOut crcOut(outStream);
-        crcOut.put(id);
-        CboxError res = handler(crcOut);
+    bool writeOk = outStream.put(payload.blockId)
+                   && outStream.put(payload.blockType)
+                   && outStream.writeBuffer(payload.content.data(), payload.content.size())
+                   && outStream.put(crc);
 
-        if (res == CboxError::OK) {
-            // write CRC after object data so we can check integrity
-            if (crcOut.writeCrc()) {
-                return CboxError::OK;
-            }
-        }
-        return CboxError::STORAGE_WRITE_ERROR;
-    };
-
-    res = writeWithCrc();
     fs.flush();
     fs.close();
 
-    if (res != CboxError::OK) {
+    if (writeOk) {
+        return CboxError::OK;
+    } else {
         remove(path.c_str());
+        return CboxError::STORAGE_WRITE_ERROR;
     }
-
-    return res;
 }
 
-/**
- * Retrieve a single object from storage
- * @param id: id of object to retrieve
- * @param handler: a callable with the following prototype: (DataIn &) -> CboxError.
- * DataIn will contain the object's data followed by a CRC.
- * @return CboxError
- */
-CboxError FileObjectStorage::retrieveObject(
+CboxError FileObjectStorage::loadObject(
     const storage_id_t& id,
-    const std::function<CboxError(RegionDataIn&)>& handler)
+    const PayloadCallback& callback)
 {
     setPath(id);
     std::fstream fs(path, std::fstream::in | std::fstream::binary);
@@ -120,23 +84,16 @@ CboxError FileObjectStorage::retrieveObject(
     }
 
     IStreamDataIn inStream{fs};
-    RegionDataIn objectData(inStream, UINT16_MAX);
+    RegionDataIn objIn(inStream, UINT16_MAX);
     // check that the first 2 bytes match the ID
     storage_id_t stored_id{0};
-    if (objectData.get(stored_id) && stored_id == id) {
-        return handler(objectData);
+    if (objIn.get(stored_id) && stored_id == id) {
+        return parseFromStream(id, callback, objIn);
     }
     return CboxError::INVALID_STORED_BLOCK_ID;
 }
 
-/**
- * Retreive all objects from storage
- * @param handler: a callable with the following prototype: (const storage_id_t&, DataOut &) -> CboxError.
- * The handler will be called for each object and the object, with the DataIn stream containing the object's data.
- * @return
- */
-CboxError FileObjectStorage::retrieveObjects(
-    const std::function<CboxError(const storage_id_t& id, RegionDataIn&)>& handler)
+CboxError FileObjectStorage::loadAllObjects(const PayloadCallback& callback)
 {
     path.resize(rootLen);
     if (auto* dir = opendir(path.c_str())) {
@@ -146,11 +103,11 @@ CboxError FileObjectStorage::retrieveObjects(
                 path += entry->d_name;
                 std::fstream fs(path, std::fstream::in | std::fstream::binary);
                 IStreamDataIn inStream{fs};
-                RegionDataIn objectData(inStream, UINT16_MAX);
+                RegionDataIn objIn(inStream, UINT16_MAX);
                 // check that the first 2 bytes match the ID
                 storage_id_t stored_id{0};
-                if (objectData.get(stored_id) && stored_id == atoi(entry->d_name)) {
-                    handler(stored_id, objectData);
+                if (objIn.get(stored_id) && stored_id == atoi(entry->d_name)) {
+                    parseFromStream(stored_id, callback, objIn);
                 }
             }
         }
@@ -178,6 +135,42 @@ void FileObjectStorage::clear()
         }
         closedir(dir);
     }
+}
+
+CboxError FileObjectStorage::parseFromStream(const storage_id_t& id, const PayloadCallback& callback, RegionDataIn& in)
+{
+    auto available = in.available();
+    if (available == 0) {
+        return CboxError::INVALID_STORED_BLOCK_ID;
+    }
+
+    uint16_t blockType(0);
+    if (!in.get(blockType)) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    auto payload = Payload(id, blockType, 0);
+    payload.content.resize(available - 1); // exclude CRC byte
+
+    if (!in.readBytes(payload.content.data(), payload.content.size())) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    uint8_t objCrc(0);
+    if (!in.get(objCrc)) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    uint8_t crc = calc_crc_16(0, id);
+    crc = calc_crc_16(crc, blockType);
+    crc = calc_crc_vector(crc, payload.content);
+    crc = calc_crc_8(crc, objCrc);
+
+    if (crc != 0) {
+        return CboxError::STORAGE_CRC_ERROR;
+    }
+
+    return callback(payload);
 }
 
 } // end namespace cbox

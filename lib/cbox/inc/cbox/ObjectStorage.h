@@ -19,8 +19,9 @@
 
 #pragma once
 
+#include "cbox/CboxError.h"
+#include "cbox/Command.h"
 #include <cstdint>
-#include <functional>
 
 namespace cbox {
 
@@ -31,18 +32,17 @@ public:
     ObjectStorage() = default;
     virtual ~ObjectStorage() = default;
 
-    virtual CboxError retrieveObject(
-        const storage_id_t& id,
-        const std::function<CboxError(RegionDataIn&)>& handler)
+    virtual CboxError loadObject(const storage_id_t& id, const PayloadCallback& callback)
         = 0;
-    virtual CboxError storeObject(
-        const storage_id_t& id,
-        const std::function<CboxError(DataOut&)>& handler)
+
+    virtual CboxError loadAllObjects(const PayloadCallback& callback)
         = 0;
-    virtual CboxError retrieveObjects(
-        const std::function<CboxError(const storage_id_t& id, RegionDataIn&)>& handler)
+
+    virtual CboxError saveObject(const Payload& payload)
         = 0;
-    virtual bool disposeObject(const storage_id_t& id, bool mergeDisposed = true) = 0;
+
+    virtual bool disposeObject(const storage_id_t& id, bool mergeDisposed = true)
+        = 0;
 
     virtual void clear() = 0;
 };
@@ -52,24 +52,19 @@ public:
     ObjectStorageStub() = default;
     virtual ~ObjectStorageStub() = default;
 
-    virtual CboxError retrieveObject(
-        const storage_id_t& /*id*/,
-        const std::function<CboxError(RegionDataIn&)>& /*handler*/) override final
+    virtual CboxError loadObject(const storage_id_t&, const PayloadCallback&) override final
     {
         return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
-    virtual CboxError storeObject(
-        const storage_id_t& /*id*/,
-        const std::function<CboxError(DataOut&)>& /*handler*/) override final
+    virtual CboxError loadAllObjects(const PayloadCallback&) override final
+    {
+        return CboxError::INVALID_STORED_BLOCK_ID;
+    }
+
+    virtual CboxError saveObject(const Payload&) override final
     {
         return CboxError::OK;
-    }
-
-    virtual CboxError retrieveObjects(
-        const std::function<CboxError(const storage_id_t& /*id*/, RegionDataIn&)>& /*handler*/) override final
-    {
-        return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
     virtual bool disposeObject(const storage_id_t& /*id*/, bool /*mergeDisposed = true*/) override final

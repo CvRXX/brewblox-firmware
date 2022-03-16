@@ -21,6 +21,7 @@
 
 #include "cbox/CboxError.h"
 #include "cbox/ObjectIds.h"
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -55,6 +56,8 @@ public:
 
     virtual ~Payload() = default;
 };
+
+using PayloadCallback = std::function<CboxError(const Payload&)>;
 
 class Command {
 public:

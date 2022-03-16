@@ -64,7 +64,8 @@
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
         "${workspaceFolder}/external_libs/device-os/communication/inc",
-        "${workspaceFolder}/external_libs/device-os/dynalib/inc"
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc",
+        "${workspaceFolder}/external_libs/expected/expected/include"
       ],
       "compilerPath": "/usr/local/gcc-arm-embedded/bin/arm-none-eabi-g++",
       "compileCommands": "${workspaceFolder}/build/compile_commands_p1.json"

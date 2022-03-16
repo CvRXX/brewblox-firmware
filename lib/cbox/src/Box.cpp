@@ -254,7 +254,7 @@ void loadObjectsFromStorage()
     // then they can take an ID that is in use by an object loader later
     std::vector<obj_id_t> deprecatedList;
 
-    const auto objectLoader = [&deprecatedList](storage_id_t id, RegionDataIn& in) -> CboxError {
+    const auto objectLoader = [&deprecatedList](storage_id_t id, std::vector<uint8_t>&& objData) -> CboxError {
         obj_id_t objId = obj_id_t(id);
         CboxError status = CboxError::OK;
 
@@ -283,7 +283,7 @@ void loadObjectsFromStorage()
         return status;
     };
     // now apply the loader above to all objects in storage
-    getStorage().retrieveObjects(objectLoader);
+    getStorage().loadAllObjects(objectLoader);
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {

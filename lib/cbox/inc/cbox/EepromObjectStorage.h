@@ -45,16 +45,11 @@ public:
     EepromObjectStorage(EepromAccess& _eeprom);
     virtual ~EepromObjectStorage() = default;
 
-    virtual CboxError storeObject(
-        const storage_id_t& id,
-        const std::function<CboxError(DataOut&)>& handler) override final;
+    virtual CboxError loadObject(const storage_id_t& id, const PayloadCallback& callback) override final;
 
-    virtual CboxError retrieveObject(
-        const storage_id_t& id,
-        const std::function<CboxError(RegionDataIn&)>& handler) override final;
+    virtual CboxError saveObject(const Payload& payload) override final;
 
-    virtual CboxError retrieveObjects(
-        const std::function<CboxError(const storage_id_t& id, RegionDataIn&)>& handler) override final;
+    virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
 
     virtual bool disposeObject(const storage_id_t& id, bool mergeDisposed = true) override final;
 
@@ -127,6 +122,10 @@ private:
     void init();
     bool moveDisposedBackwards();
     bool mergeDisposedBlocks();
+
+    static CboxError parseFromStream(const storage_id_t& id,
+                                     const PayloadCallback& callback,
+                                     RegionDataIn& in);
 };
 
 } // end namespace cbox
