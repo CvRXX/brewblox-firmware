@@ -7,6 +7,7 @@ lv_style_t bar;
 lv_style_t grid;
 lv_style_t maincontainer;
 lv_style_t block;
+lv_style_t block_disabled;
 lv_style_t bg_dark;
 lv_style_t bg_light;
 lv_style_t widget_name;
@@ -17,54 +18,52 @@ lv_style_t field_label;
 void init()
 {
     lv_style_init(&maincontainer);
-    lv_style_set_pad_all(&maincontainer, LV_STATE_DEFAULT, 0);
-    lv_style_set_pad_inner(&maincontainer, LV_STATE_DEFAULT, 0);
-    lv_style_set_margin_all(&maincontainer, LV_STATE_DEFAULT, 0);
-    lv_style_set_bg_color(&maincontainer, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-    lv_style_set_border_side(&maincontainer, LV_STATE_DEFAULT, LV_BORDER_SIDE_NONE);
-    lv_style_set_text_font(&maincontainer, LV_STATE_DEFAULT, &fonts::main);
+    lv_style_set_pad_all(&maincontainer, 0);
+    lv_style_set_bg_color(&maincontainer, lv_color_black());
+    lv_style_set_border_side(&maincontainer, LV_BORDER_SIDE_NONE);
+    lv_style_set_text_font(&maincontainer, &fonts::main);
+    lv_style_set_radius(&maincontainer, 0);
 
     lv_style_init(&bar);
-    lv_style_set_bg_color(&bar, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-    lv_style_set_border_side(&bar, LV_STATE_DEFAULT, LV_BORDER_SIDE_NONE);
-    lv_style_set_radius(&bar, LV_STATE_DEFAULT, 0);
+    lv_style_set_bg_color(&bar, lv_color_white());
+    lv_style_set_border_side(&bar, LV_BORDER_SIDE_NONE);
+    lv_style_set_radius(&bar, 0);
+    lv_style_set_pad_all(&bar, 0);
 
     lv_style_init(&grid);
-    lv_style_set_bg_color(&grid, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-    lv_style_set_pad_all(&grid, LV_STATE_DEFAULT, 9);
-    lv_style_set_pad_inner(&grid, LV_STATE_DEFAULT, 9);
-    lv_style_set_border_side(&grid, LV_STATE_DEFAULT, LV_BORDER_SIDE_NONE);
-    lv_style_set_radius(&grid, LV_STATE_DEFAULT, 0);
+    lv_style_set_bg_color(&grid, lv_color_black());
+    lv_style_set_pad_all(&grid, 0);
+    lv_style_set_border_side(&grid, LV_BORDER_SIDE_NONE);
+    lv_style_set_radius(&grid, 0);
 
     lv_style_init(&block);
-    lv_style_set_radius(&block, LV_STATE_DEFAULT, 5);
-    lv_style_set_bg_opa(&block, LV_STATE_DEFAULT, LV_OPA_COVER);
-    lv_style_set_bg_opa(&block, LV_STATE_DISABLED, 50);
-    lv_style_set_text_opa(&block, LV_STATE_DISABLED, 50);
-    lv_style_set_border_width(&block, LV_STATE_DEFAULT, 1);
-    lv_style_set_border_opa(&block, LV_STATE_DEFAULT, 80);
-    lv_style_set_pad_all(&block, LV_STATE_DEFAULT, 10);
+    lv_style_set_radius(&block, 5);
+    lv_style_set_border_width(&block, 0);
+    lv_style_set_pad_all(&block, 10);
+    lv_style_set_bg_opa(&block, LV_OPA_COVER);
+
+    lv_style_init(&block_disabled);
+    lv_style_set_bg_opa(&block_disabled, 50);
+    lv_style_set_text_opa(&block_disabled, 50);
 
     lv_style_init(&bg_light);
-    lv_style_set_text_color(&bg_light, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-    lv_style_set_border_color(&bg_light, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+    lv_style_set_text_color(&bg_light, lv_color_black());
+    lv_style_set_border_color(&bg_light, lv_color_black());
 
     lv_style_init(&bg_dark);
-    lv_style_set_text_color(&bg_dark, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-    lv_style_set_border_color(&bg_dark, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+    lv_style_set_text_color(&bg_dark, lv_color_white());
+    lv_style_set_border_color(&bg_dark, lv_color_white());
 
     lv_style_init(&number_large);
-    lv_style_set_text_font(&number_large, LV_STATE_DEFAULT, &fonts::numbers_large);
+    lv_style_set_text_font(&number_large, &fonts::numbers_large);
 
     lv_style_init(&number_medium);
-    lv_style_set_text_font(&number_medium, LV_STATE_DEFAULT, &fonts::numbers_medium);
+    lv_style_set_text_font(&number_medium, &fonts::numbers_medium);
 
     lv_style_init(&widget_name);
-    lv_style_set_text_font(&widget_name, LV_STATE_DEFAULT, &fonts::widget_name);
-    lv_style_set_text_opa(&widget_name, LV_STATE_DEFAULT, 160);
+    lv_style_set_text_font(&widget_name, &fonts::widget_name);
 
     lv_style_init(&field_label);
-    lv_style_set_text_font(&field_label, LV_STATE_DEFAULT, &fonts::main_small);
-    lv_style_set_text_opa(&field_label, LV_STATE_DEFAULT, 160);
+    lv_style_set_text_font(&field_label, &fonts::main_small);
 }
 }

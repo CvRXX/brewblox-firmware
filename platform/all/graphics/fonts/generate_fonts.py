@@ -40,31 +40,27 @@ size_numbers_large = 36
 size_main = 16
 size_main_small = 12
 
-if not which("npx"):
-    print("npx not found, to install, run 'npm i -g npx'")
-    exit(1)
-
 os.system(
-    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_medium} "
+    f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_medium} "
     f"--font Roboto-Medium.ttf -r {','.join(numbers)} "
     f"-o font_numbers_medium.c"
 )
 
 os.system(
-    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_large} "
+    f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_large} "
     f"--font Roboto-Medium.ttf -r {','.join(numbers)} "
     f"-o font_numbers_large.c"
 )
 
 os.system(
-    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main} "
+    f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main} "
     f"--font Roboto-Medium.ttf -r {','.join([letters, degree])} "
     f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
     f"-o font_main.c"
 )
 
 os.system(
-    f"npx lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main_small} "
+    f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main_small} "
     f"--font Roboto-Medium.ttf -r {','.join([letters, degree])} "
     f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
     f"-o font_main_small.c"

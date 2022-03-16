@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-focal
 
 RUN : \
     && apt-get update -q \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
         curl \
@@ -39,6 +40,7 @@ RUN : \
         libusb-1.0-0-dev \
         make \
         ninja-build \
+        nodejs \
         pkg-config \
         protobuf-compiler \
         python3 \
@@ -56,6 +58,8 @@ RUN : \
         zip \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 20 \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
+    && npm install -g \
+        lv_font_conv \
     && python3 -m pip install --upgrade \
         autopep8 \
         pip \

@@ -6,7 +6,7 @@
 
 class BaseWidget {
 public:
-    BaseWidget(lv_obj_t* grid, const char* labelText, lv_color_t color);
+    BaseWidget(lv_obj_t* grid, uint8_t row, uint8_t col, const char* labelText, lv_color_t color);
     virtual ~BaseWidget();
 
     BaseWidget(const BaseWidget&) = delete;

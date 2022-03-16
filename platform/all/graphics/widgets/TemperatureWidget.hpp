@@ -14,13 +14,12 @@ public:
      * @param label The name printed at the bottom of the widget.
      * @param color The background color of the widget.
      */
-    TemperatureWidget(lv_obj_t* grid, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
-        : BaseWidget(grid, label, color)
+    TemperatureWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
+        : BaseWidget(grid, row, col, label, color)
         , lookup(ptr)
-        , value(lv_label_create(obj, nullptr))
+        , value(lv_label_create(obj))
     {
-        lv_obj_add_style(value, LV_LABEL_PART_MAIN, &style::number_large);
-        lv_obj_set_auto_realign(value, true);
+        lv_obj_add_style(value, &style::number_large, LV_PART_MAIN);
     }
 
     TemperatureWidget(const TemperatureWidget&) = delete;
@@ -41,6 +40,7 @@ public:
             } else {
                 lv_label_set_text(value, "-");
             }
+            lv_obj_align(value, LV_ALIGN_CENTER, 0, -10);
             return;
         }
     }
