@@ -17,3 +17,6 @@
 [submodule "external_libs/device-os"]
 	path = external_libs/device-os
 	url = https://github.com/particle-iot/device-os.git
+[submodule "external_libs/expected/expected"]
+	path = external_libs/expected/expected
+	url = https://github.com/TartanLlama/expected
