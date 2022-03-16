@@ -53,7 +53,8 @@ void Layout::updateWidgets()
         }
     }
 }
-auto Layout::makeWidget(uint8_t pos) -> std::unique_ptr<BaseWidget>
+
+std::unique_ptr<BaseWidget> Layout::makeWidget(uint8_t pos)
 {
     auto& settings = DisplaySettingsBlock::settings();
     auto row = (pos - 1) / 3;

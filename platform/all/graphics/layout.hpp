@@ -35,7 +35,7 @@ public:
     std::unique_ptr<Bar> bar;
 
 private:
-    auto makeWidget(uint8_t pos) -> std::unique_ptr<BaseWidget>;
+    std::unique_ptr<BaseWidget> makeWidget(uint8_t pos);
     std::array<std::unique_ptr<BaseWidget>, 6> sensorWidgets{};
     lv_obj_t* mainContainer = nullptr;
     lv_obj_t* grid = nullptr;
