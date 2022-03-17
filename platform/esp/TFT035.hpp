@@ -79,6 +79,10 @@ public:
         ALLPON = 0x23
     };
 
+    const uint16_t horResolution = 320;
+    const uint16_t verResolution = 480;
+    const uint16_t rotation = 270;
+
 private:
     SpiDevice spiDevice;
     void (*finishCallback)(void);

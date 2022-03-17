@@ -9,14 +9,14 @@ class Bar;
 class BaseWidget;
 
 /// A structure that holds the layout of the screen and its children.
-class Layout {
+class StaticGui {
 public:
     /**
      * Constructs the layout.
      * @param box The Cbox box.
      */
-    Layout();
-    ~Layout();
+    StaticGui();
+    ~StaticGui();
 
     /** Updates the following:
      *   - Checks if a new config is available the layout will be redrawn based on the new config.

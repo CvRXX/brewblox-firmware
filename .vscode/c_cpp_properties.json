@@ -29,6 +29,33 @@
       "compileCommands": "${workspaceFolder}/app/brewblox-esp/build/compile_commands.json"
     },
     {
+      "name": "simulator",
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE",
+        "PROTO_VERSION=\"ddccbbaa\"",
+        "GIT_VERSION=\"aabbccdd\"",
+        "GIT_DATE=\"2000-01-01\"",
+        "PLATFORM_ID=100" // gcc=3, photon=6, p1=8, esp32=100
+      ],
+      "includePath": [
+        ".",
+        "${workspaceFolder}/lib/blocks/inc",
+        "${workspaceFolder}/lib/blox_hal/inc",
+        "${workspaceFolder}/lib/cbox/inc",
+        "${workspaceFolder}/lib/control/inc",
+        "${workspaceFolder}/lib/proto/inc",
+        "${workspaceFolder}/lib/guis",
+        "${workspaceFolder}/platform/simulator",
+        "${workspaceFolder}/external_libs/nanopb",
+        "${workspaceFolder}/external_libs/cnl/include",
+        "${workspaceFolder}/app/brewblox-esp/components/*"
+      ],
+      "compilerPath": "/usr/bin/g++",
+      "compileCommands": "${workspaceFolder}/app/brewblox-simulator/build/compile_commands.json"
+    },
+    {
       "name": "p1",
       "defines": [
         "_DEBUG",

@@ -1,14 +1,15 @@
-#include "layout.hpp"
+#include "staticGui.hpp"
 #include "Spark4.hpp"
 #include "bar.hpp"
 #include "blocks/DisplaySettingsBlock.h"
 #include "cbox/CboxPtr.h"
-#include "graphics/widgets.hpp"
 #include "lvgl.h"
+#include "static_gui/widgets.hpp"
 #include <algorithm>
 
-Layout::Layout()
+StaticGui::StaticGui()
 {
+    style::init();
     lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_SCROLLABLE);
     mainContainer = lv_obj_create(lv_scr_act());
     lv_obj_set_size(mainContainer, 480, 320);
@@ -32,20 +33,20 @@ Layout::Layout()
     lv_obj_set_grid_align(grid, LV_GRID_ALIGN_CENTER, LV_GRID_ALIGN_CENTER);
 }
 
-Layout::~Layout()
+StaticGui::~StaticGui()
 {
     lv_obj_del(grid);
     lv_obj_del(mainContainer);
 }
 
-void Layout::update()
+void StaticGui::update()
 {
     updateConfig();
     updateWidgets();
     bar->update();
 }
 
-void Layout::updateWidgets()
+void StaticGui::updateWidgets()
 {
     for (auto& widget : sensorWidgets) {
         if (widget) {
@@ -104,40 +105,6 @@ void Layout::updateConfig()
         setenv("TZ", settings.timeZone, 1);
         tzset();
 
-<<<<<<< HEAD
-        auto makeWidget = [&settings, this](uint8_t pos) -> std::unique_ptr<BaseWidget> {
-            auto row = (pos - 1) / 3;
-            auto col = (pos - 1) % 3;
-
-            auto widget = std::find_if(std::begin(settings.widgets), std::end(settings.widgets), [pos](auto& widget) {
-                return widget.pos == pos;
-            });
-
-            if (widget != std::end(settings.widgets)) {
-                auto color = lv_color_make(widget->color[0], widget->color[1], widget->color[2]);
-                switch (widget->which_WidgetType) {
-                case blox_DisplaySettings_Widget_tempSensor_tag: {
-                    auto lookup = box.makeCboxPtr<TempSensor>(cbox::obj_id_t(widget->WidgetType.tempSensor));
-                    return std::unique_ptr<BaseWidget>(new TemperatureWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                case blox_DisplaySettings_Widget_setpointSensorPair_tag: {
-                    auto lookup = box.makeCboxPtr<SetpointSensorPairBlock>(cbox::obj_id_t(widget->WidgetType.setpointSensorPair));
-                    return std::unique_ptr<BaseWidget>(new SetpointWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                case blox_DisplaySettings_Widget_actuatorAnalog_tag: {
-                    auto lookup = box.makeCboxPtr<ActuatorAnalogConstrained>(cbox::obj_id_t(widget->WidgetType.setpointSensorPair));
-                    return std::unique_ptr<BaseWidget>(new ActuatorAnalogWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                case blox_DisplaySettings_Widget_pid_tag: {
-                    auto lookup = box.makeCboxPtr<PidBlock>(cbox::obj_id_t(widget->WidgetType.pid));
-                    return std::unique_ptr<BaseWidget>(new PidWidget(grid, row, col, std::move(lookup), widget->name, color));
-                } break;
-                }
-            }
-            return std::unique_ptr<BaseWidget>(new BaseWidget(grid, row, col, "", LV_COLOR_MAKE(0x20, 0x20, 0x20)));
-        };
-=======
->>>>>>> develop
         for (uint8_t pos = 0; pos < 6; pos++) {
             // find widget settings for position
             sensorWidgets[pos] = makeWidget(pos + 1);

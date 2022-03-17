@@ -1,27 +1,27 @@
-#include "TFT035.hpp"
+#include "virtualScreen.hpp"
 #include "websocketserver.hpp"
 #include <cassert>
 #include <vector>
 std::vector<uint64_t> graphicsBuffer;
 
-TFT035::TFT035(void (*finishCallback)(void))
+VirtualScreen::VirtualScreen(void (*finishCallback)(void))
     : finishCallback(finishCallback)
 {
 }
 
-void TFT035::init()
+void VirtualScreen::init()
 {
 }
 
-void TFT035::aquire_spi()
+void VirtualScreen::aquire_spi()
 {
 }
 
-void TFT035::release_spi()
+void VirtualScreen::release_spi()
 {
 }
 extern std::shared_ptr<listener> webSocketServer;
-bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
+bool VirtualScreen::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
 {
     graphicsBuffer.resize(320 * 480);
     for (uint32_t y = ys; y <= ye; y++) {
