@@ -40,6 +40,7 @@ RUN : \
         libusb-1.0-0-dev \
         make \
         ninja-build \
+        nodejs \
         pkg-config \
         protobuf-compiler \
         python3 \
@@ -55,10 +56,10 @@ RUN : \
         usbutils \
         xz-utils \
         zip \
-        nodejs \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 20 \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
-    && npm i lv_font_conv -g \
+    && npm install -g \
+        lv_font_conv \
     && python3 -m pip install --upgrade \
         autopep8 \
         pip \
