@@ -21,7 +21,6 @@
 
 #include "cbox/CboxError.h"
 #include "cbox/ObjectBase.h"
-#include "cbox/ObjectIds.h"
 #include <limits>
 
 namespace cbox {
@@ -40,21 +39,21 @@ public:
     }
     virtual ~DeprecatedObject() = default;
 
-    virtual CboxError toResponse(Command& cmd) const override final
+    virtual CboxError read(const PayloadCallback& callback) const override final
     {
         Payload payload(objectId, typeId(), 0);
         payload.content.resize(sizeof(originalId));
         cbox::BufferDataOut out(payload.content.data(), payload.content.size());
         out.put(originalId);
-        return cmd.respond(payload);
+        return callback(payload);
     }
 
-    virtual CboxError toStoredResponse(Command& cmd) const override final
+    virtual CboxError readStored(const PayloadCallback& callback) const override final
     {
-        return toResponse(cmd);
+        return read(callback);
     }
 
-    virtual CboxError fromRequest(Command&) override final
+    virtual CboxError write(const Payload&) override final
     {
         return CboxError::BLOCK_NOT_WRITABLE;
     }

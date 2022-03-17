@@ -4,7 +4,7 @@
 #include "proto/ActuatorOffset.pb.h"
 #include "proto/Constraints.pb.h"
 
-cbox::CboxError ActuatorOffsetBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
     FieldTags stripped;
@@ -33,16 +33,16 @@ cbox::CboxError ActuatorOffsetBlock::toResponse(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_ActuatorOffset_Block_fields,
-                                    blox_ActuatorOffset_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorOffset_Block_fields,
+                           blox_ActuatorOffset_Block_size);
 }
 
-cbox::CboxError ActuatorOffsetBlock::toStoredResponse(cbox::Command& cmd) const
+cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
 
@@ -53,19 +53,19 @@ cbox::CboxError ActuatorOffsetBlock::toStoredResponse(cbox::Command& cmd) const
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_ActuatorOffset_Block_fields,
-                                    blox_ActuatorOffset_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorOffset_Block_fields,
+                           blox_ActuatorOffset_Block_size);
 }
 
-cbox::CboxError ActuatorOffsetBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_ActuatorOffset_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_ActuatorOffset_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         target.setId(message.targetId);

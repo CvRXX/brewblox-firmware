@@ -7,20 +7,34 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
 include ../checkers.mk # sanitizer and gcov
 
+# expected
+INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include
+
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
-
-# test/cbox
-CPPSRC += $(wildcard $(ROOT_DIR)/test/cbox/*.cpp)
-
-# test/shared (only add sources we need)
-INCLUDE_DIRS += $(ROOT_DIR)/test/shared
-CPPSRC += test/shared/TestHelpers.cpp
-CPPSRC += test/shared/TestObjects.cpp
 
 # lib/cbox
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)
+
+# test/shared
+# only add the files we need
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += test/shared/TestHelpers.cpp
+CPPSRC += test/shared/TestObjects.cpp
+
+# test/cbox
+# listed individually to help with refactoring
+CPPSRC += $(ROOT_DIR)/test/cbox/runner.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/TestApplication.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Base64_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Box_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/CboxPtr_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Connections_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/EepromObjectStorage_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/FileObjectStorage_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/ObjectContainer_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/ObjectFactory_test.cpp
 
 # include google protobuf dependencies
 CPPFLAGS += $(shell pkg-config --cflags protobuf)

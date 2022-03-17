@@ -57,38 +57,38 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule_Block& message, bool in
     }
 }
 
-cbox::CboxError ExpOwGpioBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError ExpOwGpioBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
     writeMessage(message, true);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_OneWireGpioModule_Block_fields,
-                                    blox_OneWireGpioModule_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_OneWireGpioModule_Block_fields,
+                           blox_OneWireGpioModule_Block_size);
 }
 
-cbox::CboxError ExpOwGpioBlock::toStoredResponse(cbox::Command& cmd) const
+cbox::CboxError ExpOwGpioBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
     writeMessage(message, false);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_OneWireGpioModule_Block_fields,
-                                    blox_OneWireGpioModule_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_OneWireGpioModule_Block_fields,
+                           blox_OneWireGpioModule_Block_size);
 }
 
-cbox::CboxError ExpOwGpioBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 {
     blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_OneWireGpioModule_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_OneWireGpioModule_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         drivers.modulePosition(message.modulePosition);

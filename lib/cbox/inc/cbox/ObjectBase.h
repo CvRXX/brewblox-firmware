@@ -20,7 +20,6 @@
 #pragma once
 
 #include "cbox/Object.h"
-#include "cbox/ObjectIds.h"
 #include <memory>
 #include <type_traits>
 
@@ -67,12 +66,12 @@ public:
 // any type can be assigned a typeid by explicit template instantiation
 // this allows objects to implement returning a pointer for that type, without needing to inherit from it
 template <typename T>
-const obj_type_t
+obj_type_t
 interfaceIdImpl();
 
 // for objects, the object id is the interface id
 template <typename T>
-const obj_type_t
+obj_type_t
 interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = 0)
 {
     return T::staticTypeId();
@@ -80,7 +79,7 @@ interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = 0)
 
 // for interface, we check uniqueness on first use, if compiling with gcc (test code)
 template <typename T>
-const obj_type_t
+obj_type_t
 interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
 {
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)

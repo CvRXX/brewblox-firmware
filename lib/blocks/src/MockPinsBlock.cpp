@@ -21,7 +21,7 @@
 #include "proto/MockPins.pb.h"
 
 cbox::CboxError
-MockPinsBlock::toResponse(cbox::Command& cmd) const
+MockPinsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_MockPins_Block message = blox_MockPins_Block_init_zero;
 
@@ -36,24 +36,24 @@ MockPinsBlock::toResponse(cbox::Command& cmd) const
     message.channels[6].id = 7;
     message.channels[7].id = 8;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_MockPins_Block_fields,
-                                    blox_MockPins_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_MockPins_Block_fields,
+                           blox_MockPins_Block_size);
 }
 
 cbox::CboxError
-MockPinsBlock::toStoredResponse(cbox::Command& cmd) const
+MockPinsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     // We have no persisted data
-    return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
+    return callWithMessage(callback, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError
-MockPinsBlock::fromRequest(cbox::Command&)
+MockPinsBlock::write(const cbox::Payload&)
 {
     return cbox::CboxError::OK;
 }

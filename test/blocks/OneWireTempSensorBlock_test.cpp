@@ -44,8 +44,8 @@ SCENARIO("A TempSensorOneWireBlock")
             message.set_value(123); // value is not writable, so this should not have effect
             message.set_onewirebusid(4);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         THEN("The returned protobuf data is as expected")
@@ -55,8 +55,8 @@ SCENARIO("A TempSensorOneWireBlock")
 
             // When the sensor is not yet updated the value is invalid and therefore
             // added to stripped fields to distinguish from value zero
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "offset: 2048 "
@@ -68,8 +68,8 @@ SCENARIO("A TempSensorOneWireBlock")
 
             // After an update, the sensor returns a valid temperature
             cmd.responses.clear();
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "value: 83968 " // 20*4096 + 2048
@@ -99,7 +99,7 @@ SCENARIO("A TempSensorOneWireBlock")
             auto block = ptr.lock();
             block->setBusId(0);
 
-            cbox::discoverNewObjects();
+            cbox::discoverBlocks();
 
             CHECK(block->getBusId() == 4);
         }

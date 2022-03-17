@@ -22,7 +22,7 @@
 #include "proto/TouchSettings.pb.h"
 #include <cstring>
 
-cbox::CboxError TouchSettingsBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError TouchSettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
 
@@ -34,24 +34,24 @@ cbox::CboxError TouchSettingsBlock::toResponse(cbox::Command& cmd) const
     message.xBitsPerPixelX16 = calib.TouchScreenXBitsPerPixelx16;
     message.yBitsPerPixelX16 = calib.TouchScreenYBitsPerPixelx16;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TouchSettings_Block_fields,
-                                    blox_TouchSettings_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TouchSettings_Block_fields,
+                           blox_TouchSettings_Block_size);
 }
 
-cbox::CboxError TouchSettingsBlock::toStoredResponse(cbox::Command& cmd) const
+cbox::CboxError TouchSettingsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return toResponse(cmd);
+    return read(callback);
 }
 
-cbox::CboxError TouchSettingsBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError TouchSettingsBlock::write(const cbox::Payload& payload)
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_TouchSettings_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_TouchSettings_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         auto calib = D4D_GetTouchScreenCalibration();

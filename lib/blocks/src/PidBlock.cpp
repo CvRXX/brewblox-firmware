@@ -30,7 +30,7 @@ PidBlock::PidBlock()
 {
 }
 
-cbox::CboxError PidBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
     FieldTags stripped;
@@ -92,17 +92,17 @@ cbox::CboxError PidBlock::toResponse(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Pid_Block_fields,
-                                    blox_Pid_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Pid_Block_fields,
+                           blox_Pid_Block_size);
 }
 
 cbox::CboxError
-PidBlock::toStoredResponse(cbox::Command& cmd) const
+PidBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
 
@@ -115,19 +115,19 @@ PidBlock::toStoredResponse(cbox::Command& cmd) const
     message.boilPointAdjust = cnl::unwrap(pid.boilPointAdjust());
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Pid_Block_fields,
-                                    blox_Pid_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Pid_Block_fields,
+                           blox_Pid_Block_size);
 }
 
-cbox::CboxError PidBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError PidBlock::write(const cbox::Payload& payload)
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_Pid_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_Pid_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         pid.enabled(message.enabled);

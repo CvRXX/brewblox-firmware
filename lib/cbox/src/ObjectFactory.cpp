@@ -23,18 +23,18 @@
 
 namespace cbox {
 
-std::tuple<CboxError, std::shared_ptr<Object>> ObjectFactory::make(const obj_type_t& t) const
+CboxExpected<std::shared_ptr<Object>> ObjectFactory::make(const obj_type_t& t) const
 {
     auto factoryEntry = std::find_if(objTypes.begin(), objTypes.end(), [&t](const ObjectFactoryEntry& entry) { return entry.typeId == t; });
     if (factoryEntry == objTypes.end()) {
-        return std::make_tuple(CboxError::BLOCK_NOT_CREATABLE, std::shared_ptr<Object>());
+        return tl::make_unexpected(CboxError::BLOCK_NOT_CREATABLE);
     }
-    auto obj = (*factoryEntry).createFn();
+    auto obj = factoryEntry->createFn();
     if (!obj) {
-        return std::make_tuple(CboxError::INSUFFICIENT_HEAP, std::shared_ptr<Object>());
+        return tl::make_unexpected(CboxError::INSUFFICIENT_HEAP);
     }
 
-    return std::make_tuple(CboxError::OK, std::move(obj));
+    return std::shared_ptr<Object>(obj);
 }
 
 } // end namespace cbox

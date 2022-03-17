@@ -45,8 +45,8 @@ SCENARIO("A TempSensorMock block")
         message.set_setting(cnl::unwrap(temp_t(20.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     WHEN("The mock sensor value is changed to 25")
@@ -64,8 +64,8 @@ SCENARIO("A TempSensorMock block")
             auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
             auto message = blox_test::TempSensorMock::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "value: 102400 "
@@ -95,8 +95,8 @@ SCENARIO("A TempSensorMock block")
                 newFluct->set_period(3000);
             }
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         cbox::update(1000);
@@ -106,8 +106,8 @@ SCENARIO("A TempSensorMock block")
             auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
             auto message = blox_test::TempSensorMock::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "value: 91627 "

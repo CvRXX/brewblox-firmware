@@ -56,7 +56,7 @@ bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
 }
 
 cbox::CboxError
-SetpointProfileBlock::toResponse(cbox::Command& cmd) const
+SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     FieldTags stripped;
@@ -77,30 +77,30 @@ SetpointProfileBlock::toResponse(cbox::Command& cmd) const
                        + 6 // start
         ;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_SetpointProfile_Block_fields,
-                                    blockSize);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_SetpointProfile_Block_fields,
+                           blockSize);
 }
 
 cbox::CboxError
-SetpointProfileBlock::toStoredResponse(cbox::Command& cmd) const
+SetpointProfileBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return toResponse(cmd);
+    return read(callback);
 }
 
 cbox::CboxError
-SetpointProfileBlock::fromRequest(cbox::Command& cmd)
+SetpointProfileBlock::write(const cbox::Payload& payload)
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     std::vector<Point> newPoints;
     message.points.funcs.decode = &streamPointsIn;
     message.points.arg = &newPoints;
 
-    auto res = parseRequestPayload(cmd, &message, blox_SetpointProfile_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_SetpointProfile_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         profile.points(std::move(newPoints));

@@ -44,7 +44,7 @@ Spark2PinsBlock::Spark2PinsBlock()
 {
 }
 
-cbox::CboxError Spark2PinsBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError Spark2PinsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
 
@@ -74,34 +74,34 @@ cbox::CboxError Spark2PinsBlock::toResponse(cbox::Command& cmd) const
     }
     message.hardware = hw;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Spark2Pins_Block_fields,
-                                    blox_Spark2Pins_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Spark2Pins_Block_fields,
+                           blox_Spark2Pins_Block_size);
 }
 
-cbox::CboxError Spark2PinsBlock::toStoredResponse(cbox::Command& cmd) const
+cbox::CboxError Spark2PinsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Spark2Pins_Block_fields,
-                                    blox_Spark2Pins_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Spark2Pins_Block_fields,
+                           blox_Spark2Pins_Block_size);
 }
 
-cbox::CboxError Spark2PinsBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError Spark2PinsBlock::write(const cbox::Payload& payload)
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_Spark2Pins_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_Spark2Pins_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         // io pins are not writable through this block. They are configured by creating Digital Actuators

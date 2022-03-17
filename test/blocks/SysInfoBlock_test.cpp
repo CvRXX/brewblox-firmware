@@ -44,8 +44,8 @@ SCENARIO("SysInfo Block")
         auto cmd = cbox::TestCommand(sysInfoId, SysInfoBlock::staticTypeId());
         auto message = blox_test::SysInfo::Block();
 
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
 
         THEN("The system info is serialized correctly")
         {

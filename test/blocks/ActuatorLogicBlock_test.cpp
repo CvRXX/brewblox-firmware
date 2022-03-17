@@ -55,12 +55,12 @@ SCENARIO("Test", "[makelogicblock]")
         message.set_channel(uint8_t(id - 100));
         message.set_desiredstate(state);
 
-        serializeToRequest(cmd, message);
+        messageToPayload(cmd, message);
 
         if (firstCreate) {
-            return cbox::createObject(cmd);
+            return cbox::createBlock(cmd.request, cmd.callback);
         } else {
-            return cbox::writeObject(cmd);
+            return cbox::writeBlock(cmd.request, cmd.callback);
         }
     };
 
@@ -71,12 +71,12 @@ SCENARIO("Test", "[makelogicblock]")
         message.set_setting(cnl::unwrap(setting));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
+        messageToPayload(cmd, message);
 
         if (firstCreate) {
-            return cbox::createObject(cmd);
+            return cbox::createBlock(cmd.request, cmd.callback);
         } else {
-            return cbox::writeObject(cmd);
+            return cbox::writeBlock(cmd.request, cmd.callback);
         }
     };
 
@@ -90,12 +90,12 @@ SCENARIO("Test", "[makelogicblock]")
         message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
         message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
 
-        serializeToRequest(cmd, message);
+        messageToPayload(cmd, message);
 
         if (firstCreate) {
-            return cbox::createObject(cmd);
+            return cbox::createBlock(cmd.request, cmd.callback);
         } else {
-            return cbox::writeObject(cmd);
+            return cbox::writeBlock(cmd.request, cmd.callback);
         }
     };
 
@@ -105,16 +105,16 @@ SCENARIO("Test", "[makelogicblock]")
         message.set_targetid(105);
         message.set_enabled(true);
 
-        serializeToRequest(cmd, message);
+        messageToPayload(cmd, message);
 
         if (firstCreate) {
-            cbox::createObject(cmd);
+            cbox::createBlock(cmd.request, cmd.callback);
         } else {
-            cbox::writeObject(cmd);
+            cbox::writeBlock(cmd.request, cmd.callback);
         }
 
         auto responseMsg = blox_test::ActuatorLogic::Block();
-        parseFromResponse(cmd, responseMsg);
+        payloadToMessage(cmd, responseMsg);
         return responseMsg;
     };
 
@@ -194,9 +194,9 @@ SCENARIO("Test", "[makelogicblock]")
                 cbox::update(1000);
 
                 cbox::TestCommand cmd(130, 0);
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
                 auto decoded = blox_test::ActuatorLogic::Block();
-                parseFromResponse(cmd, decoded);
+                payloadToMessage(cmd, decoded);
                 CHECK(decoded.ShortDebugString() ==
                       "targetId: 105 "
                       "drivenTargetId: 105 "
@@ -217,9 +217,9 @@ SCENARIO("Test", "[makelogicblock]")
                 cbox::update(2000);
 
                 cbox::TestCommand cmd(130, 0);
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
                 auto decoded = blox_test::ActuatorLogic::Block();
-                parseFromResponse(cmd, decoded);
+                payloadToMessage(cmd, decoded);
                 CHECK(decoded.ShortDebugString() ==
                       "targetId: 105 "
                       "drivenTargetId: 105 "
@@ -370,7 +370,7 @@ SCENARIO("Test", "[makelogicblock]")
 
             {
                 cbox::TestCommand cmd(102, 0);
-                CHECK(cbox::deleteObject(cmd) == cbox::CboxError::OK);
+                CHECK(cbox::deleteBlock(cmd.request) == cbox::CboxError::OK);
             }
 
             message.set_expression("b");

@@ -48,8 +48,8 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
         message.set_setting(cnl::unwrap(temp_t(20.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create setpoint
@@ -63,8 +63,8 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
         message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_3m);
         message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     WHEN("Reading the setpoint")
@@ -72,8 +72,8 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
         auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
         auto message = blox_test::SetpointSensorPair::Block();
 
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
 
         CHECK(message.ShortDebugString() ==
               "sensorId: 100 "
@@ -103,8 +103,8 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
             auto message = blox_test::SetpointSensorPair::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
@@ -133,8 +133,8 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
             auto message = blox_test::SetpointSensorPair::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
@@ -152,15 +152,15 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
             auto message = blox_test::SetpointSensorPair::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             message.set_resetfilter(true);
 
             cmd.responses.clear();
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "

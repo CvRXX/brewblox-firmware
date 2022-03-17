@@ -94,39 +94,39 @@ void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool in
     expression.copy(message.expression, 64);
 }
 
-cbox::CboxError ActuatorLogicBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError ActuatorLogicBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, true);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_ActuatorLogic_Block_fields,
-                                    blox_ActuatorLogic_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorLogic_Block_fields,
+                           blox_ActuatorLogic_Block_size);
 }
 
 cbox::CboxError
-ActuatorLogicBlock::toStoredResponse(cbox::Command& cmd) const
+ActuatorLogicBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, false);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_ActuatorLogic_Block_fields,
-                                    blox_ActuatorLogic_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorLogic_Block_fields,
+                           blox_ActuatorLogic_Block_size);
 }
 
-cbox::CboxError ActuatorLogicBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_ActuatorLogic_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_ActuatorLogic_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         target.setId(message.targetId);

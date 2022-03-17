@@ -35,7 +35,7 @@ SCENARIO("Box commands")
     WHEN("Read object")
     {
         TestCommand cmd(2, 0);
-        CHECK(readObject(cmd) == CboxError::OK);
+        CHECK(readBlock(cmd.request, cmd.callback) == CboxError::OK);
 
         CHECK(cmd.responses.size() == 1);
         auto& resp = cmd.responses.at(0);
@@ -48,21 +48,21 @@ SCENARIO("Box commands")
     WHEN("Read non-existent object")
     {
         TestCommand cmd(8, 0);
-        CHECK(readObject(cmd) == CboxError::INVALID_BLOCK_ID);
+        CHECK(readBlock(cmd.request, cmd.callback) == CboxError::INVALID_BLOCK_ID);
         CHECK(cmd.responses.size() == 0);
     }
 
     WHEN("Read non-existent stored object")
     {
         TestCommand cmd(8, 0);
-        CHECK(readStoredObject(cmd) == CboxError::INVALID_STORED_BLOCK_ID);
+        CHECK(readStoredBlock(cmd.request, cmd.callback) == CboxError::INVALID_STORED_BLOCK_ID);
         CHECK(cmd.responses.size() == 0);
     }
 
     WHEN("Write object")
     {
         TestCommand cmd(2, 1000, {0x33, 0x33, 0x33, 0x33});
-        CHECK(writeObject(cmd) == CboxError::OK);
+        CHECK(writeBlock(cmd.request, cmd.callback) == CboxError::OK);
 
         CHECK(cmd.responses.size() == 1);
         auto& resp = cmd.responses.at(0);
@@ -75,7 +75,7 @@ SCENARIO("Box commands")
         AND_WHEN("Write object with the wrong object type")
         {
             TestCommand cmd2(2, 10001, {0x44, 0x44, 0x44, 0x44});
-            CHECK(writeObject(cmd2) == CboxError::INVALID_BLOCK_TYPE);
+            CHECK(writeBlock(cmd2.request, cmd2.callback) == CboxError::INVALID_BLOCK_TYPE);
 
             CHECK(cmd2.responses.size() == 0);
         }
@@ -87,7 +87,7 @@ SCENARIO("Box commands")
                               1000,
                               {0x44, 0x44, 0x44, 0x44});
 
-        CHECK(createObject(createCmd) == CboxError::OK);
+        CHECK(createBlock(createCmd.request, createCmd.callback) == CboxError::OK);
         CHECK(createCmd.responses.at(0).blockId == 100);
         CHECK(objects.fetchContained(100) != nullptr);
 
@@ -100,7 +100,7 @@ SCENARIO("Box commands")
 
             auto checkEepromVal = [](std::string eepromVal) -> void {
                 TestCommand storeCmd(100, 1000);
-                readStoredObject(storeCmd);
+                CHECK(readStoredBlock(storeCmd.request, storeCmd.callback) == CboxError::OK);
                 CHECK(storeCmd.responses.size() == 1);
                 CHECK(hexed(storeCmd.responses.at(0).content) == eepromVal);
             };
@@ -138,7 +138,7 @@ SCENARIO("Box commands")
         AND_WHEN("Delete user object")
         {
             TestCommand deleteCmd(100, 1000);
-            CHECK(deleteObject(deleteCmd) == CboxError::OK);
+            CHECK(deleteBlock(deleteCmd.request) == CboxError::OK);
             CHECK(objects.fetchContained(100) == nullptr);
             CHECK(objects.reloadStored(100) == CboxError::INVALID_BLOCK_ID);
         }
@@ -147,25 +147,25 @@ SCENARIO("Box commands")
     WHEN("Create system object is refused with INVALID_OBJECT_ID")
     {
         TestCommand cmd(5, 1000, {0x11, 0x11, 0x11, 0x11});
-        CHECK(createObject(cmd) == CboxError::INVALID_BLOCK_ID);
+        CHECK(createBlock(cmd.request, cmd.callback) == CboxError::INVALID_BLOCK_ID);
     }
 
     WHEN("Delete system object is refused with OBJECT_NOT_DELETABLE")
     {
         TestCommand cmd(2, 0);
-        CHECK(deleteObject(cmd) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(deleteBlock(cmd.request) == CboxError::BLOCK_NOT_DELETABLE);
     }
 
     WHEN("Delete non-existent object is refused with INVALID_OBJECT_ID")
     {
         TestCommand cmd(256, 0);
-        CHECK(deleteObject(cmd) == CboxError::INVALID_BLOCK_ID);
+        CHECK(deleteBlock(cmd.request) == CboxError::INVALID_BLOCK_ID);
     }
 
     WHEN("List objects")
     {
         TestCommand cmd;
-        CHECK(listActiveObjects(cmd) == CboxError::OK);
+        CHECK(readAllBlocks(cmd.callback) == CboxError::OK);
         CHECK(cmd.responses.size() == 2);
 
         auto& resp1 = cmd.responses.at(0);
@@ -188,13 +188,13 @@ SCENARIO("Box commands")
                             1002,        // Counter
                             {0xe8, 0x03} // interval 1000
         );
-        CHECK(createObject(create1) == CboxError::OK);
+        CHECK(createBlock(create1.request, create1.callback) == CboxError::OK);
 
         TestCommand create2(101,
                             1002,                    // Counter
                             {0xd0, 0x07, 0x01, 0x00} // interval 2000, count 1
         );
-        CHECK(createObject(create2) == CboxError::OK);
+        CHECK(createBlock(create2.request, create2.callback) == CboxError::OK);
 
         auto counterObjPtr1 = objects.fetch(100).lock();
         auto counterObjPtr2 = objects.fetch(101).lock();
@@ -229,7 +229,7 @@ SCENARIO("Box commands")
                              1002,
                              {0xa0, 0x0f} // interval 4000
         );
-        CHECK(writeObject(writeCmd) == CboxError::OK);
+        CHECK(writeBlock(writeCmd.request, writeCmd.callback) == CboxError::OK);
         CHECK(counter1->interval() == 4000);
 
         THEN("Writing a new interval (4000) to counter 1 has triggered an update of the object")
@@ -284,7 +284,7 @@ SCENARIO("Box commands")
                                0x03, 0x00} // ptr 2 points to object 3
         );
 
-        CHECK(createObject(createCmd) == CboxError::OK);
+        CHECK(createBlock(createCmd.request, createCmd.callback) == CboxError::OK);
         CHECK(hexed(createCmd.responses.at(0).content) ==
               "0200"     // ptr 1 points to ID 2
               "0300"     // ptr 2 points to ID 3
@@ -301,7 +301,7 @@ SCENARIO("Box commands")
                                  {0x03, 0x00, // ptr 1 points to object 3
                                   0x04, 0x00} // ptr 2 points to object 4
             );
-            CHECK(writeObject(writeCmd) == CboxError::OK);
+            CHECK(writeBlock(writeCmd.request, writeCmd.callback) == CboxError::OK);
 
             CHECK(hexed(writeCmd.responses.at(0).content) ==
                   "0300"     // ptr 1 points to ID 3
@@ -317,7 +317,7 @@ SCENARIO("Box commands")
     WHEN("A device discovery command is received")
     {
         TestCommand cmd;
-        CHECK(discoverNewObjects(cmd) == CboxError::OK);
+        CHECK(discoverBlocks(cmd.callback) == CboxError::OK);
 
         THEN("A list of IDs of newly created objects is returned")
         {
@@ -332,7 +332,7 @@ SCENARIO("Box commands")
         THEN("The objects that didn't exist yet but where provided by the scanner have been created")
         {
             cmd.responses.clear();
-            listActiveObjects(cmd);
+            readAllBlocks(cmd.callback);
             CHECK(cmd.responses.size() == 5);
 
             CHECK(cmd.responses.at(0).blockId == 2);
@@ -351,7 +351,7 @@ SCENARIO("Box commands")
         THEN("The newly discovered objects are persisted")
         {
             cmd.responses.clear();
-            listStoredObjects(cmd);
+            readAllStoredBlocks(cmd.callback);
 
             CHECK(cmd.responses.at(0).blockId == 100);
             CHECK(cmd.responses.at(1).blockId == 101);

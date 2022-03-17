@@ -81,47 +81,47 @@ void TempSensorMockBlock::writeMessage(blox_TempSensorMock_Block& message) const
 }
 
 cbox::CboxError
-TempSensorMockBlock::toResponse(cbox::Command& cmd) const
+TempSensorMockBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
 
     writeMessage(message);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TempSensorMock_Block_fields,
-                                    protoSize());
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TempSensorMock_Block_fields,
+                           protoSize());
 }
 
 cbox::CboxError
-TempSensorMockBlock::toStoredResponse(cbox::Command& cmd) const
+TempSensorMockBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
 
     writeMessage(message);
     message.value = 0; // value does not need persisting
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TempSensorMock_Block_fields,
-                                    protoSize());
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TempSensorMock_Block_fields,
+                           protoSize());
 }
 
 cbox::CboxError
-TempSensorMockBlock::fromRequest(cbox::Command& cmd)
+TempSensorMockBlock::write(const cbox::Payload& payload)
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
     std::vector<Fluctuation> newFlucts;
     message.fluctuations.funcs.decode = &streamFluctuationsIn;
     message.fluctuations.arg = &newFlucts;
 
-    auto res = parseRequestPayload(cmd, &message, blox_TempSensorMock_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_TempSensorMock_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         sensor.fluctuations(std::move(newFlucts));

@@ -48,7 +48,7 @@ pin_t Spark3PinsBlock::channelToPin(uint8_t channel) const
     return -1;
 }
 
-cbox::CboxError Spark3PinsBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError Spark3PinsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
@@ -75,16 +75,16 @@ cbox::CboxError Spark3PinsBlock::toResponse(cbox::Command& cmd) const
     message.voltage12 = 12 * 149;
 #endif
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Spark3Pins_Block_fields,
-                                    blox_Spark3Pins_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Spark3Pins_Block_fields,
+                           blox_Spark3Pins_Block_size);
 }
 
-cbox::CboxError Spark3PinsBlock::toStoredResponse(cbox::Command& cmd) const
+cbox::CboxError Spark3PinsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
@@ -96,19 +96,19 @@ cbox::CboxError Spark3PinsBlock::toStoredResponse(cbox::Command& cmd) const
     message.enableIoSupply12V = HAL_GPIO_Read(PIN_12V_ENABLE);
 #endif
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Spark3Pins_Block_fields,
-                                    blox_Spark3Pins_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Spark3Pins_Block_fields,
+                           blox_Spark3Pins_Block_size);
 }
 
-cbox::CboxError Spark3PinsBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError Spark3PinsBlock::write(const cbox::Payload& payload)
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_Spark3Pins_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_Spark3Pins_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         // io pins are not writable through this block. They are configured by creating Digital Actuators

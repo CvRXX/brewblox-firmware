@@ -9,12 +9,12 @@ namespace cbox {
 
 ObjectStorage& getStorage()
 {
-    static cbox::ArrayEepromAccess<2048> eeprom;
-    static cbox::EepromObjectStorage objectStore(eeprom);
+    static ArrayEepromAccess<2048> eeprom;
+    static EepromObjectStorage objectStore(eeprom);
     return objectStore;
 }
 
-std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
+CboxExpected<std::shared_ptr<Object>> make(const obj_type_t& t)
 {
     return makeBlock(t);
 }

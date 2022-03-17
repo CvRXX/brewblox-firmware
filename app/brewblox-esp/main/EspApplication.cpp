@@ -12,11 +12,11 @@ static const ObjectFactory platformFactory{
     makeFactoryEntry<ExpOwGpioBlock>(),
 };
 
-std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
+cbox::CboxExpected<std::shared_ptr<cbox::Object>> make(const obj_type_t& t)
 {
     auto retv = platformFactory.make(t);
 
-    if (!std::get<1>(retv)) {
+    if (!retv) {
         retv = makeBlock(t);
     }
 

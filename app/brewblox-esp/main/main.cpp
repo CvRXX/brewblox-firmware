@@ -87,8 +87,8 @@ int main(int /*argc*/, char** /*argv*/)
     asio::io_context io;
 
     setupSystemBlocks();
-    cbox::loadObjectsFromStorage();
-    cbox::discoverNewObjects();
+    cbox::loadBlocksFromStorage();
+    cbox::discoverBlocks();
 
     static auto updater = RecurringTask(
         io, asio::chrono::milliseconds(10),

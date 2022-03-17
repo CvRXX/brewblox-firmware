@@ -61,8 +61,8 @@ SCENARIO("A SetpointProfile block")
             message.set_setting(cnl::unwrap(temp_t(20.0)));
             message.set_connected(true);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Create setpoint
@@ -74,8 +74,8 @@ SCENARIO("A SetpointProfile block")
             message.set_storedsetting(cnl::unwrap(temp_t(99)));
             message.set_settingenabled(true);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Create profile
@@ -98,8 +98,8 @@ SCENARIO("A SetpointProfile block")
                 newPoint->set_temperature(cnl::unwrap(temp_t(21)));
             }
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         update(10'000);
@@ -130,11 +130,11 @@ SCENARIO("A SetpointProfile block")
 
                 message.set_secondssinceepoch(20'000);
 
-                serializeToRequest(cmd, message);
-                CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+                messageToPayload(cmd, message);
+                CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
                 auto reply = blox_test::Ticks::Block();
-                parseFromResponse(cmd, reply);
+                payloadToMessage(cmd, reply);
 
                 CHECK(reply.millissinceboot() == 10'000);
                 CHECK(reply.secondssinceepoch() == 20'000);
@@ -155,8 +155,8 @@ SCENARIO("A SetpointProfile block")
                 auto cmd = cbox::TestCommand(profileId, SetpointProfileBlock::staticTypeId());
                 auto message = blox_test::SetpointProfile::Block();
 
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-                parseFromResponse(cmd, message);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // 20.5 * 4096 = 83968
                 CHECK(message.ShortDebugString() ==
@@ -190,11 +190,11 @@ SCENARIO("A SetpointProfile block")
                 newPoint->set_temperature(cnl::unwrap(temp_t(21)));
             }
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
             auto reply = blox_test::SetpointProfile::Block();
-            parseFromResponse(cmd, reply);
+            payloadToMessage(cmd, reply);
 
             CHECK(reply.ShortDebugString() ==
                   "points { temperature: 0 } "

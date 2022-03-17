@@ -29,7 +29,7 @@ ObjectStorage& getStorage()
     return test::getStorage();
 }
 
-std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t)
+CboxExpected<std::shared_ptr<Object>> make(const obj_type_t& t)
 {
     static const ObjectFactory factory = {
         makeFactoryEntry<LongIntObject>(),

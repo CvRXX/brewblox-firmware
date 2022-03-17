@@ -19,8 +19,6 @@
 
 #pragma once
 
-#include "cbox/CboxError.h"
-#include "cbox/DataStream.h"
 #include "cbox/ObjectStorage.h"
 #include <string>
 
@@ -31,13 +29,13 @@ public:
 
     virtual ~FileObjectStorage() = default;
 
-    virtual CboxError loadObject(const storage_id_t& id, const PayloadCallback& callback) override final;
+    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback) override final;
 
     virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
 
     virtual CboxError saveObject(const Payload& payload) override final;
 
-    virtual bool disposeObject(const storage_id_t& id, bool mergeDisposed = true) override final;
+    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true) override final;
 
     virtual void clear() override final;
 
@@ -51,15 +49,11 @@ private:
         return 0x01;
     }
 
-    void setPath(const storage_id_t& id)
+    void setPath(obj_id_t id)
     {
         path.resize(rootLen);
         path += std::to_string(uint16_t(id));
     }
-
-    static CboxError parseFromStream(const storage_id_t& id,
-                                     const PayloadCallback& callback,
-                                     RegionDataIn& in);
 };
 
 } // end namespace cbox

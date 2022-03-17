@@ -23,32 +23,32 @@ bool streamBalancedActuators(pb_ostream_t* stream, const pb_field_t* field, void
 }
 
 cbox::CboxError
-BalancerBlock::toResponse(cbox::Command& cmd) const
+BalancerBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Balancer_Block message = blox_Balancer_Block_init_zero;
 
     message.clients.funcs.encode = streamBalancedActuators;
     message.clients.arg = const_cast<Balancer_t*>(&balancer); // arg is not const in message, but it is in callback
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Balancer_Block_fields,
-                                    // Include bytes for field tags
-                                    (blox_Balancer_BalancedActuator_size + 2) * balancer.clients().size());
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Balancer_Block_fields,
+                           // Include bytes for field tags
+                           (blox_Balancer_BalancedActuator_size + 2) * balancer.clients().size());
 }
 
 cbox::CboxError
-BalancerBlock::toStoredResponse(cbox::Command& cmd) const
+BalancerBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     // no settings to persist
-    return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
+    return callWithMessage(callback, objectId, staticTypeId(), 0);
 }
 
 cbox::CboxError
-BalancerBlock::fromRequest(cbox::Command&)
+BalancerBlock::write(const cbox::Payload&)
 {
     // no settings to write (actuators register themselves)
     return cbox::CboxError::OK;

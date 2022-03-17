@@ -51,8 +51,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         sensorMessage.set_setting(cnl::unwrap(temp_t(20.0)));
         sensorMessage.set_connected(true);
 
-        serializeToRequest(cmd, sensorMessage);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, sensorMessage);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // create setpoint
@@ -66,8 +66,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_15s);
         setpointMessage.set_filterthreshold(cnl::unwrap(temp_t(1)));
 
-        serializeToRequest(cmd, setpointMessage);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, setpointMessage);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // create actuator
@@ -81,8 +81,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         actuatorMessage.set_minvalue(cnl::unwrap(ActuatorAnalog::value_t(0)));
         actuatorMessage.set_maxvalue(cnl::unwrap(ActuatorAnalog::value_t(100)));
 
-        serializeToRequest(cmd, actuatorMessage);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, actuatorMessage);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // create pid
@@ -99,8 +99,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         pidMessage.set_boilpointadjust(cnl::unwrap(Pid::in_t(-0.5)));
         pidMessage.set_boilminoutput(cnl::unwrap(Pid::in_t(25)));
 
-        serializeToRequest(cmd, pidMessage);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, pidMessage);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // update 999 seconds (PID updates every second, now is in ms)
@@ -115,8 +115,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         auto cmd = cbox::TestCommand(pidId, PidBlock::staticTypeId());
         auto message = blox_test::Pid::Block();
 
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
 
         CHECK(cnl::wrap<Pid::out_t>(message.p()) == Approx(10.0).epsilon(0.01));
         CHECK(cnl::wrap<Pid::out_t>(message.i()) == Approx(10.0 * 1.0 * 1000 / 2000).epsilon(0.01));
@@ -144,11 +144,11 @@ SCENARIO("A Blox Pid object with mock analog actuator")
 
         pidMessage.set_integralreset(cnl::unwrap(Pid::out_t(20)));
 
-        serializeToRequest(cmd, pidMessage);
-        CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, pidMessage);
+        CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
         auto decoded = blox_test::Pid::Block();
-        parseFromResponse(cmd, decoded);
+        payloadToMessage(cmd, decoded);
 
         CHECK(decoded.ShortDebugString() ==
               "inputId: 101 outputId: 102 "
@@ -169,7 +169,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
 
         setpointMessage.set_settingenabled(false);
-        CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+        CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
         cbox::update(now + 2000);
 
@@ -198,8 +198,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
             message.set_setting(cnl::unwrap(temp_t(99.5)));
             message.set_connected(true);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Change setpoint
@@ -210,8 +210,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
             setpointMessage.set_storedsetting(cnl::unwrap(Pid::in_t(99.5)));
             setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
 
-            serializeToRequest(cmd, setpointMessage);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, setpointMessage);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         cbox::update(now + 2000);
@@ -221,8 +221,8 @@ SCENARIO("A Blox Pid object with mock analog actuator")
             auto cmd = cbox::TestCommand(pidId, PidBlock::staticTypeId());
             auto message = blox_test::Pid::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "inputId: 101 outputId: 102 "

@@ -25,11 +25,11 @@
 
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)
 namespace cbox {
-std::vector<uint16_t> allIds;
 
 uint16_t
 throwIdNotUnique(uint16_t id)
 {
+    static std::vector<uint16_t> allIds;
     auto pair = std::equal_range(allIds.begin(), allIds.end(), id);
     if (pair.first != pair.second) {
         // duplicate id!

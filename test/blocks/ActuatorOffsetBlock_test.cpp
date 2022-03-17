@@ -43,8 +43,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         message.set_setting(cnl::unwrap(temp_t(21.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create pair 1 (target)
@@ -55,8 +55,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         message.set_storedsetting(cnl::unwrap(temp_t(20.0)));
         message.set_settingenabled(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create mock sensor 2
@@ -66,8 +66,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         message.set_setting(cnl::unwrap(temp_t(27.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create pair 2 (reference)
@@ -78,8 +78,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         message.set_storedsetting(cnl::unwrap(temp_t(20.0)));
         message.set_settingenabled(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create actuator
@@ -92,8 +92,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(12)));
         message.set_enabled(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     cbox::update(0);
@@ -102,8 +102,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     {
         auto cmd = cbox::TestCommand(104, ActuatorOffsetBlock::staticTypeId());
         auto message = blox_test::ActuatorOffset::Block();
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
         CHECK(message.ShortDebugString() ==
               "targetId: 101 referenceId: 103 "
               "setting: 49152 value: 4096 " // setting is 12 (setpoint difference), value is 1 (21 - 20)
@@ -115,8 +115,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     {
         auto cmd = cbox::TestCommand(101, SetpointSensorPairBlock::staticTypeId());
         auto message = blox_test::SetpointSensorPair::Block();
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
         CHECK(message.ShortDebugString() ==
               "sensorId: 100 "
               "setting: 131072 "
@@ -131,8 +131,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
     {
         auto cmd = cbox::TestCommand(103, SetpointSensorPairBlock::staticTypeId());
         auto message = blox_test::SetpointSensorPair::Block();
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
         CHECK(message.ShortDebugString() ==
               "sensorId: 102 "
               "setting: 81920 "
@@ -149,18 +149,18 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         auto writeMsg = blox_test::SetpointSensorPair::Block();
         writeMsg.set_storedsetting(cnl::unwrap(temp_t(20.0)));
         writeMsg.set_settingenabled(false);
-        serializeToRequest(writeCmd, writeMsg);
-        CHECK(cbox::writeObject(writeCmd) == cbox::CboxError::OK);
+        messageToPayload(writeCmd, writeMsg);
+        CHECK(cbox::writeBlock(writeCmd.request, writeCmd.callback) == cbox::CboxError::OK);
 
         cbox::update(5000);
 
         THEN("The actuator is not driving the target setpoint and setting and value are stripped")
         {
             auto readCmd = cbox::TestCommand(104, ActuatorOffsetBlock::staticTypeId());
-            CHECK(cbox::readObject(readCmd) == cbox::CboxError::OK);
+            CHECK(cbox::readBlock(readCmd.request, readCmd.callback) == cbox::CboxError::OK);
 
             auto readMsg = blox_test::ActuatorOffset::Block();
-            parseFromResponse(readCmd, readMsg);
+            payloadToMessage(readCmd, readMsg);
 
             CHECK(readMsg.ShortDebugString() ==
                   "targetId: 101 "

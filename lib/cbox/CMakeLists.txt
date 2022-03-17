@@ -11,7 +11,6 @@ idf_component_register(
     src/ObjectBase.cpp
     src/ObjectContainer.cpp
     src/ObjectFactory.cpp
-    src/ObjectStream.cpp
     src/Base64.cpp
   INCLUDE_DIRS
     inc

@@ -36,7 +36,7 @@ public:
     }
     virtual ~TicksBlock() = default;
 
-    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final
+    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
 
@@ -48,24 +48,24 @@ public:
         message.avgDisplayTask = ticks.taskTime(2);
         message.avgSystemTask = ticks.taskTime(3);
 
-        return serializeResponsePayload(cmd,
-                                        objectId,
-                                        staticTypeId(),
-                                        0,
-                                        &message,
-                                        blox_Ticks_Block_fields,
-                                        blox_Ticks_Block_size);
+        return callWithMessage(callback,
+                               objectId,
+                               staticTypeId(),
+                               0,
+                               &message,
+                               blox_Ticks_Block_fields,
+                               blox_Ticks_Block_size);
     }
 
-    virtual cbox::CboxError toStoredResponse(cbox::Command&) const override final
+    virtual cbox::CboxError readStored(const cbox::PayloadCallback&) const override final
     {
-        return cbox::CboxError::BLOCK_NOT_STORED;
+        return cbox::CboxError::OK;
     }
 
-    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final
+    virtual cbox::CboxError write(const cbox::Payload& payload) override final
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
-        auto res = parseRequestPayload(cmd, &message, blox_Ticks_Block_fields);
+        auto res = payloadToMessage(payload, &message, blox_Ticks_Block_fields);
 
         if (res == cbox::CboxError::OK) {
             ticks.setUtc(message.secondsSinceEpoch);

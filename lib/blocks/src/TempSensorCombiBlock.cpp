@@ -41,40 +41,40 @@ void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, boo
 }
 
 cbox::CboxError
-TempSensorCombiBlock::toResponse(cbox::Command& cmd) const
+TempSensorCombiBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, true);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TempSensorCombi_Block_fields,
-                                    blox_TempSensorCombi_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TempSensorCombi_Block_fields,
+                           blox_TempSensorCombi_Block_size);
 }
 
 cbox::CboxError
-TempSensorCombiBlock::toStoredResponse(cbox::Command& cmd) const
+TempSensorCombiBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
     writeMessage(message, false);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TempSensorCombi_Block_fields,
-                                    blox_TempSensorCombi_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TempSensorCombi_Block_fields,
+                           blox_TempSensorCombi_Block_size);
 }
 
 cbox::CboxError
-TempSensorCombiBlock::fromRequest(cbox::Command& cmd)
+TempSensorCombiBlock::write(const cbox::Payload& payload)
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_TempSensorCombi_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_TempSensorCombi_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);

@@ -32,7 +32,7 @@
 #endif
 
 cbox::CboxError
-SysInfoBlock::toResponse(cbox::Command& cmd) const
+SysInfoBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
@@ -48,26 +48,26 @@ SysInfoBlock::toResponse(cbox::Command& cmd) const
 
     command = Command::NONE;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_SysInfo_Block_fields,
-                                    blox_SysInfo_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_SysInfo_Block_fields,
+                           blox_SysInfo_Block_size);
 }
 
 cbox::CboxError
-SysInfoBlock::toStoredResponse(cbox::Command&) const
+SysInfoBlock::readStored(const cbox::PayloadCallback&) const
 {
-    return cbox::CboxError::BLOCK_NOT_STORED;
+    return cbox::CboxError::OK;
 }
 
 cbox::CboxError
-SysInfoBlock::fromRequest(cbox::Command& cmd)
+SysInfoBlock::write(const cbox::Payload& payload)
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_SysInfo_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_SysInfo_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         command = Command(message.command);

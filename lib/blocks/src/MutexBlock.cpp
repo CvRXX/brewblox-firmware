@@ -21,32 +21,32 @@
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError
-MutexBlock::toResponse(cbox::Command& cmd) const
+MutexBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
     message.waitRemaining = m_mutex.timeRemaining();
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_Mutex_Block_fields,
-                                    blox_Mutex_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Mutex_Block_fields,
+                           blox_Mutex_Block_size);
 }
 
 cbox::CboxError
-MutexBlock::toStoredResponse(cbox::Command& cmd) const
+MutexBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return toResponse(cmd);
+    return read(callback);
 }
 
 cbox::CboxError
-MutexBlock::fromRequest(cbox::Command& cmd)
+MutexBlock::write(const cbox::Payload& payload)
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_Mutex_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_Mutex_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         m_mutex.holdAfterTurnOff(message.differentActuatorWait);

@@ -18,6 +18,7 @@
  */
 
 #pragma once
+#include "tl/expected.hpp"
 #include <cstdint>
 
 namespace cbox {
@@ -65,9 +66,6 @@ enum class CboxError : uint8_t {
     INVALID_STORED_BLOCK_TYPE = 52,
     INVALID_STORED_BLOCK_SUBTYPE = 53,
     INVALID_STORED_BLOCK_CONTENT = 54,
-
-    // Internal
-    BLOCK_NOT_STORED = 200,
 };
 
 inline uint8_t
@@ -75,5 +73,8 @@ asUint8(CboxError e)
 {
     return static_cast<uint8_t>(e);
 }
+
+template <typename T>
+using CboxExpected = tl::expected<T, CboxError>;
 
 } // end namespace cbox

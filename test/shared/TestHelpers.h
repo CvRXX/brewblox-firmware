@@ -1,8 +1,8 @@
 #pragma once
-#include "cbox/Command.h"
 #include "cbox/DataStream.h"
 #include "cbox/DataStreamConverters.h"
 #include "cbox/DataStreamIo.h"
+#include "cbox/Payload.h"
 #include <google/protobuf/message.h>
 #include <sstream>
 #include <string>
@@ -23,46 +23,45 @@ public:
     }
 };
 
-class TestCommand : public Command {
-private:
-    std::unique_ptr<Payload> _request;
-
+class TestCommand {
 public:
-    CboxError nextError = CboxError::OK;
+    Payload request;
     std::vector<Payload> responses;
+    std::function<cbox::CboxError(const cbox::Payload&)> callback;
 
     TestCommand()
+        : request(0, 0, 0)
     {
+        initCallback();
     }
 
-    TestCommand(Payload&& _payload)
-        : _request(std::make_unique<Payload>(std::move(_payload)))
+    TestCommand(Payload&& request_)
+        : request(std::move(request_))
     {
+        initCallback();
     }
 
-    TestCommand(obj_id_t _blockId,
-                obj_type_t _blockType,
-                std::initializer_list<uint8_t>&& _content = {})
-        : _request(std::make_unique<Payload>(_blockId, _blockType, 0, std::move(_content)))
+    TestCommand(obj_id_t blockId_,
+                obj_type_t blockType_,
+                std::initializer_list<uint8_t>&& content_ = {})
+        : request(blockId_, blockType_, 0, std::move(content_))
     {
+        initCallback();
+    }
+
+    void initCallback()
+    {
+        callback = [this](const cbox::Payload& payload) {
+            responses.push_back(
+                Payload(payload.blockId,
+                        payload.blockType,
+                        payload.subtype,
+                        std::vector<uint8_t>(payload.content)));
+            return CboxError::OK;
+        };
     }
 
     virtual ~TestCommand() = default;
-
-    virtual Payload* request() override final
-    {
-        return _request.get();
-    }
-
-    virtual CboxError respond(const Payload& payload) override final
-    {
-        responses.push_back(
-            Payload(payload.blockId,
-                    payload.blockType,
-                    payload.subtype,
-                    std::vector<uint8_t>(payload.content)));
-        return nextError;
-    }
 };
 } // end namespace cbox
 
@@ -74,8 +73,10 @@ std::string hexed(const std::vector<uint8_t>& data);
 
 void decodeProtoFromReply(std::stringstream& ss, ::google::protobuf::Message& message);
 
-void serializeToRequest(cbox::Command& cmd, ::google::protobuf::Message& message);
+void messageToPayload(cbox::Payload& payload, ::google::protobuf::Message& message);
 
-void parseFromResponse(cbox::Payload& payload, ::google::protobuf::Message& message);
+void messageToPayload(cbox::TestCommand& cmd, ::google::protobuf::Message& message);
 
-void parseFromResponse(cbox::TestCommand& cmd, ::google::protobuf::Message& message);
+void payloadToMessage(cbox::Payload& payload, ::google::protobuf::Message& message);
+
+void payloadToMessage(cbox::TestCommand& cmd, ::google::protobuf::Message& message);

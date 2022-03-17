@@ -43,8 +43,8 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
             auto cmd = cbox::TestCommand(owId, OneWireBusBlock::staticTypeId());
             auto message = blox_test::OneWireBus::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             INFO(message.ShortDebugString());
         }
@@ -58,11 +58,11 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
             owCmd->set_opcode(2);  // OneWire search
             owCmd->set_data(0x28); // family code for onewire temp sensors
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
             auto respMessage = blox_test::OneWireBus::Block();
-            parseFromResponse(cmd, respMessage);
+            payloadToMessage(cmd, respMessage);
 
             INFO(respMessage.ShortDebugString());
             CHECK(respMessage.address_size() == 3); // temp sensors declared in theOneWire()

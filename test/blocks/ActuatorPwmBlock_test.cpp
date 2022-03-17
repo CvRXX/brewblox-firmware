@@ -46,8 +46,8 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
         message.set_channel(1);
         message.set_state(blox_test::IoArray::DigitalState::Inactive);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create PWM actuator
@@ -62,8 +62,8 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
         auto c = message.mutable_constrainedby()->add_constraints();
         c->set_min(cnl::unwrap(ActuatorAnalog::value_t(10)));
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     cbox::update(5000);
@@ -73,8 +73,8 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
         auto cmd = cbox::TestCommand(pwmId, ActuatorPwmBlock::staticTypeId());
         auto message = blox_test::ActuatorPwm::Block();
 
-        CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-        parseFromResponse(cmd, message);
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
 
         CHECK(message.ShortDebugString() ==
               "actuatorId: 100 "

@@ -86,31 +86,31 @@ public:
         _nextUpdateTime += 1000;
     }
 
-    CboxError toResponse(Command& cmd) const
+    CboxError read(const PayloadCallback& callback) const
     {
         if (!_obj) {
             return CboxError::INVALID_BLOCK_ID;
         }
 
-        return _obj->toResponse(cmd);
+        return _obj->read(callback);
     }
 
-    CboxError toStoredResponse(Command& cmd) const
+    CboxError readStored(const PayloadCallback& callback) const
     {
         if (!_obj) {
             return CboxError::INVALID_BLOCK_ID;
         }
 
-        return _obj->toStoredResponse(cmd);
+        return _obj->readStored(callback);
     }
 
-    CboxError fromRequest(Command& cmd)
+    CboxError write(const Payload& payload)
     {
         if (!_obj) {
             return CboxError::INVALID_BLOCK_ID;
         }
 
-        return _obj->fromRequest(cmd);
+        return _obj->write(payload);
     }
 };
 

@@ -30,7 +30,7 @@ void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message)
 }
 
 cbox::CboxError
-MotorValveBlock::toResponse(cbox::Command& cmd) const
+MotorValveBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     FieldTags stripped;
@@ -52,35 +52,35 @@ MotorValveBlock::toResponse(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_MotorValve_Block_fields,
-                                    blox_MotorValve_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_MotorValve_Block_fields,
+                           blox_MotorValve_Block_size);
 }
 
 cbox::CboxError
-MotorValveBlock::toStoredResponse(cbox::Command& cmd) const
+MotorValveBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     addPersistedStateToMessage(message);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_MotorValve_Block_fields,
-                                    blox_MotorValve_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_MotorValve_Block_fields,
+                           blox_MotorValve_Block_size);
 }
 
 cbox::CboxError
-MotorValveBlock::fromRequest(cbox::Command& cmd)
+MotorValveBlock::write(const cbox::Payload& payload)
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_MotorValve_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_MotorValve_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (hwDevice.getId() != message.hwDevice) {

@@ -61,7 +61,7 @@ OneWireBusBlock::OneWireBusBlock(OneWire& ow, void (*onShortDetected_)())
  * - cmd 02: search bus: a sequence of 0 or more 8-byte addresses, MSB first that were found on the bus
  */
 cbox::CboxError
-OneWireBusBlock::toResponse(cbox::Command& cmd) const
+OneWireBusBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
     message.command = command;
@@ -85,19 +85,19 @@ OneWireBusBlock::toResponse(cbox::Command& cmd) const
     command.opcode = NO_OP;
     command.data = 0;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_OneWireBus_Block_fields,
-                                    100); // TODO(Bob): pick sensible value
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_OneWireBus_Block_fields,
+                           100); // TODO(Bob): pick sensible value
 }
 
 cbox::CboxError
-OneWireBusBlock::toStoredResponse(cbox::Command&) const
+OneWireBusBlock::readStored(const cbox::PayloadCallback&) const
 {
-    return cbox::CboxError::BLOCK_NOT_STORED;
+    return cbox::CboxError::OK;
 }
 
 /**
@@ -111,10 +111,10 @@ OneWireBusBlock::toStoredResponse(cbox::Command&) const
  *   (later: set bus power? (off if next byte is 00, on if it's 01) )
  */
 cbox::CboxError
-OneWireBusBlock::fromRequest(cbox::Command& cmd)
+OneWireBusBlock::write(const cbox::Payload& payload)
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_OneWireBus_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_OneWireBus_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         command = message.command;

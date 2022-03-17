@@ -61,8 +61,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
             message.set_address(0x0644'4444'4444'443A);
             message.set_onewirebusid(4);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         THEN("The returned protobuf data is as expected")
@@ -70,8 +70,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
             auto cmd = cbox::TestCommand(ds2413Id, DS2413Block::staticTypeId());
             auto message = blox_test::DS2413::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "address: 451560922637681722 "
@@ -99,8 +99,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 message.set_channel(1);
                 message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
-                serializeToRequest(cmd, message);
-                CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+                messageToPayload(cmd, message);
+                CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             }
 
             THEN("A read of the actuator is as expected")
@@ -108,8 +108,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
                 auto message = blox_test::DigitalActuator::Block();
 
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-                parseFromResponse(cmd, message);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 CHECK(message.ShortDebugString() ==
                       "hwDevice: 100 "
@@ -123,8 +123,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 auto cmd = cbox::TestCommand(ds2413Id, DS2413Block::staticTypeId());
                 auto message = blox_test::DS2413::Block();
 
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-                parseFromResponse(cmd, message);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // DS2413 proto doesn't change when channels are used, but leaving this here for when we change our mind
                 CHECK(message.ShortDebugString() ==
@@ -147,8 +147,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 message.set_channel(1);
                 message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
-                serializeToRequest(cmd, message);
-                CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+                messageToPayload(cmd, message);
+                CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             }
 
             THEN("The configured channel is not lost and the actuator reads as expected")
@@ -156,8 +156,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
                 auto message = blox_test::DigitalActuator::Block();
 
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-                parseFromResponse(cmd, message);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // in simulation, the hw device will not work and therefore the state will be unknown
                 CHECK(message.ShortDebugString() ==
@@ -185,8 +185,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
             auto cmd = cbox::TestCommand(arrayId, MockPinsBlock::staticTypeId());
             auto message = blox_test::MockPins::Block();
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         THEN("The returned mock protobuf data is as expected")
@@ -194,8 +194,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
             auto cmd = cbox::TestCommand(arrayId, MockPinsBlock::staticTypeId());
             auto message = blox_test::MockPins::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "channels { id: 1 } "
@@ -218,8 +218,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 message.set_channel(1);
                 message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
-                serializeToRequest(cmd, message);
-                CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+                messageToPayload(cmd, message);
+                CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             }
 
             THEN("A read of the actuator is as expected")
@@ -227,8 +227,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
                 auto message = blox_test::DigitalActuator::Block();
 
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-                parseFromResponse(cmd, message);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 CHECK(message.ShortDebugString() ==
                       "hwDevice: 100 "
@@ -242,8 +242,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                 auto cmd = cbox::TestCommand(arrayId, MockPinsBlock::staticTypeId());
                 auto message = blox_test::MockPins::Block();
 
-                CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-                parseFromResponse(cmd, message);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind
                 CHECK(message.ShortDebugString() ==

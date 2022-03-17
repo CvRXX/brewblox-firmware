@@ -21,28 +21,28 @@
 #include "proto/DisplaySettings.pb.h"
 
 cbox::CboxError
-DisplaySettingsBlock::toResponse(cbox::Command& cmd) const
+DisplaySettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &m_settings,
-                                    blox_DisplaySettings_Block_fields,
-                                    blox_DisplaySettings_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &m_settings,
+                           blox_DisplaySettings_Block_fields,
+                           blox_DisplaySettings_Block_size);
 }
 
 cbox::CboxError
-DisplaySettingsBlock::toStoredResponse(cbox::Command& cmd) const
+DisplaySettingsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return toResponse(cmd);
+    return read(callback);
 }
 
 cbox::CboxError
-DisplaySettingsBlock::fromRequest(cbox::Command& cmd)
+DisplaySettingsBlock::write(const cbox::Payload& payload)
 {
     blox_DisplaySettings_Block message = blox_DisplaySettings_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_DisplaySettings_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_DisplaySettings_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         m_settings = message;

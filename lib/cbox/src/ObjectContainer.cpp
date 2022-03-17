@@ -19,7 +19,6 @@
 
 #include "cbox/ObjectContainer.h"
 #include "cbox/Application.h"
-#include "cbox/ObjectStream.h"
 #include <algorithm>
 
 namespace cbox {
@@ -46,7 +45,7 @@ std::pair<ObjectContainer::Iterator, ObjectContainer::Iterator> ObjectContainer:
 
 obj_id_t ObjectContainer::nextId() const
 {
-    return std::max(startId, contained.empty() ? startId : ++obj_id_t(contained.back().id()));
+    return std::max(startId, contained.empty() ? startId : obj_id_t(contained.back().id() + 1));
 }
 
 ContainedObject* ObjectContainer::fetchContained(obj_id_t id)
@@ -74,19 +73,19 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool r
     obj_id_t newId;
     Iterator position;
 
-    if (id == obj_id_t::invalid()) { // use 0 to let the container assign a free slot
+    if (id == invalidId) { // use 0 to let the container assign a free slot
         newId = nextId();
         position = contained.end();
     } else {
         if (id < startId) {
-            return obj_id_t::invalid(); // refuse to add system objects
+            return invalidId; // refuse to add system objects
         }
         // find insert position
         auto p = findPosition(id);
         if (p.first != p.second) {
             // existing object found
             if (!replace) {
-                return obj_id_t::invalid(); // refuse to overwrite existing objects
+                return invalidId; // refuse to overwrite existing objects
             }
         }
         newId = id;
@@ -147,10 +146,9 @@ CboxError ObjectContainer::store(const obj_id_t& id)
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    auto storeContained = [&cobj, &id](DataOut& out) -> CboxError {
-        return saveToStream(out, id, cobj->object());
-    };
-    return getStorage().storeObject(id, storeContained);
+    return cobj->readStored([](const Payload& stored) {
+        return getStorage().saveObject(stored);
+    });
 }
 
 CboxError ObjectContainer::reloadStored(const obj_id_t& id)
@@ -160,17 +158,9 @@ CboxError ObjectContainer::reloadStored(const obj_id_t& id)
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    bool handlerCalled = false;
-    auto streamHandler = [&cobj, &id, &handlerCalled](RegionDataIn& in) -> CboxError {
-        handlerCalled = true;
-        return loadFromStream(in, id, cobj->object());
-    };
-    CboxError status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
-    if (!handlerCalled) {
-        return CboxError::INVALID_BLOCK_ID; // write status if handler has not written it
-    }
-
-    return status;
+    return getStorage().loadObject(id, [&cobj](const Payload& stored) {
+        return cobj->write(stored);
+    });
 }
 
 } // end namespace cbox

@@ -22,6 +22,7 @@
 
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
+#include "tl/expected.hpp"
 #include <functional>
 #include <memory>
 #include <tuple>
@@ -30,20 +31,21 @@
 namespace cbox {
 
 template <typename T, std::enable_if_t<std::is_constructible<T>::value, std::nullptr_t> = nullptr>
-std::shared_ptr<Object> make()
+Object* make()
 {
-    return std::shared_ptr<Object>(new T());
+    return new T();
 }
 
 // An object factory combines the create function with a type ID.
 // They can be put in a container that can be walked to find the matching typeId
 // The container keeps the objects as shared pointer, so it can create weak pointers to them.
-// Therefore the factory creates a shared pointer right away to only have one allocation.
+// Factory entries generate a raw pointer to prevent std::shared_ptr template specialization for all entry types.
+// The raw pointers are wrapped in a shared pointer by the factory.
 struct ObjectFactoryEntry {
     obj_type_t typeId;
-    std::shared_ptr<Object> (*createFn)();
+    Object* (*createFn)();
 
-    ObjectFactoryEntry(const obj_type_t& id, std::shared_ptr<Object> (*f)())
+    ObjectFactoryEntry(const obj_type_t& id, Object* (*f)())
         : typeId(id)
         , createFn(f)
     {
@@ -76,7 +78,7 @@ public:
     {
     }
 
-    std::tuple<CboxError, std::shared_ptr<Object>> make(const obj_type_t& t) const;
+    CboxExpected<std::shared_ptr<Object>> make(const obj_type_t& t) const;
 };
 
 } // end namespace cbox

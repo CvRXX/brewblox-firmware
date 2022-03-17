@@ -48,8 +48,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 
         message.set_differentactuatorwait(100);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create/set digital actuator helper
@@ -64,11 +64,11 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
         auto constraintPtr = message.mutable_constrainedby()->add_constraints();
         constraintPtr->set_mutex(mutexId);
 
-        serializeToRequest(cmd, message);
+        messageToPayload(cmd, message);
         if (firstCreate) {
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         } else {
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
     };
 
@@ -84,8 +84,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(mutexId, MutexBlock::staticTypeId());
             auto message = blox_test::Mutex::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "differentActuatorWait: 100 "
@@ -97,8 +97,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(pin1Id, DigitalActuatorBlock::staticTypeId());
             auto message = blox_test::DigitalActuator::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "hwDevice: 19 "
@@ -113,8 +113,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(pin2Id, DigitalActuatorBlock::staticTypeId());
             auto message = blox_test::DigitalActuator::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "hwDevice: 19 "
@@ -130,8 +130,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(id, DigitalActuatorBlock::staticTypeId());
             auto message = blox_test::DigitalActuator::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             return message.state();
         };
@@ -227,8 +227,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(balancerId, BalancerBlock::staticTypeId());
             auto message = blox_test::Balancer::Block();
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Create pwm actuator 1
@@ -246,8 +246,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             balanced->set_balancerid(balancerId);
             c->set_allocated_balanced(balanced);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Create pwm actuator 2
@@ -265,8 +265,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             balanced->set_balancerid(balancerId);
             c->set_allocated_balanced(balanced);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         cbox::update(0);
@@ -277,8 +277,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(balancerId, BalancerBlock::staticTypeId());
             auto message = blox_test::Balancer::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "clients { id: 1 requested: 327680 granted: 204800 } "  // 80*4096, 50*4096
@@ -290,8 +290,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(pwm1Id, ActuatorPwmBlock::staticTypeId());
             auto message = blox_test::ActuatorPwm::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "actuatorId: 102 "
@@ -310,8 +310,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(pwm2Id, ActuatorPwmBlock::staticTypeId());
             auto message = blox_test::ActuatorPwm::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "actuatorId: 103 "
@@ -335,8 +335,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(pwm1Id, ActuatorPwmBlock::staticTypeId());
             auto message = blox_test::ActuatorPwm::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.value() == Approx(cnl::unwrap(ActuatorAnalog::value_t(50))).epsilon(0.05));
         }
@@ -346,8 +346,8 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
             auto cmd = cbox::TestCommand(pwm2Id, ActuatorPwmBlock::staticTypeId());
             auto message = blox_test::ActuatorPwm::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.value() == Approx(cnl::unwrap(ActuatorAnalog::value_t(50))).epsilon(0.05));
         }

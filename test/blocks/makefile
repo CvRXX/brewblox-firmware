@@ -50,12 +50,8 @@ CPPSRC += platform/particle/spark/src/SparkIoBase.cpp
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb
 CSRC += $(wildcard $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb/*.c)
 
-# test/shared
-INCLUDE_DIRS += $(ROOT_DIR)/test/shared
-CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
-
-# tests
-CPPSRC += $(wildcard $(ROOT_DIR)/test/blocks/*.cpp)
+# expected
+INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include
 
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
@@ -76,6 +72,30 @@ CPPSRC += external_libs/device-os/hal/src/gcc/filesystem.cpp
 CPPSRC += external_libs/device-os/test/unit_tests/communication/hal_stubs.cpp
 
 CFLAGS += -DPLATFORM_ID=3
+
+# test/shared
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += $(wildcard $(ROOT_DIR)/test/shared/*.cpp)
+
+# test/blocks
+# listed individually to help with refactoring
+CPPSRC += $(ROOT_DIR)/test/blocks/runner.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/TestApplication.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/ActuatorLogicBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/ActuatorOffsetBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/ActuatorPwmBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/AutoDiscover_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/BalancerAndMutexBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/DigitalActuatorBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/OneWireBusBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/OneWireTempSensorBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/PidBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/SetpointProfileBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/SetpointSensorPairBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/SysInfoBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/TempSensorCombiBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/TempSensorMockBlock_test.cpp
+
 
 # include boost
 CPPFLAGS += -isystem $(BOOST_ROOT)

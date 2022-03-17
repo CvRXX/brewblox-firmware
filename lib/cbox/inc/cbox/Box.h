@@ -20,27 +20,27 @@
 #pragma once
 
 #include "cbox/CboxError.h"
-#include "cbox/Command.h"
 #include "cbox/Object.h"
 #include "cbox/ObjectContainer.h"
+#include "cbox/Payload.h"
 
 namespace cbox {
 
 extern ObjectContainer objects;
 
-CboxError readObject(Command& cmd);
-CboxError writeObject(Command& cmd);
-CboxError createObject(Command& cmd);
-CboxError deleteObject(Command& cmd);
-CboxError listActiveObjects(Command& cmd);
-CboxError readStoredObject(Command& cmd);
-CboxError listStoredObjects(Command& cmd);
-CboxError clearObjects(Command& cmd);
-CboxError discoverNewObjects(Command& cmd);
-CboxError discoverNewObjects();
+CboxError createBlock(const Payload& request, const PayloadCallback& callback);
+CboxError writeBlock(const Payload& request, const PayloadCallback& callback);
+CboxError readBlock(const Payload& request, const PayloadCallback& callback);
+CboxError readAllBlocks(const PayloadCallback& callback);
+CboxError deleteBlock(const Payload& request);
+CboxError readStoredBlock(const Payload& request, const PayloadCallback& callback);
+CboxError readAllStoredBlocks(const PayloadCallback& callback);
+CboxError clearBlocks();
+CboxError discoverBlocks(const PayloadCallback& callback);
+CboxError discoverBlocks();
 
-void loadObjectsFromStorage();
-void unloadAllObjects();
+void loadBlocksFromStorage();
+void unloadBlocks();
 void update(const update_t& now);
 void forcedUpdate(const update_t& now);
 

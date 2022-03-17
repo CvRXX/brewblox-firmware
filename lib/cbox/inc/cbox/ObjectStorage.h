@@ -20,19 +20,17 @@
 #pragma once
 
 #include "cbox/CboxError.h"
-#include "cbox/Command.h"
+#include "cbox/Payload.h"
 #include <cstdint>
 
 namespace cbox {
-
-using storage_id_t = uint16_t;
 
 class ObjectStorage {
 public:
     ObjectStorage() = default;
     virtual ~ObjectStorage() = default;
 
-    virtual CboxError loadObject(const storage_id_t& id, const PayloadCallback& callback)
+    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback)
         = 0;
 
     virtual CboxError loadAllObjects(const PayloadCallback& callback)
@@ -41,7 +39,7 @@ public:
     virtual CboxError saveObject(const Payload& payload)
         = 0;
 
-    virtual bool disposeObject(const storage_id_t& id, bool mergeDisposed = true)
+    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true)
         = 0;
 
     virtual void clear() = 0;
@@ -52,7 +50,7 @@ public:
     ObjectStorageStub() = default;
     virtual ~ObjectStorageStub() = default;
 
-    virtual CboxError loadObject(const storage_id_t&, const PayloadCallback&) override final
+    virtual CboxError loadObject(obj_id_t, const PayloadCallback&) override final
     {
         return CboxError::INVALID_STORED_BLOCK_ID;
     }
@@ -67,7 +65,7 @@ public:
         return CboxError::OK;
     }
 
-    virtual bool disposeObject(const storage_id_t& /*id*/, bool /*mergeDisposed = true*/) override final
+    virtual bool disposeObject(obj_id_t /*id*/, bool /*mergeDisposed = true*/) override final
     {
         return false;
     }

@@ -50,8 +50,8 @@ SCENARIO("A TempSensorCombi block")
         message.set_setting(cnl::unwrap(temp_t(21.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create mock sensor 2
@@ -62,8 +62,8 @@ SCENARIO("A TempSensorCombi block")
         message.set_setting(cnl::unwrap(temp_t(22.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create mock sensor 3
@@ -74,8 +74,8 @@ SCENARIO("A TempSensorCombi block")
         message.set_setting(cnl::unwrap(temp_t(23.0)));
         message.set_connected(true);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     // Create combi sensor
@@ -87,8 +87,8 @@ SCENARIO("A TempSensorCombi block")
         message.add_sensors(sensorId2);
         message.add_sensors(sensorId3);
 
-        serializeToRequest(cmd, message);
-        CHECK(cbox::createObject(cmd) == cbox::CboxError::OK);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
 
     cbox::update(0);
@@ -103,8 +103,8 @@ SCENARIO("A TempSensorCombi block")
             auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
             auto message = blox_test::TempSensorCombi::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "value: 90112 "
@@ -125,8 +125,8 @@ SCENARIO("A TempSensorCombi block")
             message.add_sensors(sensorId2);
             message.add_sensors(sensorId3);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         cbox::update(1000);
@@ -136,8 +136,8 @@ SCENARIO("A TempSensorCombi block")
             auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
             auto message = blox_test::TempSensorCombi::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "value: 94208 "
@@ -159,8 +159,8 @@ SCENARIO("A TempSensorCombi block")
             message.add_sensors(sensorId2);
             message.add_sensors(sensorId3);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         cbox::update(1000);
@@ -170,8 +170,8 @@ SCENARIO("A TempSensorCombi block")
             auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
             auto message = blox_test::TempSensorCombi::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "value: 86016 "
@@ -192,8 +192,8 @@ SCENARIO("A TempSensorCombi block")
             message.set_setting(cnl::unwrap(temp_t(21.0)));
             message.set_connected(false);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Edit mock sensor 2
@@ -204,8 +204,8 @@ SCENARIO("A TempSensorCombi block")
             message.set_setting(cnl::unwrap(temp_t(22.0)));
             message.set_connected(false);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         // Edit mock sensor 3
@@ -216,8 +216,8 @@ SCENARIO("A TempSensorCombi block")
             message.set_setting(cnl::unwrap(temp_t(23.0)));
             message.set_connected(false);
 
-            serializeToRequest(cmd, message);
-            CHECK(cbox::writeObject(cmd) == cbox::CboxError::OK);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
         cbox::update(1000);
@@ -227,8 +227,8 @@ SCENARIO("A TempSensorCombi block")
             auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
             auto message = blox_test::TempSensorCombi::Block();
 
-            CHECK(cbox::readObject(cmd) == cbox::CboxError::OK);
-            parseFromResponse(cmd, message);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
                   "sensors: 101 "

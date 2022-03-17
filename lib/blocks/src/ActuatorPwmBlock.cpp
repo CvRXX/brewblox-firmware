@@ -5,7 +5,7 @@
 #include "proto/Constraints.pb.h"
 
 cbox::CboxError
-ActuatorPwmBlock::toResponse(cbox::Command& cmd) const
+ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
     FieldTags stripped;
@@ -33,17 +33,17 @@ ActuatorPwmBlock::toResponse(cbox::Command& cmd) const
     getAnalogConstraints(message.constrainedBy, constrained);
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_ActuatorPwm_Block_fields,
-                                    blox_ActuatorPwm_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorPwm_Block_fields,
+                           blox_ActuatorPwm_Block_size);
 }
 
 cbox::CboxError
-ActuatorPwmBlock::toStoredResponse(cbox::Command& cmd) const
+ActuatorPwmBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
 
@@ -53,20 +53,20 @@ ActuatorPwmBlock::toStoredResponse(cbox::Command& cmd) const
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_ActuatorPwm_Block_fields,
-                                    blox_ActuatorPwm_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorPwm_Block_fields,
+                           blox_ActuatorPwm_Block_size);
 }
 
 cbox::CboxError
-ActuatorPwmBlock::fromRequest(cbox::Command& cmd)
+ActuatorPwmBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_ActuatorPwm_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_ActuatorPwm_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         actuator.setId(message.actuatorId);

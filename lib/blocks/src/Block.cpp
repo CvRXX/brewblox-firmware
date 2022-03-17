@@ -4,15 +4,11 @@
 #include <pb_encode.h>
 
 cbox::CboxError
-parseRequestPayload(cbox::Command& cmd,
-                    void* destStruct,
-                    const pb_field_t fields[])
+payloadToMessage(const cbox::Payload& payload,
+                 void* destStruct,
+                 const pb_field_t fields[])
 {
-    if (!cmd.request()) {
-        return cbox::CboxError::INVALID_BLOCK;
-    }
-
-    auto& protoBytes = cmd.request()->content;
+    auto& protoBytes = payload.content;
     auto stream = pb_istream_from_buffer(protoBytes.data(), protoBytes.size());
     bool success = pb_decode(&stream, fields, destStruct);
 
@@ -24,23 +20,23 @@ parseRequestPayload(cbox::Command& cmd,
 }
 
 cbox::CboxError
-serializeResponsePayload(cbox::Command& cmd,
-                         cbox::obj_id_t objId,
-                         cbox::obj_type_t typeId,
-                         uint16_t subtype)
+callWithMessage(const cbox::PayloadCallback& callback,
+                cbox::obj_id_t objId,
+                cbox::obj_type_t typeId,
+                uint16_t subtype)
 {
     cbox::Payload payload(objId, typeId, subtype);
-    return cmd.respond(payload);
+    return callback(payload);
 }
 
 cbox::CboxError
-serializeResponsePayload(cbox::Command& cmd,
-                         cbox::obj_id_t objId,
-                         cbox::obj_type_t typeId,
-                         uint16_t subtype,
-                         const void* srcStruct,
-                         const pb_field_t fields[],
-                         size_t maxSize)
+callWithMessage(const cbox::PayloadCallback& callback,
+                cbox::obj_id_t objId,
+                cbox::obj_type_t typeId,
+                uint16_t subtype,
+                const void* srcStruct,
+                const pb_field_t fields[],
+                size_t maxSize)
 {
     auto payload = cbox::Payload(objId, typeId, subtype);
     payload.content.resize(maxSize);
@@ -52,5 +48,5 @@ serializeResponsePayload(cbox::Command& cmd,
     }
 
     payload.content.resize(stream.bytes_written);
-    return cmd.respond(payload);
+    return callback(payload);
 }

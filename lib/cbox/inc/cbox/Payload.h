@@ -20,23 +20,26 @@
 #pragma once
 
 #include "cbox/CboxError.h"
-#include "cbox/ObjectIds.h"
 #include <functional>
 #include <memory>
 #include <vector>
 
 namespace cbox {
 
+using obj_type_t = uint16_t;
+using obj_id_t = uint16_t;
+using obj_subtype_t = uint16_t;
+
 class Payload {
 public:
     const obj_id_t blockId;
     const obj_type_t blockType;
-    const uint16_t subtype;
+    const obj_subtype_t subtype;
     std::vector<uint8_t> content;
 
     Payload(obj_id_t _blockId,
             obj_type_t _blockType,
-            uint16_t _subtype,
+            obj_subtype_t _subtype,
             std::vector<uint8_t>&& _content)
         : blockId(_blockId)
         , blockType(_blockType)
@@ -47,7 +50,7 @@ public:
 
     Payload(obj_id_t _blockId,
             obj_type_t _blockType,
-            uint16_t _subtype)
+            obj_subtype_t _subtype)
         : blockId(_blockId)
         , blockType(_blockType)
         , subtype(_subtype)
@@ -58,33 +61,5 @@ public:
 };
 
 using PayloadCallback = std::function<CboxError(const Payload&)>;
-
-class Command {
-public:
-    Command() = default;
-    Command(const Command&) = delete;
-    Command& operator=(const Command&) = delete;
-
-    virtual ~Command() = default;
-
-    virtual Payload* request() = 0;
-    virtual CboxError respond(const Payload& payload) = 0;
-};
-
-class StubCommand : public Command {
-public:
-    StubCommand() = default;
-    virtual ~StubCommand() = default;
-
-    virtual Payload* request() override final
-    {
-        return nullptr;
-    }
-
-    virtual CboxError respond(const Payload&) override final
-    {
-        return CboxError::OK;
-    }
-};
 
 } // end namespace cbox

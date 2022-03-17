@@ -1,7 +1,7 @@
 #include "CboxConnection.hpp"
-#include "AppBox.hpp"
 #include "Brewblox.hpp"
 #include "CboxConnectionManager.hpp"
+#include "EspBox.hpp"
 #include "cbox/Box.h"
 #include "cbox/Connections.h"
 

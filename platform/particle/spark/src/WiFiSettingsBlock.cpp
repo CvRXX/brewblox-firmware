@@ -21,7 +21,7 @@
 #include "proto/WiFiSettings.pb.h"
 #include "spark/Connectivity.h"
 
-cbox::CboxError WiFiSettingsBlock::toResponse(cbox::Command& cmd) const
+cbox::CboxError WiFiSettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
 
@@ -29,24 +29,24 @@ cbox::CboxError WiFiSettingsBlock::toResponse(cbox::Command& cmd) const
     printWifiSSID(message.ssid, sizeof(message.ssid));
     message.signal = wifiSignal();
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_WiFiSettings_Block_fields,
-                                    blox_WiFiSettings_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_WiFiSettings_Block_fields,
+                           blox_WiFiSettings_Block_size);
 }
 
-cbox::CboxError WiFiSettingsBlock::toStoredResponse(cbox::Command& cmd) const
+cbox::CboxError WiFiSettingsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return serializeResponsePayload(cmd, objectId, staticTypeId(), 0);
+    return callWithMessage(callback, objectId, staticTypeId(), 0);
 }
 
-cbox::CboxError WiFiSettingsBlock::fromRequest(cbox::Command& cmd)
+cbox::CboxError WiFiSettingsBlock::write(const cbox::Payload& payload)
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_WiFiSettings_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_WiFiSettings_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.password[0] != 0) {

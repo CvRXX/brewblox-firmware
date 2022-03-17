@@ -111,7 +111,7 @@ SCENARIO("A container to hold objects")
             CboxError res = CboxError::OK;
 
             for (auto it = container.cbegin(); it != container.cend() && res == CboxError::OK; it++) {
-                res = it->toResponse(cmd);
+                res = it->read(cmd.callback);
             }
 
             CHECK(res == CboxError::OK);
@@ -148,11 +148,11 @@ SCENARIO("A container to hold objects")
         THEN("They generate the INVALID_OBJECT_PTR error on streaming functions")
         {
             auto cobj = container.fetchContained(20);
-            auto res = cobj->toResponse(cmd);
+            auto res = cobj->read(cmd.callback);
             CHECK(res == CboxError::INVALID_BLOCK_ID);
-            res = cobj->toStoredResponse(cmd);
+            res = cobj->readStored(cmd.callback);
             CHECK(res == CboxError::INVALID_BLOCK_ID);
-            res = cobj->fromRequest(cmd);
+            res = cobj->write(cmd.request);
             CHECK(res == CboxError::INVALID_BLOCK_ID);
         }
     }
@@ -174,7 +174,7 @@ SCENARIO("A container with system objects")
         TestCommand cmd;
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
-        spobj->toResponse(cmd);
+        spobj->read(cmd.callback);
         CHECK(hexed(cmd.responses.at(0).content) == "11111111");
     }
 
@@ -184,7 +184,7 @@ SCENARIO("A container with system objects")
 
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
-        spobj->fromRequest(cmd);
+        spobj->write(cmd.request);
         CHECK(*static_cast<LongIntObject*>(&(*spobj)) == LongIntObject(0x11223344));
     }
 

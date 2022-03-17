@@ -17,8 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AppBox.h"
 #include "AppTicks.h"
+#include "ParticleBox.h"
 #include "blox_hal/hal_i2c.h"
 #include "cbox/Box.h"
 #include "cbox/Object.h"
@@ -97,7 +97,7 @@ void onSetupModeBegin()
 {
     ListeningScreen::activate();
     manageConnections(ticks.millis()); // stop http server
-    cbox::unloadAllObjects();
+    cbox::unloadBlocks();
     getConnectionPool().disconnect();
     HAL_Delay_Milliseconds(100);
 }
@@ -156,12 +156,12 @@ void setup()
 
     StartupScreen::setProgress(70);
     StartupScreen::setStep("Loading blocks");
-    cbox::loadObjectsFromStorage();
+    cbox::loadBlocksFromStorage();
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Scanning for new devices");
-    cbox::discoverNewObjects();
+    cbox::discoverBlocks();
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Enabling WiFi and mDNS");

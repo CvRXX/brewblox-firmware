@@ -21,6 +21,7 @@
         "${workspaceFolder}/platform/esp",
         "${workspaceFolder}/external_libs/nanopb",
         "${workspaceFolder}/external_libs/cnl/include",
+        "${workspaceFolder}/external_libs/expected/expected/include",
         "${workspaceFolder}/app/brewblox-esp/components/**",
         "/opt/esp/idf/components/**",
         "/opt/esp/tools/xtensa-esp32-elf/**"
@@ -106,7 +107,8 @@
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
         "${workspaceFolder}/external_libs/device-os/communication/inc",
-        "${workspaceFolder}/external_libs/device-os/dynalib/inc"
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc",
+        "${workspaceFolder}/external_libs/expected/expected/include"
       ],
       "compilerPath": "/usr/local/gcc-arm-embedded/bin/arm-none-eabi-g++",
       "compileCommands": "${workspaceFolder}/build/compile_commands_photon.json"
@@ -147,7 +149,8 @@
         "${workspaceFolder}/external_libs/device-os/services/inc",
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
         "${workspaceFolder}/external_libs/device-os/communication/inc",
-        "${workspaceFolder}/external_libs/device-os/dynalib/inc"
+        "${workspaceFolder}/external_libs/device-os/dynalib/inc",
+        "${workspaceFolder}/external_libs/expected/expected/include"
       ],
       "compilerPath": "/usr/bin/g++",
       "compileCommands": "${workspaceFolder}/build/compile_commands_gcc.json"
@@ -189,6 +192,7 @@
         "${workspaceFolder}/external_libs/device-os/hal/src/newhal",
         "${workspaceFolder}/external_libs/device-os/communication/inc",
         "${workspaceFolder}/external_libs/device-os/dynalib/inc",
+        "${workspaceFolder}/external_libs/expected/expected/include",
         "${workspaceFolder}/external_libs/device-os/third_party/catch2/catch2/single_include/catch2"
       ],
       "compilerPath": "/usr/bin/g++",

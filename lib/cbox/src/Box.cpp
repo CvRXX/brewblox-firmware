@@ -30,7 +30,6 @@
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
 #include "cbox/ObjectStorage.h"
-#include "cbox/ObjectStream.h"
 #include "cbox/ScanningFactory.hpp"
 
 #include <memory>
@@ -43,117 +42,119 @@ ObjectContainer objects;
 
 update_t lastUpdateTime = 0;
 
-CboxError readObject(Command& cmd)
-{
-    if (!cmd.request()) {
-        return CboxError::INVALID_BLOCK;
-    }
-
-    ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
-    }
-
-    auto status = cobj->toResponse(cmd);
-    return status;
-}
-
-CboxError writeObject(Command& cmd)
+CboxError createBlock(const Payload& request, const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
 
-    if (!cmd.request()) {
-        return CboxError::INVALID_BLOCK;
-    }
-
-    ContainedObject* cobj = objects.fetchContained(cmd.request()->blockId);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
-    }
-
-    if (cmd.request()->blockType != cobj->object()->typeId()) {
-        return CboxError::INVALID_BLOCK_TYPE;
-    }
-
-    status = cobj->fromRequest(cmd);
-    if (status != CboxError::OK) {
-        return status;
-    }
-
-    // save new settings to storage
-    auto storeContained = [&cobj](DataOut& out) -> CboxError {
-        return saveToStream(out, cobj->id(), cobj->object());
-    };
-    status = getStorage().storeObject(cobj->id(), storeContained);
-    if (status != CboxError::OK) {
-        return status;
-    }
-
-    cobj->forcedUpdate(lastUpdateTime);
-    return cobj->toResponse(cmd);
-}
-
-CboxError createObject(Command& cmd)
-{
-    CboxError status = CboxError::OK;
-
-    if (!cmd.request()) {
-        return CboxError::INVALID_BLOCK;
-    }
-
-    obj_id_t id(cmd.request()->blockId);
-    obj_type_t typeId(cmd.request()->blockType);
+    obj_id_t id(request.blockId);
+    obj_type_t typeId(request.blockType);
 
     if (id > 0 && id < objects.getObjectsStartId()) {
         return CboxError::INVALID_BLOCK_ID;
     }
 
+    // Check if any factory can make this type
     auto makeResult = make(typeId);
-    status = std::get<0>(makeResult);
-    auto newObj = std::get<1>(makeResult);
-
-    if (newObj) {
-        status = newObj->fromRequest(cmd);
+    if (!makeResult) {
+        return makeResult.error();
     }
 
+    // Write desired settings to the newly created block
+    status = makeResult.value()->write(request);
     if (status != CboxError::OK) {
         return status;
     }
 
-    // add object to container. Id is returned because id from command can be 0 to let the box assign it
-    id = objects.add(std::move(newObj), id, false);
+    // Add new block to the container
+    // Id is returned because id from command can be 0 to let the box assign it
+    id = objects.add(std::move(makeResult.value()), id, false);
     ContainedObject* cobj = objects.fetchContained(id);
 
     if (cobj == nullptr) {
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    // persist newly created object to storage
-    auto storeContained = [&cobj, &id](DataOut& out) -> CboxError {
-        return saveToStream(out, id, cobj->object());
-    };
-    status = getStorage().storeObject(id, storeContained);
+    // Save block settings to storage
+    status = cobj->readStored([](const Payload& stored) {
+        return getStorage().saveObject(stored);
+    });
+
     if (status != CboxError::OK) {
         objects.remove(id);
         return status;
     }
 
-    // immediately trigger an update
+    // Update and read block
     cobj->forcedUpdate(lastUpdateTime);
-    status = cobj->toResponse(cmd);
+    status = cobj->read(callback);
 
     return status;
 }
 
-CboxError deleteObject(Command& cmd)
+CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
 
-    if (!cmd.request()) {
-        return CboxError::INVALID_BLOCK;
+    ContainedObject* cobj = objects.fetchContained(request.blockId);
+    if (cobj == nullptr) {
+        return CboxError::INVALID_BLOCK_ID;
     }
 
-    obj_id_t id(cmd.request()->blockId);
+    if (request.blockType != cobj->object()->typeId()) {
+        return CboxError::INVALID_BLOCK_TYPE;
+    }
+
+    // Write new settings to block
+    status = cobj->write(request);
+    if (status != CboxError::OK) {
+        return status;
+    }
+
+    // Save updated settings to storage
+    status = cobj->readStored([](const Payload& stored) {
+        return getStorage().saveObject(stored);
+    });
+
+    if (status != CboxError::OK) {
+        return status;
+    }
+
+    // Update and read block
+    cobj->forcedUpdate(lastUpdateTime);
+    status = cobj->read(callback);
+
+    return status;
+}
+
+CboxError readBlock(const Payload& request, const PayloadCallback& callback)
+{
+    ContainedObject* cobj = objects.fetchContained(request.blockId);
+    if (cobj == nullptr) {
+        return CboxError::INVALID_BLOCK_ID;
+    }
+
+    if (request.blockType != 0 && request.blockType != cobj->object()->typeId()) {
+        return CboxError::INVALID_BLOCK_TYPE;
+    }
+
+    auto status = cobj->read(callback);
+    return status;
+}
+
+CboxError readAllBlocks(const PayloadCallback& callback)
+{
+    CboxError status = CboxError::OK;
+    for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
+        status = it->read(callback);
+    }
+    return status;
+}
+
+CboxError deleteBlock(const Payload& request)
+{
+    CboxError status = CboxError::OK;
+
+    obj_id_t id(request.blockId);
     obj_id_t storageId = id;
 
     auto deprecated = CboxPtr<DeprecatedObject>(id);
@@ -168,38 +169,17 @@ CboxError deleteObject(Command& cmd)
     return status;
 }
 
-CboxError listActiveObjects(Command& cmd)
+CboxError readStoredBlock(const Payload& request, const PayloadCallback& callback)
 {
-    CboxError status = CboxError::OK;
-    for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
-        status = it->toResponse(cmd);
-    }
-    return status;
+    return getStorage().loadObject(request.blockId, callback);
 }
 
-CboxError readStoredObject(Command& cmd)
+CboxError readAllStoredBlocks(const PayloadCallback& callback)
 {
-    if (!cmd.request()) {
-        return CboxError::INVALID_BLOCK;
-    }
-
-    auto objId = cmd.request()->blockId;
-
-    const auto loader = [&cmd, &objId](RegionDataIn& in) -> CboxError {
-        return readPersistedFromStream(in, objId, cmd);
-    };
-    return getStorage().retrieveObject(objId, loader);
+    return getStorage().loadAllObjects(callback);
 }
 
-CboxError listStoredObjects(Command& cmd)
-{
-    const auto objectLoader = [&cmd](storage_id_t id, RegionDataIn& in) -> CboxError {
-        return readPersistedFromStream(in, id, cmd);
-    };
-    return getStorage().retrieveObjects(objectLoader);
-}
-
-CboxError clearObjects(Command&)
+CboxError clearBlocks()
 {
     // remove user objects from storage
     auto cit = objects.userbegin();
@@ -216,7 +196,7 @@ CboxError clearObjects(Command&)
     return CboxError::OK;
 }
 
-CboxError discoverNewObjects(Command& cmd)
+CboxError discoverBlocks(const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
     while (auto newObj = scan()) {
@@ -224,15 +204,13 @@ CboxError discoverNewObjects(Command& cmd)
         auto cobj = objects.fetchContained(newId);
 
         if (cobj != nullptr) { // always true, but just in case
-            status = cobj->toResponse(cmd);
+            status = cobj->readStored([](const Payload& stored) {
+                return getStorage().saveObject(stored);
+            });
             if (status != CboxError::OK) {
                 return status;
             }
-
-            auto storeContained = [&cobj, &newId](DataOut& out) -> CboxError {
-                return saveToStream(out, newId, cobj->object());
-            };
-            status = getStorage().storeObject(newId, storeContained);
+            status = cobj->read(callback);
             if (status != CboxError::OK) {
                 return status;
             }
@@ -241,57 +219,59 @@ CboxError discoverNewObjects(Command& cmd)
     return status;
 }
 
-CboxError discoverNewObjects()
+CboxError discoverBlocks()
 {
-    StubCommand cmd;
-    return discoverNewObjects(cmd);
+    return discoverBlocks([](const Payload&) {
+        return CboxError::OK;
+    });
 }
 
-void loadObjectsFromStorage()
+void loadBlocksFromStorage()
 {
     // keep a list of deprecated objects so we can add them after all other objects
     // they get a new ID, if use the next free ID before all other objects are processed
     // then they can take an ID that is in use by an object loader later
     std::vector<obj_id_t> deprecatedList;
 
-    const auto objectLoader = [&deprecatedList](storage_id_t id, std::vector<uint8_t>&& objData) -> CboxError {
-        obj_id_t objId = obj_id_t(id);
+    // now apply the loader above to all objects in storage
+    getStorage().loadAllObjects([&deprecatedList](const Payload& payload) -> CboxError {
         CboxError status = CboxError::OK;
 
-        if (auto cobj = objects.fetchContained(objId)) {
+        if (auto cobj = objects.fetchContained(payload.blockId)) {
             // existing object
-            status = loadFromStream(in, objId, cobj->object());
+            status = cobj->write(payload);
         } else {
             // new object
-            auto created = createFromStream(in, objId);
-            auto newObj = created.second;
-            status = created.first;
 
-            if (status == CboxError::BLOCK_NOT_CREATABLE) {
-                deprecatedList.emplace_back(id);
-                status = CboxError::OK;
+            // Check if any factory can make this type
+            auto makeResult = make(payload.blockType);
+            if (!makeResult) {
+                if (makeResult.error() == CboxError::BLOCK_NOT_CREATABLE) {
+                    deprecatedList.push_back(payload.blockId);
+                    return CboxError::OK;
+                } else {
+                    return makeResult.error();
+                }
             }
 
+            // Write desired settings to the newly created block
+            status = makeResult.value()->write(payload);
             if (status != CboxError::OK) {
                 return status;
             }
 
-            if (newObj) {
-                objects.add(std::move(newObj), id);
-            }
+            objects.add(std::move(makeResult.value()), payload.blockId);
         }
         return status;
-    };
-    // now apply the loader above to all objects in storage
-    getStorage().loadAllObjects(objectLoader);
+    });
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {
-        objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)), 0xFF);
+        objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)));
     }
 }
 
-void unloadAllObjects()
+void unloadBlocks()
 {
     objects.clearAll();
 }

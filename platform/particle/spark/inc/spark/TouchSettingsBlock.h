@@ -24,9 +24,9 @@
 // provides a protobuf interface to the read only system info
 class TouchSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_TouchSettings> {
 
-    virtual cbox::CboxError toResponse(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError toStoredResponse(cbox::Command& cmd) const override final;
-    virtual cbox::CboxError fromRequest(cbox::Command& cmd) override final;
+    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
+    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
+    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
 
     virtual cbox::update_t update(const cbox::update_t& now) override final
     {

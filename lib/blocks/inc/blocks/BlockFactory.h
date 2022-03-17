@@ -2,5 +2,6 @@
 
 #include "cbox/ObjectContainer.h"
 #include "cbox/ObjectFactory.h"
+#include "tl/expected.hpp"
 
-std::tuple<cbox::CboxError, std::shared_ptr<cbox::Object>> makeBlock(const cbox::obj_type_t& t);
+cbox::CboxExpected<std::shared_ptr<cbox::Object>> makeBlock(const cbox::obj_type_t& t);

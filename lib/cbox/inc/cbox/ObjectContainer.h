@@ -25,12 +25,13 @@
 
 namespace cbox {
 
-const obj_id_t userStartId(100);
+constexpr obj_id_t userStartId{100};
+constexpr obj_id_t invalidId{0};
 
 class ObjectContainer {
 private:
     std::vector<ContainedObject> contained;
-    obj_id_t startId = obj_id_t::start();
+    obj_id_t startId = 1;
 
 public:
     using Iterator = decltype(contained)::iterator;
@@ -83,7 +84,7 @@ public:
     // create a new object and let box assign id
     obj_id_t add(std::shared_ptr<Object>&& obj)
     {
-        return add(std::move(obj), obj_id_t::invalid());
+        return add(std::move(obj), invalidId);
     }
 
     // create a new object with specific id, optionally replacing an existing object

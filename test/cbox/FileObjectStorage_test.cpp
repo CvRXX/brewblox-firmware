@@ -20,7 +20,6 @@
 #include "TestObjects.h"
 #include "cbox/FileObjectStorage.h"
 #include "cbox/Object.h"
-#include "cbox/ObjectStream.h"
 #include <algorithm>
 #include <catch.hpp>
 #include <cstdio>
@@ -28,7 +27,7 @@
 
 using namespace cbox;
 
-SCENARIO("Storing and retreiving blocks with file storage")
+SCENARIO("Storing and retrieving blocks with file storage")
 {
     auto tmpPath = std::filesystem::temp_directory_path() / "cbox-test" / "blocks";
     std::error_code err;
@@ -37,19 +36,22 @@ SCENARIO("Storing and retreiving blocks with file storage")
 
     FileObjectStorage storage(tmpPath.string());
 
-    // storage doesn't know about the Object class, these functors handle the conversion to streams
-    auto retrieveObjectFromStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& target) -> CboxError {
-        auto dataHandler = [&id, &target](RegionDataIn& in) -> CboxError {
-            return loadFromStream(in, id, target);
-        };
-        return storage.retrieveObject(id, dataHandler);
+    // storage doesn't know about the Object class, these functors handle the conversion to payload
+    auto loadObjectFromStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& target) -> CboxError {
+        return storage.loadObject(id, [&target](const Payload& stored) {
+            return target->write(stored);
+        });
     };
 
     auto saveObjectToStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& source) -> CboxError {
-        auto dataHandler = [&id, &source](DataOut& out) -> CboxError {
-            return saveToStream(out, id, source);
-        };
-        return storage.storeObject(id, dataHandler);
+        return source->readStored([&storage, &id](const Payload& stored) {
+            auto contentCopy = std::vector<uint8_t>();
+            std::copy(stored.content.begin(), stored.content.end(), std::back_inserter(contentCopy));
+            return storage.saveObject(Payload(id,
+                                              stored.blockType,
+                                              0,
+                                              std::move(contentCopy)));
+        });
     };
 
     WHEN("An object is created")
@@ -73,7 +75,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 AND_THEN(
                     "The file size is 10 bytes"
                     ", 2 bytes object id"
-                    ", 1 byte reserved"
+                    ", 1 byte flags"
                     ", 2 bytes object type"
                     ", 4 bytes object data"
                     ", 1 byte CRC")
@@ -88,7 +90,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
             THEN("The data can be streamed back from file")
             {
                 auto target = std::make_shared<LongIntObject>(0xFFFFFFFF);
-                auto res = retrieveObjectFromStorage(obj_id_t(1), target);
+                auto res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(obj->value() == target->value());
             }
@@ -100,7 +102,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 CHECK(res == CboxError::OK);
 
                 auto received = std::shared_ptr<LongIntObject>(new LongIntObject((0xFFFFFFFF)));
-                res = retrieveObjectFromStorage(obj_id_t(1), received);
+                res = loadObjectFromStorage(obj_id_t(1), received);
                 CHECK(res == CboxError::OK);
                 CHECK(obj->value() == received->value());
             }
@@ -117,7 +119,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 THEN("It cannot be retrieved anymore")
                 {
                     auto received = std::shared_ptr<LongIntObject>(new LongIntObject((0xFFFFFFFF)));
-                    auto res = retrieveObjectFromStorage(obj_id_t(1), received);
+                    auto res = loadObjectFromStorage(obj_id_t(1), received);
                     CHECK(res == CboxError::INVALID_STORED_BLOCK_ID);
                     CHECK(0xFFFFFFFF == received->value()); // received is unchanged
                 }
@@ -134,7 +136,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                     AND_THEN("The id returns the new object's data")
                     {
                         auto received = std::shared_ptr<LongIntObject>(new LongIntObject((0xFFFFFFFF)));
-                        auto res = retrieveObjectFromStorage(obj_id_t(1), received);
+                        auto res = loadObjectFromStorage(obj_id_t(1), received);
                         CHECK(res == CboxError::OK);
                         CHECK(uint32_t(0xAAAAAAAA) == received->value());
                     }
@@ -158,7 +160,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
             THEN("The data can be streamed back from file")
             {
                 target = std::make_shared<LongIntVectorObject>();
-                auto res = retrieveObjectFromStorage(obj_id_t(1), target);
+                auto res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(*obj == *target);
             }
@@ -170,7 +172,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 CHECK(res == CboxError::OK);
 
                 target = std::make_shared<LongIntVectorObject>();
-                res = retrieveObjectFromStorage(obj_id_t(1), target);
+                res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(*obj == *target);
             }
@@ -182,7 +184,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 CHECK(res == CboxError::OK);
 
                 target = std::make_shared<LongIntVectorObject>();
-                res = retrieveObjectFromStorage(obj_id_t(1), target);
+                res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(*obj == *target);
             }
@@ -194,7 +196,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 CHECK(res == CboxError::OK);
 
                 target = std::make_shared<LongIntVectorObject>();
-                res = retrieveObjectFromStorage(obj_id_t(1), target);
+                res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(*obj == *target);
             }
@@ -206,7 +208,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 CHECK(res == CboxError::OK);
 
                 target = std::make_shared<LongIntVectorObject>();
-                res = retrieveObjectFromStorage(obj_id_t(1), target);
+                res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(*obj == *target);
             }
@@ -218,7 +220,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 CHECK(res == CboxError::OK);
 
                 target = std::make_shared<LongIntVectorObject>();
-                res = retrieveObjectFromStorage(obj_id_t(1), target);
+                res = loadObjectFromStorage(obj_id_t(1), target);
                 CHECK(res == CboxError::OK);
                 CHECK(*obj == *target);
             }
@@ -234,7 +236,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 THEN("It cannot be retrieved anymore")
                 {
                     target = std::make_shared<LongIntVectorObject>();
-                    auto res = retrieveObjectFromStorage(obj_id_t(1), target);
+                    auto res = loadObjectFromStorage(obj_id_t(1), target);
                     CHECK(res == CboxError::INVALID_STORED_BLOCK_ID);
                 }
                 THEN("The id can be re-used, for a different object type")
@@ -250,7 +252,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                     AND_THEN("The id returns the new object's data")
                     {
                         auto received = std::make_shared<LongIntObject>(0xAAAAAAAA);
-                        auto res = retrieveObjectFromStorage(obj_id_t(1), received);
+                        auto res = loadObjectFromStorage(obj_id_t(1), received);
                         CHECK(res == CboxError::OK);
                         CHECK(uint32_t(0xAAAAAAAA) == received->value());
                     }
@@ -281,14 +283,14 @@ SCENARIO("Storing and retreiving blocks with file storage")
             AND_THEN("They can be retrieved successfully")
             {
                 auto received = std::make_shared<LongIntVectorObject>();
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(1), received));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(1), received));
                 CHECK(*obj1 == *received);
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(2), received));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(2), received));
                 CHECK(*obj2 == *received);
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(3), received));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(3), received));
                 CHECK(*obj3 == *received);
                 auto received2 = std::make_shared<LongIntObject>();
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(4), received2));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(4), received2));
                 CHECK(*obj4 == *received2);
             }
 
@@ -297,7 +299,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
                 obj2->values = {0x33333333, 0x33333333};
                 CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(2), obj2));
                 auto received = std::make_shared<LongIntVectorObject>();
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(2), received));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(2), received));
                 CHECK(*obj2 == *received);
             }
 
@@ -305,23 +307,23 @@ SCENARIO("Storing and retreiving blocks with file storage")
             {
                 storage.disposeObject(obj_id_t(2));
                 auto received = std::make_shared<LongIntVectorObject>();
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(1), received));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(1), received));
                 CHECK(*obj1 == *received);
-                CHECK(CboxError::INVALID_STORED_BLOCK_ID == retrieveObjectFromStorage(obj_id_t(2), received));
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(3), received));
+                CHECK(CboxError::INVALID_STORED_BLOCK_ID == loadObjectFromStorage(obj_id_t(2), received));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(3), received));
                 CHECK(*obj3 == *received);
                 auto received2 = std::make_shared<LongIntObject>();
-                CHECK(CboxError::OK == retrieveObjectFromStorage(obj_id_t(4), received2));
+                CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(4), received2));
                 CHECK(*obj4 == *received2);
 
                 AND_THEN("A handler handling all objects does not see the deleted object")
                 {
                     std::vector<obj_id_t> ids;
-                    auto idCollector = [&ids](const storage_id_t& id, DataIn& objInStorage) -> CboxError {
-                        ids.push_back(id);
+                    auto idCollector = [&ids](const Payload& stored) -> CboxError {
+                        ids.push_back(stored.blockId);
                         return CboxError::OK;
                     };
-                    CHECK(storage.retrieveObjects(idCollector) == CboxError::OK);
+                    CHECK(storage.loadAllObjects(idCollector) == CboxError::OK);
                     std::sort(ids.begin(), ids.end()); // sort ids because the files are loaded in random order
                     CHECK(ids == std::vector<obj_id_t>({1, 3, 4}));
                 }
@@ -330,15 +332,15 @@ SCENARIO("Storing and retreiving blocks with file storage")
             AND_THEN("When a storage stream error occurs when handling a block, the block is skipped")
             {
                 std::vector<obj_id_t> ids;
-                auto errorOn3 = [&ids](const storage_id_t& id, DataIn& objInStorage) -> CboxError {
-                    if (id == 3) {
-                        return CboxError::STORAGE_ERROR;
+                auto errorOn3 = [&ids](const Payload& stored) -> CboxError {
+                    if (stored.blockId == 3) {
+                        return CboxError::STORAGE_READ_ERROR;
                     }
-                    ids.push_back(id);
+                    ids.push_back(stored.blockId);
                     return CboxError::OK;
                 };
 
-                CHECK(storage.retrieveObjects(errorOn3) == CboxError::OK);
+                CHECK(storage.loadAllObjects(errorOn3) == CboxError::OK);
                 // files are not processed in order
                 // sort the ids first
                 std::sort(ids.begin(), ids.end(), [](const obj_id_t& a, const obj_id_t& b) { return (a < b); });
@@ -365,11 +367,11 @@ SCENARIO("Storing and retreiving blocks with file storage")
 
         WHEN("The error occurs during test serialization, the error raised is returned")
         {
-            obj->readPersistedFunc = [](Command& cmd) { return CboxError::NETWORK_WRITE_ERROR; };
+            obj->readStoredFunc = [](const PayloadCallback&) { return CboxError::NETWORK_WRITE_ERROR; };
             auto res = saveObjectToStorage(obj_id_t(1234), obj);
             CHECK(res == CboxError::NETWORK_WRITE_ERROR);
 
-            obj->readPersistedFunc = [](Command& cmd) { return CboxError::NETWORK_ENCODING_ERROR; };
+            obj->readStoredFunc = [](const PayloadCallback&) { return CboxError::NETWORK_ENCODING_ERROR; };
             res = saveObjectToStorage(obj_id_t(1234), obj);
             CHECK(res == CboxError::NETWORK_ENCODING_ERROR);
         }
@@ -379,8 +381,8 @@ SCENARIO("Storing and retreiving blocks with file storage")
     {
         storage.clear();
         auto obj = std::make_shared<MockStreamObject>();
-        obj->readPersistedFunc = [](Command& cmd) {
-            return CboxError::BLOCK_NOT_STORED;
+        obj->readStoredFunc = [](const PayloadCallback&) {
+            return CboxError::OK;
         };
 
         THEN("The file is not created")
@@ -388,7 +390,7 @@ SCENARIO("Storing and retreiving blocks with file storage")
             auto res = saveObjectToStorage(obj_id_t(1), obj);
             CHECK(res == CboxError::OK);
 
-            CHECK(CboxError::INVALID_STORED_BLOCK_ID == retrieveObjectFromStorage(1, obj));
+            CHECK(CboxError::INVALID_STORED_BLOCK_ID == loadObjectFromStorage(1, obj));
 
             CHECK(fopen((tmpPath / "1").c_str(), "r") == nullptr);
         }

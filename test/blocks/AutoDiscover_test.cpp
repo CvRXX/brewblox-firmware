@@ -39,7 +39,7 @@ SCENARIO("Auto discovery of OneWire devices")
     WHEN("An object discovery command is received")
     {
         auto discoverCmd = cbox::TestCommand();
-        CHECK(cbox::discoverNewObjects(discoverCmd) == cbox::CboxError::OK);
+        CHECK(cbox::discoverBlocks(discoverCmd.callback) == cbox::CboxError::OK);
 
         THEN("New objects are discovered")
         {
@@ -69,7 +69,7 @@ SCENARIO("Auto discovery of OneWire devices")
         AND_WHEN("The command is given for the second time")
         {
             auto repeatedDiscoverCmd = cbox::TestCommand();
-            CHECK(cbox::discoverNewObjects(repeatedDiscoverCmd) == cbox::CboxError::OK);
+            CHECK(cbox::discoverBlocks(repeatedDiscoverCmd.callback) == cbox::CboxError::OK);
 
             THEN("No new objects are discovered")
             {
@@ -80,12 +80,12 @@ SCENARIO("Auto discovery of OneWire devices")
         AND_WHEN("One of the sensors is removed")
         {
             auto removeCmd = cbox::TestCommand(101, 0);
-            CHECK(cbox::deleteObject(removeCmd) == cbox::CboxError::OK);
+            CHECK(cbox::deleteBlock(removeCmd.request) == cbox::CboxError::OK);
 
             THEN("It will be discovered again")
             {
                 auto rediscoverCmd = cbox::TestCommand();
-                CHECK(cbox::discoverNewObjects(rediscoverCmd) == cbox::CboxError::OK);
+                CHECK(cbox::discoverBlocks(rediscoverCmd.callback) == cbox::CboxError::OK);
                 CHECK(rediscoverCmd.responses.size() == 1);
             }
         }

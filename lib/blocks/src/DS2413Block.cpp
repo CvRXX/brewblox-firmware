@@ -21,7 +21,7 @@
 #include "proto/DS2413.pb.h"
 
 cbox::CboxError
-DS2413Block::toResponse(cbox::Command& cmd) const
+DS2413Block::read(const cbox::PayloadCallback& callback) const
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
@@ -33,37 +33,37 @@ DS2413Block::toResponse(cbox::Command& cmd) const
     message.channels[0].id = blox_DS2413_ChannelId_DS2413_CHAN_A;
     message.channels[1].id = blox_DS2413_ChannelId_DS2413_CHAN_B;
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_DS2413_Block_fields,
-                                    blox_DS2413_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_DS2413_Block_fields,
+                           blox_DS2413_Block_size);
 }
 
 cbox::CboxError
-DS2413Block::toStoredResponse(cbox::Command& cmd) const
+DS2413Block::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
     message.oneWireBusId = owBus.getId();
     message.address = device.address();
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_DS2413_Block_fields,
-                                    blox_DS2413_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_DS2413_Block_fields,
+                           blox_DS2413_Block_size);
 }
 
 cbox::CboxError
-DS2413Block::fromRequest(cbox::Command& cmd)
+DS2413Block::write(const cbox::Payload& payload)
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_DS2413_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_DS2413_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {

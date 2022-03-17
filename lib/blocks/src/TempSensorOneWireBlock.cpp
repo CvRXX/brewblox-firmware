@@ -40,7 +40,7 @@ TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWi
 }
 
 cbox::CboxError
-TempSensorOneWireBlock::toResponse(cbox::Command& cmd) const
+TempSensorOneWireBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     FieldTags stripped;
@@ -57,17 +57,17 @@ TempSensorOneWireBlock::toResponse(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TempSensorOneWire_Block_fields,
-                                    blox_TempSensorOneWire_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TempSensorOneWire_Block_fields,
+                           blox_TempSensorOneWire_Block_size);
 }
 
 cbox::CboxError
-TempSensorOneWireBlock::toStoredResponse(cbox::Command& cmd) const
+TempSensorOneWireBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
 
@@ -75,20 +75,20 @@ TempSensorOneWireBlock::toStoredResponse(cbox::Command& cmd) const
     message.address = sensor.address();
     message.offset = cnl::unwrap(sensor.getCalibration());
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_TempSensorOneWire_Block_fields,
-                                    blox_TempSensorOneWire_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_TempSensorOneWire_Block_fields,
+                           blox_TempSensorOneWire_Block_size);
 }
 
 cbox::CboxError
-TempSensorOneWireBlock::fromRequest(cbox::Command& cmd)
+TempSensorOneWireBlock::write(const cbox::Payload& payload)
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_TempSensorOneWire_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_TempSensorOneWire_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {

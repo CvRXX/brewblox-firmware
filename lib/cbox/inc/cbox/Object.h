@@ -20,9 +20,7 @@
 #pragma once
 
 #include "cbox/CboxError.h"
-#include "cbox/Command.h"
-#include "cbox/DataStream.h"
-#include "cbox/ObjectIds.h"
+#include "cbox/Payload.h"
 #include <limits>
 
 namespace cbox {
@@ -72,20 +70,20 @@ public:
      * Each object can yield its own data on request.
      * It can do so by calling cmd.respond(Payload&) during this function.
      */
-    virtual CboxError toResponse(Command& cmd) const = 0;
+    virtual CboxError read(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can yield data they want persisted.
      * The persisted data should be compatible with fromRequest(Command&).
      * It can do so by calling cmd.respond(Payload&) during this function.
      */
-    virtual CboxError toStoredResponse(Command& cmd) const = 0;
+    virtual CboxError readStored(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can optionally receive new data from an incoming command.
      * It fetches the incoming data from cmd.request().
      */
-    virtual CboxError fromRequest(Command& cmd) = 0;
+    virtual CboxError write(const Payload& payload) = 0;
 
     /**
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it

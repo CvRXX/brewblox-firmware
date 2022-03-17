@@ -20,7 +20,7 @@ void DigitalActuatorBlock::addPersistedStateToMessage(blox_DigitalActuator_Block
 }
 
 cbox::CboxError
-DigitalActuatorBlock::toResponse(cbox::Command& cmd) const
+DigitalActuatorBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
     FieldTags stripped;
@@ -35,36 +35,36 @@ DigitalActuatorBlock::toResponse(cbox::Command& cmd) const
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_DigitalActuator_Block_fields,
-                                    blox_DigitalActuator_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_DigitalActuator_Block_fields,
+                           blox_DigitalActuator_Block_size);
 }
 
 cbox::CboxError
-DigitalActuatorBlock::toStoredResponse(cbox::Command& cmd) const
+DigitalActuatorBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
 
     addPersistedStateToMessage(message);
 
-    return serializeResponsePayload(cmd,
-                                    objectId,
-                                    staticTypeId(),
-                                    0,
-                                    &message,
-                                    blox_DigitalActuator_Block_fields,
-                                    blox_DigitalActuator_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_DigitalActuator_Block_fields,
+                           blox_DigitalActuator_Block_size);
 }
 
 cbox::CboxError
-DigitalActuatorBlock::fromRequest(cbox::Command& cmd)
+DigitalActuatorBlock::write(const cbox::Payload& payload)
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
-    auto res = parseRequestPayload(cmd, &message, blox_DigitalActuator_Block_fields);
+    auto res = payloadToMessage(payload, &message, blox_DigitalActuator_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         if (hwDevice.getId() != message.hwDevice) {
