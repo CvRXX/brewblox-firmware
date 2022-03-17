@@ -2,37 +2,37 @@
  * Copyright 2020 BrewPi B.V./Elco Jacobs.
  *
  * This file is part of Brewblox.
- * 
+ *
  * Brewblox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Brewblox is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
+#include "blox_hal/hal_gpio.h"
+#include "blox_hal/hal_spi.hpp"
+#include "blox_hal/hal_spi_types.h"
 #include "esp32/rom/ets_sys.h"
-#include "hal/hal_gpio.h"
-#include "hal/hal_spi.hpp"
-#include "hal/hal_spi_types.h"
 
 /**
- * A driver for the TFT035 display controller. 
+ * A driver for the TFT035 display controller.
  */
 class TFT035 {
 public:
-    /** 
-    * Constructs the driver.
-    * 
-    * @param finishCallback The callback to be called when the pixels are transfered to the screen.
-    */
+    /**
+     * Constructs the driver.
+     *
+     * @param finishCallback The callback to be called when the pixels are transfered to the screen.
+     */
     TFT035(void (*finishCallback)(void));
     ~TFT035() = default;
 
@@ -47,7 +47,7 @@ public:
 
     /**
      * Writing a n of pixels to the screen in a defined area.
-     * 
+     *
      * @param xs The start postition of the x of the writing area.
      * @param xe The end postition of the x of the writing area.
      * @param ys The start postition of the y of the writing area.

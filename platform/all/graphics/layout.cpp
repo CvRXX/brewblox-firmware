@@ -1,14 +1,13 @@
 #include "layout.hpp"
 #include "Spark4.hpp"
 #include "bar.hpp"
-#include "blox/DisplaySettingsBlock.h"
-#include "cbox/Box.h"
+#include "blocks/DisplaySettingsBlock.h"
+#include "cbox/CboxPtr.h"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
 #include <algorithm>
 
-Layout::Layout(cbox::Box& box)
-    : box(box)
+Layout::Layout()
 {
     lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_SCROLLABLE);
     mainContainer = lv_obj_create(lv_scr_act());

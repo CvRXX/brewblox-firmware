@@ -1,5 +1,5 @@
 #include "MockI2CDevice.hpp"
-#include "hal/hal_i2c.h"
+#include "blox_hal/hal_i2c.h"
 #include <algorithm>
 #include <cassert>
 #include <memory>

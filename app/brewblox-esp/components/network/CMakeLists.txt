@@ -6,9 +6,12 @@ idf_component_register(
     src/network/CboxTcpConnection.cpp
     src/network/ethernet.cpp
     src/network/wifi.cpp
-  INCLUDE_DIRS 
+  INCLUDE_DIRS
     src
+  PRIV_REQUIRES
+    nvs_flash
+    wifi_provisioning
+    qrcode
   REQUIRES
     main
-    controlbox
 )
