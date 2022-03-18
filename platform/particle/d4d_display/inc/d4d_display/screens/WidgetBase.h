@@ -18,7 +18,7 @@
  */
 
 #pragma once
-#include "control/Temperature.h"
+#include "control/Temperature.hpp"
 #include "d4d_display/screens/WidgetWrapper.h"
 
 struct WidgetSettings {

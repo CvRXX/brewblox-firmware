@@ -19,17 +19,17 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/ActuatorPwmBlock.h"
-#include "blocks/BalancerBlock.h"
-#include "blocks/DigitalActuatorBlock.h"
-#include "blocks/MutexBlock.h"
-#include "cbox/Box.h"
+#include "TestHelpers.hpp"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "blocks/BalancerBlock.hpp"
+#include "blocks/DigitalActuatorBlock.hpp"
+#include "blocks/MutexBlock.hpp"
+#include "cbox/Box.hpp"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/Balancer_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/Mutex_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 {

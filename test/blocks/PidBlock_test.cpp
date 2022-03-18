@@ -19,18 +19,18 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/ActuatorAnalogMockBlock.h"
-#include "blocks/PidBlock.h"
-#include "blocks/SetpointSensorPairBlock.h"
-#include "blocks/TempSensorMockBlock.h"
-#include "cbox/Box.h"
-#include "control/Temperature.h"
+#include "TestHelpers.hpp"
+#include "blocks/ActuatorAnalogMockBlock.hpp"
+#include "blocks/PidBlock.hpp"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/TempSensorMockBlock.hpp"
+#include "cbox/Box.hpp"
+#include "control/Temperature.hpp"
 #include "proto/ActuatorAnalogMock_test.pb.h"
 #include "proto/Pid_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("A Blox Pid object with mock analog actuator")
 {

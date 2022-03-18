@@ -4,7 +4,7 @@
 
 #include "CircularBuffer.hpp"
 #include "CircularBufferView.hpp"
-#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_delay.hpp"
 #include "esp_log.h"
 #include <asio.hpp>
 #include <functional>

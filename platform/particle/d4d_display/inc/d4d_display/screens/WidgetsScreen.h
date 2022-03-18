@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/Temperature.h"
+#include "control/Temperature.hpp"
 #include "d4d_display/screens/WidgetBase.h"
 
 class WidgetsScreen {

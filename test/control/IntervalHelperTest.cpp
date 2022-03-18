@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "control/IntervalHelper.h"
+#include "control/IntervalHelper.hpp"
 #include <stdlib.h> /* srand, rand */
 
 SCENARIO("IntervalHelper test")

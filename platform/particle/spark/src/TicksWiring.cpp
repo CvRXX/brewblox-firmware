@@ -1,5 +1,5 @@
-#include "spark/TicksWiring.h"
-#include "control/Ticks.h"
+#include "spark/TicksWiring.hpp"
+#include "control/Ticks.hpp"
 #include "delay_hal.h"
 #include "rtc_hal.h"
 #include "timer_hal.h"

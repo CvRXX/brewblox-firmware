@@ -20,7 +20,7 @@
 #pragma once
 
 #include "control/ADS124S08.hpp"
-#include "control/FixedPoint.h"
+#include "control/FixedPoint.hpp"
 #include <array>
 #include <asio.hpp>
 

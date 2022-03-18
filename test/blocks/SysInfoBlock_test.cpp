@@ -19,12 +19,12 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/SysInfoBlock.h"
-#include "cbox/Box.h"
+#include "TestHelpers.hpp"
+#include "blocks/SysInfoBlock.hpp"
+#include "cbox/Box.hpp"
 #include "proto/SysInfo_test.pb.h"
 #include "proto/proto_version.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("SysInfo Block")
 {

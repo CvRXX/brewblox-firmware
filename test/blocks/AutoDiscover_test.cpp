@@ -19,15 +19,15 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/DS2408Block.h"
-#include "blocks/DS2413Block.h"
-#include "blocks/TempSensorOneWireBlock.h"
-#include "cbox/Box.h"
-#include "cbox/CboxPtr.h"
-#include "cbox/DataStreamIo.h"
+#include "TestHelpers.hpp"
+#include "blocks/DS2408Block.hpp"
+#include "blocks/DS2413Block.hpp"
+#include "blocks/TempSensorOneWireBlock.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/CboxPtr.hpp"
+#include "cbox/DataStreamIo.hpp"
 #include "proto/TempSensorOneWire_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 #include <sstream>
 
 SCENARIO("Auto discovery of OneWire devices")

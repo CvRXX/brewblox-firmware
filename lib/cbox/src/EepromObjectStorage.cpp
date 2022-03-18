@@ -17,8 +17,8 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/EepromObjectStorage.h"
-#include "cbox/Crc.h"
+#include "cbox/EepromObjectStorage.hpp"
+#include "cbox/Crc.hpp"
 
 namespace cbox {
 

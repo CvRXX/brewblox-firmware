@@ -18,9 +18,9 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/DataStream.h"
-#include "cbox/Crc.h"
-#include "cbox/hex_utility.h"
+#include "cbox/DataStream.hpp"
+#include "cbox/Crc.hpp"
+#include "cbox/hex_utility.hpp"
 #include <algorithm>
 
 namespace cbox {

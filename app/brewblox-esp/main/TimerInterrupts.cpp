@@ -1,4 +1,4 @@
-#include "control/TimerInterrupts.h"
+#include "control/TimerInterrupts.hpp"
 #include <algorithm>
 #include <functional>
 #include <vector>

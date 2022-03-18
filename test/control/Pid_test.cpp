@@ -19,16 +19,16 @@
 
 #include <catch.hpp>
 
-#include "control/ActuatorAnalogConstrained.h"
-#include "control/ActuatorAnalogMock.h"
-#include "control/ActuatorDigital.h"
-#include "control/ActuatorDigitalConstrained.h"
-#include "control/ActuatorOffset.h"
-#include "control/ActuatorPwm.h"
-#include "control/MockIoArray.h"
-#include "control/Pid.h"
-#include "control/SetpointSensorPair.h"
-#include "control/TempSensorMock.h"
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorAnalogMock.hpp"
+#include "control/ActuatorDigital.hpp"
+#include "control/ActuatorDigitalConstrained.hpp"
+#include "control/ActuatorOffset.hpp"
+#include "control/ActuatorPwm.hpp"
+#include "control/MockIoArray.hpp"
+#include "control/Pid.hpp"
+#include "control/SetpointSensorPair.hpp"
+#include "control/TempSensorMock.hpp"
 #include <iostream>
 #include <math.h>
 

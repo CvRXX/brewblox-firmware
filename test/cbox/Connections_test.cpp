@@ -17,11 +17,11 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TestHelpers.h"
-#include "cbox/ConnectionPool.h"
-#include "cbox/Connections.h"
-#include "cbox/ConnectionsStringStream.h"
-#include "cbox/DataStream.h"
+#include "TestHelpers.hpp"
+#include "cbox/ConnectionPool.hpp"
+#include "cbox/Connections.hpp"
+#include "cbox/ConnectionsStringStream.hpp"
+#include "cbox/DataStream.hpp"
 #include <catch.hpp>
 #include <cstdio>
 #include <sstream>

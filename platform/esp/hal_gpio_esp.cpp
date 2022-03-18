@@ -1,4 +1,4 @@
-#include "blox_hal/hal_gpio.h"
+#include "blox_hal/hal_gpio.hpp"
 #include "driver/gpio.h"
 
 void hal_gpio_write(hal_pin_t pin, bool isHigh)

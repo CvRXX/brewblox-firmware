@@ -18,9 +18,9 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/DataStreamConverters.h"
-#include "cbox/Crc.h"
-#include "cbox/DataStream.h"
+#include "cbox/DataStreamConverters.hpp"
+#include "cbox/Crc.hpp"
+#include "cbox/DataStream.hpp"
 #include <cstdint>
 
 namespace cbox {

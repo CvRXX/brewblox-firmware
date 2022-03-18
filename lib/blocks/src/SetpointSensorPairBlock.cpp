@@ -17,8 +17,8 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/SetpointSensorPairBlock.h"
-#include "blocks/FieldTags.h"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/FieldTags.hpp"
 #include "proto/SetpointSensorPair.pb.h"
 
 cbox::CboxError

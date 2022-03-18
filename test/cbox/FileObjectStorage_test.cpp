@@ -17,9 +17,9 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TestObjects.h"
-#include "cbox/FileObjectStorage.h"
-#include "cbox/Object.h"
+#include "TestObjects.hpp"
+#include "cbox/FileObjectStorage.hpp"
+#include "cbox/Object.hpp"
 #include <algorithm>
 #include <catch.hpp>
 #include <cstdio>

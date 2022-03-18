@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/FilterChain.h"
+#include "control/FilterChain.hpp"
 #include <limits>
 #include <memory>
 

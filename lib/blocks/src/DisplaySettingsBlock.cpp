@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/DisplaySettingsBlock.h"
+#include "blocks/DisplaySettingsBlock.hpp"
 #include "proto/DisplaySettings.pb.h"
 
 cbox::CboxError

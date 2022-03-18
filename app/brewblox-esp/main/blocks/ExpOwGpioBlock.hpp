@@ -20,7 +20,7 @@
 #pragma once
 
 #include "../ExpOwGpio.hpp"
-#include "blocks/Block.h"
+#include "blocks/Block.hpp"
 #include "proto/OneWireGpioModule.pb.h"
 #include <string>
 #include <vector>

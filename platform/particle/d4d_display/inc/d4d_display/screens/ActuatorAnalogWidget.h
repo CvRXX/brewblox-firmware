@@ -18,8 +18,8 @@
  */
 
 #pragma once
-#include "blocks/ActuatorPwmBlock.h"
-#include "cbox/CboxPtr.h"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "cbox/CboxPtr.hpp"
 #include "d4d_display/screens/ProcessValueWidgetBase.h"
 
 class ActuatorAnalogWidget : public ProcessValueWidgetBase {

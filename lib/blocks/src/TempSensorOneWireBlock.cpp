@@ -17,8 +17,8 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/TempSensorOneWireBlock.h"
-#include "blocks/FieldTags.h"
+#include "blocks/TempSensorOneWireBlock.hpp"
+#include "blocks/FieldTags.hpp"
 #include "proto/TempSensorOneWire.pb.h"
 
 TempSensorOneWireBlock::TempSensorOneWireBlock()

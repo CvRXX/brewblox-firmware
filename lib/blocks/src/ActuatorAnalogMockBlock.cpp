@@ -1,7 +1,7 @@
-#include "blocks/ActuatorAnalogMockBlock.h"
-#include "blocks/ConstraintsProto.h"
-#include "blocks/FieldTags.h"
-#include "control/ActuatorAnalogConstrained.h"
+#include "blocks/ActuatorAnalogMockBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
+#include "blocks/FieldTags.hpp"
+#include "control/ActuatorAnalogConstrained.hpp"
 #include "proto/ActuatorAnalogMock.pb.h"
 
 cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callback) const

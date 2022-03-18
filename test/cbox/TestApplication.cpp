@@ -1,10 +1,10 @@
-#include "TestApplication.h"
+#include "TestApplication.hpp"
 #include "LongIntScanningFactory.hpp"
-#include "TestObjects.h"
-#include "cbox/Application.h"
-#include "cbox/ArrayEepromAccess.h"
-#include "cbox/EepromObjectStorage.h"
-#include "cbox/ObjectFactory.h"
+#include "TestObjects.hpp"
+#include "cbox/Application.hpp"
+#include "cbox/ArrayEepromAccess.hpp"
+#include "cbox/EepromObjectStorage.hpp"
+#include "cbox/ObjectFactory.hpp"
 
 namespace test {
 

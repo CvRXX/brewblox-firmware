@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./BaseWidget.hpp"
-#include "blocks/SetpointSensorPairBlock.h"
+#include "blocks/SetpointSensorPairBlock.hpp"
 
 /// A widget which represents an analog actuator.
 class SetpointWidget : public BaseWidget {

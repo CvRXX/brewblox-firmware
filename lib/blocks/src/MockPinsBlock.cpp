@@ -17,7 +17,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/MockPinsBlock.h"
+#include "blocks/MockPinsBlock.hpp"
 #include "proto/MockPins.pb.h"
 
 cbox::CboxError

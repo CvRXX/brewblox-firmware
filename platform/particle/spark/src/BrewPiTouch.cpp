@@ -17,8 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/BrewPiTouch.h"
-#include "spark/Board.h"
+#include "spark/BrewPiTouch.hpp"
+#include "spark/Board.hpp"
 
 #include <algorithm>
 #include <cstdint>

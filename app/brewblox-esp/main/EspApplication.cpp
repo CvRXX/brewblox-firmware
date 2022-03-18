@@ -1,10 +1,10 @@
 #include "I2cScanningFactory.hpp"
-#include "blocks/BlockFactory.h"
+#include "blocks/BlockFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "blocks/OneWireMultiScanningFactory.hpp"
-#include "cbox/Application.h"
-#include "cbox/FileObjectStorage.h"
-#include "cbox/ObjectFactory.h"
+#include "cbox/Application.hpp"
+#include "cbox/FileObjectStorage.hpp"
+#include "cbox/ObjectFactory.hpp"
 
 namespace cbox {
 

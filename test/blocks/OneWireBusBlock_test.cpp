@@ -19,14 +19,14 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/Block.h"
-#include "blocks/OneWireBusBlock.h"
-#include "cbox/Box.h"
-#include "cbox/DataStream.h"
-#include "cbox/Object.h"
+#include "TestHelpers.hpp"
+#include "blocks/Block.hpp"
+#include "blocks/OneWireBusBlock.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/DataStream.hpp"
+#include "cbox/Object.hpp"
 #include "proto/OneWireBus_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
 {

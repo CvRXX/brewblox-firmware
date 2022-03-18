@@ -18,7 +18,7 @@
  */
 
 #include "d4d_display/screens/WidgetWrapper.h"
-#include "cbox/CboxPtr.h"
+#include "cbox/CboxPtr.hpp"
 #include "d4d_display/screens/SmallColorScheme.h"
 #include <algorithm>
 #include <vector>

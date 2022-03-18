@@ -17,7 +17,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/SysInfoBlock.h"
+#include "blocks/SysInfoBlock.hpp"
 #include "proto/proto_version.h"
 #include <cstring>
 

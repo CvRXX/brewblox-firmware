@@ -1,7 +1,7 @@
 #pragma once
 #include "intellisense.hpp"
 
-#include "control/Logger.h"
+#include "control/Logger.hpp"
 #include <asio.hpp>
 #include <string>
 

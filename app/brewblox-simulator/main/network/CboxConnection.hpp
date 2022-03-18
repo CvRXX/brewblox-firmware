@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CircularBufferView.hpp"
-#include "cbox/DataStreamIo.h"
+#include "cbox/DataStreamIo.hpp"
 #include <asio.hpp>
 
 namespace cbox {

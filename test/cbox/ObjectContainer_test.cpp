@@ -20,14 +20,14 @@
 #include <catch.hpp>
 #include <cstdio>
 
-#include "TestApplication.h"
-#include "TestHelpers.h"
+#include "TestApplication.hpp"
+#include "TestHelpers.hpp"
 #include "TestMatchers.hpp"
-#include "TestObjects.h"
-#include "cbox/DataStreamConverters.h"
-#include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
-#include "cbox/ObjectStorage.h"
+#include "TestObjects.hpp"
+#include "cbox/DataStreamConverters.hpp"
+#include "cbox/Object.hpp"
+#include "cbox/ObjectContainer.hpp"
+#include "cbox/ObjectStorage.hpp"
 
 using namespace cbox;
 

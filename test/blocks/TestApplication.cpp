@@ -1,9 +1,9 @@
-#include "blocks/BlockFactory.h"
+#include "blocks/BlockFactory.hpp"
 #include "blocks/OneWireScanningFactory.hpp"
-#include "cbox/Application.h"
-#include "cbox/ArrayEepromAccess.h"
-#include "cbox/EepromObjectStorage.h"
-#include "cbox/ObjectFactory.h"
+#include "cbox/Application.hpp"
+#include "cbox/ArrayEepromAccess.hpp"
+#include "cbox/EepromObjectStorage.hpp"
+#include "cbox/ObjectFactory.hpp"
 
 namespace cbox {
 

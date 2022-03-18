@@ -18,7 +18,7 @@
  */
 
 #include "d4d_display/screens/TempSensorWidget.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 TempSensorWidget::TempSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)

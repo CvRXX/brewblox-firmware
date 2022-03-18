@@ -1,4 +1,4 @@
-#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_delay.hpp"
 #include "esp32/rom/ets_sys.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

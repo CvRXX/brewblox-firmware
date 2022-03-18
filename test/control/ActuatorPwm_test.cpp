@@ -22,20 +22,20 @@
 #include <algorithm>
 #include <stdlib.h> /* srand, rand */
 
-#include "TestLogger.h"
-#include "control/ActuatorAnalogConstrained.h"
-#include "control/ActuatorDigital.h"
-#include "control/ActuatorDigitalConstrained.h"
-#include "control/ActuatorPwm.h"
-#include "control/Balancer.h"
-#include "control/DS2408.h"
-#include "control/DS2408Mock.h"
-#include "control/DS2413.h"
-#include "control/DS2413Mock.h"
-#include "control/MockIoArray.h"
-#include "control/MotorValve.h"
-#include "control/OneWire.h"
-#include "control/OneWireMockDriver.h"
+#include "TestLogger.hpp"
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorDigital.hpp"
+#include "control/ActuatorDigitalConstrained.hpp"
+#include "control/ActuatorPwm.hpp"
+#include "control/Balancer.hpp"
+#include "control/DS2408.hpp"
+#include "control/DS2408Mock.hpp"
+#include "control/DS2413.hpp"
+#include "control/DS2413Mock.hpp"
+#include "control/MockIoArray.hpp"
+#include "control/MotorValve.hpp"
+#include "control/OneWire.hpp"
+#include "control/OneWireMockDriver.hpp"
 #include <cmath> // for sin
 #include <cstring>
 #include <fstream>

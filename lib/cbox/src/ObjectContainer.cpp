@@ -17,8 +17,8 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ObjectContainer.h"
-#include "cbox/Application.h"
+#include "cbox/ObjectContainer.hpp"
+#include "cbox/Application.hpp"
 #include <algorithm>
 
 namespace cbox {

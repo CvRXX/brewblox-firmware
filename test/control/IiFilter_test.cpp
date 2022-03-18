@@ -20,7 +20,7 @@
 #include <catch.hpp>
 
 #include "TestMatchers.hpp"
-#include "control/FilterChain.h"
+#include "control/FilterChain.hpp"
 #include <sstream>
 
 SCENARIO("Filtering 24-bit values with IIR Filters", "[filter]")

@@ -19,18 +19,18 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/DS2413Block.h"
-#include "blocks/DigitalActuatorBlock.h"
-#include "blocks/MockPinsBlock.h"
-#include "cbox/Box.h"
-#include "cbox/CboxPtr.h"
-#include "cbox/DataStreamIo.h"
-#include "control/OneWireAddress.h"
+#include "TestHelpers.hpp"
+#include "blocks/DS2413Block.hpp"
+#include "blocks/DigitalActuatorBlock.hpp"
+#include "blocks/MockPinsBlock.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/CboxPtr.hpp"
+#include "cbox/DataStreamIo.hpp"
+#include "control/OneWireAddress.hpp"
 #include "proto/DS2413_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/MockPins_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 #include <sstream>
 
 namespace Catch {

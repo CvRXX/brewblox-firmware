@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/TempSensorMock.h"
+#include "control/TempSensorMock.hpp"
 
 temp_t
 calcFluctuation(const TempSensorMock::Fluctuation& f, ticks_millis_t now)

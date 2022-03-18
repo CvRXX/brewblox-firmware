@@ -19,7 +19,7 @@
 
 #include "d4d_display/screens/ProcessValueWidgetBase.h"
 #include "d4d_display/d4d.hpp"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 ProcessValueWidgetBase::ProcessValueWidgetBase(WidgetWrapper& myWrapper)
     : WidgetBase(myWrapper)

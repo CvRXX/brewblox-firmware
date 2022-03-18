@@ -19,9 +19,9 @@
 
 #include <catch.hpp>
 
-#include "control/ActuatorDigital.h"
-#include "control/ActuatorDigitalConstrained.h"
-#include "control/MockIoArray.h"
+#include "control/ActuatorDigital.hpp"
+#include "control/ActuatorDigitalConstrained.hpp"
+#include "control/MockIoArray.hpp"
 
 using State = ActuatorDigital::State;
 

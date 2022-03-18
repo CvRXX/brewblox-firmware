@@ -19,9 +19,9 @@
 
 #include <catch.hpp>
 
-#include "control/ActuatorAnalogConstrained.h"
-#include "control/ActuatorAnalogMock.h"
-#include "control/Balancer.h"
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorAnalogMock.hpp"
+#include "control/Balancer.hpp"
 
 SCENARIO("ActuatorAnalogConstrained test", "[constraints]")
 {

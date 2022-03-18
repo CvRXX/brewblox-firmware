@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/Temperature.h"
+#include "control/Temperature.hpp"
 
 fp12_t
 scale_fahrenheit(fp12_t t)

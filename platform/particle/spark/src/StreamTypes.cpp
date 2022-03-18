@@ -1,5 +1,5 @@
 
-#include "cbox/Connections.h"
+#include "cbox/Connections.hpp"
 class USBSerial;
 class TCPClient;
 

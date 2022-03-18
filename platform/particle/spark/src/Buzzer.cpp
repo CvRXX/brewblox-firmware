@@ -19,10 +19,10 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/Buzzer.h"
+#include "spark/Buzzer.hpp"
 #include "delay_hal.h"
 #include "pwm_hal.h"
-#include "spark/Board.h"
+#include "spark/Board.hpp"
 
 void BuzzerClass::setActive(bool active)
 {

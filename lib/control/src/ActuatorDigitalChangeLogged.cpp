@@ -17,8 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/ActuatorDigitalChangeLogged.h"
-#include "control/TicksTypes.h"
+#include "control/ActuatorDigitalChangeLogged.hpp"
+#include "control/TicksTypes.hpp"
 #include <algorithm>
 #include <array>
 #include <cstdint>

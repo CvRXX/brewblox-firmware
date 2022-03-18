@@ -20,8 +20,8 @@
 #pragma once
 
 #include "OneWireScanningFactory.hpp"
-#include "cbox/Application.h"
-#include "cbox/CboxPtr.h"
+#include "cbox/Application.hpp"
+#include "cbox/CboxPtr.hpp"
 
 class OneWireMultiScanningFactory : public cbox::ScanningFactory {
 public:

@@ -17,9 +17,9 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/PidBlock.h"
-#include "blocks/FieldTags.h"
-#include "control/ProcessValue.h"
+#include "blocks/PidBlock.hpp"
+#include "blocks/FieldTags.hpp"
+#include "control/ProcessValue.hpp"
 #include "proto/Pid.pb.h"
 
 PidBlock::PidBlock()

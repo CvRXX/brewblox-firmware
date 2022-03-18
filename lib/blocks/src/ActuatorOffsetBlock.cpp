@@ -1,6 +1,6 @@
-#include "blocks/ActuatorOffsetBlock.h"
-#include "blocks/ConstraintsProto.h"
-#include "blocks/FieldTags.h"
+#include "blocks/ActuatorOffsetBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
+#include "blocks/FieldTags.hpp"
 #include "proto/ActuatorOffset.pb.h"
 #include "proto/Constraints.pb.h"
 

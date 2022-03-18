@@ -17,8 +17,8 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/CboxPtr.h"
-#include "cbox/Box.h"
+#include "cbox/CboxPtr.hpp"
+#include "cbox/Box.hpp"
 
 namespace cbox {
 

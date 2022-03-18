@@ -17,7 +17,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/TempSensorMockBlock.h"
+#include "blocks/TempSensorMockBlock.hpp"
 #include "proto/TempSensorMock.pb.h"
 
 bool TempSensorMockBlock::streamFluctuationsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)

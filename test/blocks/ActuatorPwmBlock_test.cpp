@@ -19,13 +19,13 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/ActuatorPwmBlock.h"
-#include "blocks/DigitalActuatorBlock.h"
-#include "cbox/Box.h"
+#include "TestHelpers.hpp"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "blocks/DigitalActuatorBlock.hpp"
+#include "cbox/Box.hpp"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {

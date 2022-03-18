@@ -1,3 +1,3 @@
-#include "AppTicks.h"
+#include "AppTicks.hpp"
 
 TicksClass ticks;

@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "cbox/Application.h"
-#include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
+#include "cbox/Application.hpp"
+#include "cbox/Object.hpp"
+#include "cbox/ObjectContainer.hpp"
 #include <memory>
 
 namespace cbox {

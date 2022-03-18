@@ -19,7 +19,7 @@
 
 #include <catch.hpp>
 
-#include "control/FixedPoint.h"
+#include "control/FixedPoint.hpp"
 #include <boost/core/demangle.hpp>
 #include <cstdint>
 #include <iomanip>

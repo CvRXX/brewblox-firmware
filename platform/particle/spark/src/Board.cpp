@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/Board.h"
+#include "spark/Board.hpp"
 #include "delay_hal.h"
 #include "pwm_hal.h"
 

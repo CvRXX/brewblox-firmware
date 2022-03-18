@@ -17,8 +17,8 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/SetpointProfileBlock.h"
-#include "blocks/FieldTags.h"
+#include "blocks/SetpointProfileBlock.hpp"
+#include "blocks/FieldTags.hpp"
 #include "pb_decode.h"
 #include "pb_encode.h"
 #include "proto/SetpointProfile.pb.h"

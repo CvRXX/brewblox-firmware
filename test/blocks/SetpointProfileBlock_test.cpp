@@ -17,18 +17,18 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TestHelpers.h"
-#include "blocks/SetpointProfileBlock.h"
-#include "blocks/SetpointSensorPairBlock.h"
-#include "blocks/TempSensorMockBlock.h"
-#include "blocks/TicksBlock.h"
-#include "cbox/Box.h"
-#include "control/MockTicks.h"
+#include "TestHelpers.hpp"
+#include "blocks/SetpointProfileBlock.hpp"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/TempSensorMockBlock.hpp"
+#include "blocks/TicksBlock.hpp"
+#include "cbox/Box.hpp"
+#include "control/MockTicks.hpp"
 #include "proto/SetpointProfile_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
 #include "proto/Ticks_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 #include <catch.hpp>
 #include <sstream>
 

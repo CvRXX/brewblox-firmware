@@ -1,5 +1,5 @@
-#include "blocks/BalancerBlock.h"
-#include "blocks/ConstraintsProto.h"
+#include "blocks/BalancerBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
 #include "pb_encode.h"
 #include "proto/Balancer.pb.h"
 

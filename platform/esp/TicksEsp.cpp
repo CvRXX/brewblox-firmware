@@ -18,7 +18,7 @@
  */
 
 #include "TicksEsp.h"
-#include "control/Ticks.h"
+#include "control/Ticks.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

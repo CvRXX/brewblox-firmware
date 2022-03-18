@@ -17,11 +17,11 @@
  * along with BrewPi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "TestObjects.h"
-#include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
-#include "cbox/ObjectFactory.h"
-#include "cbox/ObjectStorage.h"
+#include "TestObjects.hpp"
+#include "cbox/Object.hpp"
+#include "cbox/ObjectContainer.hpp"
+#include "cbox/ObjectFactory.hpp"
+#include "cbox/ObjectStorage.hpp"
 #include <catch.hpp>
 #include <tuple>
 

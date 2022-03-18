@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/SetpointProfile.h"
+#include "control/SetpointProfile.hpp"
 #include <algorithm>
 
 void SetpointProfile::update(const utc_seconds_t& time)

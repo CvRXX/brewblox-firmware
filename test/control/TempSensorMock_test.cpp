@@ -19,8 +19,8 @@
 
 #include <catch.hpp>
 
-#include "control/TempSensorMock.h"
-#include "control/Temperature.h"
+#include "control/TempSensorMock.hpp"
+#include "control/Temperature.hpp"
 
 #include <math.h>
 

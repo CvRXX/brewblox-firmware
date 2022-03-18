@@ -17,7 +17,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ObjectBase.h"
+#include "cbox/ObjectBase.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <stdexcept>
