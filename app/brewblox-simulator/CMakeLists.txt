@@ -15,8 +15,6 @@ file(GLOB SOURCES
 main/*.cpp
 ../../lib/control/inc/graphics/fonts/*.cpp
 ../../platform/simulator/*.cpp
-# ../../brewblox/blox/compiled_proto/src/*.c
-# ../../platform/spark/device-os/third_party/nanopb/nanopb/*.c
 ../../brewblox/blox
 ../../controlbox/src/
 )
@@ -24,9 +22,7 @@ main/*.cpp
 include_directories(
     ../../platform/simulator
     ../../lib/guis
-    # ../../lib/inc
     ../../external_libs/cnl/include
-    # ../../brewblox/blox/compiled_proto/src
     ../../brewblox
     ../../platform/spark/device-os/third_party/nanopb/nanopb
     ../../controlbox/src/

@@ -11,9 +11,6 @@ idf_component_register(
     ../
   REQUIRES
     main
-<<<<<<< HEAD
     esp
     external_libs
-=======
->>>>>>> develop
 )
