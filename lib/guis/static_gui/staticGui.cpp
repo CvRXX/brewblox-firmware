@@ -55,7 +55,7 @@ void StaticGui::updateWidgets()
     }
 }
 
-std::unique_ptr<BaseWidget> Layout::makeWidget(uint8_t pos)
+std::unique_ptr<BaseWidget> StaticGui::makeWidget(uint8_t pos)
 {
     auto& settings = DisplaySettingsBlock::settings();
     auto row = (pos - 1) / 3;
@@ -89,7 +89,7 @@ std::unique_ptr<BaseWidget> Layout::makeWidget(uint8_t pos)
     return std::unique_ptr<BaseWidget>(new BaseWidget(grid, row, col, "", LV_COLOR_MAKE(0x20, 0x20, 0x20)));
 };
 
-void Layout::updateConfig()
+void StaticGui::updateConfig()
 {
     if (DisplaySettingsBlock::newSettingsReceived()) {
         auto& settings = DisplaySettingsBlock::settings();
