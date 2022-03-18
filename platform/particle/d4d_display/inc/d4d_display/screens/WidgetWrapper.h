@@ -18,7 +18,7 @@
  */
 
 #pragma once
-#include "cbox/CboxPtr.h"
+#include "cbox/CboxPtr.hpp"
 #include "d4d_display/d4d.hpp"
 #include "d4d_display/fonts.h"
 #include "d4d_display/screens/SmallColorScheme.h"

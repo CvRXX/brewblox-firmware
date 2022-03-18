@@ -17,30 +17,30 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/Brewblox.h"
-#include "AppTicks.h"
-#include "blocks/DisplaySettingsBlock.h"
-#include "blocks/OneWireBusBlock.h"
-#include "blocks/SysInfoBlock.h"
-#include "blocks/stringify.h"
-#include "cbox/Box.h"
-#include "cbox/Connections.h"
+#include "spark/Brewblox.hpp"
+#include "AppTicks.hpp"
+#include "blocks/DisplaySettingsBlock.hpp"
+#include "blocks/OneWireBusBlock.hpp"
+#include "blocks/SysInfoBlock.hpp"
+#include "blocks/stringify.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/Connections.hpp"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "proto/proto_version.h"
 #include "rgbled.h"
-#include "spark/Board.h"
-#include "spark/SparkEepromAccess.h"
-#include "spark/TouchSettingsBlock.h"
-#include "spark/WiFiSettingsBlock.h"
+#include "spark/Board.hpp"
+#include "spark/SparkEepromAccess.hpp"
+#include "spark/TouchSettingsBlock.hpp"
+#include "spark/WiFiSettingsBlock.hpp"
 #include <memory>
 
 // Include OneWire implementation depending on platform
 #if !defined(PLATFORM_ID) || PLATFORM_ID == PLATFORM_GCC
-#include "control/DS18B20Mock.h"
-#include "control/DS2408Mock.h"
-#include "control/DS2413Mock.h"
-#include "control/OneWireMockDriver.h"
+#include "control/DS18B20Mock.hpp"
+#include "control/DS2408Mock.hpp"
+#include "control/DS2413Mock.hpp"
+#include "control/OneWireMockDriver.hpp"
 #else
 #include "control/DS248x.hpp"
 #endif
@@ -49,11 +49,11 @@
 // Include serial connection for platform
 #if defined(SPARK)
 #if PLATFORM_ID != PLATFORM_GCC
-#include "spark/ConnectionsSerial.h"
+#include "spark/ConnectionsSerial.hpp"
 #endif
-#include "spark/ConnectionsTcp.h"
+#include "spark/ConnectionsTcp.hpp"
 #else
-#include "cbox/ConnectionsStringStream.h"
+#include "cbox/ConnectionsStringStream.hpp"
 
 cbox::StringStreamConnectionSource&
 testConnectionSource()
@@ -64,10 +64,10 @@ testConnectionSource()
 #endif
 
 #if PLATFORM_ID == PLATFORM_PHOTON
-#include "spark/Spark2PinsBlock.h"
+#include "spark/Spark2PinsBlock.hpp"
 using PinsBlock = Spark2PinsBlock;
 #else
-#include "spark/Spark3PinsBlock.h"
+#include "spark/Spark3PinsBlock.hpp"
 using PinsBlock = Spark3PinsBlock;
 #endif
 

@@ -20,8 +20,8 @@
 
 /* Old implementation, for backwards compatibility */
 
-#include "control/OneWireAddress.h"
-#include "control/OneWireCrc.h"
+#include "control/OneWireAddress.hpp"
+#include "control/OneWireCrc.hpp"
 #include <cstdint>
 
 char toHex(uint8_t b)

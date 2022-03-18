@@ -19,18 +19,18 @@
 
 #include "d4d_display/d4d.hpp"
 
-#include "cbox/Box.h"
+#include "cbox/Box.hpp"
 #include "d4d_display/brewblox_logo.h"
 #include "d4d_display/fonts.h"
 #include "d4d_display/screens/memory_info.h"
 #include "d4d_display/screens/startup_screen.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 #include "spark_wiring_ticks.h"
 #include "spark_wiring_timer.h"
 #include "stdio.h"
 
 #if PLATFORM_ID != 3
-#include "spark/BrewPiTouch.h"
+#include "spark/BrewPiTouch.hpp"
 extern BrewPiTouch touch;
 #endif
 

@@ -17,6 +17,6 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AppTicks.h"
+#include "AppTicks.hpp"
 
 TicksClass ticks;

@@ -17,9 +17,9 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/MotorValveBlock.h"
-#include "blocks/ConstraintsProto.h"
-#include "blocks/FieldTags.h"
+#include "blocks/MotorValveBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
+#include "blocks/FieldTags.hpp"
 
 void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message) const
 {

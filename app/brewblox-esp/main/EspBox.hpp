@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cbox/Box.h"
-#include "cbox/DataStream.h"
+#include "cbox/Box.hpp"
+#include "cbox/DataStream.hpp"
 
 void handleCommand(cbox::DataIn& in, cbox::DataOut& out);

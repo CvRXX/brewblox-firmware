@@ -17,9 +17,9 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/OneWireBusBlock.h"
-#include "control/OneWire.h"
-#include "control/OneWireAddress.h"
+#include "blocks/OneWireBusBlock.hpp"
+#include "control/OneWire.hpp"
+#include "control/OneWireAddress.hpp"
 #include "pb_encode.h"
 #include <limits>
 

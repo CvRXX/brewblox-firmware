@@ -19,16 +19,16 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/ActuatorOffsetBlock.h"
-#include "blocks/SetpointSensorPairBlock.h"
-#include "blocks/TempSensorMockBlock.h"
-#include "cbox/Box.h"
-#include "control/Temperature.h"
+#include "TestHelpers.hpp"
+#include "blocks/ActuatorOffsetBlock.hpp"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/TempSensorMockBlock.hpp"
+#include "cbox/Box.hpp"
+#include "control/Temperature.hpp"
 #include "proto/ActuatorOffset_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf data")
 {

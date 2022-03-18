@@ -1,4 +1,4 @@
-#include "TestObjects.h"
+#include "TestObjects.hpp"
 
 namespace cbox {
 template <>

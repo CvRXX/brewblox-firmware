@@ -18,18 +18,18 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/Box.h"
-#include "cbox/CboxError.h"
-#include "cbox/CboxPtr.h"
-#include "cbox/Connections.h"
-#include "cbox/ContainedObject.h"
-#include "cbox/DataStream.h"
-#include "cbox/DataStreamConverters.h"
-#include "cbox/DeprecatedObject.h"
-#include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
-#include "cbox/ObjectFactory.h"
-#include "cbox/ObjectStorage.h"
+#include "cbox/Box.hpp"
+#include "cbox/CboxError.hpp"
+#include "cbox/CboxPtr.hpp"
+#include "cbox/Connections.hpp"
+#include "cbox/ContainedObject.hpp"
+#include "cbox/DataStream.hpp"
+#include "cbox/DataStreamConverters.hpp"
+#include "cbox/DeprecatedObject.hpp"
+#include "cbox/Object.hpp"
+#include "cbox/ObjectContainer.hpp"
+#include "cbox/ObjectFactory.hpp"
+#include "cbox/ObjectStorage.hpp"
 #include "cbox/ScanningFactory.hpp"
 
 #include <memory>

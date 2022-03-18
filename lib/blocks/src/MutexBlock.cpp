@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/MutexBlock.h"
+#include "blocks/MutexBlock.hpp"
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError

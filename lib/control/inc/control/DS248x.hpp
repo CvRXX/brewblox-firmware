@@ -20,7 +20,7 @@
 #pragma once
 
 #include "control/I2CDevice.hpp"
-#include "control/OneWireLowLevelInterface.h"
+#include "control/OneWireLowLevelInterface.hpp"
 #include <cstdint>
 
 constexpr uint8_t DS248X_CONFIG_APU = (0x1 << 0);

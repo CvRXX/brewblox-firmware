@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "control/TicksTypes.h"
+#include "control/TicksTypes.hpp"
 
 /*
  * The Ticks class provides the time period since the device was powered up.

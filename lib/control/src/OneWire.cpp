@@ -120,9 +120,9 @@ sample code bearing this copyright.
 //--------------------------------------------------------------------------
  */
 
-#include "control/OneWire.h"
-#include "control/OneWireAddress.h"
-#include "control/OneWireCrc.h"
+#include "control/OneWire.hpp"
+#include "control/OneWireAddress.hpp"
+#include "control/OneWireCrc.hpp"
 
 bool OneWire::write_bytes(const uint8_t* buf, uint16_t count)
 {

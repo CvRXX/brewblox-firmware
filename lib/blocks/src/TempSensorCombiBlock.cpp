@@ -17,8 +17,8 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/TempSensorCombiBlock.h"
-#include "blocks/FieldTags.h"
+#include "blocks/TempSensorCombiBlock.hpp"
+#include "blocks/FieldTags.hpp"
 
 void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, bool includeReadOnly) const
 {

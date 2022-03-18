@@ -1,4 +1,4 @@
-#include "blox_hal/hal_i2c.h"
+#include "blox_hal/hal_i2c.hpp"
 #include "driver/i2c.h"
 #include "esp_debug_helpers.h"
 #include "esp_log.h"

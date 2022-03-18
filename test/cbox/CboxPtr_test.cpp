@@ -17,12 +17,12 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/CboxPtr.h"
+#include "cbox/CboxPtr.hpp"
 
-#include "TestApplication.h"
-#include "TestObjects.h"
-#include "cbox/Box.h"
-#include "cbox/CboxPtr.h"
+#include "TestApplication.hpp"
+#include "TestObjects.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/CboxPtr.hpp"
 #include <catch.hpp>
 
 using namespace cbox;

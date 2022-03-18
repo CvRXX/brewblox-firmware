@@ -1,4 +1,4 @@
-#include "control/TimerInterrupts.h"
+#include "control/TimerInterrupts.hpp"
 #include "spark_wiring_interrupts.h"
 #include <algorithm>
 #include <functional>

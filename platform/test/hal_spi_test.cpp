@@ -1,6 +1,6 @@
 #include "MockSpiDevice.hpp"
 #include "blox_hal/hal_spi_impl.hpp"
-#include "blox_hal/hal_spi_types.h"
+#include "blox_hal/hal_spi_types.hpp"
 #include <algorithm>
 #include <cassert>
 #include <memory>

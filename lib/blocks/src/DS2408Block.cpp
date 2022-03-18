@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/DS2408Block.h"
+#include "blocks/DS2408Block.hpp"
 
 cbox::CboxError
 DS2408Block::read(const cbox::PayloadCallback& callback) const

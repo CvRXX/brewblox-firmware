@@ -1,7 +1,7 @@
 #include "graphics.hpp"
 #include "FT6236.hpp"
 #include "TFT035.hpp"
-#include "blocks/DisplaySettingsBlock.h"
+#include "blocks/DisplaySettingsBlock.hpp"
 #include "layout.hpp"
 #include "lvgl.h"
 #include <esp_log.h>

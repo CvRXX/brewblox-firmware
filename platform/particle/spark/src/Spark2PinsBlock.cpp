@@ -19,10 +19,10 @@
 
 #if PLATFORM_ID == 6
 
-#include "spark/Spark2PinsBlock.h"
+#include "spark/Spark2PinsBlock.hpp"
 #include "pinmap_defines.h"
 #include "proto/Spark2Pins.pb.h"
-#include "spark/Board.h"
+#include "spark/Board.hpp"
 
 pin_t Spark2PinsBlock::channelToPin(uint8_t channel) const
 {

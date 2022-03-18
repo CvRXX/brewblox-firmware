@@ -18,7 +18,7 @@
  */
 
 #include "control/ADS124S08.hpp"
-#include "control/Logger.h"
+#include "control/Logger.hpp"
 
 //****************************************************************************
 //

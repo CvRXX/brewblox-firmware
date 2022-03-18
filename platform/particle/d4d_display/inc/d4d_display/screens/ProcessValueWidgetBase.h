@@ -18,8 +18,8 @@
  */
 
 #pragma once
-#include "cbox/CboxPtr.h"
-#include "control/ProcessValue.h"
+#include "cbox/CboxPtr.hpp"
+#include "control/ProcessValue.hpp"
 #include "d4d_display/d4d.hpp"
 #include "d4d_display/screens/WidgetBase.h"
 

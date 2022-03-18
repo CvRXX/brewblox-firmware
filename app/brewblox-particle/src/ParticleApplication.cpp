@@ -1,12 +1,12 @@
-#include "blocks/BlockFactory.h"
-#include "blocks/OneWireBusBlock.h"
+#include "blocks/BlockFactory.hpp"
+#include "blocks/OneWireBusBlock.hpp"
 #include "blocks/OneWireScanningFactory.hpp"
-#include "cbox/Application.h"
-#include "cbox/CboxPtr.h"
-#include "cbox/EepromObjectStorage.h"
-#include "cbox/ObjectFactory.h"
-#include "control/OneWire.h"
-#include "spark/SparkEepromAccess.h"
+#include "cbox/Application.hpp"
+#include "cbox/CboxPtr.hpp"
+#include "cbox/EepromObjectStorage.hpp"
+#include "cbox/ObjectFactory.hpp"
+#include "control/OneWire.hpp"
+#include "spark/SparkEepromAccess.hpp"
 
 namespace cbox {
 

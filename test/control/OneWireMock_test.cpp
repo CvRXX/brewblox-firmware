@@ -19,15 +19,15 @@
 
 #include <catch.hpp>
 
-#include "control/DS18B20.h"
-#include "control/DS18B20Mock.h"
-#include "control/DS2408.h"
-#include "control/DS2408Mock.h"
-#include "control/DS2413.h"
-#include "control/DS2413Mock.h"
-#include "control/MotorValve.h"
-#include "control/OneWireMockDevice.h"
-#include "control/OneWireMockDriver.h"
+#include "control/DS18B20.hpp"
+#include "control/DS18B20Mock.hpp"
+#include "control/DS2408.hpp"
+#include "control/DS2408Mock.hpp"
+#include "control/DS2413.hpp"
+#include "control/DS2413Mock.hpp"
+#include "control/MotorValve.hpp"
+#include "control/OneWireMockDevice.hpp"
+#include "control/OneWireMockDriver.hpp"
 
 namespace Catch {
 template <>

@@ -1,6 +1,6 @@
-#include "TestHelpers.h"
-#include "cbox/Crc.h"
-#include "cbox/hex_utility.h"
+#include "TestHelpers.hpp"
+#include "cbox/Crc.hpp"
+#include "cbox/hex_utility.hpp"
 #include <google/protobuf/message.h>
 
 /*

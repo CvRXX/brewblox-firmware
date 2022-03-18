@@ -18,7 +18,7 @@
  */
 
 #include "control/DS248x.hpp"
-#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_delay.hpp"
 
 constexpr const uint8_t PTR_STATUS = 0xf0;
 constexpr const uint8_t PTR_READ = 0xe1;

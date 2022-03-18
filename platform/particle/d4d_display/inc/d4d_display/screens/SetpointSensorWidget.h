@@ -18,8 +18,8 @@
  */
 
 #pragma once
-#include "blocks/SetpointSensorPairBlock.h"
-#include "cbox/CboxPtr.h"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "cbox/CboxPtr.hpp"
 #include "d4d_display/screens/ProcessValueWidgetBase.h"
 
 class SetpointSensorWidget : public ProcessValueWidgetBase {

@@ -18,7 +18,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ObjectFactory.h"
+#include "cbox/ObjectFactory.hpp"
 #include <algorithm>
 
 namespace cbox {

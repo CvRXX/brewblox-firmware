@@ -1,13 +1,13 @@
 #include "intellisense.hpp"
 
-#include "AppTicks.h"
+#include "AppTicks.hpp"
 #include "Brewblox.hpp"
-#include "blocks/DisplaySettingsBlock.h"
-#include "blocks/SysInfoBlock.h"
-#include "blocks/TicksBlock.h"
-#include "blocks/stringify.h"
-#include "cbox/Box.h"
-#include "cbox/Connections.h"
+#include "blocks/DisplaySettingsBlock.hpp"
+#include "blocks/SysInfoBlock.hpp"
+#include "blocks/TicksBlock.hpp"
+#include "blocks/stringify.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/Connections.hpp"
 #include "proto/proto_version.h"
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>

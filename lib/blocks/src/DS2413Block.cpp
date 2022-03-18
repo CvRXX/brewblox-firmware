@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/DS2413Block.h"
+#include "blocks/DS2413Block.hpp"
 #include "proto/DS2413.pb.h"
 
 cbox::CboxError

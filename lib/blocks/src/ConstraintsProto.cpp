@@ -1,9 +1,9 @@
 
 
-#include "cbox/CboxPtr.h"
-#include "control/ActuatorAnalogConstrained.h"
-#include "control/ActuatorDigitalConstrained.h"
-#include "control/Balancer.h"
+#include "cbox/CboxPtr.hpp"
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorDigitalConstrained.hpp"
+#include "control/Balancer.hpp"
 #include "proto/Constraints.pb.h"
 
 using Minimum = AAConstraints::Minimum<blox_Constraints_AnalogConstraint_min_tag>;

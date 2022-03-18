@@ -1,8 +1,8 @@
 #include "layout.hpp"
 #include "Spark4.hpp"
 #include "bar.hpp"
-#include "blocks/DisplaySettingsBlock.h"
-#include "cbox/CboxPtr.h"
+#include "blocks/DisplaySettingsBlock.hpp"
+#include "cbox/CboxPtr.hpp"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
 #include <algorithm>

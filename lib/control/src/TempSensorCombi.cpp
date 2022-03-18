@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/TempSensorCombi.h"
+#include "control/TempSensorCombi.hpp"
 
 void TempSensorCombi::update()
 {

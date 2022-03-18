@@ -17,7 +17,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/Crc.h"
+#include "cbox/Crc.hpp"
 #include <memory>
 
 namespace cbox {

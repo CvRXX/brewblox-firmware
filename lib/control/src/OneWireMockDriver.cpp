@@ -17,7 +17,7 @@
  * along with BrewBlox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/OneWireMockDriver.h"
+#include "control/OneWireMockDriver.hpp"
 
 uint8_t
 OneWireMockDriver::search_triplet(bool search_direction)

@@ -1,4 +1,4 @@
-#include "cbox/Base64.h"
+#include "cbox/Base64.hpp"
 
 static constexpr char chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

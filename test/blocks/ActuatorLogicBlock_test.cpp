@@ -19,18 +19,18 @@
 
 #include <catch.hpp>
 
-#include "TestHelpers.h"
-#include "blocks/ActuatorLogicBlock.h"
-#include "blocks/DigitalActuatorBlock.h"
-#include "blocks/SetpointSensorPairBlock.h"
-#include "blocks/TempSensorMockBlock.h"
-#include "cbox/Box.h"
-#include "cbox/DataStreamIo.h"
+#include "TestHelpers.hpp"
+#include "blocks/ActuatorLogicBlock.hpp"
+#include "blocks/DigitalActuatorBlock.hpp"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/TempSensorMockBlock.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/DataStreamIo.hpp"
 #include "proto/ActuatorLogic_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "spark/Brewblox.h"
+#include "spark/Brewblox.hpp"
 #include <sstream>
 
 SCENARIO("Test", "[makelogicblock]")

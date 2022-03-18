@@ -51,7 +51,7 @@ extern "C" {
 #include "common_files/d4d_private.h" // include the private header file that contains perprocessor macros as D4D_MK_STR"
 }
 
-#include "spark/BrewPiTouch.h"
+#include "spark/BrewPiTouch.hpp"
 
 // compilation enable preprocessor condition
 // the string d4dtch_tsc2046_brewpi_ID must be replaced by define created one line up

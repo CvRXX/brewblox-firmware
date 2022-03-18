@@ -17,8 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/SetpointSensorPair.h"
-#include "control/TempSensorMock.h"
+#include "control/SetpointSensorPair.hpp"
+#include "control/TempSensorMock.hpp"
 #include <catch.hpp>
 #include <memory>
 

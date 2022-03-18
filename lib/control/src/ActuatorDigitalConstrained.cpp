@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/ActuatorDigitalConstrained.h"
+#include "control/ActuatorDigitalConstrained.hpp"
 #include <algorithm>
 
 void ActuatorDigitalConstrained::addConstraint(std::unique_ptr<Constraint>&& newConstraint)

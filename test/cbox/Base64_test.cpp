@@ -1,7 +1,7 @@
-#include "TestHelpers.h"
-#include "TestObjects.h"
-#include "cbox/Base64.h"
-#include "cbox/Box.h"
+#include "TestHelpers.hpp"
+#include "TestObjects.hpp"
+#include "cbox/Base64.hpp"
+#include "cbox/Box.hpp"
 #include <catch.hpp>
 #include <string.h>
 

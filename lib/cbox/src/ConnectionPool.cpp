@@ -18,7 +18,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ConnectionPool.h"
+#include "cbox/ConnectionPool.hpp"
 #include <algorithm>
 
 namespace cbox {

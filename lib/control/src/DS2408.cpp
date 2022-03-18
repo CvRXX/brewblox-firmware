@@ -17,8 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/DS2408.h"
-#include "control/OneWireCrc.h"
+#include "control/DS2408.hpp"
+#include "control/OneWireCrc.hpp"
 #include <cstring>
 
 static constexpr uint8_t READ_PIO_REG = 0xF0;

@@ -17,9 +17,9 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/SparkIoBase.h"
-#include "control/ActuatorDigital.h"
-#include "spark/Board.h"
+#include "spark/SparkIoBase.hpp"
+#include "control/ActuatorDigital.hpp"
+#include "spark/Board.hpp"
 
 // generic ArrayIO interface
 bool SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const

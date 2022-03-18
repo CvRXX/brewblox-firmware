@@ -1,4 +1,4 @@
-#include "blocks/ActuatorLogicBlock.h"
+#include "blocks/ActuatorLogicBlock.hpp"
 
 blox_ActuatorLogic_Result
 DigitalCompare::eval() const

@@ -1,6 +1,6 @@
-#include "blocks/DigitalActuatorBlock.h"
-#include "blocks/ConstraintsProto.h"
-#include "blocks/FieldTags.h"
+#include "blocks/DigitalActuatorBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
+#include "blocks/FieldTags.hpp"
 
 DigitalActuatorBlock::DigitalActuatorBlock()
     : hwDevice()

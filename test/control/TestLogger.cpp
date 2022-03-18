@@ -1,5 +1,5 @@
-#include "TestLogger.h"
-#include "control/Logger.h"
+#include "TestLogger.hpp"
+#include "control/Logger.hpp"
 #include <string>
 #include <vector>
 

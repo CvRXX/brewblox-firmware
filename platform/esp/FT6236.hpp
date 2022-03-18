@@ -1,5 +1,5 @@
 #pragma once
-#include "blox_hal/hal_gpio.h"
+#include "blox_hal/hal_gpio.hpp"
 #include "control/I2CDevice.hpp"
 #include "driver/gpio.h"
 #include <atomic>

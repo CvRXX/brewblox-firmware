@@ -1,6 +1,6 @@
-#include "blocks/ActuatorPwmBlock.h"
-#include "blocks/ConstraintsProto.h"
-#include "blocks/FieldTags.h"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
+#include "blocks/FieldTags.hpp"
 #include "proto/ActuatorPwm.pb.h"
 #include "proto/Constraints.pb.h"
 

@@ -17,8 +17,8 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/FileObjectStorage.h"
-#include "cbox/Crc.h"
+#include "cbox/FileObjectStorage.hpp"
+#include "cbox/Crc.hpp"
 #include <cstdio>
 extern "C" {
 #include <dirent.h>

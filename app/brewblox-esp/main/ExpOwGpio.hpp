@@ -3,13 +3,13 @@
 #include "DRV8908.hpp"
 #include "TCA9538.hpp"
 #include "control/DS248x.hpp"
-#include "control/IoArray.h"
+#include "control/IoArray.hpp"
 #include "control/IoModule.hpp"
-#include "control/OneWire.h"
+#include "control/OneWire.hpp"
 #include "proto/OneWireGpioModule.pb.h"
 // #include "esp_err.h"
 // #include "esp_log.h"
-#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_delay.hpp"
 #include <vector>
 
 class ExpOwGpio : public IoArray, public IoModule {
