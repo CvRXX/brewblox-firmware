@@ -60,7 +60,7 @@ cbox::update_t BalancerBlock::update(const cbox::update_t& now)
     return now + 1000;
 }
 
-void* BalancerBlock::implements(const cbox::obj_type_t& iface)
+void* BalancerBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_Balancer) {
         return this; // me!

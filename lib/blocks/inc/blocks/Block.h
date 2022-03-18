@@ -28,7 +28,7 @@ cbox::CboxError
 callWithMessage(const cbox::PayloadCallback& callback,
                 cbox::obj_id_t objId,
                 cbox::obj_type_t typeId,
-                uint16_t subtype);
+                cbox::obj_subtype_t subtype);
 
 /**
  * Calls cmd.respond() with a payload serialized
@@ -38,7 +38,7 @@ cbox::CboxError
 callWithMessage(const cbox::PayloadCallback& callback,
                 cbox::obj_id_t objId,
                 cbox::obj_type_t typeId,
-                uint16_t subtype,
+                cbox::obj_subtype_t subtype,
                 const void* srcStruct,
                 const pb_field_t fields[],
                 size_t maxSize);

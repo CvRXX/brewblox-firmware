@@ -92,7 +92,7 @@ public:
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
     virtual cbox::CboxError write(const cbox::Payload& payload) override final;
     virtual cbox::update_t update(const cbox::update_t& now) override final;
-    virtual void* implements(const cbox::obj_type_t& iface) override final;
+    virtual void* implements(cbox::obj_type_t iface) override final;
 
     blox_ActuatorLogic_Result evaluate();
 

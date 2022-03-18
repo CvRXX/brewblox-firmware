@@ -123,7 +123,7 @@ OneWireBusBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-void* OneWireBusBlock::implements(const cbox::obj_type_t& iface)
+void* OneWireBusBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_OneWireBus) {
         return this; // me!

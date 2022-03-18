@@ -37,7 +37,7 @@ static const cbox::ObjectFactory blocksFactory({
     cbox::makeFactoryEntry<TempSensorCombiBlock>(),
 });
 
-cbox::CboxExpected<std::shared_ptr<cbox::Object>> makeBlock(const cbox::obj_type_t& t)
+cbox::CboxExpected<std::shared_ptr<cbox::Object>> makeBlock(cbox::obj_type_t t)
 {
     return blocksFactory.make(t);
 }

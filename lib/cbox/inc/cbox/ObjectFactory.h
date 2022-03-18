@@ -45,14 +45,14 @@ struct ObjectFactoryEntry {
     obj_type_t typeId;
     Object* (*createFn)();
 
-    ObjectFactoryEntry(const obj_type_t& id, Object* (*f)())
+    ObjectFactoryEntry(obj_type_t id, Object* (*f)())
         : typeId(id)
         , createFn(f)
     {
     }
 
     template <class T>
-    ObjectFactoryEntry(const obj_type_t& id)
+    ObjectFactoryEntry(obj_type_t id)
         : typeId(id)
         , createFn(make<T>)
     {
@@ -78,7 +78,7 @@ public:
     {
     }
 
-    CboxExpected<std::shared_ptr<Object>> make(const obj_type_t& t) const;
+    CboxExpected<std::shared_ptr<Object>> make(obj_type_t t) const;
 };
 
 } // end namespace cbox

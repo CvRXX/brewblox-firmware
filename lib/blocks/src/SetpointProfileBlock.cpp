@@ -122,7 +122,7 @@ SetpointProfileBlock::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void* SetpointProfileBlock::implements(const cbox::obj_type_t& iface)
+void* SetpointProfileBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_SetpointProfile) {
         return this; // me!

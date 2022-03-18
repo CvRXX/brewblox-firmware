@@ -102,7 +102,7 @@ MotorValveBlock::update(const cbox::update_t& now)
     return constrained.update(now);
 }
 
-void* MotorValveBlock::implements(const cbox::obj_type_t& iface)
+void* MotorValveBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_MotorValve) {
         return this; // me!

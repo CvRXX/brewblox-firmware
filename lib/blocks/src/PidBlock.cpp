@@ -172,7 +172,7 @@ PidBlock::update(const cbox::update_t& now)
     return nextUpdate;
 }
 
-void* PidBlock::implements(const cbox::obj_type_t& iface)
+void* PidBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_Pid) {
         return this; // me!

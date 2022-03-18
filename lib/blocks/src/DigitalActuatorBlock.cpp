@@ -87,7 +87,7 @@ DigitalActuatorBlock::update(const cbox::update_t& now)
     return constrained.update(now);
 }
 
-void* DigitalActuatorBlock::implements(const cbox::obj_type_t& iface)
+void* DigitalActuatorBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_DigitalActuator) {
         return this; // me!

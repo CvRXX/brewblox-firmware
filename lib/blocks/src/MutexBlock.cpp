@@ -55,7 +55,7 @@ MutexBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-void* MutexBlock::implements(const cbox::obj_type_t& iface)
+void* MutexBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_Mutex) {
         return this; // me!

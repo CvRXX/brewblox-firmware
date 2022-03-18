@@ -163,7 +163,7 @@ ActuatorLogicBlock::update(const cbox::update_t& now)
     return now + 100; // update every 100ms
 }
 
-void* ActuatorLogicBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorLogicBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_ActuatorLogic) {
         return this; // me!

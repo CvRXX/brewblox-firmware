@@ -95,7 +95,7 @@ DS2408Block::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void* DS2408Block::implements(const cbox::obj_type_t& iface)
+void* DS2408Block::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_DS2408) {
         return this; // me!

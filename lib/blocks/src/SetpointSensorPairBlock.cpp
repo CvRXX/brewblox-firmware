@@ -114,7 +114,7 @@ SetpointSensorPairBlock::update(const cbox::update_t& now)
     return nextUpdate;
 }
 
-void* SetpointSensorPairBlock::implements(const cbox::obj_type_t& iface)
+void* SetpointSensorPairBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_SetpointSensorPair) {
         return this; // me!

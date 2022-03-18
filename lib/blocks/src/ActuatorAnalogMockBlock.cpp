@@ -75,7 +75,7 @@ cbox::CboxError ActuatorAnalogMockBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-void* ActuatorAnalogMockBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorAnalogMockBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_ActuatorAnalogMock) {
         return this; // me!

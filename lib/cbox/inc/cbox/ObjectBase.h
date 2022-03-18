@@ -54,7 +54,7 @@ public:
         return id;
     }
 
-    virtual void* implements(const obj_type_t& iface) override
+    virtual void* implements(obj_type_t iface) override
     {
         if (id == iface) {
             return this;

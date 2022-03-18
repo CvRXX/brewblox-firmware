@@ -17,7 +17,7 @@ ObjectStorage& getStorage()
     return objectStore;
 }
 
-tl::expected<std::shared_ptr<cbox::Object>, cbox::CboxError> make(const obj_type_t& t)
+tl::expected<std::shared_ptr<cbox::Object>, cbox::CboxError> make(obj_type_t t)
 {
     return makeBlock(t);
 }

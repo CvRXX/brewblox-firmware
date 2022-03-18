@@ -129,7 +129,7 @@ ExpOwGpioBlock::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void* ExpOwGpioBlock::implements(const cbox::obj_type_t& iface)
+void* ExpOwGpioBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_OneWireGpioModule) {
         return this; // me!

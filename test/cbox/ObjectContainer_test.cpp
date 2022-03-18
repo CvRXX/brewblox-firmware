@@ -43,9 +43,9 @@ SCENARIO("A container to hold objects")
 
         THEN("They are assigned a valid unique ID")
         {
-            CHECK(id1 != obj_id_t::invalid());
-            CHECK(id2 != obj_id_t::invalid());
-            CHECK(id3 != obj_id_t::invalid());
+            CHECK(id1 != invalidId);
+            CHECK(id2 != invalidId);
+            CHECK(id3 != invalidId);
 
             CHECK(id1 != id2);
             CHECK(id1 != id3);
@@ -77,7 +77,7 @@ SCENARIO("A container to hold objects")
             AND_WHEN("the id already exist, adding fails")
             {
                 obj_id_t id5 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), obj_id_t(123));
-                CHECK(id5 == obj_id_t::invalid());
+                CHECK(id5 == invalidId);
             }
 
             AND_WHEN("replace is used instead of add, it succeeds")
@@ -204,7 +204,7 @@ SCENARIO("A container with system objects")
     THEN("No objects can be added in the system ID range")
     {
         container.setObjectsStartId(100);
-        CHECK(obj_id_t::invalid() == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 99, true));
+        CHECK(invalidId == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 99, true));
     }
 
     THEN("Objects added after construction can also be marked system by moving the start ID")

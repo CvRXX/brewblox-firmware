@@ -87,7 +87,7 @@ ActuatorOffsetBlock::update(const cbox::update_t& now)
     return now + 1000;
 }
 
-void* ActuatorOffsetBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorOffsetBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_ActuatorOffset) {
         return this; // me!

@@ -111,7 +111,7 @@ cbox::CboxError Spark2PinsBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-void* Spark2PinsBlock::implements(const cbox::obj_type_t& iface)
+void* Spark2PinsBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_Spark2Pins) {
         return this; // me!

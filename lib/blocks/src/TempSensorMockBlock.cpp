@@ -137,7 +137,7 @@ cbox::update_t TempSensorMockBlock::update(const cbox::update_t& now)
     return sensor.update(now);
 }
 
-void* TempSensorMockBlock::implements(const cbox::obj_type_t& iface)
+void* TempSensorMockBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_TempSensorMock) {
         return this; // me!

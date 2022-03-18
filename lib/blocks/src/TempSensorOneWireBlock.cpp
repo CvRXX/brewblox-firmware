@@ -107,7 +107,7 @@ cbox::update_t TempSensorOneWireBlock::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void* TempSensorOneWireBlock::implements(const cbox::obj_type_t& iface)
+void* TempSensorOneWireBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_TempSensorOneWire) {
         return this; // me!

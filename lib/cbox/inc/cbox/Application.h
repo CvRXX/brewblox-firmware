@@ -10,7 +10,7 @@ namespace cbox {
 ObjectStorage& getStorage();
 
 // Must be implemented in application code
-CboxExpected<std::shared_ptr<Object>> make(const obj_type_t& t);
+CboxExpected<std::shared_ptr<Object>> make(obj_type_t t);
 
 // Must be implemented in application code
 std::shared_ptr<Object> scan();

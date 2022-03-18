@@ -101,7 +101,7 @@ ActuatorPwmBlock::update(const cbox::update_t& now)
     return nextUpdate;
 }
 
-void* ActuatorPwmBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorPwmBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_ActuatorPwm) {
         return this; // me!

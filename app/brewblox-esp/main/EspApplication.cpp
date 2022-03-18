@@ -12,7 +12,7 @@ static const ObjectFactory platformFactory{
     makeFactoryEntry<ExpOwGpioBlock>(),
 };
 
-cbox::CboxExpected<std::shared_ptr<cbox::Object>> make(const obj_type_t& t)
+cbox::CboxExpected<std::shared_ptr<cbox::Object>> make(obj_type_t t)
 {
     auto retv = platformFactory.make(t);
 

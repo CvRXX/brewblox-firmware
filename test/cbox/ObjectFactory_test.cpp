@@ -29,8 +29,8 @@ using namespace cbox;
 
 SCENARIO("An object can be created by an ObjectFactory by resolving the type id")
 {
-    static const auto outOfMemoryTester = []() {
-        return std::shared_ptr<Object>{}; // return nullptr
+    static const auto outOfMemoryTester = []() -> Object* {
+        return nullptr;
     };
 
     ObjectFactory factory = {

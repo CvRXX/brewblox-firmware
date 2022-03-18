@@ -58,7 +58,7 @@ MockPinsBlock::write(const cbox::Payload&)
     return cbox::CboxError::OK;
 }
 
-void* MockPinsBlock::implements(const cbox::obj_type_t& iface)
+void* MockPinsBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_MockPins) {
         return this; // me!

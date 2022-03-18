@@ -23,7 +23,7 @@ public:
         return name;
     }
 
-    void* implements(const cbox::obj_type_t& iface)
+    void* implements(cbox::obj_type_t iface)
     {
         if (iface == cbox::interfaceId<Nameable>()) {
             return this;
@@ -278,7 +278,7 @@ public:
     }
 
     // needs special handling due to multiple inheritance
-    virtual void* implements(const cbox::obj_type_t& iface) override final
+    virtual void* implements(cbox::obj_type_t iface) override final
     {
         if (iface == staticTypeId()) {
             return this; // me!
