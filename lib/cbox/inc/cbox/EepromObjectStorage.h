@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -45,18 +45,13 @@ public:
     EepromObjectStorage(EepromAccess& _eeprom);
     virtual ~EepromObjectStorage() = default;
 
-    virtual CboxError storeObject(
-        const storage_id_t& id,
-        const std::function<CboxError(DataOut&)>& handler) override final;
+    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback) override final;
 
-    virtual CboxError retrieveObject(
-        const storage_id_t& id,
-        const std::function<CboxError(RegionDataIn&)>& handler) override final;
+    virtual CboxError saveObject(const Payload& payload) override final;
 
-    virtual CboxError retrieveObjects(
-        const std::function<CboxError(const storage_id_t& id, RegionDataIn&)>& handler) override final;
+    virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
 
-    virtual bool disposeObject(const storage_id_t& id, bool mergeDisposed = true) override final;
+    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true) override final;
 
     virtual void clear() override final;
 
@@ -115,18 +110,22 @@ private:
     objectHeaderLength()
     {
         // actual size + id
-        return blockHeaderLength() + sizeof(uint16_t) + sizeof(storage_id_t);
+        return blockHeaderLength() + sizeof(uint16_t) + sizeof(obj_id_t);
     }
 
-    RegionDataIn getBlockReader(const BlockType requestedType);
-    RegionDataOut getBlockWriter(const BlockType requestedType, uint16_t minSize);
-    RegionDataIn getObjectReader(const storage_id_t id, bool usedSize);
-    RegionDataOut getObjectWriter(const storage_id_t id);
-    RegionDataOut newObjectWriter(const storage_id_t id, uint16_t objectSize);
+    RegionDataIn getBlockReader(BlockType requestedType);
+    RegionDataOut getBlockWriter(BlockType requestedType, uint16_t minSize);
+    RegionDataIn getObjectReader(obj_id_t id, bool usedSize);
+    RegionDataOut getObjectWriter(obj_id_t id);
+    RegionDataOut newObjectWriter(obj_id_t id, uint16_t objectSize);
 
     void init();
     bool moveDisposedBackwards();
     bool mergeDisposedBlocks();
+
+    static CboxError parseFromStream(obj_id_t id,
+                                     const PayloadCallback& callback,
+                                     RegionDataIn& in);
 };
 
 } // end namespace cbox

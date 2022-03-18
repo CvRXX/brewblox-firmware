@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "cbox/DataStream.h"
@@ -53,10 +53,10 @@ CboxError DataIn::push(DataOut& out, stream_size_t length)
     while (length-- > 0) {
         auto v = read();
         if (v < 0) {
-            return CboxError::INPUT_STREAM_READ_ERROR;
+            return CboxError::NETWORK_READ_ERROR;
         }
         if (!out.write(v)) {
-            return CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return CboxError::NETWORK_WRITE_ERROR;
         }
     }
     return CboxError::OK;
@@ -72,20 +72,20 @@ CboxError DataIn::push(DataOut& out)
             return CboxError::OK;
         }
         if (!out.write(v)) {
-            return CboxError::OUTPUT_STREAM_WRITE_ERROR;
+            return CboxError::NETWORK_WRITE_ERROR;
         }
     }
 }
 
 bool CrcDataOut::write(uint8_t data)
 {
-    crcValue = calc_crc(crcValue, data);
+    crcValue = calc_crc_8(crcValue, data);
     return out.write(data);
 }
 
 bool EncodedDataOut::write(uint8_t data)
 {
-    crcValue = calc_crc(crcValue, data);
+    crcValue = calc_crc_8(crcValue, data);
     bool success = out.write(d2h(uint8_t(data & 0xF0) >> 4));
     success = success && out.write(d2h(uint8_t(data & 0xF)));
     return success;

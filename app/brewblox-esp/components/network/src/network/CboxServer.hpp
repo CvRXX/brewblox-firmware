@@ -7,13 +7,11 @@
 class CboxServer {
 public:
     explicit CboxServer(asio::io_context& io_context_,
-                        const uint16_t& port_,
-                        cbox::Box& box_)
+                        const uint16_t& port_)
         : io_context(io_context_)
-        //signals_(io_context_),
+        // signals_(io_context_),
         , acceptor(io_context)
         , connection_manager{}
-        , box(box_)
     {
         // Register to handle the signals that indicate when the server should exit.
         // It is safe to register for the same signal multiple times in a program,
@@ -42,8 +40,9 @@ public:
 
     void attach_stdio()
     {
-        connection_manager.start(std::make_shared<CboxStdioConnection>(
-            io_context, connection_manager, box));
+        connection_manager.start(
+            std::make_shared<CboxStdioConnection>(io_context,
+                                                  connection_manager));
     }
 
     void do_accept()
@@ -57,8 +56,9 @@ public:
                 }
 
                 if (!ec) {
-                    connection_manager.start(std::make_shared<CboxTcpConnection>(
-                        std::move(socket), connection_manager, box));
+                    connection_manager.start(
+                        std::make_shared<CboxTcpConnection>(std::move(socket),
+                                                            connection_manager));
                 }
 
                 do_accept();
@@ -80,5 +80,4 @@ public:
     asio::io_context& io_context;
     asio::ip::tcp::acceptor acceptor;
     CboxConnectionManager connection_manager;
-    cbox::Box& box;
 };

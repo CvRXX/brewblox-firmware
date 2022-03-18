@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +14,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 
 #include "cbox/CboxError.h"
 #include "cbox/ObjectBase.h"
-#include "cbox/ObjectIds.h"
 #include <limits>
 
 namespace cbox {
@@ -40,20 +39,23 @@ public:
     }
     virtual ~DeprecatedObject() = default;
 
-    virtual CboxError streamTo(DataOut& out) const override final
+    virtual CboxError read(const PayloadCallback& callback) const override final
     {
+        Payload payload(objectId, typeId(), 0);
+        payload.content.resize(sizeof(originalId));
+        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
         out.put(originalId);
-        return CboxError::OK;
+        return callback(payload);
     }
 
-    virtual CboxError streamFrom(DataIn&) override final
+    virtual CboxError readStored(const PayloadCallback& callback) const override final
     {
-        return CboxError::OBJECT_NOT_WRITABLE;
+        return read(callback);
     }
 
-    virtual CboxError streamPersistedTo(DataOut&) const override final
+    virtual CboxError write(const Payload&) override final
     {
-        return CboxError::OBJECT_NOT_WRITABLE;
+        return CboxError::BLOCK_NOT_WRITABLE;
     }
 
     virtual update_t update(const update_t& now) override final

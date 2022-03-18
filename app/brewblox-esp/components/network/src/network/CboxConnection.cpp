@@ -1,15 +1,15 @@
 #include "CboxConnection.hpp"
+#include "Brewblox.hpp"
 #include "CboxConnectionManager.hpp"
-#include "brewblox.hpp"
+#include "EspBox.hpp"
 #include "cbox/Box.h"
+#include "cbox/Connections.h"
 
 CboxConnection::CboxConnection(
-    CboxConnectionManager& connection_manager_,
-    cbox::Box& box_)
+    CboxConnectionManager& connection_manager_)
     : buffer_in(32768)
     , buffer_out(32768)
     , connection_manager(connection_manager_)
-    , box(box_)
 {
 }
 
@@ -53,7 +53,7 @@ void CboxConnection::finish_read(std::error_code ec, std::size_t bytes_transferr
         cbox::StreamBufDataIn in_cbox(buffer_in);
         cbox::StreamBufDataOut out_cbox(buffer_out);
         cbox::RegionDataIn transferred{in_cbox, bytes_transferred};
-        box.handleCommand(transferred, out_cbox);
+        handleCommand(transferred, out_cbox);
 
         start_write(); // send reply
         start_read();  // read next

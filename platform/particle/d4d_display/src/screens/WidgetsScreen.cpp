@@ -19,14 +19,14 @@
 
 #include "d4d_display/screens/WidgetsScreen.h"
 #include "blocks/DisplaySettingsBlock.h"
-#include "brewblox_particle.hpp"
-#include "connectivity.h"
 #include "d4d_display/screens/ActuatorAnalogWidget.h"
 #include "d4d_display/screens/PidWidget.h"
 #include "d4d_display/screens/SetpointSensorWidget.h"
 #include "d4d_display/screens/TempSensorWidget.h"
 #include "d4d_display/screens/memory_info.h"
 #include "spark/Board.h"
+#include "spark/Brewblox.h"
+#include "spark/Connectivity.h"
 #include <algorithm>
 #include <array>
 #include <vector>

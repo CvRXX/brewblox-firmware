@@ -39,16 +39,11 @@ public:
 
     OneWire& oneWire() { return bus; }
 
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final;
-    virtual cbox::CboxError streamFrom(cbox::DataIn& dataIn) override final;
-
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut&) const override final
-    {
-        return cbox::CboxError::PERSISTING_NOT_NEEDED;
-    }
-
+    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
+    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
+    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
     virtual cbox::update_t update(const cbox::update_t& now) override final;
+    virtual void* implements(cbox::obj_type_t iface) override final;
 
     static void (*onShortDetected)();
-    virtual void* implements(const cbox::obj_type_t& iface) override final;
 };

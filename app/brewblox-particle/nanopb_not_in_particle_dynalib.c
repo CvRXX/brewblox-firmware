@@ -13,28 +13,52 @@
 #include <pb_decode.h>
 #include <pb_encode.h>
 
-bool
-pb_decode_fixed64(pb_istream_t* stream, void* dest);
-bool
-pb_encode_fixed64(pb_ostream_t* stream, const void* value);
+bool buf_read(pb_istream_t* stream, pb_byte_t* buf, size_t count);
+bool buf_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count);
 
-bool
-pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count);
-//bool
+bool pb_decode_fixed64(pb_istream_t* stream, void* dest);
+bool pb_encode_fixed64(pb_ostream_t* stream, const void* value);
+
+bool pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count);
+// bool
 //#pb_field_iter_begin(pb_field_iter_t* iter, const pb_field_t* fields, void* dest_struct);
-//bool
-//pb_field_iter_next(pb_field_iter_t* iter);
+// bool
+// pb_field_iter_next(pb_field_iter_t* iter);
 static void
 pb_message_set_to_defaults(const pb_field_t fields[], void* dest_struct);
-bool
-pb_decode(pb_istream_t* stream, const pb_field_t fields[], void* dest_struct);
+bool pb_decode(pb_istream_t* stream, const pb_field_t fields[], void* dest_struct);
 static void
 pb_field_set_to_default(pb_field_iter_t* iter);
 static void
 iter_from_extension(pb_field_iter_t* iter, pb_extension_t* extension);
 
-bool
-pb_decode_fixed64(pb_istream_t* stream, void* dest)
+bool buf_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)
+{
+    size_t i;
+    pb_byte_t* dest = (pb_byte_t*)stream->state;
+    stream->state = dest + count;
+
+    for (i = 0; i < count; i++)
+        dest[i] = buf[i];
+
+    return true;
+}
+
+bool buf_read(pb_istream_t* stream, pb_byte_t* buf, size_t count)
+{
+    size_t i;
+    const pb_byte_t* source = (const pb_byte_t*)stream->state;
+    stream->state = (pb_byte_t*)stream->state + count;
+
+    if (buf != NULL) {
+        for (i = 0; i < count; i++)
+            buf[i] = source[i];
+    }
+
+    return true;
+}
+
+bool pb_decode_fixed64(pb_istream_t* stream, void* dest)
 {
     pb_byte_t bytes[8];
 
@@ -46,8 +70,7 @@ pb_decode_fixed64(pb_istream_t* stream, void* dest)
     return true;
 }
 
-bool
-pb_encode_fixed64(pb_ostream_t* stream, const void* value)
+bool pb_encode_fixed64(pb_ostream_t* stream, const void* value)
 {
     uint64_t val = *(const uint64_t*)value;
     pb_byte_t bytes[8];
@@ -62,8 +85,7 @@ pb_encode_fixed64(pb_ostream_t* stream, const void* value)
     return pb_write(stream, bytes, 8);
 }
 
-bool
-pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)
+bool pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)
 {
     if (stream->callback != NULL) {
         if (stream->bytes_written + count > stream->max_size)
@@ -82,8 +104,7 @@ pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)
     return true;
 }
 
-bool
-pb_field_iter_begin(pb_field_iter_t* iter, const pb_field_t* fields, void* dest_struct)
+bool pb_field_iter_begin(pb_field_iter_t* iter, const pb_field_t* fields, void* dest_struct)
 {
     iter->start = fields;
     iter->pos = fields;
@@ -95,8 +116,7 @@ pb_field_iter_begin(pb_field_iter_t* iter, const pb_field_t* fields, void* dest_
     return (iter->pos->tag != 0);
 }
 
-bool
-pb_field_iter_next(pb_field_iter_t* iter)
+bool pb_field_iter_next(pb_field_iter_t* iter)
 {
     const pb_field_t* prev_field = iter->pos;
 
@@ -154,8 +174,7 @@ pb_message_set_to_defaults(const pb_field_t fields[], void* dest_struct)
     } while (pb_field_iter_next(&iter));
 }
 
-bool
-pb_decode(pb_istream_t* stream, const pb_field_t fields[], void* dest_struct)
+bool pb_decode(pb_istream_t* stream, const pb_field_t fields[], void* dest_struct)
 {
     bool status;
     pb_message_set_to_defaults(fields, dest_struct);
@@ -240,4 +259,45 @@ iter_from_extension(pb_field_iter_t* iter, pb_extension_t* extension)
          * indirection. */
         iter->pData = &extension->dest;
     }
+}
+
+pb_ostream_t pb_ostream_from_buffer(pb_byte_t* buf, size_t bufsize)
+{
+    pb_ostream_t stream;
+#ifdef PB_BUFFER_ONLY
+    stream.callback = (void*)1; /* Just a marker value */
+#else
+    stream.callback = &buf_write;
+#endif
+    stream.state = buf;
+    stream.max_size = bufsize;
+    stream.bytes_written = 0;
+#ifndef PB_NO_ERRMSG
+    stream.errmsg = NULL;
+#endif
+    return stream;
+}
+
+pb_istream_t pb_istream_from_buffer(const pb_byte_t* buf, size_t bufsize)
+{
+    pb_istream_t stream;
+    /* Cast away the const from buf without a compiler error.  We are
+     * careful to use it only in a const manner in the callbacks.
+     */
+    union {
+        void* state;
+        const void* c_state;
+    } state;
+#ifdef PB_BUFFER_ONLY
+    stream.callback = NULL;
+#else
+    stream.callback = &buf_read;
+#endif
+    state.c_state = buf;
+    stream.state = state.state;
+    stream.bytes_left = bufsize;
+#ifndef PB_NO_ERRMSG
+    stream.errmsg = NULL;
+#endif
+    return stream;
 }

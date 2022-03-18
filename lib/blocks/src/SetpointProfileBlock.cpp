@@ -56,27 +56,11 @@ bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
 }
 
 cbox::CboxError
-SetpointProfileBlock::streamFrom(cbox::DataIn& in)
-{
-    blox_SetpointProfile_Block newData = blox_SetpointProfile_Block_init_zero;
-    std::vector<Point> newPoints;
-    newData.points.funcs.decode = &streamPointsIn;
-    newData.points.arg = &newPoints;
-    cbox::CboxError result = streamProtoFrom(in, &newData, blox_SetpointProfile_Block_fields, std::numeric_limits<size_t>::max() - 1);
-    if (result == cbox::CboxError::OK) {
-        profile.points(std::move(newPoints));
-        profile.enabled(newData.enabled);
-        profile.startTime(newData.start);
-        target.setId(newData.targetId);
-    }
-    return result;
-}
-
-cbox::CboxError
-SetpointProfileBlock::streamTo(cbox::DataOut& out) const
+SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     FieldTags stripped;
+
     message.points.funcs.encode = &streamPointsOut;
     message.points.arg = const_cast<std::vector<Point>*>(&profile.points());
     message.enabled = profile.enabled();
@@ -86,8 +70,46 @@ SetpointProfileBlock::streamTo(cbox::DataOut& out) const
         message.drivenTargetId = target.getId();
     }
 
-    cbox::CboxError result = streamProtoTo(out, &message, blox_SetpointProfile_Block_fields, std::numeric_limits<size_t>::max() - 1);
-    return result;
+    size_t blockSize = (blox_SetpointProfile_Point_size + 1) * profile.points().size()
+                       + 3 // enabled
+                       + 4 // targetId
+                       + 5 // drivenTargetId
+                       + 6 // start
+        ;
+
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_SetpointProfile_Block_fields,
+                           blockSize);
+}
+
+cbox::CboxError
+SetpointProfileBlock::readStored(const cbox::PayloadCallback& callback) const
+{
+    return read(callback);
+}
+
+cbox::CboxError
+SetpointProfileBlock::write(const cbox::Payload& payload)
+{
+    blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
+    std::vector<Point> newPoints;
+    message.points.funcs.decode = &streamPointsIn;
+    message.points.arg = &newPoints;
+
+    auto res = payloadToMessage(payload, &message, blox_SetpointProfile_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        profile.points(std::move(newPoints));
+        profile.enabled(message.enabled);
+        profile.startTime(message.start);
+        target.setId(message.targetId);
+    }
+
+    return res;
 }
 
 cbox::update_t
@@ -100,7 +122,7 @@ SetpointProfileBlock::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void* SetpointProfileBlock::implements(const cbox::obj_type_t& iface)
+void* SetpointProfileBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_SetpointProfile) {
         return this; // me!

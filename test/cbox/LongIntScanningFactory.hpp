@@ -1,6 +1,6 @@
 #include "TestObjects.h"
+#include "cbox/Box.h"
 #include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
 #include "cbox/ScanningFactory.hpp"
 #include <memory>
 #include <vector>

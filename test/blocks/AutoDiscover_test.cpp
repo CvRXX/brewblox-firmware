@@ -19,30 +19,37 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/DS2408Block.h"
 #include "blocks/DS2413Block.h"
 #include "blocks/TempSensorOneWireBlock.h"
+#include "cbox/Box.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
 #include "proto/TempSensorOneWire_test.pb.h"
+#include "spark/Brewblox.h"
 #include <sstream>
 
 SCENARIO("Auto discovery of OneWire devices")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
-
-    testBox.reset();
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
     WHEN("An object discovery command is received")
     {
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::DISCOVER_NEW_OBJECTS);
-        auto reply = testBox.processInput();
-        THEN("3 new objects are discovered")
+        auto discoverCmd = cbox::TestCommand();
+        CHECK(cbox::discoverBlocks(discoverCmd.callback) == cbox::CboxError::OK);
+
+        THEN("New objects are discovered")
         {
-            CHECK(reply == cbox::addCrc("00000C") + "|0000" + "," + cbox::addCrc("64002E01") + "," + cbox::addCrc("65002E01") + "," + cbox::addCrc("66002E01") + "," + cbox::addCrc("67003B01") + "," + cbox::addCrc("68003D01") + "\n");
+            CHECK(discoverCmd.responses.size() == 5);
+            CHECK(discoverCmd.responses.at(0).blockType == TempSensorOneWireBlock::staticTypeId());
+            CHECK(discoverCmd.responses.at(1).blockType == TempSensorOneWireBlock::staticTypeId());
+            CHECK(discoverCmd.responses.at(2).blockType == TempSensorOneWireBlock::staticTypeId());
+            CHECK(discoverCmd.responses.at(3).blockType == DS2413Block::staticTypeId());
+            CHECK(discoverCmd.responses.at(4).blockType == DS2408Block::staticTypeId());
+
             AND_THEN("These objects can be used as temp sensor")
             {
                 auto d1 = cbox::CboxPtr<TempSensor>(100);
@@ -61,29 +68,25 @@ SCENARIO("Auto discovery of OneWire devices")
 
         AND_WHEN("The command is given for the second time")
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::DISCOVER_NEW_OBJECTS);
-            auto reply = testBox.processInput();
+            auto repeatedDiscoverCmd = cbox::TestCommand();
+            CHECK(cbox::discoverBlocks(repeatedDiscoverCmd.callback) == cbox::CboxError::OK);
+
             THEN("No new objects are discovered")
             {
-                CHECK(reply == cbox::addCrc("00000C") + "|0000\n");
+                CHECK(repeatedDiscoverCmd.responses.size() == 0);
             }
         }
 
         AND_WHEN("One of the sensors is removed")
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::DELETE_OBJECT);
-            testBox.put(cbox::obj_id_t(101));
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+            auto removeCmd = cbox::TestCommand(101, 0);
+            CHECK(cbox::deleteBlock(removeCmd.request) == cbox::CboxError::OK);
 
             THEN("It will be discovered again")
             {
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::DISCOVER_NEW_OBJECTS);
-                auto reply = testBox.processInput();
-                CHECK(reply == cbox::addCrc("00000C") + "|0000" + "," + cbox::addCrc("69002E01") + "\n");
+                auto rediscoverCmd = cbox::TestCommand();
+                CHECK(cbox::discoverBlocks(rediscoverCmd.callback) == cbox::CboxError::OK);
+                CHECK(rediscoverCmd.responses.size() == 1);
             }
         }
     }

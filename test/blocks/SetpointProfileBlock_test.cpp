@@ -17,74 +17,73 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/SetpointProfileBlock.h"
 #include "blocks/SetpointSensorPairBlock.h"
 #include "blocks/TempSensorMockBlock.h"
 #include "blocks/TicksBlock.h"
-#include "cbox/DataStreamIo.h"
+#include "cbox/Box.h"
 #include "control/MockTicks.h"
 #include "proto/SetpointProfile_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
 #include "proto/Ticks_test.pb.h"
+#include "spark/Brewblox.h"
 #include <catch.hpp>
 #include <sstream>
-
-using namespace cbox;
 
 SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
-        BrewbloxTestBox testBox;
-        using commands = cbox::Box::CommandID;
+        cbox::objects.clearAll();
+        setupSystemBlocks();
 
-        testBox.reset();
+        auto ticksId = cbox::obj_id_t(3);
+        auto sensorId = cbox::obj_id_t(100);
+        auto setpointId = cbox::obj_id_t(101);
+        auto profileId = cbox::obj_id_t(102);
 
+        cbox::CboxPtr<TicksBlock<TicksClass>> ticks(ticksId);
+
+        auto update = [&ticks](const cbox::update_t& now) {
+            ticks.lock()->get().ticksImpl().reset(now);
+            cbox::update(now);
+        };
+
+        update(0);
+
+        // Create sensor
         {
-            // create mock sensor
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::CREATE_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(TempSensorMockBlock::staticTypeId());
+            auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
 
-            auto newSensor = blox_test::TempSensorMock::Block();
-            newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
-            newSensor.set_connected(true);
-            testBox.put(newSensor);
+            message.set_setting(cnl::unwrap(temp_t(20.0)));
+            message.set_connected(true);
 
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
-
-            // create pair
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::CREATE_OBJECT);
-            testBox.put(cbox::obj_id_t(101));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(SetpointSensorPairBlock::staticTypeId());
-
-            blox_test::SetpointSensorPair::Block newPair;
-            newPair.set_sensorid(100);
-            newPair.set_storedsetting(cnl::unwrap(temp_t(99)));
-            newPair.set_settingenabled(true);
-            testBox.put(newPair);
-
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
+        // Create setpoint
         {
-            testBox.put(uint16_t(0));
-            testBox.put(commands::CREATE_OBJECT);
-            testBox.put(cbox::obj_id_t(102));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(SetpointProfileBlock::staticTypeId());
+            auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
+            auto message = blox_test::SetpointSensorPair::Block();
 
-            // create setpoint profile
+            message.set_sensorid(sensorId);
+            message.set_storedsetting(cnl::unwrap(temp_t(99)));
+            message.set_settingenabled(true);
+
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
+
+        // Create profile
+        {
+            auto cmd = cbox::TestCommand(profileId, SetpointProfileBlock::staticTypeId());
             auto message = blox_test::SetpointProfile::Block();
-            message.set_targetid(101);
+
+            message.set_targetid(setpointId);
             message.set_enabled(true);
             message.set_start(20'000);
             {
@@ -99,17 +98,15 @@ SCENARIO("A SetpointProfile block")
                 newPoint->set_temperature(cnl::unwrap(temp_t(21)));
             }
 
-            testBox.put(message);
-
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
-        testBox.update(10'000);
+        update(10'000);
 
-        auto pairLookup = CboxPtr<SetpointSensorPairBlock>(101);
+        auto pairLookup = cbox::CboxPtr<SetpointSensorPairBlock>(101);
         auto pairPtr = pairLookup.lock();
-        auto profileLookup = CboxPtr<SetpointProfileBlock>(102);
+        auto profileLookup = cbox::CboxPtr<SetpointProfileBlock>(102);
         auto profilePtr = profileLookup.lock();
 
         REQUIRE(profilePtr);
@@ -127,28 +124,23 @@ SCENARIO("A SetpointProfile block")
         WHEN("The box has received the current time (in seconds since epoch")
         {
             // set seconds since epoch
-            testBox.put(uint16_t(0));
-            testBox.put(commands::WRITE_OBJECT);
-            testBox.put(cbox::obj_id_t(3)); // ticks block is at 3
-            testBox.put(uint8_t(0xFF));
-            testBox.put(TicksBlock<MockTicks>::staticTypeId());
-
-            auto message = blox_test::Ticks::Block();
-            message.set_secondssinceepoch(20'000);
-            testBox.put(message);
-
-            auto reply = blox_test::Ticks::Block();
-
-            testBox.processInputToProto(reply);
-
-            THEN("The system time is updated correctly")
             {
-                CHECK(testBox.lastReplyHasStatusOk());
+                auto cmd = cbox::TestCommand(ticksId, TicksBlock<MockTicks>::staticTypeId());
+                auto message = blox_test::Ticks::Block();
+
+                message.set_secondssinceepoch(20'000);
+
+                messageToPayload(cmd, message);
+                CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+
+                auto reply = blox_test::Ticks::Block();
+                payloadToMessage(cmd, reply);
+
                 CHECK(reply.millissinceboot() == 10'000);
                 CHECK(reply.secondssinceepoch() == 20'000);
             }
 
-            testBox.update(25000); // system is running for 25 seconds, so seconds since epoch should be 20.015 now
+            update(25000); // system is running for 25 seconds, so seconds since epoch should be 20.015 now
 
             THEN("The setpoint is valid")
             {
@@ -160,15 +152,14 @@ SCENARIO("A SetpointProfile block")
             }
             AND_WHEN("The SetpointProfile block streams out protobuf settings, the data is as expected")
             {
-                testBox.put(uint16_t(0));
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(102));
+                auto cmd = cbox::TestCommand(profileId, SetpointProfileBlock::staticTypeId());
+                auto message = blox_test::SetpointProfile::Block();
 
-                auto decoded = blox_test::SetpointProfile::Block();
-                testBox.processInputToProto(decoded);
-                CHECK(testBox.lastReplyHasStatusOk());
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
+
                 // 20.5 * 4096 = 83968
-                CHECK(decoded.ShortDebugString() ==
+                CHECK(message.ShortDebugString() ==
                       "points { time: 10 temperature: 81920 } "
                       "points { time: 20 temperature: 86016 } "
                       "enabled: true "
@@ -180,13 +171,10 @@ SCENARIO("A SetpointProfile block")
 
         WHEN("A point at 0s and temp 0.0 is written, it does not disappear")
         {
-            testBox.put(uint16_t(0));
-            testBox.put(commands::WRITE_OBJECT);
-            testBox.put(cbox::obj_id_t(102));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(SetpointProfileBlock::staticTypeId());
 
+            auto cmd = cbox::TestCommand(profileId, SetpointProfileBlock::staticTypeId());
             auto message = blox_test::SetpointProfile::Block();
+
             message.set_targetid(101);
             message.set_enabled(true);
             message.set_start(20'000);
@@ -202,16 +190,13 @@ SCENARIO("A SetpointProfile block")
                 newPoint->set_temperature(cnl::unwrap(temp_t(21)));
             }
 
-            testBox.put(message);
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
-            CHECK(testBox.lastReplyHasStatusOk());
+            auto reply = blox_test::SetpointProfile::Block();
+            payloadToMessage(cmd, reply);
 
-            auto decoded = blox_test::SetpointProfile::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            // 20.5 * 4096 = 83968
-
-            CHECK(decoded.ShortDebugString() ==
+            CHECK(reply.ShortDebugString() ==
                   "points { temperature: 0 } "
                   "points { time: 20 temperature: 86016 } "
                   "enabled: true "

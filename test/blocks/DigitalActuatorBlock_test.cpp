@@ -19,16 +19,18 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
+#include "TestHelpers.h"
 #include "blocks/DS2413Block.h"
 #include "blocks/DigitalActuatorBlock.h"
 #include "blocks/MockPinsBlock.h"
+#include "cbox/Box.h"
 #include "cbox/CboxPtr.h"
 #include "cbox/DataStreamIo.h"
 #include "control/OneWireAddress.h"
 #include "proto/DS2413_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/MockPins_test.pb.h"
+#include "spark/Brewblox.h"
 #include <sstream>
 
 namespace Catch {
@@ -43,40 +45,40 @@ struct StringMaker<OneWireAddress> {
 
 SCENARIO("A DigitalActuator Block with a DS2413 target")
 {
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
+
     WHEN("a DS2413 block is created")
     {
-        BrewbloxTestBox testBox;
-        using commands = cbox::Box::CommandID;
         auto ds2413Id = cbox::obj_id_t(100);
         auto actId = cbox::obj_id_t(101);
 
-        testBox.reset();
+        {
+            auto cmd = cbox::TestCommand(ds2413Id, DS2413Block::staticTypeId());
+            auto message = blox_test::DS2413::Block();
 
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::CREATE_OBJECT);
-        testBox.put(cbox::obj_id_t(ds2413Id));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(DS2413Block::staticTypeId());
+            message.set_address(0x0644'4444'4444'443A);
+            message.set_onewirebusid(4);
 
-        auto message = blox_test::DS2413::Block();
-        message.set_address(0x0644'4444'4444'443A);
-        message.set_onewirebusid(4);
-
-        testBox.put(message);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(cbox::obj_id_t(ds2413Id));
-
-        auto decoded = blox_test::DS2413::Block();
-        testBox.processInputToProto(decoded);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
 
         THEN("The returned protobuf data is as expected")
         {
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true oneWireBusId: 4 channels { id: 1 } channels { id: 2 }");
+            auto cmd = cbox::TestCommand(ds2413Id, DS2413Block::staticTypeId());
+            auto message = blox_test::DS2413::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "address: 451560922637681722 "
+                  "connected: true "
+                  "oneWireBusId: 4 "
+                  "channels { id: 1 } "
+                  "channels { id: 2 }");
         }
 
         THEN("The writable settings match what was sent")
@@ -89,44 +91,48 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 
         AND_WHEN("A DigitalActuator block is created that uses one of the channels")
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::CREATE_OBJECT);
-            testBox.put(cbox::obj_id_t(actId));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(DigitalActuatorBlock::staticTypeId());
+            {
+                auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                auto message = blox_test::DigitalActuator::Block();
 
-            auto message = blox_test::DigitalActuator::Block();
-            message.set_hwdevice(ds2413Id);
-            message.set_channel(1);
-            message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
+                message.set_hwdevice(ds2413Id);
+                message.set_channel(1);
+                message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
-            testBox.put(message);
-
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+                messageToPayload(cmd, message);
+                CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            }
 
             THEN("A read of the actuator is as expected")
             {
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(actId));
+                auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                auto message = blox_test::DigitalActuator::Block();
 
-                auto decoded = blox_test::DigitalActuator::Block();
-                testBox.processInputToProto(decoded);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
-                CHECK(decoded.ShortDebugString() == "hwDevice: 100 channel: 1 state: STATE_ACTIVE desiredState: STATE_ACTIVE");
+                CHECK(message.ShortDebugString() ==
+                      "hwDevice: 100 "
+                      "channel: 1 "
+                      "state: STATE_ACTIVE "
+                      "desiredState: STATE_ACTIVE");
             }
+
             THEN("A read of the DS2413 is as expected")
             {
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(ds2413Id));
+                auto cmd = cbox::TestCommand(ds2413Id, DS2413Block::staticTypeId());
+                auto message = blox_test::DS2413::Block();
 
-                auto decoded = blox_test::DS2413::Block();
-                testBox.processInputToProto(decoded);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // DS2413 proto doesn't change when channels are used, but leaving this here for when we change our mind
-                CHECK(decoded.ShortDebugString() == "address: 451560922637681722 connected: true oneWireBusId: 4 channels { id: 1 } channels { id: 2 }");
+                CHECK(message.ShortDebugString() ==
+                      "address: 451560922637681722 "
+                      "connected: true "
+                      "oneWireBusId: 4 "
+                      "channels { id: 1 } "
+                      "channels { id: 2 }");
             }
         }
 
@@ -134,33 +140,31 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
         {
             auto ds2413Id2 = cbox::obj_id_t(102);
 
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::CREATE_OBJECT);
-            testBox.put(cbox::obj_id_t(actId));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(DigitalActuatorBlock::staticTypeId());
+            {
+                auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                auto message = blox_test::DigitalActuator::Block();
+                message.set_hwdevice(ds2413Id2);
+                message.set_channel(1);
+                message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
-            auto message = blox_test::DigitalActuator::Block();
-            message.set_hwdevice(ds2413Id2);
-            message.set_channel(1);
-            message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
-
-            testBox.put(message);
-
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+                messageToPayload(cmd, message);
+                CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            }
 
             THEN("The configured channel is not lost and the actuator reads as expected")
             {
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(actId));
+                auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                auto message = blox_test::DigitalActuator::Block();
 
-                auto decoded = blox_test::DigitalActuator::Block();
-                testBox.processInputToProto(decoded);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // in simulation, the hw device will not work and therefore the state will be unknown
-                CHECK(decoded.ShortDebugString() == "hwDevice: 102 channel: 1 desiredState: STATE_ACTIVE strippedFields: 3");
+                CHECK(message.ShortDebugString() ==
+                      "hwDevice: 102 "
+                      "channel: 1 "
+                      "desiredState: STATE_ACTIVE "
+                      "strippedFields: 3");
             }
         }
     }
@@ -168,80 +172,89 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
 
 SCENARIO("A DigitalActuator Block with Mockpins as target")
 {
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
+
     WHEN("a MockPins block is created")
     {
-        BrewbloxTestBox testBox;
-        using commands = cbox::Box::CommandID;
         auto arrayId = cbox::obj_id_t(100);
         auto actId = cbox::obj_id_t(101);
 
-        testBox.reset();
+        {
+            auto cmd = cbox::TestCommand(arrayId, MockPinsBlock::staticTypeId());
+            auto message = blox_test::MockPins::Block();
 
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::CREATE_OBJECT);
-        testBox.put(cbox::obj_id_t(arrayId));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(MockPinsBlock::staticTypeId());
-
-        auto message = blox_test::MockPins::Block();
-
-        testBox.put(message);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(cbox::obj_id_t(arrayId));
-
-        auto decoded = blox_test::MockPins::Block();
-        testBox.processInputToProto(decoded);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
 
         THEN("The returned mock protobuf data is as expected")
         {
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "channels { id: 1 } channels { id: 2 } channels { id: 3 } channels { id: 4 } channels { id: 5 } channels { id: 6 } channels { id: 7 } channels { id: 8 }");
+            auto cmd = cbox::TestCommand(arrayId, MockPinsBlock::staticTypeId());
+            auto message = blox_test::MockPins::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "channels { id: 1 } "
+                  "channels { id: 2 } "
+                  "channels { id: 3 } "
+                  "channels { id: 4 } "
+                  "channels { id: 5 } "
+                  "channels { id: 6 } "
+                  "channels { id: 7 } "
+                  "channels { id: 8 }");
         }
 
         AND_WHEN("A DigitalActuator block is created that uses one of the channels")
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::CREATE_OBJECT);
-            testBox.put(cbox::obj_id_t(actId));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(DigitalActuatorBlock::staticTypeId());
+            {
+                auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                auto message = blox_test::DigitalActuator::Block();
 
-            auto message = blox_test::DigitalActuator::Block();
-            message.set_hwdevice(arrayId);
-            message.set_channel(1);
-            message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
+                message.set_hwdevice(arrayId);
+                message.set_channel(1);
+                message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
 
-            testBox.put(message);
-
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+                messageToPayload(cmd, message);
+                CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            }
 
             THEN("A read of the actuator is as expected")
             {
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(actId));
+                auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                auto message = blox_test::DigitalActuator::Block();
 
-                auto decoded = blox_test::DigitalActuator::Block();
-                testBox.processInputToProto(decoded);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
-                CHECK(decoded.ShortDebugString() == "hwDevice: 100 channel: 1 state: STATE_ACTIVE desiredState: STATE_ACTIVE");
+                CHECK(message.ShortDebugString() ==
+                      "hwDevice: 100 "
+                      "channel: 1 "
+                      "state: STATE_ACTIVE "
+                      "desiredState: STATE_ACTIVE");
             }
+
             THEN("A read of the mock pins is as expected")
             {
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(arrayId));
+                auto cmd = cbox::TestCommand(arrayId, MockPinsBlock::staticTypeId());
+                auto message = blox_test::MockPins::Block();
 
-                auto decoded = blox_test::MockPins::Block();
-                testBox.processInputToProto(decoded);
+                CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+                payloadToMessage(cmd, message);
 
                 // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind
-                CHECK(decoded.ShortDebugString() == "channels { id: 1 } channels { id: 2 } channels { id: 3 } channels { id: 4 } channels { id: 5 } channels { id: 6 } channels { id: 7 } channels { id: 8 }");
+                CHECK(message.ShortDebugString() ==
+                      "channels { id: 1 } "
+                      "channels { id: 2 } "
+                      "channels { id: 3 } "
+                      "channels { id: 4 } "
+                      "channels { id: 5 } "
+                      "channels { id: 6 } "
+                      "channels { id: 7 } "
+                      "channels { id: 8 }");
             }
         }
     }

@@ -2,7 +2,7 @@
 # This file will be sourced by the shell in the container
 
 # Generic
-alias vg="rg --vimgrep"
+alias vg="rg --vimgrep -g '!external_libs'"
 
 # Git
 alias prettygit="git log --oneline --decorate --all --graph"

@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox
  *
- * This file is part of ControlBox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "cbox/ObjectContainer.h"
-#include "cbox/CboxApplication.h"
+#include "cbox/Application.h"
 #include <algorithm>
 
 namespace cbox {
@@ -45,7 +45,7 @@ std::pair<ObjectContainer::Iterator, ObjectContainer::Iterator> ObjectContainer:
 
 obj_id_t ObjectContainer::nextId() const
 {
-    return std::max(startId, contained.empty() ? startId : ++obj_id_t(contained.back().id()));
+    return std::max(startId, contained.empty() ? startId : obj_id_t(contained.back().id() + 1));
 }
 
 ContainedObject* ObjectContainer::fetchContained(obj_id_t id)
@@ -68,24 +68,24 @@ const std::weak_ptr<Object> ObjectContainer::fetch(obj_id_t id)
 }
 
 // create a new object with specific id, optionally replacing an existing object
-obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_groups, obj_id_t id, bool replace)
+obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool replace)
 {
     obj_id_t newId;
     Iterator position;
 
-    if (id == obj_id_t::invalid()) { // use 0 to let the container assign a free slot
+    if (id == invalidId) { // use 0 to let the container assign a free slot
         newId = nextId();
         position = contained.end();
     } else {
         if (id < startId) {
-            return obj_id_t::invalid(); // refuse to add system objects
+            return invalidId; // refuse to add system objects
         }
         // find insert position
         auto p = findPosition(id);
         if (p.first != p.second) {
             // existing object found
             if (!replace) {
-                return obj_id_t::invalid(); // refuse to overwrite existing objects
+                return invalidId; // refuse to overwrite existing objects
             }
         }
         newId = id;
@@ -93,10 +93,10 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_g
     }
 
     if (replace) {
-        *position = ContainedObject(newId, active_in_groups, std::move(obj));
+        *position = ContainedObject(newId, std::move(obj));
     } else {
         // insert new entry in container in sorted position
-        contained.emplace(position, newId, active_in_groups, std::move(obj));
+        contained.emplace(position, newId, std::move(obj));
     }
     return newId;
 }
@@ -104,28 +104,12 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, uint8_t active_in_g
 CboxError ObjectContainer::remove(obj_id_t id)
 {
     if (id < startId) {
-        return CboxError::OBJECT_NOT_DELETABLE; // refuse to remove system objects
+        return CboxError::BLOCK_NOT_DELETABLE; // refuse to remove system objects
     }
     // find existing object
     auto p = findPosition(id);
     contained.erase(p.first, p.second); // doesn't remove anything if no objects found (first == second)
-    return p.first == p.second ? CboxError::INVALID_OBJECT_ID : CboxError::OK;
-}
-
-// replace an object with an inactive object by const iterator
-void ObjectContainer::deactivate(const CIterator& cit)
-{
-    auto it = contained.erase(cit, cit); // convert to non-const iterator
-    it->deactivate();
-}
-
-// replace an object with an inactive object by id
-void ObjectContainer::deactivate(obj_id_t id)
-{
-    auto p = findPosition(id);
-    if (p.first != p.second) {
-        p.first->deactivate();
-    }
+    return p.first == p.second ? CboxError::INVALID_BLOCK_ID : CboxError::OK;
 }
 
 // remove all non-system objects from the container
@@ -159,48 +143,24 @@ CboxError ObjectContainer::store(const obj_id_t& id)
 {
     auto cobj = fetchContained(id);
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
-    auto storeContained = [&cobj](DataOut& out) -> CboxError {
-        return cobj->streamPersistedTo(out);
-    };
-    return getStorage().storeObject(id, storeContained);
+    return cobj->readStored([](const Payload& stored) {
+        return getStorage().saveObject(stored);
+    });
 }
 
 CboxError ObjectContainer::reloadStored(const obj_id_t& id)
 {
     ContainedObject* cobj = fetchContained(id);
     if (cobj == nullptr) {
-        return CboxError::INVALID_OBJECT_ID;
+        return CboxError::INVALID_BLOCK_ID;
     }
 
-    bool handlerCalled = false;
-    auto streamHandler = [&cobj, &handlerCalled](RegionDataIn& objInStorage) -> CboxError {
-        handlerCalled = true;
-        RegionDataIn objWithoutCrc(objInStorage, objInStorage.available() - 1);
-
-        obj_type_t typeId;
-        uint8_t groups; // discarded
-
-        if (!objWithoutCrc.get(groups)) {
-            return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
-        }
-        if (!objWithoutCrc.get(typeId)) {
-            return CboxError::INPUT_STREAM_READ_ERROR; // LCOV_EXCL_LINE
-        }
-        if (typeId != cobj->object()->typeId()) {
-            return CboxError::INVALID_OBJECT_TYPE;
-        }
-
-        return cobj->object()->streamFrom(objWithoutCrc);
-    };
-    CboxError status = getStorage().retrieveObject(storage_id_t(id), streamHandler);
-    if (!handlerCalled) {
-        return CboxError::INVALID_OBJECT_ID; // write status if handler has not written it
-    }
-
-    return status;
+    return getStorage().loadObject(id, [&cobj](const Payload& stored) {
+        return cobj->write(stored);
+    });
 }
 
 } // end namespace cbox

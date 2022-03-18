@@ -2,7 +2,7 @@
  * Copyright 2014-2015 Matthew McGowan.
  * Copyright 2018 Brewblox / Elco Jacobs
  *
- * This file is part of Controlbox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -87,85 +87,5 @@ public:
     }
 };
 #endif
-
-/*
- * Converts pairs of hex digit characters into the corresponding binary value.
- */
-class HexTextToBinaryIn : public DataIn {
-    DataIn& textIn;
-    int16_t upper = -1;
-    int16_t lower = -1;
-
-public:
-    HexTextToBinaryIn(DataIn& _textIn)
-        : textIn(_textIn)
-    {
-    }
-
-    void fetch()
-    {
-        if (upper < 0) { // 2 bytes to fetch
-            if (!isxdigit(textIn.peek())) {
-                return; // leave non-hex characters in the stream
-            }
-            upper = textIn.read();
-            if (upper < 0) {
-                // no data
-                return;
-            }
-        }
-
-        if (lower < 0) {
-            if (!isxdigit(textIn.peek())) {
-                return; // leave non-hex characters in the stream
-            }
-            lower = textIn.read();
-        }
-    }
-
-    virtual int16_t peek() override
-    {
-        fetch();
-        if (!isxdigit(upper) || !isxdigit(lower)) {
-            return -1;
-        }
-        return h2d(upper) * 16 + h2d(lower);
-    }
-
-    virtual int16_t read() override
-    {
-        auto v = peek();
-        if (v >= 0) {
-            // valid value received, reset nibbles
-            upper = -1;
-            lower = -1;
-        }
-        return v;
-    }
-
-    void consumeNonHex()
-    {
-        // reset nibbles, because we want a fresh hex char after this function
-        upper = -1;
-        lower = -1;
-        while (true) {
-            auto v = textIn.peek();
-            if (isxdigit(v)) {
-                return; // next char is in hex range
-            }
-            if (v < 0) {
-                // stream is empty
-                return;
-            }
-            // consume
-            textIn.read();
-        }
-    }
-
-    virtual StreamType streamType() const override final
-    {
-        return textIn.streamType();
-    }
-};
 
 } // end namespace cbox

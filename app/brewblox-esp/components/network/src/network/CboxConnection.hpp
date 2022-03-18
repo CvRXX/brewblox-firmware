@@ -1,4 +1,6 @@
 #pragma once
+#include "intellisense.hpp"
+
 #include "cbox/DataStreamIo.h"
 #include <asio.hpp>
 
@@ -58,9 +60,6 @@ public:
 } // end namespace cbox
 
 class CboxConnectionManager;
-namespace cbox {
-class Box;
-}
 
 class CboxConnection : public std::enable_shared_from_this<CboxConnection> {
 public:
@@ -68,8 +67,7 @@ public:
     CboxConnection& operator=(const CboxConnection&) = delete;
 
     explicit CboxConnection(
-        CboxConnectionManager& connection_manager_,
-        cbox::Box& box_);
+        CboxConnectionManager& connection_manager_);
     virtual ~CboxConnection() = default;
 
     virtual void start();
@@ -90,7 +88,6 @@ protected:
     asio::streambuf buffer_in;
     asio::streambuf buffer_out;
     CboxConnectionManager& connection_manager;
-    cbox::Box& box;
     bool writing = false;
 };
 

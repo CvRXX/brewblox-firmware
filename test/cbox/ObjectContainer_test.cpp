@@ -17,16 +17,16 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ObjectContainer.h"
-
 #include <catch.hpp>
 #include <cstdio>
 
-#include "CboxApplicationExtended.h"
+#include "TestApplication.h"
+#include "TestHelpers.h"
 #include "TestMatchers.hpp"
 #include "TestObjects.h"
 #include "cbox/DataStreamConverters.h"
 #include "cbox/Object.h"
+#include "cbox/ObjectContainer.h"
 #include "cbox/ObjectStorage.h"
 
 using namespace cbox;
@@ -37,15 +37,15 @@ SCENARIO("A container to hold objects")
 
     WHEN("Some objects are added to the container")
     {
-        obj_id_t id1 = container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF);
-        obj_id_t id2 = container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0xFF);
-        obj_id_t id3 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF);
+        obj_id_t id1 = container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)));
+        obj_id_t id2 = container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)));
+        obj_id_t id3 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)));
 
         THEN("They are assigned a valid unique ID")
         {
-            CHECK(id1 != obj_id_t::invalid());
-            CHECK(id2 != obj_id_t::invalid());
-            CHECK(id3 != obj_id_t::invalid());
+            CHECK(id1 != invalidId);
+            CHECK(id2 != invalidId);
+            CHECK(id3 != invalidId);
 
             CHECK(id1 != id2);
             CHECK(id1 != id3);
@@ -70,19 +70,19 @@ SCENARIO("A container to hold objects")
 
         THEN("An object can be added with a specific id")
         {
-            obj_id_t id4 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, obj_id_t(123));
+            obj_id_t id4 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), obj_id_t(123));
             CHECK(id4 == 123);
             CHECK(container.fetch(id4).lock());
 
             AND_WHEN("the id already exist, adding fails")
             {
-                obj_id_t id5 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, obj_id_t(123));
-                CHECK(id5 == obj_id_t::invalid());
+                obj_id_t id5 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), obj_id_t(123));
+                CHECK(id5 == invalidId);
             }
 
             AND_WHEN("replace is used instead of add, it succeeds")
             {
-                obj_id_t id6 = container.add(std::shared_ptr<Object>(new LongIntObject(0x44444444)), 0xFF, obj_id_t(123), true);
+                obj_id_t id6 = container.add(std::shared_ptr<Object>(new LongIntObject(0x44444444)), obj_id_t(123), true);
                 CHECK(id6 == obj_id_t(123));
                 auto obj6 = container.fetch(id6).lock();
                 REQUIRE(obj6);
@@ -92,7 +92,7 @@ SCENARIO("A container to hold objects")
 
         THEN("Removing an object that doesn't exist returns invalid_object_id")
         {
-            CHECK(container.remove(obj_id_t(10)) == CboxError::INVALID_OBJECT_ID);
+            CHECK(container.remove(obj_id_t(10)) == CboxError::INVALID_BLOCK_ID);
         }
 
         THEN("A list of all object IDs can be created using the container's const iterators")
@@ -107,30 +107,25 @@ SCENARIO("A container to hold objects")
 
         THEN("All contained objects can be streamed out using the container's const_iterators")
         {
-            char buf[1000] = {0};
-            BufferDataOut outBuffer(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
-            EncodedDataOut out(outBuffer);
+            TestCommand cmd;
             CboxError res = CboxError::OK;
 
             for (auto it = container.cbegin(); it != container.cend() && res == CboxError::OK; it++) {
-                out.writeListSeparator();
-                res = it->streamTo(out);
+                res = it->read(cmd.callback);
             }
 
             CHECK(res == CboxError::OK);
-
-            INFO(std::string(buf));
         }
     }
 
     WHEN("Objects with out of order IDs are added to the container, the container stays sorted by id")
     {
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 0xFF, 20);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 0xFF, 18);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 23);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 2);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 19);
-        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 20);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 18);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 23);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 2);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 19);
+        container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)));
         uint16_t lastId = 0;
         uint16_t count = 0;
         for (auto it = container.cbegin(); it != container.cend(); it++) {
@@ -145,33 +140,20 @@ SCENARIO("A container to hold objects")
 
     WHEN("Objects with an invalid object pointer are added")
     {
-        container.add(std::shared_ptr<Object>(), 0xFF, 20);
+        container.add(std::shared_ptr<Object>(), 20);
 
         BlackholeDataOut out;
         EmptyDataIn in;
+        TestCommand cmd;
         THEN("They generate the INVALID_OBJECT_PTR error on streaming functions")
         {
             auto cobj = container.fetchContained(20);
-            auto res = cobj->streamFrom(in);
-            CHECK(res == CboxError::INVALID_OBJECT_PTR);
-            res = cobj->streamTo(out);
-            CHECK(res == CboxError::INVALID_OBJECT_PTR);
-            res = cobj->streamPersistedTo(out);
-            CHECK(res == CboxError::INVALID_OBJECT_PTR);
-        }
-
-        THEN("The object is skipped in an update")
-        {
-            for (update_t now = 0; now < 5500; now += 100) {
-                container.update(now);
-            }
-            int updates = 0;
-            for (auto& item : tracing::history()) {
-                if (item.action == tracing::UPDATE_OBJECT && item.id == 20) {
-                    updates++;
-                }
-            }
-            CHECK(updates == 0);
+            auto res = cobj->read(cmd.callback);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
+            res = cobj->readStored(cmd.callback);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
+            res = cobj->write(cmd.request);
+            CHECK(res == CboxError::INVALID_BLOCK_ID);
         }
     }
 }
@@ -179,44 +161,39 @@ SCENARIO("A container to hold objects")
 SCENARIO("A container with system objects")
 {
     test::getStorage().clear();
-    ObjectContainer container{ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-                              ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x22222222)))};
+    ObjectContainer container{ContainedObject(1, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+                              ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x22222222)))};
 
     container.setObjectsStartId(3); // this locks the system objects
 
-    CHECK(obj_id_t(3) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get next free ID (3)))
-    CHECK(obj_id_t(4) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get next free ID (4)))
+    CHECK(obj_id_t(3) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get next free ID (3)))
+    CHECK(obj_id_t(4) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get next free ID (4)))
 
     THEN("The system objects can be read like normal objects")
     {
-        uint8_t buf[100] = {0};
-        BufferDataOut out(buf, sizeof(buf));
-        EncodedDataOut hexOut(out);
+        TestCommand cmd;
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
-        spobj->streamTo(hexOut);
-        uint8_t hexRepresentation[] = "11111111";
-        CHECK_THAT(buf, (equalsArray<uint8_t, sizeof(hexRepresentation)>(hexRepresentation)));
+        spobj->read(cmd.callback);
+        CHECK(hexed(cmd.responses.at(0).content) == "11111111");
     }
 
     THEN("The system objects can be read written")
     {
-        uint8_t buf[] = "44332211"; // LSB first
-        BufferDataIn in(buf, sizeof(buf));
-        HexTextToBinaryIn hexIn(in);
+        TestCommand cmd(1, 1000, {0x44, 0x33, 0x22, 0x11}); // LSB first
 
         auto spobj = container.fetch(1).lock();
         REQUIRE(spobj);
-        spobj->streamFrom(hexIn);
+        spobj->write(cmd.request);
         CHECK(*static_cast<LongIntObject*>(&(*spobj)) == LongIntObject(0x11223344));
     }
 
     THEN("The system objects cannot be deleted, but user objects can be deleted")
     {
-        CHECK(container.remove(1) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(container.remove(1) == CboxError::BLOCK_NOT_DELETABLE);
         CHECK(container.fetch(1).lock());
 
-        CHECK(container.remove(2) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(container.remove(2) == CboxError::BLOCK_NOT_DELETABLE);
         CHECK(container.fetch(2).lock());
 
         CHECK(container.fetch(3).lock());
@@ -227,18 +204,18 @@ SCENARIO("A container with system objects")
     THEN("No objects can be added in the system ID range")
     {
         container.setObjectsStartId(100);
-        CHECK(obj_id_t::invalid() == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF, 99, true));
+        CHECK(invalidId == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 99, true));
     }
 
     THEN("Objects added after construction can also be marked system by moving the start ID")
     {
         container.setObjectsStartId(100); // all objects with id  < 100 will now be system objects
 
-        CHECK(container.remove(1) == CboxError::OBJECT_NOT_DELETABLE);
-        CHECK(container.remove(2) == CboxError::OBJECT_NOT_DELETABLE);
-        CHECK(container.remove(3) == CboxError::OBJECT_NOT_DELETABLE);
-        CHECK(container.remove(4) == CboxError::OBJECT_NOT_DELETABLE);
+        CHECK(container.remove(1) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(container.remove(2) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(container.remove(3) == CboxError::BLOCK_NOT_DELETABLE);
+        CHECK(container.remove(4) == CboxError::BLOCK_NOT_DELETABLE);
 
-        CHECK(obj_id_t(100) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 0xFF)); // will get start ID (100)
+        CHECK(obj_id_t(100) == container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))); // will get start ID (100)
     }
 }

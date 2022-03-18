@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +14,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 
 #include "cbox/CboxError.h"
-#include "cbox/DataStream.h"
-#include "cbox/ObjectIds.h"
+#include "cbox/Payload.h"
 #include <limits>
 
 namespace cbox {
@@ -30,6 +29,8 @@ using update_t = uint32_t;
 
 class Object {
 public:
+    obj_id_t objectId;
+
     Object() = default;
     virtual ~Object() = default;
 
@@ -66,26 +67,29 @@ public:
     }
 
     /**
-     * Each object is at least stream readable. StreamTo streams to the given output
+     * Each object can yield its own data on request.
+     * It can do so by calling cmd.respond(Payload&) during this function.
      */
-    virtual CboxError streamTo(DataOut& out) const = 0;
+    virtual CboxError read(const PayloadCallback& callback) const = 0;
 
     /**
-     * An object can (optionally) receive new data from a DataIn stream.
+     * Objects can yield data they want persisted.
+     * The persisted data should be compatible with fromRequest(Command&).
+     * It can do so by calling cmd.respond(Payload&) during this function.
      */
-    virtual CboxError streamFrom(DataIn& in) = 0;
+    virtual CboxError readStored(const PayloadCallback& callback) const = 0;
 
     /**
-     * Objects can stream data they want persisted.
-     * The persisted data should be compatible with streamFrom, which is used to re-instantiate the object from the persisted data.
+     * Objects can optionally receive new data from an incoming command.
+     * It fetches the incoming data from cmd.request().
      */
-    virtual CboxError streamPersistedTo(DataOut& out) const = 0;
+    virtual CboxError write(const Payload& payload) = 0;
 
     /**
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
      * @param iface: typeId of the interface requested
      */
-    virtual void* implements(const obj_type_t& iface) = 0;
+    virtual void* implements(obj_type_t iface) = 0;
 };
 
 } // end namespace cbox

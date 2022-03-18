@@ -18,12 +18,10 @@
  */
 
 #include "AppTicks.h"
-#include "blocks/stringify.h"
+#include "ParticleBox.h"
 #include "blox_hal/hal_i2c.h"
-#include "brewblox_particle.hpp"
 #include "cbox/Box.h"
 #include "cbox/Object.h"
-#include "connectivity.h"
 #include "control/TimerInterrupts.h"
 #include "d4d_display/d4d.hpp"
 #include "d4d_display/screens/WidgetsScreen.h"
@@ -31,12 +29,15 @@
 #include "d4d_display/screens/startup_screen.h"
 #include "delay_hal.h"
 #include "eeprom_hal.h"
-#include "reset.h"
+#include "proto/proto_version.h"
 #include "spark/Board.h"
+#include "spark/Brewblox.h"
 #include "spark/Buzzer.h"
+#include "spark/Connectivity.h"
 #include "spark_wiring_startup.h"
 #include "spark_wiring_system.h"
 #include "spark_wiring_timer.h"
+
 #if PLATFORM_ID == PLATFORM_GCC
 #include <csignal>
 #endif
@@ -69,7 +70,7 @@ ApplicationWatchdog* appWatchdog = nullptr;
 
 void watchdogReset()
 {
-    System.reset(RESET_USER_REASON::WATCHDOG, RESET_NO_WAIT);
+    app::reset(true, UserResetReason::WATCHDOG);
 }
 
 inline void watchdogCheckin()
@@ -96,20 +97,20 @@ void onSetupModeBegin()
 {
     ListeningScreen::activate();
     manageConnections(ticks.millis()); // stop http server
-    brewbloxBox().unloadAllObjects();
-    brewbloxBox().disconnect();
+    cbox::unloadBlocks();
+    getConnectionPool().disconnect();
     HAL_Delay_Milliseconds(100);
 }
 
 void onSetupModeEnd()
 {
-    System.reset(RESET_USER_REASON::LISTENING_MODE_EXIT, RESET_NO_WAIT);
+    app::reset(true, UserResetReason::LISTENING_MODE_EXIT);
 }
 
 void onOutOfMemory(system_event_t event, int param)
 {
     // reboot when out of memory, better than undefined behavior
-    System.reset(RESET_USER_REASON::OUT_OF_MEMORY, RESET_NO_WAIT);
+    app::reset(true, UserResetReason::OUT_OF_MEMORY);
 }
 
 void setup()
@@ -128,7 +129,6 @@ void setup()
 #endif
     appWatchdog = new ApplicationWatchdog(60000, watchdogReset, 256);
     hal_i2c_master_init();
-    cbox::tracing::pause(); // ensure tracing is paused until service resumes it
 
     // init display
     D4D_Init(nullptr);
@@ -151,18 +151,17 @@ void setup()
     HAL_Delay_Milliseconds(1);
     StartupScreen::setProgress(60);
     StartupScreen::setStep("Init Brewblox framework");
-    brewbloxBox();
-
+    setupSystemBlocks();
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(70);
     StartupScreen::setStep("Loading blocks");
-    brewbloxBox().loadObjectsFromStorage(); // init box and load stored objects
+    cbox::loadBlocksFromStorage();
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Scanning for new devices");
-    brewbloxBox().discoverNewObjects();
+    cbox::discoverBlocks();
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Enabling WiFi and mDNS");
@@ -183,37 +182,37 @@ void setup()
     System.on(out_of_memory, onOutOfMemory);
 #endif
 
-    brewbloxBox().startConnectionSources();
+    getConnectionPool().startAll();
     WidgetsScreen::activate();
 }
 
 void loop()
 {
     ticks.switchTaskTimer(TicksClass::TaskId::DisplayUpdate);
-    cbox::tracing::add(AppTrace::UPDATE_DISPLAY);
     displayTick();
     if (!listeningModeEnabled()) {
         ticks.switchTaskTimer(TicksClass::TaskId::Communication);
         manageConnections(ticks.millis());
-        brewbloxBox().hexCommunicate();
+        app::communicate();
 
         ticks.switchTaskTimer(TicksClass::TaskId::BlocksUpdate);
-        updateBrewbloxBox();
+        app::update();
 
         watchdogCheckin(); // not done while listening, so 60s timeout for stuck listening mode
     }
     ticks.switchTaskTimer(TicksClass::TaskId::System);
-    cbox::tracing::add(AppTrace::SYSTEM_TASKS);
     HAL_Delay_Milliseconds(1);
 }
 
-void handleReset(bool exitFlag, uint8_t reason)
+constexpr bool equal(char const* lhs, char const* rhs)
 {
-    if (exitFlag) {
-#if PLATFORM_ID == PLATFORM_GCC
-        exit(0);
-#else
-        System.reset(reason, RESET_NO_WAIT);
-#endif
-    }
+    while (*lhs || *rhs)
+        if (*lhs++ != *rhs++)
+            return false;
+    return true;
 }
+
+// Intellisense fails to include the quotes in PROTO_VERSION
+#ifndef __INTELLISENSE__
+static_assert(equal(PROTO_VERSION, COMPILED_PROTO_VERSION));
+#endif

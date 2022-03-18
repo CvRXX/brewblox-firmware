@@ -47,6 +47,9 @@ ifeq ($(PLATFORM_ID),10)
 MODULAR?=y
 endif
 
+# expected
+INCLUDE_DIRS += $(SOURCE_PATH)/external_libs/expected/expected/include
+
 # nanopb
 include $(SOURCE_PATH)/external_libs/device-os/third_party/nanopb/import.mk
 ifeq ($(MODULAR),y)
@@ -121,6 +124,8 @@ CPPFLAGS += -save-temps=obj
 
 # use C++17 and disable warnings about the deprecated register storage class specifier
 CPPFLAGS += -std=gnu++17 -Wno-register
+
+LDFLAGS += -Wl,-Map,output.map
 
 CSRC := $(filter-out $(CEXCLUDES),$(CSRC))
 CPPSRC := $(filter-out $(CPPEXCLUDES),$(CPPSRC))

@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox
  *
- * This file is part of ControlBox
+ * This file is part of Brewblox
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
+#include "tl/expected.hpp"
 #include <cstdint>
 
 namespace cbox {
@@ -25,45 +26,46 @@ namespace cbox {
 enum class CboxError : uint8_t {
     OK = 0,
     UNKNOWN_ERROR = 1,
+    INVALID_OPCODE = 2,
 
-    // object creation
+    // Memory errors
     INSUFFICIENT_HEAP = 4,
+    INSUFFICIENT_STORAGE = 5,
 
-    // generic stream errors
-    STREAM_ERROR_UNSPECIFIED = 8,
-    OUTPUT_STREAM_WRITE_ERROR = 9,
-    INPUT_STREAM_READ_ERROR = 10,
-    INPUT_STREAM_DECODING_ERROR = 11,
-    OUTPUT_STREAM_ENCODING_ERROR = 12,
+    // Network I/O errors
+    NETWORK_ERROR = 10,
+    NETWORK_READ_ERROR = 11,
+    NETWORK_DECODING_ERROR = 12,
+    NETWORK_WRITE_ERROR = 13,
+    NETWORK_ENCODING_ERROR = 14,
 
-    // storage errors
-    INSUFFICIENT_PERSISTENT_STORAGE = 16,
-    PERSISTED_OBJECT_NOT_FOUND = 17,
-    INVALID_PERSISTED_BLOCK_TYPE = 18,
-    COULD_NOT_READ_PERSISTED_BLOCK_SIZE = 19,
-    PERSISTED_BLOCK_STREAM_ERROR = 20,
-    PERSISTED_STORAGE_WRITE_ERROR = 21,
-    CRC_ERROR_IN_STORED_OBJECT = 22,
-    PERSISTING_NOT_NEEDED = 23,
+    // Storage I/O errors
+    STORAGE_ERROR = 20,
+    STORAGE_READ_ERROR = 21,
+    STORAGE_DECODING_ERROR = 22,
+    STORAGE_CRC_ERROR = 23,
+    STORAGE_WRITE_ERROR = 24,
+    STORAGE_ENCODING_ERROR = 25,
 
-    // invalid actions
-    OBJECT_NOT_WRITABLE = 32,
-    OBJECT_NOT_READABLE = 33,
-    OBJECT_NOT_CREATABLE = 34,
-    OBJECT_NOT_DELETABLE = 35,
+    // Invalid actions
+    BLOCK_NOT_WRITABLE = 30,
+    BLOCK_NOT_READABLE = 31,
+    BLOCK_NOT_CREATABLE = 32,
+    BLOCK_NOT_DELETABLE = 33,
 
-    // invalid parameters
-    INVALID_COMMAND = 63,
-    INVALID_OBJECT_ID = 64,
-    INVALID_OBJECT_TYPE = 65,
-    INVALID_OBJECT_GROUPS = 66,
-    CRC_ERROR_IN_COMMAND = 67,
-    OBJECT_DATA_NOT_ACCEPTED = 68,
+    // Invalid block data
+    INVALID_BLOCK = 40,
+    INVALID_BLOCK_ID = 41,
+    INVALID_BLOCK_TYPE = 42,
+    INVALID_BLOCK_SUBTYPE = 43,
+    INVALID_BLOCK_CONTENT = 44,
 
-    INVALID_OBJECT_PTR = 69,
-
-    // freak events that should not be possible
-    PERSISTING_TO_INACTIVE_OBJECT = 200,
+    // Invalid stored block data
+    INVALID_STORED_BLOCK = 50,
+    INVALID_STORED_BLOCK_ID = 51,
+    INVALID_STORED_BLOCK_TYPE = 52,
+    INVALID_STORED_BLOCK_SUBTYPE = 53,
+    INVALID_STORED_BLOCK_CONTENT = 54,
 };
 
 inline uint8_t
@@ -71,5 +73,8 @@ asUint8(CboxError e)
 {
     return static_cast<uint8_t>(e);
 }
+
+template <typename T>
+using CboxExpected = tl::expected<T, CboxError>;
 
 } // end namespace cbox

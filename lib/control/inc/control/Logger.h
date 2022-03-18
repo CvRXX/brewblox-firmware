@@ -58,10 +58,9 @@ private:
     LogWriteFunction m_logWriteFunction;
 };
 
-extern Logger&
-logger();
+extern Logger& getLogger();
 
-#define CL_LOG_DEBUG(initStr) *logger()(Logger::DEBUG, initStr)
-#define CL_LOG_INFO(initStr) *logger()(Logger::INFO, initStr)
-#define CL_LOG_WARN(initStr) *logger()(Logger::WARN, initStr)
-#define CL_LOG_ERROR(initStr) *logger()(Logger::ERROR, initStr)
+#define CL_LOG_DEBUG(initStr) *getLogger()(Logger::DEBUG, initStr)
+#define CL_LOG_INFO(initStr) *getLogger()(Logger::INFO, initStr)
+#define CL_LOG_WARN(initStr) *getLogger()(Logger::WARN, initStr)
+#define CL_LOG_ERROR(initStr) *getLogger()(Logger::ERROR, initStr)

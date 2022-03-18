@@ -36,19 +36,10 @@ public:
     }
     virtual ~TicksBlock() = default;
 
-    virtual cbox::CboxError streamFrom(cbox::DataIn& dataIn) override final
-    {
-        blox_Ticks_Block newData = blox_Ticks_Block_init_zero;
-        cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Ticks_Block_fields, blox_Ticks_Block_size);
-        if (result == cbox::CboxError::OK) {
-            ticks.setUtc(newData.secondsSinceEpoch);
-        }
-        return result;
-    }
-
-    virtual cbox::CboxError streamTo(cbox::DataOut& out) const override final
+    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
+
         message.secondsSinceEpoch = ticks.utc();
         message.millisSinceBoot = ticks.millis();
 
@@ -57,12 +48,30 @@ public:
         message.avgDisplayTask = ticks.taskTime(2);
         message.avgSystemTask = ticks.taskTime(3);
 
-        return streamProtoTo(out, &message, blox_Ticks_Block_fields, blox_Ticks_Block_size);
+        return callWithMessage(callback,
+                               objectId,
+                               staticTypeId(),
+                               0,
+                               &message,
+                               blox_Ticks_Block_fields,
+                               blox_Ticks_Block_size);
     }
 
-    virtual cbox::CboxError streamPersistedTo(cbox::DataOut&) const override final
+    virtual cbox::CboxError readStored(const cbox::PayloadCallback&) const override final
     {
-        return cbox::CboxError::PERSISTING_NOT_NEEDED;
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    {
+        blox_Ticks_Block message = blox_Ticks_Block_init_zero;
+        auto res = payloadToMessage(payload, &message, blox_Ticks_Block_fields);
+
+        if (res == cbox::CboxError::OK) {
+            ticks.setUtc(message.secondsSinceEpoch);
+        }
+
+        return res;
     }
 
     virtual cbox::update_t update(const cbox::update_t& now) override final

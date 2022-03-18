@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
+ * along with BrewPi. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "TestObjects.h"
@@ -29,8 +29,8 @@ using namespace cbox;
 
 SCENARIO("An object can be created by an ObjectFactory by resolving the type id")
 {
-    static const auto outOfMemoryTester = []() {
-        return std::shared_ptr<Object>{}; // return nullptr
+    static const auto outOfMemoryTester = []() -> Object* {
+        return nullptr;
     };
 
     ObjectFactory factory = {
@@ -43,35 +43,22 @@ SCENARIO("An object can be created by an ObjectFactory by resolving the type id"
 
     WHEN("The factory is given a valid type ID, the object with type ID is created")
     {
-        std::shared_ptr<Object> obj1;
-        CboxError status1;
-        std::tie(status1, obj1) = factory.make(longIntType);
-        CHECK(status1 == CboxError::OK);
-        CHECK(obj1->typeId() == longIntType);
+        auto result1 = factory.make(longIntType);
+        CHECK(result1.value()->typeId() == longIntType);
 
-        CboxError status2;
-        std::shared_ptr<Object> obj2;
-        std::tie(status2, obj2) = factory.make(longIntVectorType);
-
-        CHECK(status2 == CboxError::OK);
-        CHECK(obj2->typeId() == longIntVectorType);
+        auto result2 = factory.make(longIntVectorType);
+        CHECK(result2.value()->typeId() == longIntVectorType);
     }
 
     WHEN("The factory is given an invalid type ID, nullptr is returned with status object_not_creatable")
     {
-        std::shared_ptr<Object> obj;
-        CboxError status;
-        std::tie(status, obj) = factory.make(9999);
-        CHECK(status == CboxError::OBJECT_NOT_CREATABLE);
-        CHECK(obj == nullptr);
+        auto result = factory.make(9999);
+        CHECK(result.error() == CboxError::BLOCK_NOT_CREATABLE);
     }
 
     WHEN("Object creation for a valid object type fails, error INSUFFICIENT_HEAP is returned")
     {
-        std::shared_ptr<Object> obj;
-        CboxError status;
-        std::tie(status, obj) = factory.make(1234);
-        CHECK(status == CboxError::INSUFFICIENT_HEAP);
-        CHECK(obj == nullptr);
+        auto result = factory.make(1234);
+        CHECK(result.error() == CboxError::INSUFFICIENT_HEAP);
     }
 }

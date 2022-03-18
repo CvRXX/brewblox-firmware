@@ -17,6 +17,11 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// control/Ticks.h includes a forward declaration of 'TicksClass'
+// Various time-related blocks include 'AppTicks.h',
+// and expect it to define the forward declared TicksClass,
+// for use in TicksBlock<TicksClass>
+
 #pragma once
 
 #include "blocks/TicksBlock.h"

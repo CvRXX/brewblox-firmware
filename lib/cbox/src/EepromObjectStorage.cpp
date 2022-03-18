@@ -14,10 +14,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "cbox/EepromObjectStorage.h"
+#include "cbox/Crc.h"
 
 namespace cbox {
 
@@ -29,60 +30,45 @@ EepromObjectStorage::EepromObjectStorage(EepromAccess& _eeprom)
     init();
 }
 
-/**
- * storeObject saves the data streamed by the handler under the given id.
- * it allocates a large enough block in EEPROM automatically and re-allocates if needed.
- * the handler should therefore stream the same data if it is called twice.
- * @param id: id to store the object with
- * @param handler: a callable that is provided with a DataOut to stream the new data to
- * @return CboxError
- */
-CboxError EepromObjectStorage::storeObject(
-    const storage_id_t& id,
-    const std::function<CboxError(DataOut&)>& handler)
+CboxError EepromObjectStorage::saveObject(const Payload& payload)
 {
-    if (!id) {
-        return CboxError::INVALID_OBJECT_ID;
+    if (!payload.blockId) {
+        return CboxError::INVALID_BLOCK_ID;
     }
 
-    // write to counter to get size and to do a test serialization
-    CountingBlackholeDataOut counter;
-    CboxError res = handler(counter);
-    uint16_t dataSize = counter.count() + 1;
+    auto res = CboxError::OK;
+    uint16_t dataSize = payload.content.size()
+                        + 1 // flags
+                        + 2 // blockType
+                        + 1 // CRC byte
+        ;
 
-    if (res == CboxError::PERSISTING_NOT_NEEDED) {
-        // exit for objects that don't need to exist in EEPROM. Not even their id/groups/existence
-        return CboxError::OK;
-    }
-
-    if (res != CboxError::OK) {
-        return res;
-    };
+    // ID is included in the CRC calculation
+    uint8_t crc = calc_crc_16(0, payload.blockId);
+    crc = calc_crc_8(crc, 0); // flags reserved byte
+    crc = calc_crc_16(crc, payload.blockType);
+    crc = calc_crc_vector(crc, payload.content);
 
     // get actual writable region in eeprom
-    RegionDataOut objectEepromData = getObjectWriter(id);
+    RegionDataOut objectEepromData = getObjectWriter(payload.blockId);
     uint16_t dataLocation = writer.offset();
     uint16_t blockSize = objectEepromData.availableForWrite();
 
-    auto writeWithCrc = [&id, &objectEepromData, &handler]() -> CboxError {
-        // we want the ID to be part of the CRC
-        // we stream it again to a discarded stream and start the actual stream with the resulting CRC
-        BlackholeDataOut hole;
-        CrcDataOut idCrc(hole);
-        idCrc.put(id);
-
-        CrcDataOut crcOut(objectEepromData, idCrc.crc());
-        CboxError res = handler(crcOut);
-
-        if (res != CboxError::OK) {
-            crcOut.invalidateCrc();
+    auto writeWithCrc = [&objectEepromData, &payload, &crc]() -> CboxError {
+        uint8_t flags(0); // unused, used to be groups, kept for backwards compatibility
+        if (!objectEepromData.put(flags)) {
+            return CboxError::STORAGE_WRITE_ERROR;
         }
-        bool crcWritten = crcOut.writeCrc(); // write CRC after object data so we can check integrity
-        if (!crcWritten) {
-            return CboxError::PERSISTED_STORAGE_WRITE_ERROR;
+        if (!objectEepromData.put(payload.blockType)) {
+            return CboxError::STORAGE_WRITE_ERROR;
         }
-
-        return res;
+        if (!objectEepromData.writeBuffer(payload.content.data(), payload.content.size())) {
+            return CboxError::STORAGE_WRITE_ERROR;
+        }
+        if (!objectEepromData.write(crc)) {
+            return CboxError::STORAGE_WRITE_ERROR;
+        }
+        return CboxError::OK;
     };
 
     if (dataSize <= blockSize) { // data + crc
@@ -94,7 +80,7 @@ CboxError EepromObjectStorage::storeObject(
 
         // over-provision 4 bytes or 12.5% to prevent having to relocate the block if it grows
 
-        uint16_t overProvision = std::max(dataSize >> 3, 4);
+        uint16_t overProvision = std::max(dataSize / 8, 4);
         uint16_t requestedSize = dataSize + overProvision;
         objectEepromData = newObjectWriter(0, requestedSize); // get new writer, set block id to invalid until sucessfully relocated
         dataLocation = writer.offset();
@@ -102,60 +88,41 @@ CboxError EepromObjectStorage::storeObject(
         if (eepromBlockSize < requestedSize) {
             // not enough continuous free space
             if (freeSpace() < stream_size_t(requestedSize) + (objectHeaderLength() - blockHeaderLength())) {
-                return CboxError::INSUFFICIENT_PERSISTENT_STORAGE; // not even enough total free space
+                return CboxError::INSUFFICIENT_STORAGE; // not even enough total free space
             }
 
             // if there is enough free space, but it is not continuous, do a defrag to and try again
             defrag();
-            objectEepromData = newObjectWriter(id, requestedSize);
+            objectEepromData = newObjectWriter(payload.blockId, requestedSize);
             dataLocation = writer.offset();
             if (objectEepromData.availableForWrite() < requestedSize) {
                 // LCOV_EXCL_LINE still not enough free space, exclude from coverage, because this should not be possible with the check above
-                return CboxError::INSUFFICIENT_PERSISTENT_STORAGE; // LCOV_EXCL_LINE
+                return CboxError::INSUFFICIENT_STORAGE; // LCOV_EXCL_LINE
             }
         }
         // looks like we can relocate the object, remove the old and write the new block
         if (isRelocate) {
-            disposeObject(id);
+            disposeObject(payload.blockId);
             writer.reset(dataLocation, eepromBlockSize);
         }
-        res = writeWithCrc(); // try again
+        res = writeWithCrc(); // now write the object
     }
     // check how many bytes were written
     uint16_t actualSize = writer.offset() - dataLocation;
     // write the actual object size as first 2 bytes in the block
     writer.reset(dataLocation - (objectHeaderLength() - blockHeaderLength()), 2 * sizeof(uint16_t));
     writer.put(actualSize);
-    writer.put(id); // overwrite invalid id with actual id
+    writer.put(payload.blockId); // overwrite invalid id with actual id
     return res;
 }
 
-/**
- * Retrieve a single object from storage
- * @param id: id of object to retrieve
- * @param handler: a callable with the following prototype: (DataIn &) -> CboxError.
- * DataIn will contain the object's data followed by a CRC.
- * @return CboxError
- */
-CboxError EepromObjectStorage::retrieveObject(
-    const storage_id_t& id,
-    const std::function<CboxError(RegionDataIn&)>& handler)
+CboxError EepromObjectStorage::loadObject(obj_id_t id, const PayloadCallback& callback)
 {
-    RegionDataIn objectEepromData = getObjectReader(id, true);
-    if (objectEepromData.available() == 0) {
-        return CboxError::PERSISTED_OBJECT_NOT_FOUND;
-    }
-    return handler(objectEepromData);
+    auto objIn = getObjectReader(id, true);
+    return parseFromStream(id, callback, objIn);
 }
 
-/**
- * Retreive all objects from storage
- * @param handler: a callable with the following prototype: (const storage_id_t&, DataOut &) -> CboxError.
- * The handler will be called for each object and the object, with the DataIn stream containing the object's data.
- * @return
- */
-CboxError EepromObjectStorage::retrieveObjects(
-    const std::function<CboxError(const storage_id_t& id, RegionDataIn&)>& handler)
+CboxError EepromObjectStorage::loadAllObjects(const PayloadCallback& callback)
 {
     reader.reset(EepromLocation(objects), EepromLocationSize(objects));
 
@@ -164,30 +131,30 @@ CboxError EepromObjectStorage::retrieveObjects(
         // loop over all blocks and write objects to output stream
         uint16_t blockSize = 0;
         if (!reader.get(blockSize)) {
-            return CboxError::COULD_NOT_READ_PERSISTED_BLOCK_SIZE;
+            return CboxError::STORAGE_READ_ERROR;
         }
 
         switch (BlockType(type)) {
         case BlockType::object: {
             auto blockData = RegionDataIn(reader, blockSize);
-            auto handleBlock = [&blockData, &handler]() -> CboxError {
+            auto handleBlock = [&blockData, &callback]() -> CboxError {
                 // first 2 bytes of block are actual data size. Limit reading to this region
                 uint16_t actualSize;
                 if (!blockData.get(actualSize)) {
-                    return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                    return CboxError::STORAGE_READ_ERROR;
                 }
-                storage_id_t id;
+                obj_id_t id;
                 if (!blockData.get(id)) {
-                    return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                    return CboxError::STORAGE_READ_ERROR;
                 }
 
-                auto objectData = RegionDataIn(blockData, actualSize);
-                return handler(id, objectData);
+                auto objIn = RegionDataIn(blockData, actualSize);
+                return parseFromStream(id, callback, objIn);
             };
             auto result = handleBlock();
             if (result != CboxError::OK) {
-                if (result == CboxError::PERSISTED_BLOCK_STREAM_ERROR) {
-                    return CboxError::PERSISTED_BLOCK_STREAM_ERROR; // stop on read errors
+                if (result == CboxError::STORAGE_READ_ERROR) {
+                    return result; // stop on read errors
                 }
                 // log event. Do not return, because we do want to handle the next block
             }
@@ -195,20 +162,20 @@ CboxError EepromObjectStorage::retrieveObjects(
         } break;
         case BlockType::disposed_block:
             if (!reader.skip(blockSize)) {
-                return CboxError::PERSISTED_BLOCK_STREAM_ERROR;
+                return CboxError::STORAGE_ERROR;
             }
             break;
         case BlockType::invalid:
-            return CboxError::INVALID_PERSISTED_BLOCK_TYPE; // unknown block type encountered!
+            return CboxError::INVALID_STORED_BLOCK_TYPE; // unknown block type encountered!
         default:
-            return CboxError::INVALID_PERSISTED_BLOCK_TYPE; // unknown block type encountered!
+            return CboxError::INVALID_STORED_BLOCK_TYPE; // unknown block type encountered!
             break;
         }
     }
     return CboxError::OK;
 }
 
-bool EepromObjectStorage::disposeObject(const storage_id_t& id, bool mergeDisposed)
+bool EepromObjectStorage::disposeObject(obj_id_t id, bool mergeDisposed)
 {
     RegionDataIn block = getObjectReader(id, true); // sets reader to data start of block data
     bool found = false;
@@ -271,7 +238,7 @@ void EepromObjectStorage::defrag()
 
 // This function assumes that the reader is at the start of a block.
 // To ensure this, after using the RegionDataIn object, skip to the end of the block.
-RegionDataIn EepromObjectStorage::getBlockReader(const BlockType requestedType)
+RegionDataIn EepromObjectStorage::getBlockReader(BlockType requestedType)
 {
     while (reader.peek() >= 0) {
         uint8_t type = reader.read();
@@ -289,7 +256,7 @@ RegionDataIn EepromObjectStorage::getBlockReader(const BlockType requestedType)
 }
 
 // This function assumes that the reader is at the start of a block.
-RegionDataOut EepromObjectStorage::getBlockWriter(const BlockType requestedType, uint16_t minSize)
+RegionDataOut EepromObjectStorage::getBlockWriter(BlockType requestedType, uint16_t minSize)
 {
     // this sets the eeprom to the object location, with the full block size available
     RegionDataIn objectData = getBlockReader(requestedType);
@@ -306,17 +273,17 @@ RegionDataOut EepromObjectStorage::getBlockWriter(const BlockType requestedType,
 // If usedSize is true, only the length that was written previously is made available, not the reserved size
 // This function assumes that the reader is at the start of a block.
 // To ensure this, after using the RegionDataIn object, skip to the end of the block.
-RegionDataIn EepromObjectStorage::getObjectReader(const storage_id_t id, bool usedSize)
+RegionDataIn EepromObjectStorage::getObjectReader(obj_id_t id, bool usedSize)
 {
     resetReader();
     while (reader.peek() >= 0) {
         RegionDataIn block = getBlockReader(BlockType::object);
-        if (block.available() < sizeof(uint16_t) + sizeof(storage_id_t)) {
+        if (block.available() < sizeof(uint16_t) + sizeof(obj_id_t)) {
             reader.skip(block.available());
             continue;
         }
         uint16_t objectSize = 0;
-        storage_id_t blockId = 0;
+        obj_id_t blockId = 0;
         block.get(objectSize);
         block.get(blockId);
         if (blockId != id) {
@@ -332,7 +299,50 @@ RegionDataIn EepromObjectStorage::getObjectReader(const storage_id_t id, bool us
     return RegionDataIn(reader, 0);
 }
 
-RegionDataOut EepromObjectStorage::getObjectWriter(const storage_id_t id)
+CboxError EepromObjectStorage::parseFromStream(obj_id_t id,
+                                               const PayloadCallback& callback,
+                                               RegionDataIn& in)
+{
+    if (in.available() == 0) {
+        return CboxError::INVALID_STORED_BLOCK_ID;
+    }
+
+    uint8_t flags(0); // reserved, used to be groups
+    if (!in.get(flags)) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    uint16_t blockType(0);
+    if (!in.get(blockType)) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    auto payload = Payload(id, blockType, 0);
+    payload.content.resize(in.available() - 1); // exclude CRC byte
+
+    if (!in.readBytes(payload.content.data(), payload.content.size())) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    uint8_t objCrc(0);
+    if (!in.get(objCrc)) {
+        return CboxError::STORAGE_READ_ERROR;
+    }
+
+    uint8_t crc = calc_crc_16(0, id);
+    crc = calc_crc_8(crc, flags);
+    crc = calc_crc_16(crc, blockType);
+    crc = calc_crc_vector(crc, payload.content);
+    crc = calc_crc_8(crc, objCrc);
+
+    if (crc != 0) {
+        return CboxError::STORAGE_CRC_ERROR;
+    }
+
+    return callback(payload);
+}
+
+RegionDataOut EepromObjectStorage::getObjectWriter(obj_id_t id)
 {
     // this sets the eeprom to the object location and requestes the full available object size for writing
     RegionDataIn objectData = getObjectReader(id, false);
@@ -345,7 +355,7 @@ RegionDataOut EepromObjectStorage::getObjectWriter(const storage_id_t id)
 }
 
 // gets a block large enough to write storage id, actual size and data. objectSize is length of data
-RegionDataOut EepromObjectStorage::newObjectWriter(const storage_id_t id, uint16_t objectSize)
+RegionDataOut EepromObjectStorage::newObjectWriter(obj_id_t id, uint16_t objectSize)
 {
     // find a disposed block with enough size available
     resetReader();

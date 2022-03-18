@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,13 +14,13 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 
-#include "cbox/CboxApplication.h"
-#include "cbox/Object.h"
+#include "cbox/Application.h"
+#include "cbox/ObjectBase.h"
 #include "cbox/ObjectContainer.h"
 #include <memory>
 
@@ -32,22 +32,10 @@ private:
     std::weak_ptr<Object> ptr;
 
 public:
+    obj_id_t getId() const;
     void setId(obj_id_t newId);
 
-    obj_id_t getId() const
-    {
-        return id;
-    }
-
-    CboxError store()
-    {
-        return objects.store(id);
-    }
-
-    ObjectContainer& container()
-    {
-        return objects;
-    }
+    CboxError store();
 
 protected:
     explicit CboxPtrBase(const obj_id_t& id)

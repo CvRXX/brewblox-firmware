@@ -20,9 +20,8 @@
 #include "blocks/OneWireBusBlock.h"
 #include "control/OneWire.h"
 #include "control/OneWireAddress.h"
+#include "pb_encode.h"
 #include <limits>
-
-#include "nanopb_callbacks.h"
 
 bool streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
@@ -62,7 +61,7 @@ OneWireBusBlock::OneWireBusBlock(OneWire& ow, void (*onShortDetected_)())
  * - cmd 02: search bus: a sequence of 0 or more 8-byte addresses, MSB first that were found on the bus
  */
 cbox::CboxError
-OneWireBusBlock::streamTo(cbox::DataOut& out) const
+OneWireBusBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
     message.command = command;
@@ -85,11 +84,24 @@ OneWireBusBlock::streamTo(cbox::DataOut& out) const
     // commands are one-shot - once the command is done clear it.
     command.opcode = NO_OP;
     command.data = 0;
-    return streamProtoTo(out, &message, blox_OneWireBus_Block_fields, std::numeric_limits<size_t>::max());
+
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_OneWireBus_Block_fields,
+                           100); // TODO(Bob): pick sensible value
+}
+
+cbox::CboxError
+OneWireBusBlock::readStored(const cbox::PayloadCallback&) const
+{
+    return cbox::CboxError::OK;
 }
 
 /**
- * Set the command to be executed next form the input stream
+ * Set the command to be executed next from the input stream
  * - byte 0: command
  *   00: no-op
  *   01: reset bus
@@ -99,19 +111,19 @@ OneWireBusBlock::streamTo(cbox::DataOut& out) const
  *   (later: set bus power? (off if next byte is 00, on if it's 01) )
  */
 cbox::CboxError
-OneWireBusBlock::streamFrom(cbox::DataIn& dataIn)
+OneWireBusBlock::write(const cbox::Payload& payload)
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
+    auto res = payloadToMessage(payload, &message, blox_OneWireBus_Block_fields);
 
-    cbox::CboxError res = streamProtoFrom(dataIn, &message, blox_OneWireBus_Block_fields, std::numeric_limits<size_t>::max());
-    /* if no errors occur, write new settings to wrapped object */
     if (res == cbox::CboxError::OK) {
         command = message.command;
     }
+
     return res;
 }
 
-void* OneWireBusBlock::implements(const cbox::obj_type_t& iface)
+void* OneWireBusBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_OneWireBus) {
         return this; // me!

@@ -21,22 +21,7 @@
 #include "proto/DS2413.pb.h"
 
 cbox::CboxError
-DS2413Block::streamFrom(cbox::DataIn& in)
-{
-    blox_DS2413_Block newData = blox_DS2413_Block_init_zero;
-    cbox::CboxError res = streamProtoFrom(in, &newData, blox_DS2413_Block_fields, blox_DS2413_Block_size);
-    /* if no errors occur, write new settings to wrapped object */
-    if (res == cbox::CboxError::OK) {
-        if (newData.oneWireBusId) {
-            owBus.setId(newData.oneWireBusId);
-        }
-        device.address(OneWireAddress(newData.address));
-    }
-    return res;
-}
-
-cbox::CboxError
-DS2413Block::streamTo(cbox::DataOut& out) const
+DS2413Block::read(const cbox::PayloadCallback& callback) const
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
@@ -48,17 +33,46 @@ DS2413Block::streamTo(cbox::DataOut& out) const
     message.channels[0].id = blox_DS2413_ChannelId_DS2413_CHAN_A;
     message.channels[1].id = blox_DS2413_ChannelId_DS2413_CHAN_B;
 
-    return streamProtoTo(out, &message, blox_DS2413_Block_fields, blox_DS2413_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_DS2413_Block_fields,
+                           blox_DS2413_Block_size);
 }
 
 cbox::CboxError
-DS2413Block::streamPersistedTo(cbox::DataOut& out) const
+DS2413Block::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
     message.oneWireBusId = owBus.getId();
     message.address = device.address();
-    return streamProtoTo(out, &message, blox_DS2413_Block_fields, blox_DS2413_Block_size);
+
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_DS2413_Block_fields,
+                           blox_DS2413_Block_size);
+}
+
+cbox::CboxError
+DS2413Block::write(const cbox::Payload& payload)
+{
+    blox_DS2413_Block message = blox_DS2413_Block_init_zero;
+    auto res = payloadToMessage(payload, &message, blox_DS2413_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        if (message.oneWireBusId) {
+            owBus.setId(message.oneWireBusId);
+        }
+        device.address(OneWireAddress(message.address));
+    }
+
+    return res;
 }
 
 cbox::update_t
@@ -68,7 +82,7 @@ DS2413Block::update(const cbox::update_t& now)
     return update_1s(now);
 }
 
-void* DS2413Block::implements(const cbox::obj_type_t& iface)
+void* DS2413Block::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_DS2413) {
         return this; // me!

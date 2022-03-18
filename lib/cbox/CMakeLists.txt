@@ -2,7 +2,6 @@ idf_component_register(
   SRCS
     src/Box.cpp
     src/CboxPtr.cpp
-    src/CboxApplication.cpp
     src/ConnectionPool.cpp
     src/Crc.cpp
     src/DataStream.cpp
@@ -12,7 +11,7 @@ idf_component_register(
     src/ObjectBase.cpp
     src/ObjectContainer.cpp
     src/ObjectFactory.cpp
-    src/Tracing.cpp
+    src/Base64.cpp
   INCLUDE_DIRS
     inc
   REQUIRES
