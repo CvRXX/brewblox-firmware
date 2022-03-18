@@ -17,7 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/SPIArbiter.h"
+#include "spark/SPIArbiter.hpp"
 
 void SPIArbiter::apply(SPIConfiguration& client)
 {

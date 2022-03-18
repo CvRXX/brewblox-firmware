@@ -18,10 +18,10 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/DS18B20.h"
-#include "control/OneWire.h"
-#include "control/OneWireAddress.h"
-#include "control/Temperature.h"
+#include "control/DS18B20.hpp"
+#include "control/OneWire.hpp"
+#include "control/OneWireAddress.hpp"
+#include "control/Temperature.hpp"
 
 // OneWire commands
 static constexpr const uint8_t STARTCONVO = 0x44;      // Start a new conversion to be read from scratchpad 750ms later

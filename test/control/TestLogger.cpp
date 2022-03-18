@@ -1,5 +1,5 @@
-#include "TestLogger.h"
-#include "control/Logger.h"
+#include "TestLogger.hpp"
+#include "control/Logger.hpp"
 #include <string>
 #include <vector>
 
@@ -37,8 +37,8 @@ void TestLogger::add(std::string&& s)
     logs.push_back(s);
 }
 
-Logger&
-logger()
+// Defines extern declaration in control/Logger.h
+Logger& getLogger()
 {
     static Logger logger([](Logger::LogLevel level, const std::string& log) {
         switch (level) {

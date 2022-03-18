@@ -19,62 +19,57 @@
 
 #include <catch.hpp>
 
-#include "BrewbloxTestBox.h"
-#include "blocks/ActuatorPwmBlock.h"
-#include "blocks/BalancerBlock.h"
-#include "blocks/DigitalActuatorBlock.h"
-#include "blocks/MutexBlock.h"
+#include "TestHelpers.hpp"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "blocks/BalancerBlock.hpp"
+#include "blocks/DigitalActuatorBlock.hpp"
+#include "blocks/MutexBlock.hpp"
+#include "cbox/Box.hpp"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/Balancer_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/Mutex_test.pb.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
     auto mutexId = cbox::obj_id_t(101);
     auto pin1Id = cbox::obj_id_t(102);
     auto pin2Id = cbox::obj_id_t(103);
 
-    testBox.reset();
-
-    // create mutex
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(mutexId);
-    testBox.put(uint8_t(0xFF));
-    testBox.put(MutexBlock::staticTypeId());
+    // Create mutex
     {
-        auto newMutex = blox_test::Mutex::Block();
-        newMutex.set_differentactuatorwait(100);
-        testBox.put(newMutex);
+        auto cmd = cbox::TestCommand(mutexId, MutexBlock::staticTypeId());
+        auto message = blox_test::Mutex::Block();
+
+        message.set_differentactuatorwait(100);
+
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
     }
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
 
-    // create/set digital actuator helper
+    // Create/set digital actuator helper
+    auto setPin = [mutexId, pin1Id, pin2Id](uint8_t chan, blox_test::IoArray::DigitalState state, bool firstCreate = false) {
+        auto cmd = cbox::TestCommand(chan == 1 ? pin1Id : pin2Id, DigitalActuatorBlock::staticTypeId());
+        auto message = blox_test::DigitalActuator::Block();
 
-    auto setPin = [&testBox, mutexId, pin1Id, pin2Id](uint8_t chan, blox_test::IoArray::DigitalState state, bool firstCreate = false) {
-        // configure digital actuator by writing to the object
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(firstCreate ? commands::CREATE_OBJECT : commands::WRITE_OBJECT);
-        testBox.put(chan == 1 ? pin1Id : pin2Id);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(DigitalActuatorBlock::staticTypeId());
-
-        auto pinMsg = blox_test::DigitalActuator::Block();
-        pinMsg.set_desiredstate(state);
-        pinMsg.set_invert(false);
-        pinMsg.set_hwdevice(19);
-        pinMsg.set_channel(chan);
-        auto constraintPtr = pinMsg.mutable_constrainedby()->add_constraints();
+        message.set_desiredstate(state);
+        message.set_invert(false);
+        message.set_hwdevice(19);
+        message.set_channel(chan);
+        auto constraintPtr = message.mutable_constrainedby()->add_constraints();
         constraintPtr->set_mutex(mutexId);
-        testBox.put(pinMsg);
 
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
+        messageToPayload(cmd, message);
+        if (firstCreate) {
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        } else {
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
     };
 
     // configure pin actuator 1
@@ -84,96 +79,103 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 
     THEN("The objects read back as expected")
     {
-        // read mutex
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(mutexId);
-
+        THEN("Read mutex")
         {
-            auto decoded = blox_test::Mutex::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "differentActuatorWait: 100 waitRemaining: 100");
+            auto cmd = cbox::TestCommand(mutexId, MutexBlock::staticTypeId());
+            auto message = blox_test::Mutex::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "differentActuatorWait: 100 "
+                  "waitRemaining: 100");
         }
 
-        // read pin actuator 1, which is active
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(pin1Id);
-
+        THEN("Read pin actuator 1, which is active")
         {
-            auto decoded = blox_test::DigitalActuator::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "hwDevice: 19 channel: 1 state: STATE_ACTIVE constrainedBy { constraints { mutexed { mutexId: 101 hasLock: true } } } desiredState: STATE_ACTIVE");
+            auto cmd = cbox::TestCommand(pin1Id, DigitalActuatorBlock::staticTypeId());
+            auto message = blox_test::DigitalActuator::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "hwDevice: 19 "
+                  "channel: 1 "
+                  "state: STATE_ACTIVE "
+                  "constrainedBy { constraints { mutexed { mutexId: 101 hasLock: true } } } "
+                  "desiredState: STATE_ACTIVE");
         }
 
-        // read pin actuator 2, which is constrained and inactive
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(pin2Id);
-
+        THEN("Read pin actuator 2, which is constrained and inactive")
         {
-            auto decoded = blox_test::DigitalActuator::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "hwDevice: 19 channel: 2 constrainedBy { constraints { mutexed { mutexId: 101 } remaining: 101 } } desiredState: STATE_ACTIVE");
+            auto cmd = cbox::TestCommand(pin2Id, DigitalActuatorBlock::staticTypeId());
+            auto message = blox_test::DigitalActuator::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "hwDevice: 19 "
+                  "channel: 2 "
+                  "constrainedBy { constraints { mutexed { mutexId: 101 } remaining: 101 } } "
+                  "desiredState: STATE_ACTIVE");
         }
     }
 
     WHEN("actuator 2 is toggled, it remains constrained while actuator 1 is active")
     {
-        auto readPin = [&testBox](cbox::obj_id_t id) {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(id);
+        auto readPin = [](cbox::obj_id_t id) {
+            auto cmd = cbox::TestCommand(id, DigitalActuatorBlock::staticTypeId());
+            auto message = blox_test::DigitalActuator::Block();
 
-            auto decoded = blox_test::DigitalActuator::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-            return decoded.state();
+            return message.state();
         };
+
         setPin(1, blox_test::IoArray::DigitalState::Active);
         setPin(2, blox_test::IoArray::DigitalState::Inactive);
-        testBox.update(1);
+        cbox::update(1);
 
         setPin(2, blox_test::IoArray::DigitalState::Active);
         CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
-        testBox.update(2);
+        cbox::update(2);
 
         setPin(2, blox_test::IoArray::DigitalState::Active);
         CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
         setPin(2, blox_test::IoArray::DigitalState::Inactive);
         CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
-        testBox.update(3);
+        cbox::update(3);
 
         setPin(2, blox_test::IoArray::DigitalState::Active);
         CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
-        testBox.update(4);
+        cbox::update(4);
 
         AND_WHEN("Actuator 1 is turned OFF")
         {
             setPin(1, blox_test::IoArray::DigitalState::Inactive);
             CHECK(readPin(pin1Id) == blox_test::IoArray::DigitalState::Inactive);
-            testBox.update(5);
+            cbox::update(5);
 
             THEN("Actuator 2 can only turn on after the minimum wait time has passed")
             {
-                testBox.update(6);
+                cbox::update(6);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(10);
+                cbox::update(10);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(103);
+                cbox::update(103);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(104);
+                cbox::update(104);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Active);
             }
@@ -183,31 +185,31 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(10);
+                cbox::update(10);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(50);
+                cbox::update(50);
                 setPin(1, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin1Id) == blox_test::IoArray::DigitalState::Active);
 
-                testBox.update(60);
+                cbox::update(60);
                 setPin(1, blox_test::IoArray::DigitalState::Inactive);
                 CHECK(readPin(pin1Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(61);
+                cbox::update(61);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(120);
+                cbox::update(120);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(155);
+                cbox::update(155);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Inactive);
 
-                testBox.update(160);
+                cbox::update(160);
                 setPin(2, blox_test::IoArray::DigitalState::Active);
                 CHECK(readPin(pin2Id) == blox_test::IoArray::DigitalState::Active);
             }
@@ -220,95 +222,78 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
         auto pwm1Id = cbox::obj_id_t(201);
         auto pwm2Id = cbox::obj_id_t(202);
 
-        // create balancer
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::CREATE_OBJECT);
-        testBox.put(balancerId);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(BalancerBlock::staticTypeId());
+        // Create balancer
         {
-            auto newBalancer = blox_test::Balancer::Block();
-            testBox.put(newBalancer);
+            auto cmd = cbox::TestCommand(balancerId, BalancerBlock::staticTypeId());
+            auto message = blox_test::Balancer::Block();
+
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
 
-        // create pwm actuator 1
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::CREATE_OBJECT);
-        testBox.put(pwm1Id);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(ActuatorPwmBlock::staticTypeId());
-
+        // Create pwm actuator 1
         {
-            auto newPwm = blox_test::ActuatorPwm::Block();
-            newPwm.set_actuatorid(pin1Id);
-            newPwm.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(80)));
-            newPwm.set_period(4000);
-            newPwm.set_enabled(true);
+            auto cmd = cbox::TestCommand(pwm1Id, ActuatorPwmBlock::staticTypeId());
+            auto message = blox_test::ActuatorPwm::Block();
 
-            auto c = newPwm.mutable_constrainedby()->add_constraints();
+            message.set_actuatorid(pin1Id);
+            message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(80)));
+            message.set_period(4000);
+            message.set_enabled(true);
+
+            auto c = message.mutable_constrainedby()->add_constraints();
             auto balanced = new blox_test::Constraints::Balanced();
             balanced->set_balancerid(balancerId);
             c->set_allocated_balanced(balanced);
 
-            testBox.put(newPwm);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
 
-        // create pwm actuator 2
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::CREATE_OBJECT);
-        testBox.put(pwm2Id);
-        testBox.put(uint8_t(0xFF));
-        testBox.put(ActuatorPwmBlock::staticTypeId());
-
+        // Create pwm actuator 2
         {
-            auto newPwm = blox_test::ActuatorPwm::Block();
-            newPwm.set_actuatorid(pin2Id);
-            newPwm.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(80)));
-            newPwm.set_period(4000);
-            newPwm.set_enabled(true);
+            auto cmd = cbox::TestCommand(pwm2Id, ActuatorPwmBlock::staticTypeId());
+            auto message = blox_test::ActuatorPwm::Block();
 
-            auto c = newPwm.mutable_constrainedby()->add_constraints();
+            message.set_actuatorid(pin2Id);
+            message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(80)));
+            message.set_period(4000);
+            message.set_enabled(true);
+
+            auto c = message.mutable_constrainedby()->add_constraints();
             auto balanced = new blox_test::Constraints::Balanced();
             balanced->set_balancerid(balancerId);
             c->set_allocated_balanced(balanced);
 
-            testBox.put(newPwm);
+            messageToPayload(cmd, message);
+            CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
+        cbox::update(0);
+        cbox::update(1000);
 
-        testBox.update(0);
-        testBox.update(1000);
-
-        // read balancer
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(balancerId);
-
+        // Read balancer
         {
-            auto decoded = blox_test::Balancer::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() ==
+            auto cmd = cbox::TestCommand(balancerId, BalancerBlock::staticTypeId());
+            auto message = blox_test::Balancer::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
                   "clients { id: 1 requested: 327680 granted: 204800 } "  // 80*4096, 50*4096
                   "clients { id: 2 requested: 327680 granted: 204800 }"); // 80*4096, 50*4096
         }
 
-        // read a pwm actuator 1
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(pwm1Id);
-
+        // Read pwm actuator 1
         {
-            auto decoded = blox_test::ActuatorPwm::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() ==
+            auto cmd = cbox::TestCommand(pwm1Id, ActuatorPwmBlock::staticTypeId());
+            auto message = blox_test::ActuatorPwm::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
                   "actuatorId: 102 "
                   "period: 4000 setting: 204800 "
                   "constrainedBy { "
@@ -320,16 +305,15 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
                   "desiredSetting: 327680");
         }
 
-        // read a pwm actuator 2
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put(pwm2Id);
-
+        // Read pwm actuator 2
         {
-            auto decoded = blox_test::ActuatorPwm::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() ==
+            auto cmd = cbox::TestCommand(pwm2Id, ActuatorPwmBlock::staticTypeId());
+            auto message = blox_test::ActuatorPwm::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
                   "actuatorId: 103 "
                   "period: 4000 setting: 204800 "
                   "constrainedBy { "
@@ -343,29 +327,29 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
 
         // run for a while
         for (ticks_millis_t now = 1001; now < 50000; ++now) {
-            testBox.update(now);
+            cbox::update(now);
         }
 
-        // read a pwm actuator 1
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put((pwm1Id));
-
+        // Read pwm actuator 1
         {
-            auto decoded = blox_test::ActuatorPwm::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(decoded.value() == Approx(cnl::unwrap(ActuatorAnalog::value_t(50))).epsilon(0.05));
+            auto cmd = cbox::TestCommand(pwm1Id, ActuatorPwmBlock::staticTypeId());
+            auto message = blox_test::ActuatorPwm::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.value() == Approx(cnl::unwrap(ActuatorAnalog::value_t(50))).epsilon(0.05));
         }
 
-        // read a pwm actuator 2
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::READ_OBJECT);
-        testBox.put((pwm2Id));
-
+        // Read pwm actuator 2
         {
-            auto decoded = blox_test::ActuatorPwm::Block();
-            testBox.processInputToProto(decoded);
-            CHECK(decoded.value() == Approx(cnl::unwrap(ActuatorAnalog::value_t(50))).epsilon(0.05));
+            auto cmd = cbox::TestCommand(pwm2Id, ActuatorPwmBlock::staticTypeId());
+            auto message = blox_test::ActuatorPwm::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.value() == Approx(cnl::unwrap(ActuatorAnalog::value_t(50))).epsilon(0.05));
         }
     }
 }

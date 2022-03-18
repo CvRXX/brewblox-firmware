@@ -20,7 +20,7 @@
 #include "catch.hpp"
 
 #include "TestMatchers.hpp"
-#include "control/FilterChain.h"
+#include "control/FilterChain.hpp"
 #include <algorithm> // std::copy
 #include <cassert>
 #include <fstream>

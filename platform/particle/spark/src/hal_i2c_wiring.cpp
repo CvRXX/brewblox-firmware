@@ -1,4 +1,4 @@
-#include "blox_hal/hal_i2c.h"
+#include "blox_hal/hal_i2c.hpp"
 #include "spark_wiring.h"
 #include "spark_wiring_i2c.h"
 

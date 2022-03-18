@@ -51,7 +51,7 @@ extern "C" {
 
 #include "common_files/d4d_private.h" // include the private header file that contains perprocessor macros as D4D_MK_STR
 }
-#include "spark/SPIArbiter.h"
+#include "spark/SPIArbiter.hpp"
 
 #include "concurrent_hal.h"
 

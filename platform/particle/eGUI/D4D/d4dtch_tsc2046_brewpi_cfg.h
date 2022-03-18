@@ -51,7 +51,7 @@
 // include here what the driver need for run for example "derivative.h"
 // #include "derivative.h"    /* include peripheral declarations and more for S08 and CV1 */
 
-#include "spark/Board.h"
+#include "spark/Board.hpp"
 
 /******************************************************************************
  * Constants

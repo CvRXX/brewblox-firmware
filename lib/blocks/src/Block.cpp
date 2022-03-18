@@ -1,29 +1,52 @@
-/*
- * Block.cpp TODO
- *
- *  Created on: Jul 23, 2018
- *      Author: elco
- */
-
-#include "blocks/Block.h"
-#include "cbox/DataStream.h"
-#include "nanopb_callbacks.h"
+#include "blocks/Block.hpp"
+#include "cbox/DataStream.hpp"
+#include <pb_decode.h>
+#include <pb_encode.h>
 
 cbox::CboxError
-streamProtoTo(cbox::DataOut& out, const void* srcStruct, const pb_field_t fields[], size_t maxSize)
+payloadToMessage(const cbox::Payload& payload,
+                 void* destStruct,
+                 const pb_field_t fields[])
 {
-    pb_ostream_t stream = {dataOutStreamCallback, &out, maxSize, 0};
-    bool success = pb_encode(&stream, fields, srcStruct);
-    out.write(0); // zero terminate every write, so protobuf will stop processing on encountering this zero field tag
+    auto& protoBytes = payload.content;
+    auto stream = pb_istream_from_buffer(protoBytes.data(), protoBytes.size());
+    bool success = pb_decode(&stream, fields, destStruct);
 
-    return (success) ? cbox::CboxError::OK : cbox::CboxError::OUTPUT_STREAM_ENCODING_ERROR;
+    if (!success) {
+        return cbox::CboxError::NETWORK_DECODING_ERROR;
+    }
+
+    return cbox::CboxError::OK;
 }
 
 cbox::CboxError
-streamProtoFrom(cbox::DataIn& in, void* destStruct, const pb_field_t fields[], size_t maxSize)
+callWithMessage(const cbox::PayloadCallback& callback,
+                cbox::obj_id_t objId,
+                cbox::obj_type_t typeId,
+                cbox::obj_subtype_t subtype)
 {
-    pb_istream_t stream = {dataInStreamCallback, &in, maxSize + 1}; // 1 extra byte for the zero termination
-    bool success = pb_decode(&stream, fields, destStruct);
+    cbox::Payload payload(objId, typeId, subtype);
+    return callback(payload);
+}
 
-    return (success) ? cbox::CboxError::OK : cbox::CboxError::INPUT_STREAM_DECODING_ERROR;
+cbox::CboxError
+callWithMessage(const cbox::PayloadCallback& callback,
+                cbox::obj_id_t objId,
+                cbox::obj_type_t typeId,
+                cbox::obj_subtype_t subtype,
+                const void* srcStruct,
+                const pb_field_t fields[],
+                size_t maxSize)
+{
+    auto payload = cbox::Payload(objId, typeId, subtype);
+    payload.content.resize(maxSize);
+    auto stream = pb_ostream_from_buffer(payload.content.data(), payload.content.size());
+    bool success = pb_encode(&stream, fields, srcStruct);
+
+    if (!success) {
+        return cbox::CboxError::NETWORK_ENCODING_ERROR;
+    }
+
+    payload.content.resize(stream.bytes_written);
+    return callback(payload);
 }

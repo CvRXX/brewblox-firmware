@@ -7,15 +7,39 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
 include ../checkers.mk # sanitizer and gcov
 
+# expected
+INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include
+
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
-# add all tests
-CPPSRC += $(wildcard $(ROOT_DIR)/test/cbox/*.cpp)
-
-# and sources
+# lib/cbox
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)
+
+# test/shared
+# only add the files we need
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += test/shared/TestHelpers.cpp
+CPPSRC += test/shared/TestObjects.cpp
+
+# test/cbox
+# listed individually to help with refactoring
+CPPSRC += $(ROOT_DIR)/test/cbox/runner.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/TestApplication.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Base64_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Box_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/CboxPtr_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Connections_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/EepromObjectStorage_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/FileObjectStorage_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/ObjectContainer_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/ObjectFactory_test.cpp
+
+# include google protobuf dependencies
+CPPFLAGS += $(shell pkg-config --cflags protobuf)
+LDFLAGS += $(shell pkg-config --libs protobuf)
+CFLAGS += -DPB_MSGID=1
 
 CFLAGS += -ffunction-sections -Wall
 
@@ -29,7 +53,7 @@ CFLAGS += -DDEBUG_BUILD
 CPPFLAGS += -std=gnu++17
 CFLAGS += -pthread
 
-# the following warnings can help find opportunities for impromevent in virtual functions
+# the following warnings can help find opportunities for improvement in virtual functions
 # Warn when virtual functions are overriden without override/override final specifier (requires gcc 5.1)
 CPPFLAGS += -Wsuggest-override
 # Warn when functions and classes can be marked final

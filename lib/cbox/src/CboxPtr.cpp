@@ -1,7 +1,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,12 +14,18 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/CboxPtr.h"
+#include "cbox/CboxPtr.hpp"
+#include "cbox/Box.hpp"
 
 namespace cbox {
+
+obj_id_t CboxPtrBase::getId() const
+{
+    return id;
+}
 
 void CboxPtrBase::setId(obj_id_t newId)
 {
@@ -27,6 +33,11 @@ void CboxPtrBase::setId(obj_id_t newId)
         id = std::move(newId);
         ptr.reset();
     }
+}
+
+CboxError CboxPtrBase::store()
+{
+    return objects.store(id);
 }
 
 std::shared_ptr<Object> CboxPtrBase::lockObject()

@@ -18,9 +18,9 @@
  */
 
 #pragma once
-#include "blox_hal/hal_gpio.h"
+#include "blox_hal/hal_gpio.hpp"
 #include "blox_hal/hal_spi.hpp"
-#include "blox_hal/hal_spi_types.h"
+#include "blox_hal/hal_spi_types.hpp"
 #include "esp32/rom/ets_sys.h"
 
 /**

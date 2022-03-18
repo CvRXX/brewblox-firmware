@@ -1,15 +1,14 @@
 #pragma once
 
 #include "CboxConnection.hpp"
-#include "cbox/DataStreamIo.h"
+#include "cbox/DataStreamIo.hpp"
 #include <asio.hpp>
 
 class CboxTcpConnection : public CboxConnection {
 public:
     explicit CboxTcpConnection(
         asio::ip::tcp::socket socket_,
-        CboxConnectionManager& connection_manager_,
-        cbox::Box& box_);
+        CboxConnectionManager& connection_manager_);
     virtual ~CboxTcpConnection() = default;
 
     // virtual void start();

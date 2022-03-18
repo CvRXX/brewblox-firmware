@@ -18,8 +18,8 @@
  */
 
 #pragma once
-#include "cbox/CboxPtr.h"
-#include "control/TempSensor.h"
+#include "cbox/CboxPtr.hpp"
+#include "control/TempSensor.hpp"
 #include "d4d_display/screens/ProcessValueWidgetBase.h"
 
 class TempSensorWidget : public ProcessValueWidgetBase {

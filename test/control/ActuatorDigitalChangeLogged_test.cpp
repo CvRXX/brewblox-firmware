@@ -19,9 +19,9 @@
 
 #include <catch.hpp>
 
-#include "control/ActuatorDigital.h"
-#include "control/ActuatorDigitalChangeLogged.h"
-#include "control/MockIoArray.h"
+#include "control/ActuatorDigital.hpp"
+#include "control/ActuatorDigitalChangeLogged.hpp"
+#include "control/MockIoArray.hpp"
 
 SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
 {

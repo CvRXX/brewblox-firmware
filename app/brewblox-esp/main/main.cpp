@@ -1,20 +1,22 @@
-#include "Spark4.hpp"
-#include "TFT035.hpp"
+#include "intellisense.hpp"
 
-// #include "SDCard.hpp"
+#include "Brewblox.hpp"
 #include "ExpOwGpio.hpp"
 #include "HttpHandler.hpp"
 #include "I2cScanningFactory.hpp"
 #include "RecurringTask.hpp"
-#include "brewblox_esp.hpp"
+#include "Spark4.hpp"
+#include "TFT035.hpp"
+#include "blox_hal/hal_delay.hpp"
+#include "cbox/Box.hpp"
 #include "control/DS248x.hpp"
-#include "control/OneWire.h"
-#include "control/TempSensor.h"
+#include "control/OneWire.hpp"
+#include "control/TempSensor.hpp"
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
 #include "FT6236.hpp"
 #include "TFT035.hpp"
-#include "blox_hal/hal_delay.h"
+#include "blox_hal/hal_delay.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
 #include "graphics.hpp"
 #include "lvgl.h"
@@ -89,13 +91,29 @@ int main(int /*argc*/, char** /*argv*/)
     ethernet::init();
 
     asio::io_context io;
-    static auto& box = makeBrewbloxBox(io);
+
+    setupSystemBlocks();
+    cbox::loadBlocksFromStorage();
+    cbox::discoverBlocks();
+
+    static auto updater = RecurringTask(
+        io, asio::chrono::milliseconds(10),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            static const auto start = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
+            const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
+            uint32_t millisSinceBoot = now - start;
+            cbox::update(millisSinceBoot);
+            return true;
+        });
+
+    updater.start();
 
     using graphics = Graphics<TFT035, FT6236, StaticGui>;
 
     graphics::init();
 
-    static CboxServer cboxServer(io, 8332, box);
+    static CboxServer cboxServer(io, 8332);
 
     static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
                                                  RecurringTask::IntervalType::FROM_EXPIRY,

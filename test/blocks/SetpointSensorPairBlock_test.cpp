@@ -22,75 +22,69 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewbloxTestBox.h"
-#include "blocks/SetpointSensorPairBlock.h"
-#include "blocks/TempSensorMockBlock.h"
-#include "cbox/Box.h"
-#include "cbox/DataStream.h"
-#include "cbox/DataStreamIo.h"
-#include "cbox/Object.h"
-#include "control/Temperature.h"
+#include "TestHelpers.hpp"
+#include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/TempSensorMockBlock.hpp"
+#include "cbox/Box.hpp"
+#include "control/Temperature.hpp"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "testHelpers.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf data")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
-    testBox.reset();
+    auto sensorId = cbox::obj_id_t(100);
+    auto setpointId = cbox::obj_id_t(101);
 
-    // create mock sensor
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(100));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
+    // Create mock sensor
+    {
+        auto cmd = cbox::TestCommand(sensorId, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
 
-    auto newSensor = blox_test::TempSensorMock::Block();
-    newSensor.set_setting(cnl::unwrap(temp_t(20.0)));
-    newSensor.set_connected(true);
-    testBox.put(newSensor);
+        message.set_setting(cnl::unwrap(temp_t(20.0)));
+        message.set_connected(true);
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
 
-    // create pair
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(101));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(SetpointSensorPairBlock::staticTypeId());
+    // Create setpoint
+    {
+        auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
 
-    blox_test::SetpointSensorPair::Block newPair;
-    newPair.set_sensorid(100);
-    newPair.set_settingenabled(true);
-    newPair.set_storedsetting(cnl::unwrap(temp_t(21)));
-    newPair.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_3m);
-    newPair.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
-    testBox.put(newPair);
+        message.set_sensorid(sensorId);
+        message.set_settingenabled(true);
+        message.set_storedsetting(cnl::unwrap(temp_t(21)));
+        message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_3m);
+        message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
 
-    // read pair
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::READ_OBJECT);
-    testBox.put(cbox::obj_id_t(101));
+    WHEN("Reading the setpoint")
+    {
+        auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
+        auto message = blox_test::SetpointSensorPair::Block();
 
-    auto decoded = blox_test::SetpointSensorPair::Block();
-    testBox.processInputToProto(decoded);
-    CHECK(testBox.lastReplyHasStatusOk());
-    CHECK(decoded.ShortDebugString() ==
-          "sensorId: 100 "
-          "setting: 86016 "
-          "value: 81920 "
-          "settingEnabled: true "
-          "storedSetting: 86016 "
-          "filter: FILTER_3m "
-          "filterThreshold: 2048 "
-          "valueUnfiltered: 81920");
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
+
+        CHECK(message.ShortDebugString() ==
+              "sensorId: 100 "
+              "setting: 86016 "
+              "value: 81920 "
+              "settingEnabled: true "
+              "storedSetting: 86016 "
+              "filter: FILTER_3m "
+              "filterThreshold: 2048 "
+              "valueUnfiltered: 81920");
+    }
 
     WHEN("The sensor is invalid for over 10 seconds")
     {
@@ -101,21 +95,18 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
         ptr->get().connected(false);
 
         for (cbox::update_t t = 1000; t <= 12000; t += 100) {
-            testBox.update(t);
+            cbox::update(t);
         }
 
         THEN("The input value is flagged as stripped field")
         {
-            // read pair
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(101));
+            auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
+            auto message = blox_test::SetpointSensorPair::Block();
 
-            auto decoded = blox_test::SetpointSensorPair::Block();
-            testBox.processInputToProto(decoded);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() ==
+            CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
                   "setting: 86016 "
                   "settingEnabled: true "
@@ -135,20 +126,17 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
 
         ptr->get().setting(25);
 
-        testBox.update(1000);
+        cbox::update(1000);
 
         THEN("The value that is read is still at the old value due to filtering immediately after")
         {
-            // read pair
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(101));
+            auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
+            auto message = blox_test::SetpointSensorPair::Block();
 
-            auto decoded = blox_test::SetpointSensorPair::Block();
-            testBox.processInputToProto(decoded);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() ==
+            CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
                   "setting: 86016 "
                   "value: 81920 "
@@ -161,19 +149,20 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
 
         AND_THEN("Sending a filter reset trigger will force the filter state to the current value")
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::WRITE_OBJECT);
-            testBox.put(cbox::obj_id_t(101));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(SetpointSensorPairBlock::staticTypeId());
+            auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
+            auto message = blox_test::SetpointSensorPair::Block();
 
-            newPair.set_resetfilter(true);
-            testBox.put(newPair);
-            auto decoded = blox_test::SetpointSensorPair::Block();
-            testBox.processInputToProto(decoded);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() ==
+            message.set_resetfilter(true);
+
+            cmd.responses.clear();
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
                   "setting: 86016 "
                   "value: 102400 "

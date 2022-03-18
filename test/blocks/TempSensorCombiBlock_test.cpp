@@ -22,245 +22,219 @@
 #include <iomanip>
 #include <iostream>
 
-#include "BrewbloxTestBox.h"
-#include "blocks/TempSensorCombiBlock.h"
-#include "blocks/TempSensorMockBlock.h"
-#include "cbox/Box.h"
-#include "cbox/DataStream.h"
-#include "cbox/DataStreamIo.h"
-#include "cbox/Object.h"
-#include "control/Temperature.h"
+#include "TestHelpers.hpp"
+#include "blocks/TempSensorCombiBlock.hpp"
+#include "blocks/TempSensorMockBlock.hpp"
+#include "cbox/Box.hpp"
+#include "control/Temperature.hpp"
 #include "proto/TempSensorCombi_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "testHelpers.h"
+#include "spark/Brewblox.hpp"
 
 SCENARIO("A TempSensorCombi block")
 {
-    BrewbloxTestBox testBox;
-    using commands = cbox::Box::CommandID;
+    cbox::objects.clearAll();
+    setupSystemBlocks();
+    cbox::update(0);
 
-    testBox.reset();
+    auto sensorId1 = cbox::obj_id_t(101);
+    auto sensorId2 = cbox::obj_id_t(102);
+    auto sensorId3 = cbox::obj_id_t(103);
+    auto combiSensorId = cbox::obj_id_t(100);
 
-    // create mock sensor 1
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(101));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
+    // Create mock sensor 1
+    {
+        auto cmd = cbox::TestCommand(sensorId1, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
 
-    auto mockSensor1 = blox_test::TempSensorMock::Block();
-    mockSensor1.set_setting(cnl::unwrap(temp_t(21.0)));
-    mockSensor1.set_connected(true);
+        message.set_setting(cnl::unwrap(temp_t(21.0)));
+        message.set_connected(true);
 
-    testBox.put(mockSensor1);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+    // Create mock sensor 2
+    {
+        auto cmd = cbox::TestCommand(sensorId2, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
 
-    // create mock sensor 2
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(102));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
+        message.set_setting(cnl::unwrap(temp_t(22.0)));
+        message.set_connected(true);
 
-    auto mockSensor2 = blox_test::TempSensorMock::Block();
-    mockSensor2.set_setting(cnl::unwrap(temp_t(22.0)));
-    mockSensor2.set_connected(true);
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
 
-    testBox.put(mockSensor2);
+    // Create mock sensor 3
+    {
+        auto cmd = cbox::TestCommand(sensorId3, TempSensorMockBlock::staticTypeId());
+        auto message = blox_test::TempSensorMock::Block();
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+        message.set_setting(cnl::unwrap(temp_t(23.0)));
+        message.set_connected(true);
 
-    // create mock sensor 3
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(103));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorMockBlock::staticTypeId());
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
 
-    auto mockSensor3 = blox_test::TempSensorMock::Block();
-    mockSensor3.set_setting(cnl::unwrap(temp_t(23.0)));
-    mockSensor3.set_connected(true);
+    // Create combi sensor
+    {
+        auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+        auto message = blox_test::TempSensorCombi::Block();
 
-    testBox.put(mockSensor3);
+        message.add_sensors(sensorId1);
+        message.add_sensors(sensorId2);
+        message.add_sensors(sensorId3);
 
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
+        messageToPayload(cmd, message);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
 
-    // create combi sensor
-    testBox.put(uint16_t(0)); // msg id
-    testBox.put(commands::CREATE_OBJECT);
-    testBox.put(cbox::obj_id_t(100));
-    testBox.put(uint8_t(0xFF));
-    testBox.put(TempSensorCombiBlock::staticTypeId());
-
-    auto TempSensorCombi = blox_test::TempSensorCombi::Block();
-    TempSensorCombi.add_sensors(101);
-    TempSensorCombi.add_sensors(102);
-    TempSensorCombi.add_sensors(103);
-
-    testBox.put(TempSensorCombi);
-
-    testBox.processInput();
-    CHECK(testBox.lastReplyHasStatusOk());
-
-    testBox.update(0);
+    cbox::update(0);
 
     WHEN("func is set to AVG")
     {
+        // AVG is default
+        cbox::update(1000);
+
+        THEN("The value of the sensor is the average of the 3")
         {
-            // AVG is default
-            testBox.update(1000);
+            auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+            auto message = blox_test::TempSensorCombi::Block();
 
-            THEN("The value of the sensor is the average of the 3")
-            {
-                // read pair
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(100));
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-                auto decoded = blox_test::TempSensorCombi::Block();
-                testBox.processInputToProto(decoded);
-
-                CHECK(testBox.lastReplyHasStatusOk());
-                CHECK(decoded.ShortDebugString() == "value: 90112 sensors: 101 sensors: 102 sensors: 103");
-            }
+            CHECK(message.ShortDebugString() ==
+                  "value: 90112 "
+                  "sensors: 101 "
+                  "sensors: 102 "
+                  "sensors: 103");
         }
     }
 
     WHEN("func is set to MAX")
     {
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::WRITE_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(TempSensorCombiBlock::staticTypeId());
+            auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+            auto message = blox_test::TempSensorCombi::Block();
 
-            TempSensorCombi.set_combinefunc(blox_test::TempSensorCombi::SensorCombiFunc::SENSOR_COMBI_FUNC_MAX);
-            testBox.put(TempSensorCombi);
+            message.set_combinefunc(blox_test::TempSensorCombi::SensorCombiFunc::SENSOR_COMBI_FUNC_MAX);
+            message.add_sensors(sensorId1);
+            message.add_sensors(sensorId2);
+            message.add_sensors(sensorId3);
 
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
 
-            testBox.update(1000);
+        cbox::update(1000);
 
-            THEN("The value of the sensor is the highest of the 3")
-            {
-                // read pair
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(100));
+        THEN("The value of the sensor is the highest of the 3")
+        {
+            auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+            auto message = blox_test::TempSensorCombi::Block();
 
-                auto decoded = blox_test::TempSensorCombi::Block();
-                testBox.processInputToProto(decoded);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-                CHECK(testBox.lastReplyHasStatusOk());
-                CHECK(decoded.ShortDebugString() == "value: 94208 combineFunc: SENSOR_COMBI_FUNC_MAX sensors: 101 sensors: 102 sensors: 103");
-            }
+            CHECK(message.ShortDebugString() ==
+                  "value: 94208 "
+                  "combineFunc: SENSOR_COMBI_FUNC_MAX "
+                  "sensors: 101 "
+                  "sensors: 102 "
+                  "sensors: 103");
         }
     }
 
     WHEN("func is set to MIN")
     {
         {
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::WRITE_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
-            testBox.put(uint8_t(0xFF));
-            testBox.put(TempSensorCombiBlock::staticTypeId());
+            auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+            auto message = blox_test::TempSensorCombi::Block();
 
-            TempSensorCombi.set_combinefunc(blox_test::TempSensorCombi::SensorCombiFunc::SENSOR_COMBI_FUNC_MIN);
-            testBox.put(TempSensorCombi);
+            message.set_combinefunc(blox_test::TempSensorCombi::SensorCombiFunc::SENSOR_COMBI_FUNC_MIN);
+            message.add_sensors(sensorId1);
+            message.add_sensors(sensorId2);
+            message.add_sensors(sensorId3);
 
-            testBox.processInput();
-            CHECK(testBox.lastReplyHasStatusOk());
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
 
-            testBox.update(1000);
+        cbox::update(1000);
 
-            THEN("The value of the sensor is the lowest of the 3")
-            {
-                // read pair
-                testBox.put(uint16_t(0)); // msg id
-                testBox.put(commands::READ_OBJECT);
-                testBox.put(cbox::obj_id_t(100));
+        THEN("The value of the sensor is the lowest of the 3")
+        {
+            auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+            auto message = blox_test::TempSensorCombi::Block();
 
-                auto decoded = blox_test::TempSensorCombi::Block();
-                testBox.processInputToProto(decoded);
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
 
-                CHECK(testBox.lastReplyHasStatusOk());
-                CHECK(decoded.ShortDebugString() == "value: 86016 combineFunc: SENSOR_COMBI_FUNC_MIN sensors: 101 sensors: 102 sensors: 103");
-            }
+            CHECK(message.ShortDebugString() ==
+                  "value: 86016 "
+                  "combineFunc: SENSOR_COMBI_FUNC_MIN "
+                  "sensors: 101 "
+                  "sensors: 102 "
+                  "sensors: 103");
         }
     }
 
     WHEN("All 3 sensors are disconnected, the value is a stripped field ")
     {
-
-        // create mock sensor 1
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::WRITE_OBJECT);
-        testBox.put(cbox::obj_id_t(101));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(TempSensorMockBlock::staticTypeId());
-
-        auto mockSensor1 = blox_test::TempSensorMock::Block();
-        mockSensor1.set_setting(cnl::unwrap(temp_t(21.0)));
-        mockSensor1.set_connected(false);
-
-        testBox.put(mockSensor1);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-
-        // create mock sensor 2
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::WRITE_OBJECT);
-        testBox.put(cbox::obj_id_t(102));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(TempSensorMockBlock::staticTypeId());
-
-        auto mockSensor2 = blox_test::TempSensorMock::Block();
-        mockSensor2.set_setting(cnl::unwrap(temp_t(22.0)));
-        mockSensor2.set_connected(false);
-
-        testBox.put(mockSensor2);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-
-        // create mock sensor 3
-        testBox.put(uint16_t(0)); // msg id
-        testBox.put(commands::WRITE_OBJECT);
-        testBox.put(cbox::obj_id_t(103));
-        testBox.put(uint8_t(0xFF));
-        testBox.put(TempSensorMockBlock::staticTypeId());
-
-        auto mockSensor3 = blox_test::TempSensorMock::Block();
-        mockSensor3.set_setting(cnl::unwrap(temp_t(23.0)));
-        mockSensor3.set_connected(false);
-
-        testBox.put(mockSensor3);
-
-        testBox.processInput();
-        CHECK(testBox.lastReplyHasStatusOk());
-
-        testBox.update(1000);
-
-        THEN("The value of the sensor is the average of the 3")
+        // Edit mock sensor 1
         {
-            // read pair
-            testBox.put(uint16_t(0)); // msg id
-            testBox.put(commands::READ_OBJECT);
-            testBox.put(cbox::obj_id_t(100));
+            auto cmd = cbox::TestCommand(sensorId1, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
 
-            auto decoded = blox_test::TempSensorCombi::Block();
-            testBox.processInputToProto(decoded);
+            message.set_setting(cnl::unwrap(temp_t(21.0)));
+            message.set_connected(false);
 
-            CHECK(testBox.lastReplyHasStatusOk());
-            CHECK(decoded.ShortDebugString() == "sensors: 101 sensors: 102 sensors: 103 strippedFields: 1");
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
+
+        // Edit mock sensor 2
+        {
+            auto cmd = cbox::TestCommand(sensorId2, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
+
+            message.set_setting(cnl::unwrap(temp_t(22.0)));
+            message.set_connected(false);
+
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
+
+        // Edit mock sensor 3
+        {
+            auto cmd = cbox::TestCommand(sensorId3, TempSensorMockBlock::staticTypeId());
+            auto message = blox_test::TempSensorMock::Block();
+
+            message.set_setting(cnl::unwrap(temp_t(23.0)));
+            message.set_connected(false);
+
+            messageToPayload(cmd, message);
+            CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        }
+
+        cbox::update(1000);
+
+        THEN("The combined sensor has no value")
+        {
+            auto cmd = cbox::TestCommand(combiSensorId, TempSensorCombiBlock::staticTypeId());
+            auto message = blox_test::TempSensorCombi::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "sensors: 101 "
+                  "sensors: 102 "
+                  "sensors: 103 "
+                  "strippedFields: 1");
         }
     }
 }

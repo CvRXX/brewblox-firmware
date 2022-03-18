@@ -1,6 +1,6 @@
 #pragma once
 #include "./BaseWidget.hpp"
-#include "blocks/PidBlock.h"
+#include "blocks/PidBlock.hpp"
 
 /// A widget which represents a pid.
 class PidWidget : public BaseWidget {

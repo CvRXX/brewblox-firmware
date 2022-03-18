@@ -18,10 +18,10 @@
  */
 
 #include "d4d_display/screens/PidWidget.h"
-#include "blocks/ActuatorPwmBlock.h"
-#include "brewblox_particle.hpp"
-#include "control/Temperature.h"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "control/Temperature.hpp"
 #include "d4d_display/d4d.hpp"
+#include "spark/Brewblox.hpp"
 #include <algorithm>
 
 PidWidget::PidWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)

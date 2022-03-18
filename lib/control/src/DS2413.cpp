@@ -18,8 +18,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/DS2413.h"
-#include "control/OneWire.h"
+#include "control/DS2413.hpp"
+#include "control/OneWire.hpp"
 
 bool DS2413::update()
 {

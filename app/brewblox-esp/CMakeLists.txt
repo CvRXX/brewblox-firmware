@@ -45,6 +45,7 @@ add_compile_definitions(GIT_DATE=\"${GIT_DATE}\")
 add_compile_definitions(PROTO_VERSION=\"${PROTO_VERSION}\")
 add_compile_definitions(PROTO_DATE=\"${PROTO_DATE}\")
 add_compile_definitions(PLATFORM_ID=100)
+add_compile_definitions(PLATFORM_NAME=\"esp32\")
 add_compile_definitions(SYSTEM_VERSION_STRING="${SYSTEM_VERSION_STRING}")
 add_compile_definitions(LV_LVGL_H_INCLUDE_SIMPLE)
 
@@ -57,6 +58,7 @@ list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/lib/guis)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/lib)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs/lvgl_wrapper)
+list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs/expected)
 
 set(SYSTEM_VERSION_STRING ${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR}.${IDF_VERSION_PATCH})
 

@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/IirFilter.h"
+#include "control/IirFilter.hpp"
 #include <stdlib.h>
 
 IirFilter::IirFilter(uint8_t idx, int32_t threshold)

@@ -17,14 +17,12 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/CboxPtr.h"
+#include "cbox/CboxPtr.hpp"
 
-#include "CboxApplicationExtended.h"
-#include "TestObjects.h"
-#include "cbox/ArrayEepromAccess.h"
-#include "cbox/CboxApplication.h"
-#include "cbox/EepromObjectStorage.h"
-#include "cbox/ObjectContainer.h"
+#include "TestApplication.hpp"
+#include "TestObjects.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/CboxPtr.hpp"
 #include <catch.hpp>
 
 using namespace cbox;
@@ -33,8 +31,8 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 {
     test::getStorage().clear();
     objects.init({
-        ContainedObject(1, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-        ContainedObject(2, 0xFF, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(1, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
+        ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
     });
     objects.setObjectsStartId(obj_id_t(100));
 
@@ -62,7 +60,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
-        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
+        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
         CboxPtr<NameableLongIntObject> nameableLiPtr;
         CboxPtr<LongIntObject> liPtr;
         CboxPtr<Nameable> nameablePtr;
@@ -114,19 +112,12 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
                 auto ptr4 = nameablePtr.lock();
                 CHECK(!ptr4);
 
-                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 0xFF, 100);
+                objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
                 THEN("If a new compatible object is created with the same id, the CboxPtr can be locked again")
                 {
                     auto ptr5 = nameablePtr.lock();
                     CHECK(ptr5);
                 }
-            }
-
-            THEN("When an object is deactivated, the CboxPtr cannot be locked")
-            {
-                objects.deactivate(obj_id_t(100));
-                auto ptr4 = nameablePtr.lock();
-                CHECK(!ptr4);
             }
         }
 

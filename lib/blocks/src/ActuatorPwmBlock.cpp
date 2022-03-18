@@ -1,29 +1,15 @@
-#include "blocks/ActuatorPwmBlock.h"
-#include "blocks/ConstraintsProto.h"
-#include "blocks/FieldTags.h"
+#include "blocks/ActuatorPwmBlock.hpp"
+#include "blocks/ConstraintsProto.hpp"
+#include "blocks/FieldTags.hpp"
 #include "proto/ActuatorPwm.pb.h"
 #include "proto/Constraints.pb.h"
 
 cbox::CboxError
-ActuatorPwmBlock::streamFrom(cbox::DataIn& dataIn)
-{
-    blox_ActuatorPwm_Block newData = blox_ActuatorPwm_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_ActuatorPwm_Block_fields, blox_ActuatorPwm_Block_size);
-    if (result == cbox::CboxError::OK) {
-        actuator.setId(newData.actuatorId);
-        pwm.period(newData.period);
-        setAnalogConstraints(newData.constrainedBy, constrained);
-        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(newData.desiredSetting));
-        pwm.enabled(newData.enabled);
-    }
-    return result;
-}
-
-cbox::CboxError
-ActuatorPwmBlock::streamTo(cbox::DataOut& out) const
+ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
     FieldTags stripped;
+
     message.actuatorId = actuator.getId();
 
     message.period = pwm.period();
@@ -47,20 +33,50 @@ ActuatorPwmBlock::streamTo(cbox::DataOut& out) const
     getAnalogConstraints(message.constrainedBy, constrained);
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
-    return streamProtoTo(out, &message, blox_ActuatorPwm_Block_fields, blox_ActuatorPwm_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorPwm_Block_fields,
+                           blox_ActuatorPwm_Block_size);
 }
 
 cbox::CboxError
-ActuatorPwmBlock::streamPersistedTo(cbox::DataOut& out) const
+ActuatorPwmBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    blox_ActuatorPwm_Block persisted = blox_ActuatorPwm_Block_init_zero;
-    persisted.actuatorId = actuator.getId();
-    persisted.period = pwm.period();
-    persisted.enabled = pwm.enabled();
-    persisted.desiredSetting = cnl::unwrap(constrained.desiredSetting());
-    getAnalogConstraints(persisted.constrainedBy, constrained);
+    blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
 
-    return streamProtoTo(out, &persisted, blox_ActuatorPwm_Block_fields, blox_ActuatorPwm_Block_size);
+    message.actuatorId = actuator.getId();
+    message.period = pwm.period();
+    message.enabled = pwm.enabled();
+    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
+    getAnalogConstraints(message.constrainedBy, constrained);
+
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_ActuatorPwm_Block_fields,
+                           blox_ActuatorPwm_Block_size);
+}
+
+cbox::CboxError
+ActuatorPwmBlock::write(const cbox::Payload& payload)
+{
+    blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
+    auto res = payloadToMessage(payload, &message, blox_ActuatorPwm_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        actuator.setId(message.actuatorId);
+        pwm.period(message.period);
+        setAnalogConstraints(message.constrainedBy, constrained);
+        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+        pwm.enabled(message.enabled);
+    }
+
+    return res;
 }
 
 cbox::update_t
@@ -85,7 +101,7 @@ ActuatorPwmBlock::update(const cbox::update_t& now)
     return nextUpdate;
 }
 
-void* ActuatorPwmBlock::implements(const cbox::obj_type_t& iface)
+void* ActuatorPwmBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_ActuatorPwm) {
         return this; // me!

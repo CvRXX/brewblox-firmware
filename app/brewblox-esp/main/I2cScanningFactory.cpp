@@ -19,8 +19,8 @@
 
 #include "I2cScanningFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
-#include "blox_hal/hal_i2c.h"
-#include "cbox/CboxApplication.h"
+#include "blox_hal/hal_i2c.hpp"
+#include "cbox/Box.hpp"
 #include <algorithm>
 #include <vector>
 

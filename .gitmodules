@@ -2,7 +2,7 @@
 	path = external_libs/cnl
 	url = https://github.com/johnmcfarlane/cnl.git
 	branch = develop
-[submodule "external_libs/lvgl"]
+[submodule "external_libs/lvgl_wrapper/lvgl"]
 	path = external_libs/lvgl_wrapper/lvgl
 	url = https://github.com/lvgl/lvgl.git
 [submodule "external_libs/lv_lib_qrcode"]
@@ -17,3 +17,6 @@
 [submodule "external_libs/device-os"]
 	path = external_libs/device-os
 	url = https://github.com/particle-iot/device-os.git
+[submodule "external_libs/expected/expected"]
+	path = external_libs/expected/expected
+	url = https://github.com/TartanLlama/expected

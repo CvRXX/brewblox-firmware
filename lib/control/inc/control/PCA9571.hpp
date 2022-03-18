@@ -1,4 +1,4 @@
-#include "blox_hal/hal_i2c.h"
+#include "blox_hal/hal_i2c.hpp"
 
 class PCA9571 {
 public:

@@ -1,8 +1,5 @@
 idf_component_register(
   SRCS
-    src/nanopb_callbacks.cpp
-    src/brewblox.cpp
-
     src/ConstraintsProto.cpp
     src/ActuatorAnalogMockBlock.cpp
     src/ActuatorLogicBlock.cpp
@@ -10,6 +7,7 @@ idf_component_register(
     src/ActuatorPwmBlock.cpp
     src/BalancerBlock.cpp
     src/Block.cpp
+    src/BlockFactory.cpp
     src/BlockInterfaces.cpp
     src/DigitalActuatorBlock.cpp
     src/DisplaySettingsBlock.cpp
@@ -24,6 +22,7 @@ idf_component_register(
     src/SetpointSensorPairBlock.cpp
     src/SysInfoBlock.cpp
     src/TempSensorCombiBlock.cpp
+    src/TempSensorMockBlock.cpp
     src/TempSensorOneWireBlock.cpp
   INCLUDE_DIRS
     inc

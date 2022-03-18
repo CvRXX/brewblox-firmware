@@ -20,8 +20,8 @@
 #include "catch.hpp"
 
 #include "TestMatchers.hpp"
-#include "control/FpFilterChain.h"
-#include "control/Temperature.h"
+#include "control/FpFilterChain.hpp"
+#include "control/Temperature.hpp"
 #include <iostream>
 #include <iterator>
 #include <sstream>

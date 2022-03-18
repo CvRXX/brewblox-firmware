@@ -17,111 +17,111 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AppTicks.h"
-#include "blocks/OneWireDeviceBlock.h"
-#include "cbox/ObjectBase.h"
-#include "control/ActuatorAnalogConstrained.h"
-#include "control/ActuatorDigitalConstrained.h"
-#include "control/Balancer.h"
-#include "control/DS2408.h"
-#include "control/FixedPoint.h"
-#include "control/IoArray.h"
+#include "AppTicks.hpp"
+#include "blocks/OneWireDeviceBlock.hpp"
+#include "cbox/ObjectBase.hpp"
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorDigitalConstrained.hpp"
+#include "control/Balancer.hpp"
+#include "control/DS2408.hpp"
+#include "control/FixedPoint.hpp"
+#include "control/IoArray.hpp"
 #include "control/IoModule.hpp"
-#include "control/OneWireDevice.h"
-#include "control/ProcessValue.h"
-#include "control/SetpointSensorPair.h"
-#include "control/TempSensor.h"
+#include "control/OneWireDevice.hpp"
+#include "control/ProcessValue.hpp"
+#include "control/SetpointSensorPair.hpp"
+#include "control/TempSensor.hpp"
 #include "proto/Constraints.pb.h"
 #include "proto/brewblox.pb.h"
 
 namespace cbox {
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<ProcessValue<fp12_t>>()
 {
     return brewblox_BlockType_ProcessValueInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<TempSensor>()
 {
     return brewblox_BlockType_TempSensorInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<SetpointSensorPair>()
 {
     return brewblox_BlockType_SetpointSensorPairInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<ActuatorAnalogConstrained>()
 {
     return brewblox_BlockType_ActuatorAnalogInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<ActuatorDigitalConstrained>()
 {
     return brewblox_BlockType_ActuatorDigitalInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<MutexTarget>()
 {
     return brewblox_BlockType_MutexInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<Balancer<blox_Constraints_DigitalConstraint_mutex_tag>>()
 {
     return brewblox_BlockType_BalancerInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<OneWireDevice>()
 {
     return brewblox_BlockType_OneWireDeviceInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<IoArray>()
 {
     return brewblox_BlockType_IoArrayInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<DS2408>()
 {
     return brewblox_BlockType_DS2408Interface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<OneWire>()
 {
     return brewblox_BlockType_OneWireBusInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<IoModule>()
 {
     return brewblox_BlockType_IoModuleInterface;
 }
 
 template <>
-const obj_type_t
+obj_type_t
 interfaceIdImpl<OneWireDeviceBlock>()
 {
     return brewblox_BlockType_OneWireDeviceBlockInterface;

@@ -17,32 +17,45 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "blocks/MutexBlock.h"
-#include "nanopb_callbacks.h"
+#include "blocks/MutexBlock.hpp"
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError
-MutexBlock::streamFrom(cbox::DataIn& dataIn)
-{
-    blox_Mutex_Block newData = blox_Mutex_Block_init_zero;
-    cbox::CboxError result = streamProtoFrom(dataIn, &newData, blox_Mutex_Block_fields, blox_Mutex_Block_size);
-    if (result == cbox::CboxError::OK) {
-        m_mutex.holdAfterTurnOff(newData.differentActuatorWait);
-    }
-    return result;
-}
-
-cbox::CboxError
-MutexBlock::streamTo(cbox::DataOut& out) const
+MutexBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
     message.waitRemaining = m_mutex.timeRemaining();
 
-    return streamProtoTo(out, &message, blox_Mutex_Block_fields, blox_Mutex_Block_size);
+    return callWithMessage(callback,
+                           objectId,
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Mutex_Block_fields,
+                           blox_Mutex_Block_size);
 }
 
-void* MutexBlock::implements(const cbox::obj_type_t& iface)
+cbox::CboxError
+MutexBlock::readStored(const cbox::PayloadCallback& callback) const
+{
+    return read(callback);
+}
+
+cbox::CboxError
+MutexBlock::write(const cbox::Payload& payload)
+{
+    blox_Mutex_Block message = blox_Mutex_Block_init_zero;
+    auto res = payloadToMessage(payload, &message, blox_Mutex_Block_fields);
+
+    if (res == cbox::CboxError::OK) {
+        m_mutex.holdAfterTurnOff(message.differentActuatorWait);
+    }
+
+    return res;
+}
+
+void* MutexBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_Mutex) {
         return this; // me!

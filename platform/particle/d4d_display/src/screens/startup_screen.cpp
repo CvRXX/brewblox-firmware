@@ -19,17 +19,18 @@
 
 #include "d4d_display/d4d.hpp"
 
-#include "brewblox_particle.hpp"
+#include "cbox/Box.hpp"
 #include "d4d_display/brewblox_logo.h"
 #include "d4d_display/fonts.h"
 #include "d4d_display/screens/memory_info.h"
 #include "d4d_display/screens/startup_screen.h"
+#include "spark/Brewblox.hpp"
 #include "spark_wiring_ticks.h"
 #include "spark_wiring_timer.h"
 #include "stdio.h"
 
 #if PLATFORM_ID != 3
-#include "spark/BrewPiTouch.h"
+#include "spark/BrewPiTouch.hpp"
 extern BrewPiTouch touch;
 #endif
 
@@ -92,7 +93,7 @@ void StartupScreen::calibrateTouch()
 #if PLATFORM_ID != 3
 #endif
     if (D4D_TCH_GetCalibrationStatus()) {
-        brewbloxBox().storeUpdatedObject(2); // save system object
+        cbox::objects.store(2); // save system object
     }
 }
 

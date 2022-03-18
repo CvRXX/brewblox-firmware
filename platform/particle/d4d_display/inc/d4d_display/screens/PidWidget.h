@@ -18,8 +18,8 @@
  */
 
 #pragma once
-#include "blocks/PidBlock.h"
-#include "cbox/CboxPtr.h"
+#include "blocks/PidBlock.hpp"
+#include "cbox/CboxPtr.hpp"
 #include "d4d_display/d4d.hpp"
 #include "d4d_display/screens/WidgetBase.h"
 

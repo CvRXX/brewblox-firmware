@@ -1,4 +1,4 @@
-// #include "blox_hal/hal_spi.h"
+// #include "blox_hal/hal_spi.hpp"
 
 // hal_spi_err_t SpiDevice::init()
 // {

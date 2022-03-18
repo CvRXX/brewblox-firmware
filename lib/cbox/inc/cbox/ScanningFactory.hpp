@@ -2,7 +2,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,14 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 
-#include "cbox/CboxApplication.h"
-#include "cbox/Object.h"
-#include "cbox/ObjectContainer.h"
+#include "cbox/Application.hpp"
+#include "cbox/Object.hpp"
+#include "cbox/ObjectContainer.hpp"
 #include <memory>
 
 namespace cbox {

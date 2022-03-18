@@ -18,9 +18,9 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/ActuatorDigital.h"
-#include "control/ActuatorDigitalBase.h"
-#include "control/IoArray.h"
+#include "control/ActuatorDigital.hpp"
+#include "control/ActuatorDigitalBase.hpp"
+#include "control/IoArray.hpp"
 #include <functional>
 #include <memory>
 

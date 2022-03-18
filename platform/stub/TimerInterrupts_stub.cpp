@@ -1,4 +1,4 @@
-#include "control/TimerInterrupts.h"
+#include "control/TimerInterrupts.hpp"
 #include <functional>
 
 void TimerInterrupts::init()

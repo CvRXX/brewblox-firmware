@@ -1,7 +1,7 @@
 #include "CboxConnection.hpp"
 #include "CboxConnectionManager.hpp"
 #include "brewblox.hpp"
-#include "cbox/Box.h"
+#include "cbox/Box.hpp"
 
 CboxTcpConnection::CboxTcpConnection(
     asio::ip::tcp::socket socket_,

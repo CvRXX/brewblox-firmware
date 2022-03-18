@@ -17,8 +17,8 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/OneWireMockDevice.h"
-#include "control/OneWireMockDriver.h"
+#include "control/OneWireMockDevice.hpp"
+#include "control/OneWireMockDriver.hpp"
 #include <algorithm>
 
 uint8_t

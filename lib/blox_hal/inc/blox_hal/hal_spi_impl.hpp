@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "hal_spi_types.h"
+#include "blox_hal/hal_spi_types.hpp"
 
 namespace platform_spi {
 using Settings = hal_spi::Settings;

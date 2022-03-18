@@ -2,7 +2,7 @@
 /*
  * Copyright 2018 Elco Jacobs / Brewblox, based on earlier work of Matthew McGowan
  *
- * This file is part of ControlBox.
+ * This file is part of Brewblox.
  *
  * Controlbox is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,26 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Controlbox.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ObjectFactory.h"
+#include "cbox/ObjectFactory.hpp"
 #include <algorithm>
 
 namespace cbox {
 
-std::tuple<CboxError, std::shared_ptr<Object>> ObjectFactory::make(const obj_type_t& t) const
+CboxExpected<std::shared_ptr<Object>> ObjectFactory::make(obj_type_t t) const
 {
     auto factoryEntry = std::find_if(objTypes.begin(), objTypes.end(), [&t](const ObjectFactoryEntry& entry) { return entry.typeId == t; });
     if (factoryEntry == objTypes.end()) {
-        return std::make_tuple(CboxError::OBJECT_NOT_CREATABLE, std::shared_ptr<Object>());
+        return tl::make_unexpected(CboxError::BLOCK_NOT_CREATABLE);
     }
-    auto obj = (*factoryEntry).createFn();
+    auto obj = factoryEntry->createFn();
     if (!obj) {
-        return std::make_tuple(CboxError::INSUFFICIENT_HEAP, std::shared_ptr<Object>());
+        return tl::make_unexpected(CboxError::INSUFFICIENT_HEAP);
     }
 
-    return std::make_tuple(CboxError::OK, std::move(obj));
+    return std::shared_ptr<Object>(obj);
 }
 
 } // end namespace cbox
