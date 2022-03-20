@@ -64,6 +64,7 @@ static constexpr auto wifi_strength3 = "\xF3\xB0\xA4\xA5";
 static constexpr auto wifi_strength4 = "\xF3\xB0\xA4\xA8";
 static constexpr auto wifi_off = "\xF3\xB0\xA4\xAE";
 static constexpr auto ethernet = "\xF3\xB0\x88\x80";
+static constexpr auto bluetooth = "\xF3\xB0\x82\xAF";
 static constexpr auto arrow_thick_right = "\xF3\xB0\x81\x95";
 
 }

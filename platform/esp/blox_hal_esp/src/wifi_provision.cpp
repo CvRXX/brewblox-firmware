@@ -23,6 +23,7 @@ namespace wifi_provision {
 constexpr auto TAG = "PROVISION";
 
 esp_event_handler_instance_t instance_wifi_prov_event{};
+bool isRunning = false;
 
 void get_device_service_name(char* service_name, size_t max)
 {
@@ -40,6 +41,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     if (event_base == WIFI_PROV_EVENT) {
         switch (event_id) {
         case WIFI_PROV_INIT:
+            isRunning = true;
             /* enable wifi power saving to be able to use bluetooth*/
             esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
             break;
@@ -69,6 +71,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             wifi_prov_mgr_deinit();
             break;
         case WIFI_PROV_DEINIT:
+            isRunning = false;
             break;
         default:
             break;
@@ -190,10 +193,14 @@ void stop()
     wifi_prov_mgr_stop_provisioning();
 }
 
-void resetProvisioning()
+void clear()
 {
     // wipe credentials
     wifi_prov_mgr_reset_provisioning();
+}
+
+bool isActive(){
+    return isRunning;
 }
 
 }

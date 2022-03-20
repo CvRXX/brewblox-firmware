@@ -86,18 +86,3 @@ public:
 };
 
 } // end namespace cbox
-
-/*
- * The Ticks class provides the time period since the device was powered up.
- */
-class TicksEsp {
-public:
-    TicksEsp() {}
-    ticks_millis_t millis() const;
-    ticks_micros_t micros() const;
-
-    utc_seconds_t utc() const;
-    void setUtc(const utc_seconds_t& t);
-
-    void delayMillis(const duration_millis_t& millis) const;
-};

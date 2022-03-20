@@ -19,7 +19,7 @@
 
 
 #include "control/Ticks.hpp"
-#include "blox_hal_esp/TicksEsp.h"
+#include "blox_hal_esp/TicksEsp.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

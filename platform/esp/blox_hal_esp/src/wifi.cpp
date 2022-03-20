@@ -14,6 +14,7 @@
 #include <nvs_flash.h>
 
 #include "blox_hal/hal_network.hpp"
+#include "network_events.hpp"
 #include <string>
 
 namespace wifi {
@@ -25,6 +26,7 @@ void on_wifi_disconnect(void* arg, esp_event_base_t event_base,
                         int32_t event_id, void* event_data)
 {
     ESP_LOGI(TAG, "Wi-Fi disconnected, trying to reconnect...");
+    onWifiDisconnected();
     esp_err_t err = esp_wifi_connect();
     if (err == ESP_ERR_WIFI_NOT_STARTED) {
         return;
@@ -34,10 +36,10 @@ void on_wifi_disconnect(void* arg, esp_event_base_t event_base,
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
+    onWifiConnected();
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
-
-    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
     memcpy(&ip_addr, &event->ip_info.ip, sizeof(ip_addr));
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
     // xSemaphoreGive(semph_get_ip_addrs);
 }
 
@@ -45,7 +47,6 @@ void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_
 {
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
     esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
-
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(event->esp_netif));
 }
 
@@ -112,6 +113,15 @@ esp_ip4_addr_t ip4()
 bool isConnected()
 {
     return ip_addr.addr != 0;
+}
+
+bool hasCredentials(){
+    wifi_config_t wifi_cfg;
+    if (esp_wifi_get_config(WIFI_IF_STA, &wifi_cfg) != ESP_OK) {
+        return false;
+    }
+
+    return (strlen((const char *) wifi_cfg.sta.ssid));
 }
 
 }

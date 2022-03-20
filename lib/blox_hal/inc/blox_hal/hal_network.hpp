@@ -11,7 +11,6 @@ enum class Mode : uint8_t {
 };
 
 Mode mode();
-void setMode(Mode mode);
 uint32_t ip4();
 
 void connect();

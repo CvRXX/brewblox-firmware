@@ -17,7 +17,7 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GpioHandler.hpp"
+#include "gpio_handler.hpp"
 #include <functional>
 #include <vector>
 
@@ -39,24 +39,11 @@ xQueueHandle gpio_evt_queue = nullptr;
 
 void IRAM_ATTR isr_handler(void* arg)
 {
-    auto pin = reinterpret_cast<uint32_t>(arg);
+    auto pin = gpio_num_t(reinterpret_cast<int32_t>(arg));
     bool level = gpio_get_level(pin);
     event_t event = {pin, level};
 
     xQueueSendToBackFromISR(gpio_evt_queue, &event, nullptr);
-}
-
-void init();
-{
-
-    // install gpio isr service
-    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
-
-    // create a queue to handle gpio event from isr
-    gpio_evt_queue = xQueueCreate(10, sizeof(gpio_event));
-
-    // start gpio task
-    xTaskCreate(button_task, "gpio_task", 2048, nullptr, 10, nullptr);
 }
 
 static void gpio_task(void* arg)
@@ -69,21 +56,36 @@ static void gpio_task(void* arg)
     }
 }
 
+void init()
+{
+
+    // install gpio isr service
+    gpio_install_isr_service(0);
+
+    // create a queue to handle gpio event from isr
+    gpio_evt_queue = xQueueCreate(10, sizeof(event_t));
+
+    // start gpio task
+    xTaskCreate(gpio_task, "gpio_task", 2048, nullptr, 10, nullptr);
+}
+
 void add(gpio_num_t pin, gpio_pull_mode_t pull, gpio_int_type_t edge, std::function<void()>&& handler)
 {
     gpio_config_t io_conf = {
         .pin_bit_mask = 1ULL << pin,
         .mode = GPIO_MODE_INPUT,
-        .pull_up_en = 0,
-        .pull_down_en = 0,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
         .intr_type = edge,
     };
 
     gpio_config(&io_conf);
     gpio_set_pull_mode(pin, pull);
 
-    // hook isr handler for specific gpio pin
-    gpio_isr_handler_add(pin, isr_handler, reinterpret_cast<void*>(pin));
+    // hook isr handler for specific gpio pin, store pin nummber in void pointer address
+    int32_t pinNr = pin;
+    auto arg = reinterpret_cast<void*>(pinNr);
+    gpio_isr_handler_add(pin, isr_handler, arg);
 }
 
 void remove(gpio_num_t pin)

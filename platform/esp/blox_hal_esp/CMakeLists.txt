@@ -11,6 +11,8 @@ idf_component_register(
     src/wifi_provision.cpp
   INCLUDE_DIRS
     inc
+  PRIV_INCLUDE_DIRS
+    inc_private
   REQUIRES
     main
 )

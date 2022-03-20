@@ -13,3 +13,5 @@ idf_component_register(
 )
 
 add_compile_definitions(LV_LVGL_H_INCLUDE_SIMPLE)
+
+

@@ -11,6 +11,8 @@ void stop();
 esp_ip4_addr_t ip4();
 esp_netif_t* interface();
 bool isConnected();
+bool hasCredentials();
+
 /**
  * Returns the rssi of the current ap's signal.
  * @return The rssi in dBm

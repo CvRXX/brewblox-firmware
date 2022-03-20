@@ -1,5 +1,6 @@
 #include "ethernet.hpp"
 #include "blox_hal/hal_network.hpp"
+#include "network_events.hpp"
 #include <cstring>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -28,6 +29,7 @@ esp_ip4_addr_t ip_addr{0};
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
+    onEthernetConnected();
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
 
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
@@ -44,16 +46,15 @@ void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_
 
 void on_disconnected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
+    onEthernetDisconnected();
     esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
 
     ESP_LOGI(TAG, "Ethernet disconnected");
-    network::setMode(network::Mode::WIFI);
 }
 
 void on_connected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
     ESP_LOGI(TAG, "Ethernet connected");
-    network::setMode(network::Mode::ETHERNET);
 }
 
 void start()

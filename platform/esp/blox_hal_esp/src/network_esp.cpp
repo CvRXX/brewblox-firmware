@@ -12,6 +12,7 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 #include "wifi.hpp"
+#include "wifi_provision.hpp"
 #include <string.h>
 
 namespace network {
@@ -44,12 +45,17 @@ void disconnect(void)
 
 Mode mode()
 {
-    return current_mode;
-}
+     if (ethernet::isConnected()) {
+        return Mode::ETHERNET;
+    }
+    if(wifi::hasCredentials()){
+        return Mode::WIFI;
+    }
+    if(wifi_provision::isActive()){
+        return Mode::WIFI_PROVISIONING;
+    }
 
-void setMode(Mode mode)
-{
-    current_mode = mode;
+    return(Mode::OFF);
 }
 
 uint32_t ip4()
