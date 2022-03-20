@@ -14,8 +14,10 @@
 #include "graphics/graphics.hpp"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
+#include "ota.hpp"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
+#include "HttpHandler.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
