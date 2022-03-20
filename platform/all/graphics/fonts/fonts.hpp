@@ -58,13 +58,13 @@ static constexpr lv_font_t& widget_name = ::font_main;
 // static constexpr lv_font_t& main_48 = main_font_48;
 }
 namespace symbols {
-static constexpr auto wifi_strength1 = "\xF3\xB0\xA4\x9F";
-static constexpr auto wifi_strength2 = "\xF3\xB0\xA4\xA2";
-static constexpr auto wifi_strength3 = "\xF3\xB0\xA4\xA5";
-static constexpr auto wifi_strength4 = "\xF3\xB0\xA4\xA8";
-static constexpr auto wifi_off = "\xF3\xB0\xA4\xAE";
-static constexpr auto ethernet = "\xF3\xB0\x88\x80";
-static constexpr auto bluetooth = "\xF3\xB0\x82\xAF";
-static constexpr auto arrow_thick_right = "\xF3\xB0\x81\x95";
-
+static constexpr auto wifi_strength1 = "\U000F091F";
+static constexpr auto wifi_strength2 = "\U000F0922";
+static constexpr auto wifi_strength3 = "\U000F0925";
+static constexpr auto wifi_strength4 = "\U000F0928";
+static constexpr auto wifi_off = "\U000F092E";
+static constexpr auto wifi_cog = "\U000F16BE";
+static constexpr auto ethernet = "\U000F0200";
+static constexpr auto bluetooth = "\U000F00AF";
+static constexpr auto arrow_thick_right = "\U000F0055";
 }
