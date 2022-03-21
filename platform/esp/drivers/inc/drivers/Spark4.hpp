@@ -17,8 +17,8 @@ void hw_deinit();
 void startup_beep();
 void display_brightness(uint8_t b);
 void adc_init();
-uint32_t adcRead5V();
-uint32_t adcReadExternal();
+uint32_t adcRead5V(bool cached = false);
+uint32_t adcReadExternal(bool cached = false);
 
 static constexpr auto PIN_NUM_MISO = GPIO_NUM_12;
 static constexpr auto PIN_NUM_MOSI = GPIO_NUM_13;

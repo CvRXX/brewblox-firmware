@@ -1,6 +1,3 @@
-#include "intellisense.hpp"
-#include "drivers/Spark4.hpp"
-#include "drivers/TFT035.hpp"
 #include "Brewblox.hpp"
 #include "RecurringTask.hpp"
 #include "blox_hal/hal_delay.hpp"
@@ -8,16 +5,20 @@
 #include "control/DS248x.hpp"
 #include "control/OneWire.hpp"
 #include "control/TempSensor.hpp"
+#include "drivers/Spark4.hpp"
+#include "drivers/TFT035.hpp"
+#include "intellisense.hpp"
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
+#include "HttpHandler.hpp"
+#include "OkButtonMonitor.hpp"
 #include "blox_hal/hal_network.hpp"
 #include "graphics/graphics.hpp"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
-#include "ota.hpp"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
-#include "HttpHandler.hpp"
+#include "ota.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -105,43 +106,6 @@ int main(int /*argc*/, char** /*argv*/)
 
     static CboxServer cboxServer(io, 8332);
 
-    static auto adcReader = RecurringTask(io, asio::chrono::milliseconds(30),
-                                          RecurringTask::IntervalType::FROM_EXPIRY,
-                                          []() -> bool {
-                                              static asio::chrono::steady_clock::time_point lowToHigh{asio::chrono::steady_clock::now()};
-                                              static asio::chrono::steady_clock::time_point highToLow{asio::chrono::steady_clock::now()};
-                                              static asio::chrono::steady_clock::time_point lastBeep{asio::chrono::steady_clock::now()};
-
-                                              auto voltage = spark4::adcRead5V();
-                                              auto now = asio::chrono::steady_clock::now();
-
-                                              if (voltage < 2000u) {
-                                                  if (lowToHigh >= highToLow) {
-                                                      // high to low transition
-                                                      lastBeep = now;
-                                                      highToLow = now;
-                                                  } else {
-                                                      // low hold
-                                                      auto now = asio::chrono::steady_clock::now();
-                                                      auto sinceBeep = asio::chrono::duration_cast<asio::chrono::milliseconds>(now - lastBeep).count();
-                                                      if (sinceBeep >= 5000) {
-                                                          spark4::startup_beep();
-                                                          lastBeep = now;
-                                                      }
-                                                  }
-                                              } else if (lowToHigh <= highToLow) {
-                                                  // low to high transition
-                                                  lowToHigh = asio::chrono::steady_clock::now();
-                                                  auto duration = asio::chrono::duration_cast<asio::chrono::milliseconds>(lowToHigh - highToLow).count();
-
-                                                  if (duration >= 5000) {
-                                                      // network::resetProvisioning();
-                                                  }
-                                              }
-                                              return true;
-                                          });
-    adcReader.start();
-
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
                                               []() -> bool {
@@ -163,6 +127,14 @@ int main(int /*argc*/, char** /*argv*/)
     systemCheck.start();
 
     HttpHandler http(io, 80, cboxServer);
+
+    OkButtonMonitor buttonMonitor(
+        io,
+        {{5000, 7000, []() {
+              ESP_LOGI("TEST", "Button held between 5000 and 7000 ms");
+          }}});
+
+    buttonMonitor.start();
 
     io.run();
 

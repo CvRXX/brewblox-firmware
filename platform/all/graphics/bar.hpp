@@ -43,14 +43,11 @@ public:
     void updateNetworks()
     {
         std::string networkState = " ";
-        //switch(network::mode()){
-            switch(network::Mode::WIFI_PROVISIONING){
-
+        switch (network::mode()) {
         case network::Mode::ETHERNET:
             networkState.append(symbols::ethernet);
             break;
-        case network::Mode::WIFI:
-        {
+        case network::Mode::WIFI: {
             auto signal = network::wifiStrength();
             if (signal < -80) {
                 networkState.append(symbols::wifi_strength1);
@@ -61,15 +58,14 @@ public:
             } else {
                 networkState.append(symbols::wifi_strength4);
             }
-        }
-        break;
+        } break;
         case network::Mode::WIFI_PROVISIONING:
             networkState.append(symbols::wifi_cog);
             networkState.append(symbols::bluetooth);
-        break;
+            break;
         case network::Mode::OFF:
             networkState.append(symbols::wifi_off);
-        break;
+            break;
         }
 
         networkState.push_back(' ');

@@ -197,25 +197,30 @@ void adc_init()
     esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_6db, ADC_WIDTH_BIT_12, 1100, &adc_characteristics);
 }
 
-uint32_t adcRead5V()
+uint32_t adcRead5V(bool cached)
 {
-
-    uint32_t voltage;
-    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_0), &adc_characteristics, &voltage)) {
-        // voltage divider 10k and 4k7
-        return voltage + (voltage * 100) / 47;
+    static uint32_t voltage;
+    if (!cached) {
+        uint32_t result;
+        if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_0), &adc_characteristics, &result)) {
+            // voltage divider 10k and 4k7
+            voltage = result + (result * 100) / 47;
+        }
     }
-    return 0;
+    return voltage;
 }
 
-uint32_t adcReadExternal()
+uint32_t adcReadExternal(bool cached)
 {
-    uint32_t voltage;
-    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_3), &adc_characteristics, &voltage)) {
-        // voltage divider 88k7 and 4k7
-        return voltage + (voltage * 887) / 47;
+    static uint32_t voltage;
+    if (!cached) {
+        uint32_t result;
+        if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_3), &adc_characteristics, &result)) {
+            // voltage divider 88k7 and 4k7
+            voltage = result + (result * 887) / 47;
+        }
     }
-    return 0;
+    return voltage;
 }
 
 // Expander pins:
