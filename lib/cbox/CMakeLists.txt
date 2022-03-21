@@ -1,17 +1,17 @@
 idf_component_register(
   SRCS
+    src/Base64.cpp
     src/Box.cpp
     src/CboxPtr.cpp
     src/ConnectionPool.cpp
     src/Crc.cpp
     src/DataStream.cpp
-    src/DataStreamConverters.cpp
     src/EepromObjectStorage.cpp
     src/FileObjectStorage.cpp
     src/ObjectBase.cpp
     src/ObjectContainer.cpp
     src/ObjectFactory.cpp
-    src/Base64.cpp
+    src/Serialization.cpp
   INCLUDE_DIRS
     inc
   REQUIRES

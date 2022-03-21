@@ -1,7 +1,5 @@
 #pragma once
 #include "cbox/DataStream.hpp"
-#include "cbox/DataStreamConverters.hpp"
-#include "cbox/DataStreamIo.hpp"
 #include "cbox/Payload.hpp"
 #include <google/protobuf/message.h>
 #include <sstream>

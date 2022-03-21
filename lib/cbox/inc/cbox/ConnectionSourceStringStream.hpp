@@ -18,12 +18,9 @@
  */
 
 #pragma once
+#include "cbox/Connection.hpp"
 #include <memory>
 #include <queue>
-
-#include "cbox/Connections.hpp"
-#include "cbox/DataStreamIo.hpp"
-#include <memory>
 #include <sstream>
 
 namespace cbox {
@@ -37,30 +34,40 @@ class StringStreamConnection : public Connection {
 private:
     std::shared_ptr<std::stringstream> in;
     std::shared_ptr<std::stringstream> out;
-    IStreamDataIn dataIn;
-    OStreamDataOut dataOut;
 
 public:
     StringStreamConnection(std::shared_ptr<std::stringstream> _in, std::shared_ptr<std::stringstream> _out)
         : in(_in)
         , out(_out)
-        , dataIn(*_in)
-        , dataOut(*_out)
     {
     }
+
     virtual ~StringStreamConnection()
     {
         stop();
     }
 
-    virtual DataOut& getDataOut() override final
+    virtual std::optional<std::string> readMessage() override final
     {
-        return dataOut;
+        // We'll just assume there won't be any partial messages
+        std::string buf;
+        std::getline(*in, buf, '\n');
+        if (buf.size()) {
+            return buf;
+        } else {
+            return std::nullopt;
+        }
     }
 
-    virtual DataIn& getDataIn() override final
+    virtual bool write(const std::string& message) override final
     {
-        return dataIn;
+        *out << message;
+        return true;
+    }
+
+    virtual StreamType streamType() const override final
+    {
+        return StreamType::Mock;
     }
 
     virtual bool isConnected() override final

@@ -22,5 +22,3 @@ const std::string& versionCsv();
 int resetReason();
 
 int resetReasonData();
-
-void connectionStarted(asio::streambuf& out);

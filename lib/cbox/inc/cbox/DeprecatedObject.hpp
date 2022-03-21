@@ -21,6 +21,7 @@
 
 #include "cbox/CboxError.hpp"
 #include "cbox/ObjectBase.hpp"
+#include "cbox/Serialization.hpp"
 #include <limits>
 
 namespace cbox {
@@ -42,9 +43,7 @@ public:
     virtual CboxError read(const PayloadCallback& callback) const override final
     {
         Payload payload(objectId, typeId(), 0);
-        payload.content.resize(sizeof(originalId));
-        cbox::BufferDataOut out(payload.content.data(), payload.content.size());
-        out.put(originalId);
+        vectorAppend(payload.content, originalId);
         return callback(payload);
     }
 

@@ -1,6 +1,6 @@
 #include "TestHelpers.hpp"
 #include "cbox/Crc.hpp"
-#include "cbox/hex_utility.hpp"
+#include "cbox/Hex.hpp"
 #include <google/protobuf/message.h>
 
 /*
@@ -14,11 +14,11 @@ crc(const std::string& in)
     for (auto it = in.begin(); it != in.end() && it + 1 != in.end();) {
         char char1 = *(it++);
         char char2 = *(it++);
-        uint8_t data = (cbox::h2d(char1) << 4) | cbox::h2d(char2);
-        crc = cbox::calc_crc_8(crc, data);
+        crc = cbox::calc_crc_8(crc, cbox::h2d(char1, char2));
     }
-    result.push_back(cbox::d2h(uint8_t(crc & 0xF0) >> 4));
-    result.push_back(cbox::d2h(uint8_t(crc & 0xF)));
+    auto pair = cbox::d2h(crc);
+    result += pair.first;
+    result += pair.second;
 
     return result;
 }
@@ -37,8 +37,9 @@ std::string hexed(const std::vector<uint8_t>& data)
     std::string retv;
     retv.reserve(data.size() * 2);
     for (auto v : data) {
-        retv += cbox::d2h(uint8_t(v & 0xF0) >> 4);
-        retv += cbox::d2h(uint8_t(v & 0xF));
+        auto pair = cbox::d2h(v);
+        retv += pair.first;
+        retv += pair.second;
     }
     return retv;
 }

@@ -24,7 +24,6 @@
 #include "TestHelpers.hpp"
 #include "TestMatchers.hpp"
 #include "TestObjects.hpp"
-#include "cbox/DataStreamConverters.hpp"
 #include "cbox/Object.hpp"
 #include "cbox/ObjectContainer.hpp"
 #include "cbox/ObjectStorage.hpp"
@@ -142,8 +141,6 @@ SCENARIO("A container to hold objects")
     {
         container.add(std::shared_ptr<Object>(), 20);
 
-        BlackholeDataOut out;
-        EmptyDataIn in;
         TestCommand cmd;
         THEN("They generate the INVALID_OBJECT_PTR error on streaming functions")
         {

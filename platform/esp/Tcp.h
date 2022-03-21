@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "cbox/Connections.hpp"
+#include "cbox/Connection.hpp"
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 #include "lwip/sys.h"

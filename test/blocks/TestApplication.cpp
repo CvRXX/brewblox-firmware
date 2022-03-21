@@ -25,4 +25,8 @@ std::shared_ptr<Object> scan()
     return oneWireScanner.scan();
 }
 
+void connectionStarted(DataOut& out)
+{
+}
+
 } // end namespace cbox

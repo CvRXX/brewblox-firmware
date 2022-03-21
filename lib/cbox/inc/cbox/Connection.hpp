@@ -1,4 +1,5 @@
 /*
+ * Copyright 2014-2015 Matthew McGowan.
  * Copyright 2018 Brewblox / Elco Jacobs
  *
  * This file is part of Brewblox.
@@ -18,54 +19,38 @@
  */
 
 #pragma once
-
 #include "cbox/DataStream.hpp"
-#include <iostream>
+#include <functional>
+#include <memory>
+#include <optional>
+#include <string>
 
 namespace cbox {
 
-class IStreamDataIn : public DataIn {
-    std::istream& in;
-
+class Connection {
 public:
-    IStreamDataIn(std::istream& in_)
-        : in(in_)
-    {
-    }
+    Connection() = default;
+    virtual ~Connection() = default;
+    Connection(const Connection&) = delete;
+    Connection& operator=(const Connection&) = delete;
 
-    virtual int16_t read() override
-    {
-        return in.get();
-    }
+    virtual std::optional<std::string> readMessage() = 0;
+    virtual bool write(const std::string& message) = 0;
 
-    virtual int16_t peek() override
-    {
-        return in.peek();
-    }
-
-    virtual StreamType streamType() const override
-    {
-        return StreamType::Mock;
-    }
+    virtual StreamType streamType() const = 0;
+    virtual bool isConnected() = 0;
+    virtual void stop() = 0;
 };
 
-/**
- * Provides a DataOut stream by wrapping a std::ostream.
- */
-class OStreamDataOut final : public DataOut {
-    std::ostream& out;
-
+class ConnectionSource {
 public:
-    OStreamDataOut(std::ostream& out_)
-        : out(out_)
-    {
-    }
+    ConnectionSource() = default;
+    virtual ~ConnectionSource() = default;
 
-    virtual bool write(uint8_t data) override final
-    {
-        out.put(char(data));
-        return true;
-    }
+    virtual std::unique_ptr<Connection> newConnection() = 0;
+
+    virtual void start() = 0;
+    virtual void stop() = 0;
 };
 
 } // end namespace cbox

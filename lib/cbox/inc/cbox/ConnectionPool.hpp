@@ -19,9 +19,8 @@
  */
 
 #pragma once
-#include "cbox/Connections.hpp"
+#include "cbox/Connection.hpp"
 #include "cbox/DataStream.hpp"
-#include "cbox/DataStreamConverters.hpp"
 #include <functional>
 #include <memory>
 #include <vector>
@@ -31,9 +30,6 @@ class ConnectionPool {
 private:
     std::vector<std::reference_wrapper<ConnectionSource>> connectionSources;
     std::vector<std::unique_ptr<Connection>> connections;
-
-    CompositeDataOut<decltype(connections)> allConnectionsDataOut;
-    DataOut* currentDataOut;
 
 public:
     ConnectionPool(std::initializer_list<std::reference_wrapper<ConnectionSource>> list);
@@ -45,12 +41,7 @@ public:
         return connections.size();
     }
 
-    void process(std::function<void(DataIn& in, DataOut& out)> handler);
-
-    inline DataOut& logDataOut() const
-    {
-        return *currentDataOut;
-    }
+    void process(std::function<void(Connection&)> handler);
 
     inline void disconnect()
     {

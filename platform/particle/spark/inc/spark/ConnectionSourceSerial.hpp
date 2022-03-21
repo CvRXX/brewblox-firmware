@@ -19,29 +19,67 @@
 
 #pragma once
 
-#include "cbox/Connections.hpp"
+#include "cbox/Connection.hpp"
 #include "spark_wiring_usbserial.h"
 
 namespace cbox {
 
 static bool serial_connection_active = false;
 
-class SerialConnection : public StreamRefConnection<USBSerial> {
+class SerialConnection : public Connection {
+private:
+    std::string buffer;
+    USBSerial& stream;
+
 public:
     SerialConnection(USBSerial& ser)
-        : StreamRefConnection(ser)
+        : stream(ser)
     {
         serial_connection_active = true;
     }
+
     virtual ~SerialConnection()
     {
         stop();
         serial_connection_active = false;
     };
 
+    virtual std::optional<std::string> readMessage() override final
+    {
+        buffer.reserve(buffer.size() + 50);
+        while (true) {
+            auto c = stream.read();
+            if (c < 0) {
+                break;
+            }
+            if (c == '\n') {
+                std::string line;
+                line.swap(buffer);
+                return std::make_optional(std::move(line));
+            }
+            buffer.push_back((uint8_t)c);
+        }
+        return std::nullopt;
+    }
+
+    virtual bool write(const std::string& message) override final
+    {
+        return stream.write((const uint8_t*)message.c_str(), message.size()) == message.size();
+    }
+
+    virtual StreamType streamType() const override final
+    {
+        return StreamType::Usb;
+    }
+
+    virtual bool isConnected() override final
+    {
+        return stream.isConnected();
+    }
+
     virtual void stop() override final
     {
-        get().flush();
+        stream.flush();
     }
 };
 

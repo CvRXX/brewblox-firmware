@@ -25,27 +25,20 @@
 
 namespace cbox {
 
-/**
- * Provides storage for a stream offset and length.
- */
-template <typename Offset, typename Length>
-class StreamRegion {
+class EepromStreamRegion {
 protected:
-    Offset _offset = 0;
-    Length _length = 0;
+    uint16_t _offset = 0;
+    stream_size_t _length = 0;
 
 public:
-    Offset offset() { return _offset; }
-    Length length() { return _length; }
+    uint16_t offset() { return _offset; }
+    stream_size_t length() { return _length; }
 
-    void reset(Offset o, Length l)
+    void reset(uint16_t o, stream_size_t l)
     {
         _offset = o;
         _length = l;
     }
-};
-
-struct EepromStreamRegion : public StreamRegion<uint16_t, stream_size_t> {
 };
 
 /**

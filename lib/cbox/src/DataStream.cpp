@@ -20,7 +20,6 @@
 
 #include "cbox/DataStream.hpp"
 #include "cbox/Crc.hpp"
-#include "cbox/hex_utility.hpp"
 #include <algorithm>
 
 namespace cbox {
@@ -75,55 +74,6 @@ CboxError DataIn::push(DataOut& out)
             return CboxError::NETWORK_WRITE_ERROR;
         }
     }
-}
-
-bool CrcDataOut::write(uint8_t data)
-{
-    crcValue = calc_crc_8(crcValue, data);
-    return out.write(data);
-}
-
-bool EncodedDataOut::write(uint8_t data)
-{
-    crcValue = calc_crc_8(crcValue, data);
-    bool success = out.write(d2h(uint8_t(data & 0xF0) >> 4));
-    success = success && out.write(d2h(uint8_t(data & 0xF)));
-    return success;
-}
-
-void EncodedDataOut::endMessage()
-{
-    write(crcValue);
-    crcValue = 0;
-    out.write('\n');
-}
-
-void EncodedDataOut::writeAnnotation(std::string&& ann)
-{
-    out.write('<');
-    for (auto c : ann) {
-        out.write(c);
-    }
-    out.write('>');
-}
-
-void EncodedDataOut::writeEvent(std::string&& ann)
-{
-    out.write('<');
-    out.write('!');
-    for (auto c : ann) {
-        out.write(c);
-    }
-    out.write('>');
-}
-
-void EncodedDataOut::writeError(CboxError error)
-{
-    std::string msg = "CBOXERROR:  ";
-    uint8_t asByte = uint8_t(error);
-    msg[10] = d2h(uint8_t(asByte & 0xF0) >> 4);
-    msg[11] = d2h(uint8_t(asByte & 0x0F));
-    writeEvent(std::move(msg));
 }
 
 } // end namespace cbox

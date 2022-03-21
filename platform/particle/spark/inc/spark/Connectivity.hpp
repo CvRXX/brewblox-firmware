@@ -25,8 +25,7 @@ void printWiFiIp(char dest[16]);
 
 void printWifiSSID(char* dest, const uint8_t& maxLen);
 
-int8_t
-wifiSignal();
+int8_t wifiSignal();
 
 bool serialConnected();
 

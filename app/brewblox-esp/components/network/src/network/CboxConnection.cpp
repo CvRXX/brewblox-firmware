@@ -2,8 +2,8 @@
 #include "Brewblox.hpp"
 #include "CboxConnectionManager.hpp"
 #include "EspBox.hpp"
-#include "cbox/Box.hpp"
-#include "cbox/Connections.hpp"
+#include "cbox/Application.hpp"
+#include "cbox/Connection.hpp"
 
 CboxConnection::CboxConnection(
     CboxConnectionManager& connection_manager_)

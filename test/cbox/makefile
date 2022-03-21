@@ -17,6 +17,14 @@ INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/si
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)
 
+# lib/proto
+INCLUDE_DIRS += $(ROOT_DIR)/lib/proto/inc
+CSRC += $(wildcard $(ROOT_DIR)/lib/proto/inc/proto/*.pb.c)
+
+# device-os nanopb
+INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb
+CSRC += $(wildcard $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb/*.c)
+
 # test/shared
 # only add the files we need
 INCLUDE_DIRS += $(ROOT_DIR)/test/shared
@@ -30,7 +38,7 @@ CPPSRC += $(ROOT_DIR)/test/cbox/TestApplication.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/Base64_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/Box_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/CboxPtr_test.cpp
-CPPSRC += $(ROOT_DIR)/test/cbox/Connections_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/Connection_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/EepromObjectStorage_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/FileObjectStorage_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/ObjectContainer_test.cpp

@@ -49,9 +49,9 @@ std::shared_ptr<Object> scan()
     return longIntScanner.scan();
 }
 
-// Implements extern function in cbox/Connections.h
-void connectionStarted(DataOut& out)
+std::string handshakeMessage()
 {
+    return "";
 }
 
 } // end namespace cbox

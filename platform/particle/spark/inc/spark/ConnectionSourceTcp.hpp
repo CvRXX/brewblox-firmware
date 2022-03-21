@@ -19,24 +19,58 @@
 
 #pragma once
 
-#include "cbox/Connections.hpp"
+#include "cbox/Connection.hpp"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_wifi.h"
 
 namespace cbox {
 
-class TcpConnection : public StreamConnection<TCPClient> {
+class TcpConnection : public Connection {
+private:
+    TCPClient client;
+    std::string buffer;
+
 public:
     explicit TcpConnection(TCPClient&& _client)
-        : StreamConnection<TCPClient>(std::move(_client))
+        : client(std::move(_client))
     {
     }
     virtual ~TcpConnection() = default;
 
+    virtual std::optional<std::string> readMessage() override final
+    {
+        buffer.resize(buffer.size() + client.available());
+        client.readBytes(buffer.data() + buffer.size(), client.available());
+
+        auto newlinePos = buffer.find_first_of('\n');
+        if (newlinePos == std::string::npos) {
+            return std::nullopt;
+        }
+
+        std::string message = buffer.substr(0, newlinePos + 1);
+        buffer.erase(0, newlinePos + 1);
+        return std::make_optional(message);
+    }
+
+    virtual bool write(const std::string& message) override final
+    {
+        return client.write((const uint8_t*)message.c_str(), message.size()) == message.size();
+    }
+
+    virtual StreamType streamType() const override final
+    {
+        return StreamType::Tcp;
+    }
+
+    virtual bool isConnected() override final
+    {
+        return client.status();
+    }
+
     virtual void stop() override final
     {
-        get().stop();
+        client.stop();
     }
 };
 
