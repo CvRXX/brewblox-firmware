@@ -133,13 +133,13 @@ public:
     void on_read(beast::error_code ec, std::size_t bytes_transferred)
     {
         boost::ignore_unused(bytes_transferred);
-        auto stringthing = boost::asio::buffer_cast<char*>(buffer_.data());
-        std::int8_t index = *stringthing;
-        std::uint8_t xl = *(stringthing + 1);
-        std::uint8_t xh = *(stringthing + 2);
+        auto touchString = boost::asio::buffer_cast<char*>(buffer_.data());
+        std::int8_t index = *touchString;
+        std::uint8_t xl = *(touchString + 1);
+        std::uint8_t xh = *(touchString + 2);
 
-        std::uint8_t yl = *(stringthing + 3);
-        std::uint8_t yh = *(stringthing + 4);
+        std::uint8_t yl = *(touchString + 3);
+        std::uint8_t yh = *(touchString + 4);
 
         std::uint16_t x = (xh * 256) + xl;
         std::uint16_t y = (yh * 256) + yl;
