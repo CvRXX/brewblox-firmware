@@ -27,7 +27,30 @@
 
 namespace cbox {
 
-class Connection {
+enum Separator : char {
+    NONE = 0,
+    CHUNK = ',',
+    MESSAGE = '\n',
+};
+
+class ConnectionOut {
+public:
+    ConnectionOut() = default;
+    virtual ~ConnectionOut() = default;
+    ConnectionOut(const ConnectionOut&) = delete;
+    ConnectionOut& operator=(const ConnectionOut&) = delete;
+
+    virtual bool write(const std::string& message) = 0;
+    virtual void commit() = 0;
+    virtual StreamType streamType() const = 0;
+
+    virtual bool write(Separator sep)
+    {
+        return write(std::string(1, sep));
+    }
+};
+
+class Connection : public ConnectionOut {
 public:
     Connection() = default;
     virtual ~Connection() = default;
@@ -35,9 +58,6 @@ public:
     Connection& operator=(const Connection&) = delete;
 
     virtual std::optional<std::string> readMessage() = 0;
-    virtual bool write(const std::string& message) = 0;
-
-    virtual StreamType streamType() const = 0;
     virtual bool isConnected() = 0;
     virtual void stop() = 0;
 };

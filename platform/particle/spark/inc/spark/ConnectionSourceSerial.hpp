@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "cbox/Base64.hpp"
 #include "cbox/Connection.hpp"
 #include "spark_wiring_usbserial.h"
 
@@ -46,25 +47,49 @@ public:
 
     virtual std::optional<std::string> readMessage() override final
     {
-        buffer.reserve(buffer.size() + 50);
+        bool hasMessage = false;
+        buffer.reserve(buffer.size() + 50); // ballpark guess, stream.available() is never >1
+
         while (true) {
             auto c = stream.read();
             if (c < 0) {
                 break;
             }
-            if (c == '\n') {
-                std::string line;
-                line.swap(buffer);
-                return std::make_optional(std::move(line));
+            if (c == Separator::MESSAGE) {
+                hasMessage = true;
+                break;
             }
             buffer.push_back((uint8_t)c);
         }
-        return std::nullopt;
+
+        if (!hasMessage) {
+            return std::nullopt;
+        }
+
+        // spool until next message start
+        while (true) {
+            auto c = stream.peek();
+            if (c < 0 || cbox::is_b64(c)) {
+                break;
+            }
+            stream.read();
+        }
+
+        std::string line;
+        line.swap(buffer);
+        return std::make_optional(std::move(line));
     }
 
     virtual bool write(const std::string& message) override final
     {
-        return stream.write((const uint8_t*)message.c_str(), message.size()) == message.size();
+        return stream.write(reinterpret_cast<const uint8_t*>(message.data()),
+                            message.size())
+               == message.size();
+    }
+
+    virtual void commit() override final
+    {
+        stream.flush();
     }
 
     virtual StreamType streamType() const override final

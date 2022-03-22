@@ -1,63 +1,41 @@
 #pragma once
 #include "intellisense.hpp"
 
-#include "cbox/DataStreamIo.hpp"
+#include "cbox/Connection.hpp"
 #include <asio.hpp>
 
-namespace cbox {
-
-class StreamBufDataIn : public DataIn {
-    asio::streambuf& in;
-
-public:
-    StreamBufDataIn(asio::streambuf& in_)
-        : in(in_)
-    {
-    }
-
-    virtual int16_t read() override
-    {
-        return in.sbumpc();
-    }
-
-    virtual int16_t peek() override
-    {
-        return in.sgetc();
-    }
-
-    virtual StreamType streamType() const override final
-    {
-        return StreamType::Tcp;
-    }
-};
-
-/**
- * Provides a DataOut stream by wrapping a std::ostream.
- */
-class StreamBufDataOut final : public DataOut {
-    asio::streambuf& out;
+class BufferConnectionOut : public cbox::ConnectionOut {
+private:
+    asio::streambuf& buf;
 
 public:
-    StreamBufDataOut(asio::streambuf& out_)
-        : out(out_)
+    BufferConnectionOut(asio::streambuf& buf_)
+        : buf(buf_)
     {
     }
+    virtual ~BufferConnectionOut() = default;
+    BufferConnectionOut(const BufferConnectionOut&) = delete;
+    BufferConnectionOut& operator=(const BufferConnectionOut&) = delete;
 
-    virtual bool write(uint8_t data) override final
+    virtual cbox::StreamType streamType() const override final
     {
-        if (out.size() < out.max_size()) {
-            out.sputc(data);
-            // flush output if \n or , has been written
-            if (data == '\n' || data == ',') {
-                out.pubsync();
-            }
+        return cbox::StreamType::Tcp;
+    }
+
+    virtual bool write(const std::string& message)
+    {
+        if (buf.size() + message.size() < buf.max_size()) {
+            buf.sputn(message.c_str(), message.size());
             return true;
         }
         return false;
     }
-};
 
-} // end namespace cbox
+    virtual void commit() override final
+    {
+        buf.pubsync();
+    }
+};
 
 class CboxConnectionManager;
 

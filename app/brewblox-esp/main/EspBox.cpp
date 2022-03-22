@@ -1,55 +1,42 @@
 #include "EspBox.hpp"
-#include "Brewblox.hpp"
+#include "AppTicks.hpp"
 #include "cbox/Application.hpp"
-#include "cbox/Connection.hpp"
+#include "cbox/Box.hpp"
 #include "cbox/Serialization.hpp"
 #include "esp_system.h"
-#include "network/CboxConnection.hpp"
+#include "esp_wifi.h"
 
-cbox::CboxExpected<cbox::Request> parseRequest(cbox::RegionDataIn& in)
-{
-    if (in.available() == 0) {
-        return tl::make_unexpected(cbox::CboxError::NETWORK_READ_ERROR);
-    }
-
-    auto b64Bytes = std::vector<uint8_t>(in.available());
-    in.readBytes(b64Bytes.data(), b64Bytes.size());
-
-    return cbox::parseRequest(b64Bytes);
-}
-
-cbox::CboxError respond(cbox::DataOut& out, const cbox::Payload& payload)
+cbox::CboxError respond(cbox::ConnectionOut& out, const cbox::Payload& payload)
 {
     auto response = cbox::encodeResponse(payload);
     if (!response) {
         return response.error();
     }
 
-    auto& encoded = response.value();
-    if (out.writeBuffer(encoded.data(), encoded.size())
-        && out.write(',')) {
+    bool writeOk = out.write(response.value()) && out.write(cbox::Separator::CHUNK);
+    out.commit();
+
+    if (writeOk) {
         return cbox::CboxError::OK;
     } else {
         return cbox::CboxError::NETWORK_WRITE_ERROR;
     }
 }
 
-void finalize(cbox::DataOut& out, uint32_t msgId, cbox::CboxError status)
+void finalize(cbox::ConnectionOut& out, uint32_t msgId, cbox::CboxError status)
 {
     auto response = cbox::encodeResponse(msgId, status);
-    if (!response) {
-        out.write('\n');
-        return;
+    if (response) {
+        out.write(response.value());
     }
 
-    auto& encoded = response.value();
-    out.writeBuffer(encoded.data(), encoded.size());
-    out.write('\n');
+    out.write(cbox::Separator::MESSAGE);
+    out.commit();
 }
 
-void handleCommand(cbox::RegionDataIn& in, cbox::DataOut& out)
+void handleCommand(cbox::ConnectionOut& out, const std::string& message)
 {
-    auto parsed = parseRequest(in);
+    auto parsed = cbox::parseRequest(message);
 
     if (!parsed) {
         return;
@@ -66,7 +53,8 @@ void handleCommand(cbox::RegionDataIn& in, cbox::DataOut& out)
     case cbox::Opcode::NONE:
     case cbox::Opcode::VERSION:
         status = cbox::CboxError::OK;
-        cbox::connectionStarted(out);
+        out.write(cbox::handshakeMessage());
+        out.commit();
         break;
     case cbox::Opcode::BLOCK_READ:
         status = cbox::readBlock(request.payload, callback);
@@ -94,6 +82,7 @@ void handleCommand(cbox::RegionDataIn& in, cbox::DataOut& out)
         break;
     case cbox::Opcode::REBOOT:
         finalize(out, request.msgId, cbox::CboxError::OK);
+        ticks.delayMillis(100);
         esp_restart();
         return; // already finalized
     case cbox::Opcode::CLEAR_BLOCKS:
@@ -103,8 +92,12 @@ void handleCommand(cbox::RegionDataIn& in, cbox::DataOut& out)
         status = cbox::CboxError::OK; // TODO(Bob)
         break;
     case cbox::Opcode::FACTORY_RESET:
-        status = cbox::clearBlocks(); // TODO(Bob)
-        finalize(out, request.msgId, status);
+        finalize(out, request.msgId, cbox::CboxError::OK);
+        ticks.delayMillis(100);
+        cbox::unloadBlocks();
+        cbox::getStorage().clear();
+        esp_wifi_disconnect();
+        // TODO(Bob) clear wifi credentials
         esp_restart();
         return; // already finalized
     case cbox::Opcode::FIRMWARE_UPDATE:

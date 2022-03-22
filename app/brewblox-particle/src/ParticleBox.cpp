@@ -1,10 +1,8 @@
 #include "ParticleBox.hpp"
 #include "AppTicks.hpp"
 #include "cbox/Application.hpp"
-#include "cbox/Base64.hpp"
 #include "cbox/Box.hpp"
 #include "cbox/Connection.hpp"
-#include "cbox/DataStream.hpp"
 #include "cbox/Serialization.hpp"
 #include "delay_hal.h"
 #include "deviceid_hal.h"
@@ -14,6 +12,7 @@
 #include "spark/Board.hpp"
 #include "spark/Brewblox.hpp"
 #include "spark/ConnectionSourceTcp.hpp"
+#include "spark/Connectivity.hpp"
 #include "spark_wiring_stream.h"
 #include "spark_wiring_usbserial.h"
 
@@ -96,27 +95,27 @@ void updateFirmwareFromStream(cbox::StreamType streamType)
 }
 #endif
 
-void startFirmwareUpdate(cbox::Connection& conn)
+void startFirmwareUpdate(cbox::ConnectionOut& out)
 {
     LED_SetRGBColor(RGB_COLOR_MAGENTA);
     getConnectionPool().disconnect();
     ticks.delayMillis(10);
 #if PLATFORM_ID != PLATFORM_GCC
-    updateFirmwareFromStream(conn.streamType());
+    updateFirmwareFromStream(out.streamType());
     // reset in case the firmware update failed
     reset(true, UserResetReason::FIRMWARE_UPDATE_FAILED);
 #endif
 }
 
-cbox::CboxError respond(cbox::Connection& conn, const cbox::Payload& payload)
+cbox::CboxError respond(cbox::ConnectionOut& out, const cbox::Payload& payload)
 {
     auto response = cbox::encodeResponse(payload);
     if (!response) {
         return response.error();
     }
 
-    auto& encoded = response.value();
-    bool writeOk = conn.write(encoded) && conn.write(",");
+    bool writeOk = out.write(response.value()) && out.write(cbox::Separator::CHUNK);
+    out.commit();
 
     if (writeOk) {
         return cbox::CboxError::OK;
@@ -125,17 +124,18 @@ cbox::CboxError respond(cbox::Connection& conn, const cbox::Payload& payload)
     }
 }
 
-void finalize(cbox::Connection& conn, uint32_t msgId, cbox::CboxError status)
+void finalize(cbox::ConnectionOut& out, uint32_t msgId, cbox::CboxError status)
 {
     auto response = cbox::encodeResponse(msgId, status);
     if (response) {
-        conn.write(response.value());
+        out.write(response.value());
     }
 
-    conn.write("\n");
+    out.write(cbox::Separator::MESSAGE);
+    out.commit();
 }
 
-void handleCommand(cbox::Connection& conn, const std::string& message)
+void handleCommand(cbox::ConnectionOut& out, const std::string& message)
 {
     auto parsed = cbox::parseRequest(message);
 
@@ -146,15 +146,16 @@ void handleCommand(cbox::Connection& conn, const std::string& message)
     auto& request = parsed.value();
     auto status = cbox::CboxError::UNKNOWN_ERROR;
 
-    auto callback = [&conn](const cbox::Payload& payload) -> cbox::CboxError {
-        return respond(conn, payload);
+    auto callback = [&out](const cbox::Payload& payload) -> cbox::CboxError {
+        return respond(out, payload);
     };
 
     switch (request.opcode) {
     case cbox::Opcode::NONE:
     case cbox::Opcode::VERSION:
         status = cbox::CboxError::OK;
-        conn.write(cbox::handshakeMessage());
+        out.write(cbox::handshakeMessage());
+        out.commit();
         break;
     case cbox::Opcode::BLOCK_READ:
         status = cbox::readBlock(request.payload, callback);
@@ -181,39 +182,40 @@ void handleCommand(cbox::Connection& conn, const std::string& message)
         status = cbox::readAllStoredBlocks(callback);
         break;
     case cbox::Opcode::REBOOT:
-        finalize(conn, request.msgId, cbox::CboxError::OK); // TODO(Bob) delay to ensure flush?
+        finalize(out, request.msgId, cbox::CboxError::OK);
+        ticks.delayMillis(100);
         reset(true, UserResetReason::CBOX_RESET);
         return; // already finalized
     case cbox::Opcode::CLEAR_BLOCKS:
         status = cbox::clearBlocks();
         break;
     case cbox::Opcode::CLEAR_WIFI:
-        status = cbox::CboxError::OK; // TODO(Bob)
+        status = cbox::CboxError::OK;
+        clearWifiCredentials();
         break;
     case cbox::Opcode::FACTORY_RESET:
-        finalize(conn, request.msgId, cbox::CboxError::OK);
-        cbox::objects.clear();
+        finalize(out, request.msgId, cbox::CboxError::OK);
+        cbox::unloadBlocks();
+        cbox::getStorage().clear();
+        clearWifiCredentials();
+        ticks.delayMillis(100);
         reset(true, UserResetReason::CBOX_FACTORY_RESET);
         return; // already finalized
     case cbox::Opcode::FIRMWARE_UPDATE:
-        finalize(conn, request.msgId, cbox::CboxError::OK);
-        startFirmwareUpdate(conn);
+        finalize(out, request.msgId, cbox::CboxError::OK);
+        startFirmwareUpdate(out);
         return; // already finalized
     default:
         status = cbox::CboxError::INVALID_OPCODE;
         break;
     }
 
-    finalize(conn, request.msgId, status);
+    finalize(out, request.msgId, status);
 }
 
 void communicate()
 {
-    getConnectionPool().process([](cbox::Connection& conn) {
-        while (auto msg = conn.readMessage()) {
-            handleCommand(conn, msg.value());
-        }
-    });
+    getConnectionPool().process(handleCommand);
 }
 
 void update()

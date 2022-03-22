@@ -41,7 +41,7 @@ public:
         return connections.size();
     }
 
-    void process(std::function<void(Connection&)> handler);
+    void process(std::function<void(ConnectionOut&, const std::string&)> handler);
 
     inline void disconnect()
     {

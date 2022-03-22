@@ -25,7 +25,6 @@
 #include "blocks/TempSensorOneWireBlock.hpp"
 #include "cbox/Box.hpp"
 #include "cbox/CboxPtr.hpp"
-#include "cbox/DataStreamIo.hpp"
 #include "proto/TempSensorOneWire_test.pb.h"
 #include "spark/Brewblox.hpp"
 #include <sstream>

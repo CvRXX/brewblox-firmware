@@ -1,6 +1,7 @@
 #pragma once
+#include "intellisense.hpp"
 
-#include "cbox/Box.hpp"
-#include "cbox/DataStream.hpp"
+#include "cbox/Connection.hpp"
+#include <string>
 
-void handleCommand(cbox::RegionDataIn& in, cbox::DataOut& out);
+void handleCommand(cbox::ConnectionOut& out, const std::string& message);

@@ -47,6 +47,7 @@ void ConnectionPool::updateConnections()
             if (connections.size() >= 4) {
                 auto oldest = connections.begin();
                 (*oldest)->write("<!Max connections exceeded, closing oldest>");
+                (*oldest)->commit();
                 connections.erase(oldest);
             }
 
@@ -56,11 +57,14 @@ void ConnectionPool::updateConnections()
     }
 }
 
-void ConnectionPool::process(std::function<void(Connection&)> handler)
+void ConnectionPool::process(std::function<void(ConnectionOut&, const std::string&)> handler)
 {
     updateConnections();
     for (auto& conn : connections) {
-        handler(*conn);
+        while (auto msg = conn->readMessage()) {
+            handler(*conn, msg.value());
+            conn->commit();
+        }
     }
 }
 

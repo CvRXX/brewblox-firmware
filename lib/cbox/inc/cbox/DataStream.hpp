@@ -30,7 +30,6 @@ using stream_size_t = size_t;
 
 /**
  * An output stream that supports writing data.
- * This is the base class for raw streams that do not encode their bytes as 2 hex characters
  */
 class DataOut {
 public:

@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "cbox/Base64.hpp"
 #include "cbox/Connection.hpp"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
@@ -40,22 +41,49 @@ public:
 
     virtual std::optional<std::string> readMessage() override final
     {
-        buffer.resize(buffer.size() + client.available());
-        client.readBytes(buffer.data() + buffer.size(), client.available());
+        bool hasMessage = false;
+        buffer.reserve(buffer.size() + client.available());
 
-        auto newlinePos = buffer.find_first_of('\n');
-        if (newlinePos == std::string::npos) {
+        while (true) {
+            auto c = client.read();
+            if (c < 0) {
+                break;
+            }
+            if (c == Separator::MESSAGE) {
+                hasMessage = true;
+                break;
+            }
+            buffer.push_back((uint8_t)c);
+        }
+
+        if (!hasMessage) {
             return std::nullopt;
         }
 
-        std::string message = buffer.substr(0, newlinePos + 1);
-        buffer.erase(0, newlinePos + 1);
-        return std::make_optional(message);
+        // spool until next message start
+        while (true) {
+            auto c = client.peek();
+            if (c < 0 || cbox::is_b64(c)) {
+                break;
+            }
+            client.read();
+        }
+
+        std::string line;
+        line.swap(buffer);
+        return std::make_optional(std::move(line));
     }
 
     virtual bool write(const std::string& message) override final
     {
-        return client.write((const uint8_t*)message.c_str(), message.size()) == message.size();
+        return client.write(reinterpret_cast<const uint8_t*>(message.data()),
+                            message.size())
+               == message.size();
+    }
+
+    virtual void commit() override final
+    {
+        client.flush();
     }
 
     virtual StreamType streamType() const override final

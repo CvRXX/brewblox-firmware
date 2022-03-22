@@ -43,7 +43,7 @@ public:
     virtual CboxError read(const PayloadCallback& callback) const override final
     {
         Payload payload(objectId, typeId(), 0);
-        vectorAppend(payload.content, originalId);
+        appendToByteVector(payload.content, originalId);
         return callback(payload);
     }
 

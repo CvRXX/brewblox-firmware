@@ -31,6 +31,8 @@ bool serialConnected();
 
 bool setWifiCredentials(const char* ssid, const char* password, uint8_t security, uint8_t cipher);
 
+bool clearWifiCredentials();
+
 void handleNetworkEvent(system_event_t event, int param);
 
 void wifiInit();

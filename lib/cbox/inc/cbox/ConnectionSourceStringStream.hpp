@@ -51,7 +51,7 @@ public:
     {
         // We'll just assume there won't be any partial messages
         std::string buf;
-        std::getline(*in, buf, '\n');
+        std::getline(*in, buf);
         if (buf.size()) {
             return buf;
         } else {
@@ -63,6 +63,11 @@ public:
     {
         *out << message;
         return true;
+    }
+
+    virtual void commit() override final
+    {
+        // we don't need to flush a stringstream
     }
 
     virtual StreamType streamType() const override final

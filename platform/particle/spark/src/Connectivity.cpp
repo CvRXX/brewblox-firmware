@@ -98,6 +98,11 @@ bool setWifiCredentials(const char* ssid, const char* password, uint8_t security
     return spark::WiFi.setCredentials(ssid, password, security, cipher);
 };
 
+bool clearWifiCredentials()
+{
+    return spark::WiFi.clearCredentials();
+}
+
 void printWifiSSID(char* dest, const uint8_t& maxLen)
 {
     strncpy(dest, currentSsid, maxLen);

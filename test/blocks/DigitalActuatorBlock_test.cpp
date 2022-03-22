@@ -25,7 +25,6 @@
 #include "blocks/MockPinsBlock.hpp"
 #include "cbox/Box.hpp"
 #include "cbox/CboxPtr.hpp"
-#include "cbox/DataStreamIo.hpp"
 #include "control/OneWireAddress.hpp"
 #include "proto/DS2413_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"

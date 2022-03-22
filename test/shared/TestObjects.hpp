@@ -65,7 +65,7 @@ public:
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
-        cbox::vectorAppend(payload.content, obj);
+        cbox::appendToByteVector(payload.content, obj);
         return callback(payload);
     }
 
@@ -77,7 +77,7 @@ public:
     virtual cbox::CboxError write(const cbox::Payload& payload) override final
     {
         uint32_t newValue = 0;
-        if (cbox::vectorRead(payload.content, newValue, 0)) {
+        if (cbox::readFromByteVector(payload.content, newValue, 0)) {
             obj = newValue;
             return cbox::CboxError::OK;
         }
@@ -123,11 +123,11 @@ public:
         cbox::Payload payload(objectId, typeId(), 0);
 
         // first write number of elements as uint16_t
-        cbox::vectorAppend(payload.content, uint16_t(values.size()));
+        cbox::appendToByteVector(payload.content, uint16_t(values.size()));
 
         // write value for all elements
         for (auto& value : values) {
-            cbox::vectorAppend(payload.content, value.value());
+            cbox::appendToByteVector(payload.content, value.value());
         }
 
         return callback(payload);
@@ -141,7 +141,7 @@ public:
     virtual cbox::CboxError write(const cbox::Payload& payload) override final
     {
         uint16_t newSize = 0;
-        if (!cbox::vectorRead(payload.content, newSize, 0)) {
+        if (!cbox::readFromByteVector(payload.content, newSize, 0)) {
             return cbox::CboxError::INVALID_BLOCK;
         }
 
@@ -149,7 +149,7 @@ public:
         values.resize(newSize);
         for (auto& value : values) {
             uint32_t content = 0;
-            if (!cbox::vectorRead(payload.content, content, pos)) {
+            if (!cbox::readFromByteVector(payload.content, content, pos)) {
                 return cbox::CboxError::NETWORK_READ_ERROR;
             }
             pos += sizeof(content);
@@ -204,10 +204,10 @@ public:
         cbox::Payload payload(objectId, typeId(), 0);
 
         // stream out all values
-        if (!cbox::vectorAppend(payload.content, _interval)) {
+        if (!cbox::appendToByteVector(payload.content, _interval)) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
-        if (!cbox::vectorAppend(payload.content, _count)) {
+        if (!cbox::appendToByteVector(payload.content, _count)) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
@@ -217,7 +217,7 @@ public:
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
     {
         cbox::Payload payload(objectId, typeId(), 0);
-        cbox::vectorAppend(payload.content, _interval);
+        cbox::appendToByteVector(payload.content, _interval);
 
         return callback(payload);
     }
@@ -225,7 +225,7 @@ public:
     virtual cbox::CboxError write(const cbox::Payload& payload) override final
     {
         uint16_t newInterval{0};
-        if (!cbox::vectorRead(payload.content, newInterval, 0)) {
+        if (!cbox::readFromByteVector(payload.content, newInterval, 0)) {
             return cbox::CboxError::NETWORK_READ_ERROR;
         }
         if (newInterval < 10) {
@@ -293,10 +293,10 @@ public:
     {
         cbox::Payload payload(objectId, typeId(), 0);
 
-        if (!cbox::vectorAppend(payload.content, ptr1.getId())) {
+        if (!cbox::appendToByteVector(payload.content, ptr1.getId())) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
-        if (!cbox::vectorAppend(payload.content, ptr2.getId())) {
+        if (!cbox::appendToByteVector(payload.content, ptr2.getId())) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
@@ -313,10 +313,10 @@ public:
             value2 = sptr2->value();
         }
         bool success = true
-                       && cbox::vectorAppend(payload.content, valid1)
-                       && cbox::vectorAppend(payload.content, valid2)
-                       && cbox::vectorAppend(payload.content, value1)
-                       && cbox::vectorAppend(payload.content, value2);
+                       && cbox::appendToByteVector(payload.content, valid1)
+                       && cbox::appendToByteVector(payload.content, valid2)
+                       && cbox::appendToByteVector(payload.content, value1)
+                       && cbox::appendToByteVector(payload.content, value2);
 
         if (!success) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
@@ -329,10 +329,10 @@ public:
     {
         cbox::Payload payload(objectId, typeId(), 0);
 
-        if (!cbox::vectorAppend(payload.content, ptr1.getId())) {
+        if (!cbox::appendToByteVector(payload.content, ptr1.getId())) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
-        if (!cbox::vectorAppend(payload.content, ptr2.getId())) {
+        if (!cbox::appendToByteVector(payload.content, ptr2.getId())) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
         return callback(payload);
@@ -342,10 +342,10 @@ public:
     {
         auto newId1 = cbox::obj_id_t{0};
         auto newId2 = cbox::obj_id_t{0};
-        if (!cbox::vectorRead(payload.content, newId1, 0)) {
+        if (!cbox::readFromByteVector(payload.content, newId1, 0)) {
             return cbox::CboxError::NETWORK_READ_ERROR;
         }
-        if (!cbox::vectorRead(payload.content, newId2, 0 + sizeof(cbox::obj_id_t))) {
+        if (!cbox::readFromByteVector(payload.content, newId2, 0 + sizeof(cbox::obj_id_t))) {
             return cbox::CboxError::NETWORK_READ_ERROR;
         }
 

@@ -51,7 +51,7 @@ public:
 };
 
 template <typename T>
-bool vectorRead(const std::vector<uint8_t>& in, T& v, size_t pos)
+bool readFromByteVector(const std::vector<uint8_t>& in, T& v, size_t pos)
 {
     if (pos + sizeof(T) > in.size()) {
         return false;
@@ -62,7 +62,7 @@ bool vectorRead(const std::vector<uint8_t>& in, T& v, size_t pos)
 }
 
 template <typename T>
-bool vectorWrite(std::vector<uint8_t>& out, const T& v, size_t pos)
+bool writeToByteVector(std::vector<uint8_t>& out, const T& v, size_t pos)
 {
     if (pos + sizeof(T) > out.size()) {
         return false;
@@ -73,11 +73,11 @@ bool vectorWrite(std::vector<uint8_t>& out, const T& v, size_t pos)
 }
 
 template <typename T>
-bool vectorAppend(std::vector<uint8_t>& out, const T& v)
+bool appendToByteVector(std::vector<uint8_t>& out, const T& v)
 {
     auto pos = out.size();
     out.resize(pos + sizeof(T));
-    return vectorWrite<T>(out, v, pos);
+    return writeToByteVector<T>(out, v, pos);
 }
 
 CboxExpected<Request> parseRequest(const std::string& b64Bytes);
