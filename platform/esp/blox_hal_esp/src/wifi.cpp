@@ -25,8 +25,9 @@ esp_ip4_addr_t ip_addr{0};
 void on_wifi_disconnect(void* arg, esp_event_base_t event_base,
                         int32_t event_id, void* event_data)
 {
-    ESP_LOGI(TAG, "Wi-Fi disconnected, trying to reconnect...");
     onWifiDisconnected();
+
+    ESP_LOGI(TAG, "Wi-Fi disconnected, trying to reconnect...");
     esp_err_t err = esp_wifi_connect();
     if (err == ESP_ERR_WIFI_NOT_STARTED) {
         return;
@@ -115,13 +116,13 @@ bool isConnected()
     return ip_addr.addr != 0;
 }
 
-bool hasCredentials(){
+bool hasCredentials()
+{
     wifi_config_t wifi_cfg;
     if (esp_wifi_get_config(WIFI_IF_STA, &wifi_cfg) != ESP_OK) {
         return false;
     }
 
-    return (strlen((const char *) wifi_cfg.sta.ssid));
+    return (strlen((const char*)wifi_cfg.sta.ssid));
 }
-
 }

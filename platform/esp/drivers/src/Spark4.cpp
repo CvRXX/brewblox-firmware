@@ -138,7 +138,7 @@ void expander_init()
     expander.reset();
 
     // beep also configures clock, which is on the same register
-    startup_beep();
+    beep(Beep::OFF);
 
     // Disable input for RGB LED and TFT backlight
     expander.write_reg(SX1508::RegAddr::inputDisable, outputs);
@@ -179,13 +179,10 @@ void display_brightness(uint8_t b)
     expander.write_reg(SX1508::RegAddr::iOn5, backLightPwm);
 }
 
-void startup_beep()
+void beep(Beep freq)
 {
-    expander.write_reg(SX1508::RegAddr::clock, 0b01011011);
-    hal_delay_ms(200);
-    expander.write_reg(SX1508::RegAddr::clock, 0b01011010);
-    hal_delay_ms(200);
-    expander.write_reg(SX1508::RegAddr::clock, 0b01010000);
+    uint8_t v = uint8_t(0b01010000) + uint8_t(freq);
+    expander.write_reg(SX1508::RegAddr::clock, v);
 }
 
 esp_adc_cal_characteristics_t adc_characteristics;

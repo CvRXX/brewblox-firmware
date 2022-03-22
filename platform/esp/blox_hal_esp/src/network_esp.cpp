@@ -45,17 +45,17 @@ void disconnect(void)
 
 Mode mode()
 {
-     if (ethernet::isConnected()) {
+    if (ethernet::isConnected()) {
         return Mode::ETHERNET;
     }
-    if(wifi::hasCredentials()){
+    if (wifi::hasCredentials()) {
         return Mode::WIFI;
     }
-    if(wifi_provision::isActive()){
+    if (wifi_provision::isActive()) {
         return Mode::WIFI_PROVISIONING;
     }
 
-    return(Mode::OFF);
+    return (Mode::OFF);
 }
 
 uint32_t ip4()
@@ -74,9 +74,9 @@ int8_t wifiStrength()
     return wifi::rssi();
 }
 
-void resetProvisioning()
+void provision()
 {
-    wifi::resetProvisioning();
+    wifi_provision::start();
 }
 
 }; // end namespace network

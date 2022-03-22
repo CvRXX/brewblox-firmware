@@ -10,6 +10,7 @@
 #include "intellisense.hpp"
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
+#include "BeepTask.hpp"
 #include "HttpHandler.hpp"
 #include "OkButtonMonitor.hpp"
 #include "blox_hal/hal_network.hpp"
@@ -76,14 +77,12 @@ int main(int /*argc*/, char** /*argv*/)
     spark4::hw_init();
     check_ota();
 
-    spark4::adc_init();
-
     hal_delay_ms(100);
+    spark4::adc_init();
+    asio::io_context io;
 
     mount_blocks_spiff();
     network::connect();
-
-    asio::io_context io;
 
     setupSystemBlocks();
     cbox::loadBlocksFromStorage();
@@ -130,12 +129,17 @@ int main(int /*argc*/, char** /*argv*/)
 
     OkButtonMonitor buttonMonitor(
         io,
-        {{5000, 7000, []() {
-              ESP_LOGI("TEST", "Button held between 5000 and 7000 ms");
-          }}});
+        {[]() {}, // no action on single press
+         []() {   // hold 5s to reset WiFi credentials
+             network::provision();
+         }});
 
     buttonMonitor.start();
 
+    start_beep_pattern(io, {
+                               {Beep::LOW, 100},
+                               {Beep::MID, 100},
+                           });
     io.run();
 
 #ifndef ESP_PLATFORM

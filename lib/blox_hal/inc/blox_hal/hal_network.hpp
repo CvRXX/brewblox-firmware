@@ -17,5 +17,5 @@ void connect();
 void disconnect();
 bool isConnected();
 int8_t wifiStrength();
-void resetProvisioning();
+void provision();
 }
