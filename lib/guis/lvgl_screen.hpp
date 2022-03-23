@@ -28,9 +28,7 @@ class LvglScreen {
         display = std::make_unique<Display>([]() { lv_disp_flush_ready(&disp_drv); });
         display->init();
 
-        static lv_disp_draw_buf_t disp_buf1;
-        static lv_color_t buf1_1[960];
-        static lv_color_t buf1_2[960];
+        
         lv_disp_draw_buf_init(&disp_buf1, buf1_1, buf1_2, 960);
 
         lv_disp_drv_init(&disp_drv);
@@ -58,14 +56,28 @@ class LvglScreen {
         }
         disp_drv.rotated = rotation;
     }
+    static lv_disp_draw_buf_t disp_buf1;
+    static lv_color_t buf1_1[960];
+    static lv_color_t buf1_2[960];
     static lv_disp_drv_t disp_drv;
     static std::unique_ptr<Display> display;
+
 
 private:
 
 
 };
 template <typename Display>
+lv_disp_draw_buf_t LvglScreen<Display>::disp_buf1;
+
+template <typename Display>
+lv_color_t LvglScreen<Display>::buf1_1[960];
+
+template <typename Display>
+lv_color_t LvglScreen<Display>::buf1_2[960];
+
+template <typename Display>
+
 std::unique_ptr<Display> LvglScreen<Display>::display;
 
 template <typename Display>
