@@ -18,7 +18,7 @@
 #include "TFT035.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
-#include "graphics.hpp"
+#include "gui.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
@@ -109,9 +109,9 @@ int main(int /*argc*/, char** /*argv*/)
 
     updater.start();
 
-    using graphics = Graphics<TFT035, FT6236, StaticGui>;
+    using gui = Gui<TFT035, FT6236, StaticGui>;
 
-    graphics::init();
+    gui::init();
 
     static CboxServer cboxServer(io, 8332);
 
@@ -137,8 +137,8 @@ int main(int /*argc*/, char** /*argv*/)
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
                                               []() -> bool {
-                                                  graphics::update();
-                                                  graphics::tick(100);
+                                                  gui::update();
+                                                  gui::tick(100);
                                                   return true;
                                               });
 
