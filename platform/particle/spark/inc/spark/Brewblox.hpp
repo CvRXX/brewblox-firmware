@@ -1,15 +1,22 @@
 #pragma once
 
-#include "cbox/ConnectionPool.hpp"
-#include "cbox/DataStream.hpp"
+#include "spark/Buzzer.hpp"
+#include "spark/ConnectionPool.hpp"
+#include <cstdint>
+#include <string>
 
 class OneWire;
 
+namespace platform::particle {
+
 // Create and return a static ConnectionPool
-cbox::ConnectionPool& getConnectionPool();
+ConnectionPool& getConnectionPool();
 
 // Create and return a static OneWire
 OneWire& getOneWire();
+
+// Create and return a static Buzzer
+BuzzerClass& getBuzzer();
 
 void setupSystemBlocks();
 
@@ -24,3 +31,5 @@ const std::string& versionCsv();
 int resetReason();
 
 int resetReasonData();
+
+} // end namespace platform::particle

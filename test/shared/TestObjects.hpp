@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cbox/CboxPtr.hpp"
-#include "cbox/DataStream.hpp"
 #include "cbox/ObjectBase.hpp"
 #include "cbox/Serialization.hpp"
 #include <vector>

@@ -10,7 +10,7 @@ void _write(char category, const std::string& message)
     combined.insert(0, 1, category);
     combined.insert(1, ": ");
     combined.insert(3, message);
-    getConnectionPool().writeLog(combined);
+    platform::particle::getConnectionPool().writeLog(combined);
 }
 
 void info(const std::string& message)

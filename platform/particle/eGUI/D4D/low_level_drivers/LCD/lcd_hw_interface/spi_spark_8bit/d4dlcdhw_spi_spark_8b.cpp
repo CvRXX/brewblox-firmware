@@ -139,7 +139,7 @@ static volatile int8_t dma_buffer_idx = -1;
  * Managed SPI interface, which remembers and re-applies settings when needed.
  * SPI Arbiter locks and unlocks SPI.
  */
-SPIUser SpiLCD(GlobalSPIArbiter);
+platform::particle::SPIUser SpiLCD(GlobalSPIArbiter);
 
 /**
  * Determines if there is data to send.

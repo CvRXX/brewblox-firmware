@@ -9,7 +9,6 @@
 #include "TestHelpers.hpp"
 #include "TestObjects.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/Connection.hpp"
 #include "cbox/Crc.hpp"
 #include "cbox/Object.hpp"
 #include "cbox/ObjectContainer.hpp"

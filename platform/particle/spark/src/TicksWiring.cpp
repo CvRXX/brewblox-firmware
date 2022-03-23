@@ -4,8 +4,9 @@
 #include "rtc_hal.h"
 #include "timer_hal.h"
 
-utc_seconds_t
-TicksWiring::utc() const
+namespace platform::particle {
+
+utc_seconds_t TicksWiring::utc() const
 {
     if (hal_rtc_time_is_valid(nullptr)) {
         timeval time;
@@ -38,3 +39,5 @@ void TicksWiring::delayMillis(const duration_millis_t& duration) const
 {
     HAL_Delay_Milliseconds(duration);
 }
+
+} // end namespace platform::particle

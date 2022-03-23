@@ -6,14 +6,20 @@
 #include "esp_system.h"
 #include "esp_wifi.h"
 
-cbox::CboxError respond(cbox::ConnectionOut& out, const cbox::Payload& payload)
+enum Separator : char {
+    NONE = 0,
+    CHUNK = ',',
+    MESSAGE = '\n',
+};
+
+cbox::CboxError respond(ResponseWriter& out, const cbox::Payload& payload)
 {
     auto response = cbox::encodeResponse(payload);
     if (!response) {
         return response.error();
     }
 
-    bool writeOk = out.write(response.value()) && out.write(cbox::Separator::CHUNK);
+    bool writeOk = out.write(response.value()) && out.write(Separator::CHUNK);
     out.commit();
 
     if (writeOk) {
@@ -23,18 +29,18 @@ cbox::CboxError respond(cbox::ConnectionOut& out, const cbox::Payload& payload)
     }
 }
 
-void finalize(cbox::ConnectionOut& out, uint32_t msgId, cbox::CboxError status)
+void finalize(ResponseWriter& out, uint32_t msgId, cbox::CboxError status)
 {
     auto response = cbox::encodeResponse(msgId, status);
     if (response) {
         out.write(response.value());
     }
 
-    out.write(cbox::Separator::MESSAGE);
+    out.write(Separator::MESSAGE);
     out.commit();
 }
 
-void handleCommand(cbox::ConnectionOut& out, const std::string& message)
+void handleCommand(ResponseWriter& out, const std::string& message)
 {
     auto parsed = cbox::parseRequest(message);
 

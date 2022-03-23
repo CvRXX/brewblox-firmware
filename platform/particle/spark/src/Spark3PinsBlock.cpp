@@ -25,8 +25,10 @@
 
 #if PLATFORM_ID != 3
 #include "spark/BrewPiTouch.hpp"
-extern BrewPiTouch touch;
+extern platform::particle::BrewPiTouch touch;
 #endif
+
+namespace platform::particle {
 
 pin_t Spark3PinsBlock::channelToPin(uint8_t channel) const
 {
@@ -136,4 +138,7 @@ void* Spark3PinsBlock::implements(cbox::obj_type_t iface)
     }
     return nullptr;
 }
+
+} // end namespace platform::particle
+
 #endif

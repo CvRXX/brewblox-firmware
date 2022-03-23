@@ -1,9 +1,7 @@
 #include "CboxConnection.hpp"
 #include "Brewblox.hpp"
 #include "CboxConnectionManager.hpp"
-#include "EspBox.hpp"
 #include "cbox/Application.hpp"
-#include "cbox/Connection.hpp"
 
 CboxConnection::CboxConnection(
     CboxConnectionManager& connection_manager_)
@@ -55,7 +53,7 @@ void CboxConnection::finish_read(std::error_code ec, std::size_t bytes_transferr
     if (!ec) {
         std::string message(bytes_transferred, 0);
         buffer_in.sgetn(message.data(), bytes_transferred);
-        auto out = BufferConnectionOut(buffer_out);
+        auto out = BufferResponseWriter(buffer_out);
         handleCommand(out, message);
 
         start_write(); // send reply

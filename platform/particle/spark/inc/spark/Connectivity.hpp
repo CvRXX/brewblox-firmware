@@ -21,6 +21,8 @@
 #include "system_event.h"
 #include <cstdint>
 
+namespace platform::particle {
+
 void printWiFiIp(char dest[16]);
 
 void printWifiSSID(char* dest, const uint8_t& maxLen);
@@ -40,3 +42,5 @@ void wifiInit();
 bool listeningModeEnabled();
 
 void manageConnections(uint32_t now);
+
+} // end namespace platform::particle

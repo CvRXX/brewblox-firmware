@@ -19,13 +19,18 @@
  */
 
 #pragma once
-#include "cbox/DataStream.hpp"
 #include <functional>
 #include <memory>
 #include <optional>
 #include <string>
 
-namespace cbox {
+namespace platform::particle {
+
+enum class ConnectionKind : uint8_t {
+    Mock = 0,
+    Usb = 1,
+    Tcp = 2,
+};
 
 enum Separator : char {
     NONE = 0,
@@ -33,16 +38,16 @@ enum Separator : char {
     MESSAGE = '\n',
 };
 
-class ConnectionOut {
+class ResponseWriter {
 public:
-    ConnectionOut() = default;
-    virtual ~ConnectionOut() = default;
-    ConnectionOut(const ConnectionOut&) = delete;
-    ConnectionOut& operator=(const ConnectionOut&) = delete;
+    ResponseWriter() = default;
+    virtual ~ResponseWriter() = default;
+    ResponseWriter(const ResponseWriter&) = delete;
+    ResponseWriter& operator=(const ResponseWriter&) = delete;
+
+    virtual ConnectionKind kind() const = 0;
 
     virtual bool write(const std::string& message) = 0;
-    virtual void commit() = 0;
-    virtual StreamType streamType() const = 0;
 
     virtual bool write(Separator sep)
     {
@@ -55,9 +60,11 @@ public:
                && write(message)
                && write(">");
     }
+
+    virtual void commit() = 0;
 };
 
-class Connection : public ConnectionOut {
+class Connection : public ResponseWriter {
 public:
     Connection() = default;
     virtual ~Connection() = default;
@@ -80,4 +87,4 @@ public:
     virtual void stop() = 0;
 };
 
-} // end namespace cbox
+} // end namespace platform::particle

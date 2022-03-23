@@ -3,9 +3,9 @@
 #include "eeprom_hal.h"
 #include <cstdint>
 
-namespace cbox {
+namespace platform::particle {
 
-class SparkEepromAccess : public EepromAccess {
+class SparkEepromAccess : public cbox::EepromAccess {
 public:
     SparkEepromAccess()
     {
@@ -44,4 +44,4 @@ public:
     }
 };
 
-} // end namespace cbox
+} // end namespace platform::particle

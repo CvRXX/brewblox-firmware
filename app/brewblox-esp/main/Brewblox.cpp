@@ -7,7 +7,6 @@
 #include "blocks/TicksBlock.hpp"
 #include "blocks/stringify.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/Connection.hpp"
 #include "cbox/Hex.hpp"
 #include "proto/proto_version.h"
 #include <esp_wifi.h>

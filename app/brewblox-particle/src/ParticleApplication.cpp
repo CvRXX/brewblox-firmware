@@ -14,7 +14,7 @@ namespace cbox {
 
 ObjectStorage& getStorage()
 {
-    static SparkEepromAccess eeprom;
+    static platform::particle::SparkEepromAccess eeprom;
     static EepromObjectStorage objectStore(eeprom);
     return objectStore;
 }
@@ -32,10 +32,10 @@ std::shared_ptr<Object> scan()
 
 std::string handshakeMessage()
 {
-    auto& version = versionCsv();
-    auto& id = deviceIdString();
-    auto hexResetReason = cbox::d2h(resetReason());
-    auto hexResetReasonData = cbox::d2h(resetReasonData());
+    auto& version = platform::particle::versionCsv();
+    auto& id = platform::particle::deviceIdString();
+    auto hexResetReason = cbox::d2h(platform::particle::resetReason());
+    auto hexResetReasonData = cbox::d2h(platform::particle::resetReasonData());
 
     std::string message = "!BREWBLOX,";
 

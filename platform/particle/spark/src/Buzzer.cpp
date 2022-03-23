@@ -24,6 +24,8 @@
 #include "pwm_hal.h"
 #include "spark/Board.hpp"
 
+namespace platform::particle {
+
 void BuzzerClass::setActive(bool active)
 {
     switch (getSparkVersion()) {
@@ -51,9 +53,4 @@ void BuzzerClass::beep(uint8_t numBeeps, uint16_t duration)
     }
 }
 
-BuzzerClass&
-buzzerRef()
-{
-    static BuzzerClass buzzer;
-    return buzzer;
-}
+} // end namespace platform::particle

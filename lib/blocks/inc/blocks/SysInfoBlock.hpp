@@ -20,7 +20,6 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/DataStream.hpp"
 #include "proto/SysInfo.pb.h"
 
 // provides a protobuf interface to the read only system info

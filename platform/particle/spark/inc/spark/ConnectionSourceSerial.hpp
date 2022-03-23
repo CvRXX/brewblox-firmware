@@ -20,10 +20,10 @@
 #pragma once
 
 #include "cbox/Base64.hpp"
-#include "cbox/Connection.hpp"
+#include "spark/Connection.hpp"
 #include "spark_wiring_usbserial.h"
 
-namespace cbox {
+namespace platform::particle {
 
 static bool serial_connection_active = false;
 
@@ -92,9 +92,9 @@ public:
         stream.flush();
     }
 
-    virtual StreamType streamType() const override final
+    virtual ConnectionKind kind() const override final
     {
-        return StreamType::Usb;
+        return ConnectionKind::Usb;
     }
 
     virtual bool isConnected() override final
@@ -140,4 +140,4 @@ public:
     }
 };
 
-} // end namespace cbox
+} // end namespace platform::particle

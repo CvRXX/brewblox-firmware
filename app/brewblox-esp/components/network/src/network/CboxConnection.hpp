@@ -1,28 +1,23 @@
 #pragma once
 #include "intellisense.hpp"
 
-#include "cbox/Connection.hpp"
+#include "EspBox.hpp"
 #include <asio.hpp>
 
-class BufferConnectionOut : public cbox::ConnectionOut {
+class BufferResponseWriter : public ResponseWriter {
 private:
     asio::streambuf& buf;
 
 public:
-    BufferConnectionOut(asio::streambuf& buf_)
+    BufferResponseWriter(asio::streambuf& buf_)
         : buf(buf_)
     {
     }
-    virtual ~BufferConnectionOut() = default;
-    BufferConnectionOut(const BufferConnectionOut&) = delete;
-    BufferConnectionOut& operator=(const BufferConnectionOut&) = delete;
+    virtual ~BufferResponseWriter() = default;
+    BufferResponseWriter(const BufferResponseWriter&) = delete;
+    BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
 
-    virtual cbox::StreamType streamType() const override final
-    {
-        return cbox::StreamType::Tcp;
-    }
-
-    virtual bool write(const std::string& message)
+    bool write(const std::string& message) override final
     {
         if (buf.size() + message.size() < buf.max_size()) {
             buf.sputn(message.c_str(), message.size());
@@ -31,7 +26,16 @@ public:
         return false;
     }
 
-    virtual bool writeLog(const std::string& message)
+    bool write(char c) override final
+    {
+        if (buf.size() + 1 < buf.max_size()) {
+            buf.sputc(c);
+            return true;
+        }
+        return false;
+    }
+
+    bool writeLog(const std::string& message) override final
     {
         if (buf.size() + message.size() + 2 < buf.max_size()) {
             buf.sputc('<');
@@ -42,7 +46,7 @@ public:
         return false;
     }
 
-    virtual void commit() override final
+    void commit() override final
     {
         buf.pubsync();
     }

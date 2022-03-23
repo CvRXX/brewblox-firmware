@@ -18,7 +18,7 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/DataStream.hpp"
+#include "cbox/EepromDataStream.hpp"
 #include "cbox/Crc.hpp"
 #include <algorithm>
 

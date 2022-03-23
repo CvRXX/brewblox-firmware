@@ -20,7 +20,6 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/DataStream.hpp"
 #include "control/Ticks.hpp"
 #include "proto/Ticks.pb.h"
 

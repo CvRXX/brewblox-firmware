@@ -18,11 +18,11 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ConnectionPool.hpp"
+#include "spark/ConnectionPool.hpp"
 #include "cbox/Application.hpp"
 #include <algorithm>
 
-namespace cbox {
+namespace platform::particle {
 
 ConnectionPool::ConnectionPool(std::initializer_list<std::reference_wrapper<ConnectionSource>> list)
     : connectionSources(list)
@@ -51,14 +51,14 @@ void ConnectionPool::updateConnections()
                 connections.erase(oldest);
             }
 
-            con->writeLog(handshakeMessage());
+            con->writeLog(cbox::handshakeMessage());
             con->commit();
             connections.push_back(std::move(con));
         }
     }
 }
 
-void ConnectionPool::process(std::function<void(ConnectionOut&, const std::string&)> handler)
+void ConnectionPool::process(std::function<void(ResponseWriter&, const std::string&)> handler)
 {
     updateConnections();
     for (auto& conn : connections) {
@@ -92,4 +92,4 @@ void ConnectionPool::startAll()
     }
 }
 
-} // end namespace cbox
+} // end namespace platform::particle

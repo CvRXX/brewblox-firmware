@@ -25,6 +25,10 @@ CSRC += $(wildcard $(ROOT_DIR)/lib/proto/inc/proto/*.pb.c)
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb
 CSRC += $(wildcard $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb/*.c)
 
+# platform/particle/spark (add as needed)
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/spark/inc
+CPPSRC += platform/particle/spark/src/ConnectionPool.cpp
+
 # test/shared
 # only add the files we need
 INCLUDE_DIRS += $(ROOT_DIR)/test/shared

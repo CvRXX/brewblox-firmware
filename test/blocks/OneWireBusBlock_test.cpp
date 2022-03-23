@@ -23,7 +23,6 @@
 #include "blocks/Block.hpp"
 #include "blocks/OneWireBusBlock.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/DataStream.hpp"
 #include "cbox/Object.hpp"
 #include "proto/OneWireBus_test.pb.h"
 #include "spark/Brewblox.hpp"

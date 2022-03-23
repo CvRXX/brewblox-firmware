@@ -1,5 +1,4 @@
 #include "blocks/Block.hpp"
-#include "cbox/DataStream.hpp"
 #include <pb_decode.h>
 #include <pb_encode.h>
 

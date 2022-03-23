@@ -2,7 +2,6 @@
 #include "AppTicks.hpp"
 #include "cbox/Application.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/Connection.hpp"
 #include "cbox/Serialization.hpp"
 #include "delay_hal.h"
 #include "deviceid_hal.h"
@@ -11,10 +10,15 @@
 #include "rgbled.h"
 #include "spark/Board.hpp"
 #include "spark/Brewblox.hpp"
+#include "spark/Connection.hpp"
 #include "spark/ConnectionSourceTcp.hpp"
 #include "spark/Connectivity.hpp"
 #include "spark_wiring_stream.h"
 #include "spark_wiring_usbserial.h"
+
+using platform::particle::ConnectionKind;
+using platform::particle::ResponseWriter;
+using platform::particle::Separator;
 
 namespace app {
 
@@ -40,7 +44,7 @@ void updateFirmwareStreamHandler(Stream* stream)
         case '\n':
             if (command == DCMD::Ack) {
                 stream->write("<!FIRMWARE_UPDATER,");
-                stream->write(versionCsv().c_str());
+                stream->write(platform::particle::versionCsv().c_str());
                 stream->write(">\n");
                 stream->flush();
                 HAL_Delay_Milliseconds(10);
@@ -75,10 +79,10 @@ void updateFirmwareStreamHandler(Stream* stream)
     }
 }
 
-void updateFirmwareFromStream(cbox::StreamType streamType)
+void updateFirmwareFromStream(ConnectionKind streamType)
 {
-    getConnectionPool().stopAll();
-    if (streamType == cbox::StreamType::Usb) {
+    platform::particle::getConnectionPool().stopAll();
+    if (streamType == ConnectionKind::Usb) {
         updateFirmwareStreamHandler(&_fetch_usbserial());
     } else {
         TCPServer server(8332); // re-open a TCP server
@@ -95,26 +99,26 @@ void updateFirmwareFromStream(cbox::StreamType streamType)
 }
 #endif
 
-void startFirmwareUpdate(cbox::ConnectionOut& out)
+void startFirmwareUpdate(ResponseWriter& out)
 {
     LED_SetRGBColor(RGB_COLOR_MAGENTA);
-    getConnectionPool().disconnect();
+    platform::particle::getConnectionPool().disconnect();
     ticks.delayMillis(10);
 #if PLATFORM_ID != PLATFORM_GCC
-    updateFirmwareFromStream(out.streamType());
+    updateFirmwareFromStream(out.kind());
     // reset in case the firmware update failed
     reset(true, UserResetReason::FIRMWARE_UPDATE_FAILED);
 #endif
 }
 
-cbox::CboxError respond(cbox::ConnectionOut& out, const cbox::Payload& payload)
+cbox::CboxError respond(ResponseWriter& out, const cbox::Payload& payload)
 {
     auto response = cbox::encodeResponse(payload);
     if (!response) {
         return response.error();
     }
 
-    bool writeOk = out.write(response.value()) && out.write(cbox::Separator::CHUNK);
+    bool writeOk = out.write(response.value()) && out.write(Separator::CHUNK);
     out.commit();
 
     if (writeOk) {
@@ -124,18 +128,18 @@ cbox::CboxError respond(cbox::ConnectionOut& out, const cbox::Payload& payload)
     }
 }
 
-void finalize(cbox::ConnectionOut& out, uint32_t msgId, cbox::CboxError status)
+void finalize(ResponseWriter& out, uint32_t msgId, cbox::CboxError status)
 {
     auto response = cbox::encodeResponse(msgId, status);
     if (response) {
         out.write(response.value());
     }
 
-    out.write(cbox::Separator::MESSAGE);
+    out.write(Separator::MESSAGE);
     out.commit();
 }
 
-void handleCommand(cbox::ConnectionOut& out, const std::string& message)
+void handleCommand(ResponseWriter& out, const std::string& message)
 {
     auto parsed = cbox::parseRequest(message);
 
@@ -191,13 +195,13 @@ void handleCommand(cbox::ConnectionOut& out, const std::string& message)
         break;
     case cbox::Opcode::CLEAR_WIFI:
         status = cbox::CboxError::OK;
-        clearWifiCredentials();
+        platform::particle::clearWifiCredentials();
         break;
     case cbox::Opcode::FACTORY_RESET:
         finalize(out, request.msgId, cbox::CboxError::OK);
         cbox::unloadBlocks();
         cbox::getStorage().clear();
-        clearWifiCredentials();
+        platform::particle::clearWifiCredentials();
         ticks.delayMillis(100);
         reset(true, UserResetReason::CBOX_FACTORY_RESET);
         return; // already finalized
@@ -215,7 +219,7 @@ void handleCommand(cbox::ConnectionOut& out, const std::string& message)
 
 void communicate()
 {
-    getConnectionPool().process(handleCommand);
+    platform::particle::getConnectionPool().process(handleCommand);
 }
 
 void update()

@@ -21,8 +21,8 @@
 #pragma once
 
 #include "cbox/CboxError.hpp"
+#include "cbox/EepromAccess.hpp"
 #include <cstdint>
-#include <string>
 
 namespace cbox {
 
@@ -61,14 +61,6 @@ public:
     {
         return writeBuffer(reinterpret_cast<const uint8_t*>(data), len);
     }
-};
-
-enum class StreamType : uint8_t {
-    Mock = 0,
-    Usb = 1,
-    Tcp = 2,
-    Eeprom = 3,
-    File = 4,
 };
 
 /**
@@ -122,8 +114,6 @@ public:
      * @return CboxError
      */
     CboxError push(DataOut& out);
-
-    virtual StreamType streamType() const = 0;
 };
 
 /**
@@ -167,11 +157,6 @@ public:
             len = newLen; // only allow making region smaller
         }
     }
-
-    virtual StreamType streamType() const override final
-    {
-        return in.streamType();
-    }
 };
 
 /**
@@ -202,10 +187,100 @@ public:
     {
         len = len_;
     }
+
     stream_size_t availableForWrite()
     {
         return len;
     }
 };
 
-} // end namespace cbox
+class EepromStreamRegion {
+protected:
+    uint16_t _offset = 0;
+    stream_size_t _length = 0;
+
+public:
+    uint16_t offset() { return _offset; }
+    stream_size_t length() { return _length; }
+
+    void reset(uint16_t o, stream_size_t l)
+    {
+        _offset = o;
+        _length = l;
+    }
+};
+
+/**
+ * A datastream implementation that writes to a region of eeprom.
+ * Eeprom is written via the EepromAccess helper.
+ * The stream is only written up to the length specified - once that length has been filled
+ * writes are silently failed.
+ * @see EepromAccess
+ */
+class EepromDataOut final : public DataOut, public EepromStreamRegion {
+private:
+    EepromAccess& eepromAccess;
+
+public:
+    EepromDataOut(EepromAccess& ea)
+        : eepromAccess(ea)
+    {
+    }
+
+    virtual bool write(uint8_t value) override final
+    {
+        if (_length) {
+            eepromAccess.writeByte(_offset++, value);
+            _length--;
+            return true;
+        }
+        return false; // LCOV_EXCL_LINE: doesn't happen if length is managed properly
+    }
+};
+
+/**
+ * A data input stream that reads from a region of eeprom.
+ * @see EepromAccess
+ */
+class EepromDataIn : public DataIn, public EepromStreamRegion {
+private:
+    EepromAccess& eepromAccess;
+
+public:
+    EepromDataIn(EepromAccess& ea)
+        : eepromAccess(ea)
+    {
+    }
+
+    virtual int16_t peek() override final
+    {
+        return eepromAccess.readByte(_offset);
+    }
+
+    virtual int16_t read() override final
+    {
+        int16_t result = -1;
+        if (_length) {
+            result = eepromAccess.readByte(_offset);
+        }
+        if (result >= 0) {
+            _length--;
+            _offset++;
+        }
+        return result;
+    }
+
+    bool skip(stream_size_t skip_length)
+    {
+        auto skip = std::min(skip_length, _length);
+        _offset += skip;
+        _length -= skip;
+        return skip == skip_length;
+    }
+
+    stream_size_t available()
+    {
+        return _length;
+    }
+};
+}

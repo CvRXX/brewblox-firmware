@@ -20,12 +20,12 @@
 #pragma once
 
 #include "cbox/Base64.hpp"
-#include "cbox/Connection.hpp"
+#include "spark/Connection.hpp"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_wifi.h"
 
-namespace cbox {
+namespace platform::particle {
 
 class TcpConnection : public Connection {
 private:
@@ -86,9 +86,9 @@ public:
         client.flush();
     }
 
-    virtual StreamType streamType() const override final
+    virtual ConnectionKind kind() const override final
     {
-        return StreamType::Tcp;
+        return ConnectionKind::Tcp;
     }
 
     virtual bool isConnected() override final
@@ -145,5 +145,4 @@ public:
         server.begin();
     }
 };
-
-} // end namespace cbox
+} // end namespace platform::particle

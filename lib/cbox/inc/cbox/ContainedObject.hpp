@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "cbox/DataStream.hpp"
 #include "cbox/Object.hpp"
 #include <limits>
 #include <memory>

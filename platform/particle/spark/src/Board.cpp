@@ -21,6 +21,8 @@
 #include "delay_hal.h"
 #include "pwm_hal.h"
 
+namespace platform::particle {
+
 #if PLATFORM_ID == 6 // photon, can be V1 or V2 board
 // V1/V2 can be distinguished by having a pull up or pull down on the alarm pin
 bool readAlarmPin()
@@ -152,3 +154,5 @@ void displayBrightness(uint8_t v)
     (void)(v); // prevent unused warning
 #endif
 }
+
+} // end namespace platform::particle

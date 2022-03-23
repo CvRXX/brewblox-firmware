@@ -23,6 +23,8 @@
 #include "spark/SPIArbiter.hpp"
 #include <cstdint>
 
+namespace platform::particle {
+
 class BrewPiTouch {
 public:
     BrewPiTouch(SPIArbiter& spia, const uint8_t cs, const uint8_t irq);
@@ -69,3 +71,5 @@ private:
     uint8_t spiRead(void) const;
     uint16_t readChannel(uint8_t channel, bool singleEnded) const;
 };
+
+} // end namespace platform::particle

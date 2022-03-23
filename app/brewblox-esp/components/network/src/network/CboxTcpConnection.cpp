@@ -1,5 +1,4 @@
 #include "CboxTcpConnection.hpp"
-#include "cbox/Connection.hpp"
 
 CboxTcpConnection::CboxTcpConnection(
     asio::ip::tcp::socket socket_,
@@ -20,7 +19,7 @@ void CboxTcpConnection::async_read_impl(asio::streambuf& buffer_out, std::shared
     asio::async_read_until(
         socket,
         buffer_in,
-        cbox::Separator::MESSAGE,
+        '\n',
         [self{std::move(self)}](std::error_code ec, std::size_t bytes_transferred) {
             self->finish_read(ec, bytes_transferred);
         });

@@ -18,17 +18,17 @@
  */
 
 #pragma once
-#include "cbox/Connection.hpp"
+#include "spark/Connection.hpp"
 #include <memory>
 #include <queue>
 #include <sstream>
-
-namespace cbox {
 
 /**
  * A connection source that emulates a connection by two string streams, used for testing
  *
  **/
+
+namespace platform::particle {
 
 class StringStreamConnection : public Connection {
 private:
@@ -70,9 +70,9 @@ public:
         // we don't need to flush a stringstream
     }
 
-    virtual StreamType streamType() const override final
+    virtual ConnectionKind kind() const override final
     {
-        return StreamType::Mock;
+        return ConnectionKind::Mock;
     }
 
     virtual bool isConnected() override final
@@ -119,4 +119,4 @@ public:
     {
     }
 };
-} // end namespace cbox
+} // end namespace platform::particle

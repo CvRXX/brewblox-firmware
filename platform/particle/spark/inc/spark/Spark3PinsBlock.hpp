@@ -22,6 +22,8 @@
 #include "blocks/Block.hpp"
 #include "spark/SparkIoBase.hpp"
 
+namespace platform::particle {
+
 class Spark3PinsBlock : public SparkIoBase, public Block<brewblox_BlockType_Spark3Pins> {
 private:
     static const uint8_t numPins = 5;
@@ -44,3 +46,5 @@ public:
         return update_never(now);
     }
 };
+
+} // end namespace platform::particle

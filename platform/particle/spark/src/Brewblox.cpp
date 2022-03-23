@@ -24,13 +24,13 @@
 #include "blocks/SysInfoBlock.hpp"
 #include "blocks/stringify.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/Connection.hpp"
 #include "cbox/Hex.hpp"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "proto/proto_version.h"
 #include "rgbled.h"
 #include "spark/Board.hpp"
+#include "spark/Connection.hpp"
 #include "spark/SparkEepromAccess.hpp"
 #include "spark/TouchSettingsBlock.hpp"
 #include "spark/WiFiSettingsBlock.hpp"
@@ -59,26 +59,28 @@
 
 #if PLATFORM_ID == PLATFORM_PHOTON
 #include "spark/Spark2PinsBlock.hpp"
-using PinsBlock = Spark2PinsBlock;
+using PinsBlock = platform::particle::Spark2PinsBlock;
 #else
 #include "spark/Spark3PinsBlock.hpp"
-using PinsBlock = Spark3PinsBlock;
+using PinsBlock = platform::particle::Spark3PinsBlock;
 #endif
 
-cbox::ConnectionPool& getConnectionPool()
+namespace platform::particle {
+
+ConnectionPool& getConnectionPool()
 {
 #if defined(SPARK)
-    static cbox::TcpConnectionSource tcpSource(8332);
+    static TcpConnectionSource tcpSource(8332);
 #if PLATFORM_ID == PLATFORM_GCC
-    static cbox::ConnectionPool pool = {tcpSource};
+    static ConnectionPool pool = {tcpSource};
 #else
     static auto& boxSerial = _fetch_usbserial();
-    static cbox::SerialConnectionSource serialSource(boxSerial);
-    static cbox::ConnectionPool pool = {tcpSource, serialSource};
+    static SerialConnectionSource serialSource(boxSerial);
+    static ConnectionPool pool = {tcpSource, serialSource};
 #endif
 #else
-    static cbox::StringStreamConnectionSource stringStreamSource;
-    static cbox::ConnectionPool pool = {stringStreamSource};
+    static StringStreamConnectionSource stringStreamSource;
+    static ConnectionPool pool = {stringStreamSource};
 #endif
 
     return pool;
@@ -110,6 +112,12 @@ OneWire& getOneWire()
     static auto ow = OneWire(owDriver);
     return ow;
 #endif
+}
+
+BuzzerClass& getBuzzer()
+{
+    static BuzzerClass buzzer;
+    return buzzer;
 }
 
 void setupSystemBlocks()
@@ -186,3 +194,4 @@ int resetReasonData()
     return System.resetReasonData();
 #endif
 }
+} // end namespace platform::particle

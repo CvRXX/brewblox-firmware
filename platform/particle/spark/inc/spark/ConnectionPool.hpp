@@ -19,13 +19,13 @@
  */
 
 #pragma once
-#include "cbox/Connection.hpp"
-#include "cbox/DataStream.hpp"
+#include "spark/Connection.hpp"
 #include <functional>
 #include <memory>
 #include <vector>
 
-namespace cbox {
+namespace platform::particle {
+
 class ConnectionPool {
 private:
     std::vector<std::reference_wrapper<ConnectionSource>> connectionSources;
@@ -41,7 +41,7 @@ public:
         return connections.size();
     }
 
-    void process(std::function<void(ConnectionOut&, const std::string&)> handler);
+    void process(std::function<void(ResponseWriter&, const std::string&)> handler);
 
     void writeLog(const std::string& message);
 
@@ -55,4 +55,4 @@ public:
     void startAll();
 };
 
-} // end namespace cbox
+} // end namespace platform::particle
