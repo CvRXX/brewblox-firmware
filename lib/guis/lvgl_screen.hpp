@@ -26,7 +26,6 @@ class LvglScreen {
     static void init()
     {
         display = std::make_unique<Display>([]() { lv_disp_flush_ready(&disp_drv); });
-        display->aquire_spi();
         display->init();
 
         static lv_disp_draw_buf_t disp_buf1;

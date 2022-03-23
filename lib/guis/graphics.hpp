@@ -18,9 +18,10 @@ public:
     {
         lv_init();
         LvglScreen<Display>::init();
+        LvglScreen<Display>::display->aquire_spi();
 
         static lv_disp_t* disp;
-        disp = lv_disp_drv_register(&LvglScreen<Display>::disp_drv);
+        disp = lv_disp_drv_register(&(LvglScreen<Display>::disp_drv));
         lv_disp_set_bg_color(disp, lv_color_black());
 
 
@@ -32,6 +33,9 @@ public:
         touchscreen = std::make_unique<Touchscreen>(0x00);
         touchscreen->init();
         lv_indev_drv_register(&indev_drv);
+
+        gui = std::make_unique<GUI>();
+        LvglScreen<Display>::display->release_spi();
     }
 
     /**
@@ -39,7 +43,7 @@ public:
      */
     static void update()
     {
-        // gui->update();
+        gui->update();
         LvglScreen<Display>::display->aquire_spi();
         lv_task_handler();
         LvglScreen<Display>::display->release_spi();
@@ -69,6 +73,7 @@ private:
         }
     }
     static std::unique_ptr<Touchscreen> touchscreen;
+    static std::unique_ptr<GUI> gui;
 };
 
 
@@ -76,4 +81,8 @@ private:
 
 template <typename Display, typename Touchscreen, typename GUI>
 std::unique_ptr<Touchscreen> Graphics<Display, Touchscreen, GUI>::touchscreen;
+
+template <typename Display, typename Touchscreen, typename GUI>
+std::unique_ptr<GUI> Graphics<Display, Touchscreen, GUI>::gui;
+
 
