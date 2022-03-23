@@ -13,14 +13,6 @@
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>
 
-Logger& getLogger()
-{
-    static Logger logger([](Logger::LogLevel level, const std::string& log) {
-        // TODO
-    });
-    return logger;
-}
-
 void setupSystemBlocks()
 {
     cbox::objects.init({

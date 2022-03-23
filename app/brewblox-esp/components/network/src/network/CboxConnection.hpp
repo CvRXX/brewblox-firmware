@@ -31,6 +31,17 @@ public:
         return false;
     }
 
+    virtual bool writeLog(const std::string& message)
+    {
+        if (buf.size() + message.size() + 2 < buf.max_size()) {
+            buf.sputc('<');
+            buf.sputn(message.c_str(), message.size());
+            buf.sputc('>');
+            return true;
+        }
+        return false;
+    }
+
     virtual void commit() override final
     {
         buf.pubsync();

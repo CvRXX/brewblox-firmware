@@ -21,7 +21,6 @@
 #pragma once
 
 #include "control/IoArray.hpp"
-#include "control/Logger.hpp"
 #include "control/OneWireDevice.hpp"
 #include <stdint.h>
 

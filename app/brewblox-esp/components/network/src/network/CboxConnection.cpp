@@ -16,7 +16,9 @@ CboxConnection::CboxConnection(
 void CboxConnection::start()
 {
     auto message = cbox::handshakeMessage();
+    buffer_out.sputc('<');
     buffer_out.sputn(message.c_str(), message.size());
+    buffer_out.sputc('>');
     buffer_out.pubsync();
     start_read();
 }

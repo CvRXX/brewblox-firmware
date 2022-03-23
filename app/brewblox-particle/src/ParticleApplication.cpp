@@ -37,7 +37,7 @@ std::string handshakeMessage()
     auto hexResetReason = cbox::d2h(resetReason());
     auto hexResetReasonData = cbox::d2h(resetReasonData());
 
-    std::string message = "<!BREWBLOX,";
+    std::string message = "!BREWBLOX,";
 
     message.reserve(message.size()
                     + version.size()
@@ -46,9 +46,7 @@ std::string handshakeMessage()
                     + 1 // comma
                     + 2 // reset reason data
                     + 1 // comma
-                    + id.size()
-                    + 1 // '>' terminator
-    );
+                    + id.size());
 
     message += version;
     message += ',';
@@ -59,7 +57,6 @@ std::string handshakeMessage()
     message += hexResetReasonData.second;
     message += ',';
     message += id;
-    message += '>';
 
     return message;
 }

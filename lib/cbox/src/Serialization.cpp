@@ -9,7 +9,7 @@ namespace cbox {
 bool decodePayloadContent(pb_istream_t* stream, const pb_field_t* field, void** arg)
 {
     auto payloadContent = static_cast<std::vector<uint8_t>*>(*arg);
-    auto b64Content = std::string(stream->bytes_left, ' ');
+    auto b64Content = std::string(stream->bytes_left, 0);
     if (!pb_read(stream, (uint8_t*)b64Content.data(), b64Content.size())) {
         return false;
     }

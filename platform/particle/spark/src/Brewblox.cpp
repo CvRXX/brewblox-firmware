@@ -112,40 +112,6 @@ OneWire& getOneWire()
 #endif
 }
 
-Logger& getLogger()
-{
-    static Logger logger([](Logger::LogLevel level, const std::string& log) {
-        // TODO(Bob) get active connection to write?
-        // cbox::DataOut& out = getConnectionPool().logDataOut();
-        // out.write('<');
-        // const char debug[] = "DEBUG";
-        // const char info[] = "INFO";
-        // const char warn[] = "WARNING";
-        // const char err[] = "ERROR";
-
-        // switch (level) {
-        // case Logger::LogLevel::DEBUG:
-        //     out.writeBuffer(debug, strlen(debug));
-        //     break;
-        // case Logger::LogLevel::INFO:
-        //     out.writeBuffer(info, strlen(info));
-        //     break;
-        // case Logger::LogLevel::WARN:
-        //     out.writeBuffer(warn, strlen(warn));
-        //     break;
-        // case Logger::LogLevel::ERROR:
-        //     out.writeBuffer(err, strlen(err));
-        //     break;
-        // }
-        // out.write(':');
-        // for (const auto& c : log) {
-        //     out.write(c);
-        // }
-        // out.write('>');
-    });
-    return logger;
-}
-
 void setupSystemBlocks()
 {
     cbox::objects.init({

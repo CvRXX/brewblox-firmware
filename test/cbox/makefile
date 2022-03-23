@@ -30,6 +30,7 @@ CSRC += $(wildcard $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb
 INCLUDE_DIRS += $(ROOT_DIR)/test/shared
 CPPSRC += test/shared/TestHelpers.cpp
 CPPSRC += test/shared/TestObjects.cpp
+CPPSRC += test/shared/AppLogger.cpp
 
 # test/cbox
 # listed individually to help with refactoring

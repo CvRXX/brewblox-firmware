@@ -22,6 +22,10 @@ CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/include
 # catch2
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
+# test/shared (only include what is needed)
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += test/shared/AppLogger.cpp
+
 # test/control
 CPPSRC += $(wildcard $(ROOT_DIR)/test/control/*.cpp)
 

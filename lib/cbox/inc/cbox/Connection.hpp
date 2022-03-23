@@ -48,6 +48,13 @@ public:
     {
         return write(std::string(1, sep));
     }
+
+    virtual bool writeLog(const std::string& message)
+    {
+        return write("<")
+               && write(message)
+               && write(">");
+    }
 };
 
 class Connection : public ConnectionOut {

@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <stdlib.h> /* srand, rand */
 
-#include "TestLogger.hpp"
+#include "AppLogger.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorDigital.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
@@ -1371,7 +1371,7 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
             ds->update(); // reconnects happen in this object, so need to include the 1s update
         };
 
-        TestLogger::clear();
+        logger::clear();
         ds2413mock->flipWrittenBits(writeBitFlips);
         ds2413mock->flipReadBits(readBitFlips);
         CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now, everySecond) == Approx(49.0).margin(0.2));
@@ -1390,10 +1390,10 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
 
         AND_THEN("The log contains disconnect and reconnect logs")
         {
-            CHECK(TestLogger::count("LOG(INFO): DS2413 connected: " + addr.toString()) > 10);
-            CHECK(TestLogger::count("LOG(WARN): DS2413 disconnected: " + addr.toString()) > 10);
+            CHECK(logger::count("LOG(I): DS2413 connected: " + addr.toString()) > 10);
+            CHECK(logger::count("LOG(W): DS2413 disconnected: " + addr.toString()) > 10);
         }
-        TestLogger::clear();
+        logger::clear();
     }
 }
 
@@ -1442,7 +1442,7 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
             ds->update(); // reconnects happen in this object, so need to include the 1s update
         };
 
-        TestLogger::clear();
+        logger::clear();
         ds2408mock->flipWrittenBits(writeBitFlips);
         ds2408mock->flipReadBits(readBitFlips);
         CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now, everySecond) == Approx(49.0).margin(0.2));
@@ -1461,9 +1461,9 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
 
         AND_THEN("The log contains disconnect and reconnect logs")
         {
-            CHECK(TestLogger::count("LOG(INFO): DS2408 connected: " + addr.toString()) > 10);
-            CHECK(TestLogger::count("LOG(WARN): DS2408 disconnected: " + addr.toString()) > 10);
+            CHECK(logger::count("LOG(I): DS2408 connected: " + addr.toString()) > 10);
+            CHECK(logger::count("LOG(W): DS2408 disconnected: " + addr.toString()) > 10);
         }
-        TestLogger::clear();
+        logger::clear();
     }
 }

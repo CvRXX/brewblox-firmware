@@ -2,7 +2,6 @@
 
 #include "cbox/ConnectionPool.hpp"
 #include "cbox/DataStream.hpp"
-#include "control/Logger.hpp"
 
 class OneWire;
 
@@ -11,10 +10,6 @@ cbox::ConnectionPool& getConnectionPool();
 
 // Create and return a static OneWire
 OneWire& getOneWire();
-
-// Create and return a static Logger
-// Implements extern function in lib/control/Logger.h
-Logger& getLogger();
 
 void setupSystemBlocks();
 

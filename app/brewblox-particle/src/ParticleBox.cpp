@@ -154,7 +154,7 @@ void handleCommand(cbox::ConnectionOut& out, const std::string& message)
     case cbox::Opcode::NONE:
     case cbox::Opcode::VERSION:
         status = cbox::CboxError::OK;
-        out.write(cbox::handshakeMessage());
+        out.writeLog(cbox::handshakeMessage());
         out.commit();
         break;
     case cbox::Opcode::BLOCK_READ:

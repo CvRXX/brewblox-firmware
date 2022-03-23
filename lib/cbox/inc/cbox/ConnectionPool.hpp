@@ -43,6 +43,8 @@ public:
 
     void process(std::function<void(ConnectionOut&, const std::string&)> handler);
 
+    void writeLog(const std::string& message);
+
     inline void disconnect()
     {
         connections.clear();
