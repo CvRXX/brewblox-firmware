@@ -56,11 +56,12 @@ class LvglScreen {
         }
         disp_drv.rotated = rotation;
     }
-    static lv_disp_draw_buf_t disp_buf1;
-    static lv_color_t buf1_1[960];
-    static lv_color_t buf1_2[960];
-    static lv_disp_drv_t disp_drv;
     static std::unique_ptr<Display> display;
+    constexpr static auto bufferSize = Display::horResolution*3;
+    static lv_disp_draw_buf_t disp_buf1;
+    static lv_color_t buf1_1[bufferSize];
+    static lv_color_t buf1_2[bufferSize];
+    static lv_disp_drv_t disp_drv;
 
 
 private:
@@ -71,10 +72,10 @@ template <typename Display>
 lv_disp_draw_buf_t LvglScreen<Display>::disp_buf1;
 
 template <typename Display>
-lv_color_t LvglScreen<Display>::buf1_1[960];
+lv_color_t LvglScreen<Display>::buf1_1[LvglScreen<Display>::bufferSize];
 
 template <typename Display>
-lv_color_t LvglScreen<Display>::buf1_2[960];
+lv_color_t LvglScreen<Display>::buf1_2[LvglScreen<Display>::bufferSize];
 
 template <typename Display>
 
