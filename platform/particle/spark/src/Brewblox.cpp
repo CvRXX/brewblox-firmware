@@ -54,7 +54,7 @@
 #endif
 #include "spark/ConnectionSourceTcp.hpp"
 #else
-#include "cbox/ConnectionSourceStringStream.hpp"
+#include "spark/ConnectionSourceStringStream.hpp"
 #endif
 
 #if PLATFORM_ID == PLATFORM_PHOTON

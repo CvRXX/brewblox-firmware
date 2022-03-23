@@ -35,7 +35,7 @@
 SCENARIO("Test", "[makelogicblock]")
 {
     cbox::objects.clearAll();
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     cbox::update(0);
 
     // acuators 101-105

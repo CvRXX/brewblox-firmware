@@ -33,7 +33,7 @@
 SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf data")
 {
     cbox::objects.clearAll();
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     cbox::update(0);
 
     // Create mock sensor 1

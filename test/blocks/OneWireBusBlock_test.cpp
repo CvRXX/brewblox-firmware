@@ -33,7 +33,7 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
     GIVEN("A Blox OneWireBus")
     {
         cbox::objects.clearAll();
-        setupSystemBlocks();
+        platform::particle::setupSystemBlocks();
         cbox::update(0);
         cbox::obj_id_t owId(4);
 

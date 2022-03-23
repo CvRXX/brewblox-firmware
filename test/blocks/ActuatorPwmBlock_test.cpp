@@ -30,7 +30,7 @@
 SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {
     cbox::objects.clearAll();
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     cbox::update(0);
 
     auto actId = cbox::obj_id_t(100);

@@ -34,7 +34,7 @@
 SCENARIO("A TempSensorCombi block")
 {
     cbox::objects.clearAll();
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     cbox::update(0);
 
     auto sensorId1 = cbox::obj_id_t(101);

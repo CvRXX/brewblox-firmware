@@ -32,7 +32,7 @@
 SCENARIO("Auto discovery of OneWire devices")
 {
     cbox::objects.clearAll();
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     cbox::update(0);
 
     WHEN("An object discovery command is received")
