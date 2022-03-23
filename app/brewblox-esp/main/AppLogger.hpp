@@ -1,12 +1,24 @@
 #pragma once
+#include "esp_log.h"
 #include <string>
 
 namespace logger {
 
-void info(const std::string& message);
+static const char* TAG = "Brewblox";
 
-void warn(const std::string& message);
+inline void info(const std::string& message)
+{
+    ESP_LOGI(TAG, "%s", message.c_str());
+}
 
-void error(const std::string& message);
+inline void warn(const std::string& message)
+{
+    ESP_LOGW(TAG, "%s", message.c_str());
+}
+
+inline void error(const std::string& message)
+{
+    ESP_LOGE(TAG, "%s", message.c_str());
+}
 
 } // end namespace logger
