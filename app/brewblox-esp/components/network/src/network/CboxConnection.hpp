@@ -19,7 +19,7 @@ public:
 
     bool write(const std::string& message) override final
     {
-        if (buf.size() + message.size() < buf.max_size()) {
+        if (buf.size() + message.size() <= buf.max_size()) {
             buf.sputn(message.c_str(), message.size());
             return true;
         }

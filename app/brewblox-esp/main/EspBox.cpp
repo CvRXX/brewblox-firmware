@@ -106,7 +106,9 @@ void handleCommand(ResponseWriter& out, const std::string& message)
         esp_restart();
         return; // already finalized
     case cbox::Opcode::FIRMWARE_UPDATE:
-        status = cbox::CboxError::INVALID_OPCODE;
+        status = cbox::CboxError::OK;
+        out.writeLog("Use the :80/firmware_update HTTP endpoint to trigger an OTA update.");
+        out.commit();
         break;
     default:
         status = cbox::CboxError::INVALID_OPCODE;
