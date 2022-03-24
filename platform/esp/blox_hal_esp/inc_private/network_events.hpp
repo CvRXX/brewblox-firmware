@@ -11,9 +11,7 @@ inline void onEthernetConnected()
 
 inline void onEthernetDisconnected()
 {
-    if (wifi::hasCredentials()) {
-        wifi::start();
-    }
+    wifi::start();
 }
 
 inline void onWifiConnected()

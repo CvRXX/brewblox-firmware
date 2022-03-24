@@ -28,11 +28,7 @@ void on_wifi_disconnect(void* arg, esp_event_base_t event_base,
     onWifiDisconnected();
 
     ESP_LOGI(TAG, "Wi-Fi disconnected, trying to reconnect...");
-    esp_err_t err = esp_wifi_connect();
-    if (err == ESP_ERR_WIFI_NOT_STARTED) {
-        return;
-    }
-    ESP_ERROR_CHECK(err);
+    esp_wifi_connect();
 }
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
@@ -78,9 +74,9 @@ void start()
     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnect, NULL));
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &on_got_ip, nullptr));
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip, nullptr));
-    esp_wifi_set_ps(WIFI_PS_NONE); // disable power saving, otherwise traffic can have a lot of latency
     ESP_ERROR_CHECK(esp_wifi_start());
     esp_wifi_connect();
+    esp_wifi_set_ps(WIFI_PS_NONE); // disable power saving, otherwise traffic can have a lot of latency
 }
 
 void stop()
@@ -88,12 +84,8 @@ void stop()
     ESP_ERROR_CHECK(esp_event_handler_unregister(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnect));
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, &on_got_ip));
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip));
+    esp_wifi_stop();
     esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
-    esp_err_t err = esp_wifi_stop();
-    if (err == ESP_ERR_WIFI_NOT_INIT) {
-        return;
-    }
-    ESP_ERROR_CHECK(err);
 }
 
 int8_t rssi()
@@ -127,6 +119,6 @@ bool hasCredentials()
         return false;
     }
 
-    return (strlen((const char*)wifi_cfg.sta.ssid));
+    return wifi_cfg.sta.ssid[0] != 0;
 }
 }

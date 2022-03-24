@@ -63,23 +63,23 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             if (*reason == WIFI_PROV_STA_AUTH_ERROR) {
                 clear();
             }
-            stop();
+            wifi_prov_mgr_stop_provisioning();
             break;
         }
         case WIFI_PROV_CRED_SUCCESS:
             ESP_LOGI(TAG, "Provisioning successful");
-            stop();
+            wifi_prov_mgr_stop_provisioning();
             break;
         case WIFI_PROV_END:
             ESP_LOGI(TAG, "PROV END");
+            wifi_prov_mgr_deinit();
+            isRunning = false;
             break;
         case WIFI_PROV_DEINIT:
             ESP_LOGI(TAG, "PROV DEINIT");
-            isRunning = false;
             // restart wifi with app event handlers
             wifi::stop();
             wifi::start();
-            break;
         default:
             break;
         }
@@ -99,9 +99,6 @@ void start()
     wifi::stop(); // stop wifi as normal access point and disable custom event handlers and enable power saving
     wifi::init(); // ensure wifi is initialized, could be disabled if ethernet is connected
 
-    /* disable auto stop and handle it manually to ensure that bluetooth doesn't clash with disabling wifi power saving */
-    wifi_prov_mgr_disable_auto_stop(5000);
-
     if (!instance_wifi_prov_event) {
         /* Register our event handler for provisioning related events */
         ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
@@ -110,6 +107,11 @@ void start()
     if (wifi_prov_mgr_init(ble_config) != ESP_OK) {
         return;
     }
+
+    /* disable auto stop and handle it manually to ensure that bluetooth doesn't clash with disabling wifi power saving
+     * gives bluetooth 10 seconds to close communications and deinit
+     */
+    wifi_prov_mgr_disable_auto_stop(10000);
 
     /* What is the Device Service Name that we want
      * This translates to :
@@ -196,9 +198,7 @@ void start()
 
 void stop()
 {
-    // calls wifi_prov_mgr_stop_provisioning();
-    // schedules stop task after delay and emits end event eventually
-    wifi_prov_mgr_deinit();
+    wifi_prov_mgr_stop_provisioning();
 }
 
 void clear()

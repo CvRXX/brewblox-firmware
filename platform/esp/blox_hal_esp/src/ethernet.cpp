@@ -91,6 +91,8 @@ void stop()
 {
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_ETH_GOT_IP, &on_got_ip));
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_ETH_LOST_IP, &on_lost_ip));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(ETH_EVENT, ETHERNET_EVENT_DISCONNECTED, &on_disconnected));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(ETH_EVENT, ETHERNET_EVENT_CONNECTED, &on_connected));
 
     if (eth_handle) {
         ESP_ERROR_CHECK(esp_eth_stop(eth_handle));
