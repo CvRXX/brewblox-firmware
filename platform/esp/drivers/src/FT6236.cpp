@@ -1,4 +1,4 @@
-#include "FT6236.hpp"
+#include "drivers/FT6236.hpp"
 
 FT6236::FT6236(uint8_t address)
     : I2CDeviceBase(address)
@@ -14,10 +14,10 @@ FT6236::~FT6236()
 
 void FT6236::init()
 {
-    //Enable interupt polling mode
+    // Enable interupt polling mode
     writeRegister(Register::G_MODE, 0x00);
 
-    //Enable interupts and register handler
+    // Enable interupts and register handler
     gpio_set_intr_type(int_pin, GPIO_INTR_NEGEDGE);
     gpio_isr_handler_add(
         int_pin, [](void* data) {
@@ -50,7 +50,7 @@ std::optional<uint8_t> FT6236::readRegister(Register reg)
 std::optional<FT6236::Touch> FT6236::getTouch()
 {
     if (interuptFlag) {
-        if (hal_gpio_read(int_pin)) {
+        if (gpio_get_level(int_pin)) {
             interuptFlag = false;
         }
         auto xLow = readRegister(Register::P1_XL);

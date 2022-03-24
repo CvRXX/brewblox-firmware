@@ -20,7 +20,7 @@
 #include "nvs_flash.h"
 #include <string.h>
 // #include "protocol_examples_common.h"
-#include "Spark4.hpp"
+#include "drivers/Spark4.hpp"
 #include "errno.h"
 #include "esp_wifi.h"
 #include "ota.hpp"
@@ -188,9 +188,9 @@ static void ota_task(void* pvParameter)
             ESP_LOGD(TAG, "Written image length %d", binary_file_length);
         } else if (data_read == 0) {
             /*
-            * As esp_http_client_read never returns negative error code, we rely on
-            * `errno` to check for underlying transport connectivity closure if any
-            */
+             * As esp_http_client_read never returns negative error code, we rely on
+             * `errno` to check for underlying transport connectivity closure if any
+             */
             if (errno == ECONNRESET || errno == ENOTCONN) {
                 ESP_LOGE(TAG, "Connection closed, errno = %d", errno);
                 break;
@@ -301,8 +301,6 @@ void start_ota(const std::string& url, bool skip_version_check)
 {
     url.copy(otaParameters.url, 256);
     otaParameters.skip_version_check = skip_version_check;
-
-    esp_wifi_set_ps(WIFI_PS_NONE);
 
     xTaskCreate(&ota_task, "ota_task", 8192, NULL, 5, NULL);
 }

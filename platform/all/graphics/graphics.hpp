@@ -1,5 +1,5 @@
 #pragma once
-#include "FT6236.hpp"
+#include "drivers/FT6236.hpp"
 #include <array>
 #include <lvgl.h>
 #include <memory>

@@ -7,7 +7,6 @@ import sys
 from shutil import which
 
 # to find icon code, search in https://raw.githubusercontent.com/Templarian/MaterialDesign-Font/master/cheatsheet.html
-# convert hex to utf8 and add to fonts.hpp
 
 icons = [
     "0xF091F",  # Wifi strength 1
@@ -15,9 +14,13 @@ icons = [
     "0xF0925",  # Wifi strength 3
     "0xF0928",  # Wifi strength 4
     "0xF092E",  # Wifi off
+    "0xF16BE",  # Wifi cog
     "0xF0200",  # Ethernet
+    "0xF00AF",  # bluetooth
     "0xF0055",  # arrow-thick-right
 ]
+
+exit
 
 # from space to ~. Includes punctuation and numbers, not accent letters
 letters = '0x20-0x7E'
@@ -39,6 +42,11 @@ size_numbers_medium = 20
 size_numbers_large = 36
 size_main = 16
 size_main_small = 12
+
+# Change to script directory
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 os.system(
     f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_medium} "

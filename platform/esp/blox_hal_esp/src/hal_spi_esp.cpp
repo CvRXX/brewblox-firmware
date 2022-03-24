@@ -42,6 +42,7 @@ spi_device_t* get_platform_ptr(const Settings& settings)
 {
     return static_cast<spi_device_t*>(settings.platform_device_ptr);
 }
+
 void pre_callback(spi_transaction_t* t)
 {
     if (t->user) {
@@ -77,6 +78,7 @@ void post_callback(spi_transaction_t* t)
         transactionBuffer.free(t);
     }
 }
+
 error_t init(Settings& settings)
 {
     auto spi_host = spiHosts[settings.spi_idx];
