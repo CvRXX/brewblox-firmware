@@ -16,6 +16,7 @@
 // #include "esp_heap_trace.h"
 #include "FT6236.hpp"
 #include "TFT035.hpp"
+#include "TicksEsp.h"
 #include "blox_hal/hal_delay.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
 #include "gui.hpp"
@@ -108,10 +109,16 @@ int main(int /*argc*/, char** /*argv*/)
         });
 
     updater.start();
+    auto ticks = TicksEsp();
 
     using gui = Gui<TFT035, FT6236, StaticGui>;
 
+    auto startInit = ticks.micros();
     gui::init();
+    auto endInit = ticks.micros();
+    auto initDuration = endInit - startInit;
+
+    ESP_LOGE("measurments", "Init duration (%d)", initDuration);
 
     static CboxServer cboxServer(io, 8332);
 
@@ -136,9 +143,29 @@ int main(int /*argc*/, char** /*argv*/)
 
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() -> bool {
+                                              [ticks]() -> bool {
+                                                  static uint8_t counter = 0;
+                                                  static uint32_t maxTime = 0;
+                                                  static uint32_t timeSum = 0;
+                                                  auto startUpdate = ticks.micros();
                                                   gui::update();
                                                   gui::tick(100);
+                                                  auto endUpdate = ticks.micros();
+                                                  auto updateDuration = endUpdate - startUpdate;
+                                                  if (updateDuration > maxTime) {
+                                                      maxTime = updateDuration;
+                                                  }
+                                                  timeSum += updateDuration;
+                                                  if (counter >= 60) {
+                                                      counter = 0;
+                                                      auto averageUpdateDuration = timeSum / 60;
+                                                      ESP_LOGE("measurments", "Average update duration 60 updates (%d)", averageUpdateDuration);
+                                                      ESP_LOGE("measurments", "Max update duration 60 updates (%d)", maxTime);
+                                                      timeSum = 0;
+                                                      maxTime = 0;
+                                                  } else {
+                                                      counter++;
+                                                  }
                                                   return true;
                                               });
 
