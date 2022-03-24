@@ -62,10 +62,6 @@ public:
 };
 } // end namespace cbox
 
-std::string addCrc(const std::string& in);
-
-std::string crc(const std::string& in);
-
 std::string hexed(const std::vector<uint8_t>& data);
 
 void decodeProtoFromReply(std::stringstream& ss, ::google::protobuf::Message& message);
