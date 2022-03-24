@@ -23,8 +23,11 @@ public:
         stop();
     }
 
-    void start()
+    void start(bool runImmediately = false)
     {
+        if (runImmediately) {
+            onTimeout(std::error_code{});
+        }
         timer.expires_from_now(interval);
         run();
     }

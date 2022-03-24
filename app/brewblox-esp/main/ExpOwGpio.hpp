@@ -1,11 +1,11 @@
 #pragma once
 
-#include "DRV8908.hpp"
-#include "TCA9538.hpp"
 #include "control/DS248x.hpp"
 #include "control/IoArray.hpp"
 #include "control/IoModule.hpp"
 #include "control/OneWire.hpp"
+#include "drivers/DRV8908.hpp"
+#include "drivers/TCA9538.hpp"
 #include "proto/OneWireGpioModule.pb.h"
 // #include "esp_err.h"
 // #include "esp_log.h"

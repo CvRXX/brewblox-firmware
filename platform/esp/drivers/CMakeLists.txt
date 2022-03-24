@@ -1,0 +1,11 @@
+idf_component_register(
+  SRCS
+    src/DRV8908.cpp
+    src/FT6236.cpp
+    src/Spark4.cpp
+    src/TFT035.cpp
+  INCLUDE_DIRS
+    inc
+  REQUIRES
+    main
+)

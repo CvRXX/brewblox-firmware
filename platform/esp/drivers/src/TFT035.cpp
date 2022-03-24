@@ -1,7 +1,8 @@
-#include "TFT035.hpp"
-#include "Spark4.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "blox_hal/hal_spi_types.hpp"
+#include "drivers/TFT035.hpp"
+#include "driver/gpio.h"
+#include "drivers/Spark4.hpp"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include <cstring>
@@ -14,19 +15,19 @@ using namespace hal_spi;
 void dcPinData()
 {
 
-    hal_gpio_write(spark4::PIN_NUM_TFT_DC, true);
+    gpio_set_level(spark4::PIN_NUM_TFT_DC, true);
     // ensure CS pin is toggled so that DC pin is read on next falling edge of CLK
-    hal_gpio_write(spark4::PIN_NUM_TFT_CS, true);
-    hal_gpio_write(spark4::PIN_NUM_TFT_CS, false);
+    gpio_set_level(spark4::PIN_NUM_TFT_CS, true);
+    gpio_set_level(spark4::PIN_NUM_TFT_CS, false);
 }
 
 void dcPinCommand()
 {
 
-    hal_gpio_write(spark4::PIN_NUM_TFT_DC, false);
+    gpio_set_level(spark4::PIN_NUM_TFT_DC, false);
     // ensure CS pin is toggled so that DC pin is read on next falling edge of CLK
-    hal_gpio_write(spark4::PIN_NUM_TFT_CS, true);
-    hal_gpio_write(spark4::PIN_NUM_TFT_CS, false);
+    gpio_set_level(spark4::PIN_NUM_TFT_CS, true);
+    gpio_set_level(spark4::PIN_NUM_TFT_CS, false);
 }
 
 DMA_ATTR auto callbacksData = StaticCallbacks{
@@ -232,7 +233,7 @@ bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsi
 
     return spiDevice.dmaWrite(pixels, nPixels * 3,
                               Callbacks{[&](TransactionData& t) {
-                                            hal_gpio_write(2, true);
+                                            gpio_set_level(gpio_num_t(2), true);
                                         },
                                         [&](TransactionData& t) {
                                             this->finishCallback();

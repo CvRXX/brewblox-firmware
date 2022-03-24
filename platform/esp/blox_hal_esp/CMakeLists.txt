@@ -1,0 +1,19 @@
+idf_component_register(
+  SRCS
+    src/hal_delay_esp.cpp
+    src/hal_gpio_esp.cpp
+    src/hal_i2c_esp.cpp
+    src/hal_spi_esp.cpp
+    src/network_esp.cpp
+    src/TicksEsp.cpp
+    src/wifi.cpp
+    src/ethernet.cpp
+    src/wifi_provision.cpp
+    src/network_events.cpp
+  INCLUDE_DIRS
+    inc
+  PRIV_INCLUDE_DIRS
+    inc_private
+  REQUIRES
+    main
+)

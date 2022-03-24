@@ -1,4 +1,4 @@
-#include "Spark4.hpp"
+#include "drivers/Spark4.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
@@ -138,7 +138,7 @@ void expander_init()
     expander.reset();
 
     // beep also configures clock, which is on the same register
-    startup_beep();
+    beep(Beep::OFF);
 
     // Disable input for RGB LED and TFT backlight
     expander.write_reg(SX1508::RegAddr::inputDisable, outputs);
@@ -179,13 +179,19 @@ void display_brightness(uint8_t b)
     expander.write_reg(SX1508::RegAddr::iOn5, backLightPwm);
 }
 
+void beep(Beep freq)
+{
+    uint8_t v = uint8_t(0b01010000) + uint8_t(freq);
+    expander.write_reg(SX1508::RegAddr::clock, v);
+}
+
 void startup_beep()
 {
-    expander.write_reg(SX1508::RegAddr::clock, 0b01011011);
+    beep(Beep::LOW);
     hal_delay_ms(200);
-    expander.write_reg(SX1508::RegAddr::clock, 0b01011010);
+    beep(Beep::MID);
     hal_delay_ms(200);
-    expander.write_reg(SX1508::RegAddr::clock, 0b01010000);
+    beep(Beep::OFF);
 }
 
 esp_adc_cal_characteristics_t adc_characteristics;
@@ -197,25 +203,30 @@ void adc_init()
     esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_6db, ADC_WIDTH_BIT_12, 1100, &adc_characteristics);
 }
 
-uint32_t adcRead5V()
+uint32_t adcRead5V(bool cached)
 {
-
-    uint32_t voltage;
-    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_0), &adc_characteristics, &voltage)) {
-        // voltage divider 10k and 4k7
-        return voltage + (voltage * 100) / 47;
+    static uint32_t voltage;
+    if (!cached) {
+        uint32_t result;
+        if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_0), &adc_characteristics, &result)) {
+            // voltage divider 10k and 4k7
+            voltage = result + (result * 100) / 47;
+        }
     }
-    return 0;
+    return voltage;
 }
 
-uint32_t adcReadExternal()
+uint32_t adcReadExternal(bool cached)
 {
-    uint32_t voltage;
-    if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_3), &adc_characteristics, &voltage)) {
-        // voltage divider 88k7 and 4k7
-        return voltage + (voltage * 887) / 47;
+    static uint32_t voltage;
+    if (!cached) {
+        uint32_t result;
+        if (!esp_adc_cal_get_voltage(adc_channel_t(ADC1_CHANNEL_3), &adc_characteristics, &result)) {
+            // voltage divider 88k7 and 4k7
+            voltage = result + (result * 887) / 47;
+        }
     }
-    return 0;
+    return voltage;
 }
 
 // Expander pins:

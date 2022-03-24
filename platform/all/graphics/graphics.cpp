@@ -1,7 +1,8 @@
 #include "graphics.hpp"
-#include "FT6236.hpp"
-#include "TFT035.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
+#include "drivers/FT6236.hpp"
+#include "drivers/TFT035.hpp"
+#include "cbox/Box.hpp"
 #include "layout.hpp"
 #include "lvgl.h"
 #include <esp_log.h>

@@ -1,25 +1,26 @@
-#include "intellisense.hpp"
-
 #include "Brewblox.hpp"
-#include "ExpOwGpio.hpp"
-#include "HttpHandler.hpp"
-#include "I2cScanningFactory.hpp"
 #include "RecurringTask.hpp"
-#include "Spark4.hpp"
-#include "TFT035.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "cbox/Box.hpp"
 #include "control/DS248x.hpp"
 #include "control/OneWire.hpp"
 #include "control/TempSensor.hpp"
+#include "drivers/Spark4.hpp"
+#include "drivers/TFT035.hpp"
+#include "intellisense.hpp"
+// #include "esp_heap_caps.h"
+// #include "esp_heap_trace.h"
+#include "BeepTask.hpp"
+#include "HttpHandler.hpp"
+#include "OkButtonMonitor.hpp"
+#include "blox_hal/hal_network.hpp"
 #include "graphics/graphics.hpp"
 #include "graphics/widgets.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
-#include "network/ethernet.hpp"
 #include "network/mdns.hpp"
-#include "network/wifi.hpp"
+#include "ota.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -76,19 +77,36 @@ int main(int /*argc*/, char** /*argv*/)
 
     spark4::hw_init();
     check_ota();
-
-    spark4::adc_init();
-
-    hal_delay_ms(100);
-
+    spark4::startup_beep();
     mount_blocks_spiff();
-    ethernet::init();
-
-    asio::io_context io;
-
+    spark4::adc_init();
     setupSystemBlocks();
-    cbox::loadBlocksFromStorage();
-    cbox::discoverBlocks();
+    Graphics::init();
+
+    static asio::io_context io;
+    static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
+                                              RecurringTask::IntervalType::FROM_EXPIRY,
+                                              []() -> bool {
+                                                  Graphics::update();
+                                                  Graphics::tick(100);
+                                                  return true;
+                                              });
+
+    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
+                                            RecurringTask::IntervalType::FROM_EXPIRY,
+                                            []() -> bool {
+                                                spark4::expander_check();
+                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+                                                return true;
+                                            });
+
+    static OkButtonMonitor buttonMonitor(
+        io,
+        {
+            []() {},                 // no action on single press
+            network::provision,      // hold 5s to start provision to set WiFi credentials
+            network::clearProvision, // hold 10s to clear WiFi credentials
+        });
 
     static auto updater = RecurringTask(
         io, asio::chrono::milliseconds(10),
@@ -101,53 +119,18 @@ int main(int /*argc*/, char** /*argv*/)
             return true;
         });
 
-    updater.start();
-
-    Graphics::init();
-
     static CboxServer cboxServer(io, 8332);
+    static HttpHandler http(io, 80, cboxServer);
 
-    static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
-                                                 RecurringTask::IntervalType::FROM_EXPIRY,
-                                                 []() -> bool {
-                                                     static uint8_t count = 0;
-                                                     if (spark4::adcRead5V() < 2000u) {
-                                                         ++count;
-                                                         if (count < 5) {
-                                                             // still pressed
-                                                             return true;
-                                                         }
-                                                     }
-                                                     bool resetProvision = count >= 5;
-                                                     wifi::init(wifi::PROVISION_METHOD::BLE, resetProvision);
-                                                     mdns::start();
-                                                     return false;
-                                                 });
-
-    provisionTimeout.start();
-
-    static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
-                                              RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() -> bool {
-                                                  Graphics::update();
-                                                  Graphics::tick(100);
-                                                  return true;
-                                              });
-
-    displayTicker.start();
-
-    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
-                                            RecurringTask::IntervalType::FROM_EXPIRY,
-                                            []() -> bool {
-                                                spark4::expander_check();
-                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
-                                                return true;
-                                            });
-
+    displayTicker.start(true);
+    buttonMonitor.start();
     systemCheck.start();
+    cbox::loadBlocksFromStorage();
+    updater.start(true);
 
-    HttpHandler http(io, 80, cboxServer);
-
+    cbox::discoverBlocks();
+    network::connect();
+    mdns::start();
     io.run();
 
 #ifndef ESP_PLATFORM

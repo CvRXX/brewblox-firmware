@@ -76,4 +76,4 @@ class SortedContainer {
 
     std::vector<item> items;
     id_t lastId = 0;
-}
+};

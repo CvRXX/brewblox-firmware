@@ -19,8 +19,9 @@
 
 #pragma once
 
-#include "TicksEsp.h"
 #include "control/Ticks.hpp"
+#include "blox_hal_esp/TicksEsp.hpp"
+
 using TicksClass = Ticks<TicksEsp>;
 
 extern TicksClass ticks;
