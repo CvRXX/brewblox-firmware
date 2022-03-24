@@ -16,6 +16,7 @@
 // #include "esp_heap_trace.h"
 #include "FT6236.hpp"
 #include "TFT035.hpp"
+#include "TicksEsp.h"
 #include "blox_hal/hal_delay.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
 #include "gui.hpp"
@@ -96,67 +97,19 @@ int main(int /*argc*/, char** /*argv*/)
     cbox::loadBlocksFromStorage();
     cbox::discoverBlocks();
 
-    static auto updater = RecurringTask(
-        io, asio::chrono::milliseconds(10),
-        RecurringTask::IntervalType::FROM_EXECUTION,
-        []() {
-            static const auto start = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
-            const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
-            uint32_t millisSinceBoot = now - start;
-            cbox::update(millisSinceBoot);
-            return true;
-        });
-
-    updater.start();
-
-    using gui = Gui<TFT035, FT6236, StaticGui>;
+    using gui = Gui<TFT035, FT6236, DynamicGui>;
 
     gui::init();
+    auto ticks = TicksEsp();
+    auto start = ticks.micros();
+    for (int i = 0; i < 60; i++) {
+        gui::update();
+        gui::tick(100);
+    }
+    auto end = ticks.micros();
+    auto difference = end - start;
 
-    static CboxServer cboxServer(io, 8332);
-
-    static auto provisionTimeout = RecurringTask(io, asio::chrono::milliseconds(1000),
-                                                 RecurringTask::IntervalType::FROM_EXPIRY,
-                                                 []() -> bool {
-                                                     static uint8_t count = 0;
-                                                     if (spark4::adcRead5V() < 2000u) {
-                                                         ++count;
-                                                         if (count < 5) {
-                                                             // still pressed
-                                                             return true;
-                                                         }
-                                                     }
-                                                     bool resetProvision = count >= 5;
-                                                     wifi::init(wifi::PROVISION_METHOD::BLE, resetProvision);
-                                                     mdns::start();
-                                                     return false;
-                                                 });
-
-    provisionTimeout.start();
-
-    static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
-                                              RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() -> bool {
-                                                  gui::update();
-                                                  gui::tick(100);
-                                                  return true;
-                                              });
-
-    displayTicker.start();
-
-    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
-                                            RecurringTask::IntervalType::FROM_EXPIRY,
-                                            []() -> bool {
-                                                spark4::expander_check();
-                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
-                                                return true;
-                                            });
-
-    systemCheck.start();
-
-    HttpHandler http(io, 80, cboxServer);
-
-    io.run();
+    ESP_LOGE("tesr", "Time for 60 rewrites (%d)", difference);
 
 #ifndef ESP_PLATFORM
     return 0;

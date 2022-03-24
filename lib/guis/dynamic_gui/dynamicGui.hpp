@@ -12,7 +12,6 @@ public:
      */
     DynamicGui()
     {
-        lv_obj_t* slider1 = lv_slider_create(lv_scr_act());
     }
     ~DynamicGui()
     {
@@ -26,7 +25,15 @@ public:
      */
     void update()
     {
+        if (toggler) {
+            lv_obj_set_style_bg_color(lv_scr_act(), lv_color_black(), LV_STATE_DEFAULT);
+            toggler = false;
+        } else {
+            lv_obj_set_style_bg_color(lv_scr_act(), lv_color_white(), LV_STATE_DEFAULT);
+            toggler = true;
+        }
     }
 
 private:
+    bool toggler = false;
 };
