@@ -19,6 +19,7 @@
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
+#include "network/mdns.hpp"
 #include "ota.hpp"
 #include <algorithm>
 #include <asio.hpp>
@@ -129,7 +130,7 @@ int main(int /*argc*/, char** /*argv*/)
 
     cbox::discoverBlocks();
     network::connect();
-
+    mdns::start();
     io.run();
 
 #ifndef ESP_PLATFORM
