@@ -29,17 +29,18 @@ esp_ip4_addr_t ip_addr{0};
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
-    onEthernetConnected();
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
 
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
     memcpy(&ip_addr, &event->ip_info.ip, sizeof(ip_addr));
+    onEthernetGotIp();
 }
 
 void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
     esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
+    onEthernetLostIp();
 
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(event->esp_netif));
 }
@@ -47,13 +48,12 @@ void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_
 void on_disconnected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
     onEthernetDisconnected();
-    esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
-
     ESP_LOGI(TAG, "Ethernet disconnected");
 }
 
 void on_connected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
+    onEthernetConnected();
     ESP_LOGI(TAG, "Ethernet connected");
 }
 

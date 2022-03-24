@@ -9,6 +9,7 @@ idf_component_register(
     src/wifi.cpp
     src/ethernet.cpp
     src/wifi_provision.cpp
+    src/network_events.cpp
   INCLUDE_DIRS
     inc
   PRIV_INCLUDE_DIRS

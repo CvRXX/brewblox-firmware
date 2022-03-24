@@ -185,6 +185,15 @@ void beep(Beep freq)
     expander.write_reg(SX1508::RegAddr::clock, v);
 }
 
+void startup_beep()
+{
+    beep(Beep::LOW);
+    hal_delay_ms(200);
+    beep(Beep::MID);
+    hal_delay_ms(200);
+    beep(Beep::OFF);
+}
+
 esp_adc_cal_characteristics_t adc_characteristics;
 void adc_init()
 {

@@ -14,7 +14,7 @@
 
 #include "blox_hal/hal_delay.hpp"
 #include "blox_hal/hal_network.hpp"
-#include "wifi.hpp"
+#include "network_events.hpp"
 #include "wifi_provision.hpp"
 #include <string>
 #include <wifi_provisioning/manager.h>
@@ -46,6 +46,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             break;
         case WIFI_PROV_START:
             ESP_LOGI(TAG, "Provisioning started");
+            onProvisionStarted();
             break;
         case WIFI_PROV_CRED_RECV: {
             wifi_sta_config_t* wifi_sta_cfg = (wifi_sta_config_t*)event_data;
@@ -77,9 +78,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
             break;
         case WIFI_PROV_DEINIT:
             ESP_LOGI(TAG, "PROV DEINIT");
-            // restart wifi with app event handlers
-            wifi::stop();
-            wifi::start();
+            onProvisionStopped();
         default:
             break;
         }
@@ -95,9 +94,7 @@ void start()
         .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
 
     isRunning = true;
-
-    wifi::stop(); // stop wifi as normal access point and disable custom event handlers and enable power saving
-    wifi::init(); // ensure wifi is initialized, could be disabled if ethernet is connected
+    onProvisionStarted();
 
     if (!instance_wifi_prov_event) {
         /* Register our event handler for provisioning related events */

@@ -21,13 +21,22 @@ namespace wifi {
 constexpr auto TAG = "WIFI";
 esp_netif_t* wifi_netif{nullptr};
 esp_ip4_addr_t ip_addr{0};
+static bool connected = false;
 
-void on_wifi_disconnect(void* arg, esp_event_base_t event_base,
-                        int32_t event_id, void* event_data)
+void on_wifi_connected(void* arg, esp_event_base_t event_base,
+                       int32_t event_id, void* event_data)
 {
-    onWifiDisconnected();
+    connected = true;
+    onWifiConnected();
+    ESP_LOGI(TAG, "Wi-Fi connected");
+}
 
-    ESP_LOGI(TAG, "Wi-Fi disconnected, trying to reconnect...");
+void on_wifi_disconnected(void* arg, esp_event_base_t event_base,
+                          int32_t event_id, void* event_data)
+{
+    connected = false;
+    onWifiDisconnected();
+    ESP_LOGI(TAG, "Wi-Fi disconnected");
     esp_wifi_connect();
 }
 
@@ -37,6 +46,7 @@ void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* e
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
     memcpy(&ip_addr, &event->ip_info.ip, sizeof(ip_addr));
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
+    onWifiGotIp();
 }
 
 void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
@@ -44,6 +54,7 @@ void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_
     ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
     esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(event->esp_netif));
+    onWifiLostIp();
 }
 
 void init()
@@ -71,7 +82,8 @@ void deinit()
 void start()
 {
     init();
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnect, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_CONNECTED, &on_wifi_connected, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnected, NULL));
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &on_got_ip, nullptr));
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip, nullptr));
     ESP_ERROR_CHECK(esp_wifi_start());
@@ -81,7 +93,8 @@ void start()
 
 void stop()
 {
-    ESP_ERROR_CHECK(esp_event_handler_unregister(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnect));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(WIFI_EVENT, WIFI_EVENT_STA_CONNECTED, &on_wifi_connected));
+    ESP_ERROR_CHECK(esp_event_handler_unregister(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnected));
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, &on_got_ip));
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip));
     esp_wifi_stop();
@@ -91,7 +104,7 @@ void stop()
 int8_t rssi()
 {
     wifi_ap_record_t wifidata;
-    if (esp_wifi_sta_get_ap_info(&wifidata) == 0) {
+    if (connected && esp_wifi_sta_get_ap_info(&wifidata) == 0) {
         return wifidata.rssi;
     }
     return 0;

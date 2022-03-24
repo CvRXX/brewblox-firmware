@@ -57,8 +57,10 @@ public:
                 networkState.append(symbols::wifi_strength2);
             } else if (signal < -67) {
                 networkState.append(symbols::wifi_strength3);
-            } else {
+            } else if (signal < 0) {
                 networkState.append(symbols::wifi_strength4);
+            } else {
+                networkState.append(symbols::wifi_off);
             }
             networkState.push_back(' ');
             networkState.append(formatIp(network::ip4()));

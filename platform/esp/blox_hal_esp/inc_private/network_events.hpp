@@ -1,23 +1,12 @@
 #pragma once
 
-#include "ethernet.hpp"
-#include "wifi.hpp"
-
-inline void onEthernetConnected()
-{
-    wifi::stop();
-    wifi::deinit();
-}
-
-inline void onEthernetDisconnected()
-{
-    wifi::start();
-}
-
-inline void onWifiConnected()
-{
-}
-
-inline void onWifiDisconnected()
-{
-}
+void onEthernetConnected();
+void onEthernetDisconnected();
+void onEthernetGotIp();
+void onEthernetLostIp();
+void onWifiConnected();
+void onWifiDisconnected();
+void onWifiGotIp();
+void onWifiLostIp();
+void onProvisionStarted();
+void onProvisionStopped();

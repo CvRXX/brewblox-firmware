@@ -21,6 +21,7 @@ void expander_init();
 void expander_check();
 void hw_deinit();
 void beep(Beep freq);
+void startup_beep();
 void display_brightness(uint8_t b);
 void adc_init();
 uint32_t adcRead5V(bool cached = false);

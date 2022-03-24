@@ -11,6 +11,7 @@
 #include "freertos/task.h"
 #include "lwip/err.h"
 #include "lwip/sys.h"
+#include "network_events.hpp"
 #include "wifi.hpp"
 #include "wifi_provision.hpp"
 #include <string.h>
@@ -21,8 +22,8 @@ Mode current_mode;
 
 void start(void)
 {
+    onEthernetLostIp(); // forces start of wifi and blinks led green
     ethernet::start();
-    wifi::start();
 }
 
 void stop(void)

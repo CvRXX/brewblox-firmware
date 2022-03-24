@@ -76,17 +76,36 @@ int main(int /*argc*/, char** /*argv*/)
 
     spark4::hw_init();
     check_ota();
-
-    hal_delay_ms(100);
-    spark4::adc_init();
-    asio::io_context io;
-
+    spark4::startup_beep();
     mount_blocks_spiff();
-    network::connect();
-
+    spark4::adc_init();
     setupSystemBlocks();
-    cbox::loadBlocksFromStorage();
-    cbox::discoverBlocks();
+    Graphics::init();
+
+    static asio::io_context io;
+    static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
+                                              RecurringTask::IntervalType::FROM_EXPIRY,
+                                              []() -> bool {
+                                                  Graphics::update();
+                                                  Graphics::tick(100);
+                                                  return true;
+                                              });
+
+    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
+                                            RecurringTask::IntervalType::FROM_EXPIRY,
+                                            []() -> bool {
+                                                spark4::expander_check();
+                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+                                                return true;
+                                            });
+
+    static OkButtonMonitor buttonMonitor(
+        io,
+        {
+            []() {},                 // no action on single press
+            network::provision,      // hold 5s to start provision to set WiFi credentials
+            network::clearProvision, // hold 10s to clear WiFi credentials
+        });
 
     static auto updater = RecurringTask(
         io, asio::chrono::milliseconds(10),
@@ -99,48 +118,18 @@ int main(int /*argc*/, char** /*argv*/)
             return true;
         });
 
-    updater.start();
-
-    Graphics::init();
-
     static CboxServer cboxServer(io, 8332);
+    static HttpHandler http(io, 80, cboxServer);
 
-    static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
-                                              RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() -> bool {
-                                                  Graphics::update();
-                                                  Graphics::tick(100);
-                                                  return true;
-                                              });
-
-    displayTicker.start();
-
-    static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
-                                            RecurringTask::IntervalType::FROM_EXPIRY,
-                                            []() -> bool {
-                                                spark4::expander_check();
-                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
-                                                return true;
-                                            });
-
-    systemCheck.start();
-
-    HttpHandler http(io, 80, cboxServer);
-
-    OkButtonMonitor buttonMonitor(
-        io,
-        {
-            []() {},                 // no action on single press
-            network::provision,      // hold 5s to start provision to set WiFi credentials
-            network::clearProvision, // hold 10s to clear WiFi credentials
-        });
-
+    displayTicker.start(true);
     buttonMonitor.start();
+    systemCheck.start();
+    cbox::loadBlocksFromStorage();
+    updater.start(true);
 
-    start_beep_pattern(io, {
-                               {Beep::LOW, 100},
-                               {Beep::MID, 100},
-                           });
+    cbox::discoverBlocks();
+    network::connect();
+
     io.run();
 
 #ifndef ESP_PLATFORM
