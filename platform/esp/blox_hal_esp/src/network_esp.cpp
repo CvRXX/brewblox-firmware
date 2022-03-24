@@ -45,14 +45,14 @@ void disconnect(void)
 
 Mode mode()
 {
+    if (wifi_provision::isActive()) {
+        return Mode::WIFI_PROVISIONING;
+    }
     if (ethernet::isConnected()) {
         return Mode::ETHERNET;
     }
     if (wifi::hasCredentials()) {
         return Mode::WIFI;
-    }
-    if (wifi_provision::isActive()) {
-        return Mode::WIFI_PROVISIONING;
     }
 
     return (Mode::OFF);
@@ -76,7 +76,12 @@ int8_t wifiStrength()
 
 void provision()
 {
-    wifi_provision::start();
+    wifi_provision::start(); // start wifi provisioning over bluetooth
+}
+
+void clearProvision()
+{
+    wifi_provision::clear();
 }
 
 }; // end namespace network

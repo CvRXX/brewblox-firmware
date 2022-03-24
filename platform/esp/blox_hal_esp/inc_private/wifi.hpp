@@ -5,6 +5,8 @@
 
 namespace wifi {
 
+void init();
+void deinit();
 void start();
 void start_provision();
 void stop();

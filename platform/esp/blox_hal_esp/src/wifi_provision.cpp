@@ -12,7 +12,10 @@
 #include <esp_wifi.h>
 #include <nvs_flash.h>
 
+#include "blox_hal/hal_delay.hpp"
 #include "blox_hal/hal_network.hpp"
+#include "wifi.hpp"
+#include "wifi_provision.hpp"
 #include <string>
 #include <wifi_provisioning/manager.h>
 #include <wifi_provisioning/scheme_ble.h>
@@ -40,9 +43,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     if (event_base == WIFI_PROV_EVENT) {
         switch (event_id) {
         case WIFI_PROV_INIT:
-            isRunning = true;
-            /* enable wifi power saving to be able to use bluetooth*/
-            esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
             break;
         case WIFI_PROV_START:
             ESP_LOGI(TAG, "Provisioning started");
@@ -60,26 +60,30 @@ static void event_handler(void* arg, esp_event_base_t event_base,
                      "Provisioning failed!\n\tReason : %s"
                      "\n\tPlease reset to factory and retry provisioning",
                      (*reason == WIFI_PROV_STA_AUTH_ERROR) ? "Wi-Fi station authentication failed" : "Wi-Fi access-point not found");
+            if (*reason == WIFI_PROV_STA_AUTH_ERROR) {
+                clear();
+            }
+            stop();
             break;
         }
         case WIFI_PROV_CRED_SUCCESS:
             ESP_LOGI(TAG, "Provisioning successful");
+            stop();
             break;
         case WIFI_PROV_END:
-            /* De-initialize manager once provisioning is finished */
-            wifi_prov_mgr_deinit();
+            ESP_LOGI(TAG, "PROV END");
             break;
         case WIFI_PROV_DEINIT:
+            ESP_LOGI(TAG, "PROV DEINIT");
             isRunning = false;
+            // restart wifi with app event handlers
+            wifi::stop();
+            wifi::start();
             break;
         default:
             break;
         }
     }
-}
-
-void register_event_handlers()
-{
 }
 
 void start()
@@ -90,12 +94,22 @@ void start()
         .scheme_event_handler = WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM,
         .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
 
+    isRunning = true;
+
+    wifi::stop(); // stop wifi as normal access point and disable custom event handlers and enable power saving
+    wifi::init(); // ensure wifi is initialized, could be disabled if ethernet is connected
+
+    /* disable auto stop and handle it manually to ensure that bluetooth doesn't clash with disabling wifi power saving */
+    wifi_prov_mgr_disable_auto_stop(5000);
+
     if (!instance_wifi_prov_event) {
-        /* Register our event handler for Wi-Fi, IP and Provisioning related events */
+        /* Register our event handler for provisioning related events */
         ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_PROV_EVENT, ESP_EVENT_ANY_ID, &event_handler, nullptr, &instance_wifi_prov_event));
     }
 
-    ESP_ERROR_CHECK(wifi_prov_mgr_init(ble_config));
+    if (wifi_prov_mgr_init(ble_config) != ESP_OK) {
+        return;
+    }
 
     /* What is the Device Service Name that we want
      * This translates to :
@@ -182,7 +196,9 @@ void start()
 
 void stop()
 {
-    wifi_prov_mgr_stop_provisioning();
+    // calls wifi_prov_mgr_stop_provisioning();
+    // schedules stop task after delay and emits end event eventually
+    wifi_prov_mgr_deinit();
 }
 
 void clear()

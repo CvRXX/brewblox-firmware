@@ -18,4 +18,5 @@ void disconnect();
 bool isConnected();
 int8_t wifiStrength();
 void provision();
+void clearProvision();
 }

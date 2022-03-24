@@ -129,10 +129,11 @@ int main(int /*argc*/, char** /*argv*/)
 
     OkButtonMonitor buttonMonitor(
         io,
-        {[]() {}, // no action on single press
-         []() {   // hold 5s to reset WiFi credentials
-             network::provision();
-         }});
+        {
+            []() {},                 // no action on single press
+            network::provision,      // hold 5s to start provision to set WiFi credentials
+            network::clearProvision, // hold 10s to clear WiFi credentials
+        });
 
     buttonMonitor.start();
 

@@ -46,6 +46,8 @@ public:
         switch (network::mode()) {
         case network::Mode::ETHERNET:
             networkState.append(symbols::ethernet);
+            networkState.push_back(' ');
+            networkState.append(formatIp(network::ip4()));
             break;
         case network::Mode::WIFI: {
             auto signal = network::wifiStrength();
@@ -58,18 +60,19 @@ public:
             } else {
                 networkState.append(symbols::wifi_strength4);
             }
+            networkState.push_back(' ');
+            networkState.append(formatIp(network::ip4()));
         } break;
         case network::Mode::WIFI_PROVISIONING:
             networkState.append(symbols::wifi_cog);
             networkState.append(symbols::bluetooth);
+            networkState.append(" provisioning");
             break;
         case network::Mode::OFF:
             networkState.append(symbols::wifi_off);
+            networkState.append(" no network");
             break;
         }
-
-        networkState.push_back(' ');
-        networkState.append(formatIp(network::ip4()));
 
         lv_label_set_text(this->networksLabel, networkState.c_str());
     }
@@ -82,6 +85,9 @@ public:
 
     static std::string formatIp(uint32_t ip)
     {
+        if (!ip) {
+            return std::string("not connected");
+        }
         return std::to_string((ip >> (8 * 0)) & 0xff) + "." + std::to_string((ip >> (8 * 1)) & 0xff) + "." + std::to_string((ip >> (8 * 2)) & 0xff) + "." + std::to_string((ip >> (8 * 3)) & 0xff);
     }
 
