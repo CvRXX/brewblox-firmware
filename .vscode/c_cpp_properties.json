@@ -87,6 +87,7 @@
       "includePath": [
         ".",
         "${workspaceFolder}/lib/blocks/inc",
+        "${workspaceFolder}/lib/blox_hal/inc",
         "${workspaceFolder}/lib/cbox/inc",
         "${workspaceFolder}/lib/control/inc",
         "${workspaceFolder}/lib/proto/inc",
