@@ -1,7 +1,4 @@
 #pragma once
-#include "cbox/DataStream.hpp"
-#include "cbox/DataStreamConverters.hpp"
-#include "cbox/DataStreamIo.hpp"
 #include "cbox/Payload.hpp"
 #include <google/protobuf/message.h>
 #include <sstream>
@@ -64,10 +61,6 @@ public:
     virtual ~TestCommand() = default;
 };
 } // end namespace cbox
-
-std::string addCrc(const std::string& in);
-
-std::string crc(const std::string& in);
 
 std::string hexed(const std::vector<uint8_t>& data);
 

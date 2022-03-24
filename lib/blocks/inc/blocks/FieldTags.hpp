@@ -1,6 +1,5 @@
 #pragma once
 
-#include "cbox/DataStream.hpp"
 #include "pb_decode.h"
 #include "pb_encode.h"
 #include <vector>

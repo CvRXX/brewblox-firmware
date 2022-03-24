@@ -22,6 +22,8 @@
 #include "blocks/Block.hpp"
 #include "spark/SparkIoBase.hpp"
 
+namespace platform::particle {
+
 class Spark2PinsBlock : public SparkIoBase, public Block<brewblox_BlockType_Spark2Pins> {
 private:
     static const uint8_t numPins = 4;
@@ -41,3 +43,5 @@ public:
 
     virtual void* implements(cbox::obj_type_t iface) override final;
 };
+
+} // end namespace platform::particle

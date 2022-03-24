@@ -22,6 +22,8 @@
 
 #include "control/TicksTypes.hpp"
 
+namespace platform::particle {
+
 /*
  * The Ticks class provides the time period since the device was powered up.
  */
@@ -36,3 +38,5 @@ public:
 
     void delayMillis(const duration_millis_t& millis) const;
 };
+
+} // end namespace platform::particle

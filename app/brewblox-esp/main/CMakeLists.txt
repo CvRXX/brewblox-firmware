@@ -1,8 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
-
-set(CMAKE_CXX_STANDARD 17)
-
-
 idf_component_register(
   SRCS
     blocks/ExpOwGpioBlock.cpp

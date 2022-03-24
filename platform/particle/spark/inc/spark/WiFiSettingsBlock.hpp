@@ -21,6 +21,8 @@
 
 #include "blocks/Block.hpp"
 
+namespace platform::particle {
+
 // provides a protobuf interface to the read only system info
 class WiFiSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_WiFiSettings> {
 
@@ -33,3 +35,5 @@ class WiFiSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_WiFiSetting
         return update_never(now);
     }
 };
+
+} // end namespace platform::particle

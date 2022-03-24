@@ -45,6 +45,7 @@ CPPSRC += platform/particle/spark/src/Brewblox.cpp
 CPPSRC += platform/particle/spark/src/Spark2PinsBlock.cpp
 CPPSRC += platform/particle/spark/src/Spark3PinsBlock.cpp
 CPPSRC += platform/particle/spark/src/SparkIoBase.cpp
+CPPSRC += platform/particle/spark/src/ConnectionPool.cpp
 
 # device-os nanopb
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/nanopb/nanopb

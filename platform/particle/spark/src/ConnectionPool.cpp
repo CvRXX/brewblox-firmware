@@ -18,15 +18,14 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/ConnectionPool.hpp"
+#include "spark/ConnectionPool.hpp"
+#include "cbox/Application.hpp"
 #include <algorithm>
 
-namespace cbox {
+namespace platform::particle {
 
 ConnectionPool::ConnectionPool(std::initializer_list<std::reference_wrapper<ConnectionSource>> list)
     : connectionSources(list)
-    , allConnectionsDataOut(connections, [](const decltype(connections)::value_type& conn) -> DataOut& { return conn->getDataOut(); })
-    , currentDataOut(&allConnectionsDataOut)
 {
 }
 
@@ -47,29 +46,35 @@ void ConnectionPool::updateConnections()
 
             if (connections.size() >= 4) {
                 auto oldest = connections.begin();
-                auto& out = (*oldest)->getDataOut();
-                const char message[] = "<!Max connections exceeded, closing oldest>";
-                out.writeBuffer(message, sizeof(message) / sizeof(message[0]));
+                (*oldest)->writeLog("Max connections exceeded, closing oldest");
+                (*oldest)->commit();
                 connections.erase(oldest);
             }
 
-            auto& out = con->getDataOut();
-            connectionStarted(out);
+            con->writeLog(cbox::handshakeMessage());
+            con->commit();
             connections.push_back(std::move(con));
         }
     }
 }
 
-void ConnectionPool::process(std::function<void(DataIn& in, DataOut& out)> handler)
+void ConnectionPool::process(std::function<void(ResponseWriter&, const std::string&)> handler)
 {
     updateConnections();
     for (auto& conn : connections) {
-        DataIn& in = conn->getDataIn();
-        DataOut& out = conn->getDataOut();
-        currentDataOut = &out;
-        handler(in, out);
+        while (auto msg = conn->readMessage()) {
+            handler(*conn, msg.value());
+            conn->commit();
+        }
     }
-    currentDataOut = &allConnectionsDataOut;
+}
+
+void ConnectionPool::writeLog(const std::string& message)
+{
+    for (auto& conn : connections) {
+        conn->writeLog(message);
+        conn->commit();
+    }
 }
 
 void ConnectionPool::stopAll()
@@ -87,4 +92,4 @@ void ConnectionPool::startAll()
     }
 }
 
-} // end namespace cbox
+} // end namespace platform::particle

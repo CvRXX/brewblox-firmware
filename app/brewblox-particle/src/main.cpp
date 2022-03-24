@@ -32,7 +32,6 @@
 #include "proto/proto_version.h"
 #include "spark/Board.hpp"
 #include "spark/Brewblox.hpp"
-#include "spark/Buzzer.hpp"
 #include "spark/Connectivity.hpp"
 #include "spark_wiring_startup.h"
 #include "spark_wiring_system.h"
@@ -96,9 +95,9 @@ void displayTick()
 void onSetupModeBegin()
 {
     ListeningScreen::activate();
-    manageConnections(ticks.millis()); // stop http server
+    platform::particle::manageConnections(ticks.millis()); // stop http server
     cbox::unloadBlocks();
-    getConnectionPool().disconnect();
+    platform::particle::getConnectionPool().disconnect();
     HAL_Delay_Milliseconds(100);
 }
 
@@ -120,11 +119,11 @@ void setup()
     std::signal(SIGINT, signal_handler);
     std::signal(SIGTERM, signal_handler);
     // pin map is not initialized properly in gcc build before setup runs
-    boardInit();
-    manageConnections(0); // init network early to websocket display emulation works during setup()
+    platform::particle::boardInit();
+    platform::particle::manageConnections(0); // init network early to websocket display emulation works during setup()
 #else
-    boardInit();
-    Buzzer.beep(2, 50);
+    platform::particle::boardInit();
+    platform::particle::getBuzzer().beep(2, 50);
     HAL_Delay_Milliseconds(1);
 #endif
     appWatchdog = new ApplicationWatchdog(60000, watchdogReset, 256);
@@ -146,12 +145,12 @@ void setup()
         displayTick();
     } while (ticks.millis() < ((PLATFORM_ID != PLATFORM_GCC) ? 2000 : 0));
 
-    enablePheripheral5V(true);
+    platform::particle::enablePheripheral5V(true);
 
     HAL_Delay_Milliseconds(1);
     StartupScreen::setProgress(60);
     StartupScreen::setStep("Init Brewblox framework");
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(70);
@@ -165,7 +164,7 @@ void setup()
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Enabling WiFi and mDNS");
-    wifiInit();
+    platform::particle::wifiInit();
     HAL_Delay_Milliseconds(1);
 
     StartupScreen::setProgress(100);
@@ -182,7 +181,7 @@ void setup()
     System.on(out_of_memory, onOutOfMemory);
 #endif
 
-    getConnectionPool().startAll();
+    platform::particle::getConnectionPool().startAll();
     WidgetsScreen::activate();
 }
 
@@ -190,9 +189,9 @@ void loop()
 {
     ticks.switchTaskTimer(TicksClass::TaskId::DisplayUpdate);
     displayTick();
-    if (!listeningModeEnabled()) {
+    if (!platform::particle::listeningModeEnabled()) {
         ticks.switchTaskTimer(TicksClass::TaskId::Communication);
-        manageConnections(ticks.millis());
+        platform::particle::manageConnections(ticks.millis());
         app::communicate();
 
         ticks.switchTaskTimer(TicksClass::TaskId::BlocksUpdate);

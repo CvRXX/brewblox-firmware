@@ -22,6 +22,8 @@
 #include <cstdint>
 #include <cstring>
 
+namespace cbox {
+
 class EepromAccess {
 public:
     EepromAccess() = default;
@@ -48,3 +50,5 @@ public:
         return t;
     }
 };
+
+} // end namespace cbox

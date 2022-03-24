@@ -22,6 +22,7 @@
         "${workspaceFolder}/external_libs/nanopb",
         "${workspaceFolder}/external_libs/cnl/include",
         "${workspaceFolder}/external_libs/expected/expected/include",
+        "${workspaceFolder}/app/brewblox-esp/main",
         "${workspaceFolder}/app/brewblox-esp/components/**",
         "/opt/esp/idf/components/**",
         "/opt/esp/tools/xtensa-esp32-elf/**"
@@ -86,6 +87,7 @@
       "includePath": [
         ".",
         "${workspaceFolder}/lib/blocks/inc",
+        "${workspaceFolder}/lib/blox_hal/inc",
         "${workspaceFolder}/lib/cbox/inc",
         "${workspaceFolder}/lib/control/inc",
         "${workspaceFolder}/lib/proto/inc",

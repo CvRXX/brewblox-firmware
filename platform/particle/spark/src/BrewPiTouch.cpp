@@ -25,6 +25,8 @@
 #include <limits.h>
 #include <vector>
 
+namespace platform::particle {
+
 BrewPiTouch::BrewPiTouch(SPIArbiter& spia, const uint8_t cs, const uint8_t irq)
     : _spi(spia)
     , pinCS(cs)
@@ -148,3 +150,5 @@ bool BrewPiTouch::update()
     }
     return true;
 }
+
+} // end namespace platform::particle

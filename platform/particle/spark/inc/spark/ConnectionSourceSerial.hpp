@@ -19,29 +19,92 @@
 
 #pragma once
 
-#include "cbox/Connections.hpp"
+#include "cbox/Base64.hpp"
+#include "spark/Connection.hpp"
 #include "spark_wiring_usbserial.h"
 
-namespace cbox {
+namespace platform::particle {
 
 static bool serial_connection_active = false;
 
-class SerialConnection : public StreamRefConnection<USBSerial> {
+class SerialConnection : public Connection {
+private:
+    std::string buffer;
+    USBSerial& stream;
+
 public:
     SerialConnection(USBSerial& ser)
-        : StreamRefConnection(ser)
+        : stream(ser)
     {
         serial_connection_active = true;
     }
+
     virtual ~SerialConnection()
     {
         stop();
         serial_connection_active = false;
     };
 
+    virtual std::optional<std::string> readMessage() override final
+    {
+        bool hasMessage = false;
+        buffer.reserve(buffer.size() + 50); // ballpark guess, stream.available() is never >1
+
+        while (true) {
+            auto c = stream.read();
+            if (c < 0) {
+                break;
+            }
+            if (c == Separator::MESSAGE) {
+                hasMessage = true;
+                break;
+            }
+            buffer.push_back((uint8_t)c);
+        }
+
+        if (!hasMessage) {
+            return std::nullopt;
+        }
+
+        // spool until next message start
+        while (true) {
+            auto c = stream.peek();
+            if (c < 0 || cbox::is_b64(c)) {
+                break;
+            }
+            stream.read();
+        }
+
+        std::string line;
+        line.swap(buffer);
+        return std::make_optional(std::move(line));
+    }
+
+    virtual bool write(const std::string& message) override final
+    {
+        return stream.write(reinterpret_cast<const uint8_t*>(message.data()),
+                            message.size())
+               == message.size();
+    }
+
+    virtual void commit() override final
+    {
+        stream.flush();
+    }
+
+    virtual ConnectionKind kind() const override final
+    {
+        return ConnectionKind::Usb;
+    }
+
+    virtual bool isConnected() override final
+    {
+        return stream.isConnected();
+    }
+
     virtual void stop() override final
     {
-        get().flush();
+        stream.flush();
     }
 };
 
@@ -77,4 +140,4 @@ public:
     }
 };
 
-} // end namespace cbox
+} // end namespace platform::particle

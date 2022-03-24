@@ -1,6 +1,22 @@
 #pragma once
+#include "intellisense.hpp"
 
-#include "cbox/Box.hpp"
-#include "cbox/DataStream.hpp"
+#include <string>
 
-void handleCommand(cbox::DataIn& in, cbox::DataOut& out);
+class ResponseWriter {
+public:
+    ResponseWriter() = default;
+    virtual ~ResponseWriter() = default;
+    ResponseWriter(const ResponseWriter&) = delete;
+    ResponseWriter& operator=(const ResponseWriter&) = delete;
+
+    virtual void commit() = 0;
+
+    virtual bool write(const std::string& message) = 0;
+
+    virtual bool write(char c) = 0;
+
+    virtual bool writeLog(const std::string& message) = 0;
+};
+
+void handleCommand(ResponseWriter& out, const std::string& message);

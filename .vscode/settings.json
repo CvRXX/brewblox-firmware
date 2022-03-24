@@ -42,6 +42,14 @@
   "files.exclude": {
     "**/.gitmodules": false
   },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/external_libs": true,
+    "**/platform/particle/eGUI": true,
+    "**/platform/particle/WebSockets": true,
+  },
   "shellformat.effectLanguages": [
     "shellscript"
   ],

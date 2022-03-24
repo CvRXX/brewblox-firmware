@@ -23,6 +23,8 @@
 #include <functional>
 #include <mutex>
 
+namespace platform::particle {
+
 const uint16_t SS_PIN_NONE = UINT16_MAX - 1;
 const uint16_t SS_PIN_UNINITIALIZED = UINT16_MAX;
 
@@ -189,4 +191,6 @@ public:
     }
 };
 
-extern SPIArbiter GlobalSPIArbiter;
+} // end namespace platform::particle
+
+extern platform::particle::SPIArbiter GlobalSPIArbiter;

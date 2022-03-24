@@ -20,9 +20,8 @@
 #pragma once
 
 #include "cbox/CboxError.hpp"
-#include "cbox/DataStream.hpp"
-#include "cbox/DataStreamEeprom.hpp"
 #include "cbox/EepromAccess.hpp"
+#include "cbox/EepromDataStream.hpp"
 #include "cbox/EepromLayout.hpp"
 #include "cbox/ObjectStorage.hpp"
 

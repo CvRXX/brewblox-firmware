@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CboxConnection.hpp"
-#include "cbox/DataStreamIo.hpp"
 #include <asio.hpp>
 
 class CboxStdioConnection : public CboxConnection {

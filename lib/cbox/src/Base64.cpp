@@ -1,5 +1,7 @@
 #include "cbox/Base64.hpp"
 
+namespace cbox {
+
 static constexpr char chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz"
@@ -33,16 +35,17 @@ constexpr int16_t b64_to_byte(uint8_t c) // uint8_t or -1
     }
 }
 
-bool is_base64(uint8_t c)
+bool is_b64(uint8_t c)
 {
     return b64_to_byte(c) != -1;
 }
 
-void base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
+std::string b64_encode(const std::vector<uint8_t>& in)
 {
     size_t length = in.size();
     uint8_t groupIdx = 0;
     uint8_t decodedBytes[3];
+    std::string out;
     out.reserve(length * 4 / 3 + 2);
 
     for (auto& inByte : in) {
@@ -76,13 +79,16 @@ void base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
 
         out.insert(out.end(), 3 - groupIdx, '=');
     }
+
+    return out;
 }
 
-void base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
+std::vector<uint8_t> b64_decode(const std::string& in)
 {
     size_t length = in.size();
     uint8_t groupIdx = 0;
     uint8_t encodedBytes[4];
+    std::vector<uint8_t> out;
     out.reserve(length * 3 / 4 + 2);
 
     for (auto inByte : in) {
@@ -119,4 +125,8 @@ void base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out)
             out.push_back(((encodedBytes[1] & 0xf) << 4) + ((encodedBytes[2] & 0x3c) >> 2));
         }
     }
+
+    return out;
 }
+
+} // end namespace cbox

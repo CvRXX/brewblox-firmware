@@ -19,6 +19,8 @@
 
 #include "spark/SPIArbiter.hpp"
 
+namespace platform::particle {
+
 void SPIArbiter::apply(SPIConfiguration& client)
 {
     if (ss_pin_ == SS_PIN_UNINITIALIZED) {
@@ -54,5 +56,6 @@ void SPIArbiter::unapply()
     ss_pin_ = SS_PIN_NONE;
     // spi_.end(); do not end global SPI, leave SPI Active.
 }
+} // end namespace platform::particle
 
-SPIArbiter GlobalSPIArbiter;
+platform::particle::SPIArbiter GlobalSPIArbiter;

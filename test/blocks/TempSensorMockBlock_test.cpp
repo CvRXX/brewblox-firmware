@@ -33,7 +33,7 @@
 SCENARIO("A TempSensorMock block")
 {
     cbox::objects.clearAll();
-    setupSystemBlocks();
+    platform::particle::setupSystemBlocks();
     cbox::update(0);
 
     auto sensorId = cbox::obj_id_t(100);

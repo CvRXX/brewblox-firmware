@@ -21,6 +21,8 @@
 #include "control/ActuatorDigital.hpp"
 #include "spark/Board.hpp"
 
+namespace platform::particle {
+
 // generic ArrayIO interface
 bool SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const
 {
@@ -69,3 +71,5 @@ bool SparkIoBase::writeChannelImpl(uint8_t channel, ChannelConfig config)
     }
     return false;
 }
+
+} // end namespace platform::particle

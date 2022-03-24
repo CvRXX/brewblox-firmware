@@ -20,8 +20,8 @@
 #pragma once
 #include "core_hal.h"
 #include "gpio_hal.h"
-#include "spark_wiring_constants.h"
 #include "platforms.h"
+#include "spark_wiring_constants.h"
 
 #if PLATFORM_ID == 3
 #include "pinmap_hal.h"
@@ -124,16 +124,15 @@ enum class SparkVersion : uint8_t {
 #error PLATFORM_ID not set
 #endif
 
-void
-displayBrightness(uint8_t v);
+namespace platform::particle {
 
-SparkVersion
-getSparkVersion();
+void displayBrightness(uint8_t v);
 
-void
-boardInit();
+SparkVersion getSparkVersion();
 
-void
-enablePheripheral5V(bool enabled);
-void
-enablePheripheral12V(bool enabled);
+void boardInit();
+
+void enablePheripheral5V(bool enabled);
+void enablePheripheral12V(bool enabled);
+
+} // end namespace platform::particle

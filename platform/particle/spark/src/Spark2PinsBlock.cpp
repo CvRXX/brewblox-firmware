@@ -24,6 +24,8 @@
 #include "proto/Spark2Pins.pb.h"
 #include "spark/Board.hpp"
 
+namespace platform::particle {
+
 pin_t Spark2PinsBlock::channelToPin(uint8_t channel) const
 {
     auto pins = std::array<pin_t, numPins>{
@@ -123,5 +125,7 @@ void* Spark2PinsBlock::implements(cbox::obj_type_t iface)
     }
     return nullptr;
 }
+
+} // end namespace platform::particle
 
 #endif

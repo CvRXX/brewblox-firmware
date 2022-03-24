@@ -18,49 +18,61 @@
  */
 
 #pragma once
+#include "spark/Connection.hpp"
 #include <memory>
 #include <queue>
-
-#include "cbox/Connections.hpp"
-#include "cbox/DataStreamIo.hpp"
-#include <memory>
 #include <sstream>
-
-namespace cbox {
 
 /**
  * A connection source that emulates a connection by two string streams, used for testing
  *
  **/
 
+namespace platform::particle {
+
 class StringStreamConnection : public Connection {
 private:
     std::shared_ptr<std::stringstream> in;
     std::shared_ptr<std::stringstream> out;
-    IStreamDataIn dataIn;
-    OStreamDataOut dataOut;
 
 public:
     StringStreamConnection(std::shared_ptr<std::stringstream> _in, std::shared_ptr<std::stringstream> _out)
         : in(_in)
         , out(_out)
-        , dataIn(*_in)
-        , dataOut(*_out)
     {
     }
+
     virtual ~StringStreamConnection()
     {
         stop();
     }
 
-    virtual DataOut& getDataOut() override final
+    virtual std::optional<std::string> readMessage() override final
     {
-        return dataOut;
+        // We'll just assume there won't be any partial messages
+        std::string buf;
+        std::getline(*in, buf);
+        if (buf.size()) {
+            return buf;
+        } else {
+            return std::nullopt;
+        }
     }
 
-    virtual DataIn& getDataIn() override final
+    virtual bool write(const std::string& message) override final
     {
-        return dataIn;
+        *out << message;
+        return true;
+    }
+
+    virtual void commit() override final
+    {
+        // we don't need to flush a stringstream
+    }
+
+    virtual ConnectionKind kind() const override final
+    {
+        return ConnectionKind::Mock;
     }
 
     virtual bool isConnected() override final
@@ -107,4 +119,4 @@ public:
     {
     }
 };
-} // end namespace cbox
+} // end namespace platform::particle

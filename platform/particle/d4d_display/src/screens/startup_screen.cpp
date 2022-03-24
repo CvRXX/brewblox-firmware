@@ -31,7 +31,7 @@
 
 #if PLATFORM_ID != 3
 #include "spark/BrewPiTouch.hpp"
-extern BrewPiTouch touch;
+extern platform::particle::BrewPiTouch touch;
 #endif
 
 #ifndef GIT_VERSION
