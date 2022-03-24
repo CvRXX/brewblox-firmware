@@ -28,7 +28,7 @@ public:
 
     bool write(char c) override final
     {
-        if (buf.size() + 1 < buf.max_size()) {
+        if (buf.size() + 1 <= buf.max_size()) {
             buf.sputc(c);
             return true;
         }
@@ -37,7 +37,7 @@ public:
 
     bool writeLog(const std::string& message) override final
     {
-        if (buf.size() + message.size() + 2 < buf.max_size()) {
+        if (buf.size() + message.size() + 2 <= buf.max_size()) {
             buf.sputc('<');
             buf.sputn(message.c_str(), message.size());
             buf.sputc('>');

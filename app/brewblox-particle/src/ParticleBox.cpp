@@ -130,8 +130,7 @@ cbox::CboxError respond(ResponseWriter& out, const cbox::Payload& payload)
 
 void finalize(ResponseWriter& out, uint32_t msgId, cbox::CboxError status)
 {
-    auto response = cbox::encodeResponse(msgId, status);
-    if (response) {
+    if (auto response = cbox::encodeResponse(msgId, status)) {
         out.write(response.value());
     }
 

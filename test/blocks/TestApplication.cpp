@@ -27,7 +27,7 @@ std::shared_ptr<Object> scan()
 
 std::string handshakeMessage()
 {
-    return "";
+    return "handshake";
 }
 
 } // end namespace cbox
