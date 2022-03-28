@@ -42,7 +42,7 @@ public:
 
     virtual CboxError read(const PayloadCallback& callback) const override final
     {
-        Payload payload(objectId, typeId(), 0);
+        Payload payload(objectId(), typeId(), 0);
         appendToByteVector(payload.content, originalId);
         return callback(payload);
     }
@@ -57,9 +57,9 @@ public:
         return CboxError::BLOCK_NOT_WRITABLE;
     }
 
-    virtual update_t update(const update_t& now) override final
+    virtual update_t updateHandler(const update_t& now) override final
     {
-        return update_never(now);
+        return next_update_never(now);
     }
 
     obj_id_t storageId()

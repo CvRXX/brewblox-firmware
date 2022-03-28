@@ -86,7 +86,7 @@ OneWireBusBlock::read(const cbox::PayloadCallback& callback) const
     command.data = 0;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -136,7 +136,7 @@ void* OneWireBusBlock::implements(cbox::obj_type_t iface)
     return nullptr;
 }
 
-cbox::update_t OneWireBusBlock::update(const cbox::update_t& now)
+cbox::update_t OneWireBusBlock::updateHandler(const cbox::update_t& now)
 {
     if (onShortDetected) {
         if (bus.shortDetected()) {
@@ -144,7 +144,7 @@ cbox::update_t OneWireBusBlock::update(const cbox::update_t& now)
             bus.init();
         }
     }
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void (*OneWireBusBlock::onShortDetected)();

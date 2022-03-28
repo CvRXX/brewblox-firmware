@@ -63,7 +63,7 @@ public:
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
-        cbox::Payload payload(objectId, typeId(), 0);
+        cbox::Payload payload(objectId(), typeId(), 0);
         cbox::appendToByteVector(payload.content, obj);
         return callback(payload);
     }
@@ -83,9 +83,9 @@ public:
         return cbox::CboxError::NETWORK_READ_ERROR;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
     {
-        return cbox::Object::update_never(now);
+        return cbox::Object::next_update_never(now);
     }
 
     operator uint32_t() const
@@ -119,7 +119,7 @@ public:
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
-        cbox::Payload payload(objectId, typeId(), 0);
+        cbox::Payload payload(objectId(), typeId(), 0);
 
         // first write number of elements as uint16_t
         cbox::appendToByteVector(payload.content, uint16_t(values.size()));
@@ -157,9 +157,9 @@ public:
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
     {
-        return cbox::Object::update_never(now);
+        return cbox::Object::next_update_never(now);
     }
 
     bool operator==(const LongIntVectorObject& rhs) const
@@ -200,7 +200,7 @@ public:
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
-        cbox::Payload payload(objectId, typeId(), 0);
+        cbox::Payload payload(objectId(), typeId(), 0);
 
         // stream out all values
         if (!cbox::appendToByteVector(payload.content, _interval)) {
@@ -215,7 +215,7 @@ public:
 
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
     {
-        cbox::Payload payload(objectId, typeId(), 0);
+        cbox::Payload payload(objectId(), typeId(), 0);
         cbox::appendToByteVector(payload.content, _interval);
 
         return callback(payload);
@@ -235,7 +235,7 @@ public:
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
     {
         ++_count;
         return now + _interval;
@@ -290,7 +290,7 @@ public:
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
-        cbox::Payload payload(objectId, typeId(), 0);
+        cbox::Payload payload(objectId(), typeId(), 0);
 
         if (!cbox::appendToByteVector(payload.content, ptr1.getId())) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
@@ -326,7 +326,7 @@ public:
 
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
     {
-        cbox::Payload payload(objectId, typeId(), 0);
+        cbox::Payload payload(objectId(), typeId(), 0);
 
         if (!cbox::appendToByteVector(payload.content, ptr1.getId())) {
             return cbox::CboxError::NETWORK_WRITE_ERROR;
@@ -353,9 +353,9 @@ public:
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
     {
-        return cbox::Object::update_never(now);
+        return cbox::Object::next_update_never(now);
     }
 };
 
@@ -383,8 +383,8 @@ public:
         return writeFunc(payload);
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
     {
-        return cbox::Object::update_never(now);
+        return cbox::Object::next_update_never(now);
     }
 };

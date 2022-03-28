@@ -1,8 +1,4 @@
 ## -*- Makefile -*-
-
-CCFLAGS = $(CFLAGS)
-CXXFLAGS = $(CFLAGS)
-
 ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
 # include ../checkers.mk # sanitizer and gcov
@@ -35,6 +31,7 @@ CFLAGS += -DPLATFORM_ID=3
 CPPFLAGS += -isystem $(BOOST_ROOT)
 
 # Generate dependency files automatically.
+CFLAGS += -g -O0
 CFLAGS += -MD -MP -MF $@.d
 CFLAGS += -DDEBUG_BUILD
 

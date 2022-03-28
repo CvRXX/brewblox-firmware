@@ -55,7 +55,7 @@ public:
                 if (bus->search(newAddr)) {
                     bool found = false;
                     for (auto existing = cbox::objects.cbegin(); existing != cbox::objects.cend(); ++existing) {
-                        OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>(existing->object()->implements(cbox::interfaceId<OneWireDevice>()));
+                        OneWireDevice* ptrIfCorrectType = reinterpret_cast<OneWireDevice*>((*existing)->implements(cbox::interfaceId<OneWireDevice>()));
                         if (ptrIfCorrectType == nullptr) {
                             continue; // not the right type, no match
                         }
@@ -63,7 +63,7 @@ public:
                             found = true; // object with value already exists
 
                             // check if it was on a different bus than where we just found it and correct that if needed
-                            OneWireDeviceBlock* blockPtr = reinterpret_cast<OneWireDeviceBlock*>(existing->object()->implements(cbox::interfaceId<OneWireDeviceBlock>()));
+                            OneWireDeviceBlock* blockPtr = reinterpret_cast<OneWireDeviceBlock*>((*existing)->implements(cbox::interfaceId<OneWireDeviceBlock>()));
                             if (blockPtr) {
                                 if (blockPtr->getBusId() != busPtr.getId()) {
                                     blockPtr->setBusId(busPtr.getId());

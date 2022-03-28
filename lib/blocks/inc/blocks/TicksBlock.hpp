@@ -48,7 +48,7 @@ public:
         message.avgSystemTask = ticks.taskTime(3);
 
         return callWithMessage(callback,
-                               objectId,
+                               objectId(),
                                staticTypeId(),
                                0,
                                &message,
@@ -73,9 +73,9 @@ public:
         return res;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
     {
-        return cbox::Object::update_never(now);
+        return cbox::Object::next_update_never(now);
     }
 
     T& get()

@@ -88,7 +88,7 @@ TempSensorMockBlock::read(const cbox::PayloadCallback& callback) const
     writeMessage(message);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -105,7 +105,7 @@ TempSensorMockBlock::readStored(const cbox::PayloadCallback& callback) const
     message.value = 0; // value does not need persisting
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -132,7 +132,7 @@ TempSensorMockBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-cbox::update_t TempSensorMockBlock::update(const cbox::update_t& now)
+cbox::update_t TempSensorMockBlock::updateHandler(const cbox::update_t& now)
 {
     return sensor.update(now);
 }

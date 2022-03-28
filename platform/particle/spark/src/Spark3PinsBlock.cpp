@@ -78,7 +78,7 @@ cbox::CboxError Spark3PinsBlock::read(const cbox::PayloadCallback& callback) con
 #endif
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -99,7 +99,7 @@ cbox::CboxError Spark3PinsBlock::readStored(const cbox::PayloadCallback& callbac
 #endif
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,

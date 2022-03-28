@@ -31,7 +31,7 @@ BalancerBlock::read(const cbox::PayloadCallback& callback) const
     message.clients.arg = const_cast<Balancer_t*>(&balancer); // arg is not const in message, but it is in callback
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -44,7 +44,7 @@ cbox::CboxError
 BalancerBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     // no settings to persist
-    return callWithMessage(callback, objectId, staticTypeId(), 0);
+    return callWithMessage(callback, objectId(), staticTypeId(), 0);
 }
 
 cbox::CboxError
@@ -54,7 +54,7 @@ BalancerBlock::write(const cbox::Payload&)
     return cbox::CboxError::OK;
 }
 
-cbox::update_t BalancerBlock::update(const cbox::update_t& now)
+cbox::update_t BalancerBlock::updateHandler(const cbox::update_t& now)
 {
     balancer.update();
     return now + 1000;

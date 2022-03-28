@@ -30,9 +30,9 @@ class WiFiSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_WiFiSetting
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
     virtual cbox::CboxError write(const cbox::Payload& payload) override final;
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
     {
-        return update_never(now);
+        return next_update_never(now);
     }
 };
 

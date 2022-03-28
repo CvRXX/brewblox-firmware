@@ -34,12 +34,12 @@ public:
     virtual std::shared_ptr<cbox::Object> scan() override final
     {
         for (auto obj_it = cbox::objects.cbegin(); obj_it != cbox::objects.cend(); ++obj_it) {
-            OneWire* bus = const_cast<OneWire*>(cbox::asInterface<OneWire>(obj_it->object()));
+            OneWire* bus = const_cast<OneWire*>(cbox::asInterface<OneWire>(*obj_it));
             if (bus == nullptr) {
                 continue; // not a OneWire bus
             }
             // use a bus scanner to find new devices on this bus
-            OneWireScanningFactory factory(cbox::CboxPtr<OneWire>(obj_it->id()));
+            OneWireScanningFactory factory(cbox::CboxPtr<OneWire>((*obj_it)->objectId()));
             auto obj = factory.scan();
             if (obj) {
                 return obj; // return OneWire object if found

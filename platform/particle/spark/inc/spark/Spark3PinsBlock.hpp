@@ -34,6 +34,7 @@ public:
         : SparkIoBase(numPins)
     {
     }
+    virtual ~Spark3PinsBlock() = default;
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
@@ -41,9 +42,9 @@ public:
 
     virtual void* implements(cbox::obj_type_t iface) override final;
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
     {
-        return update_never(now);
+        return next_update_never(now);
     }
 };
 

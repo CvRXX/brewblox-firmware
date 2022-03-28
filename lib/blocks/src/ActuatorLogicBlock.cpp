@@ -100,7 +100,7 @@ cbox::CboxError ActuatorLogicBlock::read(const cbox::PayloadCallback& callback) 
     writeMessage(message, true);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -115,7 +115,7 @@ ActuatorLogicBlock::readStored(const cbox::PayloadCallback& callback) const
     writeMessage(message, false);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -148,7 +148,7 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorLogicBlock::update(const cbox::update_t& now)
+ActuatorLogicBlock::updateHandler(const cbox::update_t& now)
 {
     m_result = evaluate();
     if (enabled) {

@@ -78,7 +78,7 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
         ;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -113,13 +113,13 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-SetpointProfileBlock::update(const cbox::update_t& now)
+SetpointProfileBlock::updateHandler(const cbox::update_t& now)
 {
     if (auto pTicks = ticksPtr.const_lock()) {
         auto time = pTicks->const_get().utc();
         profile.update(time);
     }
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void* SetpointProfileBlock::implements(cbox::obj_type_t iface)

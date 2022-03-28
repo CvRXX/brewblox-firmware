@@ -63,7 +63,7 @@ cbox::CboxError ExpOwGpioBlock::read(const cbox::PayloadCallback& callback) cons
     writeMessage(message, true);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -77,7 +77,7 @@ cbox::CboxError ExpOwGpioBlock::readStored(const cbox::PayloadCallback& callback
     writeMessage(message, false);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -120,13 +120,13 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ExpOwGpioBlock::update(const cbox::update_t& now)
+ExpOwGpioBlock::updateHandler(const cbox::update_t& now)
 {
     // Update is called any time a channel is set,
     // but only talks to the driver when the cached value doesn't match the desired value
     // Every second, force a fresh read from the driver
     drivers.update(true);
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void* ExpOwGpioBlock::implements(cbox::obj_type_t iface)

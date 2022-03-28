@@ -28,30 +28,17 @@ namespace cbox {
 using update_t = uint32_t;
 
 class Object {
-public:
-    obj_id_t objectId;
+private:
+    update_t _nextUpdateTime{0}; // ignore update() calls before this time
+    obj_id_t _objectId{0};       // unique object ID
 
-    Object() = default;
-    virtual ~Object() = default;
-
-    /**
-     * get the unique typeID of the Object
-     * @return object type
-     *
-     */
-    virtual obj_type_t typeId() const = 0;
-
-    /**
-     * update the object, returns timestamp at which the object wants to be updated again (in ms).
-     */
-    virtual update_t update(const update_t& now) = 0;
-
+protected:
     /**
      * Call this function in the body of the update function for Objects that don't need updating
      * @param now: current time in milliseconds
      * @return next update time, 24.8 days in the future
      */
-    static inline update_t update_never(const update_t& now)
+    static inline update_t next_update_never(const update_t& now)
     {
         return now + std::numeric_limits<update_t>::max() / 2;
     }
@@ -61,10 +48,31 @@ public:
      * @param now: current time in milliseconds
      * @return next update time, 24.8 days in the future
      */
-    inline update_t update_1s(const update_t& now)
+    inline update_t next_update_1s(const update_t& now)
     {
         return now + 1000;
     }
+
+public:
+    Object() = default;
+    virtual ~Object() = default;
+
+    obj_id_t objectId() const
+    {
+        return _objectId;
+    }
+
+    void setObjectId(obj_id_t id)
+    {
+        _objectId = id;
+    }
+
+    /**
+     * get the unique typeID of the Object
+     * @return object type
+     *
+     */
+    virtual obj_type_t typeId() const = 0;
 
     /**
      * Each object can yield its own data on request.
@@ -90,6 +98,24 @@ public:
      * @param iface: typeId of the interface requested
      */
     virtual void* implements(obj_type_t iface) = 0;
+
+    /**
+     * update the object, returns timestamp at which the object wants to be updated again (in ms).
+     */
+    virtual update_t updateHandler(const update_t& now) = 0;
+
+    void update(update_t now)
+    {
+        const update_t overflowGuard = std::numeric_limits<update_t>::max() / 2;
+        if (overflowGuard - now + _nextUpdateTime <= overflowGuard) {
+            forcedUpdate(now);
+        }
+    }
+
+    void forcedUpdate(update_t now)
+    {
+        _nextUpdateTime = updateHandler(now);
+    }
 };
 
 } // end namespace cbox
