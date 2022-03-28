@@ -91,7 +91,7 @@ void start()
     ESP_ERROR_CHECK(esp_event_handler_register(ETH_EVENT, ETHERNET_EVENT_CONNECTED, &on_connected, nullptr));
 
     if (err == ESP_OK) {
-        /* start Ethernet driver eth_state machine */
+        /* start Ethernet driver state machine */
         err = esp_eth_start(eth_handle);
     }
 }

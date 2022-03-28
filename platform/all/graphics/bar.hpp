@@ -69,16 +69,16 @@ public:
             networkState.push_back(' ');
             switch (network::state()) {
             case network::State::OFF:
-                networkState.append("Network off");
+                networkState.append("wifi disconnected");
                 break;
             case network::State::CONNECTED:
                 networkState.append(formatIp(network::ip4()));
                 break;
             case network::State::NOT_FOUND:
-                networkState.append("WiFi not found");
+                networkState.append("wifi unavailable");
                 break;
             case network::State::NETWORK_ERROR:
-                networkState.append("WiFi error");
+                networkState.append("wifi error");
                 break;
             }
         }
