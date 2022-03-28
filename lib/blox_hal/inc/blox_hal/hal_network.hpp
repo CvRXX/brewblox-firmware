@@ -4,10 +4,16 @@
 namespace network {
 
 enum class Mode : uint8_t {
-    OFF,
     ETHERNET,
     WIFI,
     WIFI_PROVISIONING,
+};
+
+enum class State : uint8_t {
+    OFF,
+    CONNECTED,
+    NOT_FOUND,
+    NETWORK_ERROR,
 };
 
 Mode mode();
@@ -19,4 +25,5 @@ bool isConnected();
 int8_t wifiStrength();
 void provision();
 void clearProvision();
+State state();
 }

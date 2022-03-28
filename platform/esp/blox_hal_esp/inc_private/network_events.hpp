@@ -8,5 +8,6 @@ void onWifiConnected();
 void onWifiDisconnected();
 void onWifiGotIp();
 void onWifiLostIp();
+void beforeProvision();
 void onProvisionStarted();
 void onProvisionStopped();

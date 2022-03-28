@@ -43,37 +43,44 @@ public:
     void updateNetworks()
     {
         std::string networkState = " ";
-        switch (network::mode()) {
-        case network::Mode::ETHERNET:
-            networkState.append(symbols::ethernet);
-            networkState.push_back(' ');
-            networkState.append(formatIp(network::ip4()));
-            break;
-        case network::Mode::WIFI: {
-            auto signal = network::wifiStrength();
-            if (signal < -80) {
-                networkState.append(symbols::wifi_strength1);
-            } else if (signal < -70) {
-                networkState.append(symbols::wifi_strength2);
-            } else if (signal < -67) {
-                networkState.append(symbols::wifi_strength3);
-            } else if (signal < 0) {
-                networkState.append(symbols::wifi_strength4);
-            } else {
-                networkState.append(symbols::wifi_off);
-            }
-            networkState.push_back(' ');
-            networkState.append(formatIp(network::ip4()));
-        } break;
-        case network::Mode::WIFI_PROVISIONING:
+        if (network::mode() == network::Mode::WIFI_PROVISIONING) {
             networkState.append(symbols::wifi_cog);
             networkState.append(symbols::bluetooth);
             networkState.append(" provisioning");
-            break;
-        case network::Mode::OFF:
-            networkState.append(symbols::wifi_off);
-            networkState.append(" no network");
-            break;
+
+        } else {
+            if (network::mode() == network::Mode::ETHERNET) {
+                networkState.append(symbols::ethernet);
+                networkState.push_back(' ');
+            } else {
+                auto signal = network::wifiStrength();
+                if (signal < -80) {
+                    networkState.append(symbols::wifi_strength1);
+                } else if (signal < -70) {
+                    networkState.append(symbols::wifi_strength2);
+                } else if (signal < -67) {
+                    networkState.append(symbols::wifi_strength3);
+                } else if (signal < 0) {
+                    networkState.append(symbols::wifi_strength4);
+                } else {
+                    networkState.append(symbols::wifi_off);
+                }
+            }
+            networkState.push_back(' ');
+            switch (network::state()) {
+            case network::State::OFF:
+                networkState.append("Network off");
+                break;
+            case network::State::CONNECTED:
+                networkState.append(formatIp(network::ip4()));
+                break;
+            case network::State::NOT_FOUND:
+                networkState.append("WiFi not found");
+                break;
+            case network::State::NETWORK_ERROR:
+                networkState.append("WiFi error");
+                break;
+            }
         }
 
         lv_label_set_text(this->networksLabel, networkState.c_str());
@@ -87,9 +94,6 @@ public:
 
     static std::string formatIp(uint32_t ip)
     {
-        if (!ip) {
-            return std::string("not connected");
-        }
         return std::to_string((ip >> (8 * 0)) & 0xff) + "." + std::to_string((ip >> (8 * 1)) & 0xff) + "." + std::to_string((ip >> (8 * 2)) & 0xff) + "." + std::to_string((ip >> (8 * 3)) & 0xff);
     }
 

@@ -94,7 +94,7 @@ void start()
         .app_event_handler = WIFI_PROV_EVENT_HANDLER_NONE};
 
     isRunning = true;
-    onProvisionStarted();
+    beforeProvision();
 
     if (!instance_wifi_prov_event) {
         /* Register our event handler for provisioning related events */
@@ -202,6 +202,7 @@ void clear()
 {
     // wipe credentials
     wifi_prov_mgr_reset_provisioning();
+    stop();
 }
 
 bool isActive()

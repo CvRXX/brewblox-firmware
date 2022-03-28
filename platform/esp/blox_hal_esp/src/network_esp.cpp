@@ -49,22 +49,27 @@ Mode mode()
     if (wifi_provision::isActive()) {
         return Mode::WIFI_PROVISIONING;
     }
-    if (ethernet::isConnected()) {
+    if (ethernet::state() == State::CONNECTED) {
         return Mode::ETHERNET;
     }
-    if (wifi::hasCredentials()) {
-        return Mode::WIFI;
-    }
 
-    return (Mode::OFF);
+    return Mode::WIFI;
+}
+
+State state()
+{
+    if (ethernet::state() == State::CONNECTED) {
+        return State::CONNECTED;
+    }
+    return wifi::state();
 }
 
 uint32_t ip4()
 {
-    if (ethernet::isConnected()) {
+    if (ethernet::state() == network::State::CONNECTED) {
         return ethernet::ip4().addr;
     }
-    if (wifi::isConnected()) {
+    if (wifi::state() == network::State::CONNECTED) {
         return wifi::ip4().addr;
     }
     return 0;
