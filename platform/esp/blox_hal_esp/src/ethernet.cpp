@@ -26,6 +26,12 @@ esp_eth_phy_t* phy{nullptr};
 esp_eth_handle_t eth_handle{nullptr};
 esp_eth_netif_glue_handle_t eth_glue{nullptr};
 esp_ip4_addr_t ip_addr{0};
+network::State eth_state = network::State::NOT_FOUND;
+
+network::State state()
+{
+    return eth_state;
+}
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
@@ -47,18 +53,21 @@ void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_
 
 void on_disconnected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
+    eth_state = network::State::NOT_FOUND;
     onEthernetDisconnected();
     ESP_LOGI(TAG, "Ethernet disconnected");
 }
 
 void on_connected(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
+    eth_state = network::State::CONNECTED;
     onEthernetConnected();
     ESP_LOGI(TAG, "Ethernet connected");
 }
 
 void start()
 {
+    eth_state = network::State::NOT_FOUND;
     esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
     eth_netif = esp_netif_new(&cfg);
 
@@ -104,6 +113,7 @@ void stop()
         esp_netif_destroy(eth_netif);
         eth_netif = nullptr;
     }
+    eth_state = network::State::OFF;
 }
 
 esp_netif_t* interface()

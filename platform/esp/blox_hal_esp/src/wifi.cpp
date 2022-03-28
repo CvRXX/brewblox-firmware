@@ -21,12 +21,18 @@ namespace wifi {
 constexpr auto TAG = "WIFI";
 esp_netif_t* wifi_netif{nullptr};
 esp_ip4_addr_t ip_addr{0};
-static bool connected = false;
+
+static network::State wifi_state = network::State::OFF;
+
+network::State state()
+{
+    return wifi_state;
+}
 
 void on_wifi_connected(void* arg, esp_event_base_t event_base,
                        int32_t event_id, void* event_data)
 {
-    connected = true;
+    wifi_state = network::State::CONNECTED;
     onWifiConnected();
     ESP_LOGI(TAG, "Wi-Fi connected");
 }
@@ -34,26 +40,38 @@ void on_wifi_connected(void* arg, esp_event_base_t event_base,
 void on_wifi_disconnected(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data)
 {
-    connected = false;
+    wifi_event_sta_disconnected_t* data = reinterpret_cast<wifi_event_sta_disconnected_t*>(event_data);
+    auto reason = data->reason;
+    switch (reason) {
+    case WIFI_REASON_NO_AP_FOUND:
+        wifi_state = network::State::NOT_FOUND;
+        break;
+    case WIFI_REASON_ASSOC_LEAVE:
+        wifi_state = network::State::OFF;
+        break;
+    default:
+        wifi_state = network::State::NETWORK_ERROR;
+    }
+
     onWifiDisconnected();
-    ESP_LOGI(TAG, "Wi-Fi disconnected");
+
+    ESP_LOGI(TAG, "Wi-Fi disconnected: %d", reason);
     esp_wifi_connect();
 }
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
-    onWifiConnected();
-    ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
-    memcpy(&ip_addr, &event->ip_info.ip, sizeof(ip_addr));
-    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(event->esp_netif), IP2STR(&event->ip_info.ip));
+    ip_event_got_ip_t* data = reinterpret_cast<ip_event_got_ip_t*>(event_data);
+    memcpy(&ip_addr, &data->ip_info.ip, sizeof(ip_addr));
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(data->esp_netif), IP2STR(&data->ip_info.ip));
     onWifiGotIp();
 }
 
 void on_lost_ip(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
-    ip_event_got_ip_t* event = reinterpret_cast<ip_event_got_ip_t*>(event_data);
+    ip_event_got_ip_t* data = reinterpret_cast<ip_event_got_ip_t*>(event_data);
     esp_netif_set_ip4_addr(&ip_addr, 0, 0, 0, 0);
-    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(event->esp_netif));
+    ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" lost ip", esp_netif_get_desc(data->esp_netif));
     onWifiLostIp();
 }
 
@@ -81,6 +99,7 @@ void deinit()
 
 void start()
 {
+    wifi_state = network::State::NOT_FOUND;
     init();
     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_CONNECTED, &on_wifi_connected, NULL));
     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnected, NULL));
@@ -99,12 +118,13 @@ void stop()
     ESP_ERROR_CHECK(esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_LOST_IP, &on_lost_ip));
     esp_wifi_stop();
     esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
+    wifi_state = network::State::OFF;
 }
 
 int8_t rssi()
 {
     wifi_ap_record_t wifidata;
-    if (connected && esp_wifi_sta_get_ap_info(&wifidata) == 0) {
+    if (wifi_state == network::State::CONNECTED && esp_wifi_sta_get_ap_info(&wifidata) == 0) {
         return wifidata.rssi;
     }
     return 0;

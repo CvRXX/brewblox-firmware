@@ -6,10 +6,14 @@
 
 void updateLed()
 {
-    if (network::ip4()) {
+    if (network::mode() == network::Mode::WIFI_PROVISIONING) {
+        spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 5);
+    } else if (network::ip4()) {
         spark4::set_led(0, 128, 128, spark4::LED_MODE::BREATHE, 15);
+    } else if (network::mode() == network::Mode::WIFI) {
+        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 5);
     } else {
-        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 2);
+        spark4::set_led(0, 128, 0, spark4::LED_MODE::BLINK, 10);
     }
 }
 
@@ -52,11 +56,15 @@ void onWifiLostIp()
     updateLed();
 }
 
-void onProvisionStarted()
+void beforeProvision()
 {
-    spark4::set_led(0, 0, 128, spark4::LED_MODE::BLINK, 5);
     wifi::stop(); // stop wifi as normal access point and disable custom event handlers and enable power saving
     wifi::init(); // ensure wifi is initialized, could be disabled if ethernet is connected
+}
+
+void onProvisionStarted()
+{
+    updateLed();
 }
 
 void onProvisionStopped()
@@ -64,4 +72,5 @@ void onProvisionStopped()
     // restart wifi to re-enable our event handlers and get the ip
     wifi::stop();
     wifi::start();
+    updateLed();
 }
