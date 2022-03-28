@@ -61,7 +61,6 @@ void on_wifi_disconnected(void* arg, esp_event_base_t event_base,
 
 void on_got_ip(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
-    onWifiConnected();
     ip_event_got_ip_t* data = reinterpret_cast<ip_event_got_ip_t*>(event_data);
     memcpy(&ip_addr, &data->ip_info.ip, sizeof(ip_addr));
     ESP_LOGI(TAG, "Got IPv4 event: Interface \"%s\" address: " IPSTR, esp_netif_get_desc(data->esp_netif), IP2STR(&data->ip_info.ip));
