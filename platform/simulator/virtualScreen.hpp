@@ -18,6 +18,7 @@
  */
 
 #pragma once
+#include "pixel_format.hpp"
 #include <cstdint>
 
 /**
@@ -32,6 +33,8 @@ public:
      */
     VirtualScreen(void (*finishCallback)(void));
     ~VirtualScreen() = default;
+
+    static constexpr auto pixelformat = PixelFormat::rgb555;
 
     /// Initialises the display driver.
     void init();

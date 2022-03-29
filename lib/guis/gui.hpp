@@ -1,16 +1,13 @@
 #pragma once
-#include <array>
 #include "lvgl_screen.hpp"
 #include "lvgl_touchscreen.hpp"
+#include <array>
 #include <lvgl.h>
 #include <memory>
-
 /// Represents the graphics for the TFT screen of the Spark 4.
 template <typename Display, typename Touchscreen, typename Interface>
 class Gui {
 public:
-
-
     /**
      * Initialises the graphics module.
      * @param box The Cbox box.
@@ -56,11 +53,5 @@ private:
     static std::unique_ptr<Interface> interface;
 };
 
-
-
-
-
 template <typename Display, typename Touchscreen, typename Interface>
 std::unique_ptr<Interface> Gui<Display, Touchscreen, Interface>::interface;
-
-

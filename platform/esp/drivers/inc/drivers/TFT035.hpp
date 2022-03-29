@@ -22,6 +22,7 @@
 #include "blox_hal/hal_spi.hpp"
 #include "blox_hal/hal_spi_types.hpp"
 #include "esp32/rom/ets_sys.h"
+#include "pixel_format.hpp"
 
 /**
  * A driver for the TFT035 display controller.
@@ -35,7 +36,7 @@ public:
      */
     TFT035(void (*finishCallback)(void));
     ~TFT035() = default;
-
+    static constexpr auto pixelformat = PixelFormat::rgb555;
     /// Initialises the display driver.
     void init();
 
