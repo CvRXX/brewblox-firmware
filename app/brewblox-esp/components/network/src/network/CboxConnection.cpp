@@ -1,9 +1,7 @@
 #include "CboxConnection.hpp"
 #include "Brewblox.hpp"
 #include "CboxConnectionManager.hpp"
-#include "EspBox.hpp"
-#include "cbox/Box.hpp"
-#include "cbox/Connections.hpp"
+#include "cbox/Application.hpp"
 
 CboxConnection::CboxConnection(
     CboxConnectionManager& connection_manager_)
@@ -15,8 +13,11 @@ CboxConnection::CboxConnection(
 
 void CboxConnection::start()
 {
-    cbox::StreamBufDataOut out_cbox(buffer_out);
-    cbox::connectionStarted(out_cbox);
+    auto message = cbox::handshakeMessage();
+    buffer_out.sputc('<');
+    buffer_out.sputn(message.c_str(), message.size());
+    buffer_out.sputc('>');
+    buffer_out.pubsync();
     start_read();
 }
 
@@ -50,10 +51,10 @@ void CboxConnection::finish_write(std::error_code ec, std::size_t bytes_transfer
 void CboxConnection::finish_read(std::error_code ec, std::size_t bytes_transferred)
 {
     if (!ec) {
-        cbox::StreamBufDataIn in_cbox(buffer_in);
-        cbox::StreamBufDataOut out_cbox(buffer_out);
-        cbox::RegionDataIn transferred{in_cbox, bytes_transferred};
-        handleCommand(transferred, out_cbox);
+        std::string message(bytes_transferred, 0);
+        buffer_in.sgetn(message.data(), bytes_transferred);
+        auto out = BufferResponseWriter(buffer_out);
+        handleCommand(out, message);
 
         start_write(); // send reply
         start_read();  // read next

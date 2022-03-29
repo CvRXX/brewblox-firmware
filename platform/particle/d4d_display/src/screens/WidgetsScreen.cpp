@@ -130,7 +130,7 @@ void WidgetsScreen::loadSettings()
     }
 
     if (settings.brightness >= 20) {
-        displayBrightness(settings.brightness);
+        platform::particle::displayBrightness(settings.brightness);
     }
 
     D4D_InvalidateScreen(&widgets_screen, D4D_TRUE);
@@ -144,14 +144,14 @@ void WidgetsScreen::activate()
 
 void WidgetsScreen::updateUsb()
 {
-    bool connected = serialConnected();
+    bool connected = platform::particle::serialConnected();
     D4D_EnableObject(&scrWidgets_usb_icon, connected);
     D4D_EnableObject(&scrWidgets_usb_text, connected);
 }
 
 void WidgetsScreen::updateWiFi()
 {
-    auto signal = wifiSignal();
+    auto signal = platform::particle::wifiSignal();
     bool connected = true;
     if (signal >= 0) {
         wifi_icon[0] = 0x22;
@@ -164,7 +164,7 @@ void WidgetsScreen::updateWiFi()
         wifi_icon[0] = 0x23;
     }
     if (connected != D4D_IsEnabled(const_cast<D4D_OBJECT*>(&scrWidgets_wifi_ip))) {
-        printWiFiIp(wifi_ip);
+        platform::particle::printWiFiIp(wifi_ip);
         D4D_InvalidateObject(&scrWidgets_wifi_ip, D4D_FALSE); // force rewriting IP to display
         D4D_EnableObject(&scrWidgets_wifi_icon, connected);
         D4D_EnableObject(&scrWidgets_wifi_ip, connected);

@@ -25,4 +25,9 @@ std::shared_ptr<Object> scan()
     return oneWireScanner.scan();
 }
 
+std::string handshakeMessage()
+{
+    return "handshake";
+}
+
 } // end namespace cbox

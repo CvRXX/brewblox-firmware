@@ -1,8 +1,8 @@
+#include <lvgl.h>
 
-template<typename Touchscreen>
+template <typename Touchscreen>
 class LvglTouchscreen {
-    public:
-
+public:
     static void checkForTouches(lv_indev_drv_t* drv, lv_indev_data_t* data)
     {
         if (auto touch = touchscreen->getTouch()) {
@@ -29,12 +29,9 @@ class LvglTouchscreen {
     static std::unique_ptr<Touchscreen> touchscreen;
 
 private:
-
-
 };
 template <typename Touchscreen>
 std::unique_ptr<Touchscreen> LvglTouchscreen<Touchscreen>::touchscreen;
 
 template <typename Touchscreen>
 lv_indev_drv_t LvglTouchscreen<Touchscreen>::indev_drv;
-

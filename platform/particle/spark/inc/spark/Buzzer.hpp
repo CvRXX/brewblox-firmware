@@ -21,6 +21,8 @@
 
 #include "spark/Board.hpp"
 
+namespace platform::particle {
+
 class BuzzerClass {
 public:
     BuzzerClass() = default;
@@ -36,7 +38,4 @@ public:
     void setActive(bool active);
 };
 
-BuzzerClass&
-buzzerRef();
-
-#define Buzzer buzzerRef()
+} // end namespace platform::particle

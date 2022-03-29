@@ -18,7 +18,7 @@
  */
 
 #include "control/OneWireDevice.hpp"
-#include "control/Logger.hpp"
+#include "AppLogger.hpp"
 #include "control/OneWire.hpp"
 #include "control/OneWireAddress.hpp"
 
@@ -63,9 +63,9 @@ void OneWireDevice::connected(bool _connected)
     log += m_address.toString();
 
     if (_connected) {
-        CL_LOG_INFO(std::move(log));
+        logger::info(log);
     } else {
-        CL_LOG_WARN(std::move(log));
+        logger::warn(log);
     }
 
     m_connected = _connected;

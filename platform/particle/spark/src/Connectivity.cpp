@@ -30,6 +30,8 @@
 #include "spark_wiring_wifi.h"
 #include <cstdio>
 
+namespace platform::particle {
+
 constexpr uint16_t webPort = PLATFORM_ID == PLATFORM_GCC ? 8380 : 80;
 static TCPServer httpserver(webPort); // Serve a simple page with instructions
 // these values are only set on initial connect to avoid thread unsafe calls into the wifi stack
@@ -71,8 +73,7 @@ void updateWifiSignal()
     }
 }
 
-int8_t
-wifiSignal()
+int8_t wifiSignal()
 {
     return wifiSignalRssi;
 }
@@ -97,6 +98,11 @@ bool setWifiCredentials(const char* ssid, const char* password, uint8_t security
 {
     return spark::WiFi.setCredentials(ssid, password, security, cipher);
 };
+
+bool clearWifiCredentials()
+{
+    return spark::WiFi.clearCredentials();
+}
 
 void printWifiSSID(char* dest, const uint8_t& maxLen)
 {
@@ -202,3 +208,5 @@ void wifiInit()
     spark::WiFi.setListenTimeout(45);
     spark::WiFi.connect(WIFI_CONNECT_SKIP_LISTEN);
 }
+
+} // end namespace platform::particle

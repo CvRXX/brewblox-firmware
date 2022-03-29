@@ -53,8 +53,8 @@ add_compile_definitions(LV_LVGL_H_INCLUDE_SIMPLE)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
-list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/platform)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/lib/guis)
+list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/platform/esp)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/lib)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs)
 list(APPEND EXTRA_COMPONENT_DIRS ${REPO_ROOT}/external_libs/lvgl_wrapper)

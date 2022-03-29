@@ -21,6 +21,8 @@
 #include "proto/WiFiSettings.pb.h"
 #include "spark/Connectivity.hpp"
 
+namespace platform::particle {
+
 cbox::CboxError WiFiSettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
@@ -57,3 +59,4 @@ cbox::CboxError WiFiSettingsBlock::write(const cbox::Payload& payload)
 
     return res;
 }
+} // end namespace platform::particle

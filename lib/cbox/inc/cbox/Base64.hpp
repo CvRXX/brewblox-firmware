@@ -1,15 +1,14 @@
-//
-//  base64 encoding and decoding with C++.
-//  Based on https://github.com/ReneNyffenegger/cpp-base64
-//
-
 #pragma once
-
+#include <cstdint>
 #include <string>
 #include <vector>
 
-bool is_base64(uint8_t c);
+namespace cbox {
 
-void base64_encode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out);
+bool is_b64(uint8_t c);
 
-void base64_decode(const std::vector<uint8_t>& in, std::vector<uint8_t>& out);
+std::string b64_encode(const std::vector<uint8_t>& in);
+
+std::vector<uint8_t> b64_decode(const std::string& in);
+
+} // end namespace cbox

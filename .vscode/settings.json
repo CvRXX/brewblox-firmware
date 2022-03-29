@@ -1,5 +1,8 @@
 {
   "files.associations": {
+    "*.h": "cpp",
+    "*.sass": "sass",
+    "*.svg": "html",
     "**/include/**": "cpp",
     "array": "cpp",
     "*.tcc": "cpp",
@@ -31,7 +34,8 @@
     "cstddef": "cpp",
     "cstring": "cpp",
     "ctime": "cpp",
-    "*.ipp": "cpp"
+    "*.ipp": "cpp",
+    "*.inc": "c"
   },
   "C_Cpp.formatting": "clangFormat",
   "C_Cpp.configurationWarnings": "Disabled",
@@ -41,6 +45,14 @@
   "git.detectSubmodules": false,
   "files.exclude": {
     "**/.gitmodules": false
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/external_libs": true,
+    "**/platform/particle/eGUI": true,
+    "**/platform/particle/WebSockets": true,
   },
   "shellformat.effectLanguages": [
     "shellscript"

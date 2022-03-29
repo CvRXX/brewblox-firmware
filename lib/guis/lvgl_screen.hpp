@@ -1,3 +1,4 @@
+#include <lvgl.h>
 
 template<typename Display>
 class LvglScreen {
@@ -28,7 +29,7 @@ class LvglScreen {
         display = std::make_unique<Display>([]() { lv_disp_flush_ready(&disp_drv); });
         display->init();
 
-        
+
         lv_disp_draw_buf_init(&disp_buf1, buf1_1, buf1_2, 960);
 
         lv_disp_drv_init(&disp_drv);

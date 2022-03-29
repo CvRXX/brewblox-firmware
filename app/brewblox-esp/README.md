@@ -70,6 +70,13 @@ To read the core dump, run:
 espcoredump.py -p /dev/ttyUSB0 info_corefile build/brewblox_esp.elf
 ```
 
+To analyze a core dump exported with `brewblox-ctl coredump`, run:
+
+```
+espcoredump.py info_corefile -c filename --core-format=b64 build/brewblox_esp.elf
+```
+
+
 # Code formatting
 We use clang-format for formatting. This repo includes a `.clang-format` file with a spec. Please use it when submitting a PR.
 

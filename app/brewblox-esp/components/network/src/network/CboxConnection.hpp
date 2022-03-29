@@ -1,63 +1,56 @@
 #pragma once
 #include "intellisense.hpp"
 
-#include "cbox/DataStreamIo.hpp"
+#include "EspBox.hpp"
 #include <asio.hpp>
 
-namespace cbox {
-
-class StreamBufDataIn : public DataIn {
-    asio::streambuf& in;
-
-public:
-    StreamBufDataIn(asio::streambuf& in_)
-        : in(in_)
-    {
-    }
-
-    virtual int16_t read() override
-    {
-        return in.sbumpc();
-    }
-
-    virtual int16_t peek() override
-    {
-        return in.sgetc();
-    }
-
-    virtual StreamType streamType() const override final
-    {
-        return StreamType::Tcp;
-    }
-};
-
-/**
- * Provides a DataOut stream by wrapping a std::ostream.
- */
-class StreamBufDataOut final : public DataOut {
-    asio::streambuf& out;
+class BufferResponseWriter : public ResponseWriter {
+private:
+    asio::streambuf& buf;
 
 public:
-    StreamBufDataOut(asio::streambuf& out_)
-        : out(out_)
+    BufferResponseWriter(asio::streambuf& buf_)
+        : buf(buf_)
     {
     }
+    virtual ~BufferResponseWriter() = default;
+    BufferResponseWriter(const BufferResponseWriter&) = delete;
+    BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
 
-    virtual bool write(uint8_t data) override final
+    bool write(const std::string& message) override final
     {
-        if (out.size() < out.max_size()) {
-            out.sputc(data);
-            // flush output if \n or , has been written
-            if (data == '\n' || data == ',') {
-                out.pubsync();
-            }
+        if (buf.size() + message.size() <= buf.max_size()) {
+            buf.sputn(message.c_str(), message.size());
             return true;
         }
         return false;
     }
-};
 
-} // end namespace cbox
+    bool write(char c) override final
+    {
+        if (buf.size() + 1 <= buf.max_size()) {
+            buf.sputc(c);
+            return true;
+        }
+        return false;
+    }
+
+    bool writeLog(const std::string& message) override final
+    {
+        if (buf.size() + message.size() + 2 <= buf.max_size()) {
+            buf.sputc('<');
+            buf.sputn(message.c_str(), message.size());
+            buf.sputc('>');
+            return true;
+        }
+        return false;
+    }
+
+    void commit() override final
+    {
+        buf.pubsync();
+    }
+};
 
 class CboxConnectionManager;
 

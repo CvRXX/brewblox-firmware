@@ -22,6 +22,8 @@
 #include "proto/TouchSettings.pb.h"
 #include <cstring>
 
+namespace platform::particle {
+
 cbox::CboxError TouchSettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
@@ -67,3 +69,4 @@ cbox::CboxError TouchSettingsBlock::write(const cbox::Payload& payload)
 
     return res;
 }
+} // end namespace platform::particle

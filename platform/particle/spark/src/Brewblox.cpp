@@ -24,19 +24,20 @@
 #include "blocks/SysInfoBlock.hpp"
 #include "blocks/stringify.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/Connections.hpp"
+#include "cbox/Hex.hpp"
 #include "deviceid_hal.h"
 #include "platforms.h"
 #include "proto/proto_version.h"
 #include "rgbled.h"
 #include "spark/Board.hpp"
+#include "spark/Connection.hpp"
 #include "spark/SparkEepromAccess.hpp"
 #include "spark/TouchSettingsBlock.hpp"
 #include "spark/WiFiSettingsBlock.hpp"
 #include <memory>
 
 // Include OneWire implementation depending on platform
-#if !defined(PLATFORM_ID) || PLATFORM_ID == PLATFORM_GCC
+#if PLATFORM_ID == PLATFORM_GCC
 #include "control/DS18B20Mock.hpp"
 #include "control/DS2408Mock.hpp"
 #include "control/DS2413Mock.hpp"
@@ -49,44 +50,40 @@
 // Include serial connection for platform
 #if defined(SPARK)
 #if PLATFORM_ID != PLATFORM_GCC
-#include "spark/ConnectionsSerial.hpp"
+#include "spark/ConnectionSourceSerial.hpp"
 #endif
-#include "spark/ConnectionsTcp.hpp"
+#include "spark/ConnectionSourceTcp.hpp"
 #else
-#include "cbox/ConnectionsStringStream.hpp"
-
-cbox::StringStreamConnectionSource&
-testConnectionSource()
-{
-    static cbox::StringStreamConnectionSource connSource;
-    return connSource;
-}
+#include "spark/ConnectionSourceStringStream.hpp"
 #endif
 
 #if PLATFORM_ID == PLATFORM_PHOTON
 #include "spark/Spark2PinsBlock.hpp"
-using PinsBlock = Spark2PinsBlock;
+using PinsBlock = platform::particle::Spark2PinsBlock;
 #else
 #include "spark/Spark3PinsBlock.hpp"
-using PinsBlock = Spark3PinsBlock;
+using PinsBlock = platform::particle::Spark3PinsBlock;
 #endif
 
-cbox::ConnectionPool& getConnectionPool()
+namespace platform::particle {
+
+ConnectionPool& getConnectionPool()
 {
 #if defined(SPARK)
-    static cbox::TcpConnectionSource tcpSource(8332);
-#if PLATFORM_ID != PLATFORM_GCC
-    static auto& boxSerial = _fetch_usbserial();
-    static cbox::SerialConnectionSource serialSource(boxSerial);
-    static cbox::ConnectionPool connections = {tcpSource, serialSource};
+    static TcpConnectionSource tcpSource(8332);
+#if PLATFORM_ID == PLATFORM_GCC
+    static ConnectionPool pool = {tcpSource};
 #else
-    static cbox::ConnectionPool connections = {tcpSource};
+    static auto& boxSerial = _fetch_usbserial();
+    static SerialConnectionSource serialSource(boxSerial);
+    static ConnectionPool pool = {tcpSource, serialSource};
 #endif
 #else
-    static cbox::ConnectionPool connections = {testConnectionSource()};
+    static StringStreamConnectionSource stringStreamSource;
+    static ConnectionPool pool = {stringStreamSource};
 #endif
 
-    return connections;
+    return pool;
 }
 
 void powerCyclePheripheral5V()
@@ -99,9 +96,9 @@ void powerCyclePheripheral5V()
 #endif
 }
 
-#if !defined(PLATFORM_ID) || PLATFORM_ID == PLATFORM_GCC
 OneWire& getOneWire()
 {
+#if PLATFORM_ID == PLATFORM_GCC
     static auto owDriver = OneWireMockDriver();
     static auto ow = OneWire(owDriver);
     owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS18B20Mock(OneWireAddress(0x7E11'1111'1111'1128)))); // DS18B20
@@ -110,47 +107,17 @@ OneWire& getOneWire()
     owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS2413Mock(OneWireAddress(0x0644'4444'4444'443A))));  // DS2413
     owDriver.attach(std::shared_ptr<OneWireMockDevice>(new DS2408Mock(OneWireAddress(0xDA55'5555'5555'5529))));  // DS2408
     return ow;
-}
 #else
-OneWire& getOneWire()
-{
     static auto owDriver = DS248x(0x00);
     static auto ow = OneWire(owDriver);
     return ow;
-}
 #endif
+}
 
-Logger& getLogger()
+BuzzerClass& getBuzzer()
 {
-    static Logger logger([](Logger::LogLevel level, const std::string& log) {
-        cbox::DataOut& out = getConnectionPool().logDataOut();
-        out.write('<');
-        const char debug[] = "DEBUG";
-        const char info[] = "INFO";
-        const char warn[] = "WARNING";
-        const char err[] = "ERROR";
-
-        switch (level) {
-        case Logger::LogLevel::DEBUG:
-            out.writeBuffer(debug, strlen(debug));
-            break;
-        case Logger::LogLevel::INFO:
-            out.writeBuffer(info, strlen(info));
-            break;
-        case Logger::LogLevel::WARN:
-            out.writeBuffer(warn, strlen(warn));
-            break;
-        case Logger::LogLevel::ERROR:
-            out.writeBuffer(err, strlen(err));
-            break;
-        }
-        out.write(':');
-        for (const auto& c : log) {
-            out.write(c);
-        }
-        out.write('>');
-    });
-    return logger;
+    static BuzzerClass buzzer;
+    return buzzer;
 }
 
 void setupSystemBlocks()
@@ -177,8 +144,9 @@ std::string deviceIdStringInit()
     std::string hex;
     hex.reserve(len);
     for (uint8_t i = 0; i < len; i++) {
-        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF0) >> 4));
-        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF)));
+        auto pair = cbox::d2h(id[i]);
+        hex.push_back(pair.first);
+        hex.push_back(pair.second);
     }
     return hex;
 }
@@ -226,24 +194,4 @@ int resetReasonData()
     return System.resetReasonData();
 #endif
 }
-
-namespace cbox {
-// Implements extern function in cbox/Connections.h
-void connectionStarted(DataOut& out)
-{
-    char header[] = "<!BREWBLOX,";
-
-    out.writeBuffer(header, strlen(header));
-    out.writeBuffer(versionCsv().data(), versionCsv().length());
-    out.write(',');
-    cbox::EncodedDataOut hexOut(out);
-
-    hexOut.write(resetReason());
-    out.write(',');
-    hexOut.write(resetReasonData());
-    out.write(',');
-
-    out.writeBuffer(deviceIdString().data(), deviceIdString().size());
-    out.write('>');
-}
-}
+} // end namespace platform::particle

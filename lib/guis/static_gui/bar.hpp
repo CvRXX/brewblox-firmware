@@ -1,7 +1,6 @@
+#include "blox_hal/hal_network.hpp"
 #include "fonts/fonts.hpp"
 #include "lvgl.h"
-#include "network/ethernet.hpp"
-#include "network/wifi.hpp"
 #include "styles.hpp"
 #include <ctime>
 #include <string>
@@ -43,36 +42,48 @@ public:
 
     void updateNetworks()
     {
-        std::string networks;
-        if (wifi::isConnected()) {
-            networks.push_back(' ');
-            auto rssi = wifi::getRssi();
-            if (rssi < -80) {
-                networks.append(symbols::wifi_strength1);
-            } else if (rssi < -70) {
-                networks.append(symbols::wifi_strength2);
-            } else if (rssi < -67) {
-                networks.append(symbols::wifi_strength3);
-            } else {
-                networks.append(symbols::wifi_strength4);
-            }
-            networks.push_back(' ');
-            networks.append(formatIp(wifi::ip4().addr));
+        std::string networkState = " ";
+        if (network::mode() == network::Mode::WIFI_PROVISIONING) {
+            networkState.append(symbols::wifi_cog);
+            networkState.append(symbols::bluetooth);
+            networkState.append(" provisioning");
 
         } else {
-            if (!ethernet::isConnected()) {
-                networks.append(symbols::wifi_off);
+            if (network::mode() == network::Mode::ETHERNET) {
+                networkState.append(symbols::ethernet);
+                networkState.push_back(' ');
+            } else {
+                auto signal = network::wifiStrength();
+                if (signal < -80) {
+                    networkState.append(symbols::wifi_strength1);
+                } else if (signal < -70) {
+                    networkState.append(symbols::wifi_strength2);
+                } else if (signal < -67) {
+                    networkState.append(symbols::wifi_strength3);
+                } else if (signal < 0) {
+                    networkState.append(symbols::wifi_strength4);
+                } else {
+                    networkState.append(symbols::wifi_off);
+                }
+            }
+            networkState.push_back(' ');
+            switch (network::state()) {
+            case network::State::OFF:
+                networkState.append("wifi disconnected");
+                break;
+            case network::State::CONNECTED:
+                networkState.append(formatIp(network::ip4()));
+                break;
+            case network::State::NOT_FOUND:
+                networkState.append("wifi unavailable");
+                break;
+            case network::State::NETWORK_ERROR:
+                networkState.append("wifi error");
+                break;
             }
         }
 
-        if (ethernet::isConnected()) {
-            networks.push_back(' ');
-            networks.append(symbols::ethernet);
-            networks.push_back(' ');
-            networks.append(formatIp(ethernet::ip4().addr));
-        }
-
-        lv_label_set_text(this->networksLabel, networks.c_str());
+        lv_label_set_text(this->networksLabel, networkState.c_str());
     }
 
     void update()

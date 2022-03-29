@@ -21,6 +21,8 @@
 
 #include "blocks/Block.hpp"
 
+namespace platform::particle {
+
 // provides a protobuf interface to the read only system info
 class TouchSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_TouchSettings> {
 
@@ -33,3 +35,5 @@ class TouchSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_TouchSetti
         return update_never(now);
     }
 };
+
+} // end namespace platform::particle

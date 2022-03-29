@@ -22,6 +22,8 @@
 #include "control/IoArray.hpp"
 #include "pinmap_hal.h" // pin_t defined here
 
+namespace platform::particle {
+
 class SparkIoBase : public IoArray {
 protected:
     virtual pin_t channelToPin(uint8_t channel) const = 0;
@@ -43,3 +45,5 @@ public:
         return true;
     }
 };
+
+} // end namespace platform::particle

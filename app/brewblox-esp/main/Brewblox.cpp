@@ -7,18 +7,10 @@
 #include "blocks/TicksBlock.hpp"
 #include "blocks/stringify.hpp"
 #include "cbox/Box.hpp"
-#include "cbox/Connections.hpp"
+#include "cbox/Hex.hpp"
 #include "proto/proto_version.h"
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>
-
-Logger& getLogger()
-{
-    static Logger logger([](Logger::LogLevel level, const std::string& log) {
-        // TODO
-    });
-    return logger;
-}
 
 void setupSystemBlocks()
 {
@@ -54,8 +46,9 @@ std::string deviceIdStringInit()
     std::string hex;
     hex.reserve(len);
     for (uint8_t i = 0; i < len; i++) {
-        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF0) >> 4));
-        hex.push_back(cbox::d2h(uint8_t(id[i] & 0xF)));
+        auto pair = cbox::d2h(id[i]);
+        hex.push_back(pair.first);
+        hex.push_back(pair.second);
     }
     return hex;
 }
@@ -84,23 +77,4 @@ int resetReason()
 int resetReasonData()
 {
     return 0; // todo
-}
-
-// Implements extern function in cbox/Connections.h
-void cbox::connectionStarted(DataOut& out)
-{
-    char header[] = "<!BREWBLOX,";
-
-    out.writeBuffer(header, strlen(header));
-    out.writeBuffer(versionCsv().data(), versionCsv().length());
-    out.write(',');
-    cbox::EncodedDataOut hexOut(out);
-
-    hexOut.write(resetReason());
-    out.write(',');
-    hexOut.write(resetReasonData());
-    out.write(',');
-
-    out.writeBuffer(deviceIdString().data(), deviceIdString().size());
-    out.write('>');
 }

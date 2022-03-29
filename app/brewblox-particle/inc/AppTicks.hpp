@@ -28,7 +28,7 @@
 
 #if defined(SPARK)
 #include "spark/TicksWiring.hpp"
-using TicksClass = Ticks<TicksWiring>;
+using TicksClass = Ticks<platform::particle::TicksWiring>;
 #else
 #include <control/MockTicks.h>
 using TicksClass = Ticks<MockTicks>;

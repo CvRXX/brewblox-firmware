@@ -21,16 +21,19 @@
 #include "system_event.h"
 #include <cstdint>
 
+namespace platform::particle {
+
 void printWiFiIp(char dest[16]);
 
 void printWifiSSID(char* dest, const uint8_t& maxLen);
 
-int8_t
-wifiSignal();
+int8_t wifiSignal();
 
 bool serialConnected();
 
 bool setWifiCredentials(const char* ssid, const char* password, uint8_t security, uint8_t cipher);
+
+bool clearWifiCredentials();
 
 void handleNetworkEvent(system_event_t event, int param);
 
@@ -39,3 +42,5 @@ void wifiInit();
 bool listeningModeEnabled();
 
 void manageConnections(uint32_t now);
+
+} // end namespace platform::particle
