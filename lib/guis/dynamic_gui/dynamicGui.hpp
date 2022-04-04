@@ -1,4 +1,8 @@
 #pragma once
+#include "blocks/core/screen.hpp"
+#include "blocks/layouts/horizontal-split.hpp"
+#include "blocks/layouts/vertical-split.hpp"
+#include "blocks/widgets/color.hpp"
 #include <array>
 #include <lvgl.h>
 #include <memory>
@@ -11,8 +15,15 @@ public:
      * @param box The Cbox box.
      */
     DynamicGui()
+        : screen(
+            Screen(
+                VerticalSplit(
+
+                    VerticalSplit(
+                        Color(0, 255, 255),
+                        Color(0, 255, 0), 10),
+                    HorizontalSplit(Color(0, 50, 100), Color(255, 255, 0), 75))))
     {
-        lv_obj_t* slider1 = lv_slider_create(lv_scr_act());
     }
     ~DynamicGui()
     {
@@ -26,7 +37,9 @@ public:
      */
     void update()
     {
+        screen.update();
     }
 
 private:
+    Screen screen;
 };
