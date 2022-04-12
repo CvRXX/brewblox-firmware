@@ -30,7 +30,7 @@ int main()
     using gui = Gui<VirtualScreen, VirtualTouchScreen, DynamicGui>;
     gui::init();
 
-    static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(1000),
+    static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(20),
                                            RecurringTask::IntervalType::FROM_EXPIRY,
                                            []() {
                                                auto tickMinutes = boost::asio::chrono::system_clock::now().time_since_epoch() / asio::chrono::minutes(1);
@@ -42,7 +42,7 @@ int main()
                                            });
     timeSetter.start();
 
-    static auto graphicsLooper = RecurringTask(ioc, boost::asio::chrono::milliseconds(10),
+    static auto graphicsLooper = RecurringTask(ioc, boost::asio::chrono::milliseconds(5000),
                                                RecurringTask::IntervalType::FROM_EXPIRY,
                                                []() {
                                                    gui::update();

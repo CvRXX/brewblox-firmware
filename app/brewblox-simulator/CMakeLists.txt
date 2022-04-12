@@ -14,6 +14,8 @@ file(GLOB_RECURSE lvgl_srcs ../../external_libs/lvgl_wrapper/lvgl/src/*.c)
 file(GLOB SOURCES
 main/*.cpp
 ../../lib/control/inc/graphics/fonts/*.cpp
+../../lib/guis/dynamic_gui/styles/*.cpp
+../../lib/guis/dynamic_gui/fonts/*.c
 ../../platform/simulator/*.cpp
 ../../brewblox/blox
 ../../controlbox/src/

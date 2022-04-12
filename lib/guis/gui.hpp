@@ -4,6 +4,8 @@
 #include <array>
 #include <lvgl.h>
 #include <memory>
+#include <mutex>
+
 /// Represents the graphics for the TFT screen of the Spark 4.
 template <typename Display, typename Touchscreen, typename Interface>
 class Gui {
@@ -14,6 +16,7 @@ public:
      */
     static void init()
     {
+        mutex.lock();
         lv_init();
         LvglScreen<Display>::init();
         LvglScreen<Display>::display->aquire_spi();
@@ -27,6 +30,7 @@ public:
 
         interface = std::make_unique<Interface>();
         LvglScreen<Display>::display->release_spi();
+        mutex.unlock();
     }
 
     /**
@@ -34,10 +38,13 @@ public:
      */
     static void update()
     {
-        interface->update();
-        LvglScreen<Display>::display->aquire_spi();
-        lv_task_handler();
-        LvglScreen<Display>::display->release_spi();
+        if (mutex.try_lock()) {
+            interface->update();
+            LvglScreen<Display>::display->aquire_spi();
+            lv_task_handler();
+            LvglScreen<Display>::display->release_spi();
+            mutex.unlock();
+        }
     }
 
     /**
@@ -51,7 +58,11 @@ public:
 
 private:
     static std::unique_ptr<Interface> interface;
+    static std::mutex mutex;
 };
 
 template <typename Display, typename Touchscreen, typename Interface>
 std::unique_ptr<Interface> Gui<Display, Touchscreen, Interface>::interface;
+
+template <typename Display, typename Touchscreen, typename Interface>
+std::mutex Gui<Display, Touchscreen, Interface>::mutex;

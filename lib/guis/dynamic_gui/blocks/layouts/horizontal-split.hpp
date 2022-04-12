@@ -15,6 +15,10 @@ public:
         : blockUp(std::move(horizontalSplit.blockUp))
         , blockDown(std::move(horizontalSplit.blockDown))
         , deviderPosition(horizontalSplit.deviderPosition)
+        , container(std::move(horizontalSplit.container))
+        , placeHolderUp(std::move(horizontalSplit.placeHolderUp))
+        , placeHolderDown(std::move(horizontalSplit.placeHolderDown))
+
     {
     }
 

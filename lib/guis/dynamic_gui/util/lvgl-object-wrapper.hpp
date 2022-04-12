@@ -1,15 +1,16 @@
 #pragma once
 
 #include "lvgl.h"
+#include <iostream>
 
 class LvglObjectWrapper {
 public:
-    LvglObjectWrapper(lv_obj_t* lvglObject)
+    constexpr LvglObjectWrapper(lv_obj_t* lvglObject)
         : lvglObject(lvglObject)
     {
     }
 
-    LvglObjectWrapper(LvglObjectWrapper&& lvglObjectWrapper)
+    constexpr LvglObjectWrapper(LvglObjectWrapper&& lvglObjectWrapper)
         : lvglObject(lvglObjectWrapper.lvglObject)
     {
         lvglObjectWrapper.lvglObject = nullptr;
@@ -18,6 +19,7 @@ public:
     ~LvglObjectWrapper()
     {
         if (lvglObject) {
+            std::cout << "delete happening \n";
             lv_obj_del(lvglObject);
         }
     }

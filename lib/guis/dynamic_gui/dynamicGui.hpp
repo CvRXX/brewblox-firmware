@@ -1,9 +1,13 @@
 #pragma once
 #include "blocks/core/screen.hpp"
+#include "blocks/layouts/grid.hpp"
 #include "blocks/layouts/horizontal-split.hpp"
 #include "blocks/layouts/vertical-split.hpp"
-#include "blocks/widgets/color.hpp"
+#include "blocks/widgets/numeric-value.hpp"
+#include "blocks/widgets/widget.hpp"
+#include "styles/styles.hpp"
 #include <array>
+#include <iostream>
 #include <lvgl.h>
 #include <memory>
 
@@ -17,14 +21,27 @@ public:
     DynamicGui()
         : screen(
             Screen(
-                VerticalSplit(
+                VerticalSplit(NumericValue(55, "Atomospheric", {0, 255, 0}),
 
-                    VerticalSplit(
-                        Color(0, 255, 255),
-                        Color(0, 255, 0), 10),
-                    HorizontalSplit(Color(0, 50, 100), Color(255, 255, 0), 75))))
+                              HorizontalSplit(NumericValue(21, "Lager", {255, 0, 0}), VerticalSplit(NumericValue(33, "Stout", {0, 0, 255}), NumericValue(11, "IPA", {0, 255, 255})))
+
+                                  )
+
+                    ))
     {
+        style::init();
     }
+
+    // DynamicGui()
+    //     : screen(
+    //         Screen(NumericValue(33, "Stout", {0, 0, 255})
+
+    //                    ))
+    // {
+    //     style::init();
+    //     std::cout << "queue1";
+    // }
+
     ~DynamicGui()
     {
     }
