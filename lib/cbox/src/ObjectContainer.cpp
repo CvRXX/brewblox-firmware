@@ -59,7 +59,7 @@ CboxExpected<std::shared_ptr<Object>> ObjectContainer::fetch(obj_id_t id)
     }
 }
 
-CboxError ObjectContainer::add(const std::shared_ptr<Object>& obj, obj_id_t id)
+CboxError ObjectContainer::add(std::shared_ptr<Object> obj, obj_id_t id)
 {
     if (!obj) {
         return CboxError::INVALID_BLOCK;
@@ -89,7 +89,7 @@ CboxError ObjectContainer::add(const std::shared_ptr<Object>& obj, obj_id_t id)
     obj->setObjectId(newId);
 
     // insert new entry in container in sorted position
-    contained.insert(position, obj);
+    contained.insert(position, std::move(obj));
     return CboxError::OK;
 }
 
