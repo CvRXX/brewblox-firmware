@@ -1,15 +1,16 @@
-#include "layout.hpp"
+#include "staticGui.hpp"
 #include "bar.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "cbox/Box.hpp"
 #include "drivers/Spark4.hpp"
-#include "graphics/widgets.hpp"
 #include "lvgl.h"
+#include "static_gui/widgets.hpp"
 #include <algorithm>
 
-Layout::Layout()
+StaticGui::StaticGui()
 {
+    style::init();
     lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_SCROLLABLE);
     mainContainer = lv_obj_create(lv_scr_act());
     lv_obj_set_size(mainContainer, 480, 320);
@@ -33,20 +34,20 @@ Layout::Layout()
     lv_obj_set_grid_align(grid, LV_GRID_ALIGN_CENTER, LV_GRID_ALIGN_CENTER);
 }
 
-Layout::~Layout()
+StaticGui::~StaticGui()
 {
     lv_obj_del(grid);
     lv_obj_del(mainContainer);
 }
 
-void Layout::update()
+void StaticGui::update()
 {
     updateConfig();
     updateWidgets();
     bar->update();
 }
 
-void Layout::updateWidgets()
+void StaticGui::updateWidgets()
 {
     for (auto& widget : sensorWidgets) {
         if (widget) {
@@ -55,7 +56,7 @@ void Layout::updateWidgets()
     }
 }
 
-std::unique_ptr<BaseWidget> Layout::makeWidget(uint8_t pos)
+std::unique_ptr<BaseWidget> StaticGui::makeWidget(uint8_t pos)
 {
     auto& settings = DisplaySettingsBlock::settings();
     auto row = (pos - 1) / 3;
@@ -89,7 +90,7 @@ std::unique_ptr<BaseWidget> Layout::makeWidget(uint8_t pos)
     return std::unique_ptr<BaseWidget>(new BaseWidget(grid, row, col, "", LV_COLOR_MAKE(0x20, 0x20, 0x20)));
 };
 
-void Layout::updateConfig()
+void StaticGui::updateConfig()
 {
     if (DisplaySettingsBlock::newSettingsReceived()) {
         auto& settings = DisplaySettingsBlock::settings();

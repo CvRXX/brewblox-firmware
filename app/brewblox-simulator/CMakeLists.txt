@@ -4,39 +4,33 @@ cmake_minimum_required(VERSION 3.10)
 project(simulator)
 set(CMAKE_CXX_STANDARD 17)
 find_package(Threads REQUIRED)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 add_definitions(-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE)
 
+file(GLOB_RECURSE lvgl_srcs ../../external_libs/lvgl_wrapper/lvgl/src/*.c)
 
 
 file(GLOB SOURCES
 main/*.cpp
 ../../lib/control/inc/graphics/fonts/*.cpp
 ../../platform/simulator/*.cpp
-../../lib/compiled_proto/proto/*.c
-../../external_libs/device-os/third_party/nanopb/nanopb/*.c
-../../lib/blocks/*.cpp
-../../lib/blocks/blocks/*.cpp
-../../lib/cbox/src/*.cpp
+../../brewblox/blox
+../../controlbox/src/
 )
 
 include_directories(
     ../../platform/simulator
-    ../../platform/all
-    ../../lib/control/inc
-    ../../lib/cbox/src
-    ../../lib/compiled_proto
-    ../../lib/blocks
+    ../../lib/guis
     ../../external_libs/cnl/include
-    ../../external_libs/device-os/third_party/nanopb/nanopb
+    ../../brewblox
+    ../../platform/spark/device-os/third_party/nanopb/nanopb
+    ../../controlbox/src/
     main
-    components/lvgl/src
+    ../../external_libs/lvgl_wrapper/lvgl/src
     )
 
 
-add_subdirectory (components/lvgl)
-
 # add the executable
-add_executable(simulator ${SOURCES})
-target_link_libraries (simulator LINK_PUBLIC lvgl)
+add_executable(simulator ${lvgl_srcs} ${SOURCES})
 target_link_libraries(simulator PRIVATE Threads::Threads)

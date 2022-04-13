@@ -1,9 +1,11 @@
 
 #include "RecurringTask.hpp"
-#include "graphics/graphics.hpp"
-#include "graphics/widgets.hpp"
+#include "dynamic_gui/dynamicGui.hpp"
+#include "gui.hpp"
+#include "lvgl.h"
+#include "virtualScreen.hpp"
+#include "virtualTouchScreen.hpp"
 #include "websocketserver.hpp"
-
 #include <boost/asio.hpp>
 #include <boost/asio/dispatch.hpp>
 #include <boost/asio/strand.hpp>
@@ -25,41 +27,34 @@ int main()
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
 
-    auto graphics = Graphics::getInstance();
+    using gui = Gui<VirtualScreen, VirtualTouchScreen, DynamicGui>;
+    gui::init();
 
     static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(1000),
                                            RecurringTask::IntervalType::FROM_EXPIRY,
-                                           [&graphics]() {
+                                           []() {
                                                auto tickMinutes = boost::asio::chrono::system_clock::now().time_since_epoch() / asio::chrono::minutes(1);
                                                auto minutes = tickMinutes % (60);
 
                                                auto tickHours = boost::asio::chrono::system_clock::now().time_since_epoch() / asio::chrono::hours(1);
                                                auto hours = tickHours % (24) + 2;
-                                               graphics.bar.setTime(hours, minutes);
+                                               //    gui.bar.setTime(hours, minutes);
                                            });
     timeSetter.start();
 
     static auto graphicsLooper = RecurringTask(ioc, boost::asio::chrono::milliseconds(10),
                                                RecurringTask::IntervalType::FROM_EXPIRY,
                                                []() {
-                                                   lv_task_handler();
+                                                   gui::update();
                                                });
     graphicsLooper.start();
 
     static auto displayTick = RecurringTask(ioc, boost::asio::chrono::milliseconds(10),
                                             RecurringTask::IntervalType::FROM_EXPIRY,
                                             []() {
-                                                lv_tick_inc(10);
+                                                gui::tick(10);
                                             });
     displayTick.start();
-
-    static std::array<NormalWidget, 5> sensorWidgets{{
-        NormalWidget(graphics.grid, "Widget 1", "IPA", "21.0"),
-        NormalWidget(graphics.grid, "Widget 2", "Blond", "21.0"),
-        NormalWidget(graphics.grid, "Widget 3", "Lager", "5.1"),
-        NormalWidget(graphics.grid, "Widget 4", "Stout", "23.1"),
-        NormalWidget(graphics.grid, "Widget 5", "Wit", "21.4"),
-    }};
 
     ioc.run();
 }

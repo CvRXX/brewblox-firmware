@@ -1,7 +1,6 @@
 idf_component_register(
   SRCS
-   graphics.cpp
-   layout.cpp
+   staticGui.cpp
    styles.cpp
    widgets/BaseWidget.cpp
    fonts/font_main.c
@@ -12,4 +11,5 @@ idf_component_register(
     ../
   REQUIRES
     main
+    external_libs
 )

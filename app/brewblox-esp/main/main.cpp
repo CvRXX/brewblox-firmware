@@ -5,8 +5,12 @@
 #include "control/DS248x.hpp"
 #include "control/OneWire.hpp"
 #include "control/TempSensor.hpp"
+// #include "esp_heap_caps.h"
+// #include "esp_heap_trace.h"
+#include "drivers/FT6236.hpp"
 #include "drivers/Spark4.hpp"
 #include "drivers/TFT035.hpp"
+#include "gui.hpp"
 #include "intellisense.hpp"
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
@@ -14,13 +18,12 @@
 #include "HttpHandler.hpp"
 #include "OkButtonMonitor.hpp"
 #include "blox_hal/hal_network.hpp"
-#include "graphics/graphics.hpp"
-#include "graphics/widgets.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
 #include "network/mdns.hpp"
 #include "ota.hpp"
+#include "static_gui/staticGui.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -74,6 +77,7 @@ int main(int /*argc*/, char** /*argv*/)
 #endif
 {
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
+    using gui = Gui<TFT035, FT6236, StaticGui>;
 
     spark4::hw_init();
     check_ota();
@@ -81,14 +85,14 @@ int main(int /*argc*/, char** /*argv*/)
     mount_blocks_spiff();
     spark4::adc_init();
     setupSystemBlocks();
-    Graphics::init();
+    gui::init();
 
     static asio::io_context io;
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
                                               []() -> bool {
-                                                  Graphics::update();
-                                                  Graphics::tick(100);
+                                                  gui::update();
+                                                  gui::tick(100);
                                                   return true;
                                               });
 
@@ -118,6 +122,8 @@ int main(int /*argc*/, char** /*argv*/)
             cbox::update(millisSinceBoot);
             return true;
         });
+
+    updater.start();
 
     static CboxServer cboxServer(io, 8332);
     static HttpHandler http(io, 80, cboxServer);

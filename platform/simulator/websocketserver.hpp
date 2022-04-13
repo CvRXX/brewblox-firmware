@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include "TFT035.hpp"
 #include <algorithm>
 #include <boost/asio/dispatch.hpp>
 #include <boost/asio/strand.hpp>
@@ -36,6 +35,11 @@ namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 //------------------------------------------------------------------------------
+struct Touch {
+    uint16_t x = 0;
+    uint16_t y = 0;
+    std::atomic_bool touchAvailable;
+};
 
 // Report a failure
 static void fail(beast::error_code ec, char const* what)
@@ -50,15 +54,17 @@ class session : public std::enable_shared_from_this<session> {
     net::io_context& ioc;
     boost::asio::steady_timer timer_;
     std::vector<std::shared_ptr<session>>& sessions;
+    Touch& touch;
 
 public:
     // Take ownership of the socket
-    explicit session(tcp::socket&& socket, net::io_context& ioc, std::vector<std::shared_ptr<session>>& sessions)
+    explicit session(tcp::socket&& socket, net::io_context& ioc, std::vector<std::shared_ptr<session>>& sessions, Touch& touch)
         : ws_(std::move(socket))
         , ioc(ioc)
         , timer_(ioc,
                  (std::chrono::steady_clock::time_point::max)())
         , sessions(sessions)
+        , touch(touch)
     {
     }
 
@@ -93,6 +99,8 @@ public:
 
     void on_accept(beast::error_code ec)
     {
+        std::cout << "connection\n";
+
         if (ec)
             return fail(ec, "accept");
         write_pixels();
@@ -125,15 +133,34 @@ public:
     void on_read(beast::error_code ec, std::size_t bytes_transferred)
     {
         boost::ignore_unused(bytes_transferred);
+        auto touchString = boost::asio::buffer_cast<char*>(buffer_.data());
+        std::int8_t index = *touchString;
+        std::uint8_t xl = *(touchString + 1);
+        std::uint8_t xh = *(touchString + 2);
 
-        if (ec == websocket::error::closed)
+        std::uint8_t yl = *(touchString + 3);
+        std::uint8_t yh = *(touchString + 4);
+
+        std::uint16_t x = (xh * 256) + xl;
+        std::uint16_t y = (yh * 256) + yl;
+
+        if (index == 1) {
+            this->touch.x = 320 - y;
+            this->touch.y = x;
+            this->touch.touchAvailable = true;
+        }
+
+        buffer_.consume(5);
+
+        if (ec == websocket::error::closed) {
             std::remove_if(sessions.begin(), sessions.end(), [this](std::shared_ptr<session> s) {
                 return s.get() == this;
             });
-        return;
-
+            return;
+        }
         if (ec)
             fail(ec, "read");
+        do_read();
     }
 
     void on_write(beast::error_code ec, std::size_t bytes_transferred)
@@ -149,6 +176,7 @@ class listener : public std::enable_shared_from_this<listener> {
     tcp::acceptor acceptor_;
 
 public:
+    Touch touch;
     std::vector<std::shared_ptr<session>> sessions;
     listener(net::io_context& ioc, tcp::endpoint endpoint)
         : ioc_(ioc)
@@ -208,7 +236,7 @@ private:
             fail(ec, "accept");
         } else {
             // Create the session and run it
-            auto newSession = sessions.emplace_back(std::make_shared<session>(std::move(socket), ioc_, sessions));
+            auto newSession = sessions.emplace_back(std::make_shared<session>(std::move(socket), ioc_, sessions, touch));
             // std::shared_ptr<session>& placeInVector = newSession);
             newSession->run();
         }
