@@ -37,7 +37,7 @@ MockPinsBlock::read(const cbox::PayloadCallback& callback) const
     message.channels[7].id = 8;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -49,7 +49,7 @@ cbox::CboxError
 MockPinsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     // We have no persisted data
-    return callWithMessage(callback, objectId, staticTypeId(), 0);
+    return callWithMessage(callback, objectId(), staticTypeId(), 0);
 }
 
 cbox::CboxError

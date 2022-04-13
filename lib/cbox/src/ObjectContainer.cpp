@@ -20,6 +20,7 @@
 #include "cbox/ObjectContainer.hpp"
 #include "cbox/Application.hpp"
 #include <algorithm>
+#include <iterator>
 
 namespace cbox {
 
@@ -31,8 +32,8 @@ std::pair<ObjectContainer::Iterator, ObjectContainer::Iterator> ObjectContainer:
     // first != second means the object is found and first points to it
 
     struct IdLess {
-        bool operator()(const ContainedObject& c, const obj_id_t& i) const { return c.id() < i; }
-        bool operator()(const obj_id_t& i, const ContainedObject& c) const { return i < c.id(); }
+        bool operator()(const std::shared_ptr<Object>& c, const obj_id_t& i) const { return c->objectId() < i; }
+        bool operator()(const obj_id_t& i, const std::shared_ptr<Object>& c) const { return i < c->objectId(); }
     };
 
     auto pair = std::equal_range(
@@ -45,31 +46,29 @@ std::pair<ObjectContainer::Iterator, ObjectContainer::Iterator> ObjectContainer:
 
 obj_id_t ObjectContainer::nextId() const
 {
-    return std::max(startId, contained.empty() ? startId : obj_id_t(contained.back().id() + 1));
+    return std::max(startId, contained.empty() ? startId : obj_id_t(contained.back()->objectId() + 1));
 }
 
-ContainedObject* ObjectContainer::fetchContained(obj_id_t id)
+CboxExpected<std::shared_ptr<Object>> ObjectContainer::fetch(obj_id_t id)
 {
     auto p = findPosition(id);
     if (p.first == p.second) {
-        return nullptr;
+        return tl::make_unexpected(CboxError::INVALID_BLOCK_ID);
     } else {
-        return &(*p.first);
+        return *p.first;
     }
 }
 
-const std::weak_ptr<Object> ObjectContainer::fetch(obj_id_t id)
+CboxError ObjectContainer::add(std::shared_ptr<Object> obj, obj_id_t id)
 {
-    auto p = findPosition(id);
-    if (p.first == p.second) {
-        return std::weak_ptr<Object>(); // empty weak ptr if not found
+    if (!obj) {
+        return CboxError::INVALID_BLOCK;
     }
-    return p.first->object(); // weak_ptr to found object
-}
 
-// create a new object with specific id, optionally replacing an existing object
-obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool replace)
-{
+    if (id != invalidId && id < startId) {
+        return CboxError::INVALID_BLOCK_ID;
+    }
+
     obj_id_t newId;
     Iterator position;
 
@@ -77,28 +76,21 @@ obj_id_t ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id, bool r
         newId = nextId();
         position = contained.end();
     } else {
-        if (id < startId) {
-            return invalidId; // refuse to add system objects
-        }
         // find insert position
         auto p = findPosition(id);
-        if (p.first != p.second) {
-            // existing object found
-            if (!replace) {
-                return invalidId; // refuse to overwrite existing objects
-            }
+        if (p.first != p.second) { // refuse to overwrite existing objects
+            return CboxError::INVALID_BLOCK_ID;
         }
         newId = id;
         position = p.first;
     }
 
-    if (replace) {
-        *position = ContainedObject(newId, std::move(obj));
-    } else {
-        // insert new entry in container in sorted position
-        contained.emplace(position, newId, std::move(obj));
-    }
-    return newId;
+    // Make obj aware of its ID
+    obj->setObjectId(newId);
+
+    // insert new entry in container in sorted position
+    contained.insert(position, std::move(obj));
+    return CboxError::OK;
 }
 
 CboxError ObjectContainer::remove(obj_id_t id)
@@ -115,51 +107,61 @@ CboxError ObjectContainer::remove(obj_id_t id)
 // remove all non-system objects from the container
 void ObjectContainer::clear()
 {
+    // Objects can perform lookups during their destructor.
+    // Copy removed objects to `temp` to ensure that `contained` is empty
+    // before any objects are destructed.
+    decltype(contained) temp(
+        std::make_move_iterator(findPosition(startId).first),
+        std::make_move_iterator(contained.end()));
     contained.erase(userbegin(), cend());
+    contained.shrink_to_fit();
 }
 
 // remove all objects from the container
 void ObjectContainer::clearAll()
 {
-    contained.clear();
-    contained.shrink_to_fit();
+    // Objects can perform lookups during their destructor.
+    // Swap objects to `temp` to ensure that `contained` is empty
+    // before any objects are destructed.
+    decltype(contained) temp;
+    contained.swap(temp);
 }
 
 void ObjectContainer::update(update_t now)
 {
-    for (auto& cobj : contained) {
-        cobj.update(now);
+    for (auto& obj : contained) {
+        obj->update(now);
     }
 }
 
 void ObjectContainer::forcedUpdate(update_t now)
 {
-    for (auto& cobj : contained) {
-        cobj.forcedUpdate(now);
+    for (auto& obj : contained) {
+        obj->forcedUpdate(now);
     }
 }
 
-CboxError ObjectContainer::store(const obj_id_t& id)
+CboxError ObjectContainer::store(obj_id_t id)
 {
-    auto cobj = fetchContained(id);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
+    auto fetched = fetch(id);
+    if (!fetched) {
+        return fetched.error();
     }
 
-    return cobj->readStored([](const Payload& stored) {
+    return fetched.value()->readStored([](const Payload& stored) {
         return getStorage().saveObject(stored);
     });
 }
 
-CboxError ObjectContainer::reloadStored(const obj_id_t& id)
+CboxError ObjectContainer::reloadStored(obj_id_t id)
 {
-    ContainedObject* cobj = fetchContained(id);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
+    auto fetched = fetch(id);
+    if (!fetched) {
+        return fetched.error();
     }
 
-    return getStorage().loadObject(id, [&cobj](const Payload& stored) {
-        return cobj->write(stored);
+    return getStorage().loadObject(id, [&fetched](const Payload& stored) {
+        return fetched.value()->write(stored);
     });
 }
 

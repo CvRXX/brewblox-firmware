@@ -24,7 +24,7 @@ cbox::CboxError
 DisplaySettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &m_settings,

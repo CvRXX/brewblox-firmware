@@ -34,7 +34,7 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -54,7 +54,7 @@ cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& cal
     getAnalogConstraints(message.constrainedBy, constrained);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -80,7 +80,7 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorOffsetBlock::update(const cbox::update_t& now)
+ActuatorOffsetBlock::updateHandler(const cbox::update_t& now)
 {
     offset.update();
     constrained.update();

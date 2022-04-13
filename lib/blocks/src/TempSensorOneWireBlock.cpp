@@ -58,7 +58,7 @@ TempSensorOneWireBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -76,7 +76,7 @@ TempSensorOneWireBlock::readStored(const cbox::PayloadCallback& callback) const
     message.offset = cnl::unwrap(sensor.getCalibration());
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -101,10 +101,10 @@ TempSensorOneWireBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-cbox::update_t TempSensorOneWireBlock::update(const cbox::update_t& now)
+cbox::update_t TempSensorOneWireBlock::updateHandler(const cbox::update_t& now)
 {
     sensor.update();
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void* TempSensorOneWireBlock::implements(cbox::obj_type_t iface)

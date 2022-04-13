@@ -21,7 +21,7 @@ if [[ "${PLATFORM}" == esp ]]; then
     fi
 
     set +u # export.sh can use undefined variables
-    source /opt/esp/idf/export.sh
+    source /opt/esp/idf/export.sh >/dev/null
     cd app/brewblox-esp
     subtask $CMD "$@"
 

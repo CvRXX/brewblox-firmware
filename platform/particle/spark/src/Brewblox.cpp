@@ -122,17 +122,17 @@ BuzzerClass& getBuzzer()
 
 void setupSystemBlocks()
 {
-    cbox::objects.init({
-        cbox::ContainedObject(2, std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID))),
-            cbox::ContainedObject(3, std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks))),
-            cbox::ContainedObject(4, std::shared_ptr<cbox::Object>(new OneWireBusBlock(getOneWire(), powerCyclePheripheral5V))),
+    cbox::objects.setObjectsStartId(cbox::systemStartId);
+
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID)), 2);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new OneWireBusBlock(getOneWire(), powerCyclePheripheral5V)), 4);
 #if defined(SPARK)
-            cbox::ContainedObject(5, std::shared_ptr<cbox::Object>(new WiFiSettingsBlock())),
-            cbox::ContainedObject(6, std::shared_ptr<cbox::Object>(new TouchSettingsBlock())),
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new WiFiSettingsBlock()), 5);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new TouchSettingsBlock()), 6);
 #endif
-            cbox::ContainedObject(7, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
-            cbox::ContainedObject(19, std::shared_ptr<cbox::Object>(new PinsBlock())),
-    });
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new PinsBlock()), 19);
 
     cbox::objects.setObjectsStartId(cbox::userStartId);
 }

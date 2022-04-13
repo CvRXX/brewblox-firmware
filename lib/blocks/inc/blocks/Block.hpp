@@ -10,10 +10,7 @@ template <uint16_t id>
 using Block = cbox::ObjectBase<id>;
 
 /**
- * Parses the payload bytes from cmd.request()
- * into the given nanopb struct.
- *
- * Returns a cbox error if cmd.request() returns a nullptr.
+ * Parses the payload bytes into the given nanopb struct.
  */
 cbox::CboxError
 payloadToMessage(const cbox::Payload& payload,
@@ -21,7 +18,7 @@ payloadToMessage(const cbox::Payload& payload,
                  const pb_field_t fields[]);
 
 /**
- * Calls cmd.respond() with a payload where object ids are set,
+ * Call the response callback with a payload where metadata is set,
  * but content is empty.
  */
 cbox::CboxError
@@ -31,8 +28,8 @@ callWithMessage(const cbox::PayloadCallback& callback,
                 cbox::obj_subtype_t subtype);
 
 /**
- * Calls cmd.respond() with a payload serialized
- * from given nanopb struct and fields.
+ * Call the response callback with payload
+ * serialized from given nanopb struct.
  */
 cbox::CboxError
 callWithMessage(const cbox::PayloadCallback& callback,

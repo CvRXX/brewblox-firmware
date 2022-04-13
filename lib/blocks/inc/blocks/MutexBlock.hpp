@@ -22,24 +22,18 @@
 #include "blocks/Block.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 
-class MutexBlock : public Block<brewblox_BlockType_Mutex> {
+class MutexBlock final : public Block<brewblox_BlockType_Mutex> {
 private:
     MutexTarget m_mutex;
 
 public:
     MutexBlock() = default;
-    virtual ~MutexBlock() = default;
+    ~MutexBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-
-    virtual cbox::update_t update(const cbox::update_t& now) override final
-    {
-        return update_never(now);
-    }
-
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     MutexTarget& getMutex()
     {

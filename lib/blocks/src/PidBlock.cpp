@@ -93,7 +93,7 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -116,7 +116,7 @@ PidBlock::readStored(const cbox::PayloadCallback& callback) const
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -148,7 +148,7 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-PidBlock::update(const cbox::update_t& now)
+PidBlock::updateHandler(const cbox::update_t& now)
 {
     bool doUpdate = false;
     auto nextUpdate = m_intervalHelper.update(now, doUpdate);

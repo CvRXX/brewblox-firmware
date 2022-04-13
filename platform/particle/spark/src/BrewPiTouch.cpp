@@ -37,10 +37,6 @@ BrewPiTouch::BrewPiTouch(SPIArbiter& spia, const uint8_t cs, const uint8_t irq)
     config = BrewPiTouch::START;
 }
 
-BrewPiTouch::~BrewPiTouch()
-{
-}
-
 void BrewPiTouch::init()
 {
     // default is:

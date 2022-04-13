@@ -37,7 +37,7 @@ cbox::CboxError TouchSettingsBlock::read(const cbox::PayloadCallback& callback) 
     message.yBitsPerPixelX16 = calib.TouchScreenYBitsPerPixelx16;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,

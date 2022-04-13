@@ -28,7 +28,8 @@ namespace platform::particle {
 class BrewPiTouch {
 public:
     BrewPiTouch(SPIArbiter& spia, const uint8_t cs, const uint8_t irq);
-    ~BrewPiTouch();
+    virtual ~BrewPiTouch() = default;
+
     void init();
     bool update();
     int16_t getX() const;

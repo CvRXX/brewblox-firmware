@@ -2,13 +2,6 @@
 #include "blocks/ConstraintsProto.hpp"
 #include "blocks/FieldTags.hpp"
 
-DigitalActuatorBlock::DigitalActuatorBlock()
-    : hwDevice()
-    , actuator(hwDevice.lockFunctor(), 0)
-    , constrained(actuator)
-{
-}
-
 void DigitalActuatorBlock::addPersistedStateToMessage(blox_DigitalActuator_Block& message) const
 {
     message.hwDevice = hwDevice.getId();
@@ -36,7 +29,7 @@ DigitalActuatorBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -52,7 +45,7 @@ DigitalActuatorBlock::readStored(const cbox::PayloadCallback& callback) const
     addPersistedStateToMessage(message);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -81,7 +74,7 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DigitalActuatorBlock::update(const cbox::update_t& now)
+DigitalActuatorBlock::updateHandler(const cbox::update_t& now)
 {
     actuator.update();
     return constrained.update(now);
