@@ -11,10 +11,16 @@
 #include <boost/asio/strand.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
-
+#include <csignal>
 #include <thread>
+
 std::shared_ptr<listener> webSocketServer;
 net::io_context ioc{1};
+
+void signal_handler(int signal)
+{
+    exit(signal);
+}
 
 int main()
 {
@@ -23,6 +29,9 @@ int main()
     namespace websocket = beast::websocket; // from <boost/beast/websocket.hpp>
     namespace net = boost::asio;            // from <boost/asio.hpp>
     using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
+
+    std::signal(SIGINT, signal_handler);
+    std::signal(SIGTERM, signal_handler);
 
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
