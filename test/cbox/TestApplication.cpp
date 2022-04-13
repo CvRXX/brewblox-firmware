@@ -20,6 +20,13 @@ cbox::EepromObjectStorage& getStorage()
     return objectStore;
 }
 
+cbox::ObjectStorage& getCacheStorage()
+{
+    static cbox::ArrayEepromAccess<2048> eeprom;
+    static cbox::EepromObjectStorage objectStore(eeprom);
+    return objectStore;
+}
+
 } // end namespace test
 
 namespace cbox {

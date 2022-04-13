@@ -14,6 +14,13 @@ ObjectStorage& getStorage()
     return objectStore;
 }
 
+ObjectStorage& getCacheStorage()
+{
+    static ArrayEepromAccess<2048> eeprom;
+    static EepromObjectStorage objectStore(eeprom);
+    return objectStore;
+}
+
 CboxExpected<std::shared_ptr<Object>> make(obj_type_t t)
 {
     return makeBlock(t);

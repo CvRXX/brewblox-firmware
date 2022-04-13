@@ -2,6 +2,7 @@
 #include "blocks/OneWireBusBlock.hpp"
 #include "blocks/OneWireScanningFactory.hpp"
 #include "cbox/Application.hpp"
+#include "cbox/ArrayEepromAccess.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "cbox/EepromObjectStorage.hpp"
 #include "cbox/Hex.hpp"
@@ -15,6 +16,13 @@ namespace cbox {
 ObjectStorage& getStorage()
 {
     static platform::particle::SparkEepromAccess eeprom;
+    static EepromObjectStorage objectStore(eeprom);
+    return objectStore;
+}
+
+ObjectStorage& getCacheStorage()
+{
+    static ArrayEepromAccess<2048> eeprom;
     static EepromObjectStorage objectStore(eeprom);
     return objectStore;
 }

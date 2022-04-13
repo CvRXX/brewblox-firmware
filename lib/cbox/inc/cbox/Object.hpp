@@ -75,23 +75,33 @@ public:
     virtual obj_type_t typeId() const = 0;
 
     /**
-     * Each object can yield its own data on request.
-     * It can do so by calling cmd.respond(Payload&) during this function.
+     * Each object can yield its data.
+     * A callback is provided so the return value can be processed immediately.
+     * The yielded data should be compatible with write().
      */
     virtual CboxError read(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can yield data they want persisted.
-     * The persisted data should be compatible with fromRequest(Command&).
-     * It can do so by calling cmd.respond(Payload&) during this function.
+     * A callback is provided so the return value can be processed immediately.
+     * The yielded data should be compatible with write().
      */
     virtual CboxError readStored(const PayloadCallback& callback) const = 0;
 
     /**
-     * Objects can optionally receive new data from an incoming command.
-     * It fetches the incoming data from cmd.request().
+     * Objects can receive incoming data.
+     * This function should be compatible with data yielded from either read() or readStored().
      */
     virtual CboxError write(const Payload& payload) = 0;
+
+    /**
+     * Objects can receive cached data.
+     * It is up to the object how cached data should look like.
+     */
+    virtual CboxError writeCached(const Payload& payload)
+    {
+        return CboxError::OK;
+    }
 
     /**
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it

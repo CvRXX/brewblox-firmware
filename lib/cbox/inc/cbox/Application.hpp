@@ -11,6 +11,9 @@ namespace cbox {
 ObjectStorage& getStorage();
 
 // Must be implemented in application code
+ObjectStorage& getCacheStorage();
+
+// Must be implemented in application code
 CboxExpected<std::shared_ptr<Object>> make(obj_type_t t);
 
 // Must be implemented in application code
