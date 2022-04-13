@@ -54,13 +54,13 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
         return status;
     }
 
-    // Add created block to the container
-    auto addResult = objects.add(std::move(makeResult.value()), request.blockId);
-    if (!addResult) {
-        return addResult.error();
-    }
+    auto block = makeResult.value();
 
-    auto block = addResult.value();
+    // Add created block to the container
+    status = objects.add(block, request.blockId);
+    if (status != CboxError::OK) {
+        return status;
+    }
 
     // Save block settings to storage
     status = block->readStored([](const Payload& stored) {
@@ -188,22 +188,25 @@ CboxError clearBlocks()
 
 CboxError discoverBlocks(const PayloadCallback& callback)
 {
-    CboxError status = CboxError::OK;
     while (auto newObj = scan()) {
-        if (objects.add(std::move(newObj))) {
-            status = newObj->readStored([](const Payload& stored) {
-                return getStorage().saveObject(stored);
-            });
-            if (status != CboxError::OK) {
-                return status;
-            }
-            status = newObj->read(callback);
-            if (status != CboxError::OK) {
-                return status;
-            }
+        auto status = objects.add(newObj);
+        if (status != CboxError::OK) {
+            return status;
+        }
+
+        status = newObj->readStored([](const Payload& stored) {
+            return getStorage().saveObject(stored);
+        });
+        if (status != CboxError::OK) {
+            return status;
+        }
+
+        status = newObj->read(callback);
+        if (status != CboxError::OK) {
+            return status;
         }
     }
-    return status;
+    return CboxError::OK;
 }
 
 CboxError discoverBlocks()

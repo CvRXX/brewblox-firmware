@@ -31,7 +31,7 @@ CFLAGS += -DPLATFORM_ID=3
 CPPFLAGS += -isystem $(BOOST_ROOT)
 
 # Generate dependency files automatically.
-CFLAGS += -g -O0
+CFLAGS += -g -Og
 CFLAGS += -MD -MP -MF $@.d
 CFLAGS += -DDEBUG_BUILD
 

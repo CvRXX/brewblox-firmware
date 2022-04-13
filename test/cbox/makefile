@@ -56,7 +56,7 @@ CFLAGS += -ffunction-sections -Wall
 CFLAGS += -Werror=deprecated-declarations
 
 # Generate dependency files automatically.
-CFLAGS += -g -O0
+CFLAGS += -g -Og
 CFLAGS += -MD -MP -MF $@.d
 CFLAGS += -DDEBUG_BUILD
 

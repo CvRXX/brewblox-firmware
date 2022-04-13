@@ -36,17 +36,17 @@ SCENARIO("A container to hold objects")
 
     WHEN("Some objects are added to the container")
     {
-        auto add1 = container.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)));
-        auto add2 = container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)));
-        auto add3 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)));
+        auto add1 = std::shared_ptr<Object>(new LongIntObject(0x11111111));
+        auto add2 = std::shared_ptr<Object>(new LongIntObject(0x22222222));
+        auto add3 = std::shared_ptr<Object>(new LongIntObject(0x33333333));
 
-        REQUIRE(add1);
-        REQUIRE(add2);
-        REQUIRE(add3);
+        CHECK(container.add(add1) == CboxError::OK);
+        CHECK(container.add(add2) == CboxError::OK);
+        CHECK(container.add(add3) == CboxError::OK);
 
-        obj_id_t id1 = add1.value()->objectId();
-        obj_id_t id2 = add2.value()->objectId();
-        obj_id_t id3 = add3.value()->objectId();
+        obj_id_t id1 = add1->objectId();
+        obj_id_t id2 = add2->objectId();
+        obj_id_t id3 = add3->objectId();
 
         THEN("They are assigned a valid unique ID")
         {
@@ -73,14 +73,14 @@ SCENARIO("A container to hold objects")
 
         THEN("An object can be added with a specific id")
         {
-            auto add4 = container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 123);
-            CHECK(add4);
-            obj_id_t id4 = add4.value()->objectId();
+            auto add4 = std::shared_ptr<Object>(new LongIntObject(0x33333333));
+            CHECK(container.add(add4, 123) == CboxError::OK);
+            obj_id_t id4 = add4->objectId();
             CHECK(container.fetch(id4));
 
             AND_WHEN("the id already exist, adding fails")
             {
-                CHECK(!container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 123));
+                CHECK(container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 123) == CboxError::INVALID_BLOCK_ID);
             }
         }
 
@@ -133,7 +133,7 @@ SCENARIO("A container to hold objects")
 
     WHEN("Objects with an invalid object pointer are added")
     {
-        CHECK(!container.add(std::shared_ptr<Object>(), 20));
+        CHECK(container.add(std::shared_ptr<Object>(), 20) == CboxError::INVALID_BLOCK);
     }
 }
 
@@ -147,14 +147,14 @@ SCENARIO("A container with system objects")
     container.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 2);
     container.setObjectsStartId(3); // this locks the system objects
 
-    CHECK(container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))
-              .value()
-              ->objectId()
-          == 3); // will get next free ID (3)))
-    CHECK(container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))
-              .value()
-              ->objectId()
-          == 4); // will get next free ID (4)))
+    auto obj3 = std::shared_ptr<Object>(new LongIntObject(0x33333333));
+    auto obj4 = std::shared_ptr<Object>(new LongIntObject(0x33333333));
+
+    CHECK(container.add(obj3) == CboxError::OK);
+    CHECK(container.add(obj4) == CboxError::OK);
+
+    CHECK(obj3->objectId() == 3); // will get next free ID (3)))
+    CHECK(obj4->objectId() == 4); // will get next free ID (4)))
 
     THEN("The system objects can be read like normal objects")
     {
@@ -191,7 +191,7 @@ SCENARIO("A container with system objects")
     THEN("No objects can be added in the system ID range")
     {
         container.setObjectsStartId(userStartId);
-        CHECK(!container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 99));
+        CHECK(container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)), 99) == CboxError::INVALID_BLOCK_ID);
     }
 
     THEN("Objects added after construction can also be marked system by moving the start ID")
@@ -203,9 +203,8 @@ SCENARIO("A container with system objects")
         CHECK(container.remove(3) == CboxError::BLOCK_NOT_DELETABLE);
         CHECK(container.remove(4) == CboxError::BLOCK_NOT_DELETABLE);
 
-        CHECK(container.add(std::shared_ptr<Object>(new LongIntObject(0x33333333)))
-                  .value()
-                  ->objectId()
-              == userStartId); // will get start ID (100)
+        auto added = std::shared_ptr<Object>(new LongIntObject(0x33333333));
+        CHECK(container.add(added) == CboxError::OK);
+        CHECK(added->objectId() == userStartId); // will get start ID (100)
     }
 }

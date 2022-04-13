@@ -20,6 +20,7 @@
 #include "cbox/ObjectContainer.hpp"
 #include "cbox/Application.hpp"
 #include <algorithm>
+#include <iterator>
 
 namespace cbox {
 
@@ -58,14 +59,14 @@ CboxExpected<std::shared_ptr<Object>> ObjectContainer::fetch(obj_id_t id)
     }
 }
 
-CboxExpected<std::shared_ptr<Object>> ObjectContainer::add(std::shared_ptr<Object>&& obj, obj_id_t id)
+CboxError ObjectContainer::add(const std::shared_ptr<Object>& obj, obj_id_t id)
 {
     if (!obj) {
-        return tl::make_unexpected(CboxError::INVALID_BLOCK);
+        return CboxError::INVALID_BLOCK;
     }
 
     if (id != invalidId && id < startId) {
-        return tl::make_unexpected(CboxError::INVALID_BLOCK_ID);
+        return CboxError::INVALID_BLOCK_ID;
     }
 
     obj_id_t newId;
@@ -78,7 +79,7 @@ CboxExpected<std::shared_ptr<Object>> ObjectContainer::add(std::shared_ptr<Objec
         // find insert position
         auto p = findPosition(id);
         if (p.first != p.second) { // refuse to overwrite existing objects
-            return tl::make_unexpected(CboxError::INVALID_BLOCK_ID);
+            return CboxError::INVALID_BLOCK_ID;
         }
         newId = id;
         position = p.first;
@@ -89,7 +90,7 @@ CboxExpected<std::shared_ptr<Object>> ObjectContainer::add(std::shared_ptr<Objec
 
     // insert new entry in container in sorted position
     contained.insert(position, obj);
-    return obj;
+    return CboxError::OK;
 }
 
 CboxError ObjectContainer::remove(obj_id_t id)
@@ -109,7 +110,9 @@ void ObjectContainer::clear()
     // Objects can perform lookups during their destructor.
     // Copy removed objects to `temp` to ensure that `contained` is empty
     // before any objects are destructed.
-    decltype(contained) temp(userbegin(), cend());
+    decltype(contained) temp(
+        std::make_move_iterator(findPosition(startId).first),
+        std::make_move_iterator(contained.end()));
     contained.erase(userbegin(), cend());
     contained.shrink_to_fit();
 }

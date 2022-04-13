@@ -68,15 +68,15 @@ public:
     }
 
     // create a new object with specific id
-    CboxExpected<std::shared_ptr<Object>> add(std::shared_ptr<Object>&& obj, obj_id_t id = invalidId);
+    CboxError add(const std::shared_ptr<Object>& obj, obj_id_t id = invalidId);
 
     // force to pass an object pointer, not a derived shared::ptr
     // this creates code bloat. It is better to use shared_ptr<Object>(new Derived()) directly than to convert from shared_ptr<Derived>()
     template <class T>
-    CboxExpected<std::shared_ptr<Object>> add(std::shared_ptr<T>&& obj, obj_id_t id = invalidId) = delete;
+    CboxError add(const std::shared_ptr<T>& obj, obj_id_t id = invalidId) = delete;
 
     // also catch passing unique_ptr, as this also results in unnecessary conversions
-    CboxExpected<std::shared_ptr<Object>> add(std::unique_ptr<Object>&& obj, obj_id_t id = invalidId) = delete;
+    CboxError add(const std::unique_ptr<Object>& obj, obj_id_t id = invalidId) = delete;
 
     CboxError remove(obj_id_t id);
 

@@ -72,9 +72,7 @@ public:
             // do not point to the same address. The pointer that is returned is of the address that implements
             // the interface.
             // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
-            auto ifid = interfaceId<U>();
-            auto rawptr = sptr->implements(ifid);
-            return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(rawptr));
+            return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(sptr->implements(interfaceId<U>())));
         }
         // return empty share pointer
         return std::shared_ptr<U>();
