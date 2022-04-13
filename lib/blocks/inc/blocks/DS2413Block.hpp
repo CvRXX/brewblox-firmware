@@ -25,7 +25,7 @@
 
 class OneWire;
 
-class DS2413Block : public Block<brewblox_BlockType_DS2413>, public OneWireDeviceBlock {
+class DS2413Block final : public Block<brewblox_BlockType_DS2413>, public OneWireDeviceBlock {
 private:
     DS2413 device;
 
@@ -48,11 +48,13 @@ public:
     {
     }
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    ~DS2413Block() = default;
+
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     DS2413& get()
     {

@@ -24,16 +24,14 @@
 namespace platform::particle {
 
 // provides a protobuf interface to the read only system info
-class TouchSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_TouchSettings> {
+class TouchSettingsBlock final : public cbox::ObjectBase<brewblox_BlockType_TouchSettings> {
+public:
+    TouchSettingsBlock() = default;
+    ~TouchSettingsBlock() = default;
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
     virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
     virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
-    {
-        return next_update_never(now);
-    }
 };
 
 } // end namespace platform::particle

@@ -36,7 +36,7 @@ protected:
         : name("name-not-set")
     {
     }
-    ~Nameable() = default;
+    virtual ~Nameable() = default;
 };
 
 class LongIntObject : public cbox::ObjectBase<1000> {
@@ -83,11 +83,6 @@ public:
         return cbox::CboxError::NETWORK_READ_ERROR;
     }
 
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
-    {
-        return cbox::Object::next_update_never(now);
-    }
-
     operator uint32_t() const
     {
         uint32_t copy = obj;
@@ -106,7 +101,7 @@ public:
 };
 
 // variable size object of multiple long ints
-class LongIntVectorObject : public cbox::ObjectBase<1001> {
+class LongIntVectorObject final : public cbox::ObjectBase<1001> {
 public:
     LongIntVectorObject()
         : values()
@@ -117,7 +112,7 @@ public:
     {
     }
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
 
@@ -132,12 +127,12 @@ public:
         return callback(payload);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override
     {
         return read(callback);
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         uint16_t newSize = 0;
         if (!cbox::readFromByteVector(payload.content, newSize, 0)) {
@@ -157,11 +152,6 @@ public:
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
-    {
-        return cbox::Object::next_update_never(now);
-    }
-
     bool operator==(const LongIntVectorObject& rhs) const
     {
         return values == rhs.values;
@@ -175,7 +165,7 @@ public:
  * - updating objects at the interval they request
  * - different output, input and persisted streams
  */
-class UpdateCounter : public cbox::ObjectBase<1002> {
+class UpdateCounter final : public cbox::ObjectBase<1002> {
 private:
     uint16_t _interval; // writable and persisted
     uint16_t _count;    // not writable
@@ -186,7 +176,7 @@ public:
         , _count(0)
     {
     }
-    virtual ~UpdateCounter() = default;
+    ~UpdateCounter() = default;
 
     uint16_t count()
     {
@@ -198,7 +188,7 @@ public:
         return _interval;
     }
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
 
@@ -213,7 +203,7 @@ public:
         return callback(payload);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
         cbox::appendToByteVector(payload.content, _interval);
@@ -221,7 +211,7 @@ public:
         return callback(payload);
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         uint16_t newInterval{0};
         if (!cbox::readFromByteVector(payload.content, newInterval, 0)) {
@@ -235,20 +225,20 @@ public:
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
+    cbox::update_t updateHandler(const cbox::update_t& now) override
     {
         ++_count;
         return now + _interval;
     }
 };
 
-class NameableLongIntObject : public LongIntObject, public Nameable {
+class NameableLongIntObject final : public LongIntObject, public Nameable {
 public:
     NameableLongIntObject(uint32_t rhs = 0)
         : LongIntObject(rhs)
     {
     }
-    virtual ~NameableLongIntObject() = default;
+    ~NameableLongIntObject() = default;
 
     static cbox::obj_type_t staticTypeId()
     {
@@ -256,13 +246,13 @@ public:
     }
 
     // need to override typeId, otherwise it would inherit from LongIntObject
-    virtual cbox::obj_type_t typeId() const override
+    cbox::obj_type_t typeId() const override
     {
         return staticTypeId();
     }
 
     // needs special handling due to multiple inheritance
-    virtual void* implements(cbox::obj_type_t iface) override final
+    void* implements(cbox::obj_type_t iface) override
     {
         if (iface == staticTypeId()) {
             return this; // me!
@@ -277,7 +267,7 @@ public:
     }
 };
 
-class PtrLongIntObject : public cbox::ObjectBase<1005> {
+class PtrLongIntObject final : public cbox::ObjectBase<1005> {
 private:
     cbox::CboxPtr<LongIntObject> ptr1;
     cbox::CboxPtr<LongIntObject> ptr2;
@@ -286,9 +276,9 @@ public:
     PtrLongIntObject()
     {
     }
-    virtual ~PtrLongIntObject() = default;
+    ~PtrLongIntObject() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
 
@@ -324,7 +314,7 @@ public:
         return callback(payload);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
 
@@ -337,7 +327,7 @@ public:
         return callback(payload);
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         auto newId1 = cbox::obj_id_t{0};
         auto newId2 = cbox::obj_id_t{0};
@@ -352,38 +342,33 @@ public:
         ptr2.setId(newId2);
         return cbox::CboxError::OK;
     }
-
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
-    {
-        return cbox::Object::next_update_never(now);
-    }
 };
 
-class MockStreamObject : public cbox::ObjectBase<1006> {
+class MockStreamObject final : public cbox::ObjectBase<1006> {
 public:
     MockStreamObject() = default;
-    virtual ~MockStreamObject() = default;
+    ~MockStreamObject() = default;
 
     std::function<cbox::CboxError(const cbox::PayloadCallback&)> readFunc = [](const cbox::PayloadCallback&) { return cbox::CboxError::OK; };
     std::function<cbox::CboxError(const cbox::PayloadCallback&)> readStoredFunc = [](const cbox::PayloadCallback&) { return cbox::CboxError::OK; };
     std::function<cbox::CboxError(const cbox::Payload&)> writeFunc = [](const cbox::Payload&) { return cbox::CboxError::OK; };
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         return readFunc(callback);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override
     {
         return readStoredFunc(callback);
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         return writeFunc(payload);
     }
 
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
+    cbox::update_t updateHandler(const cbox::update_t& now) override
     {
         return cbox::Object::next_update_never(now);
     }

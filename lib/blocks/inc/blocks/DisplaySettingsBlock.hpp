@@ -23,16 +23,14 @@
 #include "proto/DisplaySettings.pb.h"
 
 // provides a protobuf interface to the read only system info
-class DisplaySettingsBlock : public cbox::ObjectBase<brewblox_BlockType_DisplaySettings> {
+class DisplaySettingsBlock final : public cbox::ObjectBase<brewblox_BlockType_DisplaySettings> {
 public:
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
+    DisplaySettingsBlock() = default;
+    ~DisplaySettingsBlock() = default;
 
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
-    {
-        return next_update_never(now);
-    }
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
 
     static blox_DisplaySettings_Block& settings()
     {

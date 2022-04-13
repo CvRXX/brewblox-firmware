@@ -101,8 +101,12 @@ public:
 
     /**
      * update the object, returns timestamp at which the object wants to be updated again (in ms).
+     * The default implementation permanently skips updates.
      */
-    virtual update_t updateHandler(const update_t& now) = 0;
+    virtual update_t updateHandler(const update_t& now)
+    {
+        return next_update_never(now);
+    }
 
     void update(update_t now)
     {

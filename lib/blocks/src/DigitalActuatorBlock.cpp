@@ -2,13 +2,6 @@
 #include "blocks/ConstraintsProto.hpp"
 #include "blocks/FieldTags.hpp"
 
-DigitalActuatorBlock::DigitalActuatorBlock()
-    : hwDevice()
-    , actuator(hwDevice.lockFunctor(), 0)
-    , constrained(actuator)
-{
-}
-
 void DigitalActuatorBlock::addPersistedStateToMessage(blox_DigitalActuator_Block& message) const
 {
     message.hwDevice = hwDevice.getId();

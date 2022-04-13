@@ -24,25 +24,19 @@
 
 namespace platform::particle {
 
-class Spark2PinsBlock : public SparkIoBase, public Block<brewblox_BlockType_Spark2Pins> {
+class Spark2PinsBlock final : public SparkIoBase, public Block<brewblox_BlockType_Spark2Pins> {
 private:
     static const uint8_t numPins = 4;
-    virtual pin_t channelToPin(uint8_t channel) const override final;
+    pin_t channelToPin(uint8_t channel) const override;
 
 public:
     Spark2PinsBlock();
-    virtual ~Spark2PinsBlock() = default;
+    ~Spark2PinsBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
-    {
-        return next_update_never(now);
-    }
-
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    void* implements(cbox::obj_type_t iface) override;
 };
 
 } // end namespace platform::particle

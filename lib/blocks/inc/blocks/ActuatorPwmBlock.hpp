@@ -7,7 +7,7 @@
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/ActuatorPwm.hpp"
 
-class ActuatorPwmBlock : public Block<brewblox_BlockType_ActuatorPwm> {
+class ActuatorPwmBlock final : public Block<brewblox_BlockType_ActuatorPwm> {
 private:
     cbox::CboxPtr<ActuatorDigitalConstrained> actuator;
     ActuatorPwm pwm;
@@ -21,13 +21,13 @@ public:
         , constrained(pwm)
     {
     }
-    virtual ~ActuatorPwmBlock() = default;
+    ~ActuatorPwmBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     const cbox::CboxPtr<ActuatorDigitalConstrained>& targetLookup() const
     {

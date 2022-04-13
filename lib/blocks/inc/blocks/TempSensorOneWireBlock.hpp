@@ -4,7 +4,7 @@
 #include "blocks/OneWireDeviceBlock.hpp"
 #include "control/DS18B20.hpp"
 
-class TempSensorOneWireBlock : public Block<brewblox_BlockType_TempSensorOneWire>, public OneWireDeviceBlock {
+class TempSensorOneWireBlock final : public Block<brewblox_BlockType_TempSensorOneWire>, public OneWireDeviceBlock {
 
 private:
     DS18B20 sensor;
@@ -13,12 +13,13 @@ public:
     TempSensorOneWireBlock();
     TempSensorOneWireBlock(cbox::obj_id_t busId);
     TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr);
+    ~TempSensorOneWireBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     DS18B20& get()
     {

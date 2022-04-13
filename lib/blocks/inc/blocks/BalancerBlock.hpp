@@ -5,7 +5,7 @@
 #include "cbox/CboxPtr.hpp"
 #include "control/Balancer.hpp"
 
-class BalancerBlock : public Block<brewblox_BlockType_Balancer> {
+class BalancerBlock final : public Block<brewblox_BlockType_Balancer> {
 public:
     using Balancer_t = Balancer<blox_Constraints_AnalogConstraint_balanced_tag>;
 
@@ -14,13 +14,13 @@ private:
 
 public:
     BalancerBlock() = default;
-    virtual ~BalancerBlock() = default;
+    ~BalancerBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     Balancer_t& getBalancer()
     {

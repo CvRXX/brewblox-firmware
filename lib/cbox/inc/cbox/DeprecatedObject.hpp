@@ -29,7 +29,7 @@ namespace cbox {
 /**
  * An object that does nothing. When read, it returns the type it becomes when it is activated.
  */
-class DeprecatedObject : public ObjectBase<std::numeric_limits<uint16_t>::max() - 2> {
+class DeprecatedObject final : public ObjectBase<std::numeric_limits<uint16_t>::max() - 2> {
 private:
     obj_id_t originalId;
 
@@ -38,28 +38,23 @@ public:
         : originalId(oid)
     {
     }
-    virtual ~DeprecatedObject() = default;
+    ~DeprecatedObject() = default;
 
-    virtual CboxError read(const PayloadCallback& callback) const override final
+    CboxError read(const PayloadCallback& callback) const override
     {
         Payload payload(objectId(), typeId(), 0);
         appendToByteVector(payload.content, originalId);
         return callback(payload);
     }
 
-    virtual CboxError readStored(const PayloadCallback& callback) const override final
+    CboxError readStored(const PayloadCallback& callback) const override
     {
         return read(callback);
     }
 
-    virtual CboxError write(const Payload&) override final
+    CboxError write(const Payload&) override
     {
         return CboxError::BLOCK_NOT_WRITABLE;
-    }
-
-    virtual update_t updateHandler(const update_t& now) override final
-    {
-        return next_update_never(now);
     }
 
     obj_id_t storageId()

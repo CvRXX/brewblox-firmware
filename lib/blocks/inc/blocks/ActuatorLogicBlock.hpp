@@ -72,7 +72,7 @@ private:
     fp12_t m_rhs;
 };
 
-class ActuatorLogicBlock : public Block<brewblox_BlockType_ActuatorLogic> {
+class ActuatorLogicBlock final : public Block<brewblox_BlockType_ActuatorLogic> {
 private:
     cbox::CboxPtr<ActuatorDigitalConstrained> target;
     bool enabled = false;
@@ -83,16 +83,14 @@ private:
     uint8_t m_errorPos = 0;
 
 public:
-    ActuatorLogicBlock()
-    {
-    }
-    virtual ~ActuatorLogicBlock() = default;
+    ActuatorLogicBlock() = default;
+    ~ActuatorLogicBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     blox_ActuatorLogic_Result evaluate();
 

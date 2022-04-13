@@ -25,7 +25,7 @@
 
 // provides a protobuf interface to the ticks object
 template <typename T>
-class TicksBlock : public Block<brewblox_BlockType_Ticks> {
+class TicksBlock final : public Block<brewblox_BlockType_Ticks> {
     T& ticks;
 
 public:
@@ -33,9 +33,9 @@ public:
         : ticks(_ticks)
     {
     }
-    virtual ~TicksBlock() = default;
+    ~TicksBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
 
@@ -56,12 +56,12 @@ public:
                                blox_Ticks_Block_size);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback&) const override final
+    cbox::CboxError readStored(const cbox::PayloadCallback&) const override
     {
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
         auto res = payloadToMessage(payload, &message, blox_Ticks_Block_fields);
@@ -71,11 +71,6 @@ public:
         }
 
         return res;
-    }
-
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override final
-    {
-        return cbox::Object::next_update_never(now);
     }
 
     T& get()

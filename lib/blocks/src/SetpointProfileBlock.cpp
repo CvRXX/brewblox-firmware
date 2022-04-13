@@ -25,7 +25,7 @@
 
 bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    const std::vector<SetpointProfileBlock::Point>* points = reinterpret_cast<std::vector<SetpointProfileBlock::Point>*>(*arg);
+    const std::vector<SetpointProfile::Point>* points = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
     for (const auto& p : *points) {
         auto submsg = blox_SetpointProfile_Point();
         submsg.time = p.time;
@@ -43,14 +43,14 @@ bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const*
 
 bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
 {
-    std::vector<SetpointProfileBlock::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfileBlock::Point>*>(*arg);
+    std::vector<SetpointProfile::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
 
     if (stream->bytes_left) {
         blox_SetpointProfile_Point submsg = blox_SetpointProfile_Point_init_zero;
         if (!pb_decode(stream, blox_SetpointProfile_Point_fields, &submsg)) {
             return false;
         }
-        newPoints->push_back(SetpointProfileBlock::Point{submsg.time, cnl::wrap<decltype(SetpointProfileBlock::Point::temp)>(submsg.temperature_oneof.temperature)});
+        newPoints->push_back(SetpointProfile::Point{submsg.time, cnl::wrap<decltype(SetpointProfile::Point::temp)>(submsg.temperature_oneof.temperature)});
     }
     return true;
 }
@@ -62,7 +62,7 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
     FieldTags stripped;
 
     message.points.funcs.encode = &streamPointsOut;
-    message.points.arg = const_cast<std::vector<Point>*>(&profile.points());
+    message.points.arg = const_cast<std::vector<SetpointProfile::Point>*>(&profile.points());
     message.enabled = profile.enabled();
     message.start = profile.startTime();
     message.targetId = target.getId();
@@ -96,7 +96,7 @@ cbox::CboxError
 SetpointProfileBlock::write(const cbox::Payload& payload)
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
-    std::vector<Point> newPoints;
+    std::vector<SetpointProfile::Point> newPoints;
     message.points.funcs.decode = &streamPointsIn;
     message.points.arg = &newPoints;
 
