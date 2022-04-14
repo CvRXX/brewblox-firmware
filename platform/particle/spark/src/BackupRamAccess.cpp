@@ -1,16 +1,29 @@
 #include "intellisense.hpp"
 
-#include "deepsleep_hal_impl.h"
 #include "platforms.h"
 #include "spark/BackupRamAccess.hpp"
 
-namespace platform::particle {
+constexpr size_t storage_size = 2048;
+constexpr size_t version_len = 8 + 1;
+
+struct __attribute__((packed)) BackupRamLayout {
+    char firmware_version[version_len];
+    uint8_t data[storage_size];
+};
 
 #if PLATFORM_ID == PLATFORM_GCC
 static BackupRamLayout layout;
 #else
+#include "deepsleep_hal_impl.h"
 retained static BackupRamLayout layout;
 #endif
+
+namespace platform::particle {
+
+constexpr bool isValidRange(uint16_t offset, uint16_t size)
+{
+    return offset + size <= storage_size;
+}
 
 BackupRamAccess::BackupRamAccess()
 {
@@ -52,6 +65,11 @@ void BackupRamAccess::writeBlock(uint16_t offset, const uint8_t* source, uint16_
 void BackupRamAccess::clear()
 {
     memset(layout.data, 0, sizeof(layout.data));
+}
+
+uint16_t BackupRamAccess::length() const
+{
+    return storage_size;
 }
 
 } // end namespace platform::particle
