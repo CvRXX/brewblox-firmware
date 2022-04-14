@@ -20,13 +20,6 @@ cbox::EepromObjectStorage& getStorage()
     return objectStore;
 }
 
-cbox::ObjectStorage& getCacheStorage()
-{
-    static cbox::ArrayEepromAccess<2048> eeprom;
-    static cbox::EepromObjectStorage objectStore(eeprom);
-    return objectStore;
-}
-
 } // end namespace test
 
 namespace cbox {
@@ -34,6 +27,13 @@ namespace cbox {
 ObjectStorage& getStorage()
 {
     return test::getStorage();
+}
+
+cbox::ObjectStorage& getCacheStorage()
+{
+    static cbox::ArrayEepromAccess<2048> eeprom;
+    static cbox::EepromObjectStorage objectStore(eeprom);
+    return objectStore;
 }
 
 CboxExpected<std::shared_ptr<Object>> make(obj_type_t t)
