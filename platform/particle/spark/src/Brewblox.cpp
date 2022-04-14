@@ -17,7 +17,8 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/Brewblox.hpp"
+#include "intellisense.hpp"
+
 #include "AppTicks.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
 #include "blocks/OneWireBusBlock.hpp"
@@ -30,6 +31,7 @@
 #include "proto/proto_version.h"
 #include "rgbled.h"
 #include "spark/Board.hpp"
+#include "spark/Brewblox.hpp"
 #include "spark/Connection.hpp"
 #include "spark/SparkEepromAccess.hpp"
 #include "spark/TouchSettingsBlock.hpp"
@@ -168,11 +170,6 @@ unsigned get_device_id(uint8_t* dest, unsigned max_len)
 
 const std::string& versionCsv()
 {
-#ifdef __INTELLISENSE__
-#define GIT_VERSION ""
-#define GIT_DATE ""
-#endif
-
     static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," stringify(PLATFORM_NAME);
     return version;
 }

@@ -95,10 +95,9 @@ public:
     virtual CboxError write(const Payload& payload) = 0;
 
     /**
-     * Objects can receive cached data.
-     * It is up to the object how cached data should look like.
+     * Prompt object to load cached data if required.
      */
-    virtual CboxError writeCached(const Payload& payload)
+    virtual CboxError loadFromCache()
     {
         return CboxError::OK;
     }

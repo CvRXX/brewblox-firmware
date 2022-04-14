@@ -155,6 +155,7 @@ CboxError deleteBlock(const Payload& request)
 
     status = objects.remove(id);
     getStorage().disposeObject(storageId);
+    getCacheStorage().disposeObject(storageId);
 
     return status;
 }
@@ -178,6 +179,7 @@ CboxError clearBlocks()
         cit++;
         bool mergeDisposed = cit == objects.cend(); // merge disposed blocks on last delete
         getStorage().disposeObject(id, mergeDisposed);
+        getCacheStorage().disposeObject(id, mergeDisposed);
     }
 
     // remove all user objects from vector
@@ -259,6 +261,8 @@ void loadBlocksFromStorage()
     for (auto& id : deprecatedList) {
         objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)));
     }
+
+    objects.loadFromCache();
 }
 
 void unloadBlocks()

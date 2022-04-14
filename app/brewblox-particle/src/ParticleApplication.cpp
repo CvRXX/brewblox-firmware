@@ -8,6 +8,7 @@
 #include "cbox/Hex.hpp"
 #include "cbox/ObjectFactory.hpp"
 #include "control/OneWire.hpp"
+#include "spark/BackupRamAccess.hpp"
 #include "spark/Brewblox.hpp"
 #include "spark/SparkEepromAccess.hpp"
 
@@ -22,9 +23,9 @@ ObjectStorage& getStorage()
 
 ObjectStorage& getCacheStorage()
 {
-    static ArrayEepromAccess<2048> eeprom;
-    static EepromObjectStorage objectStore(eeprom);
-    return objectStore;
+    static platform::particle::BackupRamAccess ram;
+    static EepromObjectStorage objectCache(ram);
+    return objectCache;
 }
 
 tl::expected<std::shared_ptr<cbox::Object>, cbox::CboxError> make(obj_type_t t)

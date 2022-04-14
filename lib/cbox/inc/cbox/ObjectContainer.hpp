@@ -104,6 +104,8 @@ public:
 
     void update(update_t now);
 
+    void loadFromCache();
+
     void forcedUpdate(update_t now);
 
     CboxError store(obj_id_t id);

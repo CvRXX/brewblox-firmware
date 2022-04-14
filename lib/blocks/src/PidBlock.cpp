@@ -19,6 +19,8 @@
 
 #include "blocks/PidBlock.hpp"
 #include "blocks/FieldTags.hpp"
+#include "cbox/Application.hpp"
+#include "cbox/Serialization.hpp"
 #include "control/ProcessValue.hpp"
 #include "proto/Pid.pb.h"
 
@@ -147,6 +149,21 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
     return res;
 }
 
+cbox::CboxError
+PidBlock::loadFromCache()
+{
+    cbox::getCacheStorage().loadObject(objectId(), [this](const cbox::Payload& payload) {
+        if (payload.blockType == staticTypeId()) {
+            uint32_t rawI{0};
+            if (cbox::readFromByteVector(payload.content, rawI, 0)) {
+                pid.i(cnl::wrap<Pid::out_t>(rawI));
+            }
+        }
+        return cbox::CboxError::OK;
+    });
+    return cbox::CboxError::OK;
+}
+
 cbox::update_t
 PidBlock::updateHandler(const cbox::update_t& now)
 {
@@ -169,6 +186,14 @@ PidBlock::updateHandler(const cbox::update_t& now)
             return now;
         }
     }
+
+    if (now < lastCacheTime || now - lastCacheTime > cacheInterval) {
+        lastCacheTime = now; // Do not retry on cache failure
+        auto cached = cbox::Payload(objectId(), staticTypeId(), 0);
+        cbox::writeToByteVector(cached.content, cnl::unwrap(pid.i()), 0);
+        cbox::getCacheStorage().saveObject(cached);
+    }
+
     return nextUpdate;
 }
 
