@@ -80,7 +80,7 @@ public:
     }
 
     cbox::CboxError
-    loadFromCache()
+    loadFromCache() override
     {
         if (auto loaded = cbox::loadFromCache<TicksCacheLayout>(objectId(), staticTypeId())) {
             ticks.setUtc(loaded.value().secondsSinceEpoch + estimatedRebootTimeS);
@@ -89,7 +89,7 @@ public:
     }
 
     cbox::update_t
-    updateHandler(const cbox::update_t& now)
+    updateHandler(const cbox::update_t& now) override
     {
         TicksCacheLayout cached = {
             .secondsSinceEpoch = ticks.utc() + (ticks.millis() / 1000)};
