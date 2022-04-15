@@ -7,8 +7,8 @@
 
 // Intellisense drops the quotes surrounding defined string values
 // Values defined here are only ever placeholder, and will never be used in compiled code
-#define GIT_VERSION ""
-#define GIT_DATE ""
+#define GIT_VERSION "abcdef01"
+#define GIT_DATE "2000-01-01"
 #define PLATFORM_NAME "gcc"
 
 // In intellisense mode, __linux__ is defined by default
