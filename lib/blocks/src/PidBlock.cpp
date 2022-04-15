@@ -20,9 +20,13 @@
 #include "blocks/PidBlock.hpp"
 #include "blocks/FieldTags.hpp"
 #include "cbox/Application.hpp"
-#include "cbox/Serialization.hpp"
+#include "cbox/Cache.hpp"
 #include "control/ProcessValue.hpp"
 #include "proto/Pid.pb.h"
+
+struct __attribute__((packed)) PidCacheLayout {
+    int32_t i{0};
+};
 
 PidBlock::PidBlock()
     : pid(input.lockFunctor(), [this]() {
@@ -152,15 +156,9 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
 cbox::CboxError
 PidBlock::loadFromCache()
 {
-    cbox::getCacheStorage().loadObject(objectId(), [this](const cbox::Payload& payload) {
-        if (payload.blockType == staticTypeId()) {
-            uint32_t rawI{0};
-            if (cbox::readFromByteVector(payload.content, rawI, 0)) {
-                pid.i(cnl::wrap<Pid::out_t>(rawI));
-            }
-        }
-        return cbox::CboxError::OK;
-    });
+    if (auto loaded = cbox::loadFromCache<PidCacheLayout>(objectId(), staticTypeId())) {
+        pid.i(cnl::wrap<Pid::out_t>(loaded.value().i));
+    }
     return cbox::CboxError::OK;
 }
 
@@ -189,9 +187,8 @@ PidBlock::updateHandler(const cbox::update_t& now)
 
     if (now < lastCacheTime || now - lastCacheTime > cacheInterval) {
         lastCacheTime = now; // Do not retry on cache failure
-        auto cached = cbox::Payload(objectId(), staticTypeId(), 0);
-        cbox::writeToByteVector(cached.content, cnl::unwrap(pid.i()), 0);
-        cbox::getCacheStorage().saveObject(cached);
+        PidCacheLayout cached = {.i = cnl::unwrap(pid.i())};
+        cbox::saveToCache(objectId(), staticTypeId(), cached);
     }
 
     return nextUpdate;
