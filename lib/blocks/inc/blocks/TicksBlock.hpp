@@ -20,8 +20,14 @@
 #pragma once
 
 #include "blocks/Block.hpp"
+#include "cbox/Cache.hpp"
 #include "control/Ticks.hpp"
 #include "proto/Ticks.pb.h"
+
+struct __attribute__((packed)) TicksCacheLayout {
+    uint32_t secondsSinceEpoch{0};
+};
+const uint8_t estimatedRebootTimeS = 5;
 
 // provides a protobuf interface to the ticks object
 template <typename T>
@@ -71,6 +77,25 @@ public:
         }
 
         return res;
+    }
+
+    cbox::CboxError
+    loadFromCache()
+    {
+        if (auto loaded = cbox::loadFromCache<TicksCacheLayout>(objectId(), staticTypeId())) {
+            ticks.setUtc(loaded.value().secondsSinceEpoch + estimatedRebootTimeS);
+        }
+        return cbox::CboxError::OK;
+    }
+
+    cbox::update_t
+    updateHandler(const cbox::update_t& now)
+    {
+        TicksCacheLayout cached = {
+            .secondsSinceEpoch = ticks.utc() + (ticks.millis() / 1000)};
+        cbox::saveToCache(objectId(), staticTypeId(), cached);
+
+        return now + 5000;
     }
 
     T& get()
