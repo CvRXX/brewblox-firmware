@@ -13,7 +13,7 @@ public:
     }
     ~SparkEepromAccess() = default;
 
-    int16_t readByte(uint16_t offset) override
+    int16_t readByte(uint16_t offset) const override
     {
         if (offset < 2048) {
             return HAL_EEPROM_Read(offset);
@@ -26,7 +26,7 @@ public:
         HAL_EEPROM_Write(offset, value);
     }
 
-    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) override
+    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const override
     {
         HAL_EEPROM_Get(offset, target, size);
     }

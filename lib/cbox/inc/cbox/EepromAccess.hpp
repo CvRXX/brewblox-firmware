@@ -29,9 +29,9 @@ public:
     EepromAccess() = default;
     virtual ~EepromAccess() = default;
 
-    virtual int16_t readByte(uint16_t offset) = 0;
+    virtual int16_t readByte(uint16_t offset) const = 0;
     virtual void writeByte(uint16_t offset, uint8_t value) = 0;
-    virtual void readBlock(uint8_t* target, uint16_t offset, uint16_t size) = 0;
+    virtual void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const = 0;
     virtual void writeBlock(uint16_t target, const uint8_t* source, uint16_t size) = 0;
     virtual void clear() = 0;
 
@@ -61,11 +61,16 @@ protected:
     virtual uint16_t length() const = 0;
     virtual uint8_t* data() = 0;
 
+    const uint8_t* data() const
+    {
+        return const_cast<EepromMemoryAccess*>(this)->data();
+    }
+
 public:
     EepromMemoryAccess() = default;
     virtual ~EepromMemoryAccess() = default;
 
-    int16_t readByte(uint16_t offset) override final
+    int16_t readByte(uint16_t offset) const override final
     {
         if (isValidRange(offset, 1)) {
             return data()[offset];
@@ -80,7 +85,7 @@ public:
         }
     }
 
-    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) override final
+    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const override final
     {
         if (isValidRange(offset, size)) {
             memcpy(target, &data()[offset], size);
