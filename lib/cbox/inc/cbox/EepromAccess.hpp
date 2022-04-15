@@ -36,7 +36,7 @@ public:
     virtual void clear() = 0;
 
     template <typename T>
-    T& get(const uint16_t& idx, T& t)
+    T& get(const uint16_t& idx, T& t) const
     {
         readBlock(reinterpret_cast<uint8_t*>(&t), idx, sizeof(T));
         return t;
