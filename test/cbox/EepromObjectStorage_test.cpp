@@ -18,7 +18,7 @@
  */
 
 #include "TestObjects.hpp"
-#include "cbox/ArrayEepromAccess.hpp"
+#include "cbox/EepromAccess.hpp"
 #include "cbox/EepromObjectStorage.hpp"
 #include "cbox/Object.hpp"
 #include <catch.hpp>

@@ -141,6 +141,13 @@ void ObjectContainer::forcedUpdate(update_t now)
     }
 }
 
+void ObjectContainer::loadFromCache()
+{
+    for (auto& obj : contained) {
+        obj->loadFromCache();
+    }
+}
+
 CboxError ObjectContainer::store(obj_id_t id)
 {
     auto fetched = fetch(id);

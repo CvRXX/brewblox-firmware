@@ -24,7 +24,11 @@ def main():
         print('Triggering DFU:', port.product, port.serial_number)
         serial = Serial(port.device, 14400)
         sleep(1)
-        serial.close()
+
+        try:
+            serial.close()
+        except Exception:
+            pass
 
     elif usb.core.find(
             custom_match=lambda d: (d.idVendor == VID_PARTICLE and d.idProduct in PID_PARTICLE_DFU)):

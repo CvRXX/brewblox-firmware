@@ -20,13 +20,22 @@
 #pragma once
 
 #include "blocks/Block.hpp"
+#include "cbox/Cache.hpp"
 #include "control/Ticks.hpp"
 #include "proto/Ticks.pb.h"
+
+struct __attribute__((packed)) TicksCacheLayout {
+    uint32_t secondsSinceEpoch{0};
+};
 
 // provides a protobuf interface to the ticks object
 template <typename T>
 class TicksBlock final : public Block<brewblox_BlockType_Ticks> {
     T& ticks;
+
+private:
+    static constexpr cbox::update_t updateInterval = 5000;
+    static constexpr uint8_t estimatedRebootTimeS = 5;
 
 public:
     TicksBlock(T& _ticks)
@@ -71,6 +80,25 @@ public:
         }
 
         return res;
+    }
+
+    cbox::CboxError
+    loadFromCache() override
+    {
+        if (auto loaded = cbox::loadFromCache<TicksCacheLayout>(objectId(), staticTypeId())) {
+            ticks.setUtc(loaded.value().secondsSinceEpoch + estimatedRebootTimeS);
+        }
+        return cbox::CboxError::OK;
+    }
+
+    cbox::update_t
+    updateHandler(const cbox::update_t& now) override
+    {
+        TicksCacheLayout cached = {
+            .secondsSinceEpoch = ticks.utc() + (ticks.millis() / 1000)};
+        cbox::saveToCache(objectId(), staticTypeId(), cached);
+
+        return now + updateInterval;
     }
 
     T& get()
