@@ -33,7 +33,6 @@ private:
     Pid pid;
     IntervalHelper<1000> m_intervalHelper;
     bool previousActive = false;
-    const uint16_t cacheInterval{5000};
     cbox::update_t lastCacheTime{0};
 
 public:

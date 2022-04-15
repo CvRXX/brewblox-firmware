@@ -28,6 +28,8 @@ struct __attribute__((packed)) PidCacheLayout {
     int32_t i{0};
 };
 
+static constexpr uint16_t cacheInterval{5000};
+
 PidBlock::PidBlock()
     : pid(input.lockFunctor(), [this]() {
         // convert ActuatorConstrained to base ProcessValue
