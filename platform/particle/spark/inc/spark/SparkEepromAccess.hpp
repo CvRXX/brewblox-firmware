@@ -5,40 +5,43 @@
 
 namespace platform::particle {
 
-class SparkEepromAccess : public cbox::EepromAccess {
+class SparkEepromAccess final : public cbox::EepromAccess {
 public:
     SparkEepromAccess()
     {
         HAL_EEPROM_Init();
     }
-    virtual ~SparkEepromAccess() = default;
+    ~SparkEepromAccess() = default;
 
-    virtual int16_t readByte(uint16_t offset) const override final
+    int16_t readByte(uint16_t offset) override
     {
         if (offset < 2048) {
             return HAL_EEPROM_Read(offset);
         }
         return -1;
     }
-    virtual void writeByte(uint16_t offset, uint8_t value) override final
+
+    void writeByte(uint16_t offset, uint8_t value) override
     {
         HAL_EEPROM_Write(offset, value);
     }
 
-    virtual void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const override final
+    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) override
     {
         HAL_EEPROM_Get(offset, target, size);
     }
-    virtual void writeBlock(uint16_t target, const uint8_t* source, uint16_t size) override final
+
+    void writeBlock(uint16_t target, const uint8_t* source, uint16_t size) override
     {
         HAL_EEPROM_Put(target, source, size);
     }
-    virtual uint16_t length() const override final
+
+    uint16_t length() const
     {
         return HAL_EEPROM_Length();
     }
 
-    virtual void clear() override final
+    void clear() override
     {
         HAL_EEPROM_Clear();
     }
