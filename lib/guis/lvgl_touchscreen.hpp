@@ -17,13 +17,14 @@ public:
         }
     }
 
-    static void init()
+    static lv_indev_drv_t* init()
     {
         lv_indev_drv_init(&indev_drv);
         indev_drv.type = LV_INDEV_TYPE_POINTER;
         indev_drv.read_cb = checkForTouches;
         touchscreen = std::make_unique<Touchscreen>(0x00);
         touchscreen->init();
+        return &indev_drv;
     }
     static lv_indev_drv_t indev_drv;
     static std::unique_ptr<Touchscreen> touchscreen;

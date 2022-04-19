@@ -15,15 +15,15 @@ public:
     static void init()
     {
         lv_init();
-        LvglScreen<Display>::init();
+        auto displayDriver = LvglScreen<Display>::init();
         LvglScreen<Display>::display->aquire_spi();
 
         static lv_disp_t* disp;
-        disp = lv_disp_drv_register(&(LvglScreen<Display>::disp_drv));
+        disp = lv_disp_drv_register(displayDriver);
         lv_disp_set_bg_color(disp, lv_color_black());
 
-        LvglTouchscreen<Touchscreen>::init();
-        lv_indev_drv_register(&(LvglTouchscreen<Touchscreen>::indev_drv));
+        auto touchScreenDriver = LvglTouchscreen<Touchscreen>::init();
+        lv_indev_drv_register(touchScreenDriver);
 
         interface = std::make_unique<Interface>();
         LvglScreen<Display>::display->release_spi();
