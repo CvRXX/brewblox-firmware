@@ -26,7 +26,7 @@
 
 class OneWire;
 
-class DS2408Block : public Block<brewblox_BlockType_DS2408>, public OneWireDeviceBlock {
+class DS2408Block final : public Block<brewblox_BlockType_DS2408>, public OneWireDeviceBlock {
 private:
     DS2408 device;
     blox_DS2408_PinConnectMode connectMode = blox_DS2408_PinConnectMode_CONNECT_VALVE;
@@ -50,11 +50,13 @@ public:
     {
     }
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t update(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    ~DS2408Block() = default;
+
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     DS2408& get()
     {

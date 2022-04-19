@@ -28,7 +28,7 @@ MutexBlock::read(const cbox::PayloadCallback& callback) const
     message.waitRemaining = m_mutex.timeRemaining();
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,

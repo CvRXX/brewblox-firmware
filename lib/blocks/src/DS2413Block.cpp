@@ -34,7 +34,7 @@ DS2413Block::read(const cbox::PayloadCallback& callback) const
     message.channels[1].id = blox_DS2413_ChannelId_DS2413_CHAN_B;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -51,7 +51,7 @@ DS2413Block::readStored(const cbox::PayloadCallback& callback) const
     message.address = device.address();
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -76,10 +76,10 @@ DS2413Block::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DS2413Block::update(const cbox::update_t& now)
+DS2413Block::updateHandler(const cbox::update_t& now)
 {
     device.update();
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void* DS2413Block::implements(cbox::obj_type_t iface)

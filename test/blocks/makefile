@@ -1,8 +1,4 @@
 ## -*- Makefile -*-
-
-CCFLAGS = $(CFLAGS)
-CXXFLAGS = $(CFLAGS)
-
 ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
 # include ../checkers.mk # sanitizer and gcov
@@ -107,6 +103,7 @@ LDFLAGS += $(shell pkg-config --libs protobuf)
 CFLAGS += -DPB_MSGID=1
 
 # Generate dependency files automatically.
+CFLAGS += -g -Og
 CFLAGS += -MD -MP -MF $@.d
 CFLAGS += -DDEBUG_BUILD
 

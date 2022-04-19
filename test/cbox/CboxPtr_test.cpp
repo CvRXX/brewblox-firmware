@@ -30,11 +30,11 @@ using namespace cbox;
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
     test::getStorage().clear();
-    objects.init({
-        ContainedObject(1, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-        ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-    });
-    objects.setObjectsStartId(obj_id_t(100));
+    objects.clearAll();
+    objects.setObjectsStartId(systemStartId);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 1);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 2);
+    objects.setObjectsStartId(userStartId);
 
     CboxPtr<LongIntObject> liPtr;
     CboxPtr<LongIntVectorObject> livPtr;
@@ -60,7 +60,9 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
 
     WHEN("a CboxPtr of certain type is created, it can point to objects implementing that interface")
     {
-        objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100);
+        objects.remove(100);
+        CHECK(objects.add(std::shared_ptr<Object>(new NameableLongIntObject(0x22222222)), 100) == CboxError::OK);
+
         CboxPtr<NameableLongIntObject> nameableLiPtr;
         CboxPtr<LongIntObject> liPtr;
         CboxPtr<Nameable> nameablePtr;
@@ -149,9 +151,9 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
             AND_THEN("The object can be reloaded from storage")
             {
                 if (auto ptr = liPtr.lock()) {
-                    *ptr = uint32_t{0x1}; // change object without storing
+                    ptr->value(1); // change object without storing
                 }
-                auto res = objects.reloadStored(obj_id_t(100));
+                auto res = objects.reloadStored(100);
                 CHECK(res == CboxError::OK);
                 if (auto ptr = liPtr.lock()) {
                     CHECK(uint32_t(*ptr) == uint32_t{0x22222222});

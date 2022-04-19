@@ -34,7 +34,7 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -54,7 +54,7 @@ ActuatorPwmBlock::readStored(const cbox::PayloadCallback& callback) const
     getAnalogConstraints(message.constrainedBy, constrained);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -80,7 +80,7 @@ ActuatorPwmBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorPwmBlock::update(const cbox::update_t& now)
+ActuatorPwmBlock::updateHandler(const cbox::update_t& now)
 {
     constrained.update();
     auto nextUpdate = pwm.update(now);

@@ -77,7 +77,7 @@ cbox::CboxError Spark2PinsBlock::read(const cbox::PayloadCallback& callback) con
     message.hardware = hw;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -92,7 +92,7 @@ cbox::CboxError Spark2PinsBlock::readStored(const cbox::PayloadCallback& callbac
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,

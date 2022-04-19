@@ -23,21 +23,17 @@
 #include "proto/SysInfo.pb.h"
 
 // provides a protobuf interface to the read only system info
-class SysInfoBlock : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {
+class SysInfoBlock final : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {
 public:
     SysInfoBlock(unsigned (&device_id_func_)(uint8_t*, unsigned len))
         : device_id_func(device_id_func_)
     {
     }
+    ~SysInfoBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-
-    virtual cbox::update_t update(const cbox::update_t& now) override final
-    {
-        return update_never(now);
-    }
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
 
     enum class Command : uint8_t {
         NONE = 0,

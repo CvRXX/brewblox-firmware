@@ -52,7 +52,7 @@ SetpointSensorPairBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 3);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -72,7 +72,7 @@ SetpointSensorPairBlock::readStored(const cbox::PayloadCallback& callback) const
     message.filterThreshold = cnl::unwrap(pair.filterThreshold());
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -103,7 +103,7 @@ SetpointSensorPairBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-SetpointSensorPairBlock::update(const cbox::update_t& now)
+SetpointSensorPairBlock::updateHandler(const cbox::update_t& now)
 {
     bool doUpdate = false;
     auto nextUpdate = m_intervalHelper.update(now, doUpdate);

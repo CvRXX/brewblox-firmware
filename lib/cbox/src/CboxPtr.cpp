@@ -30,7 +30,7 @@ obj_id_t CboxPtrBase::getId() const
 void CboxPtrBase::setId(obj_id_t newId)
 {
     if (newId != id) {
-        id = std::move(newId);
+        id = newId;
         ptr.reset();
     }
 }
@@ -46,8 +46,10 @@ std::shared_ptr<Object> CboxPtrBase::lockObject()
     auto sptr = ptr.lock();
     if (!sptr) {
         // Try to find the object in the container
-        ptr = objects.fetch(id);
-        sptr = ptr.lock();
+        if (auto fetched = objects.fetch(id)) {
+            sptr = fetched.value();
+            ptr = fetched.value();
+        }
     }
     return sptr;
 }

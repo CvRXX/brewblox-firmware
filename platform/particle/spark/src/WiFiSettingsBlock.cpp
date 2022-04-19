@@ -32,7 +32,7 @@ cbox::CboxError WiFiSettingsBlock::read(const cbox::PayloadCallback& callback) c
     message.signal = wifiSignal();
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -42,7 +42,7 @@ cbox::CboxError WiFiSettingsBlock::read(const cbox::PayloadCallback& callback) c
 
 cbox::CboxError WiFiSettingsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return callWithMessage(callback, objectId, staticTypeId(), 0);
+    return callWithMessage(callback, objectId(), staticTypeId(), 0);
 }
 
 cbox::CboxError WiFiSettingsBlock::write(const cbox::Payload& payload)

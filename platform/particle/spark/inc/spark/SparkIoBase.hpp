@@ -33,6 +33,7 @@ public:
         : IoArray(numPins)
     {
     }
+    virtual ~SparkIoBase() = default;
 
     // generic ArrayIO interface
     virtual bool

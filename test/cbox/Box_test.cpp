@@ -21,10 +21,9 @@ SCENARIO("Box commands")
     objects.clearAll();
     test::getStorage().clear();
 
-    objects.init({
-        ContainedObject(2, std::shared_ptr<Object>(new LongIntObject(0x11111111))),
-        ContainedObject(3, std::shared_ptr<Object>(new LongIntObject(0x22222222))),
-    });
+    objects.setObjectsStartId(systemStartId);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x11111111)), 2);
+    objects.add(std::shared_ptr<Object>(new LongIntObject(0x22222222)), 3);
     objects.setObjectsStartId(userStartId);
 
     WHEN("Read object")
@@ -84,7 +83,7 @@ SCENARIO("Box commands")
 
         CHECK(createBlock(createCmd.request, createCmd.callback) == CboxError::OK);
         CHECK(createCmd.responses.at(0).blockId == 100);
-        CHECK(objects.fetchContained(100) != nullptr);
+        REQUIRE(objects.fetch(100));
 
         WHEN("The object is modified by the application, not by an incoming command")
         {
@@ -134,7 +133,7 @@ SCENARIO("Box commands")
         {
             TestCommand deleteCmd(100, 1000);
             CHECK(deleteBlock(deleteCmd.request) == CboxError::OK);
-            CHECK(objects.fetchContained(100) == nullptr);
+            REQUIRE(!objects.fetch(100));
             CHECK(objects.reloadStored(100) == CboxError::INVALID_BLOCK_ID);
         }
     }
@@ -191,15 +190,15 @@ SCENARIO("Box commands")
         );
         CHECK(createBlock(create2.request, create2.callback) == CboxError::OK);
 
-        auto counterObjPtr1 = objects.fetch(100).lock();
-        auto counterObjPtr2 = objects.fetch(101).lock();
+        auto counterObjPtr1 = objects.fetch(100);
+        auto counterObjPtr2 = objects.fetch(101);
 
         REQUIRE(counterObjPtr1);
         REQUIRE(counterObjPtr2);
 
         // cast the Object pointers to the actual type for easier testing
-        auto counter1 = static_cast<UpdateCounter*>(counterObjPtr1.get());
-        auto counter2 = static_cast<UpdateCounter*>(counterObjPtr2.get());
+        auto counter1 = static_cast<UpdateCounter*>(counterObjPtr1.value().get());
+        auto counter2 = static_cast<UpdateCounter*>(counterObjPtr2.value().get());
 
         THEN("Update was called once on each object when they were created")
         {

@@ -1,9 +1,11 @@
 #include "Brewblox.hpp"
 #include "I2cScanningFactory.hpp"
+#include "NoInitRamAccess.hpp"
 #include "blocks/BlockFactory.hpp"
 #include "blocks/ExpOwGpioBlock.hpp"
 #include "blocks/OneWireMultiScanningFactory.hpp"
 #include "cbox/Application.hpp"
+#include "cbox/EepromObjectStorage.hpp"
 #include "cbox/FileObjectStorage.hpp"
 #include "cbox/Hex.hpp"
 #include "cbox/ObjectFactory.hpp"
@@ -43,6 +45,13 @@ ObjectStorage& getStorage()
 {
     static FileObjectStorage objectStore{"/blocks/"};
     return objectStore;
+}
+
+ObjectStorage& getCacheStorage()
+{
+    static NoInitRamAccess ram;
+    static EepromObjectStorage objectCache(ram);
+    return objectCache;
 }
 
 std::string handshakeMessage()

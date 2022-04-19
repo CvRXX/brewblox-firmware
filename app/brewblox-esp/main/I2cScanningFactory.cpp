@@ -34,8 +34,8 @@ uint8_t find_next(uint8_t lastAddress)
         auto err = hal_i2c_detect(address);
         if (!err) {
             uint8_t pos = (address & uint8_t{0x3}) + 1;
-            auto samePosition = [&pos](const cbox::ContainedObject& cobj) {
-                if (auto ptr = cbox::asInterface<IoModule>(cobj.object())) {
+            auto samePosition = [&pos](const std::shared_ptr<cbox::Object>& obj) {
+                if (auto ptr = cbox::asInterface<IoModule>(obj)) {
                     return ptr->modulePosition() == pos;
                 };
                 return false;
