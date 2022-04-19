@@ -21,13 +21,13 @@ PID_PARTICLE_DFU = [
 def main():
     if port := next((p for p in list_ports.comports()
                     if p.vid == VID_PARTICLE and p.pid in PID_PARTICLE), None):
-        print('Triggering DFU:', port.product, port.serial_number)
-        serial = Serial(port.device, 14400)
-        sleep(1)
 
         try:
+            print('Triggering DFU:', port.product, port.serial_number)
+            serial = Serial(port.device, 14400)
+            sleep(1)
             serial.close()
-        except Exception:
+        except OSError:
             pass
 
     elif usb.core.find(

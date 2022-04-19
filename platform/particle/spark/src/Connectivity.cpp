@@ -17,13 +17,18 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spark/Connectivity.hpp"
+#include "intellisense.hpp"
+
+#include "AppTicks.hpp"
 #include "blocks/stringify.hpp"
 #include "blox_hal/hal_delay.hpp"
+#include "control/TicksTypes.hpp"
 #include "deviceid_hal.h"
 #include "mdns/MDNS.h"
+#include "ntp/Ntp.hpp"
 #include "spark/Board.hpp"
 #include "spark/Brewblox.hpp"
+#include "spark/Connectivity.hpp"
 #include "spark_wiring_tcpclient.h"
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_usbserial.h"
@@ -147,6 +152,22 @@ MDNS& theMdns()
     return *theStaticMDNS;
 }
 
+void updateTime(ticks_millis_t now)
+{
+    static uint32_t nextUpdateAt = 0;
+
+    ticks_millis_t overflowGuard = std::numeric_limits<ticks_millis_t>::max() / 2;
+    if (overflowGuard - now + nextUpdateAt > overflowGuard) {
+        return;
+    }
+    if (auto utcSeconds = requestUtcSeconds()) {
+        ticks.setUtc(utcSeconds);
+        nextUpdateAt = now + (15 * 60 * 1000);
+    } else {
+        nextUpdateAt = now + 10 * 1000;
+    }
+}
+
 void manageConnections(uint32_t now)
 {
     static uint32_t lastChecked = 0;
@@ -156,6 +177,7 @@ void manageConnections(uint32_t now)
     }
 
     if (wifiConnected()) {
+        updateTime(now);
         theMdns().process();
     } else {
         theMdns().stop();

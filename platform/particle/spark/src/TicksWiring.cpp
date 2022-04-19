@@ -29,6 +29,7 @@ TicksWiring::millis() const
 {
     return HAL_Timer_Get_Milli_Seconds();
 }
+
 ticks_micros_t
 TicksWiring::micros() const
 {
