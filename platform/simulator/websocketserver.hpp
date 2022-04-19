@@ -153,9 +153,10 @@ public:
         buffer_.consume(5);
 
         if (ec == websocket::error::closed) {
-            std::remove_if(sessions.begin(), sessions.end(), [this](std::shared_ptr<session> s) {
+            sessions.erase(std::remove_if(sessions.begin(), sessions.end(), [this](std::shared_ptr<session> s) {
                 return s.get() == this;
-            });
+            }));
+
             return;
         }
         if (ec)
