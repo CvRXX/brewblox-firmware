@@ -13,15 +13,7 @@ public:
     {
     }
 
-    NumericValue(NumericValue&& numericValue)
-        : Widget(std::move(numericValue))
-        , valueLabel(std::move(numericValue.valueLabel))
-        , LabelLabel(std::move(numericValue.LabelLabel))
-        , label(numericValue.label)
-        , value(numericValue.value)
-
-    {
-    }
+    NumericValue(NumericValue&& numericValue) = default;
 
     void update() override
     {
@@ -30,9 +22,9 @@ public:
         // }
     }
 
-    void draw(lv_obj_t* placeholder) override
+    void draw(lv_obj_t* placeholder, uint32_t with, uint32_t height) override
     {
-        Widget::draw(placeholder);
+        Widget::draw(placeholder, with, height);
         valueLabel.reset(lv_label_create(contentArea.getPtr()));
 
         if (lv_obj_get_width(contentArea.getPtr()) > 25) {

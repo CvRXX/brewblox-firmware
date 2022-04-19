@@ -11,17 +11,13 @@ public:
     {
     }
 
-    Widget(Widget&& widget)
-        : color(widget.color)
-        , contentArea(std::move(widget.contentArea))
-    {
-    }
+    Widget(Widget&& widget) = default;
 
     void update() override
     {
     }
 
-    void draw(lv_obj_t* placeholder) override
+    void draw(lv_obj_t* placeholder, uint32_t with, uint32_t height) override
     {
         contentArea.reset(lv_obj_create(placeholder));
         lv_obj_set_size(contentArea.getPtr(), lv_pct(100), lv_pct(100));
