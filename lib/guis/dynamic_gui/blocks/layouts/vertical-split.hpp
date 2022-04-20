@@ -3,25 +3,21 @@
 
 class VerticalSplit : public Block {
 public:
-    VerticalSplit(std::vector<std::unique_ptr<Block>>&& blocks, std::vector<uint32_t>&& ratios)
-        : blocks(std::move(blocks))
-        , ratios(std::move(ratios))
+    VerticalSplit(std::vector<RatioBlock>&& ratioBlocks)
+        : ratioBlocks(std::move(ratioBlocks))
     {
     }
 
     VerticalSplit(VerticalSplit&& verticalSplit)
-        : blocks(std::move(verticalSplit.blocks))
+        : ratioBlocks(std::move(verticalSplit.ratioBlocks))
         , placeholders(std::move(verticalSplit.placeholders))
-        , ratios(verticalSplit.ratios)
-
     {
-        assert(blocks.size() == ratios.size());
     }
 
     void update() override
     {
-        for (auto& block : blocks) {
-            block->update();
+        for (auto& block : ratioBlocks) {
+            block.block->update();
         }
     }
 
@@ -31,11 +27,13 @@ public:
         lv_obj_set_style_pad_all(placeholder, 0, 0);
         lv_obj_set_style_border_width(placeholder, 0, 0);
 
-        const auto ratioTotal = std::accumulate(ratios.begin(), ratios.end(), uint32_t(0));
+        const auto ratioTotal = std::accumulate(ratioBlocks.begin(), ratioBlocks.end(), uint32_t(0), [](auto& sum, auto& ratio) -> uint32_t {
+            return sum + ratio.ratio;
+        });
 
         uint32_t startingX = 0;
-        std::transform(blocks.begin(), blocks.end(), ratios.begin(), std::back_inserter(placeholders), [&](const auto& block, const auto ratio) -> LvglObjectWrapper {
-            const auto elementWidth = (with / ratioTotal) * ratio;
+        std::transform(ratioBlocks.begin(), ratioBlocks.end(), std::back_inserter(placeholders), [&](const auto& block) -> LvglObjectWrapper {
+            const auto elementWidth = (with / ratioTotal) * block.ratio;
 
             auto newPlaceholder = LvglObjectWrapper(lv_obj_create(placeholder));
             lv_obj_set_size(newPlaceholder.getPtr(), elementWidth, height);
@@ -44,12 +42,11 @@ public:
             lv_obj_set_style_radius(newPlaceholder.getPtr(), 0, 0);
             lv_obj_set_pos(newPlaceholder.getPtr(), startingX, 0);
             startingX += elementWidth;
-            block->draw(newPlaceholder.getPtr(), elementWidth, height);
+            block.block->draw(newPlaceholder.getPtr(), elementWidth, height);
             return newPlaceholder;
         });
     }
 
     std::vector<LvglObjectWrapper> placeholders;
-    std::vector<std::unique_ptr<Block>> blocks;
-    std::vector<uint32_t> ratios;
+    std::vector<RatioBlock> ratioBlocks;
 };

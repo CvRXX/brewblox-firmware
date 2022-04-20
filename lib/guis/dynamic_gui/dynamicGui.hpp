@@ -41,15 +41,14 @@ public:
         std::unique_ptr<Block> temp2 = std::make_unique<NumericValue>(NumericValue(33, "Annaas", {0, 255, 255}));
         std::unique_ptr<Block> temp3 = std::make_unique<NumericValue>(NumericValue(33, "carlos", {0, 255, 255}));
 
-        std::vector<std::unique_ptr<Block>> splits;
-        splits.push_back(std::move(temp1));
-        splits.push_back(std::move(temp2));
-        splits.push_back(std::move(temp3));
+        std::vector<RatioBlock> splits;
+        splits.push_back(RatioBlock{std::move(temp1), 2});
+        splits.push_back(RatioBlock{std::move(temp2), 2});
+        splits.push_back(RatioBlock{std::move(temp3), 1});
 
         auto thing = Screen(
             VerticalSplit(
-                std::move(splits),
-                {1, 2, 1}));
+                std::move(splits)));
         screen = std::move(thing);
     }
 
