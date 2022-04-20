@@ -1,7 +1,6 @@
 #pragma once
 
 #include "lvgl.h"
-#include <iostream>
 
 class LvglObjectWrapper {
 public:
@@ -19,7 +18,6 @@ public:
     ~LvglObjectWrapper()
     {
         if (lvglObject) {
-            std::cout << "delete happening \n";
             lv_obj_del(lvglObject);
         }
     }

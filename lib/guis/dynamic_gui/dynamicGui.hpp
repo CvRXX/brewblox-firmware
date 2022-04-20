@@ -1,6 +1,5 @@
 #pragma once
 #include "blocks/core/screen.hpp"
-#include "blocks/layouts/grid.hpp"
 #include "blocks/layouts/horizontal-split.hpp"
 #include "blocks/layouts/vertical-split.hpp"
 #include "blocks/widgets/numeric-value.hpp"
@@ -14,24 +13,6 @@
 /// A structure that holds the layout of the screen and its children.
 class DynamicGui {
 public:
-    /**
-     * Constructs the layout.
-     * @param box The Cbox box.
-     */
-    // DynamicGui()
-    //     : screen(
-    //         Screen(
-    //             VerticalSplit(NumericValue(55, "Atomospheric", {0, 255, 0}),
-
-    //                           HorizontalSplit(NumericValue(21, "Lager", {255, 0, 0}), VerticalSplit(NumericValue(33, "Stout", {0, 0, 255}), NumericValue(11, "IPA", {0, 255, 255})))
-
-    //                               )
-
-    //                 ))
-    // {
-    //     style::init();
-    // }
-
     DynamicGui()
         : screen(
             Screen(Widget(Color(255, 255, 255))))
@@ -51,16 +32,6 @@ public:
                 std::move(splits)));
         screen = std::move(thing);
     }
-
-    // DynamicGui()
-    //     : screen(
-    //         Screen(NumericValue(33, "Stout", {0, 0, 255})
-
-    //                    ))
-    // {
-    //     style::init();
-    //     std::cout << "queue1";
-    // }
 
     ~DynamicGui()
     {
