@@ -157,14 +157,12 @@ void updateTime(ticks_millis_t now)
     static uint32_t nextUpdateAt = 0;
 
     ticks_millis_t overflowGuard = std::numeric_limits<ticks_millis_t>::max() / 2;
-    if (overflowGuard - now + nextUpdateAt > overflowGuard) {
-        return;
-    }
-    if (auto utcSeconds = requestUtcSeconds()) {
-        ticks.setUtc(utcSeconds);
-        nextUpdateAt = now + (15 * 60 * 1000);
-    } else {
-        nextUpdateAt = now + 10 * 1000;
+    if (overflowGuard - now + nextUpdateAt <= overflowGuard) {
+        if (synchronizeTime()) {
+            nextUpdateAt = now + (15 * 60 * 1000);
+        } else {
+            nextUpdateAt = now + 10 * 1000;
+        }
     }
 }
 

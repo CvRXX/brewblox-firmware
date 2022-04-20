@@ -5,6 +5,6 @@
 
 namespace platform::particle {
 
-utc_seconds_t requestUtcSeconds();
+bool synchronizeTime();
 
 } // end namespace platform::particle
