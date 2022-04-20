@@ -23,7 +23,7 @@
 #include "control/OneWire.hpp"
 #include "proto/OneWireBus.pb.h"
 
-class OneWireBusBlock : public Block<brewblox_BlockType_OneWireBus> {
+class OneWireBusBlock final : public Block<brewblox_BlockType_OneWireBus> {
 private:
     OneWire& bus;
 
@@ -35,15 +35,15 @@ private:
 
 public:
     OneWireBusBlock(OneWire& ow, void (*onShortDetected)() = nullptr);
-    virtual ~OneWireBusBlock() = default;
+    ~OneWireBusBlock() = default;
 
     OneWire& oneWire() { return bus; }
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-    virtual cbox::update_t update(const cbox::update_t& now) override final;
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
 
     static void (*onShortDetected)();
 };

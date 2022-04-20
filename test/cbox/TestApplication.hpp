@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cbox/ArrayEepromAccess.hpp"
+#include "cbox/EepromAccess.hpp"
 #include "cbox/EepromObjectStorage.hpp"
 
 namespace test {

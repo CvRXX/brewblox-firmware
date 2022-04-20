@@ -28,7 +28,7 @@ public:
         display->writePixels(area->x1, area->x2, area->y1, area->y2, reinterpret_cast<uint8_t*>(color_p), nPixels);
     }
 
-    static void init()
+    static lv_disp_drv_t* init()
     {
         display = std::make_unique<Display>([]() { lv_disp_flush_ready(&disp_drv); });
         display->init();
@@ -59,6 +59,7 @@ public:
             rotation = LV_DISP_ROT_NONE;
         }
         disp_drv.rotated = rotation;
+        return &disp_drv;
     }
     static std::unique_ptr<Display> display;
     constexpr static auto bufferSize = Display::horResolution * 3;

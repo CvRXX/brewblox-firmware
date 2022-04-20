@@ -21,7 +21,6 @@
 #include "cbox/Box.hpp"
 #include "cbox/CboxError.hpp"
 #include "cbox/CboxPtr.hpp"
-#include "cbox/ContainedObject.hpp"
 #include "cbox/DeprecatedObject.hpp"
 #include "cbox/Object.hpp"
 #include "cbox/ObjectContainer.hpp"
@@ -43,15 +42,8 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
 
-    obj_id_t id(request.blockId);
-    obj_type_t typeId(request.blockType);
-
-    if (id > 0 && id < objects.getObjectsStartId()) {
-        return CboxError::INVALID_BLOCK_ID;
-    }
-
     // Check if any factory can make this type
-    auto makeResult = make(typeId);
+    auto makeResult = make(request.blockType);
     if (!makeResult) {
         return makeResult.error();
     }
@@ -62,28 +54,27 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
         return status;
     }
 
-    // Add new block to the container
-    // Id is returned because id from command can be 0 to let the box assign it
-    id = objects.add(std::move(makeResult.value()), id, false);
-    ContainedObject* cobj = objects.fetchContained(id);
+    auto block = makeResult.value();
 
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
+    // Add created block to the container
+    status = objects.add(block, request.blockId);
+    if (status != CboxError::OK) {
+        return status;
     }
 
     // Save block settings to storage
-    status = cobj->readStored([](const Payload& stored) {
+    status = block->readStored([](const Payload& stored) {
         return getStorage().saveObject(stored);
     });
 
     if (status != CboxError::OK) {
-        objects.remove(id);
+        objects.remove(block->objectId());
         return status;
     }
 
     // Update and read block
-    cobj->forcedUpdate(lastUpdateTime);
-    status = cobj->read(callback);
+    block->forcedUpdate(lastUpdateTime);
+    status = block->read(callback);
 
     return status;
 }
@@ -92,23 +83,24 @@ CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
 
-    ContainedObject* cobj = objects.fetchContained(request.blockId);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
+    auto fetched = objects.fetch(request.blockId);
+    if (!fetched) {
+        return fetched.error();
     }
+    auto obj = fetched.value();
 
-    if (request.blockType != cobj->object()->typeId()) {
+    if (request.blockType != obj->typeId()) {
         return CboxError::INVALID_BLOCK_TYPE;
     }
 
     // Write new settings to block
-    status = cobj->write(request);
+    status = obj->write(request);
     if (status != CboxError::OK) {
         return status;
     }
 
     // Save updated settings to storage
-    status = cobj->readStored([](const Payload& stored) {
+    status = obj->readStored([](const Payload& stored) {
         return getStorage().saveObject(stored);
     });
 
@@ -117,24 +109,25 @@ CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
     }
 
     // Update and read block
-    cobj->forcedUpdate(lastUpdateTime);
-    status = cobj->read(callback);
+    obj->forcedUpdate(lastUpdateTime);
+    status = obj->read(callback);
 
     return status;
 }
 
 CboxError readBlock(const Payload& request, const PayloadCallback& callback)
 {
-    ContainedObject* cobj = objects.fetchContained(request.blockId);
-    if (cobj == nullptr) {
-        return CboxError::INVALID_BLOCK_ID;
+    auto fetched = objects.fetch(request.blockId);
+    if (!fetched) {
+        return fetched.error();
     }
+    auto obj = fetched.value();
 
-    if (request.blockType != 0 && request.blockType != cobj->object()->typeId()) {
+    if (request.blockType != 0 && request.blockType != obj->typeId()) {
         return CboxError::INVALID_BLOCK_TYPE;
     }
 
-    auto status = cobj->read(callback);
+    auto status = obj->read(callback);
     return status;
 }
 
@@ -142,7 +135,7 @@ CboxError readAllBlocks(const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
     for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
-        status = it->read(callback);
+        status = (*it)->read(callback);
     }
     return status;
 }
@@ -162,6 +155,7 @@ CboxError deleteBlock(const Payload& request)
 
     status = objects.remove(id);
     getStorage().disposeObject(storageId);
+    getCacheStorage().disposeObject(storageId);
 
     return status;
 }
@@ -181,10 +175,11 @@ CboxError clearBlocks()
     // remove user objects from storage
     auto cit = objects.userbegin();
     while (cit != objects.cend()) {
-        auto id = cit->id();
+        auto id = (*cit)->objectId();
         cit++;
         bool mergeDisposed = cit == objects.cend(); // merge disposed blocks on last delete
         getStorage().disposeObject(id, mergeDisposed);
+        getCacheStorage().disposeObject(id, mergeDisposed);
     }
 
     // remove all user objects from vector
@@ -195,25 +190,25 @@ CboxError clearBlocks()
 
 CboxError discoverBlocks(const PayloadCallback& callback)
 {
-    CboxError status = CboxError::OK;
     while (auto newObj = scan()) {
-        auto newId = objects.add(std::move(newObj));
-        auto cobj = objects.fetchContained(newId);
+        auto status = objects.add(newObj);
+        if (status != CboxError::OK) {
+            return status;
+        }
 
-        if (cobj != nullptr) { // always true, but just in case
-            status = cobj->readStored([](const Payload& stored) {
-                return getStorage().saveObject(stored);
-            });
-            if (status != CboxError::OK) {
-                return status;
-            }
-            status = cobj->read(callback);
-            if (status != CboxError::OK) {
-                return status;
-            }
+        status = newObj->readStored([](const Payload& stored) {
+            return getStorage().saveObject(stored);
+        });
+        if (status != CboxError::OK) {
+            return status;
+        }
+
+        status = newObj->read(callback);
+        if (status != CboxError::OK) {
+            return status;
         }
     }
-    return status;
+    return CboxError::OK;
 }
 
 CboxError discoverBlocks()
@@ -234,9 +229,9 @@ void loadBlocksFromStorage()
     getStorage().loadAllObjects([&deprecatedList](const Payload& payload) -> CboxError {
         CboxError status = CboxError::OK;
 
-        if (auto cobj = objects.fetchContained(payload.blockId)) {
+        if (auto fetched = objects.fetch(payload.blockId)) {
             // existing object
-            status = cobj->write(payload);
+            status = fetched.value()->write(payload);
         } else {
             // new object
 
@@ -266,6 +261,8 @@ void loadBlocksFromStorage()
     for (auto& id : deprecatedList) {
         objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)));
     }
+
+    objects.loadFromCache();
 }
 
 void unloadBlocks()

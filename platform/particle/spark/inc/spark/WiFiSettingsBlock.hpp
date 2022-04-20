@@ -24,16 +24,14 @@
 namespace platform::particle {
 
 // provides a protobuf interface to the read only system info
-class WiFiSettingsBlock : public cbox::ObjectBase<brewblox_BlockType_WiFiSettings> {
+class WiFiSettingsBlock final : public cbox::ObjectBase<brewblox_BlockType_WiFiSettings> {
+public:
+    WiFiSettingsBlock() = default;
+    ~WiFiSettingsBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
-
-    virtual cbox::update_t update(const cbox::update_t& now) override final
-    {
-        return update_never(now);
-    }
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
 };
 
 } // end namespace platform::particle

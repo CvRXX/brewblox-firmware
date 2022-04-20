@@ -45,7 +45,7 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
     }
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -63,7 +63,7 @@ DS2408Block::readStored(const cbox::PayloadCallback& callback) const
     message.connectMode = connectMode;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -89,10 +89,10 @@ DS2408Block::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DS2408Block::update(const cbox::update_t& now)
+DS2408Block::updateHandler(const cbox::update_t& now)
 {
     device.update();
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void* DS2408Block::implements(cbox::obj_type_t iface)

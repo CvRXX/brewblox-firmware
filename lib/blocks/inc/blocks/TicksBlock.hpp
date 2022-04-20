@@ -20,22 +20,31 @@
 #pragma once
 
 #include "blocks/Block.hpp"
+#include "cbox/Cache.hpp"
 #include "control/Ticks.hpp"
 #include "proto/Ticks.pb.h"
 
+struct __attribute__((packed)) TicksCacheLayout {
+    uint32_t secondsSinceEpoch{0};
+};
+
 // provides a protobuf interface to the ticks object
 template <typename T>
-class TicksBlock : public Block<brewblox_BlockType_Ticks> {
+class TicksBlock final : public Block<brewblox_BlockType_Ticks> {
     T& ticks;
+
+private:
+    static constexpr cbox::update_t updateInterval = 5000;
+    static constexpr uint8_t estimatedRebootTimeS = 5;
 
 public:
     TicksBlock(T& _ticks)
         : ticks(_ticks)
     {
     }
-    virtual ~TicksBlock() = default;
+    ~TicksBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
 
@@ -48,7 +57,7 @@ public:
         message.avgSystemTask = ticks.taskTime(3);
 
         return callWithMessage(callback,
-                               objectId,
+                               objectId(),
                                staticTypeId(),
                                0,
                                &message,
@@ -56,12 +65,12 @@ public:
                                blox_Ticks_Block_size);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback&) const override final
+    cbox::CboxError readStored(const cbox::PayloadCallback&) const override
     {
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
         auto res = payloadToMessage(payload, &message, blox_Ticks_Block_fields);
@@ -73,9 +82,23 @@ public:
         return res;
     }
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
+    cbox::CboxError
+    loadFromCache() override
     {
-        return cbox::Object::update_never(now);
+        if (auto loaded = cbox::loadFromCache<TicksCacheLayout>(objectId(), staticTypeId())) {
+            ticks.setUtc(loaded.value().secondsSinceEpoch + estimatedRebootTimeS);
+        }
+        return cbox::CboxError::OK;
+    }
+
+    cbox::update_t
+    updateHandler(const cbox::update_t& now) override
+    {
+        TicksCacheLayout cached = {
+            .secondsSinceEpoch = ticks.utc() + (ticks.millis() / 1000)};
+        cbox::saveToCache(objectId(), staticTypeId(), cached);
+
+        return now + updateInterval;
     }
 
     T& get()

@@ -1,8 +1,4 @@
 ## -*- Makefile -*-
-
-CCFLAGS = $(CFLAGS)
-CXXFLAGS = $(CFLAGS)
-
 ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
 include ../checkers.mk # sanitizer and gcov
@@ -60,6 +56,7 @@ CFLAGS += -ffunction-sections -Wall
 CFLAGS += -Werror=deprecated-declarations
 
 # Generate dependency files automatically.
+CFLAGS += -g -Og
 CFLAGS += -MD -MP -MF $@.d
 CFLAGS += -DDEBUG_BUILD
 

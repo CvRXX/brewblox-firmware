@@ -29,7 +29,7 @@ cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callb
     getAnalogConstraints(message.constrainedBy, constrained);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -50,7 +50,7 @@ cbox::CboxError ActuatorAnalogMockBlock::readStored(const cbox::PayloadCallback&
     getAnalogConstraints(message.constrainedBy, constrained);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,

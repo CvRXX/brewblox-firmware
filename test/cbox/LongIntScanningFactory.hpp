@@ -26,7 +26,7 @@ public:
         for (auto& value : candidates) {
             bool found = false;
             for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
-                LongIntObject* ptrIfCorrectType = reinterpret_cast<LongIntObject*>(existing->object()->implements(LongIntObject::staticTypeId()));
+                LongIntObject* ptrIfCorrectType = reinterpret_cast<LongIntObject*>((*existing)->implements(LongIntObject::staticTypeId()));
                 if (ptrIfCorrectType == nullptr) {
                     continue; // not the right type, no match
                 }

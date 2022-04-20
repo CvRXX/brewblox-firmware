@@ -19,8 +19,16 @@
 
 #include "blocks/PidBlock.hpp"
 #include "blocks/FieldTags.hpp"
+#include "cbox/Application.hpp"
+#include "cbox/Cache.hpp"
 #include "control/ProcessValue.hpp"
 #include "proto/Pid.pb.h"
+
+struct __attribute__((packed)) PidCacheLayout {
+    int32_t i{0};
+};
+
+static constexpr uint16_t cacheInterval{5000};
 
 PidBlock::PidBlock()
     : pid(input.lockFunctor(), [this]() {
@@ -93,7 +101,7 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -116,7 +124,7 @@ PidBlock::readStored(const cbox::PayloadCallback& callback) const
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -147,8 +155,17 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
     return res;
 }
 
+cbox::CboxError
+PidBlock::loadFromCache()
+{
+    if (auto loaded = cbox::loadFromCache<PidCacheLayout>(objectId(), staticTypeId())) {
+        pid.i(cnl::wrap<Pid::out_t>(loaded.value().i));
+    }
+    return cbox::CboxError::OK;
+}
+
 cbox::update_t
-PidBlock::update(const cbox::update_t& now)
+PidBlock::updateHandler(const cbox::update_t& now)
 {
     bool doUpdate = false;
     auto nextUpdate = m_intervalHelper.update(now, doUpdate);
@@ -169,6 +186,13 @@ PidBlock::update(const cbox::update_t& now)
             return now;
         }
     }
+
+    if (now < lastCacheTime || now - lastCacheTime > cacheInterval) {
+        lastCacheTime = now; // Do not retry on cache failure
+        PidCacheLayout cached = {.i = cnl::unwrap(pid.i())};
+        cbox::saveToCache(objectId(), staticTypeId(), cached);
+    }
+
     return nextUpdate;
 }
 

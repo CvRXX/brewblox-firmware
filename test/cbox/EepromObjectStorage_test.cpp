@@ -18,7 +18,7 @@
  */
 
 #include "TestObjects.hpp"
-#include "cbox/ArrayEepromAccess.hpp"
+#include "cbox/EepromAccess.hpp"
 #include "cbox/EepromObjectStorage.hpp"
 #include "cbox/Object.hpp"
 #include <catch.hpp>
@@ -59,7 +59,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
     WHEN("An object is created")
     {
         auto obj = std::make_shared<LongIntObject>(0x33333333);
-        obj->objectId = 1;
+        obj->setObjectId(1);
 
         THEN("It can be saved to EEPROM")
         {
@@ -585,7 +585,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
         WHEN("The object is too big to fit in eeprom, INSUFFICIENT_PERSISTENT_STORAGE is returned")
         {
             obj->readStoredFunc = [&obj](const PayloadCallback& callback) {
-                Payload payload(obj->objectId, obj->typeId(), 0);
+                Payload payload(obj->objectId(), obj->typeId(), 0);
                 payload.content.resize(2000);
                 return callback(payload);
             };

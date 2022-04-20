@@ -2,7 +2,7 @@
 #include "LongIntScanningFactory.hpp"
 #include "TestObjects.hpp"
 #include "cbox/Application.hpp"
-#include "cbox/ArrayEepromAccess.hpp"
+#include "cbox/EepromAccess.hpp"
 #include "cbox/EepromObjectStorage.hpp"
 #include "cbox/ObjectFactory.hpp"
 
@@ -27,6 +27,13 @@ namespace cbox {
 ObjectStorage& getStorage()
 {
     return test::getStorage();
+}
+
+cbox::ObjectStorage& getCacheStorage()
+{
+    static cbox::ArrayEepromAccess<2048> eeprom;
+    static cbox::EepromObjectStorage objectStore(eeprom);
+    return objectStore;
 }
 
 CboxExpected<std::shared_ptr<Object>> make(obj_type_t t)

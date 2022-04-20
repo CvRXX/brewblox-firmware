@@ -10,6 +10,7 @@ idf_component_register(
     ExpOwGpio.cpp
     I2cScanningFactory.cpp
     TimerInterrupts.cpp
+    NoInitRamAccess.cpp
   INCLUDE_DIRS
     .
 )

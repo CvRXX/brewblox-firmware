@@ -32,7 +32,7 @@
 #include "spark/Brewblox.hpp"
 #include <sstream>
 
-SCENARIO("Test", "[makelogicblock]")
+SCENARIO("ActuatorLogicBlock")
 {
     cbox::objects.clearAll();
     platform::particle::setupSystemBlocks();

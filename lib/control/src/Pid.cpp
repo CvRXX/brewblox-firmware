@@ -124,6 +124,11 @@ void Pid::update()
     }
 }
 
+void Pid::i(const out_t& arg)
+{
+    m_i = arg;
+}
+
 void Pid::kp(const in_t& arg)
 {
     if (arg != 0) {

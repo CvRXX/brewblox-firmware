@@ -53,7 +53,7 @@ MotorValveBlock::read(const cbox::PayloadCallback& callback) const
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -68,7 +68,7 @@ MotorValveBlock::readStored(const cbox::PayloadCallback& callback) const
     addPersistedStateToMessage(message);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -96,7 +96,7 @@ MotorValveBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-MotorValveBlock::update(const cbox::update_t& now)
+MotorValveBlock::updateHandler(const cbox::update_t& now)
 {
     valve.update();
     return constrained.update(now);

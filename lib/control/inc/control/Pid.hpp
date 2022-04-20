@@ -101,6 +101,8 @@ public:
         return m_i;
     }
 
+    void i(const out_t& arg);
+
     auto d() const
     {
         return m_d;

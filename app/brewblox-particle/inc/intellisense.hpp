@@ -9,7 +9,7 @@
 // Values defined here are only ever placeholder, and will never be used in compiled code
 #define GIT_VERSION "abcdef01"
 #define GIT_DATE "2000-01-01"
-#define PLATFORM_NAME "esp32"
+#define PLATFORM_NAME "gcc"
 
 // In intellisense mode, __linux__ is defined by default
 // This leads to various system headers trying to include

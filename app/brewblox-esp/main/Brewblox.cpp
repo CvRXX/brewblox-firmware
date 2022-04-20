@@ -14,11 +14,11 @@
 
 void setupSystemBlocks()
 {
-    cbox::objects.init({
-        cbox::ContainedObject(2, std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id))),
-        cbox::ContainedObject(3, std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks))),
-        cbox::ContainedObject(7, std::shared_ptr<cbox::Object>(new DisplaySettingsBlock())),
-    });
+    cbox::objects.setObjectsStartId(cbox::systemStartId);
+
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 2);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 3);
+    cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
 
     cbox::objects.setObjectsStartId(cbox::userStartId);
 }

@@ -47,7 +47,7 @@ TempSensorCombiBlock::read(const cbox::PayloadCallback& callback) const
     writeMessage(message, true);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -62,7 +62,7 @@ TempSensorCombiBlock::readStored(const cbox::PayloadCallback& callback) const
     writeMessage(message, false);
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
@@ -93,10 +93,10 @@ TempSensorCombiBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-cbox::update_t TempSensorCombiBlock::update(const cbox::update_t& now)
+cbox::update_t TempSensorCombiBlock::updateHandler(const cbox::update_t& now)
 {
     sensor.update();
-    return update_1s(now);
+    return next_update_1s(now);
 }
 
 void* TempSensorCombiBlock::implements(cbox::obj_type_t iface)

@@ -22,22 +22,17 @@
 #include "blocks/Block.hpp"
 #include "control/MockIoArray.hpp"
 
-class MockPinsBlock : public Block<brewblox_BlockType_MockPins> {
+class MockPinsBlock final : public Block<brewblox_BlockType_MockPins> {
 private:
     MockIoArray mocks;
 
 public:
     MockPinsBlock() = default;
-    virtual ~MockPinsBlock() = default;
+    ~MockPinsBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    cbox::CboxError write(const cbox::Payload& payload) override;
 
-    virtual cbox::update_t update(const cbox::update_t& now) override final
-    {
-        return update_never(now);
-    }
-
-    virtual void* implements(cbox::obj_type_t iface) override final;
+    void* implements(cbox::obj_type_t iface) override;
 };

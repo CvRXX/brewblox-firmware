@@ -49,7 +49,7 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
     command = Command::NONE;
 
     return callWithMessage(callback,
-                           objectId,
+                           objectId(),
                            staticTypeId(),
                            0,
                            &message,
