@@ -13,8 +13,17 @@ static constexpr uint16_t localPort = 2123;
 static constexpr uint16_t receiveTimeoutMs = 10 * 1000;
 static constexpr uint32_t ntpEpochStart = 2208988800UL; // NTP time starts on 1-1-1900
 
+const uint8_t NTP_VERSION_4 = 4 << 3;
+const uint8_t NTP_MODE_CLIENT = 3;
+
 struct __attribute__((packed)) NtpPacket {
-    uint8_t flags{0x1B}; // Protocol version 3, client request
+    // | LI  | VN    | Mode  |
+    // | - - | - - - | - - - |
+    uint8_t flags = NTP_MODE_CLIENT | NTP_VERSION_4;
+    uint8_t stratum{0};
+    uint8_t pollInterval{0};
+    int8_t precision{0};
+    int32_t rootDelay{0};
     uint32_t rootDispersion{0};
     uint32_t referenceIdentifier{0};
     uint64_t referenceTimeStamp{0};
@@ -31,19 +40,16 @@ utc_seconds_t requestUtcSeconds()
     uint8_t* packetPtr = reinterpret_cast<uint8_t*>(std::addressof(packet));
 
     auto network = spark::Network.from(0);
-    // while (!network.ready()) {
-    //     hal_yield();
-    //     ticks.delayMillis(500);
-    // }
-
     auto serverAddr = network.resolve(serverName);
+    // IPAddress serverAddr = {192, 168, 2, 19};
 
-    auto beginOk = client.begin(localPort);
+    if (!client.begin(localPort)) {
+        return 0;
+    }
+
     auto sent = client.sendPacket(packetPtr, sizeof(packet), serverAddr, serverPort);
-
-    // ticks.delayMillis(1000);
     ticks_millis_t recvStartAt = ticks.millis();
-    auto recv = client.receivePacket(packetPtr, sizeof(packet), 1000);
+    auto recv = client.receivePacket(packetPtr, sizeof(packet), 5000);
     ticks_millis_t recvEndAt = ticks.millis();
     client.stop();
 
