@@ -22,7 +22,12 @@ public:
         }
     }
 
-    lv_obj_t* getPtr()
+    lv_obj_t* operator->()
+    {
+        return lvglObject;
+    }
+
+    lv_obj_t* operator&()
     {
         return lvglObject;
     }
