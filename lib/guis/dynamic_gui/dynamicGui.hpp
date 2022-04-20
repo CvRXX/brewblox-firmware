@@ -6,7 +6,6 @@
 #include "blocks/widgets/widget.hpp"
 #include "styles/styles.hpp"
 #include <array>
-#include <iostream>
 #include <lvgl.h>
 #include <memory>
 

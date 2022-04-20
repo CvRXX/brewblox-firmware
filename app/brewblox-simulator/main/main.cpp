@@ -42,7 +42,7 @@ int main()
                                            });
     timeSetter.start();
 
-    static auto graphicsLooper = RecurringTask(ioc, boost::asio::chrono::milliseconds(5000),
+    static auto graphicsLooper = RecurringTask(ioc, boost::asio::chrono::milliseconds(10),
                                                RecurringTask::IntervalType::FROM_EXPIRY,
                                                []() {
                                                    gui::update();
