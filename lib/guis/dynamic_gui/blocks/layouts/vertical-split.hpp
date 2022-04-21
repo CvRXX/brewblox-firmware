@@ -75,13 +75,13 @@ public:
             const auto elementWidth = (with / ratioTotal) * block.ratio;
 
             auto newPlaceholder = LvglObjectWrapper(lv_obj_create(placeholder));
-            lv_obj_set_size(&newPlaceholder, elementWidth, height);
-            lv_obj_set_style_pad_all(&newPlaceholder, 2, 0);
-            lv_obj_set_style_border_width(&newPlaceholder, 0, 0);
-            lv_obj_set_style_radius(&newPlaceholder, 0, 0);
-            lv_obj_set_pos(&newPlaceholder, startingX, 0);
+            lv_obj_set_size(newPlaceholder.get(), elementWidth, height);
+            lv_obj_set_style_pad_all(newPlaceholder.get(), 2, 0);
+            lv_obj_set_style_border_width(newPlaceholder.get(), 0, 0);
+            lv_obj_set_style_radius(newPlaceholder.get(), 0, 0);
+            lv_obj_set_pos(newPlaceholder.get(), startingX, 0);
             startingX += elementWidth;
-            block.block->draw(&newPlaceholder, elementWidth, height);
+            block.block->draw(newPlaceholder.get(), elementWidth, height);
             return newPlaceholder;
         });
     }

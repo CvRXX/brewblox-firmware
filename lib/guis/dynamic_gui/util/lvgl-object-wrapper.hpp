@@ -20,56 +20,15 @@
 #pragma once
 
 #include "lvgl.h"
+#include <memory>
 
-/**
- * A wrapper class to add lifetime management to LVGL objects.
- */
-class LvglObjectWrapper {
-public:
-    constexpr LvglObjectWrapper(lv_obj_t* lvglObject)
-        : lvglObject(lvglObject)
-    {
-    }
-
-    constexpr LvglObjectWrapper(LvglObjectWrapper&& lvglObjectWrapper)
-        : lvglObject(lvglObjectWrapper.lvglObject)
-    {
-        lvglObjectWrapper.lvglObject = nullptr;
-    }
-
-    ~LvglObjectWrapper()
-    {
-        if (lvglObject) {
-            lv_obj_del(lvglObject);
-        }
-    }
-
-    lv_obj_t* operator->()
-    {
-        return lvglObject;
-    }
-
-    /**
-     * Returns the raw internal pointer.
-     * This is non owning
-     */
-    lv_obj_t* operator&()
-    {
-        return lvglObject;
-    }
-
-    /**
-     * Destructs the current LVGL object and replaces it with the passed object.
-     * @param newPtr A pointer to the object that should replace the current object.
-     */
-    void reset(lv_obj_t* newPtr)
-    {
-        if (lvglObject) {
-            lv_obj_del(lvglObject);
-        }
-        lvglObject = newPtr;
-    }
-
-private:
-    lv_obj_t* lvglObject;
+struct LvglDeleter {
+ void operator()(lv_obj_t* lvglObject) {
+     lv_obj_del(lvglObject);
+ }
 };
+
+// A wrapper type which wraps an lv_obj_t in a std::unique_ptr which calls the lvgl deleter.
+using LvglObjectWrapper = std::unique_ptr<lv_obj_t, LvglDeleter>;
+
+
