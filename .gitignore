@@ -5,7 +5,6 @@ compile_commands.json
 .vscode/.cortex-debug.registers.state.json
 
 .vscode/.cortex-debug.peripherals.state.json
-core
 build/coverage
 *.pyc
 callgraph.dot*
