@@ -27,7 +27,6 @@
 #include "d4d_display/screens/WidgetsScreen.h"
 #include "d4d_display/screens/listening_screen.h"
 #include "d4d_display/screens/startup_screen.h"
-#include "delay_hal.h"
 #include "eeprom_hal.h"
 #include "proto/proto_version.h"
 #include "spark/Board.hpp"
@@ -98,7 +97,7 @@ void onSetupModeBegin()
     platform::particle::manageConnections(ticks.millis()); // stop http server
     cbox::unloadBlocks();
     platform::particle::getConnectionPool().disconnect();
-    HAL_Delay_Milliseconds(100);
+    ticks.delayMillis(100);
 }
 
 void onSetupModeEnd()
@@ -124,7 +123,7 @@ void setup()
 #else
     platform::particle::boardInit();
     platform::particle::getBuzzer().beep(2, 50);
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
 #endif
     appWatchdog = new ApplicationWatchdog(60000, watchdogReset, 256);
     hal_i2c_master_init();
@@ -135,7 +134,7 @@ void setup()
     D4D_TCH_SetCalibration(defaultCalib);
 
     StartupScreen::activate();
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
 
     StartupScreen::setProgress(10);
     StartupScreen::setStep("Power cycling peripherals");
@@ -147,16 +146,16 @@ void setup()
 
     platform::particle::enablePheripheral5V(true);
 
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
     StartupScreen::setProgress(60);
     StartupScreen::setStep("Init Brewblox framework");
     platform::particle::setupSystemBlocks();
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
 
     StartupScreen::setProgress(70);
     StartupScreen::setStep("Loading blocks");
     cbox::loadBlocksFromStorage();
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
 
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Scanning for new devices");
@@ -165,7 +164,7 @@ void setup()
     StartupScreen::setProgress(90);
     StartupScreen::setStep("Enabling WiFi and mDNS");
     platform::particle::wifiInit();
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
 
     StartupScreen::setProgress(100);
     StartupScreen::setStep("Ready!");
@@ -200,7 +199,7 @@ void loop()
         watchdogCheckin(); // not done while listening, so 60s timeout for stuck listening mode
     }
     ticks.switchTaskTimer(TicksClass::TaskId::System);
-    HAL_Delay_Milliseconds(1);
+    ticks.delayMillis(1);
 }
 
 constexpr bool equal(char const* lhs, char const* rhs)
