@@ -19,11 +19,13 @@
 
 #pragma once
 
-#include "dynamic_gui/blocks/core/color.hpp"
-#include "dynamic_gui/blocks/widgets/widget.hpp"
+#include "dynamic_gui/elements/core/color.hpp"
+#include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "lvgl.h"
 #include <iostream>
+
+namespace gui::dynamic_interface {
 
 /**
  * A widget which can display a numeric value.
@@ -36,8 +38,8 @@ public:
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    NumericValue(uint8_t value, const char* label, Color color)
-        : Widget(color)
+    NumericValue(uint8_t value, const char* label, Color color, uint16_t weight)
+        : Widget(color, weight)
         , value(value)
         , label(label)
     {
@@ -55,13 +57,15 @@ public:
      * @param with The with of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint32_t with, uint32_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
     {
         Widget::draw(placeholder, with, height);
         valueLabel.reset(lv_label_create(contentArea.get()));
 
-        if (lv_obj_get_width(contentArea.get()) > 25) {
+        if (with > 120) {
             lv_obj_add_style(valueLabel.get(), &style::number_huge, LV_PART_MAIN);
+        } else if (with > 50) {
+            lv_obj_add_style(valueLabel.get(), &style::number_large, LV_PART_MAIN);
         }
 
         lv_label_set_text(valueLabel.get(), std::to_string(value).c_str());
@@ -74,8 +78,9 @@ public:
     }
 
 private:
-    LvglObjectWrapper valueLabel = nullptr;
-    LvglObjectWrapper LabelLabel = nullptr;
+    LvglObjectWrapper valueLabel;
+    LvglObjectWrapper LabelLabel;
     std::string label;
     uint8_t value;
 };
+}

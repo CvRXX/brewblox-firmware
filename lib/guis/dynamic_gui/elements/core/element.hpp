@@ -18,13 +18,18 @@
  */
 
 #pragma once
+#include "lvgl.h"
 
-struct RatioBlock {
-    RatioBlock(std::unique_ptr<Block> block, uint16_t ratio)
-        : block(std::move(block))
-        , ratio(ratio)
-    {
-    }
-    std::unique_ptr<Block> block;
-    uint16_t ratio;
+namespace gui::dynamic_interface {
+
+/**
+ * A virtual base class for a generic gui element.
+ */
+class Element { // Rename this into something that is not confusing with brewblox blocks.
+public:
+    virtual void update() = 0;
+    virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
+    virtual uint16_t getWeight() const = 0;
 };
+
+}

@@ -19,21 +19,24 @@
 
 #pragma once
 
-#include "dynamic_gui/blocks/core/block.hpp"
-#include "dynamic_gui/blocks/core/color.hpp"
+#include "dynamic_gui/elements/core/color.hpp"
+#include "dynamic_gui/elements/core/element.hpp"
 #include "dynamic_gui/styles/styles.hpp"
+
+namespace gui::dynamic_interface {
 
 /**
  * A base class for widgets.
  */
-class Widget : public Block {
+class Widget : public Element {
 public:
     /**
      * Constructs a widget.
      * @param color The background color of the widget.
      */
-    constexpr Widget(Color color)
+    constexpr Widget(Color color, uint16_t weight)
         : color(color)
+        , weight(weight)
     {
     }
 
@@ -43,13 +46,18 @@ public:
     {
     }
 
+    uint16_t getWeight() const override
+    {
+        return weight;
+    }
+
     /**
      * Draws the widget in its parent placeholder.
      * @param placeholder The parent placeholder.
      * @param with The with of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint32_t with, uint32_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
     {
         contentArea.reset(lv_obj_create(placeholder));
         lv_obj_set_size(contentArea.get(), lv_pct(100), lv_pct(100));
@@ -60,7 +68,7 @@ public:
 
     /**
      * Returns the luminance of the background color.
-     * This is usefull for choosing font colors with readable contrast.
+     * This is useful for choosing font colors with readable contrast.
      * @return The luminance
      */
     constexpr uint8_t luminance()
@@ -70,5 +78,8 @@ public:
 
 protected:
     const Color color;
+    uint16_t weight;
     LvglObjectWrapper contentArea = nullptr;
 };
+
+}

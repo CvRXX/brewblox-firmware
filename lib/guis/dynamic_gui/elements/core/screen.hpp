@@ -19,26 +19,29 @@
 
 #pragma once
 
-#include "block.hpp"
+#include "element.hpp"
 #include "lvgl.h"
 #include <type_traits>
+
+namespace gui::dynamic_interface {
+
 class Screen {
 public:
-    template <typename T, typename = std::enable_if_t<std::is_base_of<Block, T>::value>>
-    Screen(T&& block)
-        : block(std::make_unique<T>(std::move(block)))
+    template <typename T, typename = std::enable_if_t<std::is_base_of<Element, T>::value>>
+    Screen(T&& element)
+        : element(std::make_unique<T>(std::move(element)))
     {
-        this->block->draw(lv_scr_act(), 480, 320);
+        this->element->draw(lv_scr_act(), 480, 320);
     }
 
     Screen(Screen&& screen)
-        : block(std::move(screen.block))
+        : element(std::move(screen.element))
     {
     }
 
     Screen& operator=(Screen&& screen)
     {
-        block = std::move(screen.block);
+        element = std::move(screen.element);
         return *this;
     }
 
@@ -48,8 +51,9 @@ public:
 
     void update()
     {
-        block->update();
+        element->update();
     }
 
-    std::unique_ptr<Block> block;
+    std::unique_ptr<Element> element;
 };
+}

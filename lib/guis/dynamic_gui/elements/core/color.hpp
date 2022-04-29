@@ -18,6 +18,7 @@
  */
 
 #pragma once
+namespace gui::dynamic_interface {
 
 struct Color {
     constexpr Color(uint8_t r, uint8_t g, uint8_t b)
@@ -35,3 +36,5 @@ struct Color {
     const uint8_t g;
     const uint8_t b;
 };
+
+}

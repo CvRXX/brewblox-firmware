@@ -19,28 +19,31 @@
 
 #pragma once
 
-#include "dynamic_gui/blocks/core/block.hpp"
-#include "dynamic_gui/blocks/core/ratioBlock.hpp"
+#include "dynamic_gui/elements/core/element.hpp"
 #include "dynamic_gui/util/lvgl-object-wrapper.hpp"
 #include <numeric>
+
+namespace gui::dynamic_interface {
 
 /**
  * A GUI block which takes a set of blocks which are displayed on a vertical splitted parent.
  */
-class VerticalSplit : public Block {
+class VerticalSplit : public Element {
 public:
     /**
      * Constructs a vertical split.
      * @param ratioBlocks a list of ratioblocks to be displayed.
      */
-    VerticalSplit(std::vector<RatioBlock>&& ratioBlocks)
-        : ratioBlocks(std::move(ratioBlocks))
+    VerticalSplit(std::vector<std::unique_ptr<Element>>&& elements, uint16_t weight)
+        : elements(std::move(elements))
+        , weight(weight)
     {
     }
 
     VerticalSplit(VerticalSplit&& verticalSplit)
-        : ratioBlocks(std::move(verticalSplit.ratioBlocks))
+        : elements(std::move(verticalSplit.elements))
         , placeholders(std::move(verticalSplit.placeholders))
+        , weight(verticalSplit.weight)
     {
     }
 
@@ -49,9 +52,14 @@ public:
      */
     void update() override
     {
-        for (auto& block : ratioBlocks) {
-            block.block->update();
+        for (auto& element : elements) {
+            element->update();
         }
+    }
+
+    uint16_t getWeight() const override
+    {
+        return weight;
     }
 
     /**
@@ -60,19 +68,19 @@ public:
      * @param with The with of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint32_t with, uint32_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
     {
         lv_obj_set_style_pad_gap(placeholder, 0, 0);
         lv_obj_set_style_pad_all(placeholder, 0, 0);
         lv_obj_set_style_border_width(placeholder, 0, 0);
 
-        const auto ratioTotal = std::accumulate(ratioBlocks.begin(), ratioBlocks.end(), uint32_t(0), [](auto& sum, auto& ratio) -> uint32_t {
-            return sum + ratio.ratio;
+        const auto weightTotal = std::accumulate(elements.begin(), elements.end(), uint32_t(0), [](auto& sum, auto& element) -> uint32_t {
+            return sum + element->getWeight();
         });
 
         uint32_t startingX = 0;
-        std::transform(ratioBlocks.begin(), ratioBlocks.end(), std::back_inserter(placeholders), [&](const auto& block) -> LvglObjectWrapper {
-            const auto elementWidth = (with / ratioTotal) * block.ratio;
+        std::transform(elements.begin(), elements.end(), std::back_inserter(placeholders), [&startingX, placeholder, weightTotal, height, with](auto& element) -> LvglObjectWrapper {
+            const auto elementWidth = (with / weightTotal) * element->getWeight();
 
             auto newPlaceholder = LvglObjectWrapper(lv_obj_create(placeholder));
             lv_obj_set_size(newPlaceholder.get(), elementWidth, height);
@@ -81,12 +89,14 @@ public:
             lv_obj_set_style_radius(newPlaceholder.get(), 0, 0);
             lv_obj_set_pos(newPlaceholder.get(), startingX, 0);
             startingX += elementWidth;
-            block.block->draw(newPlaceholder.get(), elementWidth, height);
+            element->draw(newPlaceholder.get(), elementWidth, height);
             return newPlaceholder;
         });
     }
 
 private:
     std::vector<LvglObjectWrapper> placeholders;
-    std::vector<RatioBlock> ratioBlocks;
+    std::vector<std::unique_ptr<Element>> elements;
+    uint16_t weight = 1;
 };
+}

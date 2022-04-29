@@ -27,7 +27,7 @@ int main()
     webSocketServer = std::make_shared<listener>(ioc, tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
     webSocketServer->run();
 
-    using gui = Gui<VirtualScreen, VirtualTouchScreen, DynamicGui>;
+    using gui = Gui<VirtualScreen, VirtualTouchScreen, gui::dynamic_interface::DynamicGui>;
     gui::init();
 
     static auto timeSetter = RecurringTask(ioc, boost::asio::chrono::milliseconds(20),

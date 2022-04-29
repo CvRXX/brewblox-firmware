@@ -23,12 +23,11 @@
 #include <memory>
 
 struct LvglDeleter {
- void operator()(lv_obj_t* lvglObject) {
-     lv_obj_del(lvglObject);
- }
+    void operator()(lv_obj_t* lvglObject)
+    {
+        lv_obj_del(lvglObject);
+    }
 };
 
 // A wrapper type which wraps an lv_obj_t in a std::unique_ptr which calls the lvgl deleter.
 using LvglObjectWrapper = std::unique_ptr<lv_obj_t, LvglDeleter>;
-
-
