@@ -15,13 +15,15 @@ public:
     static void init()
     {
         lv_init();
-        auto displayDriver = LvglScreen<Display>::init();
-        LvglScreen<Display>::display->aquire_spi();
 
-        static lv_disp_t* disp;
-        disp = lv_disp_drv_register(displayDriver);
-        lv_disp_set_bg_color(disp, lv_color_black());
-        LvglScreen<Display>::display->release_spi();
+        { // Display lock scope
+            auto displayLock = std::lock_guard(*LvglScreen<Display>::display);
+            auto displayDriver = LvglScreen<Display>::init();
+
+            static lv_disp_t* disp;
+            disp = lv_disp_drv_register(displayDriver);
+            lv_disp_set_bg_color(disp, lv_color_black());
+        }
 
         auto touchScreenDriver = LvglTouchscreen<Touchscreen>::init();
         lv_indev_drv_register(touchScreenDriver);
@@ -35,9 +37,8 @@ public:
     static void update()
     {
         interface->update();
-        LvglScreen<Display>::display->aquire_spi();
+        auto displayLock = std::lock_guard(*LvglScreen<Display>::display);
         lv_task_handler();
-        LvglScreen<Display>::display->release_spi();
     }
 
     /**

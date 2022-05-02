@@ -40,10 +40,10 @@ public:
     void init();
 
     /// Aquire the spi bus for writing to the display.
-    void aquire_spi();
+    void lock();
 
     /// Releases the spi bus after writing to the display.
-    void release_spi();
+    void unlock();
 
     static const uint16_t horResolution = 320;
     static const uint16_t verResolution = 480;

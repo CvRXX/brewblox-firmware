@@ -41,10 +41,10 @@ public:
     void init();
 
     /// Aquire the spi bus for writing to the display.
-    void aquire_spi();
+    void lock();
 
     /// Releases the spi bus after writing to the display.
-    void release_spi();
+    void unlock();
 
     /**
      * Writing a n of pixels to the screen in a defined area.
