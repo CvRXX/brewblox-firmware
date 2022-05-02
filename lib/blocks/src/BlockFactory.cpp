@@ -13,6 +13,7 @@
 #include "blocks/PidBlock.hpp"
 #include "blocks/SetpointProfileBlock.hpp"
 #include "blocks/SetpointSensorPairBlock.hpp"
+#include "blocks/StepperBlock.hpp"
 #include "blocks/TempSensorCombiBlock.hpp"
 #include "blocks/TempSensorMockBlock.hpp"
 #include "blocks/TempSensorOneWireBlock.hpp"
@@ -35,6 +36,7 @@ static const cbox::ObjectFactory blocksFactory({
     cbox::makeFactoryEntry<ActuatorLogicBlock>(),
     cbox::makeFactoryEntry<MockPinsBlock>(),
     cbox::makeFactoryEntry<TempSensorCombiBlock>(),
+    cbox::makeFactoryEntry<StepperBlock>(),
 });
 
 cbox::CboxExpected<std::shared_ptr<cbox::Object>> makeBlock(cbox::obj_type_t t)

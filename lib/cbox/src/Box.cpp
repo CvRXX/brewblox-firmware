@@ -63,9 +63,7 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
     }
 
     // Save block settings to storage
-    status = block->readStored([](const Payload& stored) {
-        return getStorage().saveObject(stored);
-    });
+    status = block->readStored(getStorage().saveObjectCallback);
 
     if (status != CboxError::OK) {
         objects.remove(block->objectId());
@@ -100,9 +98,7 @@ CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
     }
 
     // Save updated settings to storage
-    status = obj->readStored([](const Payload& stored) {
-        return getStorage().saveObject(stored);
-    });
+    status = obj->readStored(getStorage().saveObjectCallback);
 
     if (status != CboxError::OK) {
         return status;
@@ -196,9 +192,7 @@ CboxError discoverBlocks(const PayloadCallback& callback)
             return status;
         }
 
-        status = newObj->readStored([](const Payload& stored) {
-            return getStorage().saveObject(stored);
-        });
+        status = newObj->readStored(getStorage().saveObjectCallback);
         if (status != CboxError::OK) {
             return status;
         }

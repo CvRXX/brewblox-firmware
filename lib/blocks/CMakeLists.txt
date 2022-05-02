@@ -20,6 +20,7 @@ idf_component_register(
     src/PidBlock.cpp
     src/SetpointProfileBlock.cpp
     src/SetpointSensorPairBlock.cpp
+    src/StepperBlock.cpp
     src/SysInfoBlock.cpp
     src/TempSensorCombiBlock.cpp
     src/TempSensorMockBlock.cpp

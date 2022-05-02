@@ -155,9 +155,7 @@ CboxError ObjectContainer::store(obj_id_t id)
         return fetched.error();
     }
 
-    return fetched.value()->readStored([](const Payload& stored) {
-        return getStorage().saveObject(stored);
-    });
+    return fetched.value()->readStored(getStorage().saveObjectCallback);
 }
 
 CboxError ObjectContainer::reloadStored(obj_id_t id)

@@ -77,11 +77,12 @@ typedef enum _brewblox_BlockType {
     brewblox_BlockType_ActuatorLogic = 322,
     brewblox_BlockType_MockPins = 323,
     brewblox_BlockType_TempSensorCombi = 324,
-    brewblox_BlockType_OneWireGpioModule = 325
+    brewblox_BlockType_OneWireGpioModule = 325,
+    brewblox_BlockType_Stepper = 326
 } brewblox_BlockType;
 #define _brewblox_BlockType_MIN brewblox_BlockType_Invalid
-#define _brewblox_BlockType_MAX brewblox_BlockType_OneWireGpioModule
-#define _brewblox_BlockType_ARRAYSIZE ((brewblox_BlockType)(brewblox_BlockType_OneWireGpioModule+1))
+#define _brewblox_BlockType_MAX brewblox_BlockType_Stepper
+#define _brewblox_BlockType_ARRAYSIZE ((brewblox_BlockType)(brewblox_BlockType_Stepper+1))
 
 #ifdef __cplusplus
 } /* extern "C" */

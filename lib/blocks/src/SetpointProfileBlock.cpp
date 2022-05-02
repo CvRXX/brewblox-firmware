@@ -23,7 +23,7 @@
 #include "pb_encode.h"
 #include "proto/SetpointProfile.pb.h"
 
-bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool encodePoints(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
     const std::vector<SetpointProfile::Point>* points = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
     for (const auto& p : *points) {
@@ -41,7 +41,7 @@ bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const*
     return true;
 }
 
-bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
+bool decodePoints(pb_istream_t* stream, const pb_field_t*, void** arg)
 {
     std::vector<SetpointProfile::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
 
@@ -61,7 +61,7 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     FieldTags stripped;
 
-    message.points.funcs.encode = &streamPointsOut;
+    message.points.funcs.encode = &encodePoints;
     message.points.arg = const_cast<std::vector<SetpointProfile::Point>*>(&profile.points());
     message.enabled = profile.enabled();
     message.start = profile.startTime();
@@ -97,7 +97,7 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     std::vector<SetpointProfile::Point> newPoints;
-    message.points.funcs.decode = &streamPointsIn;
+    message.points.funcs.decode = &decodePoints;
     message.points.arg = &newPoints;
 
     auto res = payloadToMessage(payload, &message, blox_SetpointProfile_Block_fields);
