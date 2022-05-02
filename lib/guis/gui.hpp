@@ -21,12 +21,12 @@ public:
         static lv_disp_t* disp;
         disp = lv_disp_drv_register(displayDriver);
         lv_disp_set_bg_color(disp, lv_color_black());
+        LvglScreen<Display>::display->release_spi();
 
         auto touchScreenDriver = LvglTouchscreen<Touchscreen>::init();
         lv_indev_drv_register(touchScreenDriver);
 
         interface = std::make_unique<Interface>();
-        LvglScreen<Display>::display->release_spi();
     }
 
     /**
