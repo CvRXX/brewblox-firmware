@@ -13,13 +13,14 @@ void VirtualScreen::init()
 {
 }
 
-void VirtualScreen::aquire_spi()
+void VirtualScreen::lock()
 {
 }
 
-void VirtualScreen::release_spi()
+void VirtualScreen::unlock()
 {
 }
+
 extern std::shared_ptr<listener> webSocketServer;
 bool VirtualScreen::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
 {

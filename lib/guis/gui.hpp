@@ -37,18 +37,16 @@ public:
     {
         mutex.lock();
         lv_init();
-        auto displayDriver = LvglScreen<Display>::init();
-        LvglScreen<Display>::display->aquire_spi();
 
-        static lv_disp_t* disp;
-        disp = lv_disp_drv_register(displayDriver);
-        lv_disp_set_bg_color(disp, lv_color_black());
+        { // Display lock scope
+            auto displayLock = std::lock_guard(*LvglScreen<Display>::display);
+            displayDriver = lv_disp_drv_register(LvglScreen<Display>::init());
+            lv_disp_set_bg_color(displayDriver, lv_color_black());
+        }
 
-        auto touchScreenDriver = LvglTouchscreen<Touchscreen>::init();
-        lv_indev_drv_register(touchScreenDriver);
+        touchScreenDriver = lv_indev_drv_register(LvglTouchscreen<Touchscreen>::init());
 
         interface = std::make_unique<Interface>();
-        LvglScreen<Display>::display->release_spi();
         mutex.unlock();
     }
 
@@ -59,9 +57,8 @@ public:
     {
         if (mutex.try_lock()) {
             interface->update();
-            LvglScreen<Display>::display->aquire_spi();
+            auto displayLock = std::lock_guard(*LvglScreen<Display>::display);
             lv_task_handler();
-            LvglScreen<Display>::display->release_spi();
             mutex.unlock();
         }
     }
@@ -78,6 +75,8 @@ public:
 private:
     static std::unique_ptr<Interface> interface;
     static std::mutex mutex;
+    static lv_disp_t* displayDriver;
+    static lv_indev_t* touchScreenDriver;
 };
 
 template <typename Display, typename Touchscreen, typename Interface>
@@ -85,3 +84,9 @@ std::unique_ptr<Interface> Gui<Display, Touchscreen, Interface>::interface;
 
 template <typename Display, typename Touchscreen, typename Interface>
 std::mutex Gui<Display, Touchscreen, Interface>::mutex;
+
+template <typename Display, typename Touchscreen, typename Interface>
+lv_disp_t* Gui<Display, Touchscreen, Interface>::displayDriver;
+
+template <typename Display, typename Touchscreen, typename Interface>
+lv_indev_t* Gui<Display, Touchscreen, Interface>::touchScreenDriver;
