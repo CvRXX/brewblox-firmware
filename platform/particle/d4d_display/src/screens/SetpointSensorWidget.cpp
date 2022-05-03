@@ -29,7 +29,7 @@ SetpointSensorWidget::SetpointSensorWidget(WidgetWrapper& myWrapper, const cbox:
 
 void SetpointSensorWidget::update(const WidgetSettings& settings)
 {
-    if (auto ptr = lookup.const_lock()) {
+    if (auto ptr = lookup.lock()) {
         setConnected();
         auto& pair = ptr->get();
 

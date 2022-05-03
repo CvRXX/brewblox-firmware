@@ -129,12 +129,12 @@ void PidWidget::drawPidRects(const Pid& pid)
 
 void PidWidget::update(const WidgetSettings& settings)
 {
-    if (auto ptr = lookup.const_lock()) {
+    if (auto ptr = lookup.lock()) {
         auto& pid = ptr->get();
         auto& inputLookup = ptr->getInputLookup();
         auto& outputLookup = ptr->getOutputLookup();
         setConnected();
-        auto input = inputLookup.const_lock();
+        auto input = inputLookup.lock();
         if (input && input->valueValid()) {
             setAndEnable(&inputValue, temp_to_string(input->value(), 1, settings.tempUnit));
         } else {
@@ -146,7 +146,7 @@ void PidWidget::update(const WidgetSettings& settings)
             setAndEnable(&inputTarget, "");
         }
 
-        auto output = outputLookup.const_lock();
+        auto output = outputLookup.lock();
         if (output && output->valueValid()) {
             setAndEnable(&outputValue, to_string_dec(output->value(), 1));
         } else {
@@ -162,7 +162,7 @@ void PidWidget::update(const WidgetSettings& settings)
 
         char icons[2] = "\x28";
         if (auto pwmBlock = outputLookup.const_lock_as<ActuatorPwmBlock>()) {
-            if (auto pwmTarget = pwmBlock->targetLookup().const_lock()) {
+            if (auto pwmTarget = pwmBlock->targetLookup().lock()) {
                 switch (pwmTarget->state()) {
                 case ActuatorPwm::State::Inactive:
                     icons[0] = 0x26;

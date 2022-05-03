@@ -24,7 +24,7 @@ void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, boo
 {
     FieldTags stripped;
 
-    message.sensors_count = sensor.inputs.size();
+    message.sensors_count = inputs.size();
     message.combineFunc = blox_TempSensorCombi_SensorCombiFunc(sensor.func);
     for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
         message.sensors[i] = inputs[i].getId();
@@ -79,14 +79,12 @@ TempSensorCombiBlock::write(const cbox::Payload& payload)
     if (res == cbox::CboxError::OK) {
         sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);
         inputs.clear();
-        sensor.inputs.clear();
         inputs.reserve(message.sensors_count);
+        sensor.inputs.clear();
         sensor.inputs.reserve(message.sensors_count);
         for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
-            inputs.emplace_back(message.sensors[i]);
-        }
-        for (auto& i : inputs) {
-            sensor.inputs.push_back(i.lockFunctor());
+            auto input = inputs.emplace_back(message.sensors[i]);
+            sensor.inputs.push_back(&input);
         }
     }
 

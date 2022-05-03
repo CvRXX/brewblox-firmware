@@ -22,6 +22,7 @@
 #include "cbox/Application.hpp"
 #include "cbox/ObjectBase.hpp"
 #include "cbox/ObjectContainer.hpp"
+#include "control/ControlPtr.hpp"
 #include <memory>
 
 namespace cbox {
@@ -42,13 +43,13 @@ protected:
         : id(id)
     {
     }
-    ~CboxPtrBase() = default;
+    virtual ~CboxPtrBase() = default;
 
     std::shared_ptr<Object> lockObject();
 };
 
 template <typename T>
-class CboxPtr : public CboxPtrBase {
+class CboxPtr final : public CboxPtrBase, public ControlPtr<T> {
 
 public:
     explicit CboxPtr(const obj_id_t& id = 0)
@@ -56,11 +57,6 @@ public:
     {
     }
     ~CboxPtr() = default;
-
-    std::shared_ptr<T> lock()
-    {
-        return lock_as<T>();
-    }
 
     template <class U>
     std::shared_ptr<U> lock_as()
@@ -86,19 +82,14 @@ public:
         return std::const_pointer_cast<const U>(std::move(sptr));
     }
 
-    std::shared_ptr<const T> const_lock() const
+    std::shared_ptr<T> lock() override
+    {
+        return lock_as<T>();
+    }
+
+    std::shared_ptr<const T> lock() const override
     {
         return const_lock_as<T>();
-    }
-
-    std::function<std::shared_ptr<T>()> lockFunctor()
-    {
-        return [this]() { return this->lock(); };
-    }
-
-    std::function<std::shared_ptr<const T>()> lockFunctor() const
-    {
-        return [this]() { return this->const_lock(); };
     }
 };
 

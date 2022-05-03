@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "control/ControlPtr.hpp"
 #include "control/OneWire.hpp"
 #include "control/OneWireAddress.hpp"
 #include <functional>
@@ -26,7 +27,7 @@
 
 class OneWireDevice {
 public:
-    OneWireDevice(std::function<std::shared_ptr<OneWire>()>&& getBus_, const OneWireAddress& address_);
+    OneWireDevice(ControlPtr<OneWire>& busPtr_, const OneWireAddress& address_);
 
 protected:
     ~OneWireDevice() = default;
@@ -52,7 +53,7 @@ public:
     std::shared_ptr<OneWire> selectRom() const;
 
 protected:
-    std::function<std::shared_ptr<OneWire>()> getBus;
+    ControlPtr<OneWire>& m_bus;
     OneWireAddress m_address;
 
 private:

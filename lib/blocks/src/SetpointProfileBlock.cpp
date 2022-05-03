@@ -115,7 +115,7 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 cbox::update_t
 SetpointProfileBlock::updateHandler(const cbox::update_t& now)
 {
-    if (auto pTicks = ticksPtr.const_lock()) {
+    if (auto pTicks = ticksPtr.lock()) {
         auto time = pTicks->const_get().utc();
         profile.update(time);
     }

@@ -29,6 +29,7 @@ class PidBlock final : public Block<brewblox_BlockType_Pid> {
 private:
     cbox::CboxPtr<SetpointSensorPair> input;
     cbox::CboxPtr<ActuatorAnalogConstrained> output;
+    ControlPtrAdapter<ActuatorAnalogConstrained, ProcessValue<Pid::out_t>> pvOutput; // mirrors output
 
     Pid pid;
     IntervalHelper<1000> m_intervalHelper;

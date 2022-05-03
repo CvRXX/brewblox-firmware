@@ -17,7 +17,7 @@ private:
 
 public:
     ActuatorPwmBlock()
-        : pwm(actuator.lockFunctor())
+        : pwm(actuator)
         , constrained(pwm)
     {
     }

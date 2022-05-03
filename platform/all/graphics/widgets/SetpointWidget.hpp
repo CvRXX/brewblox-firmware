@@ -33,7 +33,7 @@ public:
     /// Updates the widget with information from the object it's representing.
     void update()
     {
-        if (auto ptr = lookup.const_lock()) {
+        if (auto ptr = lookup.lock()) {
             auto& pair = ptr->get();
 
             if (pair.valueValid()) {

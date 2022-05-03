@@ -42,8 +42,8 @@ private:
     static constexpr uint8_t ACK_ERROR = 0xFF;
 
 public:
-    DS2413(std::function<std::shared_ptr<OneWire>()>&& getBus, OneWireAddress address = familyCode)
-        : OneWireDevice(std::move(getBus), address)
+    DS2413(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
+        : OneWireDevice(busPtr, address)
         , IoArray(2)
     {
     }

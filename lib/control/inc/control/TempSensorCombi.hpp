@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "control/ControlPtr.hpp"
 #include "control/TempSensor.hpp"
 #include <functional>
 #include <memory>
@@ -29,13 +30,12 @@
 class TempSensorCombi : public TempSensor {
 public:
     enum class CombineFunc : uint8_t {
-
         AVG = 0,
         MIN = 1,
         MAX = 2,
     };
 
-    std::vector<std::function<std::shared_ptr<TempSensor>()>> inputs;
+    std::vector<ControlPtr<TempSensor>*> inputs;
     CombineFunc func = CombineFunc::AVG;
 
 private:

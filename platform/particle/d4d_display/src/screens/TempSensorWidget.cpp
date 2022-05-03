@@ -28,7 +28,7 @@ TempSensorWidget::TempSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_
 
 void TempSensorWidget::update(const WidgetSettings& settings)
 {
-    if (auto ptr = lookup.const_lock()) {
+    if (auto ptr = lookup.lock()) {
         setConnected();
         char icons[2] = {0};
         if (ptr->valid()) {
