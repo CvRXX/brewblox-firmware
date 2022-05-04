@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "AppTicks.hpp"
 #include "blocks/Block.hpp"
 #include "blocks/TicksBlock.hpp"
 #include "cbox/CboxPtr.hpp"
@@ -28,14 +27,12 @@
 
 class SetpointProfileBlock final : public Block<brewblox_BlockType_SetpointProfile> {
 private:
-    cbox::CboxPtr<TicksBlock<TicksClass>> ticksPtr;
     cbox::CboxPtr<SetpointSensorPair> target;
     SetpointProfile profile;
 
 public:
     SetpointProfileBlock()
-        : ticksPtr(3)
-        , profile(target)
+        : profile(target)
     {
     }
     ~SetpointProfileBlock() = default;

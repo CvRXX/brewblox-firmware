@@ -23,7 +23,7 @@
 
 ActuatorAnalogWidget::ActuatorAnalogWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(cbox::CboxPtr<ActuatorAnalogConstrained>(id))
+    , lookup(id)
 {
     setClickHandler(this, onClickStatic);
 }

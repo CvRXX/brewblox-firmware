@@ -17,13 +17,13 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "AppTicks.hpp"
 #include "TestHelpers.hpp"
 #include "blocks/SetpointProfileBlock.hpp"
 #include "blocks/SetpointSensorPairBlock.hpp"
 #include "blocks/TempSensorMockBlock.hpp"
 #include "blocks/TicksBlock.hpp"
 #include "cbox/Box.hpp"
-#include "control/MockTicks.hpp"
 #include "proto/SetpointProfile_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
@@ -44,10 +44,8 @@ SCENARIO("A SetpointProfile block")
         auto setpointId = cbox::obj_id_t(101);
         auto profileId = cbox::obj_id_t(102);
 
-        cbox::CboxPtr<TicksBlock<TicksClass>> ticks(ticksId);
-
-        auto update = [&ticks](const cbox::update_t& now) {
-            ticks.lock()->get().ticksImpl().reset(now);
+        auto update = [](const cbox::update_t& now) {
+            ticks.ticksImpl().reset(now);
             cbox::update(now);
         };
 

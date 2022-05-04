@@ -22,27 +22,26 @@
 
 SetpointSensorWidget::SetpointSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(cbox::CboxPtr<SetpointSensorPairBlock>(id))
+    , lookup(id)
 {
     setClickHandler(this, onClickStatic);
 }
 
 void SetpointSensorWidget::update(const WidgetSettings& settings)
 {
-    if (auto ptr = lookup.lock()) {
+    if (auto setpoint = lookup.lock()) {
         setConnected();
-        auto& pair = ptr->get();
 
         char icons[3] = {0};
-        if (pair.valueValid()) {
-            setValue(temp_to_string(pair.value(), 1, settings.tempUnit));
+        if (setpoint->valueValid()) {
+            setValue(temp_to_string(setpoint->value(), 1, settings.tempUnit));
             icons[0] = '\x29';
         } else {
             setValue("");
             icons[0] = '\x2B';
         }
-        if (pair.settingValid()) {
-            setSetting(temp_to_string(pair.setting(), 1, settings.tempUnit));
+        if (setpoint->settingValid()) {
+            setSetting(temp_to_string(setpoint->setting(), 1, settings.tempUnit));
             icons[1] = '\x2A';
         } else {
             setSetting("");

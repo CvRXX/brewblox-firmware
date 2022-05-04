@@ -22,7 +22,7 @@
 
 TempSensorWidget::TempSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(cbox::CboxPtr<TempSensor>(id))
+    , lookup(id)
 {
 }
 

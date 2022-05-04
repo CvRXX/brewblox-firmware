@@ -97,7 +97,7 @@ PidWidget::PidWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
           wrapper.scheme,       ///< Pointer on used color scheme.
           &iconsData,           ///< Pointer on runtime object data.
       }
-    , lookup(cbox::CboxPtr<PidBlock>(id))
+    , lookup(id)
 {
     wrapper.addChildren({&inputTarget, &inputValue, &outputTarget, &outputValue, &icons});
     wrapper.setEnabled(D4D_FALSE); // start widget disabled
@@ -129,10 +129,9 @@ void PidWidget::drawPidRects(const Pid& pid)
 
 void PidWidget::update(const WidgetSettings& settings)
 {
-    if (auto ptr = lookup.lock()) {
-        auto& pid = ptr->get();
-        auto& inputLookup = ptr->getInputLookup();
-        auto& outputLookup = ptr->getOutputLookup();
+    if (auto pid = lookup.lock()) {
+        auto& inputLookup = pid->getInputLookup();
+        auto& outputLookup = pid->getOutputLookup();
         setConnected();
         auto input = inputLookup.lock();
         if (input && input->valueValid()) {
@@ -158,7 +157,7 @@ void PidWidget::update(const WidgetSettings& settings)
             setAndEnable(&outputTarget, "");
         }
 
-        drawPidRects(pid);
+        drawPidRects(pid->get());
 
         char icons[2] = "\x28";
         if (auto pwmBlock = outputLookup.const_lock_as<ActuatorPwmBlock>()) {
