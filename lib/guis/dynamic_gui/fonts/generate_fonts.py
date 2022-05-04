@@ -38,6 +38,7 @@ numbers = [
 degree = '0xB0'
 bullet = '0x2022'
 
+size_numbers_small = 10
 size_numbers_medium = 20
 size_numbers_large = 36
 size_numbers_huge = 80
@@ -50,33 +51,39 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 
 os.system(
+    f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_small} "
+    f"--font RobotoMono-Medium.ttf -r {','.join(numbers)} "
+    f"-o font_numbers_small.c"
+)
+
+os.system(
     f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_medium} "
-    f"--font Roboto-Medium.ttf -r {','.join(numbers)} "
+    f"--font RobotoMono-Medium.ttf -r {','.join(numbers)} "
     f"-o font_numbers_medium.c"
 )
 
 os.system(
     f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_large} "
-    f"--font Roboto-Medium.ttf -r {','.join(numbers)} "
+    f"--font RobotoMono-Medium.ttf -r {','.join(numbers)} "
     f"-o font_numbers_large.c"
 )
 
 os.system(
     f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_numbers_huge} "
-    f"--font Roboto-Medium.ttf -r {','.join(numbers)} "
+    f"--font RobotoMono-Medium.ttf -r {','.join(numbers)} "
     f"-o font_numbers_huge.c"
 )
 
 os.system(
     f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main} "
-    f"--font Roboto-Medium.ttf -r {','.join([letters, degree])} "
+    f"--font RobotoMono-Medium.ttf -r {','.join([letters, degree])} "
     f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
     f"-o font_main.c"
 )
 
 os.system(
     f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main_small} "
-    f"--font Roboto-Medium.ttf -r {','.join([letters, degree])} "
+    f"--font RobotoMono-Medium.ttf -r {','.join([letters, degree])} "
     f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
     f"-o font_main_small.c"
 )

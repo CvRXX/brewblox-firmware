@@ -14,6 +14,7 @@ lv_style_t widget_name;
 lv_style_t number_large;
 lv_style_t number_huge;
 lv_style_t number_medium;
+lv_style_t number_small;
 lv_style_t field_label;
 
 void init()
@@ -62,6 +63,9 @@ void init()
 
     lv_style_init(&number_medium);
     lv_style_set_text_font(&number_medium, &fonts::numbers_medium);
+
+    lv_style_init(&number_small);
+    lv_style_set_text_font(&number_small, &fonts::numbers_small);
 
     lv_style_init(&widget_name);
     lv_style_set_text_font(&widget_name, &fonts::widget_name);

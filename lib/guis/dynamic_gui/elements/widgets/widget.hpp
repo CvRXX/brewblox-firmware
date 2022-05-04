@@ -60,6 +60,8 @@ public:
     void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
     {
         contentArea.reset(lv_obj_create(placeholder));
+        lv_obj_clear_flag(placeholder, LV_OBJ_FLAG_SCROLLABLE);
+        lv_obj_clear_flag(contentArea.get(), LV_OBJ_FLAG_SCROLLABLE);
         lv_obj_set_size(contentArea.get(), lv_pct(100), lv_pct(100));
         lv_obj_add_style(placeholder, &style::block, LV_STATE_DEFAULT);
         lv_obj_set_style_bg_color(contentArea.get(), color.lvglColor(), LV_STATE_DEFAULT);

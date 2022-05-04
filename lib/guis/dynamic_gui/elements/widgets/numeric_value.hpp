@@ -22,6 +22,8 @@
 #include "dynamic_gui/elements/core/color.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
+#include "dynamic_gui/styles/sizing.hpp"
+
 #include "lvgl.h"
 #include <iostream>
 
@@ -38,7 +40,7 @@ public:
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    NumericValue(uint8_t value, const char* label, Color color, uint16_t weight)
+    NumericValue(uint16_t value, const char* label, Color color, uint16_t weight)
         : Widget(color, weight)
         , value(value)
         , label(label)
@@ -60,27 +62,24 @@ public:
     void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
     {
         Widget::draw(placeholder, with, height);
-        valueLabel.reset(lv_label_create(contentArea.get()));
-
-        if (with > 120) {
-            lv_obj_add_style(valueLabel.get(), &style::number_huge, LV_PART_MAIN);
-        } else if (with > 50) {
-            lv_obj_add_style(valueLabel.get(), &style::number_large, LV_PART_MAIN);
-        }
+        valueLabel.reset(sizing::bigNumber(contentArea.get(), with, height));
 
         lv_label_set_text(valueLabel.get(), std::to_string(value).c_str());
         lv_obj_align(valueLabel.get(), LV_ALIGN_CENTER, 0, 0);
+        lv_obj_set_style_pad_all(valueLabel.get(), 0, 0);
 
-        LabelLabel.reset(lv_label_create(contentArea.get()));
-        lv_obj_add_style(LabelLabel.get(), &style::widget_name, LV_PART_MAIN);
-        lv_label_set_text(LabelLabel.get(), label.c_str());
-        lv_obj_align(LabelLabel.get(), LV_ALIGN_BOTTOM_MID, 0, 0);
+        if (sizing::toDrawLabel(with, height)) {
+            LabelLabel.reset(lv_label_create(contentArea.get()));
+            lv_obj_add_style(LabelLabel.get(), &style::widget_name, LV_PART_MAIN);
+            lv_label_set_text(LabelLabel.get(), label.c_str());
+            lv_obj_align(LabelLabel.get(), LV_ALIGN_BOTTOM_MID, 0, 0);
+        }
     }
 
 private:
     LvglObjectWrapper valueLabel;
     LvglObjectWrapper LabelLabel;
     std::string label;
-    uint8_t value;
+    uint16_t value;
 };
 }
