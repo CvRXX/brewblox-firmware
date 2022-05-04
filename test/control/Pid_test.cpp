@@ -43,7 +43,7 @@ SCENARIO("PID Test with mock actuator", "[pid]")
     setpoint.ptr->settingValid(true);
 
     auto actuatorMock = TestControlPtr<ActuatorAnalogMock>::make(new ActuatorAnalogMock());
-    auto actuator = TestControlPtr<ActuatorAnalog>::make(actuatorMock);
+    auto actuator = TestControlPtr<ProcessValue<Pid::out_t>>::make(actuatorMock);
 
     Pid pid(setpoint, actuator);
     pid.enabled(true);
@@ -460,9 +460,10 @@ SCENARIO("PID Test with offset actuator", "[pid]")
     reference.ptr->setting(67);
     reference.ptr->settingValid(true);
 
-    auto actuator = TestControlPtr<ActuatorAnalog>::make(new ActuatorOffset(target, reference));
+    auto actuator = TestControlPtr<ActuatorOffset>::make(new ActuatorOffset(target, reference));
+    auto output = TestControlPtr<ProcessValue<Pid::out_t>>::make(actuator);
 
-    Pid pid(reference, actuator);
+    Pid pid(reference, output);
     pid.enabled(true);
 
     pid.kp(2);
@@ -561,10 +562,9 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
 
     ActuatorPwm pwm(constrainedDigital, 4000);
 
-    auto actuatorConstrained = TestControlPtr<ActuatorAnalogConstrained>::make(new ActuatorAnalogConstrained(pwm));
-    auto actuator = TestControlPtr<ActuatorAnalog>::make(actuatorConstrained);
-
-    Pid pid(setpoint, actuator);
+    auto actuator = TestControlPtr<ActuatorAnalogConstrained>::make(new ActuatorAnalogConstrained(pwm));
+    auto output = TestControlPtr<ProcessValue<Pid::out_t>>::make(actuator);
+    Pid pid(setpoint, output);
 
     pid.enabled(true);
 
@@ -580,7 +580,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             if (now >= nextPidUpdate) {
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 nextPidUpdate = now + 1000;
             }
         }
@@ -649,7 +649,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 sensorMock.ptr->setting(mockVal);
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 integralValue += double(pid.p() + pid.d()) / double(pid.kp());
                 nextPidUpdate = now + 1000;
             }
@@ -688,7 +688,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 sensorMock.ptr->setting(mockVal);
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 integralValue += double(pid.p() + pid.d()) / double(pid.kp());
                 nextPidUpdate = now + 1000;
             }
@@ -721,7 +721,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             if (now >= nextPidUpdate) {
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 nextPidUpdate = now + 1000;
             }
             ++now;
@@ -763,7 +763,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             if (now >= nextPidUpdate) {
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 nextPidUpdate = now + 1000;
             }
             ++now;
@@ -805,7 +805,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             if (now >= nextPidUpdate) {
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 nextPidUpdate = now + 1000;
             }
             ++now;
@@ -819,7 +819,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
 
         THEN("The integral will be reduced back to zero by the anti-windup after adding the constraint")
         {
-            actuatorConstrained.ptr->addConstraint(std::make_unique<AAConstraints::Maximum<1>>(40));
+            actuator.ptr->addConstraint(std::make_unique<AAConstraints::Maximum<1>>(40));
 
             start = now;
             while (now <= start + 1000'000) {
@@ -829,7 +829,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 if (now >= nextPidUpdate) {
                     setpoint.ptr->update();
                     pid.update();
-                    actuatorConstrained.ptr->update();
+                    actuator.ptr->update();
                     nextPidUpdate = now + 1000;
                 }
                 ++now;
@@ -857,7 +857,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 if (now >= nextPidUpdate) {
                     setpoint.ptr->update();
                     pid.update();
-                    actuatorConstrained.ptr->update();
+                    actuator.ptr->update();
                     nextPidUpdate = now + 1000;
                 }
                 ++now;
@@ -1068,7 +1068,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 sensorMock.ptr->setting(newTemp);
                 setpoint.ptr->update();
                 pid.update();
-                actuatorConstrained.ptr->update();
+                actuator.ptr->update();
                 nextPidUpdate = now + 1000;
             }
             if (!closeDuration && sensorMock.ptr->value() + 1 >= setpoint.ptr->setting()) {

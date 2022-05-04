@@ -35,7 +35,7 @@ public:
 
 private:
     ControlPtr<SetpointSensorPair>& m_inputPtr;
-    ControlPtr<ActuatorAnalog>& m_outputPtr;
+    ControlPtr<ProcessValue<Pid::out_t>>& m_outputPtr;
 
     // state
     in_t m_error = in_t{0};
@@ -62,7 +62,7 @@ private:
 public:
     explicit Pid(
         ControlPtr<SetpointSensorPair>& input,
-        ControlPtr<ActuatorAnalog>& output)
+        ControlPtr<ProcessValue<Pid::out_t>>& output)
         : m_inputPtr(input)
         , m_outputPtr(output)
     {
