@@ -19,6 +19,7 @@
 
 #include <catch.hpp>
 
+#include "TestControlPtr.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorAnalogMock.hpp"
 #include "control/Balancer.hpp"
@@ -90,7 +91,7 @@ SCENARIO("ActuatorAnalogConstrained test", "[constraints]")
 SCENARIO("When two analog actuators are constrained by a balancer", "[constraints]")
 {
     using value_t = ActuatorAnalog::value_t;
-    auto balancer = std::make_shared<Balancer<2>>();
+    auto balancer = TestControlPtr<Balancer<2>>::make(new Balancer<2>());
     ActuatorAnalogMock act1;
     act1.minSetting(0);
     act1.maxSetting(100);
@@ -100,8 +101,8 @@ SCENARIO("When two analog actuators are constrained by a balancer", "[constraint
     act2.maxSetting(100);
     ActuatorAnalogConstrained cAct2(act2);
 
-    cAct1.addConstraint(std::make_unique<AAConstraints::Balanced<2>>([balancer]() { return balancer; }));
-    cAct2.addConstraint(std::make_unique<AAConstraints::Balanced<2>>([balancer]() { return balancer; }));
+    cAct1.addConstraint(std::make_unique<AAConstraints::Balanced<2>>(balancer));
+    cAct2.addConstraint(std::make_unique<AAConstraints::Balanced<2>>(balancer));
 
     cAct1.setting(60);
     cAct2.setting(60);
@@ -114,21 +115,21 @@ SCENARIO("When two analog actuators are constrained by a balancer", "[constraint
 
     THEN("After the balancer has updated, the values are constrained to not exceed the maximum available for the balancer, weighted by previous request")
     {
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(60);
         cAct2.setting(60);
 
         CHECK(cAct1.setting() == Approx(50).margin(0.001));
         CHECK(cAct2.setting() == Approx(50).margin(0.001));
 
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(70);
         cAct2.setting(30);
 
         CHECK(cAct1.setting() == Approx(50).margin(0.001));
         CHECK(cAct2.setting() == Approx(30).margin(0.001));
 
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(70);
         cAct2.setting(30);
 
@@ -138,26 +139,26 @@ SCENARIO("When two analog actuators are constrained by a balancer", "[constraint
 
     THEN("Values that are clipped by the actuator are not used by the balancer")
     {
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(-60);
         cAct2.setting(-60);
 
-        for (auto& client : balancer->clients()) {
+        for (auto& client : balancer.ptr->clients()) {
             CHECK(client.requested == 0);
         }
 
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(-70);
         cAct2.setting(30);
 
-        for (auto& client : balancer->clients()) {
+        for (auto& client : balancer.ptr->clients()) {
             CHECK(client.requested >= 0);
         }
 
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(70);
         cAct2.setting(30);
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(70);
         cAct2.setting(30);
 
@@ -166,20 +167,20 @@ SCENARIO("When two analog actuators are constrained by a balancer", "[constraint
     }
     THEN("if the previous request didn't exceed the total, the excess is equally distributed for the granted values")
     {
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(20);
         cAct2.setting(0);
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(100);
         cAct2.setting(100);
 
         CHECK(cAct1.setting() == Approx(60).margin(0.001));
         CHECK(cAct2.setting() == Approx(40).margin(0.001));
 
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(0);
         cAct2.setting(0);
-        balancer->update();
+        balancer.ptr->update();
         cAct1.setting(100);
         cAct2.setting(100);
 
@@ -188,7 +189,7 @@ SCENARIO("When two analog actuators are constrained by a balancer", "[constraint
 
         AND_THEN("On the next request it is limited")
         {
-            balancer->update();
+            balancer.ptr->update();
             cAct1.setting(100);
             cAct2.setting(100);
             CHECK(cAct1.setting() == Approx(50).margin(0.001));
@@ -205,9 +206,9 @@ SCENARIO("When two analog actuators are constrained by a balancer", "[constraint
         {
             cAct1.setting(100);
             cAct2.setting(100);
-            balancer->update();
-            CHECK(balancer->clients()[0].requested == 20);
-            CHECK(balancer->clients()[1].requested == 30);
+            balancer.ptr->update();
+            CHECK(balancer.ptr->clients()[0].requested == 20);
+            CHECK(balancer.ptr->clients()[1].requested == 30);
         }
     }
 }
