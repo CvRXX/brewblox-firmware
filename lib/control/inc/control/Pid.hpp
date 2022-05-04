@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ControlPtr.hpp"
 #include "control/ProcessValue.hpp"
 #include "control/SetpointSensorPair.hpp"
@@ -34,7 +35,7 @@ public:
 
 private:
     ControlPtr<SetpointSensorPair>& m_inputPtr;
-    ControlPtr<ProcessValue<out_t>>& m_outputPtr;
+    ControlPtr<ActuatorAnalog>& m_outputPtr;
 
     // state
     in_t m_error = in_t{0};
@@ -61,7 +62,7 @@ private:
 public:
     explicit Pid(
         ControlPtr<SetpointSensorPair>& input,
-        ControlPtr<ProcessValue<out_t>>& output)
+        ControlPtr<ActuatorAnalog>& output)
         : m_inputPtr(input)
         , m_outputPtr(output)
     {

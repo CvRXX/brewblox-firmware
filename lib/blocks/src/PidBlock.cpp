@@ -31,8 +31,7 @@ struct __attribute__((packed)) PidCacheLayout {
 static constexpr uint16_t cacheInterval{5000};
 
 PidBlock::PidBlock()
-    : pvOutput(output)
-    , pid(input, pvOutput)
+    : pid(input, output)
 {
 }
 
