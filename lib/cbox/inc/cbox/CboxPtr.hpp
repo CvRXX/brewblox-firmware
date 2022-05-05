@@ -43,7 +43,10 @@ protected:
         : id(id)
     {
     }
-    virtual ~CboxPtrBase() = default;
+
+    // Class can't be used directly due to the protected constructor
+    // The destructor does not have to be virtual
+    ~CboxPtrBase() = default;
 
     std::shared_ptr<Object> lockObject();
 };
