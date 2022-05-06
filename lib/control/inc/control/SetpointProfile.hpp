@@ -32,7 +32,7 @@ public:
     };
 
 private:
-    const std::function<std::shared_ptr<SetpointSensorPair>()> m_target;
+    ControlPtr<SetpointSensorPair>& m_target;
     utc_seconds_t m_profileStartTime = 0;
     bool m_enabled = true;
 
@@ -40,7 +40,7 @@ private:
 
 public:
     explicit SetpointProfile(
-        std::function<std::shared_ptr<SetpointSensorPair>()>&& target) // process value to manipulate setpoint of
+        ControlPtr<SetpointSensorPair>& target) // process value to manipulate setpoint of
         : m_target(target)
     {
     }

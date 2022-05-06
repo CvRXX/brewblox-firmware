@@ -20,6 +20,7 @@
 #pragma once
 
 #include "control/ActuatorDigitalChangeLogged.hpp"
+#include "control/ControlPtr.hpp"
 #include "control/TicksTypes.hpp"
 #include <functional>
 #include <memory>
@@ -354,7 +355,7 @@ public:
 template <uint8_t ID>
 class Mutex : public Base {
 private:
-    const std::function<std::shared_ptr<MutexTarget>()> m_mutexTarget;
+    ControlPtr<MutexTarget>& m_mutexTarget;
     duration_millis_t m_holdAfterTurnOff;
     bool m_useCustomHoldDuration;
     // keep shared pointer to mutex, so it cannot be destroyed while locked
@@ -363,7 +364,7 @@ private:
 
 public:
     explicit Mutex(
-        std::function<std::shared_ptr<MutexTarget>()>&& mut, duration_millis_t hold, bool useCustomHold)
+        ControlPtr<MutexTarget>& mut, duration_millis_t hold, bool useCustomHold)
         : m_mutexTarget(mut)
         , m_holdAfterTurnOff(hold)
         , m_useCustomHoldDuration(useCustomHold)
@@ -401,7 +402,7 @@ public:
             return 0;
         }
         if (newState == State::Active) {
-            m_lockedMutex = m_mutexTarget(); // store shared pointer to target so it can't be deleted while locked
+            m_lockedMutex = m_mutexTarget.lock(); // store shared pointer to target so it can't be deleted while locked
             if (m_lockedMutex) {
                 m_lock = std::unique_lock<std::mutex>(m_lockedMutex->mut, std::try_to_lock);
                 if (m_lock) {

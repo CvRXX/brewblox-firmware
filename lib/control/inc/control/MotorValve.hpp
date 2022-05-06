@@ -47,7 +47,7 @@ public:
     static const uint8_t chanClosingHigh = 3;
 
 private:
-    const std::function<std::shared_ptr<DS2408>()> m_target;
+    ControlPtr<DS2408>& m_target;
     uint8_t m_startChannel = 0;
     uint8_t m_desiredChannel = 0;
 
@@ -55,7 +55,7 @@ private:
     ValveState m_actualValveState = ValveState::InitIdle;
 
 public:
-    explicit MotorValve(std::function<std::shared_ptr<DS2408>()>&& target, uint8_t startChan)
+    explicit MotorValve(ControlPtr<DS2408>& target, uint8_t startChan)
         : m_target(target)
     {
         startChannel(startChan);

@@ -29,7 +29,7 @@ using State = ActuatorDigitalBase::State;
 void ActuatorDigital::state(const State& v)
 {
     if (channelReady()) {
-        if (auto devPtr = m_target()) {
+        if (auto devPtr = m_target.lock()) {
             auto newState = v;
             if (m_invert) {
                 newState = invertState(v);
@@ -43,7 +43,7 @@ void ActuatorDigital::state(const State& v)
 State ActuatorDigital::state() const
 {
     if (channelReady()) {
-        if (auto devPtr = m_target()) {
+        if (auto devPtr = m_target.lock()) {
             State result = State::Unknown;
             if (devPtr->senseChannel(m_channel, result)) {
                 if (m_invert) {
@@ -59,7 +59,7 @@ State ActuatorDigital::state() const
 
 void ActuatorDigital::claimChannel()
 {
-    if (auto devPtr = m_target()) {
+    if (auto devPtr = m_target.lock()) {
         if (m_channel != 0) {
             if (!devPtr->releaseChannel(m_channel)) {
                 return;
@@ -78,7 +78,7 @@ void ActuatorDigital::claimChannel()
 
 bool ActuatorDigital::supportsFastIo() const
 {
-    if (auto devPtr = m_target()) {
+    if (auto devPtr = m_target.lock()) {
         return devPtr->supportsFastIo();
     }
     return false;

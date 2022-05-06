@@ -118,7 +118,7 @@ void MotorValve::update()
         claimChannel();
         return;
     }
-    if (auto devPtr = m_target()) {
+    if (auto devPtr = m_target.lock()) {
         m_actualValveState = getValveState(devPtr);
 
         if (m_desiredValveState == ValveState::Closing && m_actualValveState == ValveState::Closed) {
@@ -137,7 +137,7 @@ void MotorValve::update()
 
 void MotorValve::claimChannel()
 {
-    if (auto devPtr = m_target()) {
+    if (auto devPtr = m_target.lock()) {
         if (m_startChannel != 0) {
             for (uint8_t i = 0; i < 4; ++i) {
                 devPtr->releaseChannel(m_startChannel + i);

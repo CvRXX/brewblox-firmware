@@ -50,8 +50,8 @@ public:
      * Constructor initializes both caches to 0xFF.
      * This means the output latches are disabled and all pins are sensed high
      */
-    DS2408(std::function<std::shared_ptr<OneWire>()>&& getBus, OneWireAddress address = familyCode)
-        : OneWireDevice(std::move(getBus), address)
+    DS2408(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
+        : OneWireDevice(busPtr, address)
         , IoArray(8)
     {
     }

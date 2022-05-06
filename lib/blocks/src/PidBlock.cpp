@@ -31,10 +31,7 @@ struct __attribute__((packed)) PidCacheLayout {
 static constexpr uint16_t cacheInterval{5000};
 
 PidBlock::PidBlock()
-    : pid(input.lockFunctor(), [this]() {
-        // convert ActuatorConstrained to base ProcessValue
-        return std::shared_ptr<ProcessValue<Pid::out_t>>(this->output.lock());
-    })
+    : pid(input, output)
 {
 }
 
@@ -46,7 +43,7 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     message.inputId = input.getId();
     message.outputId = output.getId();
 
-    if (auto ptr = input.const_lock()) {
+    if (auto ptr = input.lock()) {
         if (ptr->valueValid()) {
             message.inputValue = cnl::unwrap(ptr->value());
         } else {
@@ -62,7 +59,7 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
         stripped.add(blox_Pid_Block_inputValue_tag);
     }
 
-    if (auto ptr = output.const_lock()) {
+    if (auto ptr = output.lock()) {
         if (ptr->valueValid()) {
             message.outputValue = cnl::unwrap(ptr->value());
         } else {

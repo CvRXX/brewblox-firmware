@@ -21,14 +21,14 @@
 
 #include "blocks/Block.hpp"
 #include "cbox/CboxPtr.hpp"
-#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorAnalog.hpp"
 #include "control/IntervalHelper.hpp"
 #include "control/Pid.hpp"
 
 class PidBlock final : public Block<brewblox_BlockType_Pid> {
 private:
     cbox::CboxPtr<SetpointSensorPair> input;
-    cbox::CboxPtr<ActuatorAnalogConstrained> output;
+    cbox::CboxPtr<ProcessValue<Pid::out_t>> output;
 
     Pid pid;
     IntervalHelper<1000> m_intervalHelper;

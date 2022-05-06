@@ -131,7 +131,7 @@ SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works
             // The offset it got matches static cast
             CHECK(static_cast<Nameable*>(nameableLiPtr.lock().get()) == ptr.get());
 
-            auto const_ptr = liPtr.const_lock_as<Nameable>();
+            auto const_ptr = liPtr.lock_as<Nameable>();
             CHECK(const_ptr != nullptr);
 
             // The offset it got matches static cast

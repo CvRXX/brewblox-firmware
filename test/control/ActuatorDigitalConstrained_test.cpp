@@ -19,6 +19,7 @@
 
 #include <catch.hpp>
 
+#include "TestControlPtr.hpp"
 #include "control/ActuatorDigital.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/MockIoArray.hpp"
@@ -30,7 +31,8 @@ SCENARIO("ActuatorDigitalConstrained", "[constraints]")
     auto now = ticks_millis_t(0);
 
     auto mockIo = std::make_shared<MockIoArray>();
-    ActuatorDigital mock([mockIo]() { return mockIo; }, 1);
+    auto io = TestControlPtr<IoArray>(mockIo);
+    ActuatorDigital mock(io, 1);
     ActuatorDigitalConstrained constrained(mock);
 
     WHEN("A minimum ON time constrained is added, the actuator cannot turn off before it has passed")
@@ -133,25 +135,18 @@ SCENARIO("ActuatorDigitalConstrained", "[constraints]")
 SCENARIO("Mutex contraint", "[constraints]")
 {
     auto now = ticks_millis_t(0);
-    auto mockIo = std::make_shared<MockIoArray>();
-    ActuatorDigital mock1([mockIo]() { return mockIo; }, 1);
+    auto mockIo = TestControlPtr<MockIoArray>(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(mockIo);
+    ActuatorDigital mock1(io, 1);
     ActuatorDigitalConstrained constrained1(mock1);
-    ActuatorDigital mock2([mockIo]() { return mockIo; }, 2);
+    ActuatorDigital mock2(io, 2);
     ActuatorDigitalConstrained constrained2(mock2);
-    auto mut = std::make_shared<MutexTarget>();
+    auto mut = TestControlPtr<MutexTarget>(new MutexTarget());
 
-    constrained1.addConstraint(std::make_unique<ADConstraints::Mutex<3>>(
-        [&mut]() {
-            return mut;
-        },
-        0,
-        true));
-    constrained2.addConstraint(std::make_unique<ADConstraints::Mutex<3>>(
-        [&mut]() {
-            return mut;
-        },
-        0,
-        true));
+    constrained1.addConstraint(
+        std::make_unique<ADConstraints::Mutex<3>>(mut, 0, true));
+    constrained2.addConstraint(
+        std::make_unique<ADConstraints::Mutex<3>>(mut, 0, true));
 
     WHEN("Two actuators share a mutex, they cannot be active at the same time")
     {
@@ -190,16 +185,10 @@ SCENARIO("Mutex contraint", "[constraints]")
     {
         constrained1.removeAllConstraints();
         constrained2.removeAllConstraints();
-        constrained1.addConstraint(std::make_unique<ADConstraints::Mutex<3>>(
-            [&mut]() {
-                return mut;
-            },
-            1000, true));
-        constrained2.addConstraint(std::make_unique<ADConstraints::Mutex<3>>(
-            [&mut]() {
-                return mut;
-            },
-            0, true));
+        constrained1.addConstraint(
+            std::make_unique<ADConstraints::Mutex<3>>(mut, 1000, true));
+        constrained2.addConstraint(
+            std::make_unique<ADConstraints::Mutex<3>>(mut, 0, true));
 
         constrained1.desiredState(State::Active, ++now);
         CHECK(constrained1.state() == State::Active);
@@ -217,7 +206,7 @@ SCENARIO("Mutex contraint", "[constraints]")
         {
             constrained2.desiredState(State::Active, ++now);
             CHECK(constrained2.state() == State::Inactive);
-            CHECK(mut->timeRemaining() == 1000);
+            CHECK(mut.ptr->timeRemaining() == 1000);
 
             while (constrained2.state() != State::Active && now < 2000) {
                 ++now;
@@ -239,18 +228,18 @@ SCENARIO("Mutex contraint", "[constraints]")
         {
             constrained2.desiredState(State::Active, ++now);
             CHECK(constrained2.state() == State::Inactive);
-            CHECK(mut->timeRemaining() == 1000);
+            CHECK(mut.ptr->timeRemaining() == 1000);
 
             while (constrained2.state() != State::Active && now < 500) {
                 ++now;
                 constrained1.update(now);
                 constrained2.update(now);
             }
-            CHECK(mut->timeRemaining() == 502);
+            CHECK(mut.ptr->timeRemaining() == 502);
 
             constrained1.desiredState(State::Active, ++now);
             constrained1.desiredState(State::Inactive, ++now);
-            CHECK(mut->timeRemaining() == 1000);
+            CHECK(mut.ptr->timeRemaining() == 1000);
 
             while (constrained2.state() != State::Active && now < 2000) {
                 ++now;
@@ -263,7 +252,7 @@ SCENARIO("Mutex contraint", "[constraints]")
 
         THEN("When the Mutex target is unavailable the actuators cannot go active, but already active actuators will reference their old mutex until it unlocks")
         {
-            mut.reset();
+            mut.ptr.reset();
             constrained1.desiredState(State::Active, ++now);
             constrained2.desiredState(State::Active, ++now);
             CHECK(constrained1.state() == State::Active);
@@ -283,20 +272,14 @@ SCENARIO("Mutex contraint", "[constraints]")
 
     WHEN("A default extra hold time of 1000ms is set on the Mutex and only act 2 has a custom hold time of 100ms")
     {
-        mut->holdAfterTurnOff(1000);
+        mut.ptr->holdAfterTurnOff(1000);
 
         constrained1.removeAllConstraints();
         constrained2.removeAllConstraints();
-        constrained1.addConstraint(std::make_unique<ADConstraints::Mutex<3>>(
-            [&mut]() {
-                return mut;
-            },
-            0, false));
-        constrained2.addConstraint(std::make_unique<ADConstraints::Mutex<3>>(
-            [&mut]() {
-                return mut;
-            },
-            100, true));
+        constrained1.addConstraint(
+            std::make_unique<ADConstraints::Mutex<3>>(mut, 0, false));
+        constrained2.addConstraint(
+            std::make_unique<ADConstraints::Mutex<3>>(mut, 100, true));
 
         constrained1.desiredState(State::Active, ++now);
         CHECK(constrained1.state() == State::Active);
@@ -357,7 +340,7 @@ SCENARIO("Mutex contraint", "[constraints]")
     {
         WHEN("Target IO module cannot be reached")
         {
-            mockIo->connected(false); // emulate disconnect
+            mockIo.ptr->connected(false); // emulate disconnect
 
             THEN("Desired state is still set correctly")
             {
@@ -381,7 +364,7 @@ SCENARIO("Mutex contraint", "[constraints]")
                     constrained2.desiredState(State::Inactive, 2008);
                     AND_WHEN("The target is connected again")
                     {
-                        mockIo->connected(true);
+                        mockIo.ptr->connected(true);
                         THEN("Turning the actuators is still handled correctly by the mutex")
                         {
                             constrained1.desiredState(State::Active, 2009);

@@ -35,7 +35,7 @@ public:
     /// Updates the widget with information from the object it's representing.
     void update()
     {
-        if (auto pAct = lookup.const_lock()) {
+        if (auto pAct = lookup.lock()) {
             if (pAct->valueValid()) {
                 setValue(temp_to_string(pAct->value(), 2, tempUnit));
             } else {
@@ -50,7 +50,7 @@ public:
 
             // if (auto pwmBlock = lookup.lock_as<ActuatorPwmBlock>()) {
             //     lv_obj_set_hidden(led, false);
-            //     if (auto pwmTarget = pwmBlock->targetLookup().const_lock()) {
+            //     if (auto pwmTarget = pwmBlock->targetLookup().lock()) {
             //         switch (pwmTarget->state()) {
             //         case ActuatorPwm::State::Inactive:
             //             setLed(false);

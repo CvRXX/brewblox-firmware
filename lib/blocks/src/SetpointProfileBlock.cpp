@@ -18,6 +18,7 @@
  */
 
 #include "blocks/SetpointProfileBlock.hpp"
+#include "AppTicks.hpp"
 #include "blocks/FieldTags.hpp"
 #include "pb_decode.h"
 #include "pb_encode.h"
@@ -115,10 +116,8 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 cbox::update_t
 SetpointProfileBlock::updateHandler(const cbox::update_t& now)
 {
-    if (auto pTicks = ticksPtr.const_lock()) {
-        auto time = pTicks->const_get().utc();
-        profile.update(time);
-    }
+    auto time = ticks.utc();
+    profile.update(time);
     return next_update_1s(now);
 }
 
