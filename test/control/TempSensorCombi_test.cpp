@@ -61,7 +61,10 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
         auto input3 = TestControlPtr<TempSensor>(mock3);
         auto input4 = TestControlPtr<TempSensor>(mock4);
 
-        combined.inputs = {&input1, &input2, &input3, &input4};
+        combined.inputs = {std::ref(input1),
+                           std::ref(input2),
+                           std::ref(input3),
+                           std::ref(input4)};
 
         THEN("The average is returned when AVG is selected")
         {

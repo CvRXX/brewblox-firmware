@@ -84,7 +84,7 @@ TempSensorCombiBlock::write(const cbox::Payload& payload)
         inputs.reserve(message.sensors_count);
         for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
             auto& input = inputs.emplace_back(message.sensors[i]);
-            sensor.inputs.push_back(std::ref(input));
+            sensor.inputs.emplace_back(input);
         }
     }
 
