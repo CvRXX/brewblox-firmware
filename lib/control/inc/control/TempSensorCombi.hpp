@@ -35,7 +35,7 @@ public:
         MAX = 2,
     };
 
-    std::vector<ControlPtr<TempSensor>*> inputs;
+    std::vector<std::reference_wrapper<ControlPtr<TempSensor>>> inputs;
     CombineFunc func = CombineFunc::AVG;
 
 private:

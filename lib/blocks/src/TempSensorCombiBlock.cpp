@@ -78,13 +78,13 @@ TempSensorCombiBlock::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);
-        inputs.clear();
-        inputs.reserve(message.sensors_count);
         sensor.inputs.clear();
         sensor.inputs.reserve(message.sensors_count);
+        inputs.clear();
+        inputs.reserve(message.sensors_count);
         for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
             auto& input = inputs.emplace_back(message.sensors[i]);
-            sensor.inputs.push_back(&input);
+            sensor.inputs.push_back(std::ref(input));
         }
     }
 

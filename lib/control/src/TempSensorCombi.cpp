@@ -27,8 +27,8 @@ void TempSensorCombi::update()
     case CombineFunc::AVG: {
         auto sum = safe_elastic_fixed_point<18, 12>{0};
         uint16_t count = 0;
-        for (auto* sensorPtr : inputs) {
-            if (auto sens = sensorPtr->lock()) {
+        for (auto& ref : inputs) {
+            if (auto sens = ref.get().lock()) {
                 if (sens->valid()) {
                     ++count;
                     sum += sens->value();
@@ -44,8 +44,8 @@ void TempSensorCombi::update()
         return;
     }
     case CombineFunc::MIN: {
-        for (auto* sensorPtr : inputs) {
-            if (auto sens = sensorPtr->lock()) {
+        for (auto& ref : inputs) {
+            if (auto sens = ref.get().lock()) {
                 if (sens->valid()) {
                     if (m_valid) {
                         auto v = sens->value();
@@ -62,8 +62,8 @@ void TempSensorCombi::update()
         return;
     }
     case CombineFunc::MAX: {
-        for (auto* sensorPtr : inputs) {
-            if (auto sens = sensorPtr->lock()) {
+        for (auto& ref : inputs) {
+            if (auto sens = ref.get().lock()) {
                 if (sens->valid()) {
                     if (m_valid) {
                         auto v = sens->value();
