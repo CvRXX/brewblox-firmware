@@ -148,11 +148,11 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
 {
     auto now = ticks_millis_t(0);
 
-    auto mockIo = TestControlPtr<MockIoArray>::make(new MockIoArray());
-    auto io = TestControlPtr<IoArray>::make(mockIo);
+    auto mockIo = TestControlPtr<MockIoArray>(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(mockIo);
     ActuatorDigital mock(io, 1);
 
-    auto constrained = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(mock));
+    auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(mock));
     ActuatorPwm pwm(constrained, 4000);
 
     WHEN("Actuator setting is written, setting is contrained between  0-100")
@@ -969,20 +969,20 @@ SCENARIO("Two PWM actuators driving mutually exclusive digital actuators")
     auto now = ticks_millis_t(0);
     auto period = duration_millis_t(4000);
 
-    auto mockIo = TestControlPtr<MockIoArray>::make(new MockIoArray());
-    auto io = TestControlPtr<IoArray>::make(mockIo);
+    auto mockIo = TestControlPtr<MockIoArray>(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(mockIo);
     ActuatorDigital mock1(io, 1);
 
-    auto constrainedMock1 = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(mock1));
+    auto constrainedMock1 = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(mock1));
     ActuatorPwm pwm1(constrainedMock1, 4000);
     ActuatorAnalogConstrained constrainedPwm1(pwm1);
     ActuatorDigital mock2(io, 2);
-    auto constrainedMock2 = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(mock2));
+    auto constrainedMock2 = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(mock2));
     ActuatorPwm pwm2(constrainedMock2, 4000);
     ActuatorAnalogConstrained constrainedPwm2(pwm2);
 
-    auto mut = TestControlPtr<MutexTarget>::make(new MutexTarget());
-    auto balancer = TestControlPtr<Balancer<2>>::make(new Balancer<2>());
+    auto mut = TestControlPtr<MutexTarget>(new MutexTarget());
+    auto balancer = TestControlPtr<Balancer<2>>(new Balancer<2>());
 
     constrainedMock1.ptr->addConstraint(
         std::make_unique<ADConstraints::Mutex<3>>(mut, 0, true));
@@ -1254,16 +1254,16 @@ SCENARIO("A PWM actuator driving a target with delayed ON and OFF time", "[pwm]"
     auto now = ticks_millis_t(0);
     auto period = duration_millis_t(4000);
 
-    auto mockIo = TestControlPtr<MockIoArray>::make(new MockIoArray());
-    auto io = TestControlPtr<IoArray>::make(mockIo);
+    auto mockIo = TestControlPtr<MockIoArray>(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(mockIo);
     ActuatorDigital mock1(io, 1);
 
-    auto constrainedMock1 = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(mock1));
+    auto constrainedMock1 = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(mock1));
     ActuatorPwm pwm1(constrainedMock1, 4000);
     ActuatorAnalogConstrained constrainedPwm1(pwm1);
 
-    auto mut = TestControlPtr<MutexTarget>::make(new MutexTarget());
-    auto balancer = TestControlPtr<Balancer<2>>::make(new Balancer<2>());
+    auto mut = TestControlPtr<MutexTarget>(new MutexTarget());
+    auto balancer = TestControlPtr<Balancer<2>>(new Balancer<2>());
 
     constrainedMock1.ptr->addConstraint(
         std::make_unique<ADConstraints::Mutex<3>>(mut, 0, true));
@@ -1306,15 +1306,15 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
 {
     auto now = ticks_millis_t(0);
     OneWireMockDriver mockOw;
-    auto ow = TestControlPtr<OneWire>::make(new OneWire(mockOw));
+    auto ow = TestControlPtr<OneWire>(new OneWire(mockOw));
     auto addr = OneWireAddress(0x0644'4444'4444'443A);
     auto ds2413mock = std::make_shared<DS2413Mock>(addr);
     mockOw.attach(ds2413mock); // DS2413
-    auto ds = TestControlPtr<DS2413>::make(new DS2413(ow, addr));
-    auto io = TestControlPtr<IoArray>::make(ds);
+    auto ds = TestControlPtr<DS2413>(new DS2413(ow, addr));
+    auto io = TestControlPtr<IoArray>(ds);
     ActuatorDigital act(io, 1);
     ds.ptr->update(); // connected update happens here
-    auto constrained = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(act));
+    auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));
     ActuatorPwm pwm(constrained, 4000);
 
     WHEN("update is called without delays, the average duty cycle is correct")
@@ -1378,14 +1378,14 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
 {
     auto now = ticks_millis_t(0);
     OneWireMockDriver mockOw;
-    auto ow = TestControlPtr<OneWire>::make(new OneWire(mockOw));
+    auto ow = TestControlPtr<OneWire>(new OneWire(mockOw));
     auto addr = OneWireAddress(0xDA55'5555'5555'5529);
     auto ds2408mock = std::make_shared<DS2408Mock>(addr);
     mockOw.attach(ds2408mock);
-    auto ds = TestControlPtr<DS2408>::make(new DS2408(ow, addr));
+    auto ds = TestControlPtr<DS2408>(new DS2408(ow, addr));
     MotorValve act(ds, 1);
 
-    auto constrained = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(act));
+    auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));
     ActuatorPwm pwm(constrained, 4000);
 
     WHEN("update is called without delays, the average duty cycle is correct")

@@ -31,7 +31,7 @@ SCENARIO("ActuatorDigitalConstrained", "[constraints]")
     auto now = ticks_millis_t(0);
 
     auto mockIo = std::make_shared<MockIoArray>();
-    auto io = TestControlPtr<IoArray>::make(mockIo);
+    auto io = TestControlPtr<IoArray>(mockIo);
     ActuatorDigital mock(io, 1);
     ActuatorDigitalConstrained constrained(mock);
 
@@ -135,13 +135,13 @@ SCENARIO("ActuatorDigitalConstrained", "[constraints]")
 SCENARIO("Mutex contraint", "[constraints]")
 {
     auto now = ticks_millis_t(0);
-    auto mockIo = TestControlPtr<MockIoArray>::make(new MockIoArray());
-    auto io = TestControlPtr<IoArray>::make(mockIo);
+    auto mockIo = TestControlPtr<MockIoArray>(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(mockIo);
     ActuatorDigital mock1(io, 1);
     ActuatorDigitalConstrained constrained1(mock1);
     ActuatorDigital mock2(io, 2);
     ActuatorDigitalConstrained constrained2(mock2);
-    auto mut = TestControlPtr<MutexTarget>::make(new MutexTarget());
+    auto mut = TestControlPtr<MutexTarget>(new MutexTarget());
 
     constrained1.addConstraint(
         std::make_unique<ADConstraints::Mutex<3>>(mut, 0, true));

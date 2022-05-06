@@ -26,15 +26,15 @@
 
 SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
 {
-    auto targetSensorMock = TestControlPtr<TempSensorMock>::make(new TempSensorMock(20.0));
-    auto referenceSensorMock = TestControlPtr<TempSensorMock>::make(new TempSensorMock(19.0));
-    auto targetSensor = TestControlPtr<TempSensor>::make(targetSensorMock);
-    auto referenceSensor = TestControlPtr<TempSensor>::make(referenceSensorMock);
+    auto targetSensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(20.0));
+    auto referenceSensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(19.0));
+    auto targetSensor = TestControlPtr<TempSensor>(targetSensorMock);
+    auto referenceSensor = TestControlPtr<TempSensor>(referenceSensorMock);
 
-    auto target = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(targetSensor));
+    auto target = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(targetSensor));
     target.ptr->settingValid(true);
 
-    auto reference = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(referenceSensor));
+    auto reference = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(referenceSensor));
     reference.ptr->settingValid(true);
 
     auto act = std::make_shared<ActuatorOffset>(target, reference);

@@ -28,8 +28,8 @@
 
 SCENARIO("SetpointProfile test", "[SetpointProfile]")
 {
-    auto sensor = TestControlPtr<TempSensor>::make(new TempSensorMock(20.0));
-    auto setpoint = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(sensor));
+    auto sensor = TestControlPtr<TempSensor>(new TempSensorMock(20.0));
+    auto setpoint = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(sensor));
     setpoint.ptr->setting(99);
     setpoint.ptr->settingValid(true);
     SetpointProfile profile(setpoint);

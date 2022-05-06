@@ -27,7 +27,7 @@ SCENARIO("SetpointSensorPair test")
 {
     WHEN("A SetpointSensorPair is constructed")
     {
-        auto sensor = TestControlPtr<TempSensor>::make(new TempSensorMock(21.0));
+        auto sensor = TestControlPtr<TempSensor>(new TempSensorMock(21.0));
         SetpointSensorPair setpoint(sensor);
 
         CHECK(setpoint.setting() == 20.0);

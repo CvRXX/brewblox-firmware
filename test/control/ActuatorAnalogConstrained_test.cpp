@@ -91,7 +91,7 @@ SCENARIO("ActuatorAnalogConstrained test", "[constraints]")
 SCENARIO("When two analog actuators are constrained by a balancer", "[constraints]")
 {
     using value_t = ActuatorAnalog::value_t;
-    auto balancer = TestControlPtr<Balancer<2>>::make(new Balancer<2>());
+    auto balancer = TestControlPtr<Balancer<2>>(new Balancer<2>());
     ActuatorAnalogMock act1;
     act1.minSetting(0);
     act1.maxSetting(100);

@@ -51,15 +51,15 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
     WHEN("4 sensors are added to the combi sensor")
     {
         TempSensorCombi combined;
-        auto mock1 = TestControlPtr<TempSensorMock>::make(new TempSensorMock(20));
-        auto mock2 = TestControlPtr<TempSensorMock>::make(new TempSensorMock(18));
-        auto mock3 = TestControlPtr<TempSensorMock>::make(new TempSensorMock(26));
-        auto mock4 = TestControlPtr<TempSensorMock>::make(new TempSensorMock(22));
+        auto mock1 = TestControlPtr<TempSensorMock>(new TempSensorMock(20));
+        auto mock2 = TestControlPtr<TempSensorMock>(new TempSensorMock(18));
+        auto mock3 = TestControlPtr<TempSensorMock>(new TempSensorMock(26));
+        auto mock4 = TestControlPtr<TempSensorMock>(new TempSensorMock(22));
 
-        auto input1 = TestControlPtr<TempSensor>::make(mock1);
-        auto input2 = TestControlPtr<TempSensor>::make(mock2);
-        auto input3 = TestControlPtr<TempSensor>::make(mock3);
-        auto input4 = TestControlPtr<TempSensor>::make(mock4);
+        auto input1 = TestControlPtr<TempSensor>(mock1);
+        auto input2 = TestControlPtr<TempSensor>(mock2);
+        auto input3 = TestControlPtr<TempSensor>(mock3);
+        auto input4 = TestControlPtr<TempSensor>(mock4);
 
         combined.inputs = {&input1, &input2, &input3, &input4};
 

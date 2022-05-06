@@ -27,7 +27,7 @@
 SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
 {
     using State = ActuatorDigitalBase::State;
-    auto io = TestControlPtr<IoArray>::make(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(new MockIoArray());
     ActuatorDigital mock(io, 1);
     ActuatorDigitalChangeLogged logged(mock);
     ticks_millis_t now = 1000;

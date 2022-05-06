@@ -35,15 +35,15 @@
 
 SCENARIO("PID Test with mock actuator", "[pid]")
 {
-    auto sensorMock = TestControlPtr<TempSensorMock>::make(new TempSensorMock(20.0));
-    auto sensor = TestControlPtr<TempSensor>::make(sensorMock);
+    auto sensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(20.0));
+    auto sensor = TestControlPtr<TempSensor>(sensorMock);
 
-    auto setpoint = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(sensor));
+    auto setpoint = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(sensor));
     setpoint.ptr->setting(20);
     setpoint.ptr->settingValid(true);
 
-    auto actuatorMock = TestControlPtr<ActuatorAnalogMock>::make(new ActuatorAnalogMock());
-    auto actuator = TestControlPtr<ProcessValue<Pid::out_t>>::make(actuatorMock);
+    auto actuatorMock = TestControlPtr<ActuatorAnalogMock>(new ActuatorAnalogMock());
+    auto actuator = TestControlPtr<ProcessValue<Pid::out_t>>(actuatorMock);
 
     Pid pid(setpoint, actuator);
     pid.enabled(true);
@@ -445,23 +445,23 @@ SCENARIO("PID Test with mock actuator", "[pid]")
 
 SCENARIO("PID Test with offset actuator", "[pid]")
 {
-    auto sensorMock = TestControlPtr<TempSensorMock>::make(new TempSensorMock(65.0));
-    auto referenceMock = TestControlPtr<TempSensorMock>::make(new TempSensorMock(65.0));
+    auto sensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(65.0));
+    auto referenceMock = TestControlPtr<TempSensorMock>(new TempSensorMock(65.0));
 
     // auto targetSensorPtr = TestControlPtr(std::static_pointer_cast<TempSensor>(targetSensor));
-    auto targetSensor = TestControlPtr<TempSensor>::make(sensorMock);
-    auto referenceSensor = TestControlPtr<TempSensor>::make(referenceMock);
+    auto targetSensor = TestControlPtr<TempSensor>(sensorMock);
+    auto referenceSensor = TestControlPtr<TempSensor>(referenceMock);
 
-    auto target = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(targetSensor));
+    auto target = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(targetSensor));
     target.ptr->setting(65);
     target.ptr->settingValid(true);
 
-    auto reference = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(referenceSensor));
+    auto reference = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(referenceSensor));
     reference.ptr->setting(67);
     reference.ptr->settingValid(true);
 
-    auto actuator = TestControlPtr<ActuatorOffset>::make(new ActuatorOffset(target, reference));
-    auto output = TestControlPtr<ProcessValue<Pid::out_t>>::make(actuator);
+    auto actuator = TestControlPtr<ActuatorOffset>(new ActuatorOffset(target, reference));
+    auto output = TestControlPtr<ProcessValue<Pid::out_t>>(actuator);
 
     Pid pid(reference, output);
     pid.enabled(true);
@@ -546,24 +546,24 @@ SCENARIO("PID Test with offset actuator", "[pid]")
 SCENARIO("PID Test with PWM actuator", "[pid]")
 {
     auto now = ticks_millis_t(0);
-    auto sensorMock = TestControlPtr<TempSensorMock>::make(new TempSensorMock(20.0));
-    auto sensor = TestControlPtr<TempSensor>::make(sensorMock);
+    auto sensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(20.0));
+    auto sensor = TestControlPtr<TempSensor>(sensorMock);
 
-    auto setpoint = TestControlPtr<SetpointSensorPair>::make(new SetpointSensorPair(sensor));
+    auto setpoint = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(sensor));
     setpoint.ptr->settingValid(true);
     setpoint.ptr->setting(20);
     setpoint.ptr->filterChoice(1);
     setpoint.ptr->filterThreshold(5);
 
-    auto mockIo = TestControlPtr<MockIoArray>::make(new MockIoArray());
-    auto io = TestControlPtr<IoArray>::make(mockIo);
+    auto mockIo = TestControlPtr<MockIoArray>(new MockIoArray());
+    auto io = TestControlPtr<IoArray>(mockIo);
     ActuatorDigital mock(io, 1);
-    auto constrainedDigital = TestControlPtr<ActuatorDigitalConstrained>::make(new ActuatorDigitalConstrained(mock));
+    auto constrainedDigital = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(mock));
 
     ActuatorPwm pwm(constrainedDigital, 4000);
 
-    auto actuator = TestControlPtr<ActuatorAnalogConstrained>::make(new ActuatorAnalogConstrained(pwm));
-    auto output = TestControlPtr<ProcessValue<Pid::out_t>>::make(actuator);
+    auto actuator = TestControlPtr<ActuatorAnalogConstrained>(new ActuatorAnalogConstrained(pwm));
+    auto output = TestControlPtr<ProcessValue<Pid::out_t>>(actuator);
     Pid pid(setpoint, output);
 
     pid.enabled(true);

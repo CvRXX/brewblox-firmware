@@ -50,7 +50,7 @@ makeValidAddress(OneWireAddress addr)
 SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 {
     OneWireMockDriver owMock;
-    auto ow = TestControlPtr<OneWire>::make(new OneWire(owMock));
+    auto ow = TestControlPtr<OneWire>(new OneWire(owMock));
     ow.ptr->init();
 
     WHEN("No devices are on the bus, reset returns false")
