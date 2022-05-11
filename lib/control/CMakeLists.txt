@@ -24,7 +24,6 @@ idf_component_register(
     src/OneWireMockDriver.cpp
     src/Pid.cpp
     src/SetpointProfile.cpp
-    src/Stepper.cpp
     src/SX1508.cpp
     src/Temperature.cpp
     src/TempSensorCombi.cpp

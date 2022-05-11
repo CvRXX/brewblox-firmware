@@ -18,9 +18,9 @@ idf_component_register(
     src/MutexBlock.cpp
     src/OneWireBusBlock.cpp
     src/PidBlock.cpp
+    src/SequenceBlock.cpp
     src/SetpointProfileBlock.cpp
     src/SetpointSensorPairBlock.cpp
-    src/StepperBlock.cpp
     src/SysInfoBlock.cpp
     src/TempSensorCombiBlock.cpp
     src/TempSensorMockBlock.cpp

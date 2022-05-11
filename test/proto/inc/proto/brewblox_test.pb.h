@@ -111,6 +111,7 @@ enum BlockType {
   OneWireBusInterface = 12,
   IoModuleInterface = 13,
   OneWireDeviceBlockInterface = 14,
+  EnablerInterface = 15,
   Any = 255,
   SysInfo = 256,
   Ticks = 257,
@@ -141,13 +142,13 @@ enum BlockType {
   MockPins = 323,
   TempSensorCombi = 324,
   OneWireGpioModule = 325,
-  Stepper = 326,
+  Sequence = 326,
   BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool BlockType_IsValid(int value);
 const BlockType BlockType_MIN = Invalid;
-const BlockType BlockType_MAX = Stepper;
+const BlockType BlockType_MAX = Sequence;
 const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BlockType_descriptor();

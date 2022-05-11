@@ -24,6 +24,7 @@
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/Balancer.hpp"
 #include "control/DS2408.hpp"
+#include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
 #include "control/IoArray.hpp"
 #include "control/IoModule.hpp"
@@ -125,6 +126,13 @@ obj_type_t
 interfaceIdImpl<OneWireDeviceBlock>()
 {
     return brewblox_BlockType_OneWireDeviceBlockInterface;
+}
+
+template <>
+obj_type_t
+interfaceIdImpl<Enabler>()
+{
+    return brewblox_BlockType_EnablerInterface;
 }
 
 } // end namespace cbox
