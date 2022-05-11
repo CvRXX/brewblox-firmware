@@ -52,7 +52,7 @@ void SetpointProfile::update(const utc_seconds_t& time)
         } else {
             return;
         }
-        if (auto targetPtr = m_target()) {
+        if (auto targetPtr = m_target.lock()) {
             targetPtr->setting(newTemp);
             targetPtr->settingValid(true);
         }

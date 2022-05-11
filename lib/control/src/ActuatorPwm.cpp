@@ -6,7 +6,7 @@
 #endif
 
 ActuatorPwm::ActuatorPwm(
-    std::function<std::shared_ptr<ActuatorDigitalConstrained>()>&& target_,
+    ControlPtr<ActuatorDigitalConstrained>& target_,
     duration_millis_t period_)
     : m_target(target_)
 {
@@ -65,7 +65,7 @@ void ActuatorPwm::manageTimerTask()
 void ActuatorPwm::period(const duration_millis_t& p)
 {
     m_period = p;
-    if (auto actPtr = m_target()) {
+    if (auto actPtr = m_target.lock()) {
         if (p < 1000 && !actPtr->supportsFastIo()) {
             m_period = 1000;
         }
@@ -92,7 +92,7 @@ void ActuatorPwm::timerTask()
 
     // timer clock is 10 kHz, 100 steps at 100Hz
     if (m_fastPwmElapsed == 0) {
-        auto actPtr = m_target();
+        auto actPtr = m_target.lock();
         if (m_dutyTime != 0 && actPtr) {
             if (actPtr->state() == State::Active) {
                 m_dutyAchieved = maxDuty(); // was never low
@@ -105,7 +105,7 @@ void ActuatorPwm::timerTask()
         m_fastPwmElapsed = 0;
     }
     if (m_fastPwmElapsed == m_dutyTime) {
-        if (auto actPtr = m_target()) {
+        if (auto actPtr = m_target.lock()) {
             actPtr->setStateUnlogged(State::Inactive);
             m_dutyAchieved = m_dutySetting;
         }
@@ -133,7 +133,7 @@ ActuatorPwm::update(const update_t& now)
 ActuatorPwm::update_t
 ActuatorPwm::slowPwmUpdate(const update_t& now)
 {
-    if (auto actPtr = m_target()) {
+    if (auto actPtr = m_target.lock()) {
         auto durations = actPtr->activeDurations(now);
         auto currentHighTime = durations.currentActive;
         auto previousHighTime = durations.previousActive;
@@ -395,7 +395,7 @@ bool ActuatorPwm::settingValid() const
 void ActuatorPwm::settingValid(bool v)
 {
     if (!v && m_enabled) {
-        if (auto actPtr = m_target()) {
+        if (auto actPtr = m_target.lock()) {
             actPtr->desiredState(State::Inactive);
         }
     }

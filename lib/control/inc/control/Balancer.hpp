@@ -21,6 +21,7 @@
 
 #include "control/ActuatorAnalog.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ControlPtr.hpp"
 #include <functional>
 #include <vector>
 
@@ -76,15 +77,15 @@ namespace AAConstraints {
 template <uint8_t ID>
 class Balanced : public Base {
 private:
-    const std::function<std::shared_ptr<Balancer<ID>>()> m_balancer;
+    ControlPtr<Balancer<ID>>& m_balancer;
     mutable uint8_t m_req_id; // can be updated by balancer in request
 
 public:
     explicit Balanced(
-        std::function<std::shared_ptr<Balancer<ID>>()>&& balancer)
+        ControlPtr<Balancer<ID>>& balancer)
         : m_balancer(balancer)
     {
-        if (auto balancerPtr = m_balancer()) {
+        if (auto balancerPtr = m_balancer.lock()) {
             m_req_id = balancerPtr->registerEntry();
         }
     }
@@ -94,14 +95,14 @@ public:
 
     virtual ~Balanced()
     {
-        if (auto balancerPtr = m_balancer()) {
+        if (auto balancerPtr = m_balancer.lock()) {
             balancerPtr->unregisterEntry(m_req_id);
         }
     }
 
     virtual value_t constrain(const value_t& val) const override final
     {
-        if (auto balancerPtr = m_balancer()) {
+        if (auto balancerPtr = m_balancer.lock()) {
             return balancerPtr->constrain(m_req_id, val);
         }
         return val;
@@ -119,7 +120,7 @@ public:
 
     value_t granted() const
     {
-        if (auto balancerPtr = m_balancer()) {
+        if (auto balancerPtr = m_balancer.lock()) {
             return balancerPtr->granted(m_req_id);
         }
         return 0;

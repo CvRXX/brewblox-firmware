@@ -27,8 +27,8 @@
  * /param oneWire_ The oneWire bus the device is connected to
  * /param address_ The oneWire address of the device to use.
  */
-OneWireDevice::OneWireDevice(std::function<std::shared_ptr<OneWire>()>&& getBus_, const OneWireAddress& address_)
-    : getBus(getBus_)
+OneWireDevice::OneWireDevice(ControlPtr<OneWire>& busPtr_, const OneWireAddress& address_)
+    : m_bus(busPtr_)
     , m_address(address_)
 {
 }
@@ -74,7 +74,7 @@ void OneWireDevice::connected(bool _connected)
 // return valid OneWire bus if both the bus and the device can be found
 std::shared_ptr<OneWire> OneWireDevice::selectRom() const
 {
-    if (auto oneWire = getBus()) {
+    if (auto oneWire = m_bus.lock()) {
         if (oneWire->reset() && oneWire->select(m_address)) {
             return oneWire;
         };

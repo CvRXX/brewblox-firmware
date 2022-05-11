@@ -289,8 +289,8 @@ public:
             return cbox::CboxError::NETWORK_WRITE_ERROR;
         }
 
-        auto sptr1 = ptr1.const_lock();
-        auto sptr2 = ptr2.const_lock();
+        auto sptr1 = ptr1.lock();
+        auto sptr2 = ptr2.lock();
         bool valid1 = bool(sptr1);
         bool valid2 = bool(sptr2);
         uint32_t value1 = 0;

@@ -24,7 +24,7 @@
 
 class SetpointSensorWidget : public ProcessValueWidgetBase {
 private:
-    cbox::CboxPtr<SetpointSensorPairBlock> lookup;
+    cbox::CboxPtr<SetpointSensorPair> lookup;
 
 public:
     SetpointSensorWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id);
@@ -32,12 +32,11 @@ public:
 
     virtual void update(const WidgetSettings& settings) override final;
 
-    static void
-    onClickStatic(void* thisPtr)
+    static void onClickStatic(void* thisPtr)
     {
     }
-    void
-    onClick()
+
+    void onClick()
     {
     }
 };

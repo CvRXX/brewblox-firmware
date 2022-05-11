@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ControlPtr.hpp"
 #include "control/ProcessValue.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include <cstring>
@@ -32,8 +34,8 @@ public:
     using derivative_t = SetpointSensorPair::derivative_t;
 
 private:
-    const std::function<std::shared_ptr<SetpointSensorPair>()> m_inputPtr;
-    const std::function<std::shared_ptr<ProcessValue<out_t>>()> m_outputPtr;
+    ControlPtr<SetpointSensorPair>& m_inputPtr;
+    ControlPtr<ProcessValue<Pid::out_t>>& m_outputPtr;
 
     // state
     in_t m_error = in_t{0};
@@ -59,8 +61,8 @@ private:
 
 public:
     explicit Pid(
-        std::function<std::shared_ptr<SetpointSensorPair>()>&& input,
-        std::function<std::shared_ptr<ProcessValue<out_t>>()>&& output)
+        ControlPtr<SetpointSensorPair>& input,
+        ControlPtr<ProcessValue<Pid::out_t>>& output)
         : m_inputPtr(input)
         , m_outputPtr(output)
     {
@@ -181,7 +183,7 @@ private:
     void active(bool state)
     {
         if (m_enabled && m_active && !state) {
-            if (auto ptr = m_outputPtr()) {
+            if (auto ptr = m_outputPtr.lock()) {
                 ptr->setting(0);
                 ptr->settingValid(false);
             }

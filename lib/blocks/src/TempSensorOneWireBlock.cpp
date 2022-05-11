@@ -23,19 +23,19 @@
 
 TempSensorOneWireBlock::TempSensorOneWireBlock()
     : OneWireDeviceBlock()
-    , sensor(owBus.lockFunctor())
+    , sensor(owBus)
 {
 }
 
 TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId)
     : OneWireDeviceBlock(busId)
-    , sensor(owBus.lockFunctor())
+    , sensor(owBus)
 {
 }
 
 TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr)
     : OneWireDeviceBlock(busId)
-    , sensor(owBus.lockFunctor(), addr)
+    , sensor(owBus, addr)
 {
 }
 

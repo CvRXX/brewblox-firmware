@@ -17,6 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "TestControlPtr.hpp"
 #include "control/ActuatorOffset.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include "control/TempSensorMock.hpp"
@@ -25,62 +26,62 @@
 
 SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
 {
-    auto targetSensor = std::make_shared<TempSensorMock>(20.0);
-    auto referenceSensor = std::make_shared<TempSensorMock>(19.0);
+    auto targetSensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(20.0));
+    auto referenceSensorMock = TestControlPtr<TempSensorMock>(new TempSensorMock(19.0));
+    auto targetSensor = TestControlPtr<TempSensor>(targetSensorMock);
+    auto referenceSensor = TestControlPtr<TempSensor>(referenceSensorMock);
 
-    auto target = std::make_shared<SetpointSensorPair>([targetSensor]() { return targetSensor; });
-    target->settingValid(true);
+    auto target = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(targetSensor));
+    target.ptr->settingValid(true);
 
-    auto reference = std::make_shared<SetpointSensorPair>([referenceSensor]() { return referenceSensor; });
-    reference->settingValid(true);
+    auto reference = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(referenceSensor));
+    reference.ptr->settingValid(true);
 
-    auto act = std::make_shared<ActuatorOffset>(
-        [target]() { return target; },
-        [reference]() { return reference; });
+    auto act = std::make_shared<ActuatorOffset>(target, reference);
 
     act->setting(0);
     act->update();
 
     WHEN("The actuator is written, the target is offset from the reference")
     {
-        reference->setting(20);
+        reference.ptr->setting(20);
         act->setting(10.0);
 
-        CHECK(reference->setting() == 20.0);
-        CHECK(target->setting() == 30.0);
+        CHECK(reference.ptr->setting() == 20.0);
+        CHECK(target.ptr->setting() == 30.0);
         CHECK(act->setting() == 10.0); // difference between setpoints is now 10
         CHECK(act->value() == 0.0);    // actual value is still zero, because targetSensor has not changed
 
-        targetSensor->setting(30.0);
-        target->resetFilter();
+        targetSensorMock.ptr->setting(30.0);
+        target.ptr->resetFilter();
         act->update();
         CHECK(act->value() == 10.0); // actual value is 10 when sensor has reached setpoint
 
         act->setting(-10.0);
-        CHECK(reference->setting() == 20.0);
-        CHECK(target->setting() == 10.0);
+        CHECK(reference.ptr->setting() == 20.0);
+        CHECK(target.ptr->setting() == 10.0);
         CHECK(act->setting() == -10.0); // difference between setpoints is now 10
         act->update();
 
         CHECK(act->value() == 10.0); // value is still 10, because targetSensor has not changed
 
-        targetSensor->setting(10.0);
-        target->resetFilter();
+        targetSensorMock.ptr->setting(10.0);
+        target.ptr->resetFilter();
         act->update();
         CHECK(act->value() == -10.0); // value is -10 when sensor has reached setpoint
 
-        reference->setting(10.0);
-        referenceSensor->setting(15.0);
-        reference->resetFilter();
-        target->setting(20.0);
-        targetSensor->setting(20.0);
-        target->resetFilter();
+        reference.ptr->setting(10.0);
+        referenceSensorMock.ptr->setting(15.0);
+        reference.ptr->resetFilter();
+        target.ptr->setting(20.0);
+        targetSensorMock.ptr->setting(20.0);
+        target.ptr->resetFilter();
         act->setting(12.0);
 
         // when using the reference setting as value to offset from (default):
         CHECK(act->value() == 10.0);   // value() returns target sensor - ref setpoint
         CHECK(act->setting() == 12.0); // setting() returns target setpoint - ref setpoint
-        CHECK(target->setting() == 22.0);
+        CHECK(target.ptr->setting() == 22.0);
 
         // when using the reference value as value to offset from:
         act->selectedReference(ActuatorOffset::ReferenceKind::VALUE);
@@ -88,7 +89,7 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
 
         CHECK(act->value() == 5.0);    // value() returns target sensor - ref sensor value
         CHECK(act->setting() == 12.0); // setting() returns target setpoint - ref sensor value
-        CHECK(target->setting() == 27.0);
+        CHECK(target.ptr->setting() == 27.0);
     }
 
     WHEN(
@@ -97,36 +98,36 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         "the target actuator is fully valid, because the reference sensor is unused")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::SETTING);
-        target->setting(20);
-        referenceSensor->connected(false);
+        target.ptr->setting(20);
+        referenceSensorMock.ptr->connected(false);
         act->setting(12.0);
 
-        CHECK(target->setting() == 32.0);
+        CHECK(target.ptr->setting() == 32.0);
         CHECK(act->settingValid() == true);
         CHECK(act->valueValid() == true);
         CHECK(act->value() == 0);
         CHECK(act->setting() == 12.0);
-        CHECK(target->settingValid() == true);
+        CHECK(target.ptr->settingValid() == true);
 
         AND_WHEN("The reference setting becomes invalid")
         {
-            reference->settingValid(false);
+            reference.ptr->settingValid(false);
             act->update();
             THEN("The target setting is set to invalid once, but not on subsequent updates")
             {
-                CHECK(target->settingValid() == false);
+                CHECK(target.ptr->settingValid() == false);
 
-                target->settingValid(true);
-                target->setting(33);
+                target.ptr->settingValid(true);
+                target.ptr->setting(33);
                 act->update();
-                CHECK(target->settingValid() == true);
-                CHECK(target->setting() == 33);
+                CHECK(target.ptr->settingValid() == true);
+                CHECK(target.ptr->setting() == 33);
 
-                target->settingValid(true);
-                target->setting(31);
+                target.ptr->settingValid(true);
+                target.ptr->setting(31);
                 act->update();
-                CHECK(target->settingValid() == true);
-                CHECK(target->setting() == 31);
+                CHECK(target.ptr->settingValid() == true);
+                CHECK(target.ptr->setting() == 31);
             }
         }
     }
@@ -137,17 +138,17 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         "target setpoint will be set to invalid, and actuator value is invalid and 0")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::SETTING);
-        referenceSensor->connected(true);
-        reference->settingValid(false);
+        referenceSensorMock.ptr->connected(true);
+        reference.ptr->settingValid(false);
         act->setting(12.0);
 
-        CHECK(target->setting() == 20.0); // unchanged
+        CHECK(target.ptr->setting() == 20.0); // unchanged
         CHECK(act->valueValid() == false);
         CHECK(act->settingValid() == false);
 
         CHECK(act->value() == 0);
         CHECK(act->setting() == 12.0); // setting() still returns requested offset
-        CHECK(target->settingValid() == false);
+        CHECK(target.ptr->settingValid() == false);
     }
 
     WHEN(
@@ -156,19 +157,19 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         "target setpoint will be invalid and actuator value is 0")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::VALUE);
-        target->setting(20);
-        referenceSensor->connected(false);
+        target.ptr->setting(20);
+        referenceSensorMock.ptr->connected(false);
         for (int i = 0; i <= 10; i++) {
-            reference->update(); // will only switch to invalid after 10s disconnected
+            reference.ptr->update(); // will only switch to invalid after 10s disconnected
         }
         act->setting(12.0);
 
-        CHECK(target->setting() == 20.0); // unchanged
+        CHECK(target.ptr->setting() == 20.0); // unchanged
         CHECK(act->valueValid() == false);
         CHECK(act->settingValid() == false);
         CHECK(act->value() == 0);
         CHECK(act->setting() == 12.0); // setting() still returns requested offset
-        CHECK(target->settingValid() == false);
+        CHECK(target.ptr->settingValid() == false);
     }
 
     WHEN(
@@ -177,23 +178,23 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         "target setpoint will be valid and actuator is fully valid")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::VALUE);
-        referenceSensor->connected(true);
-        reference->settingValid(false);
+        referenceSensorMock.ptr->connected(true);
+        reference.ptr->settingValid(false);
         act->setting(12.0);
 
-        CHECK(target->setting() == 31.0);
+        CHECK(target.ptr->setting() == 31.0);
         CHECK(act->valueValid() == true);
         CHECK(act->settingValid() == true);
         CHECK(act->value() == 1.0); // ref sensor value is 19, target sensor is 20
         CHECK(act->setting() == 12.0);
-        CHECK(target->settingValid() == true);
+        CHECK(target.ptr->settingValid() == true);
     }
 
     WHEN("The offset actuator is disabled")
     {
         act->setting(10.0);
-        CHECK(reference->setting() == 20.0);
-        CHECK(target->setting() == 30.0);
+        CHECK(reference.ptr->setting() == 20.0);
+        CHECK(target.ptr->setting() == 30.0);
         act->update();
         CHECK(act->setting() == 10.0); // difference between setpoints is 10
 
@@ -202,7 +203,7 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
 
         THEN("This action doesn't change the target")
         {
-            CHECK(target->setting() == 30.0);
+            CHECK(target.ptr->setting() == 30.0);
             CHECK(act->setting() == 10.0); // difference between setpoints is 10
         }
 
@@ -215,26 +216,26 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         {
             act->setting(50);
             act->update();
-            CHECK(target->setting() == 30.0); // still 20
+            CHECK(target.ptr->setting() == 30.0); // still 20
             AND_THEN("the target can be changed externally")
             {
-                target->setting(40);
+                target.ptr->setting(40);
                 act->setting(50);
                 act->update();
-                CHECK(target->setting() == 40.0);
+                CHECK(target.ptr->setting() == 40.0);
             }
 
             AND_WHEN("the offset actuator is enabled again")
             {
-                target->setting(40);
+                target.ptr->setting(40);
                 act->enabled(true);
                 act->update();
                 THEN("The actuator setting affects the target again")
                 {
                     act->setting(50);
                     act->update();
-                    CHECK(target->settingValid() == true);
-                    CHECK(target->setting() == 70.0);
+                    CHECK(target.ptr->settingValid() == true);
+                    CHECK(target.ptr->setting() == 70.0);
                 }
             }
         }

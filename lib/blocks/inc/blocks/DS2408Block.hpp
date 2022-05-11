@@ -34,19 +34,19 @@ private:
 public:
     DS2408Block()
         : OneWireDeviceBlock()
-        , device(owBus.lockFunctor())
+        , device(owBus)
     {
     }
 
     DS2408Block(cbox::obj_id_t busId)
         : OneWireDeviceBlock(busId)
-        , device(owBus.lockFunctor())
+        , device(owBus)
     {
     }
 
     DS2408Block(cbox::obj_id_t busId, const OneWireAddress& addr)
         : OneWireDeviceBlock(busId)
-        , device(owBus.lockFunctor(), addr)
+        , device(owBus, addr)
     {
     }
 

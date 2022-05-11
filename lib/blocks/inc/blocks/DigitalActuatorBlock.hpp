@@ -15,7 +15,7 @@ private:
 public:
     DigitalActuatorBlock()
         : hwDevice()
-        , actuator(hwDevice.lockFunctor(), 0)
+        , actuator(hwDevice, 0)
         , constrained(actuator)
     {
     }

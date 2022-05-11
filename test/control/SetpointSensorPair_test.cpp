@@ -17,6 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "TestControlPtr.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include "control/TempSensorMock.hpp"
 #include <catch.hpp>
@@ -26,13 +27,10 @@ SCENARIO("SetpointSensorPair test")
 {
     WHEN("A SetpointSensorPair is constructed")
     {
-        // create with make_shared to adhere to the expected interface of the pair
-        // usually the lookup functions are some sort of weak_pointers, we now use a simple lambda
-        auto sensor = std::make_shared<TempSensorMock>(21.0);
+        auto sensor = TestControlPtr<TempSensor>(new TempSensorMock(21.0));
+        SetpointSensorPair setpoint(sensor);
 
-        SetpointSensorPair pair([sensor]() { return sensor; });
-
-        CHECK(pair.setting() == 20.0);
-        CHECK(pair.value() == 21.0);
+        CHECK(setpoint.setting() == 20.0);
+        CHECK(setpoint.value() == 21.0);
     }
 }

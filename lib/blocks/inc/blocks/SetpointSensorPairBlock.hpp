@@ -30,7 +30,7 @@ private:
 
 public:
     SetpointSensorPairBlock()
-        : pair(sensor.lockFunctor())
+        : pair(sensor)
     {
     }
     ~SetpointSensorPairBlock() = default;

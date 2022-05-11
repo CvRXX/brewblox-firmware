@@ -21,8 +21,8 @@ private:
 
 public:
     CboxBalanced(const cbox::obj_id_t& objId)
-        : lookup(cbox::CboxPtr<Balancer_t>(objId))
-        , m_balanced(lookup.lockFunctor())
+        : lookup(objId)
+        , m_balanced(lookup)
     {
     }
 
@@ -128,8 +128,8 @@ private:
 
 public:
     CboxMutex(const cbox::obj_id_t& objId, duration_millis_t extraHoldTime, bool customHoldTime)
-        : lookup(cbox::CboxPtr<MutexTarget>(objId))
-        , m_mutexConstraint(lookup.lockFunctor(), extraHoldTime, customHoldTime)
+        : lookup(objId)
+        , m_mutexConstraint(lookup, extraHoldTime, customHoldTime)
     {
     }
 

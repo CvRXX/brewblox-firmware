@@ -19,6 +19,7 @@
 
 #include <catch.hpp>
 
+#include "TestControlPtr.hpp"
 #include "control/ActuatorDigital.hpp"
 #include "control/ActuatorDigitalChangeLogged.hpp"
 #include "control/MockIoArray.hpp"
@@ -26,9 +27,8 @@
 SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
 {
     using State = ActuatorDigitalBase::State;
-
-    auto mockIo = std::make_shared<MockIoArray>();
-    ActuatorDigital mock([mockIo]() { return mockIo; }, 1);
+    auto io = TestControlPtr<IoArray>(new MockIoArray());
+    ActuatorDigital mock(io, 1);
     ActuatorDigitalChangeLogged logged(mock);
     ticks_millis_t now = 1000;
 

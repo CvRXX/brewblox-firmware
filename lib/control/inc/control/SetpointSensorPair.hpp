@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "control/ControlPtr.hpp"
 #include "control/FixedPoint.hpp"
 #include "control/FpFilterChain.hpp"
 #include "control/ProcessValue.hpp"
@@ -37,14 +38,14 @@ public:
 private:
     temp_t m_setting = 20;
     bool m_settingEnabled = false;
-    const std::function<std::shared_ptr<TempSensor>()> m_sensor;
+    ControlPtr<TempSensor>& m_sensor;
     FpFilterChain<temp_t> m_filter;
     uint8_t m_sensorFailureCount = 255; // force a reset on init
     uint8_t m_filterNr = 1;
 
 public:
     explicit SetpointSensorPair(
-        std::function<std::shared_ptr<TempSensor>()>&& _sensor)
+        ControlPtr<TempSensor>& _sensor)
         : m_sensor(_sensor)
         , m_filter(1)
     {
@@ -76,7 +77,7 @@ public:
 
     temp_t valueUnfiltered() const
     {
-        if (auto sPtr = m_sensor()) {
+        if (auto sPtr = m_sensor.lock()) {
             return sPtr->value();
         } else {
             return 0;
@@ -90,7 +91,7 @@ public:
 
     bool sensorValid() const
     {
-        if (auto sens = m_sensor()) {
+        if (auto sens = m_sensor.lock()) {
             return sens->valid();
         }
         return false;

@@ -109,6 +109,7 @@ az storage blob upload \
 az storage blob upload \
     --output none \
     --no-progress \
+    --overwrite \
     --account-name brewblox \
     --container-name firmware \
     --name "${TAG}/firmware.ini" \

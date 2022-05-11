@@ -43,7 +43,7 @@ public:
     using update_t = ticks_millis_t;
 
 private:
-    const std::function<std::shared_ptr<ActuatorDigitalConstrained>()> m_target;
+    ControlPtr<ActuatorDigitalConstrained>& m_target;
     duration_millis_t m_period;
     duration_millis_t m_dutyTime = 0;
     value_t m_dutySetting = 0;
@@ -74,7 +74,7 @@ public:
      *  @sa getPeriod(), setPeriod(), getTarget(), setTarget()
      */
     explicit ActuatorPwm(
-        std::function<std::shared_ptr<ActuatorDigitalConstrained>()>&& target,
+        ControlPtr<ActuatorDigitalConstrained>& target,
         duration_millis_t period = 4000);
 
     ActuatorPwm(const ActuatorPwm&) = delete;
