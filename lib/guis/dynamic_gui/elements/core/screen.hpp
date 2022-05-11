@@ -21,6 +21,7 @@
 
 #include "element.hpp"
 #include "lvgl.h"
+#include "proto/guiMessage.pb.h"
 #include <type_traits>
 
 namespace gui::dynamic_interface {
@@ -31,33 +32,45 @@ public:
     Screen(T&& element)
         : element(std::make_unique<T>(std::move(element)))
     {
-        this->element->draw(lv_scr_act(), 480, 320);
+    }
+    Screen()
+        : element(nullptr)
+    {
     }
 
     Screen(std::unique_ptr<Element>&& element)
         : element(std::move(element))
     {
-        this->element->draw(lv_scr_act(), 480, 320);
     }
 
-    Screen(Screen&& screen)
-        : element(std::move(screen.element))
-    {
-    }
+    Screen(Screen&& screen) = default;
 
-    Screen& operator=(Screen&& screen)
-    {
-        element = std::move(screen.element);
-        return *this;
-    }
+    Screen& operator=(Screen&& screen) = default;
 
-    Screen(const Screen& screen) = delete;
+    Screen(const Screen& screen)
+        = delete;
 
     Screen& operator=(const Screen& screen) = delete;
 
     void update()
     {
-        element->update();
+        if (element) {
+            element->update();
+        }
+    }
+    void draw()
+    {
+        if (element) {
+            element->draw(lv_scr_act(), 480, 320);
+        }
+    }
+
+    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes)
+    {
+        if (element) {
+            return element->serialise(layoutNodes, contentNodes, 0);
+        }
+        return false;
     }
 
     std::unique_ptr<Element> element;

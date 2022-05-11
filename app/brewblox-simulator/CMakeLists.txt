@@ -17,14 +17,18 @@ main/*.cpp
 ../../lib/guis/dynamic_gui/styles/*.cpp
 ../../lib/guis/dynamic_gui/fonts/*.c
 ../../platform/simulator/*.cpp
+../../external_libs/nanopb/*.c
 ../../brewblox/blox
 ../../controlbox/src/
+../../lib/proto/inc/proto/*.c
 )
 
 include_directories(
     ../../platform/simulator
     ../../lib/guis
+    ../../lib/proto/inc
     ../../external_libs/cnl/include
+    ../../external_libs/nanopb
     ../../brewblox
     ../../platform/spark/device-os/third_party/nanopb/nanopb
     ../../controlbox/src/

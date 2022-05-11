@@ -21,6 +21,7 @@
 
 #include "dynamic_gui/elements/core/element.hpp"
 #include "dynamic_gui/util/lvgl-object-wrapper.hpp"
+#include "proto/guiMessage.pb.h"
 #include <numeric>
 
 namespace gui::dynamic_interface {
@@ -34,9 +35,10 @@ public:
      * Constructs a horizontal split.
      * @param ratioBlocks a list of ratioblocks to be displayed.
      */
-    HorizontalSplit(std::vector<std::unique_ptr<Element>>&& elements, uint16_t weight)
+    HorizontalSplit(std::vector<std::unique_ptr<Element>>&& elements, uint16_t weight, uint8_t layOutNodeId)
         : elements(std::move(elements))
         , weight(weight)
+        , layOutNodeId(layOutNodeId)
     {
     }
 
@@ -45,6 +47,16 @@ public:
         , placeholders(std::move(horizontalSplit.placeholders))
         , weight(horizontalSplit.weight)
     {
+    }
+
+    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t parentId) override
+    {
+        layoutNodes.push_back({parentId, layOutNodeId, guiMessage_Type_Row, weight});
+        for (auto& element : elements) {
+            if (!element->serialise(layoutNodes, contentNodes, layOutNodeId))
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -98,5 +110,6 @@ private:
     std::vector<LvglObjectWrapper> placeholders;
     std::vector<std::unique_ptr<Element>> elements;
     uint16_t weight = 1;
+    uint8_t layOutNodeId;
 };
 }

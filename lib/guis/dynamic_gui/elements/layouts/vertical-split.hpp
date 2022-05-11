@@ -34,9 +34,11 @@ public:
      * Constructs a vertical split.
      * @param ratioBlocks a list of ratioblocks to be displayed.
      */
-    VerticalSplit(std::vector<std::unique_ptr<Element>>&& elements, uint16_t weight)
+    VerticalSplit(std::vector<std::unique_ptr<Element>>&& elements, uint16_t weight, uint8_t layOutNodeId)
         : elements(std::move(elements))
         , weight(weight)
+        , layOutNodeId(layOutNodeId)
+
     {
     }
 
@@ -45,6 +47,16 @@ public:
         , placeholders(std::move(verticalSplit.placeholders))
         , weight(verticalSplit.weight)
     {
+    }
+
+    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t parentId) override
+    {
+        layoutNodes.push_back({parentId, layOutNodeId, guiMessage_Type_Column, weight});
+        for (auto& element : elements) {
+            if (!element->serialise(layoutNodes, contentNodes, layOutNodeId))
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -98,5 +110,6 @@ private:
     std::vector<LvglObjectWrapper> placeholders;
     std::vector<std::unique_ptr<Element>> elements;
     uint16_t weight = 1;
+    uint8_t layOutNodeId;
 };
 }

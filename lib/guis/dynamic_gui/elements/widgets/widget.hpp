@@ -18,70 +18,18 @@
  */
 
 #pragma once
-
-#include "dynamic_gui/elements/core/color.hpp"
-#include "dynamic_gui/elements/core/element.hpp"
-#include "dynamic_gui/styles/styles.hpp"
+#include "lvgl.h"
 
 namespace gui::dynamic_interface {
 
 /**
- * A base class for widgets.
+ * A virtual base class for a generic gui element.
  */
-class Widget : public Element {
+class Widget { // Rename this into something that is not confusing with brewblox blocks.
 public:
-    /**
-     * Constructs a widget.
-     * @param color The background color of the widget.
-     */
-    constexpr Widget(Color color, uint16_t weight)
-        : color(color)
-        , weight(weight)
-    {
-    }
-
-    Widget(Widget&& widget) = default;
-
-    void update() override
-    {
-    }
-
-    uint16_t getWeight() const override
-    {
-        return weight;
-    }
-
-    /**
-     * Draws the widget in its parent placeholder.
-     * @param placeholder The parent placeholder.
-     * @param with The with of the parent placeholder.
-     * @param height The height of the parent placeholder.
-     */
-    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
-    {
-        contentArea.reset(lv_obj_create(placeholder));
-        lv_obj_clear_flag(placeholder, LV_OBJ_FLAG_SCROLLABLE);
-        lv_obj_clear_flag(contentArea.get(), LV_OBJ_FLAG_SCROLLABLE);
-        lv_obj_set_size(contentArea.get(), lv_pct(100), lv_pct(100));
-        lv_obj_add_style(placeholder, &style::block, LV_STATE_DEFAULT);
-        lv_obj_set_style_bg_color(contentArea.get(), color.lvglColor(), LV_STATE_DEFAULT);
-        lv_obj_add_style(contentArea.get(), luminance() < 128 ? &style::bg_dark : &style::bg_light, 0);
-    }
-
-    /**
-     * Returns the luminance of the background color.
-     * This is useful for choosing font colors with readable contrast.
-     * @return The luminance
-     */
-    constexpr uint8_t luminance()
-    {
-        return (uint16_t{54} * color.r + uint16_t{183} * color.g + uint16_t{18} * color.b) / 256;
-    }
-
-protected:
-    const Color color;
-    uint16_t weight;
-    LvglObjectWrapper contentArea = nullptr;
+    virtual void update() = 0;
+    virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
+    virtual bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId) = 0;
 };
 
 }

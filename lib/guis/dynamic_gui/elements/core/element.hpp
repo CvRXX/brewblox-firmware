@@ -19,6 +19,7 @@
 
 #pragma once
 #include "lvgl.h"
+#include "proto/guiMessage.pb.h"
 
 namespace gui::dynamic_interface {
 
@@ -30,7 +31,11 @@ public:
     virtual void update() = 0;
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
     virtual uint16_t getWeight() const = 0;
+<<<<<<< HEAD
     virtual ~Element() = default;
+=======
+    virtual bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentnodes, uint8_t parentId) = 0;
+>>>>>>> 5879f7de4209caf32f65dd5224421e43b0a13949
 };
 
 }
