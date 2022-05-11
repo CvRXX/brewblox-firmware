@@ -34,7 +34,7 @@ public:
         this->element->draw(lv_scr_act(), 480, 320);
     }
 
-    Screen(std::unique_ptr<Element> element)
+    Screen(std::unique_ptr<Element>&& element)
         : element(std::move(element))
     {
         this->element->draw(lv_scr_act(), 480, 320);

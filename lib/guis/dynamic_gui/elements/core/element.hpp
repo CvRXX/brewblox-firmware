@@ -30,6 +30,7 @@ public:
     virtual void update() = 0;
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
     virtual uint16_t getWeight() const = 0;
+    virtual ~Element() = default;
 };
 
 }
