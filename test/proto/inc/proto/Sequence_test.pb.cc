@@ -502,6 +502,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::WaitPwm, target_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::WaitPwm, precision_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::StartWaitProfile, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -574,11 +575,11 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 59, -1, sizeof(::blox_test::Sequence::WaitDigital)},
   { 65, -1, sizeof(::blox_test::Sequence::SetPwm)},
   { 72, -1, sizeof(::blox_test::Sequence::WaitPwm)},
-  { 78, -1, sizeof(::blox_test::Sequence::StartWaitProfile)},
-  { 84, -1, sizeof(::blox_test::Sequence::StartWaitSequence)},
-  { 90, -1, sizeof(::blox_test::Sequence::Instruction)},
-  { 114, -1, sizeof(::blox_test::Sequence::InstructionReset)},
-  { 121, -1, sizeof(::blox_test::Sequence::Block)},
+  { 79, -1, sizeof(::blox_test::Sequence::StartWaitProfile)},
+  { 85, -1, sizeof(::blox_test::Sequence::StartWaitSequence)},
+  { 91, -1, sizeof(::blox_test::Sequence::Instruction)},
+  { 115, -1, sizeof(::blox_test::Sequence::InstructionReset)},
+  { 122, -1, sizeof(::blox_test::Sequence::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -642,61 +643,62 @@ void AddDescriptorsImpl() {
       "IoArray.DigitalState\"*\n\013WaitDigital\022\033\n\006t"
       "arget\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\"E\n\006SetPwm\022\034\n\006ta"
       "rget\030\001 \001(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\022\035\n\007setting\030\002 \001("
-      "\021B\014\212\265\030\003\020\200 \222\?\0028 \"\'\n\007WaitPwm\022\034\n\006target\030\001 \001"
-      "(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\"0\n\020StartWaitProfile\022\034\n\006"
-      "target\030\001 \001(\rB\014\212\265\030\003\030\267\002\222\?\0028\020\"1\n\021StartWaitS"
-      "equence\022\034\n\006target\030\001 \001(\rB\014\212\265\030\003\030\306\002\222\?\0028\020\"\275\010"
-      "\n\013Instruction\022.\n\007restart\030\001 \001(\0132\033.blox_te"
-      "st.Sequence.RestartH\000\0223\n\006enable\030\002 \001(\0132!."
-      "blox_test.Sequence.EnableDisableH\000\0224\n\007di"
-      "sable\030\003 \001(\0132!.blox_test.Sequence.EnableD"
-      "isableH\000\0228\n\014waitDuration\030\004 \001(\0132 .blox_te"
-      "st.Sequence.WaitDurationH\000\0222\n\twaitUntil\030"
-      "\005 \001(\0132\035.blox_test.Sequence.WaitUntilH\000\022>"
-      "\n\017waitTemperature\030\006 \001(\0132#.blox_test.Sequ"
-      "ence.WaitTemperatureH\000\022K\n\024waitTemperatur"
-      "eAbove\030\007 \001(\0132+.blox_test.Sequence.WaitTe"
-      "mperatureBoundaryH\000\022K\n\024waitTemperatureBe"
-      "low\030\010 \001(\0132+.blox_test.Sequence.WaitTempe"
-      "ratureBoundaryH\000\0226\n\013setSetpoint\030\t \001(\0132\037."
-      "blox_test.Sequence.SetSetpointH\000\0228\n\014wait"
-      "Setpoint\030\n \001(\0132 .blox_test.Sequence.Wait"
-      "SetpointH\000\0224\n\nsetDigital\030\013 \001(\0132\036.blox_te"
-      "st.Sequence.SetDigitalH\000\0226\n\013waitDigital\030"
-      "\014 \001(\0132\037.blox_test.Sequence.WaitDigitalH\000"
-      "\022,\n\006setPwm\030\r \001(\0132\032.blox_test.Sequence.Se"
-      "tPwmH\000\022.\n\007waitPwm\030\016 \001(\0132\033.blox_test.Sequ"
-      "ence.WaitPwmH\000\022<\n\014startProfile\030\017 \001(\0132$.b"
-      "lox_test.Sequence.StartWaitProfileH\000\022;\n\013"
-      "waitProfile\030\020 \001(\0132$.blox_test.Sequence.S"
-      "tartWaitProfileH\000\022>\n\rstartSequence\030\021 \001(\013"
-      "2%.blox_test.Sequence.StartWaitSequenceH"
-      "\000\022=\n\014waitSequence\030\022 \001(\0132%.blox_test.Sequ"
-      "ence.StartWaitSequenceH\000B\023\n\021instruction_"
-      "oneof\"_\n\020InstructionReset\022 \n\021activeInstr"
-      "uction\030\001 \001(\rB\005\222\?\0028\020\022)\n\032activeInstruction"
-      "StartedAt\030\002 \001(\rB\005\222\?\0028 \"\317\003\n\005Block\022\027\n\007enab"
-      "led\030\001 \001(\010B\006\212\265\030\0020\001\0225\n\014instructions\030\002 \003(\0132"
-      "\037.blox_test.Sequence.Instruction\0225\n\005rese"
-      "t\030\003 \001(\0132$.blox_test.Sequence.Instruction"
-      "ResetH\000\022,\n\021activeInstruction\030\004 \001(\rB\021\222\?\0028"
-      "\020\212\265\030\0020\001\212\265\030\002(\001\0225\n\032activeInstructionStarte"
-      "dAt\030\005 \001(\rB\021\222\?\0028 \212\265\030\0020\001\212\265\030\002(\001\022\037\n\ndisabled"
-      "At\030\006 \001(\rB\013\222\?\0028 \212\265\030\002(\001\022%\n\020disabledDuratio"
-      "n\030\007 \001(\rB\013\222\?\0028 \212\265\030\002(\001\022:\n\006status\030\010 \001(\0162\".b"
-      "lox_test.Sequence.SequenceStatusB\006\212\265\030\002(\001"
-      "\0228\n\005error\030\t \001(\0162!.blox_test.Sequence.Seq"
-      "uenceErrorB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H\017B\r\n\013res"
-      "et_oneof*r\n\016SequenceStatus\022\013\n\007UNKNOWN\020\000\022"
-      "\014\n\010DISABLED\020\001\022\n\n\006PAUSED\020\002\022\n\n\006ACTIVE\020\003\022\013\n"
-      "\007WAITING\020\004\022\010\n\004DONE\020\005\022\013\n\007RESTART\020\006\022\t\n\005ERR"
-      "OR\020\007*\220\001\n\rSequenceError\022\010\n\004NONE\020\000\022\024\n\020INVA"
-      "LID_ARGUMENT\020\001\022\022\n\016INVALID_TARGET\020\002\022\027\n\023IN"
-      "VALID_TARGET_TYPE\020\003\022\023\n\017TARGET_DISABLED\020\004"
-      "\022\035\n\031SYSTEM_TIME_NOT_AVAILABLE\020\005b\006proto3"
+      "\021B\014\212\265\030\003\020\200 \222\?\0028 \"H\n\007WaitPwm\022\034\n\006target\030\001 \001"
+      "(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\022\037\n\tprecision\030\002 \001(\021B\014\212\265\030"
+      "\003\020\200 \222\?\0028 \"0\n\020StartWaitProfile\022\034\n\006target\030"
+      "\001 \001(\rB\014\212\265\030\003\030\267\002\222\?\0028\020\"1\n\021StartWaitSequence"
+      "\022\034\n\006target\030\001 \001(\rB\014\212\265\030\003\030\306\002\222\?\0028\020\"\275\010\n\013Instr"
+      "uction\022.\n\007restart\030\001 \001(\0132\033.blox_test.Sequ"
+      "ence.RestartH\000\0223\n\006enable\030\002 \001(\0132!.blox_te"
+      "st.Sequence.EnableDisableH\000\0224\n\007disable\030\003"
+      " \001(\0132!.blox_test.Sequence.EnableDisableH"
+      "\000\0228\n\014waitDuration\030\004 \001(\0132 .blox_test.Sequ"
+      "ence.WaitDurationH\000\0222\n\twaitUntil\030\005 \001(\0132\035"
+      ".blox_test.Sequence.WaitUntilH\000\022>\n\017waitT"
+      "emperature\030\006 \001(\0132#.blox_test.Sequence.Wa"
+      "itTemperatureH\000\022K\n\024waitTemperatureAbove\030"
+      "\007 \001(\0132+.blox_test.Sequence.WaitTemperatu"
+      "reBoundaryH\000\022K\n\024waitTemperatureBelow\030\010 \001"
+      "(\0132+.blox_test.Sequence.WaitTemperatureB"
+      "oundaryH\000\0226\n\013setSetpoint\030\t \001(\0132\037.blox_te"
+      "st.Sequence.SetSetpointH\000\0228\n\014waitSetpoin"
+      "t\030\n \001(\0132 .blox_test.Sequence.WaitSetpoin"
+      "tH\000\0224\n\nsetDigital\030\013 \001(\0132\036.blox_test.Sequ"
+      "ence.SetDigitalH\000\0226\n\013waitDigital\030\014 \001(\0132\037"
+      ".blox_test.Sequence.WaitDigitalH\000\022,\n\006set"
+      "Pwm\030\r \001(\0132\032.blox_test.Sequence.SetPwmH\000\022"
+      ".\n\007waitPwm\030\016 \001(\0132\033.blox_test.Sequence.Wa"
+      "itPwmH\000\022<\n\014startProfile\030\017 \001(\0132$.blox_tes"
+      "t.Sequence.StartWaitProfileH\000\022;\n\013waitPro"
+      "file\030\020 \001(\0132$.blox_test.Sequence.StartWai"
+      "tProfileH\000\022>\n\rstartSequence\030\021 \001(\0132%.blox"
+      "_test.Sequence.StartWaitSequenceH\000\022=\n\014wa"
+      "itSequence\030\022 \001(\0132%.blox_test.Sequence.St"
+      "artWaitSequenceH\000B\023\n\021instruction_oneof\"_"
+      "\n\020InstructionReset\022 \n\021activeInstruction\030"
+      "\001 \001(\rB\005\222\?\0028\020\022)\n\032activeInstructionStarted"
+      "At\030\002 \001(\rB\005\222\?\0028 \"\317\003\n\005Block\022\027\n\007enabled\030\001 \001"
+      "(\010B\006\212\265\030\0020\001\0225\n\014instructions\030\002 \003(\0132\037.blox_"
+      "test.Sequence.Instruction\0225\n\005reset\030\003 \001(\013"
+      "2$.blox_test.Sequence.InstructionResetH\000"
+      "\022,\n\021activeInstruction\030\004 \001(\rB\021\222\?\0028\020\212\265\030\0020\001"
+      "\212\265\030\002(\001\0225\n\032activeInstructionStartedAt\030\005 \001"
+      "(\rB\021\222\?\0028 \212\265\030\0020\001\212\265\030\002(\001\022\037\n\ndisabledAt\030\006 \001("
+      "\rB\013\222\?\0028 \212\265\030\002(\001\022%\n\020disabledDuration\030\007 \001(\r"
+      "B\013\222\?\0028 \212\265\030\002(\001\022:\n\006status\030\010 \001(\0162\".blox_tes"
+      "t.Sequence.SequenceStatusB\006\212\265\030\002(\001\0228\n\005err"
+      "or\030\t \001(\0162!.blox_test.Sequence.SequenceEr"
+      "rorB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H\017B\r\n\013reset_oneo"
+      "f*r\n\016SequenceStatus\022\013\n\007UNKNOWN\020\000\022\014\n\010DISA"
+      "BLED\020\001\022\n\n\006PAUSED\020\002\022\n\n\006ACTIVE\020\003\022\013\n\007WAITIN"
+      "G\020\004\022\010\n\004DONE\020\005\022\013\n\007RESTART\020\006\022\t\n\005ERROR\020\007*\220\001"
+      "\n\rSequenceError\022\010\n\004NONE\020\000\022\024\n\020INVALID_ARG"
+      "UMENT\020\001\022\022\n\016INVALID_TARGET\020\002\022\027\n\023INVALID_T"
+      "ARGET_TYPE\020\003\022\023\n\017TARGET_DISABLED\020\004\022\035\n\031SYS"
+      "TEM_TIME_NOT_AVAILABLE\020\005b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2879);
+      descriptor, 2912);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Sequence_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -3461,6 +3463,7 @@ void WaitPwm::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int WaitPwm::kTargetFieldNumber;
+const int WaitPwm::kPrecisionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 WaitPwm::WaitPwm()
@@ -3474,12 +3477,16 @@ WaitPwm::WaitPwm(const WaitPwm& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  target_ = from.target_;
+  ::memcpy(&target_, &from.target_,
+    static_cast<size_t>(reinterpret_cast<char*>(&precision_) -
+    reinterpret_cast<char*>(&target_)) + sizeof(precision_));
   // @@protoc_insertion_point(copy_constructor:blox_test.Sequence.WaitPwm)
 }
 
 void WaitPwm::SharedCtor() {
-  target_ = 0u;
+  ::memset(&target_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&precision_) -
+      reinterpret_cast<char*>(&target_)) + sizeof(precision_));
 }
 
 WaitPwm::~WaitPwm() {
@@ -3510,7 +3517,9 @@ void WaitPwm::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  target_ = 0u;
+  ::memset(&target_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&precision_) -
+      reinterpret_cast<char*>(&target_)) + sizeof(precision_));
   _internal_metadata_.Clear();
 }
 
@@ -3532,6 +3541,20 @@ bool WaitPwm::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &target_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // sint32 precision = 2 [(.nanopb) = {
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &precision_)));
         } else {
           goto handle_unusual;
         }
@@ -3569,6 +3592,11 @@ void WaitPwm::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->target(), output);
   }
 
+  // sint32 precision = 2 [(.nanopb) = {
+  if (this->precision() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(2, this->precision(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -3586,6 +3614,11 @@ void WaitPwm::SerializeWithCachedSizes(
   // uint32 target = 1 [(.nanopb) = {
   if (this->target() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->target(), target);
+  }
+
+  // sint32 precision = 2 [(.nanopb) = {
+  if (this->precision() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->precision(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3610,6 +3643,13 @@ size_t WaitPwm::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->target());
+  }
+
+  // sint32 precision = 2 [(.nanopb) = {
+  if (this->precision() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->precision());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -3642,6 +3682,9 @@ void WaitPwm::MergeFrom(const WaitPwm& from) {
   if (from.target() != 0) {
     set_target(from.target());
   }
+  if (from.precision() != 0) {
+    set_precision(from.precision());
+  }
 }
 
 void WaitPwm::CopyFrom(const ::google::protobuf::Message& from) {
@@ -3669,6 +3712,7 @@ void WaitPwm::Swap(WaitPwm* other) {
 void WaitPwm::InternalSwap(WaitPwm* other) {
   using std::swap;
   swap(target_, other->target_);
+  swap(precision_, other->precision_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

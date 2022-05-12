@@ -101,6 +101,7 @@ typedef struct _blox_Sequence_WaitDuration {
 
 typedef struct _blox_Sequence_WaitPwm {
     uint16_t target;
+    int32_t precision;
 /* @@protoc_insertion_point(struct:blox_Sequence_WaitPwm) */
 } blox_Sequence_WaitPwm;
 
@@ -183,7 +184,7 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_SetDigital_init_default    {0, _blox_IoArray_DigitalState_MIN}
 #define blox_Sequence_WaitDigital_init_default   {0}
 #define blox_Sequence_SetPwm_init_default        {0, 0}
-#define blox_Sequence_WaitPwm_init_default       {0}
+#define blox_Sequence_WaitPwm_init_default       {0, 0}
 #define blox_Sequence_StartWaitProfile_init_default {0}
 #define blox_Sequence_StartWaitSequence_init_default {0}
 #define blox_Sequence_Instruction_init_default   {0, {blox_Sequence_Restart_init_default}}
@@ -200,7 +201,7 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_SetDigital_init_zero       {0, _blox_IoArray_DigitalState_MIN}
 #define blox_Sequence_WaitDigital_init_zero      {0}
 #define blox_Sequence_SetPwm_init_zero           {0, 0}
-#define blox_Sequence_WaitPwm_init_zero          {0}
+#define blox_Sequence_WaitPwm_init_zero          {0, 0}
 #define blox_Sequence_StartWaitProfile_init_zero {0}
 #define blox_Sequence_StartWaitSequence_init_zero {0}
 #define blox_Sequence_Instruction_init_zero      {0, {blox_Sequence_Restart_init_zero}}
@@ -222,6 +223,7 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_WaitDigital_target_tag     1
 #define blox_Sequence_WaitDuration_duration_tag  1
 #define blox_Sequence_WaitPwm_target_tag         1
+#define blox_Sequence_WaitPwm_precision_tag      2
 #define blox_Sequence_WaitSetpoint_target_tag    1
 #define blox_Sequence_WaitSetpoint_precision_tag 2
 #define blox_Sequence_WaitTemperature_target_tag 1
@@ -270,7 +272,7 @@ extern const pb_field_t blox_Sequence_WaitSetpoint_fields[3];
 extern const pb_field_t blox_Sequence_SetDigital_fields[3];
 extern const pb_field_t blox_Sequence_WaitDigital_fields[2];
 extern const pb_field_t blox_Sequence_SetPwm_fields[3];
-extern const pb_field_t blox_Sequence_WaitPwm_fields[2];
+extern const pb_field_t blox_Sequence_WaitPwm_fields[3];
 extern const pb_field_t blox_Sequence_StartWaitProfile_fields[2];
 extern const pb_field_t blox_Sequence_StartWaitSequence_fields[2];
 extern const pb_field_t blox_Sequence_Instruction_fields[19];
@@ -289,7 +291,7 @@ extern const pb_field_t blox_Sequence_Block_fields[10];
 #define blox_Sequence_SetDigital_size            8
 #define blox_Sequence_WaitDigital_size           6
 #define blox_Sequence_SetPwm_size                12
-#define blox_Sequence_WaitPwm_size               6
+#define blox_Sequence_WaitPwm_size               12
 #define blox_Sequence_StartWaitProfile_size      6
 #define blox_Sequence_StartWaitSequence_size     6
 #define blox_Sequence_Instruction_size           20

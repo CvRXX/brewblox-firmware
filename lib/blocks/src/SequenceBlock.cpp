@@ -1,6 +1,10 @@
 #include "blocks/SequenceBlock.hpp"
 #include "AppTicks.hpp"
 #include "cbox/Application.hpp"
+#include "control/ActuatorAnalogConstrained.hpp"
+#include "control/ActuatorDigitalBase.hpp"
+#include "control/ActuatorDigitalConstrained.hpp"
+#include "control/SetpointProfile.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include "control/TempSensor.hpp"
 #include "pb_decode.h"
@@ -139,8 +143,7 @@ InstructionResult waitDurationFunc(const SequenceState& state, const utc_seconds
         return tl::make_unexpected(blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE);
     }
 
-    // TODO(Bob): overflow guard
-    if (state.activeInstructionStartedAt + duration < utc) {
+    if (utc - state.activeInstructionStartedAt > duration) {
         return blox_Sequence_SequenceStatus_ACTIVE;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
@@ -155,7 +158,6 @@ InstructionResult waitUntilFunc(const SequenceState&, const utc_seconds_t time)
         return tl::make_unexpected(blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE);
     }
 
-    // TODO(Bob): overflow guard
     if (time < utc) {
         return blox_Sequence_SequenceStatus_ACTIVE;
     } else {
@@ -174,7 +176,7 @@ InstructionResult waitTemperatureFunc(const SequenceState&,
     }
 
     auto value = ptr->value();
-    if (value > lower && value < upper) {
+    if (value >= lower && value <= upper) {
         return blox_Sequence_SequenceStatus_ACTIVE;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
@@ -213,6 +215,113 @@ InstructionResult waitSetpointFunc(const SequenceState&,
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
+}
+
+InstructionResult setDigitalFunc(const SequenceState&,
+                                 cbox::CboxPtr<ActuatorDigitalConstrained>& target,
+                                 ActuatorDigitalBase::State state)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    ptr->desiredState(state);
+    target.store();
+    return blox_Sequence_SequenceStatus_DONE;
+}
+
+InstructionResult waitDigitalFunc(const SequenceState&,
+                                  const cbox::CboxPtr<ActuatorDigitalConstrained>& target)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    if (ptr->desiredState() == ptr->state()) {
+        return blox_Sequence_SequenceStatus_ACTIVE;
+    } else {
+        return blox_Sequence_SequenceStatus_WAITING;
+    }
+}
+
+InstructionResult setPwmFunc(const SequenceState&,
+                             cbox::CboxPtr<ActuatorAnalogConstrained>& target,
+                             const ActuatorAnalog::value_t setting)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    ptr->setting(setting);
+    target.store();
+    return blox_Sequence_SequenceStatus_DONE;
+}
+
+InstructionResult waitPwmFunc(const SequenceState&,
+                              const cbox::CboxPtr<ActuatorAnalogConstrained>& target,
+                              const ActuatorAnalog::value_t precision)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    auto setting = ptr->desiredSetting();
+    auto value = ptr->value();
+    if (value > setting - precision && value < setting + precision) {
+        return blox_Sequence_SequenceStatus_ACTIVE;
+    } else {
+        return blox_Sequence_SequenceStatus_WAITING;
+    }
+}
+
+InstructionResult startProfileFunc(const SequenceState&,
+                                   cbox::CboxPtr<SetpointProfile>& target)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    ptr->startTime(ticks.utc());
+    target.store();
+    return blox_Sequence_SequenceStatus_ACTIVE;
+}
+
+InstructionResult waitProfileFunc(const SequenceState&,
+                                  const cbox::CboxPtr<SetpointProfile>& target)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    return blox_Sequence_SequenceStatus_ACTIVE;
+}
+
+InstructionResult startSequenceFunc(const SequenceState&,
+                                    cbox::CboxPtr<SequenceBlock>& target)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    return blox_Sequence_SequenceStatus_ACTIVE;
+}
+
+InstructionResult waitSequenceFunc(const SequenceState&,
+                                   const cbox::CboxPtr<SequenceBlock>& target)
+{
+    auto ptr = target.lock();
+    if (!ptr) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
+    }
+
+    return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
 SequenceBlock::RunnerFunc

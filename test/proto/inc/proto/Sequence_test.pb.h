@@ -1450,11 +1450,18 @@ class WaitPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint32 target() const;
   void set_target(::google::protobuf::uint32 value);
 
+  // sint32 precision = 2 [(.nanopb) = {
+  void clear_precision();
+  static const int kPrecisionFieldNumber = 2;
+  ::google::protobuf::int32 precision() const;
+  void set_precision(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.Sequence.WaitPwm)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 target_;
+  ::google::protobuf::int32 precision_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Sequence_5ftest_2eproto::TableStruct;
 };
@@ -2646,6 +2653,20 @@ inline void WaitPwm::set_target(::google::protobuf::uint32 value) {
   
   target_ = value;
   // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitPwm.target)
+}
+
+// sint32 precision = 2 [(.nanopb) = {
+inline void WaitPwm::clear_precision() {
+  precision_ = 0;
+}
+inline ::google::protobuf::int32 WaitPwm::precision() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitPwm.precision)
+  return precision_;
+}
+inline void WaitPwm::set_precision(::google::protobuf::int32 value) {
+  
+  precision_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitPwm.precision)
 }
 
 // -------------------------------------------------------------------

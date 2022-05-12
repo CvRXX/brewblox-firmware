@@ -70,8 +70,9 @@ const pb_field_t blox_Sequence_SetPwm_fields[3] = {
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_Sequence_WaitPwm_fields[2] = {
+const pb_field_t blox_Sequence_WaitPwm_fields[3] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Sequence_WaitPwm, target, target, 0),
+    PB_FIELD(  2, SINT32  , SINGULAR, STATIC  , OTHER, blox_Sequence_WaitPwm, precision, target, 0),
     PB_LAST_FIELD
 };
 
