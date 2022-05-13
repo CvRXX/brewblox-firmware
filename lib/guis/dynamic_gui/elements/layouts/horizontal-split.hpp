@@ -49,7 +49,7 @@ public:
     {
     }
 
-    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t parentId) override
+    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t parentId) override final
     {
         layoutNodes.push_back({parentId, layOutNodeId, guiMessage_Type_Row, weight});
         for (auto& element : elements) {
@@ -62,14 +62,14 @@ public:
     /**
      * Calls update on all the child blocks.
      */
-    void update() override
+    void update() override final
     {
         for (auto& element : elements) {
             element->update();
         }
     }
 
-    uint16_t getWeight() const override
+    uint16_t getWeight() const override final
     {
         return weight;
     }
@@ -80,7 +80,7 @@ public:
      * @param with The with of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override final
     {
         lv_obj_set_style_pad_gap(placeholder, 0, 0);
         lv_obj_set_style_pad_all(placeholder, 0, 0);
@@ -107,8 +107,8 @@ public:
     }
 
 private:
-    std::vector<LvglObjectWrapper> placeholders;
     std::vector<std::unique_ptr<Element>> elements;
+    std::vector<LvglObjectWrapper> placeholders;
     uint16_t weight = 1;
     uint8_t layOutNodeId;
 };

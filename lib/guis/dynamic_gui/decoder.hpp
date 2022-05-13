@@ -3,6 +3,7 @@
 #include "elements/layouts/content.hpp"
 #include "elements/layouts/horizontal-split.hpp"
 #include "elements/layouts/vertical-split.hpp"
+#include "elements/widgets/empty_widget.hpp"
 #include "elements/widgets/numeric_value.hpp"
 #include "elements/widgets/widget.hpp"
 #include "proto/guiMessage.pb.h"
@@ -45,7 +46,7 @@ namespace detail {
     {
         auto children = std::vector<std::unique_ptr<Element>>{};
 
-        // Find all children of the max element.
+        // Move the children of nodeToAdd to the end of the vector and return the pivot point.
         auto toAdd = std::stable_partition(elements.begin(), elements.end(), [nodeToAdd](auto const& a) {
             return a.second != nodeToAdd.nodeId;
         });
@@ -55,7 +56,7 @@ namespace detail {
             return std::move(a.first);
         });
 
-        // Erase the empty moven elements from vector.
+        // Erase the empty moved elements from vector.
         elements.erase(toAdd, elements.end());
 
         // Construct the split with the found children and add it to elements.
@@ -90,7 +91,7 @@ namespace detail {
 
             // If the contentType is not known default to an empty widget.
             else {
-                std::unique_ptr<Widget> widget{new WidgetBase()};
+                std::unique_ptr<Widget> widget{new EmptyWidget()};
                 std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }
@@ -98,7 +99,7 @@ namespace detail {
 
         else {
             // If no content is found for the block default to an empty widget.
-            std::unique_ptr<Widget> widget{new WidgetBase()};
+            std::unique_ptr<Widget> widget{new EmptyWidget()};
             std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
             elements.push_back({std::move(newElement), nodeToAdd.parent});
         }
@@ -117,7 +118,7 @@ namespace detail {
 
         // We walk throught the list of nodes in decending order of nodeId.
         // This means that the children of a node are already created when the node is reached.
-        for (auto nodeToAdd : layoutNodes) {
+        for (auto& nodeToAdd : layoutNodes) {
             if (nodeToAdd.type == guiMessage_Type_Row || nodeToAdd.type == guiMessage_Type_Column) {
                 if (!parseRowCol(nodeToAdd, elements))
                     return std::nullopt;
@@ -133,13 +134,12 @@ namespace detail {
         if (elements.size() != 1 || elements.back().second != 0)
             return std::nullopt;
 
-        auto screen = Screen{std::move(elements.back().first)};
-        return std::move(screen);
+        return Screen{std::move(elements.back().first)};
     }
 }
 std::optional<Screen> decoder(uint8_t* buffer, size_t length)
 {
-    auto protoMessage = guiMessage_Gui{};
+    guiMessage_Gui protoMessage = guiMessage_Gui_init_default;
 
     protoMessage.layoutNodes.funcs.decode = detail::layoutNodeDecoder;
     auto layoutNodes = std::vector<guiMessage_LayoutNode>{};
@@ -150,7 +150,8 @@ std::optional<Screen> decoder(uint8_t* buffer, size_t length)
     protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
     pb_istream_t stream = pb_istream_from_buffer(buffer, length);
-    auto status = pb_decode(&stream, guiMessage_Gui_fields, &protoMessage);
+    if (!pb_decode(&stream, guiMessage_Gui_fields, &protoMessage))
+        return std::nullopt;
 
     return detail::parseGui(layoutNodes, contentNodes);
 }

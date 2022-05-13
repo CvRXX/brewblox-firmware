@@ -49,13 +49,13 @@ public:
 
     NumericValue(NumericValue&& numericValue) = default;
 
-    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId)
+    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
         contentnodes.push_back({layOutNodeId, guiMessage_ContentNode_numericValue_tag, settings});
         return true;
     }
 
-    void update() override
+    void update() override final
     {
     }
 
@@ -65,7 +65,7 @@ public:
      * @param with The with of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override final
     {
         WidgetBase::draw(placeholder, with, height);
         valueLabel.reset(sizing::bigNumber(contentArea.get(), with, height));

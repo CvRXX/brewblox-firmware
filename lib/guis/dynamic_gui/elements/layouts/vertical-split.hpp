@@ -107,8 +107,8 @@ public:
     }
 
 private:
-    std::vector<LvglObjectWrapper> placeholders;
     std::vector<std::unique_ptr<Element>> elements;
+    std::vector<LvglObjectWrapper> placeholders;
     uint16_t weight = 1;
     uint8_t layOutNodeId;
 };

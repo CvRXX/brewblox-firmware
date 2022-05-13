@@ -48,7 +48,7 @@ public:
     {
     }
 
-    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId)
+    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
         contentnodes.push_back({layOutNodeId, guiMessage_ContentNode_widget_tag, {.widget = settings}});
         return true;

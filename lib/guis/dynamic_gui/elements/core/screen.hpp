@@ -33,10 +33,7 @@ public:
         : element(std::make_unique<T>(std::move(element)))
     {
     }
-    Screen()
-        : element(nullptr)
-    {
-    }
+    Screen() = default;
 
     Screen(std::unique_ptr<Element>&& element)
         : element(std::move(element))
@@ -47,8 +44,7 @@ public:
 
     Screen& operator=(Screen&& screen) = default;
 
-    Screen(const Screen& screen)
-        = delete;
+    Screen(const Screen& screen) = delete;
 
     Screen& operator=(const Screen& screen) = delete;
 
@@ -58,10 +54,10 @@ public:
             element->update();
         }
     }
-    void draw()
+    void draw(lv_obj_t* screen, uint16_t width, uint16_t height)
     {
         if (element) {
-            element->draw(lv_scr_act(), 480, 320);
+            element->draw(screen, width, height);
         }
     }
 
