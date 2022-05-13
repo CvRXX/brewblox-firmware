@@ -56,6 +56,10 @@ jobs:
         target: firmware-compiler
         displayName: Run control tests
 
+      - script: script/test.sh guis
+        target: firmware-compiler
+        displayName: Run guis tests
+
       - script: script/collect-test-coverage.sh
         target: firmware-compiler
         displayName: Collect test coverage
