@@ -46,8 +46,6 @@ public:
     {
     }
 
-    EmptyWidget(EmptyWidget&& emptyWidget) = default;
-
     bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
         return true;
