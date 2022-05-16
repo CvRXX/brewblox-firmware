@@ -21,7 +21,7 @@
 
 void Pid::update()
 {
-    auto input = m_inputPtr();
+    auto input = m_inputPtr.lock();
     auto setpoint = in_t{0};
     if (input && input->settingValid() && input->valueValid()) {
         if (m_enabled) {
@@ -76,7 +76,7 @@ void Pid::update()
 
     // try to set the output to the desired setting
     if (m_enabled) {
-        if (auto output = m_outputPtr()) {
+        if (auto output = m_outputPtr.lock()) {
             output->settingValid(true);
             output->setting(outputValue);
 
@@ -168,7 +168,7 @@ void Pid::checkFilterLength()
     // delay for each filter between input step and max derivative: 8, 34, 85, 188, 492, 1428
     const uint16_t limits[6] = {20, 89, 179, 359, 959, 1799};
     if (!m_derivativeFilterNr) {
-        if (auto input = m_inputPtr()) {
+        if (auto input = m_inputPtr.lock()) {
             // selected filter must use an update interval a lot faster than Td to be meaningful
             // The filter delay is roughly 6x the update rate.
             m_derivativeFilterNr = 1;

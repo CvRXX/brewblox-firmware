@@ -17,7 +17,7 @@ private:
 
 public:
     ActuatorPwmBlock()
-        : pwm(actuator.lockFunctor())
+        : pwm(actuator)
         , constrained(pwm)
     {
     }
@@ -29,7 +29,7 @@ public:
     cbox::update_t updateHandler(const cbox::update_t& now) override;
     void* implements(cbox::obj_type_t iface) override;
 
-    const cbox::CboxPtr<ActuatorDigitalConstrained>& targetLookup() const
+    const auto& targetLookup() const
     {
         return actuator;
     }

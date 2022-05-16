@@ -90,11 +90,11 @@ public:
     /// Updates the widget with iinputValuenformation from the object it's representing.
     void update()
     {
-        if (auto ptr = lookup.const_lock()) {
+        if (auto ptr = lookup.lock()) {
             lv_obj_clear_state(obj, LV_STATE_DISABLED);
             auto& inputLookup = ptr->getInputLookup();
             auto& outputLookup = ptr->getOutputLookup();
-            auto input = inputLookup.const_lock();
+            auto input = inputLookup.lock();
             if (input && input->valueValid()) {
                 lv_label_set_text(inputValue, temp_to_string(input->value(), 1, tempUnit).c_str());
             } else {
@@ -106,7 +106,7 @@ public:
                 lv_label_set_text(inputSetting, "-");
             }
 
-            auto output = outputLookup.const_lock();
+            auto output = outputLookup.lock();
             if (output && output->valueValid()) {
                 lv_label_set_text(outputValue, to_string_dec(output->value(), 1).c_str());
             } else {

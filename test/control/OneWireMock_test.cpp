@@ -19,6 +19,7 @@
 
 #include <catch.hpp>
 
+#include "TestControlPtr.hpp"
 #include "control/DS18B20.hpp"
 #include "control/DS18B20Mock.hpp"
 #include "control/DS2408.hpp"
@@ -49,19 +50,19 @@ makeValidAddress(OneWireAddress addr)
 SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 {
     OneWireMockDriver owMock;
-    auto ow = std::make_shared<OneWire>(owMock);
-    ow->init();
+    auto ow = TestControlPtr<OneWire>(new OneWire(owMock));
+    ow.ptr->init();
 
     WHEN("No devices are on the bus, reset returns false")
     {
-        CHECK(ow->reset() == false);
+        CHECK(ow.ptr->reset() == false);
     }
 
     WHEN("No devices are on the bus, search returns false")
     {
         OneWireAddress addr(0);
-        ow->reset_search();
-        CHECK(ow->search(addr) == false);
+        ow.ptr->reset_search();
+        CHECK(ow.ptr->search(addr) == false);
     }
 
     WHEN("A mock DS18B20 is attached")
@@ -71,58 +72,58 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         owMock.attach(mockSensor);
         THEN("Reset returns a presence")
         {
-            CHECK(ow->reset() == true);
+            CHECK(ow.ptr->reset() == true);
         }
 
         THEN("It can be found with a bus search")
         {
             OneWireAddress addr(0);
-            ow->reset();
-            bool found = ow->search(addr);
+            ow.ptr->reset();
+            bool found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addr1);
         }
 
         THEN("A read without issueing a command returns 0xFF")
         {
-            ow->reset();
+            ow.ptr->reset();
             uint8_t v = 0;
-            ow->read(v);
+            ow.ptr->read(v);
             CHECK(v == 0xFF);
         }
 
         THEN("An invalid command is ignored")
         {
-            ow->reset();
-            ow->write(0xFE);
+            ow.ptr->reset();
+            ow.ptr->write(0xFE);
             uint8_t v = 0;
-            ow->read(v);
+            ow.ptr->read(v);
             CHECK(v == 0xFF);
         }
 
         THEN("With a single device on the bus, a read ROM command can return its address")
         {
             OneWireAddress addr(0);
-            ow->reset();
-            ow->write(0x33);
-            ow->read_bytes(&addr[0], 8);
+            ow.ptr->reset();
+            ow.ptr->write(0x33);
+            ow.ptr->read_bytes(&addr[0], 8);
             CHECK(addr == addr1);
         }
 
         THEN("With a single device on the bus, a skip ROM command can select it without knowing the address")
         {
             OneWireAddress addr(0);
-            ow->reset();
-            ow->skip();      // skip selecting by address
-            ow->write(0xB4); // read power supply
+            ow.ptr->reset();
+            ow.ptr->skip();      // skip selecting by address
+            ow.ptr->write(0xB4); // read power supply
             uint8_t v = 0;
-            ow->read(v);
+            ow.ptr->read(v);
             CHECK(v == 0x80);
         }
 
         THEN("A OneWire sensor can use it on the fake bus")
         {
-            DS18B20 sensor([&ow]() { return ow; }, addr1);
+            DS18B20 sensor(ow, addr1);
             sensor.update();
             CHECK(sensor.valid() == false); // a reset will be detected, triggering a re-init
             sensor.update();
@@ -142,7 +143,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
         WHEN("The sensor is disconnected")
         {
-            DS18B20 sensor([&ow]() { return ow; }, addr1);
+            DS18B20 sensor(ow, addr1);
             mockSensor->setConnected(false);
             sensor.update();
             sensor.update();
@@ -164,7 +165,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
         WHEN("Communication bitflips when reading the sensor occur")
         {
-            DS18B20 sensor([&ow]() { return ow; }, addr1);
+            DS18B20 sensor(ow, addr1);
             mockSensor->setTemperature(temp_t{21.0});
             sensor.update();
             sensor.update();
@@ -193,23 +194,23 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             auto mockSensor2 = std::make_shared<DS18B20Mock>(addr2);
             owMock.attach(mockSensor2);
 
-            DS18B20 sensor1([&ow]() { return ow; }, addr1);
-            DS18B20 sensor2([&ow]() { return ow; }, addr2);
+            DS18B20 sensor1(ow, addr1);
+            DS18B20 sensor2(ow, addr2);
 
             THEN("A bus search finds two sensors")
             {
                 OneWireAddress addr(0);
-                ow->reset();
-                ow->reset_search();
-                bool found = ow->search(addr);
+                ow.ptr->reset();
+                ow.ptr->reset_search();
+                bool found = ow.ptr->search(addr);
                 CHECK(found == true);
                 CHECK(addr == OneWireAddress(addr1));
 
-                found = ow->search(addr);
+                found = ow.ptr->search(addr);
                 CHECK(found == true);
                 CHECK(addr == OneWireAddress(addr2));
 
-                found = ow->search(addr);
+                found = ow.ptr->search(addr);
                 CHECK(found == false);
             }
 
@@ -240,21 +241,21 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         owMock.attach(ds1mock);
         THEN("Reset returns a presence")
         {
-            CHECK(ow->reset() == true);
+            CHECK(ow.ptr->reset() == true);
         }
 
         THEN("It can be found with a bus search")
         {
             OneWireAddress addr(0);
-            ow->reset();
-            bool found = ow->search(addr);
+            ow.ptr->reset();
+            bool found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addr3);
         }
 
         THEN("A DS2413 class can use it as output")
         {
-            DS2413 ds1([&ow]() { return ow; }, addr3);
+            DS2413 ds1(ow, addr3);
 
             ActuatorDigitalBase::State result;
             ds1.update();
@@ -285,7 +286,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
         THEN("A DS2413 class can use it as input")
         {
-            DS2413 ds1([&ow]() { return ow; }, addr3);
+            DS2413 ds1(ow, addr3);
             ds1.update();
 
             ActuatorDigitalBase::State result;
@@ -325,21 +326,21 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         owMock.attach(ds2408mock);
         THEN("Reset returns a presence")
         {
-            CHECK(ow->reset() == true);
+            CHECK(ow.ptr->reset() == true);
         }
 
         THEN("It can be found with a bus search")
         {
             OneWireAddress addr(0);
-            ow->reset();
-            bool found = ow->search(addr);
+            ow.ptr->reset();
+            bool found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addr4);
         }
 
         THEN("A DS2408 class can use it as output driver")
         {
-            DS2408 ds1([&ow]() { return ow; }, addr4);
+            DS2408 ds1(ow, addr4);
 
             ActuatorDigitalBase::State result;
             ds1.update();
@@ -370,7 +371,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
         THEN("A DS2408 class can use it as input on some pins and output on others")
         {
-            DS2408 ds1([&ow]() { return ow; }, addr4);
+            DS2408 ds1(ow, addr4);
 
             ActuatorDigitalBase::State result;
             ds1.update();
@@ -432,82 +433,82 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
         THEN("A bus search finds 5 devices")
         {
-            ow->reset_search();
+            ow.ptr->reset_search();
 
             OneWireAddress addr(0);
-            bool found = ow->search(addr);
+            bool found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrSensor2);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrSensor1);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrSensor3);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrDS2413);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrDS2408);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == false);
             CHECK(addr == OneWireAddress(0));
         }
 
         THEN("Then target search can select only one family code to be found")
         {
-            ow->target_search(DS18B20Mock::family_code);
+            ow.ptr->target_search(DS18B20Mock::family_code);
 
             OneWireAddress addr(0);
-            bool found = ow->search(addr);
+            bool found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrSensor2);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrSensor1);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrSensor3);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == false);
             CHECK(addr == OneWireAddress(0));
 
-            ow->target_search(DS2413Mock::family_code);
+            ow.ptr->target_search(DS2413Mock::family_code);
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrDS2413);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == false);
             CHECK(addr == OneWireAddress(0));
 
-            ow->target_search(DS2408Mock::family_code);
+            ow.ptr->target_search(DS2408Mock::family_code);
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == true);
             CHECK(addr == addrDS2408);
 
             addr = 0;
-            found = ow->search(addr);
+            found = ow.ptr->search(addr);
             CHECK(found == false);
             CHECK(addr == OneWireAddress(0));
         }

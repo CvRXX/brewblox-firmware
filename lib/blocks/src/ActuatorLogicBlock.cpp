@@ -3,7 +3,7 @@
 blox_ActuatorLogic_Result
 DigitalCompare::eval() const
 {
-    if (auto actPtr = m_lookup.const_lock()) {
+    if (auto actPtr = m_lookup.lock()) {
         switch (m_op) {
         case blox_ActuatorLogic_DigitalOperator_OP_VALUE_IS:
             return blox_ActuatorLogic_Result(actPtr->state() == m_rhs);
@@ -32,7 +32,7 @@ void DigitalCompare::write(blox_ActuatorLogic_DigitalCompare& dest, bool include
 blox_ActuatorLogic_Result
 AnalogCompare::eval() const
 {
-    if (auto pvPtr = m_lookup.const_lock()) {
+    if (auto pvPtr = m_lookup.lock()) {
         switch (m_op) {
         case blox_ActuatorLogic_AnalogOperator_OP_VALUE_LE:
             if (!pvPtr->valueValid()) {

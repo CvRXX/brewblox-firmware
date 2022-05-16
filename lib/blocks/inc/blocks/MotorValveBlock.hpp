@@ -34,7 +34,7 @@ private:
 
 public:
     MotorValveBlock()
-        : valve(hwDevice.lockFunctor(), 0)
+        : valve(hwDevice, 0)
         , constrained(valve)
     {
     }

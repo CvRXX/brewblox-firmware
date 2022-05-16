@@ -20,6 +20,7 @@
 #pragma once
 
 #include "control/ActuatorAnalog.hpp"
+#include "control/ControlPtr.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include <functional>
 #include <memory>
@@ -35,8 +36,8 @@ public:
     };
 
 private:
-    const std::function<std::shared_ptr<SetpointSensorPair>()> m_target;
-    const std::function<std::shared_ptr<SetpointSensorPair>()> m_reference;
+    ControlPtr<SetpointSensorPair>& m_target;
+    ControlPtr<SetpointSensorPair>& m_reference;
     value_t m_setting = 0;
     value_t m_value = 0;
     bool m_settingValid = false;
@@ -48,8 +49,8 @@ private:
 
 public:
     explicit ActuatorOffset(
-        std::function<std::shared_ptr<SetpointSensorPair>()>&& target,    // process value to manipulate
-        std::function<std::shared_ptr<SetpointSensorPair>()>&& reference) // process value to offset from
+        ControlPtr<SetpointSensorPair>& target,    // process value to manipulate
+        ControlPtr<SetpointSensorPair>& reference) // process value to offset from
         : m_target(target)
         , m_reference(reference)
     {
@@ -92,7 +93,7 @@ public:
     {
         if (m_enabled) {
 
-            if (auto targetPtr = m_target()) {
+            if (auto targetPtr = m_target.lock()) {
                 targetPtr->settingValid(v);
             }
         }
@@ -115,8 +116,8 @@ public:
         bool newTargetSettingValid = false;
         auto newTargetSetting = value_t(0);
 
-        if (auto targetPtr = m_target()) {
-            if (auto refPtr = m_reference()) {
+        if (auto targetPtr = m_target.lock()) {
+            if (auto refPtr = m_reference.lock()) {
                 if (m_selectedReference == ReferenceKind::SETTING) {
                     if (refPtr->settingValid()) {
                         newTargetSetting = refPtr->setting() + m_setting;

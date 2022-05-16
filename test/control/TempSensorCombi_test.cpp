@@ -19,6 +19,7 @@
 
 #include <catch.hpp>
 
+#include "TestControlPtr.hpp"
 #include "control/TempSensorCombi.hpp"
 #include "control/TempSensorMock.hpp"
 
@@ -50,17 +51,20 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
     WHEN("4 sensors are added to the combi sensor")
     {
         TempSensorCombi combined;
-        auto mock1 = std::make_shared<TempSensorMock>(20);
-        auto mock2 = std::make_shared<TempSensorMock>(18);
-        auto mock3 = std::make_shared<TempSensorMock>(26);
-        auto mock4 = std::make_shared<TempSensorMock>(22);
-        combined.inputs = {
-            [mock1]() { return mock1; },
-            [mock2]() { return mock2; },
-            [mock3]() { return mock3; },
-            [mock4]() { return mock4; },
+        auto mock1 = TestControlPtr<TempSensorMock>(new TempSensorMock(20));
+        auto mock2 = TestControlPtr<TempSensorMock>(new TempSensorMock(18));
+        auto mock3 = TestControlPtr<TempSensorMock>(new TempSensorMock(26));
+        auto mock4 = TestControlPtr<TempSensorMock>(new TempSensorMock(22));
 
-        };
+        auto input1 = TestControlPtr<TempSensor>(mock1);
+        auto input2 = TestControlPtr<TempSensor>(mock2);
+        auto input3 = TestControlPtr<TempSensor>(mock3);
+        auto input4 = TestControlPtr<TempSensor>(mock4);
+
+        combined.inputs = {std::ref(input1),
+                           std::ref(input2),
+                           std::ref(input3),
+                           std::ref(input4)};
 
         THEN("The average is returned when AVG is selected")
         {
@@ -88,8 +92,8 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
 
         AND_WHEN("2 of the 4 sensors are not valid, they are ignored")
         {
-            mock2->connected(false);
-            mock3->connected(false);
+            mock2.ptr->connected(false);
+            mock3.ptr->connected(false);
 
             THEN("The average is returned when AVG is selected")
             {

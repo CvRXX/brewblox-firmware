@@ -89,6 +89,10 @@ CPPSRC += $(call here_files,platform/particle/WebSockets/firmware,*.cpp)
 CSRC += $(call here_files,platform/particle/WebSockets/firmware/libb64,*.c)
 CSRC += $(call here_files,platform/particle/WebSockets/firmware/libsha1,*.c)
 
+# platform/particle/ntp
+INCLUDE_DIRS += $(SOURCE_PATH)/platform/particle/ntp/inc
+CPPSRC += $(call target_files,platform/particle/ntp/src,*.cpp)
+
 # Check whether boost is available
 ifeq ($(BOOST_ROOT),)
 $(error BOOST_ROOT not set. Download boost and add BOOST_ROOT to your environment variables.)

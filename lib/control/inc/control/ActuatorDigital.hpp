@@ -21,6 +21,7 @@
 #pragma once
 
 #include "control/ActuatorDigitalBase.hpp"
+#include "control/ControlPtr.hpp"
 #include "control/IoArray.hpp"
 #include <cstdint>
 #include <functional>
@@ -32,13 +33,13 @@
  */
 class ActuatorDigital : public ActuatorDigitalBase {
 private:
-    const std::function<std::shared_ptr<IoArray>()> m_target;
+    ControlPtr<IoArray>& m_target;
     bool m_invert = false;
     uint8_t m_channel = 0;
     uint8_t m_desiredChannel = 0;
 
 public:
-    explicit ActuatorDigital(std::function<std::shared_ptr<IoArray>()>&& target, uint8_t chan)
+    explicit ActuatorDigital(ControlPtr<IoArray>& target, uint8_t chan)
         : m_target(target)
     {
         channel(chan);

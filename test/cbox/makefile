@@ -9,6 +9,9 @@ INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include
 # catch test
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2
 
+# lib/control (headers only)
+INCLUDE_DIRS += $(ROOT_DIR)/lib/control/inc
+
 # lib/cbox
 INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)

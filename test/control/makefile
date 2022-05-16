@@ -23,7 +23,30 @@ INCLUDE_DIRS += $(ROOT_DIR)/test/shared
 CPPSRC += test/shared/AppLogger.cpp
 
 # test/control
-CPPSRC += $(wildcard $(ROOT_DIR)/test/control/*.cpp)
+CPPSRC += $(ROOT_DIR)/test/control/runner.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorAnalogConstrained_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorAnalogMock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigitalChangeLogged_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigitalConstrained_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorOffset_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorPwm_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ADS124S08_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/FilterChain_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/FixedPoint_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/FpFilterChain_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/hal_spi_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/IiFilter_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/IntervalHelperTest.cpp
+CPPSRC += $(ROOT_DIR)/test/control/OneWireMock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/Pid_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ringBuffer_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/SetpointProfile_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/SetpointSensorPair_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/staticAllocator_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/Temperature_to_string_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/TempSensorCombi_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/TempSensorMock_test.cpp
+
 
 CFLAGS += -DPLATFORM_ID=3
 

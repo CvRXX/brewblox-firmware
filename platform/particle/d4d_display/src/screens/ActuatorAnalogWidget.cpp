@@ -23,14 +23,14 @@
 
 ActuatorAnalogWidget::ActuatorAnalogWidget(WidgetWrapper& myWrapper, const cbox::obj_id_t& id)
     : ProcessValueWidgetBase(myWrapper)
-    , lookup(cbox::CboxPtr<ActuatorAnalogConstrained>(id))
+    , lookup(id)
 {
     setClickHandler(this, onClickStatic);
 }
 
 void ActuatorAnalogWidget::update(const WidgetSettings& settings)
 {
-    if (auto pAct = lookup.const_lock()) {
+    if (auto pAct = lookup.lock()) {
         setConnected();
 
         if (pAct->valueValid()) {
@@ -47,7 +47,7 @@ void ActuatorAnalogWidget::update(const WidgetSettings& settings)
 
         char icons[2] = {0};
         if (auto pwmBlock = lookup.lock_as<ActuatorPwmBlock>()) {
-            if (auto pwmTarget = pwmBlock->targetLookup().const_lock()) {
+            if (auto pwmTarget = pwmBlock->targetLookup().lock()) {
                 switch (pwmTarget->state()) {
                 case ActuatorPwm::State::Inactive:
                     icons[0] = 0x26;
