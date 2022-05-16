@@ -42,13 +42,6 @@ public:
     {
     }
 
-    VerticalSplit(VerticalSplit&& verticalSplit)
-        : elements(std::move(verticalSplit.elements))
-        , placeholders(std::move(verticalSplit.placeholders))
-        , weight(verticalSplit.weight)
-    {
-    }
-
     bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Column, weight});
@@ -110,7 +103,7 @@ public:
 private:
     std::vector<std::unique_ptr<Element>> elements;
     std::vector<LvglObjectWrapper> placeholders;
-    uint16_t weight = 1;
+    const uint16_t weight = 1;
     uint8_t layOutNodeId;
 };
 }

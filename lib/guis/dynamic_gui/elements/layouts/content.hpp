@@ -42,8 +42,6 @@ public:
     {
     }
 
-    Content(Content&& widget) = default;
-
     void update() override
     {
         widget->update();

@@ -33,20 +33,19 @@ public:
         : element(std::make_unique<T>(std::move(element)))
     {
     }
-    Screen() = default;
 
     Screen(std::unique_ptr<Element>&& element)
         : element(std::move(element))
     {
     }
 
-    Screen(Screen&& screen) = default;
+    Screen() = default;
+    ~Screen() = default;
 
-    Screen& operator=(Screen&& screen) = default;
-
-    Screen(const Screen& screen) = delete;
-
-    Screen& operator=(const Screen& screen) = delete;
+    Screen(Screen&&) = default;
+    Screen& operator=(Screen&&) = default;
+    Screen(const Screen&) = delete;
+    Screen& operator=(const Screen&) = delete;
 
     void update()
     {

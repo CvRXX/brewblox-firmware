@@ -31,6 +31,13 @@ public:
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
     virtual bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) = 0;
     virtual ~Widget() = default;
+
+protected:
+    Widget(const Widget&) = delete;
+    Widget(Widget&&) = delete;
+    Widget& operator=(const Widget&) = delete;
+    Widget& operator=(Widget&&) = delete;
+    Widget() = default;
 };
 
 }

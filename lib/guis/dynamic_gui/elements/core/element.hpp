@@ -31,8 +31,16 @@ public:
     virtual void update() = 0;
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
     virtual uint16_t getWeight() const = 0;
-    virtual ~Element() = default;
     virtual bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t parentId) = 0;
+
+    virtual ~Element() = default;
+
+protected:
+    Element(const Element&) = delete;
+    Element(Element&&) = delete;
+    Element& operator=(const Element&) = delete;
+    Element& operator=(Element&&) = delete;
+    Element() = default;
 };
 
 }
