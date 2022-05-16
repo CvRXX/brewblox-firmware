@@ -48,10 +48,9 @@ public:
     {
     }
 
-    bool serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
+    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
         contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_numericValueWidget_tag, settings});
-        return true;
     }
 
     void update() override final

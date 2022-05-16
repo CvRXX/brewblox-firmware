@@ -37,8 +37,7 @@ namespace detail {
 enum class EncodeError : uint8_t {
     success = 0,
     bufferIsNullptr = 1,
-    screenDecomposingError = 2,
-    PBError = 3,
+    PBError = 2,
 };
 
 tl::expected<size_t, EncodeError> encodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t* buffer, size_t bufferSize)
@@ -72,9 +71,7 @@ tl::expected<size_t, EncodeError> encodeBuffer(Screen& screen, uint8_t* buffer, 
     if (!buffer) {
         return tl::unexpected{EncodeError::bufferIsNullptr};
     }
-    if (!screen.serialize(layoutNodes, contentNodes)) {
-        return tl::unexpected{EncodeError::screenDecomposingError};
-    }
+    screen.serialize(layoutNodes, contentNodes);
 
     return encodeNodes(layoutNodes, contentNodes, buffer, bufferSize);
 }

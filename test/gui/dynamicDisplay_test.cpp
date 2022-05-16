@@ -57,7 +57,7 @@ SCENARIO("DynamicGui")
                 {
                     std::vector<blox_ScreenConfig_LayoutNode> layoutNodesBack;
                     std::vector<blox_ScreenConfig_ContentNode> contentNodesBack;
-                    REQUIRE(newScreen->serialize(layoutNodesBack, contentNodesBack));
+                    newScreen->serialize(layoutNodesBack, contentNodesBack);
 
                     std::sort(layoutNodes.begin(), layoutNodes.end(), [](const auto& a, const auto& b) {
                         return a.nodeId < b.nodeId;

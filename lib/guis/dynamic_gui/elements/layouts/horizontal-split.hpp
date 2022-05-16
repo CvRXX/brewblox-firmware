@@ -42,15 +42,12 @@ public:
     {
     }
 
-    bool serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
+    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Row, weight});
         for (auto& element : elements) {
-            if (!element->serialize(layoutNodes, contentNodes, layOutNodeId)) {
-                return false;
-            }
+            element->serialize(layoutNodes, contentNodes, layOutNodeId);
         }
-        return true;
     }
 
     /**
