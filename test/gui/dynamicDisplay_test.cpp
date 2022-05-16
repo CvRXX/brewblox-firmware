@@ -19,8 +19,9 @@
 
 #include <catch.hpp>
 
-#include "dynamic_gui/decoder.hpp"
+#include "dynamic_gui/decode.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
+#include "dynamic_gui/encode.hpp"
 #include <pb_encode.h>
 
 SCENARIO("DynamicGui")
@@ -28,7 +29,7 @@ SCENARIO("DynamicGui")
     GIVEN("A gui proto stream")
     {
         uint8_t buffer[128];
-        size_t message_length;
+        // size_t message_length;
         std::vector<guiMessage_LayoutNode> layoutNodes;
         layoutNodes.push_back({1, 2, guiMessage_Type_Content, 1});
         layoutNodes.push_back({0, 1, guiMessage_Type_Row, 1});
@@ -39,43 +40,13 @@ SCENARIO("DynamicGui")
         auto node = guiMessage_ContentNode{2, guiMessage_ContentNode_numericValue_tag, numericValue};
         contentNodes.push_back(node);
 
-        pb_ostream_t stream = pb_ostream_from_buffer(buffer, sizeof(buffer));
-
-        auto nodeReturner = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
-            for (auto node : *reinterpret_cast<std::vector<guiMessage_LayoutNode>*>(*arg)) {
-                if (!pb_encode_tag_for_field(stream, field))
-                    return false;
-
-                if (!pb_encode_submessage(stream, guiMessage_LayoutNode_fields, &node))
-                    return false;
-            }
-            return true;
-        };
-
-        auto contentNodeReturner = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
-            for (auto node : *reinterpret_cast<std::vector<guiMessage_ContentNode>*>(*arg)) {
-                if (!pb_encode_tag_for_field(stream, field))
-                    return false;
-
-                if (!pb_encode_submessage(stream, guiMessage_ContentNode_fields, &node))
-                    return false;
-            }
-            return true;
-        };
-
-        auto protoMessage = guiMessage_Gui{};
-        protoMessage.layoutNodes.funcs.encode = nodeReturner;
-        protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
-
-        protoMessage.contentNodes.funcs.encode = contentNodeReturner;
-        protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
-
-        REQUIRE(pb_encode(&stream, guiMessage_Gui_fields, &protoMessage));
-        message_length = stream.bytes_written;
+        auto encodeResult = gui::dynamic_interface::encodeNodes(layoutNodes, contentNodes, buffer, sizeof(buffer));
+        REQUIRE(encodeResult);
+        auto message_length = *encodeResult;
 
         WHEN("Decoding")
         {
-            auto newScreen = gui::dynamic_interface::decoder(buffer, message_length);
+            auto newScreen = gui::dynamic_interface::decodeBuffer(buffer, message_length);
 
             THEN("Decoding should return a Screen")
             {

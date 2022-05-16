@@ -1,5 +1,5 @@
 #pragma once
-#include "decoder.hpp"
+#include "decode.hpp"
 #include "elements/core/screen.hpp"
 #include "elements/layouts/horizontal-split.hpp"
 #include "elements/layouts/vertical-split.hpp"

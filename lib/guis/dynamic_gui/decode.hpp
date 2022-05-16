@@ -105,7 +105,7 @@ namespace detail {
         }
         return true;
     }
-    std::optional<Screen> parseGui(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode> contentNodes)
+    std::optional<Screen> decodeNodes(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode> contentNodes)
     {
         // Temp storage of elements which are to be children of higher elements.
         auto elements = std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>{};
@@ -116,7 +116,7 @@ namespace detail {
             return a.nodeId > b.nodeId;
         });
 
-        // We walk throught the list of nodes in decending order of nodeId.
+        // Walk through the list of nodes in decending order of nodeId.
         // This means that the children of a node are already created when the node is reached.
         for (auto& nodeToAdd : layoutNodes) {
             if (nodeToAdd.type == guiMessage_Type_Row || nodeToAdd.type == guiMessage_Type_Column) {
@@ -137,7 +137,8 @@ namespace detail {
         return Screen{std::move(elements.back().first)};
     }
 }
-std::optional<Screen> decoder(uint8_t* buffer, size_t length)
+
+std::optional<Screen> decodeBuffer(uint8_t* buffer, size_t length)
 {
     guiMessage_Gui protoMessage = guiMessage_Gui_init_default;
 
@@ -153,6 +154,6 @@ std::optional<Screen> decoder(uint8_t* buffer, size_t length)
     if (!pb_decode(&stream, guiMessage_Gui_fields, &protoMessage))
         return std::nullopt;
 
-    return detail::parseGui(layoutNodes, contentNodes);
+    return detail::decodeNodes(layoutNodes, contentNodes);
 }
 }

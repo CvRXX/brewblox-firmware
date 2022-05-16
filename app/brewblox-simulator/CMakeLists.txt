@@ -24,6 +24,7 @@ main/*.cpp
 )
 
 include_directories(
+    ../../external_libs/expected/expected/include
     ../../platform/simulator
     ../../lib/guis
     ../../lib/proto/inc

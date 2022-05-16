@@ -6,6 +6,10 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 # lib/gui
 INCLUDE_DIRS += $(ROOT_DIR)/lib/guis
 
+
+INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include/
+
+
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/lvgl_wrapper/lvgl/src
 
 # Recursive wildcard function
