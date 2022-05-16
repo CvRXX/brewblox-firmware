@@ -53,8 +53,9 @@ public:
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Row, weight});
         for (auto& element : elements) {
-            if (!element->serialise(layoutNodes, contentNodes, layOutNodeId))
+            if (!element->serialise(layoutNodes, contentNodes, layOutNodeId)) {
                 return false;
+            }
         }
         return true;
     }

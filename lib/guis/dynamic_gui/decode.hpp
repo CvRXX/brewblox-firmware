@@ -20,8 +20,9 @@ namespace detail {
         auto nodes = reinterpret_cast<std::vector<blox_ScreenConfig_LayoutNode>*>(*arg);
         while (stream->bytes_left) {
             auto node = blox_ScreenConfig_LayoutNode{};
-            if (!pb_decode(stream, blox_ScreenConfig_LayoutNode_fields, &node))
+            if (!pb_decode(stream, blox_ScreenConfig_LayoutNode_fields, &node)) {
                 return false;
+            }
 
             nodes->push_back(node);
         }
@@ -34,8 +35,9 @@ namespace detail {
         auto nodes = reinterpret_cast<std::vector<blox_ScreenConfig_ContentNode>*>(*arg);
         while (stream->bytes_left) {
             auto node = blox_ScreenConfig_ContentNode{};
-            if (!pb_decode(stream, blox_ScreenConfig_ContentNode_fields, &node))
+            if (!pb_decode(stream, blox_ScreenConfig_ContentNode_fields, &node)) {
                 return false;
+            }
 
             nodes->push_back(node);
         }
@@ -120,19 +122,22 @@ namespace detail {
         // This means that the children of a node are already created when the node is reached.
         for (auto& nodeToAdd : layoutNodes) {
             if (nodeToAdd.type == blox_ScreenConfig_Type_Row || nodeToAdd.type == blox_ScreenConfig_Type_Column) {
-                if (!parseRowCol(nodeToAdd, elements))
+                if (!parseRowCol(nodeToAdd, elements)) {
                     return std::nullopt;
+                }
             } else if (nodeToAdd.type == blox_ScreenConfig_Type_Content) {
-                if (!parseContent(nodeToAdd, elements, contentNodes))
+                if (!parseContent(nodeToAdd, elements, contentNodes)) {
                     return std::nullopt;
+                }
             } else {
                 return std::nullopt;
             }
         }
 
         // The only element left should have a parent of id: 0.
-        if (elements.size() != 1 || elements.back().second != 0)
+        if (elements.size() != 1 || elements.back().second != 0) {
             return std::nullopt;
+        }
 
         return Screen{std::move(elements.back().first)};
     }
@@ -151,8 +156,9 @@ std::optional<Screen> decodeBuffer(uint8_t* buffer, size_t length)
     protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
     pb_istream_t stream = pb_istream_from_buffer(buffer, length);
-    if (!pb_decode(&stream, blox_ScreenConfig_ScreenConfig_fields, &protoMessage))
+    if (!pb_decode(&stream, blox_ScreenConfig_ScreenConfig_fields, &protoMessage)) {
         return std::nullopt;
+    }
 
     return detail::decodeNodes(layoutNodes, contentNodes);
 }
