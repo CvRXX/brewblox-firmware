@@ -21,6 +21,7 @@
 
 #include "control/ActuatorAnalog.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
+#include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
 #include <cstdint>
 #include <functional>
@@ -58,15 +59,15 @@ private:
 
     safe_elastic_fixed_point<2, 28> dutyFraction() const;
 
-    // separate flag for manually disabling the pwm actuator
-    bool m_enabled = true;
-
 #if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     uint8_t timerFuncId = 0;
     duration_millis_t m_fastPwmElapsed = 0;
 #endif
 
 public:
+    // separate flag for manually disabling the pwm actuator
+    Enabler enabler;
+
     /** Constructor.
      *  @param _m_
      target Digital actuator to be toggled with PWM
@@ -83,7 +84,7 @@ public:
     virtual ~ActuatorPwm()
     {
         // ensure that interrupts are removed before destruction.
-        enabled(false);
+        enabler.set(false);
     }
 
     /** ActuatorPWM keeps track of the last high and low transition.
@@ -147,20 +148,4 @@ public:
     virtual bool settingValid() const override final;
 
     virtual void settingValid(bool v) override final;
-
-    bool enabled() const
-    {
-        return m_enabled;
-    }
-
-    void enabled(bool v)
-    {
-        if (!v && m_enabled) {
-            settingValid(false);
-        }
-        m_enabled = v;
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-        manageTimerTask();
-#endif
-    }
 };

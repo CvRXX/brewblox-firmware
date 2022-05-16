@@ -21,6 +21,7 @@
 
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ControlPtr.hpp"
+#include "control/Enabler.hpp"
 #include "control/ProcessValue.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include <cstring>
@@ -47,11 +48,10 @@ private:
     uint8_t m_derivativeFilterNr = 0;
 
     // settings
-    in_t m_kp = in_t{0};    // proportional gain
-    uint16_t m_ti = 0;      // integral time constant
-    uint16_t m_td = 0;      // derivative time constant
-    bool m_enabled = false; // persisted setting to manually disable the pid
-    bool m_active = false;  // automatically set when input is invalid
+    in_t m_kp = in_t{0};   // proportional gain
+    uint16_t m_ti = 0;     // integral time constant
+    uint16_t m_td = 0;     // derivative time constant
+    bool m_active = false; // automatically set when input is invalid
 
     in_t m_boilPointAdjust = in_t{0}; // offset from 100C for lower limit to activate boil mode
 
@@ -60,11 +60,14 @@ private:
     bool m_boilModeActive = false;
 
 public:
+    Enabler enabler;
+
     explicit Pid(
         ControlPtr<SetpointSensorPair>& input,
         ControlPtr<ProcessValue<Pid::out_t>>& output)
         : m_inputPtr(input)
         , m_outputPtr(output)
+        , enabler(false, [this](bool arg) {active(arg); return arg; })
     {
     }
 
@@ -132,21 +135,11 @@ public:
 
     void td(const uint16_t& arg);
 
-    void enabled(bool state)
-    {
-        active(state);
-        m_enabled = state;
-    }
-
-    auto enabled() const
-    {
-        return m_enabled;
-    }
-
     auto active() const
     {
         return m_active;
     }
+
     void setIntegral(const out_t& newIntegratorPart);
 
     bool boilModeActive() const
@@ -182,7 +175,7 @@ public:
 private:
     void active(bool state)
     {
-        if (m_enabled && m_active && !state) {
+        if (enabler.get() && m_active && !state) {
             if (auto ptr = m_outputPtr.lock()) {
                 ptr->setting(0);
                 ptr->settingValid(false);

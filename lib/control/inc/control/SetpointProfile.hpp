@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "control/Enabler.hpp"
 #include "control/SetpointSensorPair.hpp"
 #include "control/Temperature.hpp"
 #include "control/TicksTypes.hpp"
@@ -34,14 +35,16 @@ public:
 private:
     ControlPtr<SetpointSensorPair>& m_target;
     utc_seconds_t m_profileStartTime = 0;
-    bool m_enabled = true;
 
     std::vector<Point> m_points;
 
 public:
+    Enabler enabler;
+
     explicit SetpointProfile(
         ControlPtr<SetpointSensorPair>& target) // process value to manipulate setpoint of
         : m_target(target)
+        , enabler(true)
     {
     }
     SetpointProfile(const SetpointProfile&) = delete;
@@ -60,20 +63,10 @@ public:
 
     bool isDriving() const
     {
-        return (m_enabled && !m_points.empty());
+        return (enabler.get() && !m_points.empty());
     }
 
     void update(const utc_seconds_t& time);
-
-    bool enabled() const
-    {
-        return m_enabled;
-    }
-
-    void enabled(bool v)
-    {
-        m_enabled = v;
-    }
 
     const std::vector<Point>& points() const
     {

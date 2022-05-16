@@ -64,7 +64,7 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
 
     message.points.funcs.encode = &encodePoints;
     message.points.arg = const_cast<std::vector<SetpointProfile::Point>*>(&profile.points());
-    message.enabled = profile.enabled();
+    message.enabled = profile.enabler.get();
     message.start = profile.startTime();
     message.targetId = target.getId();
     if (profile.isDriving()) {
@@ -105,7 +105,7 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         profile.points(std::move(newPoints));
-        profile.enabled(message.enabled);
+        profile.enabler.set(message.enabled);
         profile.startTime(message.start);
         target.setId(message.targetId);
     }
@@ -125,6 +125,10 @@ void* SetpointProfileBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == brewblox_BlockType_SetpointProfile) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceIdImpl<Enabler>()) {
+        Enabler* ptr = &profile.enabler;
+        return ptr;
     }
 
     return nullptr;

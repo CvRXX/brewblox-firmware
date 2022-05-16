@@ -24,7 +24,7 @@ void Pid::update()
     auto input = m_inputPtr.lock();
     auto setpoint = in_t{0};
     if (input && input->settingValid() && input->valueValid()) {
-        if (m_enabled) {
+        if (enabler.get()) {
             active(true);
         }
         setpoint = input->setting();
@@ -75,7 +75,7 @@ void Pid::update()
     }
 
     // try to set the output to the desired setting
-    if (m_enabled) {
+    if (enabler.get()) {
         if (auto output = m_outputPtr.lock()) {
             output->settingValid(true);
             output->setting(outputValue);

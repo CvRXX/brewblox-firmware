@@ -23,7 +23,6 @@ class SequenceBlock final : public Block<brewblox_BlockType_Sequence> {
 private:
     using RunnerFunc = std::function<InstructionResult(const SequenceState& state)>;
 
-    Enabler _enabler;
     SequenceState _state;
     std::vector<blox_Sequence_Instruction> _instructions;
     RunnerFunc _runner{[](const SequenceState&) { return blox_Sequence_SequenceStatus_DONE; }};
@@ -31,6 +30,8 @@ private:
     RunnerFunc makeRunner();
 
 public:
+    Enabler enabler;
+
     SequenceBlock() = default;
     ~SequenceBlock() = default;
 
@@ -38,4 +39,12 @@ public:
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
     cbox::update_t updateHandler(const cbox::update_t& now) override;
+    void* implements(cbox::obj_type_t iface) override;
+
+    void reset(const uint16_t activeInstruction, const uint32_t activeInstructionStartedAt);
+
+    bool done() const
+    {
+        return _state.status == blox_Sequence_SequenceStatus_DONE;
+    }
 };
