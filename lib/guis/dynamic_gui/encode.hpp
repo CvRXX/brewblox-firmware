@@ -49,7 +49,7 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<blox_ScreenConfig_Layo
 
     pb_ostream_t stream = pb_ostream_from_buffer(buffer, bufferSize);
 
-    auto protoMessage = blox_ScreenConfig_ScreenConfig{};
+    blox_ScreenConfig_ScreenConfig protoMessage = blox_ScreenConfig_ScreenConfig_init_default;
 
     protoMessage.layoutNodes.funcs.encode = detail::nodeReturner;
     protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
