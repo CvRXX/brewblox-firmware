@@ -71,10 +71,10 @@ public:
     /**
      * Draws the placeholders for it's children and calls their draw function.
      * @param placeholder The parent placeholder.
-     * @param with The with of the parent placeholder.
+     * @param width The width of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override final
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
     {
         lv_obj_set_style_pad_gap(placeholder, 0, 0);
         lv_obj_set_style_pad_all(placeholder, 0, 0);
@@ -85,17 +85,17 @@ public:
         });
 
         uint32_t startingY = 0;
-        std::transform(elements.begin(), elements.end(), std::back_inserter(placeholders), [&startingY, placeholder, weightTotal, height, with](auto& element) -> LvglObjectWrapper {
+        std::transform(elements.begin(), elements.end(), std::back_inserter(placeholders), [&startingY, placeholder, weightTotal, height, width](auto& element) -> LvglObjectWrapper {
             const auto elementHeight = (height / weightTotal) * element->getWeight(); /// first multiply then divide
 
             auto newPlaceholder = LvglObjectWrapper(lv_obj_create(placeholder));
-            lv_obj_set_size(newPlaceholder.get(), with, elementHeight);
+            lv_obj_set_size(newPlaceholder.get(), width, elementHeight);
             lv_obj_set_style_pad_all(newPlaceholder.get(), 2, 0);
             lv_obj_set_style_border_width(newPlaceholder.get(), 0, 0);
             lv_obj_set_style_radius(newPlaceholder.get(), 0, 0);
             lv_obj_set_pos(newPlaceholder.get(), 0, startingY);
             startingY += elementHeight;
-            element->draw(newPlaceholder.get(), with, elementHeight);
+            element->draw(newPlaceholder.get(), width, elementHeight);
             return newPlaceholder;
         });
     }

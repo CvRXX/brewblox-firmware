@@ -61,12 +61,12 @@ public:
     /**
      * Draws the widget in its parent placeholder.
      * @param placeholder The parent placeholder.
-     * @param with The with of the parent placeholder.
+     * @param width The width of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override
     {
-        widget->draw(placeholder, with, height);
+        widget->draw(placeholder, width, height);
     }
 
 protected:

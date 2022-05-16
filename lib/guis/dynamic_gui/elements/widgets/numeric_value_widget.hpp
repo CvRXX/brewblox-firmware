@@ -61,19 +61,19 @@ public:
     /**
      * Draws the numericvalue widget in its parent placeholder.
      * @param placeholder The parent placeholder.
-     * @param with The with of the parent placeholder.
+     * @param width The width of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override final
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
     {
-        ColorWidget::draw(placeholder, with, height);
-        valueLabel.reset(sizing::bigNumber(contentArea.get(), with, height));
+        ColorWidget::draw(placeholder, width, height);
+        valueLabel.reset(sizing::bigNumber(contentArea.get(), width, height));
 
         lv_label_set_text(valueLabel.get(), std::to_string(settings.value).c_str());
         lv_obj_align(valueLabel.get(), LV_ALIGN_CENTER, 0, 0);
         lv_obj_set_style_pad_all(valueLabel.get(), 0, 0);
 
-        if (sizing::toDrawLabel(with, height)) {
+        if (sizing::toDrawLabel(width, height)) {
             LabelLabel.reset(lv_label_create(contentArea.get()));
             lv_obj_add_style(LabelLabel.get(), &style::widget_name, LV_PART_MAIN);
             lv_label_set_text(LabelLabel.get(), settings.label);
