@@ -30,14 +30,14 @@ SCENARIO("DynamicGui")
     {
         uint8_t buffer[128];
         // size_t message_length;
-        std::vector<guiMessage_LayoutNode> layoutNodes;
-        layoutNodes.push_back({1, 2, guiMessage_Type_Content, 1});
-        layoutNodes.push_back({0, 1, guiMessage_Type_Row, 1});
-        layoutNodes.push_back({1, 3, guiMessage_Type_Content, 1});
+        std::vector<blox_ScreenConfig_LayoutNode> layoutNodes;
+        layoutNodes.push_back({1, 2, blox_ScreenConfig_Type_Content, 1});
+        layoutNodes.push_back({0, 1, blox_ScreenConfig_Type_Row, 1});
+        layoutNodes.push_back({1, 3, blox_ScreenConfig_Type_Content, 1});
 
-        std::vector<guiMessage_ContentNode> contentNodes;
-        auto numericValue = guiMessage_NumericValue{guiMessage_Color{0, 255, 0}, 99, "proto"};
-        auto node = guiMessage_ContentNode{2, guiMessage_ContentNode_numericValue_tag, numericValue};
+        std::vector<blox_ScreenConfig_ContentNode> contentNodes;
+        auto numericValue = blox_ScreenConfig_NumericValue{blox_ScreenConfig_Color{0, 255, 0}, 99, "proto"};
+        auto node = blox_ScreenConfig_ContentNode{2, blox_ScreenConfig_ContentNode_numericValue_tag, numericValue};
         contentNodes.push_back(node);
 
         auto encodeResult = gui::dynamic_interface::encodeNodes(layoutNodes, contentNodes, buffer, sizeof(buffer));
@@ -55,8 +55,8 @@ SCENARIO("DynamicGui")
                 // Validate assumption of the GIVEN clause
                 WHEN("Serialising the screen")
                 {
-                    std::vector<guiMessage_LayoutNode> layoutNodesBack;
-                    std::vector<guiMessage_ContentNode> contentNodesBack;
+                    std::vector<blox_ScreenConfig_LayoutNode> layoutNodesBack;
+                    std::vector<blox_ScreenConfig_ContentNode> contentNodesBack;
                     REQUIRE(newScreen->serialise(layoutNodesBack, contentNodesBack));
 
                     std::sort(layoutNodes.begin(), layoutNodes.end(), [](const auto& a, const auto& b) {

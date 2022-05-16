@@ -23,7 +23,7 @@
 #include "dynamic_gui/elements/widgets/widget_base.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/styles/sizing.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 
 #include "lvgl.h"
 #include <iostream>
@@ -42,13 +42,13 @@ public:
      * @param color The background color of the widget.
      */
     EmptyWidget()
-        : WidgetBase({guiMessage_Color{150, 150, 150}})
+        : WidgetBase({blox_ScreenConfig_Color{150, 150, 150}})
     {
     }
 
     EmptyWidget(EmptyWidget&& emptyWidget) = default;
 
-    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId) override
+    bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
         return true;
     }

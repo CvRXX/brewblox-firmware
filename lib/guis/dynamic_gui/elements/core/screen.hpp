@@ -21,7 +21,7 @@
 
 #include "element.hpp"
 #include "lvgl.h"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 #include <type_traits>
 
 namespace gui::dynamic_interface {
@@ -61,7 +61,7 @@ public:
         }
     }
 
-    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes)
+    bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
     {
         if (element) {
             return element->serialise(layoutNodes, contentNodes, 0);

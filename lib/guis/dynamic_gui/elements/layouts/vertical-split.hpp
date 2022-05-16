@@ -49,9 +49,9 @@ public:
     {
     }
 
-    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t parentId) override
+    bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
-        layoutNodes.push_back({parentId, layOutNodeId, guiMessage_Type_Column, weight});
+        layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Column, weight});
         for (auto& element : elements) {
             if (!element->serialise(layoutNodes, contentNodes, layOutNodeId))
                 return false;

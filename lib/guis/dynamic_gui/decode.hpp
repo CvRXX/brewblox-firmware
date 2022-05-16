@@ -6,7 +6,7 @@
 #include "elements/widgets/empty_widget.hpp"
 #include "elements/widgets/numeric_value.hpp"
 #include "elements/widgets/widget.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 #include <iostream>
 #include <optional>
 #include <pb_decode.h>
@@ -17,10 +17,10 @@ namespace detail {
     // Decode layoutNodes and push them to a vector passed in arg.
     bool layoutNodeDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg)
     {
-        auto nodes = reinterpret_cast<std::vector<guiMessage_LayoutNode>*>(*arg);
+        auto nodes = reinterpret_cast<std::vector<blox_ScreenConfig_LayoutNode>*>(*arg);
         while (stream->bytes_left) {
-            auto node = guiMessage_LayoutNode{};
-            if (!pb_decode(stream, guiMessage_LayoutNode_fields, &node))
+            auto node = blox_ScreenConfig_LayoutNode{};
+            if (!pb_decode(stream, blox_ScreenConfig_LayoutNode_fields, &node))
                 return false;
 
             nodes->push_back(node);
@@ -31,10 +31,10 @@ namespace detail {
     // Decode contentNodes and push them to a vector passed in arg.
     bool contentNodeDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg)
     {
-        auto nodes = reinterpret_cast<std::vector<guiMessage_ContentNode>*>(*arg);
+        auto nodes = reinterpret_cast<std::vector<blox_ScreenConfig_ContentNode>*>(*arg);
         while (stream->bytes_left) {
-            auto node = guiMessage_ContentNode{};
-            if (!pb_decode(stream, guiMessage_ContentNode_fields, &node))
+            auto node = blox_ScreenConfig_ContentNode{};
+            if (!pb_decode(stream, blox_ScreenConfig_ContentNode_fields, &node))
                 return false;
 
             nodes->push_back(node);
@@ -42,7 +42,7 @@ namespace detail {
         return true;
     }
 
-    bool parseRowCol(guiMessage_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>& elements)
+    bool parseRowCol(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>& elements)
     {
         auto children = std::vector<std::unique_ptr<Element>>{};
 
@@ -60,7 +60,7 @@ namespace detail {
         elements.erase(toAdd, elements.end());
 
         // Construct the split with the found children and add it to elements.
-        if (nodeToAdd.type == guiMessage_Type_Row) {
+        if (nodeToAdd.type == blox_ScreenConfig_Type_Row) {
             std::unique_ptr<Element> newElement{new HorizontalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
             elements.push_back({std::move(newElement), nodeToAdd.parent});
         } else {
@@ -70,20 +70,20 @@ namespace detail {
         return true;
     }
 
-    bool parseContent(guiMessage_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>& elements, std::vector<guiMessage_ContentNode>& contentNodes)
+    bool parseContent(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>& elements, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
     {
         // Find the content node with a layoutId that matches the id of the current node.
         auto content = std::find_if(contentNodes.begin(), contentNodes.end(), [nodeToAdd](const auto& node) {
             return nodeToAdd.nodeId == node.layoutNodeId;
         });
         if (content != std::end(contentNodes)) {
-            if (content->which_Content == guiMessage_ContentNode_numericValue_tag) {
+            if (content->which_Content == blox_ScreenConfig_ContentNode_numericValue_tag) {
                 std::unique_ptr<Widget> widget{new NumericValue(content->Content.numericValue)};
                 std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
-            else if (content->which_Content == guiMessage_ContentNode_widget_tag) {
+            else if (content->which_Content == blox_ScreenConfig_ContentNode_widget_tag) {
                 std::unique_ptr<Widget> widget{new WidgetBase(content->Content.widget)};
                 std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
@@ -105,7 +105,7 @@ namespace detail {
         }
         return true;
     }
-    std::optional<Screen> decodeNodes(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode> contentNodes)
+    std::optional<Screen> decodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode> contentNodes)
     {
         // Temp storage of elements which are to be children of higher elements.
         auto elements = std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>{};
@@ -119,10 +119,10 @@ namespace detail {
         // Walk through the list of nodes in decending order of nodeId.
         // This means that the children of a node are already created when the node is reached.
         for (auto& nodeToAdd : layoutNodes) {
-            if (nodeToAdd.type == guiMessage_Type_Row || nodeToAdd.type == guiMessage_Type_Column) {
+            if (nodeToAdd.type == blox_ScreenConfig_Type_Row || nodeToAdd.type == blox_ScreenConfig_Type_Column) {
                 if (!parseRowCol(nodeToAdd, elements))
                     return std::nullopt;
-            } else if (nodeToAdd.type == guiMessage_Type_Content) {
+            } else if (nodeToAdd.type == blox_ScreenConfig_Type_Content) {
                 if (!parseContent(nodeToAdd, elements, contentNodes))
                     return std::nullopt;
             } else {
@@ -140,18 +140,18 @@ namespace detail {
 
 std::optional<Screen> decodeBuffer(uint8_t* buffer, size_t length)
 {
-    guiMessage_Gui protoMessage = guiMessage_Gui_init_default;
+    blox_ScreenConfig_ScreenConfig protoMessage = blox_ScreenConfig_ScreenConfig_init_default;
 
     protoMessage.layoutNodes.funcs.decode = detail::layoutNodeDecoder;
-    auto layoutNodes = std::vector<guiMessage_LayoutNode>{};
+    auto layoutNodes = std::vector<blox_ScreenConfig_LayoutNode>{};
     protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
 
     protoMessage.contentNodes.funcs.decode = detail::contentNodeDecoder;
-    auto contentNodes = std::vector<guiMessage_ContentNode>{};
+    auto contentNodes = std::vector<blox_ScreenConfig_ContentNode>{};
     protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
     pb_istream_t stream = pb_istream_from_buffer(buffer, length);
-    if (!pb_decode(&stream, guiMessage_Gui_fields, &protoMessage))
+    if (!pb_decode(&stream, blox_ScreenConfig_ScreenConfig_fields, &protoMessage))
         return std::nullopt;
 
     return detail::decodeNodes(layoutNodes, contentNodes);

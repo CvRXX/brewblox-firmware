@@ -23,7 +23,7 @@
 #include "dynamic_gui/elements/widgets/widget_base.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/styles/sizing.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 
 #include "lvgl.h"
 #include <iostream>
@@ -41,7 +41,7 @@ public:
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    NumericValue(guiMessage_NumericValue& numericValue)
+    NumericValue(blox_ScreenConfig_NumericValue& numericValue)
         : WidgetBase({numericValue.color.r, numericValue.color.g, numericValue.color.b})
         , settings(numericValue)
     {
@@ -49,9 +49,9 @@ public:
 
     NumericValue(NumericValue&& numericValue) = default;
 
-    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
+    bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
-        contentnodes.push_back({layOutNodeId, guiMessage_ContentNode_numericValue_tag, settings});
+        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_numericValue_tag, settings});
         return true;
     }
 
@@ -83,7 +83,7 @@ public:
     }
 
 private:
-    guiMessage_NumericValue settings;
+    blox_ScreenConfig_NumericValue settings;
     LvglObjectWrapper valueLabel;
     LvglObjectWrapper LabelLabel;
 };

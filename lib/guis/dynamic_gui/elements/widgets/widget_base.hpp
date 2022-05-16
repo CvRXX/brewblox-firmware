@@ -23,7 +23,7 @@
 #include "dynamic_gui/elements/core/element.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/styles/styles.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 
 namespace gui::dynamic_interface {
 
@@ -36,21 +36,21 @@ public:
      * Constructs a widget.
      * @param color The background color of the widget.
      */
-    constexpr WidgetBase(guiMessage_Widget widget)
+    constexpr WidgetBase(blox_ScreenConfig_Widget widget)
         : settings(widget)
         , color({widget.color.r, widget.color.g, widget.color.b})
     {
     }
 
     constexpr WidgetBase()
-        : settings({guiMessage_Color{150, 150, 150}})
+        : settings({blox_ScreenConfig_Color{150, 150, 150}})
         , color({150, 150, 150})
     {
     }
 
-    bool serialise(std::vector<guiMessage_ContentNode>& contentnodes, uint8_t layOutNodeId) override
+    bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
-        contentnodes.push_back({layOutNodeId, guiMessage_ContentNode_widget_tag, {.widget = settings}});
+        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_widget_tag, {.widget = settings}});
         return true;
     }
 
@@ -86,7 +86,7 @@ public:
     }
 
 protected:
-    guiMessage_Widget settings;
+    blox_ScreenConfig_Widget settings;
     Color color;
     LvglObjectWrapper contentArea = nullptr;
 };

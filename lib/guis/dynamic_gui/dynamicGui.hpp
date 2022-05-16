@@ -5,7 +5,7 @@
 #include "elements/layouts/vertical-split.hpp"
 #include "elements/widgets/numeric_value.hpp"
 #include "elements/widgets/widget.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 #include "styles/styles.hpp"
 #include <array>
 #include <iostream>

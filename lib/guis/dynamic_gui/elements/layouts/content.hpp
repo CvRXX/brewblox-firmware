@@ -23,7 +23,7 @@
 #include "dynamic_gui/elements/core/element.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/styles/styles.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 
 namespace gui::dynamic_interface {
 
@@ -54,9 +54,9 @@ public:
         return weight;
     }
 
-    bool serialise(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t parentId) override
+    bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
-        layoutNodes.push_back({parentId, layOutNodeId, guiMessage_Type_Content, weight});
+        layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Content, weight});
         return widget->serialise(contentNodes, layOutNodeId);
     }
 

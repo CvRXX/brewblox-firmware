@@ -1,6 +1,6 @@
 #pragma once
 #include "elements/core/screen.hpp"
-#include "proto/guiMessage.pb.h"
+#include "proto/ScreenConfig.pb.h"
 #include "tl/expected.hpp"
 #include <iostream>
 #include <optional>
@@ -9,12 +9,12 @@
 namespace gui::dynamic_interface {
 namespace detail {
     auto nodeReturner = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
-        for (auto node : *reinterpret_cast<std::vector<guiMessage_LayoutNode>*>(*arg)) {
+        for (auto node : *reinterpret_cast<std::vector<blox_ScreenConfig_LayoutNode>*>(*arg)) {
             if (!pb_encode_tag_for_field(stream, field)) {
                 return false;
             }
 
-            if (!pb_encode_submessage(stream, guiMessage_LayoutNode_fields, &node)) {
+            if (!pb_encode_submessage(stream, blox_ScreenConfig_LayoutNode_fields, &node)) {
                 return false;
             }
         }
@@ -22,12 +22,12 @@ namespace detail {
     };
 
     auto contentNodeReturner = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
-        for (auto node : *reinterpret_cast<std::vector<guiMessage_ContentNode>*>(*arg)) {
+        for (auto node : *reinterpret_cast<std::vector<blox_ScreenConfig_ContentNode>*>(*arg)) {
             if (!pb_encode_tag_for_field(stream, field)) {
                 return false;
             }
 
-            if (!pb_encode_submessage(stream, guiMessage_ContentNode_fields, &node)) {
+            if (!pb_encode_submessage(stream, blox_ScreenConfig_ContentNode_fields, &node)) {
                 return false;
             }
         }
@@ -41,7 +41,7 @@ enum class EncodeError : uint8_t {
     PBError = 3,
 };
 
-tl::expected<size_t, EncodeError> encodeNodes(std::vector<guiMessage_LayoutNode>& layoutNodes, std::vector<guiMessage_ContentNode>& contentNodes, uint8_t* buffer, size_t bufferSize)
+tl::expected<size_t, EncodeError> encodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t* buffer, size_t bufferSize)
 {
     if (!buffer) {
         return tl::unexpected{EncodeError::bufferIsNullptr};
@@ -49,7 +49,7 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<guiMessage_LayoutNode>
 
     pb_ostream_t stream = pb_ostream_from_buffer(buffer, bufferSize);
 
-    auto protoMessage = guiMessage_Gui{};
+    auto protoMessage = blox_ScreenConfig_ScreenConfig{};
 
     protoMessage.layoutNodes.funcs.encode = detail::nodeReturner;
     protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
@@ -57,7 +57,7 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<guiMessage_LayoutNode>
     protoMessage.contentNodes.funcs.encode = detail::contentNodeReturner;
     protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
-    if (!pb_encode(&stream, guiMessage_Gui_fields, &protoMessage)) {
+    if (!pb_encode(&stream, blox_ScreenConfig_ScreenConfig_fields, &protoMessage)) {
         return tl::unexpected{EncodeError::PBError};
     }
 
@@ -66,8 +66,8 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<guiMessage_LayoutNode>
 
 tl::expected<size_t, EncodeError> encodeBuffer(Screen& screen, uint8_t* buffer, size_t bufferSize)
 {
-    auto layoutNodes = std::vector<guiMessage_LayoutNode>{};
-    auto contentNodes = std::vector<guiMessage_ContentNode>{};
+    auto layoutNodes = std::vector<blox_ScreenConfig_LayoutNode>{};
+    auto contentNodes = std::vector<blox_ScreenConfig_ContentNode>{};
 
     if (!buffer) {
         return tl::unexpected{EncodeError::bufferIsNullptr};
