@@ -30,19 +30,19 @@ namespace gui::dynamic_interface {
 /**
  * A base class for widgets.
  */
-class WidgetBase : public Widget {
+class ColorWidget : public Widget {
 public:
     /**
      * Constructs a widget.
      * @param color The background color of the widget.
      */
-    constexpr WidgetBase(blox_ScreenConfig_Widget widget)
-        : settings(widget)
-        , color({widget.color.r, widget.color.g, widget.color.b})
+    constexpr ColorWidget(blox_ScreenConfig_ColorWidget colorWidget)
+        : settings(colorWidget)
+        , color({colorWidget.color.r, colorWidget.color.g, colorWidget.color.b})
     {
     }
 
-    constexpr WidgetBase()
+    constexpr ColorWidget()
         : settings({blox_ScreenConfig_Color{150, 150, 150}})
         , color({150, 150, 150})
     {
@@ -50,7 +50,7 @@ public:
 
     bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
-        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_widget_tag, {.widget = settings}});
+        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_colorWidget_tag, {.colorWidget = settings}});
         return true;
     }
 
@@ -86,7 +86,7 @@ public:
     }
 
 protected:
-    blox_ScreenConfig_Widget settings;
+    blox_ScreenConfig_ColorWidget settings;
     Color color;
     LvglObjectWrapper contentArea = nullptr;
 };

@@ -47,24 +47,24 @@ typedef struct _blox_ScreenConfig_LayoutNode {
 /* @@protoc_insertion_point(struct:blox_ScreenConfig_LayoutNode) */
 } blox_ScreenConfig_LayoutNode;
 
-typedef struct _blox_ScreenConfig_NumericValue {
+typedef struct _blox_ScreenConfig_ColorWidget {
+    blox_ScreenConfig_Color color;
+/* @@protoc_insertion_point(struct:blox_ScreenConfig_ColorWidget) */
+} blox_ScreenConfig_ColorWidget;
+
+typedef struct _blox_ScreenConfig_NumericValueWidget {
     blox_ScreenConfig_Color color;
     uint8_t value;
     char label[41];
-/* @@protoc_insertion_point(struct:blox_ScreenConfig_NumericValue) */
-} blox_ScreenConfig_NumericValue;
-
-typedef struct _blox_ScreenConfig_Widget {
-    blox_ScreenConfig_Color color;
-/* @@protoc_insertion_point(struct:blox_ScreenConfig_Widget) */
-} blox_ScreenConfig_Widget;
+/* @@protoc_insertion_point(struct:blox_ScreenConfig_NumericValueWidget) */
+} blox_ScreenConfig_NumericValueWidget;
 
 typedef struct _blox_ScreenConfig_ContentNode {
     uint8_t layoutNodeId;
     pb_size_t which_Content;
     union {
-        blox_ScreenConfig_NumericValue numericValue;
-        blox_ScreenConfig_Widget widget;
+        blox_ScreenConfig_NumericValueWidget numericValueWidget;
+        blox_ScreenConfig_ColorWidget colorWidget;
     } Content;
 /* @@protoc_insertion_point(struct:blox_ScreenConfig_ContentNode) */
 } blox_ScreenConfig_ContentNode;
@@ -74,15 +74,15 @@ typedef struct _blox_ScreenConfig_ContentNode {
 /* Initializer values for message structs */
 #define blox_ScreenConfig_LayoutNode_init_default {0, 0, _blox_ScreenConfig_Type_MIN, 0}
 #define blox_ScreenConfig_Color_init_default     {0, 0, 0}
-#define blox_ScreenConfig_NumericValue_init_default {blox_ScreenConfig_Color_init_default, 0, ""}
-#define blox_ScreenConfig_Widget_init_default    {blox_ScreenConfig_Color_init_default}
-#define blox_ScreenConfig_ContentNode_init_default {0, 0, {blox_ScreenConfig_NumericValue_init_default}}
+#define blox_ScreenConfig_NumericValueWidget_init_default {blox_ScreenConfig_Color_init_default, 0, ""}
+#define blox_ScreenConfig_ColorWidget_init_default {blox_ScreenConfig_Color_init_default}
+#define blox_ScreenConfig_ContentNode_init_default {0, 0, {blox_ScreenConfig_NumericValueWidget_init_default}}
 #define blox_ScreenConfig_ScreenConfig_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define blox_ScreenConfig_LayoutNode_init_zero   {0, 0, _blox_ScreenConfig_Type_MIN, 0}
 #define blox_ScreenConfig_Color_init_zero        {0, 0, 0}
-#define blox_ScreenConfig_NumericValue_init_zero {blox_ScreenConfig_Color_init_zero, 0, ""}
-#define blox_ScreenConfig_Widget_init_zero       {blox_ScreenConfig_Color_init_zero}
-#define blox_ScreenConfig_ContentNode_init_zero  {0, 0, {blox_ScreenConfig_NumericValue_init_zero}}
+#define blox_ScreenConfig_NumericValueWidget_init_zero {blox_ScreenConfig_Color_init_zero, 0, ""}
+#define blox_ScreenConfig_ColorWidget_init_zero  {blox_ScreenConfig_Color_init_zero}
+#define blox_ScreenConfig_ContentNode_init_zero  {0, 0, {blox_ScreenConfig_NumericValueWidget_init_zero}}
 #define blox_ScreenConfig_ScreenConfig_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -95,27 +95,27 @@ typedef struct _blox_ScreenConfig_ContentNode {
 #define blox_ScreenConfig_LayoutNode_nodeId_tag  2
 #define blox_ScreenConfig_LayoutNode_type_tag    3
 #define blox_ScreenConfig_LayoutNode_weight_tag  4
-#define blox_ScreenConfig_NumericValue_color_tag 1
-#define blox_ScreenConfig_NumericValue_value_tag 2
-#define blox_ScreenConfig_NumericValue_label_tag 3
-#define blox_ScreenConfig_Widget_color_tag       1
-#define blox_ScreenConfig_ContentNode_numericValue_tag 2
-#define blox_ScreenConfig_ContentNode_widget_tag 3
+#define blox_ScreenConfig_ColorWidget_color_tag  1
+#define blox_ScreenConfig_NumericValueWidget_color_tag 1
+#define blox_ScreenConfig_NumericValueWidget_value_tag 2
+#define blox_ScreenConfig_NumericValueWidget_label_tag 3
+#define blox_ScreenConfig_ContentNode_numericValueWidget_tag 2
+#define blox_ScreenConfig_ContentNode_colorWidget_tag 3
 #define blox_ScreenConfig_ContentNode_layoutNodeId_tag 1
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_ScreenConfig_LayoutNode_fields[5];
 extern const pb_field_t blox_ScreenConfig_Color_fields[4];
-extern const pb_field_t blox_ScreenConfig_NumericValue_fields[4];
-extern const pb_field_t blox_ScreenConfig_Widget_fields[2];
+extern const pb_field_t blox_ScreenConfig_NumericValueWidget_fields[4];
+extern const pb_field_t blox_ScreenConfig_ColorWidget_fields[2];
 extern const pb_field_t blox_ScreenConfig_ContentNode_fields[4];
 extern const pb_field_t blox_ScreenConfig_ScreenConfig_fields[3];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_ScreenConfig_LayoutNode_size        20
 #define blox_ScreenConfig_Color_size             18
-#define blox_ScreenConfig_NumericValue_size      69
-#define blox_ScreenConfig_Widget_size            20
+#define blox_ScreenConfig_NumericValueWidget_size 69
+#define blox_ScreenConfig_ColorWidget_size       20
 #define blox_ScreenConfig_ContentNode_size       77
 /* blox_ScreenConfig_ScreenConfig_size depends on runtime parameters */
 

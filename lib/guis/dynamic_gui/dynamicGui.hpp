@@ -3,7 +3,7 @@
 #include "elements/core/screen.hpp"
 #include "elements/layouts/horizontal-split.hpp"
 #include "elements/layouts/vertical-split.hpp"
-#include "elements/widgets/numeric_value.hpp"
+#include "elements/widgets/numeric_value_widget.hpp"
 #include "elements/widgets/widget.hpp"
 #include "proto/ScreenConfig.pb.h"
 #include "styles/styles.hpp"

@@ -4,7 +4,7 @@
 #include "elements/layouts/horizontal-split.hpp"
 #include "elements/layouts/vertical-split.hpp"
 #include "elements/widgets/empty_widget.hpp"
-#include "elements/widgets/numeric_value.hpp"
+#include "elements/widgets/numeric_value_widget.hpp"
 #include "elements/widgets/widget.hpp"
 #include "proto/ScreenConfig.pb.h"
 #include <iostream>
@@ -79,14 +79,14 @@ namespace detail {
             return nodeToAdd.nodeId == node.layoutNodeId;
         });
         if (content != std::end(contentNodes)) {
-            if (content->which_Content == blox_ScreenConfig_ContentNode_numericValue_tag) {
-                std::unique_ptr<Widget> widget{new NumericValue(content->Content.numericValue)};
+            if (content->which_Content == blox_ScreenConfig_ContentNode_numericValueWidget_tag) {
+                std::unique_ptr<Widget> widget{new NumericValueWidget(content->Content.numericValueWidget)};
                 std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
-            else if (content->which_Content == blox_ScreenConfig_ContentNode_widget_tag) {
-                std::unique_ptr<Widget> widget{new WidgetBase(content->Content.widget)};
+            else if (content->which_Content == blox_ScreenConfig_ContentNode_colorWidget_tag) {
+                std::unique_ptr<Widget> widget{new ColorWidget(content->Content.colorWidget)};
                 std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }

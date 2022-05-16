@@ -20,7 +20,7 @@
 #pragma once
 
 #include "dynamic_gui/elements/core/color.hpp"
-#include "dynamic_gui/elements/widgets/widget_base.hpp"
+#include "dynamic_gui/elements/widgets/color_widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/styles/sizing.hpp"
 #include "proto/ScreenConfig.pb.h"
@@ -33,7 +33,7 @@ namespace gui::dynamic_interface {
 /**
  * A widget which can display a numeric value.
  */
-class EmptyWidget : public WidgetBase {
+class EmptyWidget : public ColorWidget {
 public:
     /**
      * Constructs a numeric value.
@@ -42,7 +42,7 @@ public:
      * @param color The background color of the widget.
      */
     EmptyWidget()
-        : WidgetBase({blox_ScreenConfig_Color{150, 150, 150}})
+        : ColorWidget({blox_ScreenConfig_Color{150, 150, 150}})
     {
     }
 

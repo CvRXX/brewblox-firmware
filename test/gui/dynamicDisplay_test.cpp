@@ -36,8 +36,8 @@ SCENARIO("DynamicGui")
         layoutNodes.push_back({1, 3, blox_ScreenConfig_Type_Content, 1});
 
         std::vector<blox_ScreenConfig_ContentNode> contentNodes;
-        auto numericValue = blox_ScreenConfig_NumericValue{blox_ScreenConfig_Color{0, 255, 0}, 99, "proto"};
-        auto node = blox_ScreenConfig_ContentNode{2, blox_ScreenConfig_ContentNode_numericValue_tag, numericValue};
+        auto numericValueWidget = blox_ScreenConfig_NumericValueWidget{blox_ScreenConfig_Color{0, 255, 0}, 99, "proto"};
+        auto node = blox_ScreenConfig_ContentNode{2, blox_ScreenConfig_ContentNode_numericValueWidget_tag, numericValueWidget};
         contentNodes.push_back(node);
 
         auto encodeResult = gui::dynamic_interface::encodeNodes(layoutNodes, contentNodes, buffer, sizeof(buffer));

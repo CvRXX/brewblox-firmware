@@ -20,20 +20,21 @@
 #pragma once
 
 #include "dynamic_gui/elements/core/color.hpp"
-#include "dynamic_gui/elements/widgets/widget_base.hpp"
+#include "dynamic_gui/elements/widgets/color_widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/styles/sizing.hpp"
 #include "proto/ScreenConfig.pb.h"
 
 #include "lvgl.h"
 #include <iostream>
+#include <vector>
 
 namespace gui::dynamic_interface {
 
 /**
  * A widget which can display a numeric value.
  */
-class NumericValue : public WidgetBase {
+class NumericValueWidget : public ColorWidget {
 public:
     /**
      * Constructs a numeric value.
@@ -41,17 +42,17 @@ public:
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    NumericValue(blox_ScreenConfig_NumericValue& numericValue)
-        : WidgetBase({numericValue.color.r, numericValue.color.g, numericValue.color.b})
-        , settings(numericValue)
+    NumericValueWidget(blox_ScreenConfig_NumericValueWidget& numericValueWidget)
+        : ColorWidget({numericValueWidget.color.r, numericValueWidget.color.g, numericValueWidget.color.b})
+        , settings(numericValueWidget)
     {
     }
 
-    NumericValue(NumericValue&& numericValue) = default;
+    NumericValueWidget(NumericValueWidget&& numericValueWidget) = default;
 
     bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
-        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_numericValue_tag, settings});
+        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_numericValueWidget_tag, settings});
         return true;
     }
 
@@ -67,7 +68,7 @@ public:
      */
     void draw(lv_obj_t* placeholder, uint16_t with, uint16_t height) override final
     {
-        WidgetBase::draw(placeholder, with, height);
+        ColorWidget::draw(placeholder, with, height);
         valueLabel.reset(sizing::bigNumber(contentArea.get(), with, height));
 
         lv_label_set_text(valueLabel.get(), std::to_string(settings.value).c_str());
@@ -83,7 +84,7 @@ public:
     }
 
 private:
-    blox_ScreenConfig_NumericValue settings;
+    blox_ScreenConfig_NumericValueWidget settings;
     LvglObjectWrapper valueLabel;
     LvglObjectWrapper LabelLabel;
 };
