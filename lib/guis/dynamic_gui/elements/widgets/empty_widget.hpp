@@ -46,7 +46,7 @@ public:
     {
     }
 
-    bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
+    bool serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
         return true;
     }

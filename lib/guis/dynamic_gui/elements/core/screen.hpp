@@ -60,10 +60,10 @@ public:
         }
     }
 
-    bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
+    bool serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
     {
         if (element) {
-            return element->serialise(layoutNodes, contentNodes, 0);
+            return element->serialize(layoutNodes, contentNodes, 0);
         }
         return false;
     }

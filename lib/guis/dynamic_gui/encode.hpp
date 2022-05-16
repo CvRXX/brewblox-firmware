@@ -72,7 +72,7 @@ tl::expected<size_t, EncodeError> encodeBuffer(Screen& screen, uint8_t* buffer, 
     if (!buffer) {
         return tl::unexpected{EncodeError::bufferIsNullptr};
     }
-    if (!screen.serialise(layoutNodes, contentNodes)) {
+    if (!screen.serialize(layoutNodes, contentNodes)) {
         return tl::unexpected{EncodeError::screenDecomposingError};
     }
 

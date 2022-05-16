@@ -48,7 +48,7 @@ public:
     {
     }
 
-    bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
+    bool serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
     {
         contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_colorWidget_tag, {.colorWidget = settings}});
         return true;

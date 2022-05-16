@@ -29,7 +29,7 @@ class Widget { // Rename this into something that is not confusing with brewblox
 public:
     virtual void update() = 0;
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
-    virtual bool serialise(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) = 0;
+    virtual bool serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) = 0;
     virtual ~Widget() = default;
 
 protected:

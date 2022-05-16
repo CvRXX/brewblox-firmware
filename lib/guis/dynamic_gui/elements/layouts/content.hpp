@@ -52,10 +52,10 @@ public:
         return weight;
     }
 
-    bool serialise(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
+    bool serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Content, weight});
-        return widget->serialise(contentNodes, layOutNodeId);
+        return widget->serialize(contentNodes, layOutNodeId);
     }
 
     /**
