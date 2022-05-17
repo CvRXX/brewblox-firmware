@@ -55,35 +55,46 @@ namespace detail {
         return true;
     }
 
-    DecodeError parseRowCol(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& elements)
+    /**
+     * Parse a row or collumn and add it to the buffer.
+     * @param nodeToAdd The row or collumn to parse.
+     * @param buffer The buffer with the children in it where the parse node will go into.
+     */
+    DecodeError parseRowCol(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& buffer)
     {
         auto children = std::vector<std::unique_ptr<LayoutNode>>{};
 
         // Move the children of nodeToAdd to the end of the vector and return the pivot point.
-        auto toAdd = std::stable_partition(elements.begin(), elements.end(), [nodeToAdd](auto const& a) {
+        auto toAdd = std::stable_partition(buffer.begin(), buffer.end(), [nodeToAdd](auto const& a) {
             return a.second != nodeToAdd.nodeId;
         });
 
         // Move all children into the children vector.
-        std::transform(toAdd, elements.end(), std::back_inserter(children), [](auto& a) {
+        std::transform(toAdd, buffer.end(), std::back_inserter(children), [](auto& a) {
             return std::move(a.first);
         });
 
-        // Erase the empty moved elements from vector.
-        elements.erase(toAdd, elements.end());
+        // Erase the empty moved layoutNodes from vector.
+        buffer.erase(toAdd, buffer.end());
 
-        // Construct the split with the found children and add it to elements.
+        // Construct the split with the found children and add it to the buffer.
         if (nodeToAdd.type == blox_ScreenConfig_Type_Row) {
             std::unique_ptr<LayoutNode> newElement{new HorizontalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
-            elements.push_back({std::move(newElement), nodeToAdd.parent});
+            buffer.push_back({std::move(newElement), nodeToAdd.parent});
         } else {
             std::unique_ptr<LayoutNode> newElement{new VerticalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
-            elements.push_back({std::move(newElement), nodeToAdd.parent});
+            buffer.push_back({std::move(newElement), nodeToAdd.parent});
         }
         return DecodeError::success;
     }
 
-    DecodeError parseContent(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& elements, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
+    /**
+     * Parse a content node and add it to the buffer.
+     * @param nodeToAdd The row or collumn to parse.
+     * @param buffer The buffer with the children in it where the parse node will go into.
+     * @param contentNodes The contentNodes list.
+     */
+    DecodeError parseContent(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& buffer, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
     {
         // Find the content node with a layoutId that matches the id of the current node.
         auto content = std::find_if(contentNodes.begin(), contentNodes.end(), [nodeToAdd](const auto& node) {
@@ -93,20 +104,20 @@ namespace detail {
             if (content->which_Content == blox_ScreenConfig_ContentNode_numericValueWidget_tag) {
                 std::unique_ptr<Widget> widget{new NumericValueWidget(content->Content.numericValueWidget)};
                 std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
-                elements.push_back({std::move(newElement), nodeToAdd.parent});
+                buffer.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
             else if (content->which_Content == blox_ScreenConfig_ContentNode_colorWidget_tag) {
                 std::unique_ptr<Widget> widget{new ColorWidget(content->Content.colorWidget)};
                 std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
-                elements.push_back({std::move(newElement), nodeToAdd.parent});
+                buffer.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
             // If the contentType is not known default to an empty widget.
             else {
                 std::unique_ptr<Widget> widget{new EmptyWidget()};
                 std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
-                elements.push_back({std::move(newElement), nodeToAdd.parent});
+                buffer.push_back({std::move(newElement), nodeToAdd.parent});
             }
         }
 
@@ -114,15 +125,22 @@ namespace detail {
             // If no content is found for the block default to an empty widget.
             std::unique_ptr<Widget> widget{new EmptyWidget()};
             std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
-            elements.push_back({std::move(newElement), nodeToAdd.parent});
+            buffer.push_back({std::move(newElement), nodeToAdd.parent});
         }
         return DecodeError::success;
     }
+
+    /**
+     * Decodes a set of layoutNodes and contentNodes and returns a screen.
+     * @param layoutNodes The layoutNodes to be added to the screen.
+     * @param contentNodes The contentNodes to be added to the screen.
+     * @return An std::expected type containing either the screen or an error.
+     */
     tl::expected<Screen, DecodeError> decodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode> contentNodes)
     {
         // Temp storage of elements which are to be children of higher elements.
-        auto elements = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>{};
-        elements.reserve(layoutNodes.size());
+        auto buffer = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>{};
+        buffer.reserve(layoutNodes.size());
 
         // Sort the layoutnodes in decending order of nodeId.
         std::sort(layoutNodes.begin(), layoutNodes.end(), [](auto& a, auto& b) {
@@ -133,12 +151,12 @@ namespace detail {
         // This means that the children of a node are already created when the node is reached.
         for (auto& nodeToAdd : layoutNodes) {
             if (nodeToAdd.type == blox_ScreenConfig_Type_Row || nodeToAdd.type == blox_ScreenConfig_Type_Column) {
-                auto status = parseRowCol(nodeToAdd, elements);
+                auto status = parseRowCol(nodeToAdd, buffer);
                 if (status != DecodeError::success) {
                     return tl::unexpected{status};
                 }
             } else if (nodeToAdd.type == blox_ScreenConfig_Type_Content) {
-                auto status = parseContent(nodeToAdd, elements, contentNodes);
+                auto status = parseContent(nodeToAdd, buffer, contentNodes);
                 if (status != DecodeError::success) {
                     return tl::unexpected{status};
                 }
@@ -148,14 +166,20 @@ namespace detail {
         }
 
         // The only element left should have a parent of id: 0.
-        if (elements.size() != 1 || elements.back().second != 0) {
+        if (buffer.size() != 1 || buffer.back().second != 0) {
             return tl::unexpected{DecodeError::nodeIdsAreNotSequentialPerLevel};
         }
 
-        return Screen{std::move(elements.back().first)};
+        return Screen{std::move(buffer.back().first)};
     }
 }
 
+/**
+ * Decodes a protobuf error.
+ * @param buffer A pointer to the buffer.
+ * @param length The length of the message in the buffer.
+ * @return An std::expected type containing either the screen or an error.
+ */
 tl::expected<Screen, DecodeError> decodeBuffer(uint8_t* buffer, size_t length)
 {
     if (!buffer) {

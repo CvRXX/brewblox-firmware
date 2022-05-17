@@ -6,6 +6,7 @@ namespace gui::dynamic_interface::sizing {
 
 // The number of chars that should fit for a number
 constexpr uint16_t numbersNChars = 3;
+
 // The margin in px to apply to the numbers
 constexpr double numbersMargin = 10;
 

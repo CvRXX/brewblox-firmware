@@ -40,6 +40,14 @@ enum class EncodeError : uint8_t {
     PBError = 2,
 };
 
+/**
+ * Encodes layoutNodes and contentNodes into a protobuf buffer.
+ * @param layoutNodes The layoutNodes to be encoded.
+ * @param contentNodes The contentNodes to be encoded.
+ * @param buffer The buffer in which the layoutNodes and contentNodes will be encoded.
+ * @param bufferSize The size of the buffer.
+ * @return An std::expected type containing either the size of the protobuf message written or an error.
+ */
 tl::expected<size_t, EncodeError> encodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t* buffer, size_t bufferSize)
 {
     if (!buffer) {
@@ -63,6 +71,13 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<blox_ScreenConfig_Layo
     return stream.bytes_written;
 }
 
+/**
+ * Encodes a Screen into a protobuf buffer.
+ * @param screen The screen to be encoded.
+ * @param buffer The buffer in which the screen will be encoded.
+ * @param bufferSize The size of the buffer.
+ * @return An std::expected type containing either the size of the protobuf message written or an error.
+ */
 tl::expected<size_t, EncodeError> encodeBuffer(Screen& screen, uint8_t* buffer, size_t bufferSize)
 {
     auto layoutNodes = std::vector<blox_ScreenConfig_LayoutNode>{};
