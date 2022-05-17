@@ -19,10 +19,10 @@
 
 #pragma once
 
-#include "ActuatorDigitalBase.h"
-#include "IoArray.h"
+#include "ActuatorDigitalBase.hpp"
+#include "ControlPtr.hpp"
+#include "IoArray.hpp"
 #include <cstdint>
-#include <functional>
 #include <memory>
 
 /*
@@ -34,13 +34,13 @@ public:
     using State = ActuatorDigitalBase::State;
 
 private:
-    const std::function<std::shared_ptr<IoArray>()> m_target;
+    ControlPtr<IoArray>& m_target;
     bool m_invert = false;
     uint8_t m_channel = 0;
     uint8_t m_desiredChannel = 0;
 
 public:
-    explicit InputDigital(std::function<std::shared_ptr<IoArray>()>&& target, uint8_t chan)
+    explicit InputDigital(ControlPtr<IoArray>& target, uint8_t chan)
         : m_target(target)
     {
         channel(chan);

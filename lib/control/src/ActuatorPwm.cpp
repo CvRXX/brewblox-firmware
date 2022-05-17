@@ -65,7 +65,7 @@ void ActuatorPwm::manageTimerTask()
 void ActuatorPwm::period(const duration_millis_t& p)
 {
     m_period = p;
-    if (auto actPtr = m_target()) {
+    if (auto actPtr = m_target.lock()) {
         // todo: handle 100Hz PWM
         // if (p < 1000 && !actPtr->supportsFastIo()) {
         //     m_period = 1000;
