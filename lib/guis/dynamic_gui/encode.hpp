@@ -2,8 +2,6 @@
 #include "elements/layout/screen.hpp"
 #include "proto/ScreenConfig.pb.h"
 #include "tl/expected.hpp"
-#include <iostream>
-#include <optional>
 #include <pb_encode.h>
 
 namespace gui::dynamic_interface {

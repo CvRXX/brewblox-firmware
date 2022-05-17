@@ -8,8 +8,6 @@
 #include "elements/widgets/widget.hpp"
 #include "proto/ScreenConfig.pb.h"
 #include "tl/expected.hpp"
-#include <iostream>
-#include <optional>
 #include <pb_decode.h>
 
 namespace gui::dynamic_interface {
