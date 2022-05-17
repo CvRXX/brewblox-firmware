@@ -18,6 +18,7 @@
  */
 
 #pragma once
+
 #include "lvgl.h"
 #include "proto/ScreenConfig.pb.h"
 
@@ -26,7 +27,7 @@ namespace gui::dynamic_interface {
 /**
  * A virtual base class for a layoutnode.
  */
-class LayoutNode { // Rename this into something that is not confusing with brewblox blocks.
+class LayoutNode {
 public:
     virtual void update() = 0;
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;

@@ -26,14 +26,9 @@
 
 namespace gui::dynamic_interface {
 
+// Top level node for the layouttree.
 class Screen : public LayoutNode {
 public:
-    template <typename T, typename = std::enable_if_t<std::is_base_of<LayoutNode, T>::value>>
-    Screen(T&& child)
-        : child(std::make_unique<T>(std::move(child)))
-    {
-    }
-
     Screen(std::unique_ptr<LayoutNode>&& child)
         : child(std::move(child))
     {
@@ -41,12 +36,20 @@ public:
 
     Screen() = default;
 
+    // Calls update on it's child.
     void update() override
     {
         if (child) {
             child->update();
         }
     }
+
+    /**
+     * Calls draw on it's child forwarding the parameters.
+     * @param placeholder The lvgl placeholder in which the child will be drawn.
+     * @param width the width of the available space in the placeholder.
+     * @param height the height of the available space in the placeholder.
+     */
     void draw(lv_obj_t* screen, uint16_t width, uint16_t height) override
     {
         if (child) {
@@ -54,16 +57,32 @@ public:
         }
     }
 
+    // Returns if the Screen contains a child.
+    const bool empty()
+    {
+        return !!child;
+    }
+
+    /**
+     * Returns the weight of the screen.
+     * Because the screen is the top level node this is always zero.
+     */
     uint16_t getWeight() const override
     {
         return 0;
     }
 
+    /**
+     * Serializes the screen node and it's child.
+     * @param layoutNodes This class will be serialized into this vector.
+     * @param contentNodes The child of this class will be serialized into this vector.
+     */
     void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId = 0) override
     {
         return child->serialize(layoutNodes, contentNodes, 0);
     }
 
+private:
     std::unique_ptr<LayoutNode> child;
 };
 }
