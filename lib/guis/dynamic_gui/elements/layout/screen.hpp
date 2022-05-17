@@ -19,52 +19,51 @@
 
 #pragma once
 
-#include "element.hpp"
+#include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "lvgl.h"
 #include "proto/ScreenConfig.pb.h"
 #include <type_traits>
 
 namespace gui::dynamic_interface {
 
-class Screen {
+class Screen : public LayoutNode {
 public:
-    template <typename T, typename = std::enable_if_t<std::is_base_of<Element, T>::value>>
-    Screen(T&& element)
-        : element(std::make_unique<T>(std::move(element)))
+    template <typename T, typename = std::enable_if_t<std::is_base_of<LayoutNode, T>::value>>
+    Screen(T&& child)
+        : child(std::make_unique<T>(std::move(child)))
     {
     }
 
-    Screen(std::unique_ptr<Element>&& element)
-        : element(std::move(element))
+    Screen(std::unique_ptr<LayoutNode>&& child)
+        : child(std::move(child))
     {
     }
 
     Screen() = default;
-    ~Screen() = default;
 
-    Screen(Screen&&) = default;
-    Screen& operator=(Screen&&) = default;
-    Screen(const Screen&) = delete;
-    Screen& operator=(const Screen&) = delete;
-
-    void update()
+    void update() override
     {
-        if (element) {
-            element->update();
+        if (child) {
+            child->update();
         }
     }
-    void draw(lv_obj_t* screen, uint16_t width, uint16_t height)
+    void draw(lv_obj_t* screen, uint16_t width, uint16_t height) override
     {
-        if (element) {
-            element->draw(screen, width, height);
+        if (child) {
+            child->draw(screen, width, height);
         }
     }
 
-    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
+    uint16_t getWeight() const override
     {
-        return element->serialize(layoutNodes, contentNodes, 0);
+        return 0;
     }
 
-    std::unique_ptr<Element> element;
+    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId = 0) override
+    {
+        return child->serialize(layoutNodes, contentNodes, 0);
+    }
+
+    std::unique_ptr<LayoutNode> child;
 };
 }

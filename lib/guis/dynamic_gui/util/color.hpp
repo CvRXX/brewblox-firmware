@@ -18,8 +18,10 @@
  */
 
 #pragma once
+#include "lvgl.h"
 namespace gui::dynamic_interface {
 
+// A represenation for colors with conversion option to an lvgl color.
 struct Color {
     constexpr Color(uint8_t r, uint8_t g, uint8_t b)
         : r(r)
@@ -28,6 +30,7 @@ struct Color {
     {
     }
 
+    // Returns a lvgl color.
     auto lvglColor() const
     {
         return lv_color_make(r, g, b);

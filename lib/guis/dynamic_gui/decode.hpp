@@ -1,8 +1,8 @@
 #pragma once
-#include "elements/core/screen.hpp"
-#include "elements/layouts/content.hpp"
-#include "elements/layouts/horizontal-split.hpp"
-#include "elements/layouts/vertical-split.hpp"
+#include "elements/layout/content.hpp"
+#include "elements/layout/horizontal_split.hpp"
+#include "elements/layout/screen.hpp"
+#include "elements/layout/vertical_split.hpp"
 #include "elements/widgets/empty_widget.hpp"
 #include "elements/widgets/numeric_value_widget.hpp"
 #include "elements/widgets/widget.hpp"
@@ -55,9 +55,9 @@ namespace detail {
         return true;
     }
 
-    DecodeError parseRowCol(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>& elements)
+    DecodeError parseRowCol(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& elements)
     {
-        auto children = std::vector<std::unique_ptr<Element>>{};
+        auto children = std::vector<std::unique_ptr<LayoutNode>>{};
 
         // Move the children of nodeToAdd to the end of the vector and return the pivot point.
         auto toAdd = std::stable_partition(elements.begin(), elements.end(), [nodeToAdd](auto const& a) {
@@ -74,16 +74,16 @@ namespace detail {
 
         // Construct the split with the found children and add it to elements.
         if (nodeToAdd.type == blox_ScreenConfig_Type_Row) {
-            std::unique_ptr<Element> newElement{new HorizontalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
+            std::unique_ptr<LayoutNode> newElement{new HorizontalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
             elements.push_back({std::move(newElement), nodeToAdd.parent});
         } else {
-            std::unique_ptr<Element> newElement{new VerticalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
+            std::unique_ptr<LayoutNode> newElement{new VerticalSplit(std::move(children), nodeToAdd.weight, nodeToAdd.nodeId)};
             elements.push_back({std::move(newElement), nodeToAdd.parent});
         }
         return DecodeError::success;
     }
 
-    DecodeError parseContent(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>& elements, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
+    DecodeError parseContent(blox_ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& elements, std::vector<blox_ScreenConfig_ContentNode>& contentNodes)
     {
         // Find the content node with a layoutId that matches the id of the current node.
         auto content = std::find_if(contentNodes.begin(), contentNodes.end(), [nodeToAdd](const auto& node) {
@@ -92,20 +92,20 @@ namespace detail {
         if (content != std::end(contentNodes)) {
             if (content->which_Content == blox_ScreenConfig_ContentNode_numericValueWidget_tag) {
                 std::unique_ptr<Widget> widget{new NumericValueWidget(content->Content.numericValueWidget)};
-                std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+                std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
             else if (content->which_Content == blox_ScreenConfig_ContentNode_colorWidget_tag) {
                 std::unique_ptr<Widget> widget{new ColorWidget(content->Content.colorWidget)};
-                std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+                std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
             // If the contentType is not known default to an empty widget.
             else {
                 std::unique_ptr<Widget> widget{new EmptyWidget()};
-                std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+                std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 elements.push_back({std::move(newElement), nodeToAdd.parent});
             }
         }
@@ -113,7 +113,7 @@ namespace detail {
         else {
             // If no content is found for the block default to an empty widget.
             std::unique_ptr<Widget> widget{new EmptyWidget()};
-            std::unique_ptr<Element> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+            std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
             elements.push_back({std::move(newElement), nodeToAdd.parent});
         }
         return DecodeError::success;
@@ -121,7 +121,7 @@ namespace detail {
     tl::expected<Screen, DecodeError> decodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode> contentNodes)
     {
         // Temp storage of elements which are to be children of higher elements.
-        auto elements = std::vector<std::pair<std::unique_ptr<Element>, uint32_t>>{};
+        auto elements = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>{};
         elements.reserve(layoutNodes.size());
 
         // Sort the layoutnodes in decending order of nodeId.

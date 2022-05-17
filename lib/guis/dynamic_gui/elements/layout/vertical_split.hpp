@@ -19,48 +19,48 @@
 
 #pragma once
 
-#include "dynamic_gui/elements/core/element.hpp"
+#include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "dynamic_gui/util/lvgl-object-wrapper.hpp"
-#include "proto/ScreenConfig.pb.h"
 #include <numeric>
 
 namespace gui::dynamic_interface {
 
 /**
- * A GUI block which takes a set of blocks which are displayed on a horizontal splitted parent.
+ * A GUI block which takes a set of blocks which are displayed on a vertical splitted parent.
  */
-class HorizontalSplit : public Element {
+class VerticalSplit : public LayoutNode {
 public:
     /**
-     * Constructs a horizontal split.
+     * Constructs a vertical split.
      * @param ratioBlocks a list of ratioblocks to be displayed.
      */
-    HorizontalSplit(std::vector<std::unique_ptr<Element>>&& elements, uint16_t weight, uint8_t layOutNodeId)
-        : elements(std::move(elements))
+    VerticalSplit(std::vector<std::unique_ptr<LayoutNode>>&& children, uint16_t weight, uint8_t layOutNodeId)
+        : children(std::move(children))
         , weight(weight)
         , layOutNodeId(layOutNodeId)
+
     {
     }
 
-    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
+    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
-        layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Row, weight});
-        for (auto& element : elements) {
-            element->serialize(layoutNodes, contentNodes, layOutNodeId);
+        layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Column, weight});
+        for (auto& child : children) {
+            child->serialize(layoutNodes, contentNodes, layOutNodeId);
         }
     }
 
     /**
      * Calls update on all the child blocks.
      */
-    void update() override final
+    void update() override
     {
-        for (auto& element : elements) {
-            element->update();
+        for (auto& child : children) {
+            child->update();
         }
     }
 
-    uint16_t getWeight() const override final
+    uint16_t getWeight() const override
     {
         return weight;
     }
@@ -71,34 +71,34 @@ public:
      * @param width The width of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override
     {
         lv_obj_set_style_pad_gap(placeholder, 0, 0);
         lv_obj_set_style_pad_all(placeholder, 0, 0);
         lv_obj_set_style_border_width(placeholder, 0, 0);
 
-        const auto weightTotal = std::accumulate(elements.begin(), elements.end(), uint16_t(0), [](uint16_t sum, const auto& element) -> uint16_t {
-            return sum + element->getWeight();
+        const auto weightTotal = std::accumulate(children.begin(), children.end(), uint32_t(0), [](auto& sum, auto& child) -> uint32_t {
+            return sum + child->getWeight();
         });
 
-        uint32_t startingY = 0;
-        std::transform(elements.begin(), elements.end(), std::back_inserter(placeholders), [&startingY, placeholder, weightTotal, height, width](auto& element) -> LvglObjectWrapper {
-            const auto elementHeight = (height / weightTotal) * element->getWeight(); /// first multiply then divide
+        uint32_t startingX = 0;
+        std::transform(children.begin(), children.end(), std::back_inserter(placeholders), [&startingX, placeholder, weightTotal, height, width](auto& child) -> LvglObjectWrapper {
+            const auto elementWidth = (width / weightTotal) * child->getWeight();
 
             auto newPlaceholder = LvglObjectWrapper(lv_obj_create(placeholder));
-            lv_obj_set_size(newPlaceholder.get(), width, elementHeight);
+            lv_obj_set_size(newPlaceholder.get(), elementWidth, height);
             lv_obj_set_style_pad_all(newPlaceholder.get(), 2, 0);
             lv_obj_set_style_border_width(newPlaceholder.get(), 0, 0);
             lv_obj_set_style_radius(newPlaceholder.get(), 0, 0);
-            lv_obj_set_pos(newPlaceholder.get(), 0, startingY);
-            startingY += elementHeight;
-            element->draw(newPlaceholder.get(), width, elementHeight);
+            lv_obj_set_pos(newPlaceholder.get(), startingX, 0);
+            startingX += elementWidth;
+            child->draw(newPlaceholder.get(), elementWidth, height);
             return newPlaceholder;
         });
     }
 
 private:
-    std::vector<std::unique_ptr<Element>> elements;
+    std::vector<std::unique_ptr<LayoutNode>> children;
     std::vector<LvglObjectWrapper> placeholders;
     const uint16_t weight = 1;
     uint8_t layOutNodeId;

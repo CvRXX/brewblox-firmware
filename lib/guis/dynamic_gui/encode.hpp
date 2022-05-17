@@ -1,5 +1,5 @@
 #pragma once
-#include "elements/core/screen.hpp"
+#include "elements/layout/screen.hpp"
 #include "proto/ScreenConfig.pb.h"
 #include "tl/expected.hpp"
 #include <iostream>

@@ -20,7 +20,7 @@
 #pragma once
 
 #include "dynamic_gui/elements/core/color.hpp"
-#include "dynamic_gui/elements/core/element.hpp"
+#include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/styles/styles.hpp"
 #include "proto/ScreenConfig.pb.h"
@@ -30,7 +30,7 @@ namespace gui::dynamic_interface {
 /**
  * A base class for widgets.
  */
-class Content : public Element {
+class Content : public LayoutNode {
 public:
     /**
      * Constructs a content element.

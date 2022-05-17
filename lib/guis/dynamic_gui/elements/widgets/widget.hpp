@@ -34,9 +34,9 @@ public:
 
 protected:
     Widget(const Widget&) = delete;
-    Widget(Widget&&) = delete;
+    Widget(Widget&&) = default;
     Widget& operator=(const Widget&) = delete;
-    Widget& operator=(Widget&&) = delete;
+    Widget& operator=(Widget&&) = default;
     Widget() = default;
 };
 

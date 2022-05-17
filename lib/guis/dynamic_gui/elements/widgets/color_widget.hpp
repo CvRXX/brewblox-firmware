@@ -20,7 +20,6 @@
 #pragma once
 
 #include "dynamic_gui/elements/core/color.hpp"
-#include "dynamic_gui/elements/core/element.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/styles/styles.hpp"
 #include "proto/ScreenConfig.pb.h"
