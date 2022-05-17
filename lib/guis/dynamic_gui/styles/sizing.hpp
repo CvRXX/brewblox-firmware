@@ -1,4 +1,6 @@
 #pragma once
+#include "dynamic_gui/fonts/fonts.hpp"
+#include "dynamic_gui/styles/styles.hpp"
 
 namespace gui::dynamic_interface::sizing {
 

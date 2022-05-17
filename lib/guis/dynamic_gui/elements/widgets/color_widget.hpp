@@ -19,9 +19,10 @@
 
 #pragma once
 
-#include "dynamic_gui/elements/core/color.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/styles/styles.hpp"
+#include "dynamic_gui/util/color.hpp"
+#include "dynamic_gui/util/lvgl_object_wrapper.hpp"
 #include "proto/ScreenConfig.pb.h"
 
 namespace gui::dynamic_interface {

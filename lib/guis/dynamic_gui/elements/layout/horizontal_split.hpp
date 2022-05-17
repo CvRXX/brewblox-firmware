@@ -20,7 +20,7 @@
 #pragma once
 
 #include "dynamic_gui/elements/layout/layout_node.hpp"
-#include "dynamic_gui/util/lvgl-object-wrapper.hpp"
+#include "dynamic_gui/util/lvgl_object_wrapper.hpp"
 #include "proto/ScreenConfig.pb.h"
 #include <numeric>
 

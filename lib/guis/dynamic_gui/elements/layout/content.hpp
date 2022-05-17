@@ -19,21 +19,19 @@
 
 #pragma once
 
-#include "dynamic_gui/elements/core/color.hpp"
 #include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
-#include "dynamic_gui/styles/styles.hpp"
 #include "proto/ScreenConfig.pb.h"
 
 namespace gui::dynamic_interface {
 
 /**
- * A base class for widgets.
+ * A leafnode for the layout tree which contains a widget as content.
  */
 class Content : public LayoutNode {
 public:
     /**
-     * Constructs a content element.
+     * Constructs a content node.
      */
     Content(uint16_t weight, uint8_t layOutNodeId, std::unique_ptr<Widget> widget)
         : weight(weight)
@@ -42,16 +40,25 @@ public:
     {
     }
 
+    // Calls update on it's widget.
     void update() override
     {
         widget->update();
     }
 
+    /**
+     * Returns the weight of the contentnode.
+     * Weights are used for deciding the ratio in which nodes are displayed.
+     */
     uint16_t getWeight() const override
     {
         return weight;
     }
-
+    /**
+     * Serialises the content node and it's widget.
+     * @param layoutNodes This class will be serialised into this vector.
+     * @param contentNodes The child of this class will be serialised into this vector.
+     */
     void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Content, weight});
@@ -59,20 +66,19 @@ public:
     }
 
     /**
-     * Draws the widget in its parent placeholder.
-     * @param placeholder The parent placeholder.
-     * @param width The width of the parent placeholder.
-     * @param height The height of the parent placeholder.
+     * Calls draw on the widget forwarding the parameters.
+     * @param placeholder The lvgl placeholder in which the widget will be drawn.
+     * @param width the width of the available space in the placeholder.
+     * @param height the height of the available space in the placeholder.
      */
     void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override
     {
         widget->draw(placeholder, width, height);
     }
 
-protected:
-    uint16_t weight;
-    uint8_t layOutNodeId;
-    std::unique_ptr<Widget> widget;
+private:
+    const uint16_t weight;
+    const uint8_t layOutNodeId;
+    const std::unique_ptr<Widget> widget;
 };
-
 }
