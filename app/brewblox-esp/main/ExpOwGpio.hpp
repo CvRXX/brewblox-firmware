@@ -158,6 +158,8 @@ public:
         ChannelConfig config = ChannelConfig::UNUSED;
         uint8_t width;
         uint8_t pwm_duty = 0;
+        uint8_t pwm_target = 0;
+        uint16_t soft_start = 250;
 
         uint8_t pins() const
         {
