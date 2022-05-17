@@ -56,6 +56,8 @@ INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/si
 # listed individually to help with refactoring
 CPPSRC += $(ROOT_DIR)/test/gui/dynamicDisplay_test.cpp
 CPPSRC += $(ROOT_DIR)/test/gui/content_test.cpp
+CPPSRC += $(ROOT_DIR)/test/gui/horizontal_split_test.cpp
+CPPSRC += $(ROOT_DIR)/test/gui/vertical_split_test.cpp
 CPPSRC += $(ROOT_DIR)/test/gui/runner.cpp
 
 

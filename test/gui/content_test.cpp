@@ -25,7 +25,7 @@
 using namespace gui::dynamic_interface;
 SCENARIO("Content")
 {
-    GIVEN("A content element")
+    GIVEN("A content node")
     {
         std::unique_ptr<Widget> widget = std::make_unique<EmptyWidget>(EmptyWidget{});
         auto content = Content(55, 12, std::move(widget));

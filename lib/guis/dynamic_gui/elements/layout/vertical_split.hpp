@@ -26,13 +26,16 @@
 namespace gui::dynamic_interface {
 
 /**
- * A GUI block which takes a set of blocks which are displayed on a vertical splitted parent.
+ * An edgenode for the layout tree which contains a children.
+ * The children will be drawn vertically.
  */
 class VerticalSplit : public LayoutNode {
 public:
     /**
      * Constructs a vertical split.
-     * @param ratioBlocks a list of ratioblocks to be displayed.
+     * @param children The children of the split
+     * @param weight The numerator in the ratio which will be used in it's parent.
+     * @param layoutNodeId The id of the layoutNode.
      */
     VerticalSplit(std::vector<std::unique_ptr<LayoutNode>>&& children, uint16_t weight, uint8_t layOutNodeId)
         : children(std::move(children))
@@ -42,6 +45,11 @@ public:
     {
     }
 
+    /**
+     * Serializes the vertical split node and it's children.
+     * @param layoutNodes This class will be serialized into this vector.
+     * @param contentNodes The widgets of children will be serialized into this vector.
+     */
     void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Column, weight});
@@ -51,7 +59,7 @@ public:
     }
 
     /**
-     * Calls update on all the child blocks.
+     * Calls update on all the childs.
      */
     void update() override
     {
@@ -60,16 +68,20 @@ public:
         }
     }
 
-    uint16_t getWeight() const override
+    /**
+     * Returns the weight of the vertical split.
+     * Weights are used for deciding the ratio in which nodes are displayed.
+     */
+    uint16_t getWeight() const override final
     {
         return weight;
     }
 
     /**
-     * Draws the placeholders for it's children and calls their draw function.
-     * @param placeholder The parent placeholder.
-     * @param width The width of the parent placeholder.
-     * @param height The height of the parent placeholder.
+     * Creates placeholders for it's children and calls draw on these children with these placeholders.
+     * @param placeholder The lvgl placeholder in which the children will be drawn.
+     * @param width the width of the available space in the placeholder.
+     * @param height the height of the available space in the placeholder.
      */
     void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override
     {
@@ -82,7 +94,8 @@ public:
         });
 
         uint32_t startingX = 0;
-        std::transform(children.begin(), children.end(), std::back_inserter(placeholders), [&startingX, placeholder, weightTotal, height, width](auto& child) -> LvglObjectWrapper {
+
+        for (auto& child : children) {
             const auto elementWidth = (width / weightTotal) * child->getWeight();
 
             auto newPlaceholder = LvglObjectWrapper(lv_obj_create(placeholder));
@@ -93,14 +106,14 @@ public:
             lv_obj_set_pos(newPlaceholder.get(), startingX, 0);
             startingX += elementWidth;
             child->draw(newPlaceholder.get(), elementWidth, height);
-            return newPlaceholder;
-        });
+            placeholders.push_back(std::move(newPlaceholder));
+        }
     }
 
 private:
-    std::vector<std::unique_ptr<LayoutNode>> children;
+    const std::vector<std::unique_ptr<LayoutNode>> children;
     std::vector<LvglObjectWrapper> placeholders;
     const uint16_t weight = 1;
-    uint8_t layOutNodeId;
+    const uint8_t layOutNodeId;
 };
 }

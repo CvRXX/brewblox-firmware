@@ -55,9 +55,9 @@ public:
         return weight;
     }
     /**
-     * Serialises the content node and it's widget.
-     * @param layoutNodes This class will be serialised into this vector.
-     * @param contentNodes The child of this class will be serialised into this vector.
+     * Serializes the content node and it's widget.
+     * @param layoutNodes This class will be serialized into this vector.
+     * @param contentNodes The child of this class will be serialized into this vector.
      */
     void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
     {
@@ -79,6 +79,6 @@ public:
 private:
     const uint16_t weight;
     const uint8_t layOutNodeId;
-    const std::unique_ptr<Widget> widget;
+    std::unique_ptr<Widget> widget;
 };
 }
