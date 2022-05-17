@@ -23,7 +23,7 @@
 namespace gui::dynamic_interface {
 
 /**
- * A virtual base class for a generic gui element.
+ * A virtual base class for an widget.
  */
 class Widget { // Rename this into something that is not confusing with brewblox blocks.
 public:

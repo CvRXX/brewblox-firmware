@@ -27,13 +27,11 @@
 
 namespace gui::dynamic_interface {
 
-/**
- * A base class for widgets.
- */
+// A widget that displays a singe color.
 class ColorWidget : public Widget {
 public:
     /**
-     * Constructs a widget.
+     * Constructs the ColorWidget.
      * @param color The background color of the widget.
      */
     constexpr ColorWidget(blox_ScreenConfig_ColorWidget colorWidget)
@@ -42,15 +40,14 @@ public:
     {
     }
 
-    constexpr ColorWidget()
-        : settings({blox_ScreenConfig_Color{150, 150, 150}})
-        , color({150, 150, 150})
+    /**
+     * Serializes the widget and adds it to a vector.
+     * @param contentNodes The vector to which the serialized widget will be added.
+     * @param layOutNodeId The id of it's matching layoutNode.
+     */
+    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t layOutNodeId) override
     {
-    }
-
-    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
-    {
-        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_colorWidget_tag, {.colorWidget = settings}});
+        contentNodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_colorWidget_tag, {.colorWidget = settings}});
     }
 
     void update() override

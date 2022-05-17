@@ -49,6 +49,11 @@ public:
     {
     }
 
+    /**
+     * Serializes the widget and adds it to a vector.
+     * @param contentNodes The vector to which the serialized widget will be added.
+     * @param layOutNodeId The id of it's matching layoutNode.
+     */
     void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
         contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_numericValueWidget_tag, settings});
