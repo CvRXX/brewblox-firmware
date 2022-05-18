@@ -36,8 +36,10 @@ std::shared_ptr<cbox::Object> OneWireScanningFactory::scan()
         bus->reset_search();
         while (auto newAddr = bus->search()) {
             auto existing = std::find_if(cbox::objects.begin(), cbox::objects.end(), [&newAddr](const std::shared_ptr<cbox::Object>& obj) {
-                auto devicePtr = obj->asInterface<OneWireDevice>();
-                return (devicePtr != nullptr) && devicePtr->address() == newAddr;
+                if (auto devicePtr = obj->asInterface<OneWireDevice>()) {
+                    return devicePtr->address() == newAddr;
+                };
+                return false;
             });
 
             if (existing == cbox::objects.cend()) {
