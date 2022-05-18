@@ -17,8 +17,17 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "blocks/DS2408Block.hpp"
+#include "blocks/DS2413Block.hpp"
 #include "blocks/OneWireScanningFactory.hpp"
+#include "blocks/TempSensorOneWireBlock.hpp"
+#include "blox_hal/hal_delay.hpp"
+#include "cbox/Box.hpp"
+#include "cbox/Object.hpp"
+#include "control/OneWireAddress.hpp"
+#include "control/OneWireDevice.hpp"
 #include <algorithm>
+#include <memory>
 
 std::shared_ptr<cbox::Object> OneWireScanningFactory::scan()
 {

@@ -18,21 +18,9 @@
  */
 
 #pragma once
-
-#include "blocks/DS2408Block.hpp"
-#include "blocks/DS2413Block.hpp"
-#include "blocks/TempSensorOneWireBlock.hpp"
-#include "blox_hal/hal_delay.hpp"
-#include "cbox/Application.hpp"
-#include "cbox/Box.hpp"
 #include "cbox/CboxPtr.hpp"
-#include "cbox/Object.hpp"
-#include "cbox/ObjectContainer.hpp"
 #include "cbox/ScanningFactory.hpp"
 #include "control/OneWire.hpp"
-#include "control/OneWireAddress.hpp"
-#include "control/OneWireDevice.hpp"
-#include <memory>
 
 class OneWireScanningFactory : public cbox::ScanningFactory {
 private:
