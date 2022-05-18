@@ -17,9 +17,9 @@
  * along with Brewblox.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "blocks/OneWireScanningFactory.hpp"
 #include "blocks/DS2408Block.hpp"
 #include "blocks/DS2413Block.hpp"
-#include "blocks/OneWireScanningFactory.hpp"
 #include "blocks/TempSensorOneWireBlock.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "cbox/Box.hpp"

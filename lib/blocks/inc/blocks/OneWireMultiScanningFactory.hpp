@@ -21,6 +21,7 @@
 
 #include "OneWireScanningFactory.hpp"
 #include "cbox/Application.hpp"
+#include "cbox/Box.hpp"
 #include "cbox/CboxPtr.hpp"
 
 class OneWireMultiScanningFactory : public cbox::ScanningFactory {
