@@ -120,4 +120,7 @@ CPPFLAGS += -Wsuggest-final-methods
 # don't generate warnings for system headers
 CFLAGS += -Wno-system-headers
 
+# ignore warnings for generated protobuf files
+CCFLAGS += -Wno-maybe-uninitialized
+
 include ../targets.mk

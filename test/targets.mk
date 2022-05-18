@@ -94,7 +94,7 @@ $(BUILD_DIR)/%.o : $(ROOT_DIR)/%.cpp
 $(BUILD_DIR)/%.pb.o : $(ROOT_DIR)/%.pb.cc
 	@echo Building file: $<
 	@$(MKDIR) $(dir $@)
-	@$(CCC) $(CFLAGS) -s -c -o $@ $<
+	@$(CCC) $(CFLAGS) $(CCFLAGS) -s -c -o $@ $<
 
 # Other Targets
 clean:
