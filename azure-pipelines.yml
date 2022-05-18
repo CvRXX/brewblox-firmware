@@ -56,7 +56,7 @@ jobs:
         target: firmware-compiler
         displayName: Run control tests
 
-      - script: script/test.sh guis
+      - script: script/test.sh gui
         target: firmware-compiler
         displayName: Run guis tests
 
