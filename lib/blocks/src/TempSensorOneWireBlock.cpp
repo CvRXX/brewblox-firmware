@@ -33,9 +33,9 @@ TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId)
 {
 }
 
-TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr)
+TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, OneWireAddress addr)
     : OneWireDeviceBlock(busId)
-    , sensor(owBus, addr)
+    , sensor(owBus, std::move(addr))
 {
 }
 

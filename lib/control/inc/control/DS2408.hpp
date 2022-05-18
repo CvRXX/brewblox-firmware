@@ -51,7 +51,7 @@ public:
      * This means the output latches are disabled and all pins are sensed high
      */
     DS2408(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
-        : OneWireDevice(busPtr, address)
+        : OneWireDevice(busPtr, std::move(address))
         , IoArray(8)
     {
     }

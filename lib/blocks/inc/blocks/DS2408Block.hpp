@@ -44,9 +44,9 @@ public:
     {
     }
 
-    DS2408Block(cbox::obj_id_t busId, const OneWireAddress& addr)
+    DS2408Block(cbox::obj_id_t busId, OneWireAddress addr)
         : OneWireDeviceBlock(busId)
-        , device(owBus, addr)
+        , device(owBus, std::move(addr))
     {
     }
 

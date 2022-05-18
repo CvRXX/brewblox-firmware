@@ -25,16 +25,15 @@
 
 bool streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    OneWireAddress address;
     OneWire* busPtr = reinterpret_cast<OneWire*>(*arg);
     if (busPtr == nullptr) {
         return false;
     }
-    while (busPtr->search(address)) {
+    while (auto address = busPtr->search()) {
         if (!pb_encode_tag_for_field(stream, field)) {
             return false;
         }
-        uint64_t addr = uint64_t(address);
+        auto addr = uint64_t(address);
         if (!pb_encode_fixed64(stream, &addr)) {
             return false;
         }

@@ -60,5 +60,9 @@
   "[dockerfile]": {
     "editor.formatOnSave": false
   },
-  "remote.localPortHost": "allInterfaces"
+  "remote.localPortHost": "allInterfaces",
+  "disasexpl.associations": {
+    "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
+    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
+  },
 }

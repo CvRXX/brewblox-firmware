@@ -45,6 +45,6 @@ public:
             }
             // go to next bus
         }
-        return nullptr; // no new OneWire devices on any bus
+        return {}; // no new OneWire devices on any bus
     }
 };

@@ -97,6 +97,12 @@ T* asInterface(Object& obj)
 }
 
 template <class T>
+const T* asInterface(const Object& obj)
+{
+    return reinterpret_cast<const T*>(obj.implements(interfaceId<T>()));
+}
+
+template <class T>
 T* asInterface(std::shared_ptr<Object>& obj)
 {
     if (obj) {

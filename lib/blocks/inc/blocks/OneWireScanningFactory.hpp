@@ -46,55 +46,5 @@ public:
 
     virtual ~OneWireScanningFactory() = default;
 
-    virtual std::shared_ptr<cbox::Object> scan() override final
-    {
-        if (auto bus = busPtr.lock()) {
-            bus->reset_search();
-            while (true) {
-                OneWireAddress newAddr;
-                if (bus->search(newAddr)) {
-                    bool found = false;
-                    for (auto existing = cbox::objects.cbegin(); existing != cbox::objects.cend(); ++existing) {
-                        const OneWireDevice* devicePtr = cbox::asInterface<OneWireDevice>(*existing);
-                        if (devicePtr == nullptr) {
-                            continue; // not the right type, no match
-                        }
-                        if (devicePtr->address() == newAddr) {
-                            found = true; // object with value already exists
-
-                            // check if it was on a different bus than where we just found it and correct that if needed
-                            OneWireDeviceBlock* blockPtr = reinterpret_cast<OneWireDeviceBlock*>((*existing)->implements(cbox::interfaceId<OneWireDeviceBlock>()));
-                            if (blockPtr) {
-                                if (blockPtr->getBusId() != busPtr.getId()) {
-                                    blockPtr->setBusId(busPtr.getId());
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        // create new object
-                        uint8_t familyCode = newAddr[0];
-                        switch (familyCode) {
-                        case DS18B20::familyCode: {
-                            return std::shared_ptr<cbox::Object>(new TempSensorOneWireBlock(busPtr.getId(), newAddr));
-                        }
-                        case DS2413::familyCode: {
-                            return std::shared_ptr<cbox::Object>(new DS2413Block(busPtr.getId(), newAddr));
-                        }
-                        case DS2408::familyCode: {
-                            return std::shared_ptr<cbox::Object>(new DS2408Block(busPtr.getId(), newAddr));
-                        }
-                        default:
-                            break;
-                        }
-                    }
-                    hal_yield();
-                } else {
-                    return {};
-                }
-            };
-        }
-        return {};
-    }
+    virtual std::shared_ptr<cbox::Object> scan() override final;
 };
