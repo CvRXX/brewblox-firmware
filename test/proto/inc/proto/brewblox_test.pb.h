@@ -432,6 +432,12 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool bitfield() const;
   void set_bitfield(bool value);
 
+  // bool datetime = 11;
+  void clear_datetime();
+  static const int kDatetimeFieldNumber = 11;
+  bool datetime() const;
+  void set_datetime(bool value);
+
   // @@protoc_insertion_point(class_scope:brewblox.FieldOpts)
  private:
 
@@ -446,6 +452,7 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool driven_;
   bool ignored_;
   bool bitfield_;
+  bool datetime_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
 };
@@ -668,6 +675,20 @@ inline void FieldOpts::set_bitfield(bool value) {
   
   bitfield_ = value;
   // @@protoc_insertion_point(field_set:brewblox.FieldOpts.bitfield)
+}
+
+// bool datetime = 11;
+inline void FieldOpts::clear_datetime() {
+  datetime_ = false;
+}
+inline bool FieldOpts::datetime() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.datetime)
+  return datetime_;
+}
+inline void FieldOpts::set_datetime(bool value) {
+  
+  datetime_ = value;
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.datetime)
 }
 
 #ifdef __GNUC__

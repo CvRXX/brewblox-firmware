@@ -37,7 +37,7 @@ typedef enum _blox_Sequence_SequenceError {
     blox_Sequence_SequenceError_INVALID_ARGUMENT = 1,
     blox_Sequence_SequenceError_INVALID_TARGET = 2,
     blox_Sequence_SequenceError_INVALID_TARGET_TYPE = 3,
-    blox_Sequence_SequenceError_TARGET_DISABLED = 4,
+    blox_Sequence_SequenceError_DISABLED_TARGET = 4,
     blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE = 5
 } blox_Sequence_SequenceError;
 #define _blox_Sequence_SequenceError_MIN blox_Sequence_SequenceError_NONE
@@ -148,24 +148,24 @@ typedef struct _blox_Sequence_Block {
 typedef struct _blox_Sequence_Instruction {
     pb_size_t which_instruction_oneof;
     union {
-        blox_Sequence_Restart restart;
-        blox_Sequence_EnableDisable enable;
-        blox_Sequence_EnableDisable disable;
-        blox_Sequence_WaitDuration waitDuration;
-        blox_Sequence_WaitUntil waitUntil;
-        blox_Sequence_WaitTemperature waitTemperature;
-        blox_Sequence_WaitTemperatureBoundary waitTemperatureAbove;
-        blox_Sequence_WaitTemperatureBoundary waitTemperatureBelow;
-        blox_Sequence_SetSetpoint setSetpoint;
-        blox_Sequence_WaitSetpoint waitSetpoint;
-        blox_Sequence_SetDigital setDigital;
-        blox_Sequence_WaitDigital waitDigital;
-        blox_Sequence_SetPwm setPwm;
-        blox_Sequence_WaitPwm waitPwm;
-        blox_Sequence_StartWaitProfile startProfile;
-        blox_Sequence_StartWaitProfile waitProfile;
-        blox_Sequence_StartWaitSequence startSequence;
-        blox_Sequence_StartWaitSequence waitSequence;
+        blox_Sequence_Restart RESTART;
+        blox_Sequence_EnableDisable ENABLE;
+        blox_Sequence_EnableDisable DISABLE;
+        blox_Sequence_WaitDuration WAIT_DURATION;
+        blox_Sequence_WaitUntil WAIT_UNTIL;
+        blox_Sequence_WaitTemperature WAIT_TEMPERATURE_BETWEEN;
+        blox_Sequence_WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE;
+        blox_Sequence_WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW;
+        blox_Sequence_SetSetpoint SET_SETPOINT;
+        blox_Sequence_WaitSetpoint WAIT_SETPOINT;
+        blox_Sequence_SetDigital SET_DIGITAL;
+        blox_Sequence_WaitDigital WAIT_DIGITAL;
+        blox_Sequence_SetPwm SET_PWM;
+        blox_Sequence_WaitPwm WAIT_PWM;
+        blox_Sequence_StartWaitProfile START_PROFILE;
+        blox_Sequence_StartWaitProfile WAIT_PROFILE;
+        blox_Sequence_StartWaitSequence START_SEQUENCE;
+        blox_Sequence_StartWaitSequence WAIT_SEQUENCE;
     } instruction_oneof;
 /* @@protoc_insertion_point(struct:blox_Sequence_Instruction) */
 } blox_Sequence_Instruction;
@@ -241,24 +241,24 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_Block_disabledDuration_tag 7
 #define blox_Sequence_Block_status_tag           8
 #define blox_Sequence_Block_error_tag            9
-#define blox_Sequence_Instruction_restart_tag    1
-#define blox_Sequence_Instruction_enable_tag     2
-#define blox_Sequence_Instruction_disable_tag    3
-#define blox_Sequence_Instruction_waitDuration_tag 4
-#define blox_Sequence_Instruction_waitUntil_tag  5
-#define blox_Sequence_Instruction_waitTemperature_tag 6
-#define blox_Sequence_Instruction_waitTemperatureAbove_tag 7
-#define blox_Sequence_Instruction_waitTemperatureBelow_tag 8
-#define blox_Sequence_Instruction_setSetpoint_tag 9
-#define blox_Sequence_Instruction_waitSetpoint_tag 10
-#define blox_Sequence_Instruction_setDigital_tag 11
-#define blox_Sequence_Instruction_waitDigital_tag 12
-#define blox_Sequence_Instruction_setPwm_tag     13
-#define blox_Sequence_Instruction_waitPwm_tag    14
-#define blox_Sequence_Instruction_startProfile_tag 15
-#define blox_Sequence_Instruction_waitProfile_tag 16
-#define blox_Sequence_Instruction_startSequence_tag 17
-#define blox_Sequence_Instruction_waitSequence_tag 18
+#define blox_Sequence_Instruction_RESTART_tag    1
+#define blox_Sequence_Instruction_ENABLE_tag     2
+#define blox_Sequence_Instruction_DISABLE_tag    3
+#define blox_Sequence_Instruction_WAIT_DURATION_tag 4
+#define blox_Sequence_Instruction_WAIT_UNTIL_tag 5
+#define blox_Sequence_Instruction_WAIT_TEMPERATURE_BETWEEN_tag 6
+#define blox_Sequence_Instruction_WAIT_TEMPERATURE_ABOVE_tag 7
+#define blox_Sequence_Instruction_WAIT_TEMPERATURE_BELOW_tag 8
+#define blox_Sequence_Instruction_SET_SETPOINT_tag 9
+#define blox_Sequence_Instruction_WAIT_SETPOINT_tag 10
+#define blox_Sequence_Instruction_SET_DIGITAL_tag 11
+#define blox_Sequence_Instruction_WAIT_DIGITAL_tag 12
+#define blox_Sequence_Instruction_SET_PWM_tag    13
+#define blox_Sequence_Instruction_WAIT_PWM_tag   14
+#define blox_Sequence_Instruction_START_PROFILE_tag 15
+#define blox_Sequence_Instruction_WAIT_PROFILE_tag 16
+#define blox_Sequence_Instruction_START_SEQUENCE_tag 17
+#define blox_Sequence_Instruction_WAIT_SEQUENCE_tag 18
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_Sequence_Restart_fields[1];

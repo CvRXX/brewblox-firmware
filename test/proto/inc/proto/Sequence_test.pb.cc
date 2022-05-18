@@ -116,21 +116,21 @@ class InstructionDefaultTypeInternal {
   const ::blox_test::Sequence::Restart* restart_;
   const ::blox_test::Sequence::EnableDisable* enable_;
   const ::blox_test::Sequence::EnableDisable* disable_;
-  const ::blox_test::Sequence::WaitDuration* waitduration_;
-  const ::blox_test::Sequence::WaitUntil* waituntil_;
-  const ::blox_test::Sequence::WaitTemperature* waittemperature_;
-  const ::blox_test::Sequence::WaitTemperatureBoundary* waittemperatureabove_;
-  const ::blox_test::Sequence::WaitTemperatureBoundary* waittemperaturebelow_;
-  const ::blox_test::Sequence::SetSetpoint* setsetpoint_;
-  const ::blox_test::Sequence::WaitSetpoint* waitsetpoint_;
-  const ::blox_test::Sequence::SetDigital* setdigital_;
-  const ::blox_test::Sequence::WaitDigital* waitdigital_;
-  const ::blox_test::Sequence::SetPwm* setpwm_;
-  const ::blox_test::Sequence::WaitPwm* waitpwm_;
-  const ::blox_test::Sequence::StartWaitProfile* startprofile_;
-  const ::blox_test::Sequence::StartWaitProfile* waitprofile_;
-  const ::blox_test::Sequence::StartWaitSequence* startsequence_;
-  const ::blox_test::Sequence::StartWaitSequence* waitsequence_;
+  const ::blox_test::Sequence::WaitDuration* wait_duration_;
+  const ::blox_test::Sequence::WaitUntil* wait_until_;
+  const ::blox_test::Sequence::WaitTemperature* wait_temperature_between_;
+  const ::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_above_;
+  const ::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_below_;
+  const ::blox_test::Sequence::SetSetpoint* set_setpoint_;
+  const ::blox_test::Sequence::WaitSetpoint* wait_setpoint_;
+  const ::blox_test::Sequence::SetDigital* set_digital_;
+  const ::blox_test::Sequence::WaitDigital* wait_digital_;
+  const ::blox_test::Sequence::SetPwm* set_pwm_;
+  const ::blox_test::Sequence::WaitPwm* wait_pwm_;
+  const ::blox_test::Sequence::StartWaitProfile* start_profile_;
+  const ::blox_test::Sequence::StartWaitProfile* wait_profile_;
+  const ::blox_test::Sequence::StartWaitSequence* start_sequence_;
+  const ::blox_test::Sequence::StartWaitSequence* wait_sequence_;
 } _Instruction_default_instance_;
 class InstructionResetDefaultTypeInternal {
  public:
@@ -523,21 +523,21 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, restart_),
   offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, enable_),
   offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, disable_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waitduration_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waituntil_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waittemperature_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waittemperatureabove_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waittemperaturebelow_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, setsetpoint_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waitsetpoint_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, setdigital_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waitdigital_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, setpwm_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waitpwm_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, startprofile_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waitprofile_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, startsequence_),
-  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, waitsequence_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_duration_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_until_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_temperature_between_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_temperature_above_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_temperature_below_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, set_setpoint_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_setpoint_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, set_digital_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_digital_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, set_pwm_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_pwm_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, start_profile_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_profile_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, start_sequence_),
+  offsetof(::blox_test::Sequence::InstructionDefaultTypeInternal, wait_sequence_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Instruction, instruction_oneof_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::InstructionReset, _internal_metadata_),
@@ -626,79 +626,81 @@ void AddDescriptorsImpl() {
       "\n\023Sequence_test.proto\022\022blox_test.Sequenc"
       "e\032\023brewblox_test.proto\032\021nanopb_test.prot"
       "o\032\022IoArray_test.proto\"\t\n\007Restart\",\n\rEnab"
-      "leDisable\022\033\n\006target\030\001 \001(\rB\013\212\265\030\002\030\017\222\?\0028\020\"\'"
-      "\n\014WaitDuration\022\027\n\010duration\030\001 \001(\rB\005\222\?\0028 \""
-      " \n\tWaitUntil\022\023\n\004time\030\001 \001(\rB\005\222\?\0028 \"t\n\017Wai"
-      "tTemperature\022\033\n\006target\030\001 \001(\rB\013\212\265\030\002\030\002\222\?\0028"
-      "\020\022!\n\005lower\030\002 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022!\n\005"
-      "upper\030\003 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \"Y\n\027WaitT"
-      "emperatureBoundary\022\033\n\006target\030\001 \001(\rB\013\212\265\030\002"
-      "\030\002\222\?\0028\020\022!\n\005value\030\002 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\002"
-      "8 \"O\n\013SetSetpoint\022\033\n\006target\030\001 \001(\rB\013\212\265\030\002\030"
-      "\004\222\?\0028\020\022#\n\007setting\030\002 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?"
-      "\0028 \"R\n\014WaitSetpoint\022\033\n\006target\030\001 \001(\rB\013\212\265\030"
-      "\002\030\004\222\?\0028\020\022%\n\tprecision\030\002 \001(\021B\022\212\265\030\002\010\006\212\265\030\003\020"
-      "\200 \222\?\0028 \"[\n\nSetDigital\022\033\n\006target\030\001 \001(\rB\013\212"
-      "\265\030\002\030\006\222\?\0028\020\0220\n\007setting\030\002 \001(\0162\037.blox_test."
-      "IoArray.DigitalState\"*\n\013WaitDigital\022\033\n\006t"
-      "arget\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\"E\n\006SetPwm\022\034\n\006ta"
-      "rget\030\001 \001(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\022\035\n\007setting\030\002 \001("
-      "\021B\014\212\265\030\003\020\200 \222\?\0028 \"H\n\007WaitPwm\022\034\n\006target\030\001 \001"
-      "(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\022\037\n\tprecision\030\002 \001(\021B\014\212\265\030"
-      "\003\020\200 \222\?\0028 \"0\n\020StartWaitProfile\022\034\n\006target\030"
-      "\001 \001(\rB\014\212\265\030\003\030\267\002\222\?\0028\020\"1\n\021StartWaitSequence"
-      "\022\034\n\006target\030\001 \001(\rB\014\212\265\030\003\030\306\002\222\?\0028\020\"\275\010\n\013Instr"
-      "uction\022.\n\007restart\030\001 \001(\0132\033.blox_test.Sequ"
-      "ence.RestartH\000\0223\n\006enable\030\002 \001(\0132!.blox_te"
-      "st.Sequence.EnableDisableH\000\0224\n\007disable\030\003"
-      " \001(\0132!.blox_test.Sequence.EnableDisableH"
-      "\000\0228\n\014waitDuration\030\004 \001(\0132 .blox_test.Sequ"
-      "ence.WaitDurationH\000\0222\n\twaitUntil\030\005 \001(\0132\035"
-      ".blox_test.Sequence.WaitUntilH\000\022>\n\017waitT"
-      "emperature\030\006 \001(\0132#.blox_test.Sequence.Wa"
-      "itTemperatureH\000\022K\n\024waitTemperatureAbove\030"
-      "\007 \001(\0132+.blox_test.Sequence.WaitTemperatu"
-      "reBoundaryH\000\022K\n\024waitTemperatureBelow\030\010 \001"
-      "(\0132+.blox_test.Sequence.WaitTemperatureB"
-      "oundaryH\000\0226\n\013setSetpoint\030\t \001(\0132\037.blox_te"
-      "st.Sequence.SetSetpointH\000\0228\n\014waitSetpoin"
-      "t\030\n \001(\0132 .blox_test.Sequence.WaitSetpoin"
-      "tH\000\0224\n\nsetDigital\030\013 \001(\0132\036.blox_test.Sequ"
-      "ence.SetDigitalH\000\0226\n\013waitDigital\030\014 \001(\0132\037"
-      ".blox_test.Sequence.WaitDigitalH\000\022,\n\006set"
-      "Pwm\030\r \001(\0132\032.blox_test.Sequence.SetPwmH\000\022"
-      ".\n\007waitPwm\030\016 \001(\0132\033.blox_test.Sequence.Wa"
-      "itPwmH\000\022<\n\014startProfile\030\017 \001(\0132$.blox_tes"
-      "t.Sequence.StartWaitProfileH\000\022;\n\013waitPro"
-      "file\030\020 \001(\0132$.blox_test.Sequence.StartWai"
-      "tProfileH\000\022>\n\rstartSequence\030\021 \001(\0132%.blox"
-      "_test.Sequence.StartWaitSequenceH\000\022=\n\014wa"
-      "itSequence\030\022 \001(\0132%.blox_test.Sequence.St"
-      "artWaitSequenceH\000B\023\n\021instruction_oneof\"_"
-      "\n\020InstructionReset\022 \n\021activeInstruction\030"
-      "\001 \001(\rB\005\222\?\0028\020\022)\n\032activeInstructionStarted"
-      "At\030\002 \001(\rB\005\222\?\0028 \"\317\003\n\005Block\022\027\n\007enabled\030\001 \001"
-      "(\010B\006\212\265\030\0020\001\0225\n\014instructions\030\002 \003(\0132\037.blox_"
-      "test.Sequence.Instruction\0225\n\005reset\030\003 \001(\013"
-      "2$.blox_test.Sequence.InstructionResetH\000"
-      "\022,\n\021activeInstruction\030\004 \001(\rB\021\222\?\0028\020\212\265\030\0020\001"
-      "\212\265\030\002(\001\0225\n\032activeInstructionStartedAt\030\005 \001"
-      "(\rB\021\222\?\0028 \212\265\030\0020\001\212\265\030\002(\001\022\037\n\ndisabledAt\030\006 \001("
-      "\rB\013\222\?\0028 \212\265\030\002(\001\022%\n\020disabledDuration\030\007 \001(\r"
-      "B\013\222\?\0028 \212\265\030\002(\001\022:\n\006status\030\010 \001(\0162\".blox_tes"
-      "t.Sequence.SequenceStatusB\006\212\265\030\002(\001\0228\n\005err"
-      "or\030\t \001(\0162!.blox_test.Sequence.SequenceEr"
-      "rorB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H\017B\r\n\013reset_oneo"
-      "f*r\n\016SequenceStatus\022\013\n\007UNKNOWN\020\000\022\014\n\010DISA"
-      "BLED\020\001\022\n\n\006PAUSED\020\002\022\n\n\006ACTIVE\020\003\022\013\n\007WAITIN"
-      "G\020\004\022\010\n\004DONE\020\005\022\013\n\007RESTART\020\006\022\t\n\005ERROR\020\007*\220\001"
-      "\n\rSequenceError\022\010\n\004NONE\020\000\022\024\n\020INVALID_ARG"
-      "UMENT\020\001\022\022\n\016INVALID_TARGET\020\002\022\027\n\023INVALID_T"
-      "ARGET_TYPE\020\003\022\023\n\017TARGET_DISABLED\020\004\022\035\n\031SYS"
-      "TEM_TIME_NOT_AVAILABLE\020\005b\006proto3"
+      "leDisable\022\033\n\006target\030\001 \001(\rB\013\212\265\030\002\030\017\222\?\0028\020\"-"
+      "\n\014WaitDuration\022\035\n\010duration\030\001 \001(\rB\013\212\265\030\002\010\003"
+      "\222\?\0028 \"&\n\tWaitUntil\022\031\n\004time\030\001 \001(\rB\013\212\265\030\002X\001"
+      "\222\?\0028 \"t\n\017WaitTemperature\022\033\n\006target\030\001 \001(\r"
+      "B\013\212\265\030\002\030\002\222\?\0028\020\022!\n\005lower\030\002 \001(\021B\022\212\265\030\002\010\001\212\265\030\003"
+      "\020\200 \222\?\0028 \022!\n\005upper\030\003 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?"
+      "\0028 \"Y\n\027WaitTemperatureBoundary\022\033\n\006target"
+      "\030\001 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022!\n\005value\030\002 \001(\021B\022\212\265\030\002"
+      "\010\001\212\265\030\003\020\200 \222\?\0028 \"O\n\013SetSetpoint\022\033\n\006target\030"
+      "\001 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\022#\n\007setting\030\002 \001(\021B\022\212\265\030"
+      "\002\010\001\212\265\030\003\020\200 \222\?\0028 \"R\n\014WaitSetpoint\022\033\n\006targe"
+      "t\030\001 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\022%\n\tprecision\030\002 \001(\021B"
+      "\022\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \"[\n\nSetDigital\022\033\n\006tar"
+      "get\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\0220\n\007setting\030\002 \001(\0162"
+      "\037.blox_test.IoArray.DigitalState\"*\n\013Wait"
+      "Digital\022\033\n\006target\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\"E\n\006"
+      "SetPwm\022\034\n\006target\030\001 \001(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\022\035\n\007"
+      "setting\030\002 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \"H\n\007WaitPwm\022\034"
+      "\n\006target\030\001 \001(\rB\014\212\265\030\003\030\263\002\222\?\0028\020\022\037\n\tprecisio"
+      "n\030\002 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \"0\n\020StartWaitProfil"
+      "e\022\034\n\006target\030\001 \001(\rB\014\212\265\030\003\030\267\002\222\?\0028\020\"1\n\021Start"
+      "WaitSequence\022\034\n\006target\030\001 \001(\rB\014\212\265\030\003\030\306\002\222\?\002"
+      "8\020\"\326\010\n\013Instruction\022.\n\007RESTART\030\001 \001(\0132\033.bl"
+      "ox_test.Sequence.RestartH\000\0223\n\006ENABLE\030\002 \001"
+      "(\0132!.blox_test.Sequence.EnableDisableH\000\022"
+      "4\n\007DISABLE\030\003 \001(\0132!.blox_test.Sequence.En"
+      "ableDisableH\000\0229\n\rWAIT_DURATION\030\004 \001(\0132 .b"
+      "lox_test.Sequence.WaitDurationH\000\0223\n\nWAIT"
+      "_UNTIL\030\005 \001(\0132\035.blox_test.Sequence.WaitUn"
+      "tilH\000\022G\n\030WAIT_TEMPERATURE_BETWEEN\030\006 \001(\0132"
+      "#.blox_test.Sequence.WaitTemperatureH\000\022M"
+      "\n\026WAIT_TEMPERATURE_ABOVE\030\007 \001(\0132+.blox_te"
+      "st.Sequence.WaitTemperatureBoundaryH\000\022M\n"
+      "\026WAIT_TEMPERATURE_BELOW\030\010 \001(\0132+.blox_tes"
+      "t.Sequence.WaitTemperatureBoundaryH\000\0227\n\014"
+      "SET_SETPOINT\030\t \001(\0132\037.blox_test.Sequence."
+      "SetSetpointH\000\0229\n\rWAIT_SETPOINT\030\n \001(\0132 .b"
+      "lox_test.Sequence.WaitSetpointH\000\0225\n\013SET_"
+      "DIGITAL\030\013 \001(\0132\036.blox_test.Sequence.SetDi"
+      "gitalH\000\0227\n\014WAIT_DIGITAL\030\014 \001(\0132\037.blox_tes"
+      "t.Sequence.WaitDigitalH\000\022-\n\007SET_PWM\030\r \001("
+      "\0132\032.blox_test.Sequence.SetPwmH\000\022/\n\010WAIT_"
+      "PWM\030\016 \001(\0132\033.blox_test.Sequence.WaitPwmH\000"
+      "\022=\n\rSTART_PROFILE\030\017 \001(\0132$.blox_test.Sequ"
+      "ence.StartWaitProfileH\000\022<\n\014WAIT_PROFILE\030"
+      "\020 \001(\0132$.blox_test.Sequence.StartWaitProf"
+      "ileH\000\022\?\n\016START_SEQUENCE\030\021 \001(\0132%.blox_tes"
+      "t.Sequence.StartWaitSequenceH\000\022>\n\rWAIT_S"
+      "EQUENCE\030\022 \001(\0132%.blox_test.Sequence.Start"
+      "WaitSequenceH\000B\023\n\021instruction_oneof\"_\n\020I"
+      "nstructionReset\022 \n\021activeInstruction\030\001 \001"
+      "(\rB\005\222\?\0028\020\022)\n\032activeInstructionStartedAt\030"
+      "\002 \001(\rB\005\222\?\0028 \"\341\003\n\005Block\022\027\n\007enabled\030\001 \001(\010B"
+      "\006\212\265\030\0020\001\0225\n\014instructions\030\002 \003(\0132\037.blox_tes"
+      "t.Sequence.Instruction\0225\n\005reset\030\003 \001(\0132$."
+      "blox_test.Sequence.InstructionResetH\000\022,\n"
+      "\021activeInstruction\030\004 \001(\rB\021\222\?\0028\020\212\265\030\0020\001\212\265\030"
+      "\002(\001\022;\n\032activeInstructionStartedAt\030\005 \001(\rB"
+      "\027\222\?\0028 \212\265\030\002X\001\212\265\030\002(\001\212\265\030\0020\001\022%\n\ndisabledAt\030\006"
+      " \001(\rB\021\222\?\0028 \212\265\030\002X\001\212\265\030\002(\001\022+\n\020disabledDurat"
+      "ion\030\007 \001(\rB\021\222\?\0028 \212\265\030\002\010\003\212\265\030\002(\001\022:\n\006status\030\010"
+      " \001(\0162\".blox_test.Sequence.SequenceStatus"
+      "B\006\212\265\030\002(\001\0228\n\005error\030\t \001(\0162!.blox_test.Sequ"
+      "ence.SequenceErrorB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H"
+      "\017B\r\n\013reset_oneof*r\n\016SequenceStatus\022\013\n\007UN"
+      "KNOWN\020\000\022\014\n\010DISABLED\020\001\022\n\n\006PAUSED\020\002\022\n\n\006ACT"
+      "IVE\020\003\022\013\n\007WAITING\020\004\022\010\n\004DONE\020\005\022\013\n\007RESTART\020"
+      "\006\022\t\n\005ERROR\020\007*\220\001\n\rSequenceError\022\010\n\004NONE\020\000"
+      "\022\024\n\020INVALID_ARGUMENT\020\001\022\022\n\016INVALID_TARGET"
+      "\020\002\022\027\n\023INVALID_TARGET_TYPE\020\003\022\023\n\017DISABLED_"
+      "TARGET\020\004\022\035\n\031SYSTEM_TIME_NOT_AVAILABLE\020\005b"
+      "\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2912);
+      descriptor, 2967);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Sequence_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -4177,35 +4179,35 @@ void Instruction::InitAsDefaultInstance() {
       ::blox_test::Sequence::EnableDisable::internal_default_instance());
   ::blox_test::Sequence::_Instruction_default_instance_.disable_ = const_cast< ::blox_test::Sequence::EnableDisable*>(
       ::blox_test::Sequence::EnableDisable::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waitduration_ = const_cast< ::blox_test::Sequence::WaitDuration*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_duration_ = const_cast< ::blox_test::Sequence::WaitDuration*>(
       ::blox_test::Sequence::WaitDuration::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waituntil_ = const_cast< ::blox_test::Sequence::WaitUntil*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_until_ = const_cast< ::blox_test::Sequence::WaitUntil*>(
       ::blox_test::Sequence::WaitUntil::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waittemperature_ = const_cast< ::blox_test::Sequence::WaitTemperature*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_temperature_between_ = const_cast< ::blox_test::Sequence::WaitTemperature*>(
       ::blox_test::Sequence::WaitTemperature::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waittemperatureabove_ = const_cast< ::blox_test::Sequence::WaitTemperatureBoundary*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_temperature_above_ = const_cast< ::blox_test::Sequence::WaitTemperatureBoundary*>(
       ::blox_test::Sequence::WaitTemperatureBoundary::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waittemperaturebelow_ = const_cast< ::blox_test::Sequence::WaitTemperatureBoundary*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_temperature_below_ = const_cast< ::blox_test::Sequence::WaitTemperatureBoundary*>(
       ::blox_test::Sequence::WaitTemperatureBoundary::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.setsetpoint_ = const_cast< ::blox_test::Sequence::SetSetpoint*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.set_setpoint_ = const_cast< ::blox_test::Sequence::SetSetpoint*>(
       ::blox_test::Sequence::SetSetpoint::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waitsetpoint_ = const_cast< ::blox_test::Sequence::WaitSetpoint*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_setpoint_ = const_cast< ::blox_test::Sequence::WaitSetpoint*>(
       ::blox_test::Sequence::WaitSetpoint::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.setdigital_ = const_cast< ::blox_test::Sequence::SetDigital*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.set_digital_ = const_cast< ::blox_test::Sequence::SetDigital*>(
       ::blox_test::Sequence::SetDigital::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waitdigital_ = const_cast< ::blox_test::Sequence::WaitDigital*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_digital_ = const_cast< ::blox_test::Sequence::WaitDigital*>(
       ::blox_test::Sequence::WaitDigital::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.setpwm_ = const_cast< ::blox_test::Sequence::SetPwm*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.set_pwm_ = const_cast< ::blox_test::Sequence::SetPwm*>(
       ::blox_test::Sequence::SetPwm::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waitpwm_ = const_cast< ::blox_test::Sequence::WaitPwm*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_pwm_ = const_cast< ::blox_test::Sequence::WaitPwm*>(
       ::blox_test::Sequence::WaitPwm::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.startprofile_ = const_cast< ::blox_test::Sequence::StartWaitProfile*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.start_profile_ = const_cast< ::blox_test::Sequence::StartWaitProfile*>(
       ::blox_test::Sequence::StartWaitProfile::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waitprofile_ = const_cast< ::blox_test::Sequence::StartWaitProfile*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_profile_ = const_cast< ::blox_test::Sequence::StartWaitProfile*>(
       ::blox_test::Sequence::StartWaitProfile::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.startsequence_ = const_cast< ::blox_test::Sequence::StartWaitSequence*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.start_sequence_ = const_cast< ::blox_test::Sequence::StartWaitSequence*>(
       ::blox_test::Sequence::StartWaitSequence::internal_default_instance());
-  ::blox_test::Sequence::_Instruction_default_instance_.waitsequence_ = const_cast< ::blox_test::Sequence::StartWaitSequence*>(
+  ::blox_test::Sequence::_Instruction_default_instance_.wait_sequence_ = const_cast< ::blox_test::Sequence::StartWaitSequence*>(
       ::blox_test::Sequence::StartWaitSequence::internal_default_instance());
 }
 void Instruction::set_allocated_restart(::blox_test::Sequence::Restart* restart) {
@@ -4220,7 +4222,7 @@ void Instruction::set_allocated_restart(::blox_test::Sequence::Restart* restart)
     set_has_restart();
     instruction_oneof_.restart_ = restart;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.restart)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.RESTART)
 }
 void Instruction::set_allocated_enable(::blox_test::Sequence::EnableDisable* enable) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -4234,7 +4236,7 @@ void Instruction::set_allocated_enable(::blox_test::Sequence::EnableDisable* ena
     set_has_enable();
     instruction_oneof_.enable_ = enable;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.enable)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.ENABLE)
 }
 void Instruction::set_allocated_disable(::blox_test::Sequence::EnableDisable* disable) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -4248,237 +4250,237 @@ void Instruction::set_allocated_disable(::blox_test::Sequence::EnableDisable* di
     set_has_disable();
     instruction_oneof_.disable_ = disable;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.disable)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.DISABLE)
 }
-void Instruction::set_allocated_waitduration(::blox_test::Sequence::WaitDuration* waitduration) {
+void Instruction::set_allocated_wait_duration(::blox_test::Sequence::WaitDuration* wait_duration) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waitduration) {
+  if (wait_duration) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waitduration = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waitduration, submessage_arena);
+      wait_duration = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_duration, submessage_arena);
     }
-    set_has_waitduration();
-    instruction_oneof_.waitduration_ = waitduration;
+    set_has_wait_duration();
+    instruction_oneof_.wait_duration_ = wait_duration;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitDuration)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_DURATION)
 }
-void Instruction::set_allocated_waituntil(::blox_test::Sequence::WaitUntil* waituntil) {
+void Instruction::set_allocated_wait_until(::blox_test::Sequence::WaitUntil* wait_until) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waituntil) {
+  if (wait_until) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waituntil = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waituntil, submessage_arena);
+      wait_until = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_until, submessage_arena);
     }
-    set_has_waituntil();
-    instruction_oneof_.waituntil_ = waituntil;
+    set_has_wait_until();
+    instruction_oneof_.wait_until_ = wait_until;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitUntil)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_UNTIL)
 }
-void Instruction::set_allocated_waittemperature(::blox_test::Sequence::WaitTemperature* waittemperature) {
+void Instruction::set_allocated_wait_temperature_between(::blox_test::Sequence::WaitTemperature* wait_temperature_between) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waittemperature) {
+  if (wait_temperature_between) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waittemperature = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waittemperature, submessage_arena);
+      wait_temperature_between = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_temperature_between, submessage_arena);
     }
-    set_has_waittemperature();
-    instruction_oneof_.waittemperature_ = waittemperature;
+    set_has_wait_temperature_between();
+    instruction_oneof_.wait_temperature_between_ = wait_temperature_between;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitTemperature)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BETWEEN)
 }
-void Instruction::set_allocated_waittemperatureabove(::blox_test::Sequence::WaitTemperatureBoundary* waittemperatureabove) {
+void Instruction::set_allocated_wait_temperature_above(::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_above) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waittemperatureabove) {
+  if (wait_temperature_above) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waittemperatureabove = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waittemperatureabove, submessage_arena);
+      wait_temperature_above = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_temperature_above, submessage_arena);
     }
-    set_has_waittemperatureabove();
-    instruction_oneof_.waittemperatureabove_ = waittemperatureabove;
+    set_has_wait_temperature_above();
+    instruction_oneof_.wait_temperature_above_ = wait_temperature_above;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitTemperatureAbove)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_ABOVE)
 }
-void Instruction::set_allocated_waittemperaturebelow(::blox_test::Sequence::WaitTemperatureBoundary* waittemperaturebelow) {
+void Instruction::set_allocated_wait_temperature_below(::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_below) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waittemperaturebelow) {
+  if (wait_temperature_below) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waittemperaturebelow = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waittemperaturebelow, submessage_arena);
+      wait_temperature_below = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_temperature_below, submessage_arena);
     }
-    set_has_waittemperaturebelow();
-    instruction_oneof_.waittemperaturebelow_ = waittemperaturebelow;
+    set_has_wait_temperature_below();
+    instruction_oneof_.wait_temperature_below_ = wait_temperature_below;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitTemperatureBelow)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BELOW)
 }
-void Instruction::set_allocated_setsetpoint(::blox_test::Sequence::SetSetpoint* setsetpoint) {
+void Instruction::set_allocated_set_setpoint(::blox_test::Sequence::SetSetpoint* set_setpoint) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (setsetpoint) {
+  if (set_setpoint) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      setsetpoint = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, setsetpoint, submessage_arena);
+      set_setpoint = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, set_setpoint, submessage_arena);
     }
-    set_has_setsetpoint();
-    instruction_oneof_.setsetpoint_ = setsetpoint;
+    set_has_set_setpoint();
+    instruction_oneof_.set_setpoint_ = set_setpoint;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.setSetpoint)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.SET_SETPOINT)
 }
-void Instruction::set_allocated_waitsetpoint(::blox_test::Sequence::WaitSetpoint* waitsetpoint) {
+void Instruction::set_allocated_wait_setpoint(::blox_test::Sequence::WaitSetpoint* wait_setpoint) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waitsetpoint) {
+  if (wait_setpoint) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waitsetpoint = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waitsetpoint, submessage_arena);
+      wait_setpoint = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_setpoint, submessage_arena);
     }
-    set_has_waitsetpoint();
-    instruction_oneof_.waitsetpoint_ = waitsetpoint;
+    set_has_wait_setpoint();
+    instruction_oneof_.wait_setpoint_ = wait_setpoint;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitSetpoint)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_SETPOINT)
 }
-void Instruction::set_allocated_setdigital(::blox_test::Sequence::SetDigital* setdigital) {
+void Instruction::set_allocated_set_digital(::blox_test::Sequence::SetDigital* set_digital) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (setdigital) {
+  if (set_digital) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      setdigital = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, setdigital, submessage_arena);
+      set_digital = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, set_digital, submessage_arena);
     }
-    set_has_setdigital();
-    instruction_oneof_.setdigital_ = setdigital;
+    set_has_set_digital();
+    instruction_oneof_.set_digital_ = set_digital;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.setDigital)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.SET_DIGITAL)
 }
-void Instruction::set_allocated_waitdigital(::blox_test::Sequence::WaitDigital* waitdigital) {
+void Instruction::set_allocated_wait_digital(::blox_test::Sequence::WaitDigital* wait_digital) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waitdigital) {
+  if (wait_digital) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waitdigital = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waitdigital, submessage_arena);
+      wait_digital = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_digital, submessage_arena);
     }
-    set_has_waitdigital();
-    instruction_oneof_.waitdigital_ = waitdigital;
+    set_has_wait_digital();
+    instruction_oneof_.wait_digital_ = wait_digital;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitDigital)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_DIGITAL)
 }
-void Instruction::set_allocated_setpwm(::blox_test::Sequence::SetPwm* setpwm) {
+void Instruction::set_allocated_set_pwm(::blox_test::Sequence::SetPwm* set_pwm) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (setpwm) {
+  if (set_pwm) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      setpwm = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, setpwm, submessage_arena);
+      set_pwm = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, set_pwm, submessage_arena);
     }
-    set_has_setpwm();
-    instruction_oneof_.setpwm_ = setpwm;
+    set_has_set_pwm();
+    instruction_oneof_.set_pwm_ = set_pwm;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.setPwm)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.SET_PWM)
 }
-void Instruction::set_allocated_waitpwm(::blox_test::Sequence::WaitPwm* waitpwm) {
+void Instruction::set_allocated_wait_pwm(::blox_test::Sequence::WaitPwm* wait_pwm) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waitpwm) {
+  if (wait_pwm) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waitpwm = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waitpwm, submessage_arena);
+      wait_pwm = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_pwm, submessage_arena);
     }
-    set_has_waitpwm();
-    instruction_oneof_.waitpwm_ = waitpwm;
+    set_has_wait_pwm();
+    instruction_oneof_.wait_pwm_ = wait_pwm;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitPwm)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_PWM)
 }
-void Instruction::set_allocated_startprofile(::blox_test::Sequence::StartWaitProfile* startprofile) {
+void Instruction::set_allocated_start_profile(::blox_test::Sequence::StartWaitProfile* start_profile) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (startprofile) {
+  if (start_profile) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      startprofile = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, startprofile, submessage_arena);
+      start_profile = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, start_profile, submessage_arena);
     }
-    set_has_startprofile();
-    instruction_oneof_.startprofile_ = startprofile;
+    set_has_start_profile();
+    instruction_oneof_.start_profile_ = start_profile;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.startProfile)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.START_PROFILE)
 }
-void Instruction::set_allocated_waitprofile(::blox_test::Sequence::StartWaitProfile* waitprofile) {
+void Instruction::set_allocated_wait_profile(::blox_test::Sequence::StartWaitProfile* wait_profile) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waitprofile) {
+  if (wait_profile) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waitprofile = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waitprofile, submessage_arena);
+      wait_profile = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_profile, submessage_arena);
     }
-    set_has_waitprofile();
-    instruction_oneof_.waitprofile_ = waitprofile;
+    set_has_wait_profile();
+    instruction_oneof_.wait_profile_ = wait_profile;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitProfile)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_PROFILE)
 }
-void Instruction::set_allocated_startsequence(::blox_test::Sequence::StartWaitSequence* startsequence) {
+void Instruction::set_allocated_start_sequence(::blox_test::Sequence::StartWaitSequence* start_sequence) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (startsequence) {
+  if (start_sequence) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      startsequence = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, startsequence, submessage_arena);
+      start_sequence = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, start_sequence, submessage_arena);
     }
-    set_has_startsequence();
-    instruction_oneof_.startsequence_ = startsequence;
+    set_has_start_sequence();
+    instruction_oneof_.start_sequence_ = start_sequence;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.startSequence)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.START_SEQUENCE)
 }
-void Instruction::set_allocated_waitsequence(::blox_test::Sequence::StartWaitSequence* waitsequence) {
+void Instruction::set_allocated_wait_sequence(::blox_test::Sequence::StartWaitSequence* wait_sequence) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_instruction_oneof();
-  if (waitsequence) {
+  if (wait_sequence) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      waitsequence = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, waitsequence, submessage_arena);
+      wait_sequence = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, wait_sequence, submessage_arena);
     }
-    set_has_waitsequence();
-    instruction_oneof_.waitsequence_ = waitsequence;
+    set_has_wait_sequence();
+    instruction_oneof_.wait_sequence_ = wait_sequence;
   }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.waitSequence)
+  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Instruction.WAIT_SEQUENCE)
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Instruction::kRestartFieldNumber;
-const int Instruction::kEnableFieldNumber;
-const int Instruction::kDisableFieldNumber;
-const int Instruction::kWaitDurationFieldNumber;
-const int Instruction::kWaitUntilFieldNumber;
-const int Instruction::kWaitTemperatureFieldNumber;
-const int Instruction::kWaitTemperatureAboveFieldNumber;
-const int Instruction::kWaitTemperatureBelowFieldNumber;
-const int Instruction::kSetSetpointFieldNumber;
-const int Instruction::kWaitSetpointFieldNumber;
-const int Instruction::kSetDigitalFieldNumber;
-const int Instruction::kWaitDigitalFieldNumber;
-const int Instruction::kSetPwmFieldNumber;
-const int Instruction::kWaitPwmFieldNumber;
-const int Instruction::kStartProfileFieldNumber;
-const int Instruction::kWaitProfileFieldNumber;
-const int Instruction::kStartSequenceFieldNumber;
-const int Instruction::kWaitSequenceFieldNumber;
+const int Instruction::kRESTARTFieldNumber;
+const int Instruction::kENABLEFieldNumber;
+const int Instruction::kDISABLEFieldNumber;
+const int Instruction::kWAITDURATIONFieldNumber;
+const int Instruction::kWAITUNTILFieldNumber;
+const int Instruction::kWAITTEMPERATUREBETWEENFieldNumber;
+const int Instruction::kWAITTEMPERATUREABOVEFieldNumber;
+const int Instruction::kWAITTEMPERATUREBELOWFieldNumber;
+const int Instruction::kSETSETPOINTFieldNumber;
+const int Instruction::kWAITSETPOINTFieldNumber;
+const int Instruction::kSETDIGITALFieldNumber;
+const int Instruction::kWAITDIGITALFieldNumber;
+const int Instruction::kSETPWMFieldNumber;
+const int Instruction::kWAITPWMFieldNumber;
+const int Instruction::kSTARTPROFILEFieldNumber;
+const int Instruction::kWAITPROFILEFieldNumber;
+const int Instruction::kSTARTSEQUENCEFieldNumber;
+const int Instruction::kWAITSEQUENCEFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Instruction::Instruction()
@@ -4494,76 +4496,76 @@ Instruction::Instruction(const Instruction& from)
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   clear_has_instruction_oneof();
   switch (from.instruction_oneof_case()) {
-    case kRestart: {
+    case kRESTART: {
       mutable_restart()->::blox_test::Sequence::Restart::MergeFrom(from.restart());
       break;
     }
-    case kEnable: {
+    case kENABLE: {
       mutable_enable()->::blox_test::Sequence::EnableDisable::MergeFrom(from.enable());
       break;
     }
-    case kDisable: {
+    case kDISABLE: {
       mutable_disable()->::blox_test::Sequence::EnableDisable::MergeFrom(from.disable());
       break;
     }
-    case kWaitDuration: {
-      mutable_waitduration()->::blox_test::Sequence::WaitDuration::MergeFrom(from.waitduration());
+    case kWAITDURATION: {
+      mutable_wait_duration()->::blox_test::Sequence::WaitDuration::MergeFrom(from.wait_duration());
       break;
     }
-    case kWaitUntil: {
-      mutable_waituntil()->::blox_test::Sequence::WaitUntil::MergeFrom(from.waituntil());
+    case kWAITUNTIL: {
+      mutable_wait_until()->::blox_test::Sequence::WaitUntil::MergeFrom(from.wait_until());
       break;
     }
-    case kWaitTemperature: {
-      mutable_waittemperature()->::blox_test::Sequence::WaitTemperature::MergeFrom(from.waittemperature());
+    case kWAITTEMPERATUREBETWEEN: {
+      mutable_wait_temperature_between()->::blox_test::Sequence::WaitTemperature::MergeFrom(from.wait_temperature_between());
       break;
     }
-    case kWaitTemperatureAbove: {
-      mutable_waittemperatureabove()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.waittemperatureabove());
+    case kWAITTEMPERATUREABOVE: {
+      mutable_wait_temperature_above()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.wait_temperature_above());
       break;
     }
-    case kWaitTemperatureBelow: {
-      mutable_waittemperaturebelow()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.waittemperaturebelow());
+    case kWAITTEMPERATUREBELOW: {
+      mutable_wait_temperature_below()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.wait_temperature_below());
       break;
     }
-    case kSetSetpoint: {
-      mutable_setsetpoint()->::blox_test::Sequence::SetSetpoint::MergeFrom(from.setsetpoint());
+    case kSETSETPOINT: {
+      mutable_set_setpoint()->::blox_test::Sequence::SetSetpoint::MergeFrom(from.set_setpoint());
       break;
     }
-    case kWaitSetpoint: {
-      mutable_waitsetpoint()->::blox_test::Sequence::WaitSetpoint::MergeFrom(from.waitsetpoint());
+    case kWAITSETPOINT: {
+      mutable_wait_setpoint()->::blox_test::Sequence::WaitSetpoint::MergeFrom(from.wait_setpoint());
       break;
     }
-    case kSetDigital: {
-      mutable_setdigital()->::blox_test::Sequence::SetDigital::MergeFrom(from.setdigital());
+    case kSETDIGITAL: {
+      mutable_set_digital()->::blox_test::Sequence::SetDigital::MergeFrom(from.set_digital());
       break;
     }
-    case kWaitDigital: {
-      mutable_waitdigital()->::blox_test::Sequence::WaitDigital::MergeFrom(from.waitdigital());
+    case kWAITDIGITAL: {
+      mutable_wait_digital()->::blox_test::Sequence::WaitDigital::MergeFrom(from.wait_digital());
       break;
     }
-    case kSetPwm: {
-      mutable_setpwm()->::blox_test::Sequence::SetPwm::MergeFrom(from.setpwm());
+    case kSETPWM: {
+      mutable_set_pwm()->::blox_test::Sequence::SetPwm::MergeFrom(from.set_pwm());
       break;
     }
-    case kWaitPwm: {
-      mutable_waitpwm()->::blox_test::Sequence::WaitPwm::MergeFrom(from.waitpwm());
+    case kWAITPWM: {
+      mutable_wait_pwm()->::blox_test::Sequence::WaitPwm::MergeFrom(from.wait_pwm());
       break;
     }
-    case kStartProfile: {
-      mutable_startprofile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.startprofile());
+    case kSTARTPROFILE: {
+      mutable_start_profile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.start_profile());
       break;
     }
-    case kWaitProfile: {
-      mutable_waitprofile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.waitprofile());
+    case kWAITPROFILE: {
+      mutable_wait_profile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.wait_profile());
       break;
     }
-    case kStartSequence: {
-      mutable_startsequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.startsequence());
+    case kSTARTSEQUENCE: {
+      mutable_start_sequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.start_sequence());
       break;
     }
-    case kWaitSequence: {
-      mutable_waitsequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.waitsequence());
+    case kWAITSEQUENCE: {
+      mutable_wait_sequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.wait_sequence());
       break;
     }
     case INSTRUCTION_ONEOF_NOT_SET: {
@@ -4605,76 +4607,76 @@ const Instruction& Instruction::default_instance() {
 void Instruction::clear_instruction_oneof() {
 // @@protoc_insertion_point(one_of_clear_start:blox_test.Sequence.Instruction)
   switch (instruction_oneof_case()) {
-    case kRestart: {
+    case kRESTART: {
       delete instruction_oneof_.restart_;
       break;
     }
-    case kEnable: {
+    case kENABLE: {
       delete instruction_oneof_.enable_;
       break;
     }
-    case kDisable: {
+    case kDISABLE: {
       delete instruction_oneof_.disable_;
       break;
     }
-    case kWaitDuration: {
-      delete instruction_oneof_.waitduration_;
+    case kWAITDURATION: {
+      delete instruction_oneof_.wait_duration_;
       break;
     }
-    case kWaitUntil: {
-      delete instruction_oneof_.waituntil_;
+    case kWAITUNTIL: {
+      delete instruction_oneof_.wait_until_;
       break;
     }
-    case kWaitTemperature: {
-      delete instruction_oneof_.waittemperature_;
+    case kWAITTEMPERATUREBETWEEN: {
+      delete instruction_oneof_.wait_temperature_between_;
       break;
     }
-    case kWaitTemperatureAbove: {
-      delete instruction_oneof_.waittemperatureabove_;
+    case kWAITTEMPERATUREABOVE: {
+      delete instruction_oneof_.wait_temperature_above_;
       break;
     }
-    case kWaitTemperatureBelow: {
-      delete instruction_oneof_.waittemperaturebelow_;
+    case kWAITTEMPERATUREBELOW: {
+      delete instruction_oneof_.wait_temperature_below_;
       break;
     }
-    case kSetSetpoint: {
-      delete instruction_oneof_.setsetpoint_;
+    case kSETSETPOINT: {
+      delete instruction_oneof_.set_setpoint_;
       break;
     }
-    case kWaitSetpoint: {
-      delete instruction_oneof_.waitsetpoint_;
+    case kWAITSETPOINT: {
+      delete instruction_oneof_.wait_setpoint_;
       break;
     }
-    case kSetDigital: {
-      delete instruction_oneof_.setdigital_;
+    case kSETDIGITAL: {
+      delete instruction_oneof_.set_digital_;
       break;
     }
-    case kWaitDigital: {
-      delete instruction_oneof_.waitdigital_;
+    case kWAITDIGITAL: {
+      delete instruction_oneof_.wait_digital_;
       break;
     }
-    case kSetPwm: {
-      delete instruction_oneof_.setpwm_;
+    case kSETPWM: {
+      delete instruction_oneof_.set_pwm_;
       break;
     }
-    case kWaitPwm: {
-      delete instruction_oneof_.waitpwm_;
+    case kWAITPWM: {
+      delete instruction_oneof_.wait_pwm_;
       break;
     }
-    case kStartProfile: {
-      delete instruction_oneof_.startprofile_;
+    case kSTARTPROFILE: {
+      delete instruction_oneof_.start_profile_;
       break;
     }
-    case kWaitProfile: {
-      delete instruction_oneof_.waitprofile_;
+    case kWAITPROFILE: {
+      delete instruction_oneof_.wait_profile_;
       break;
     }
-    case kStartSequence: {
-      delete instruction_oneof_.startsequence_;
+    case kSTARTSEQUENCE: {
+      delete instruction_oneof_.start_sequence_;
       break;
     }
-    case kWaitSequence: {
-      delete instruction_oneof_.waitsequence_;
+    case kWAITSEQUENCE: {
+      delete instruction_oneof_.wait_sequence_;
       break;
     }
     case INSTRUCTION_ONEOF_NOT_SET: {
@@ -4705,7 +4707,7 @@ bool Instruction::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .blox_test.Sequence.Restart restart = 1;
+      // .blox_test.Sequence.Restart RESTART = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
@@ -4717,7 +4719,7 @@ bool Instruction::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.Sequence.EnableDisable enable = 2;
+      // .blox_test.Sequence.EnableDisable ENABLE = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
@@ -4729,7 +4731,7 @@ bool Instruction::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.Sequence.EnableDisable disable = 3;
+      // .blox_test.Sequence.EnableDisable DISABLE = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
@@ -4741,180 +4743,180 @@ bool Instruction::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.Sequence.WaitDuration waitDuration = 4;
+      // .blox_test.Sequence.WaitDuration WAIT_DURATION = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waitduration()));
+               input, mutable_wait_duration()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitUntil waitUntil = 5;
+      // .blox_test.Sequence.WaitUntil WAIT_UNTIL = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waituntil()));
+               input, mutable_wait_until()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitTemperature waitTemperature = 6;
+      // .blox_test.Sequence.WaitTemperature WAIT_TEMPERATURE_BETWEEN = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waittemperature()));
+               input, mutable_wait_temperature_between()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureAbove = 7;
+      // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waittemperatureabove()));
+               input, mutable_wait_temperature_above()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureBelow = 8;
+      // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW = 8;
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waittemperaturebelow()));
+               input, mutable_wait_temperature_below()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.SetSetpoint setSetpoint = 9;
+      // .blox_test.Sequence.SetSetpoint SET_SETPOINT = 9;
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_setsetpoint()));
+               input, mutable_set_setpoint()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitSetpoint waitSetpoint = 10;
+      // .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 10;
       case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(82u /* 82 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waitsetpoint()));
+               input, mutable_wait_setpoint()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.SetDigital setDigital = 11;
+      // .blox_test.Sequence.SetDigital SET_DIGITAL = 11;
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_setdigital()));
+               input, mutable_set_digital()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitDigital waitDigital = 12;
+      // .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 12;
       case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(98u /* 98 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waitdigital()));
+               input, mutable_wait_digital()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.SetPwm setPwm = 13;
+      // .blox_test.Sequence.SetPwm SET_PWM = 13;
       case 13: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_setpwm()));
+               input, mutable_set_pwm()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.WaitPwm waitPwm = 14;
+      // .blox_test.Sequence.WaitPwm WAIT_PWM = 14;
       case 14: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waitpwm()));
+               input, mutable_wait_pwm()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.StartWaitProfile startProfile = 15;
+      // .blox_test.Sequence.StartWaitProfile START_PROFILE = 15;
       case 15: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(122u /* 122 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_startprofile()));
+               input, mutable_start_profile()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.StartWaitProfile waitProfile = 16;
+      // .blox_test.Sequence.StartWaitProfile WAIT_PROFILE = 16;
       case 16: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(130u /* 130 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waitprofile()));
+               input, mutable_wait_profile()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.StartWaitSequence startSequence = 17;
+      // .blox_test.Sequence.StartWaitSequence START_SEQUENCE = 17;
       case 17: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(138u /* 138 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_startsequence()));
+               input, mutable_start_sequence()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .blox_test.Sequence.StartWaitSequence waitSequence = 18;
+      // .blox_test.Sequence.StartWaitSequence WAIT_SEQUENCE = 18;
       case 18: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(146u /* 146 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_waitsequence()));
+               input, mutable_wait_sequence()));
         } else {
           goto handle_unusual;
         }
@@ -4947,112 +4949,112 @@ void Instruction::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox_test.Sequence.Restart restart = 1;
+  // .blox_test.Sequence.Restart RESTART = 1;
   if (has_restart()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->_internal_restart(), output);
   }
 
-  // .blox_test.Sequence.EnableDisable enable = 2;
+  // .blox_test.Sequence.EnableDisable ENABLE = 2;
   if (has_enable()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->_internal_enable(), output);
   }
 
-  // .blox_test.Sequence.EnableDisable disable = 3;
+  // .blox_test.Sequence.EnableDisable DISABLE = 3;
   if (has_disable()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->_internal_disable(), output);
   }
 
-  // .blox_test.Sequence.WaitDuration waitDuration = 4;
-  if (has_waitduration()) {
+  // .blox_test.Sequence.WaitDuration WAIT_DURATION = 4;
+  if (has_wait_duration()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->_internal_waitduration(), output);
+      4, this->_internal_wait_duration(), output);
   }
 
-  // .blox_test.Sequence.WaitUntil waitUntil = 5;
-  if (has_waituntil()) {
+  // .blox_test.Sequence.WaitUntil WAIT_UNTIL = 5;
+  if (has_wait_until()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->_internal_waituntil(), output);
+      5, this->_internal_wait_until(), output);
   }
 
-  // .blox_test.Sequence.WaitTemperature waitTemperature = 6;
-  if (has_waittemperature()) {
+  // .blox_test.Sequence.WaitTemperature WAIT_TEMPERATURE_BETWEEN = 6;
+  if (has_wait_temperature_between()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->_internal_waittemperature(), output);
+      6, this->_internal_wait_temperature_between(), output);
   }
 
-  // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureAbove = 7;
-  if (has_waittemperatureabove()) {
+  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE = 7;
+  if (has_wait_temperature_above()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->_internal_waittemperatureabove(), output);
+      7, this->_internal_wait_temperature_above(), output);
   }
 
-  // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureBelow = 8;
-  if (has_waittemperaturebelow()) {
+  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW = 8;
+  if (has_wait_temperature_below()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, this->_internal_waittemperaturebelow(), output);
+      8, this->_internal_wait_temperature_below(), output);
   }
 
-  // .blox_test.Sequence.SetSetpoint setSetpoint = 9;
-  if (has_setsetpoint()) {
+  // .blox_test.Sequence.SetSetpoint SET_SETPOINT = 9;
+  if (has_set_setpoint()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      9, this->_internal_setsetpoint(), output);
+      9, this->_internal_set_setpoint(), output);
   }
 
-  // .blox_test.Sequence.WaitSetpoint waitSetpoint = 10;
-  if (has_waitsetpoint()) {
+  // .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 10;
+  if (has_wait_setpoint()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      10, this->_internal_waitsetpoint(), output);
+      10, this->_internal_wait_setpoint(), output);
   }
 
-  // .blox_test.Sequence.SetDigital setDigital = 11;
-  if (has_setdigital()) {
+  // .blox_test.Sequence.SetDigital SET_DIGITAL = 11;
+  if (has_set_digital()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      11, this->_internal_setdigital(), output);
+      11, this->_internal_set_digital(), output);
   }
 
-  // .blox_test.Sequence.WaitDigital waitDigital = 12;
-  if (has_waitdigital()) {
+  // .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 12;
+  if (has_wait_digital()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      12, this->_internal_waitdigital(), output);
+      12, this->_internal_wait_digital(), output);
   }
 
-  // .blox_test.Sequence.SetPwm setPwm = 13;
-  if (has_setpwm()) {
+  // .blox_test.Sequence.SetPwm SET_PWM = 13;
+  if (has_set_pwm()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      13, this->_internal_setpwm(), output);
+      13, this->_internal_set_pwm(), output);
   }
 
-  // .blox_test.Sequence.WaitPwm waitPwm = 14;
-  if (has_waitpwm()) {
+  // .blox_test.Sequence.WaitPwm WAIT_PWM = 14;
+  if (has_wait_pwm()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      14, this->_internal_waitpwm(), output);
+      14, this->_internal_wait_pwm(), output);
   }
 
-  // .blox_test.Sequence.StartWaitProfile startProfile = 15;
-  if (has_startprofile()) {
+  // .blox_test.Sequence.StartWaitProfile START_PROFILE = 15;
+  if (has_start_profile()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      15, this->_internal_startprofile(), output);
+      15, this->_internal_start_profile(), output);
   }
 
-  // .blox_test.Sequence.StartWaitProfile waitProfile = 16;
-  if (has_waitprofile()) {
+  // .blox_test.Sequence.StartWaitProfile WAIT_PROFILE = 16;
+  if (has_wait_profile()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      16, this->_internal_waitprofile(), output);
+      16, this->_internal_wait_profile(), output);
   }
 
-  // .blox_test.Sequence.StartWaitSequence startSequence = 17;
-  if (has_startsequence()) {
+  // .blox_test.Sequence.StartWaitSequence START_SEQUENCE = 17;
+  if (has_start_sequence()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      17, this->_internal_startsequence(), output);
+      17, this->_internal_start_sequence(), output);
   }
 
-  // .blox_test.Sequence.StartWaitSequence waitSequence = 18;
-  if (has_waitsequence()) {
+  // .blox_test.Sequence.StartWaitSequence WAIT_SEQUENCE = 18;
+  if (has_wait_sequence()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      18, this->_internal_waitsequence(), output);
+      18, this->_internal_wait_sequence(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5069,130 +5071,130 @@ void Instruction::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .blox_test.Sequence.Restart restart = 1;
+  // .blox_test.Sequence.Restart RESTART = 1;
   if (has_restart()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         1, this->_internal_restart(), deterministic, target);
   }
 
-  // .blox_test.Sequence.EnableDisable enable = 2;
+  // .blox_test.Sequence.EnableDisable ENABLE = 2;
   if (has_enable()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         2, this->_internal_enable(), deterministic, target);
   }
 
-  // .blox_test.Sequence.EnableDisable disable = 3;
+  // .blox_test.Sequence.EnableDisable DISABLE = 3;
   if (has_disable()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         3, this->_internal_disable(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitDuration waitDuration = 4;
-  if (has_waitduration()) {
+  // .blox_test.Sequence.WaitDuration WAIT_DURATION = 4;
+  if (has_wait_duration()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        4, this->_internal_waitduration(), deterministic, target);
+        4, this->_internal_wait_duration(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitUntil waitUntil = 5;
-  if (has_waituntil()) {
+  // .blox_test.Sequence.WaitUntil WAIT_UNTIL = 5;
+  if (has_wait_until()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        5, this->_internal_waituntil(), deterministic, target);
+        5, this->_internal_wait_until(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitTemperature waitTemperature = 6;
-  if (has_waittemperature()) {
+  // .blox_test.Sequence.WaitTemperature WAIT_TEMPERATURE_BETWEEN = 6;
+  if (has_wait_temperature_between()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        6, this->_internal_waittemperature(), deterministic, target);
+        6, this->_internal_wait_temperature_between(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureAbove = 7;
-  if (has_waittemperatureabove()) {
+  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE = 7;
+  if (has_wait_temperature_above()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        7, this->_internal_waittemperatureabove(), deterministic, target);
+        7, this->_internal_wait_temperature_above(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureBelow = 8;
-  if (has_waittemperaturebelow()) {
+  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW = 8;
+  if (has_wait_temperature_below()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        8, this->_internal_waittemperaturebelow(), deterministic, target);
+        8, this->_internal_wait_temperature_below(), deterministic, target);
   }
 
-  // .blox_test.Sequence.SetSetpoint setSetpoint = 9;
-  if (has_setsetpoint()) {
+  // .blox_test.Sequence.SetSetpoint SET_SETPOINT = 9;
+  if (has_set_setpoint()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        9, this->_internal_setsetpoint(), deterministic, target);
+        9, this->_internal_set_setpoint(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitSetpoint waitSetpoint = 10;
-  if (has_waitsetpoint()) {
+  // .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 10;
+  if (has_wait_setpoint()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        10, this->_internal_waitsetpoint(), deterministic, target);
+        10, this->_internal_wait_setpoint(), deterministic, target);
   }
 
-  // .blox_test.Sequence.SetDigital setDigital = 11;
-  if (has_setdigital()) {
+  // .blox_test.Sequence.SetDigital SET_DIGITAL = 11;
+  if (has_set_digital()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        11, this->_internal_setdigital(), deterministic, target);
+        11, this->_internal_set_digital(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitDigital waitDigital = 12;
-  if (has_waitdigital()) {
+  // .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 12;
+  if (has_wait_digital()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        12, this->_internal_waitdigital(), deterministic, target);
+        12, this->_internal_wait_digital(), deterministic, target);
   }
 
-  // .blox_test.Sequence.SetPwm setPwm = 13;
-  if (has_setpwm()) {
+  // .blox_test.Sequence.SetPwm SET_PWM = 13;
+  if (has_set_pwm()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        13, this->_internal_setpwm(), deterministic, target);
+        13, this->_internal_set_pwm(), deterministic, target);
   }
 
-  // .blox_test.Sequence.WaitPwm waitPwm = 14;
-  if (has_waitpwm()) {
+  // .blox_test.Sequence.WaitPwm WAIT_PWM = 14;
+  if (has_wait_pwm()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        14, this->_internal_waitpwm(), deterministic, target);
+        14, this->_internal_wait_pwm(), deterministic, target);
   }
 
-  // .blox_test.Sequence.StartWaitProfile startProfile = 15;
-  if (has_startprofile()) {
+  // .blox_test.Sequence.StartWaitProfile START_PROFILE = 15;
+  if (has_start_profile()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        15, this->_internal_startprofile(), deterministic, target);
+        15, this->_internal_start_profile(), deterministic, target);
   }
 
-  // .blox_test.Sequence.StartWaitProfile waitProfile = 16;
-  if (has_waitprofile()) {
+  // .blox_test.Sequence.StartWaitProfile WAIT_PROFILE = 16;
+  if (has_wait_profile()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        16, this->_internal_waitprofile(), deterministic, target);
+        16, this->_internal_wait_profile(), deterministic, target);
   }
 
-  // .blox_test.Sequence.StartWaitSequence startSequence = 17;
-  if (has_startsequence()) {
+  // .blox_test.Sequence.StartWaitSequence START_SEQUENCE = 17;
+  if (has_start_sequence()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        17, this->_internal_startsequence(), deterministic, target);
+        17, this->_internal_start_sequence(), deterministic, target);
   }
 
-  // .blox_test.Sequence.StartWaitSequence waitSequence = 18;
-  if (has_waitsequence()) {
+  // .blox_test.Sequence.StartWaitSequence WAIT_SEQUENCE = 18;
+  if (has_wait_sequence()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        18, this->_internal_waitsequence(), deterministic, target);
+        18, this->_internal_wait_sequence(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5213,130 +5215,130 @@ size_t Instruction::ByteSizeLong() const {
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
   switch (instruction_oneof_case()) {
-    // .blox_test.Sequence.Restart restart = 1;
-    case kRestart: {
+    // .blox_test.Sequence.Restart RESTART = 1;
+    case kRESTART: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *instruction_oneof_.restart_);
       break;
     }
-    // .blox_test.Sequence.EnableDisable enable = 2;
-    case kEnable: {
+    // .blox_test.Sequence.EnableDisable ENABLE = 2;
+    case kENABLE: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *instruction_oneof_.enable_);
       break;
     }
-    // .blox_test.Sequence.EnableDisable disable = 3;
-    case kDisable: {
+    // .blox_test.Sequence.EnableDisable DISABLE = 3;
+    case kDISABLE: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *instruction_oneof_.disable_);
       break;
     }
-    // .blox_test.Sequence.WaitDuration waitDuration = 4;
-    case kWaitDuration: {
+    // .blox_test.Sequence.WaitDuration WAIT_DURATION = 4;
+    case kWAITDURATION: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waitduration_);
+          *instruction_oneof_.wait_duration_);
       break;
     }
-    // .blox_test.Sequence.WaitUntil waitUntil = 5;
-    case kWaitUntil: {
+    // .blox_test.Sequence.WaitUntil WAIT_UNTIL = 5;
+    case kWAITUNTIL: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waituntil_);
+          *instruction_oneof_.wait_until_);
       break;
     }
-    // .blox_test.Sequence.WaitTemperature waitTemperature = 6;
-    case kWaitTemperature: {
+    // .blox_test.Sequence.WaitTemperature WAIT_TEMPERATURE_BETWEEN = 6;
+    case kWAITTEMPERATUREBETWEEN: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waittemperature_);
+          *instruction_oneof_.wait_temperature_between_);
       break;
     }
-    // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureAbove = 7;
-    case kWaitTemperatureAbove: {
+    // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE = 7;
+    case kWAITTEMPERATUREABOVE: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waittemperatureabove_);
+          *instruction_oneof_.wait_temperature_above_);
       break;
     }
-    // .blox_test.Sequence.WaitTemperatureBoundary waitTemperatureBelow = 8;
-    case kWaitTemperatureBelow: {
+    // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW = 8;
+    case kWAITTEMPERATUREBELOW: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waittemperaturebelow_);
+          *instruction_oneof_.wait_temperature_below_);
       break;
     }
-    // .blox_test.Sequence.SetSetpoint setSetpoint = 9;
-    case kSetSetpoint: {
+    // .blox_test.Sequence.SetSetpoint SET_SETPOINT = 9;
+    case kSETSETPOINT: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.setsetpoint_);
+          *instruction_oneof_.set_setpoint_);
       break;
     }
-    // .blox_test.Sequence.WaitSetpoint waitSetpoint = 10;
-    case kWaitSetpoint: {
+    // .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 10;
+    case kWAITSETPOINT: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waitsetpoint_);
+          *instruction_oneof_.wait_setpoint_);
       break;
     }
-    // .blox_test.Sequence.SetDigital setDigital = 11;
-    case kSetDigital: {
+    // .blox_test.Sequence.SetDigital SET_DIGITAL = 11;
+    case kSETDIGITAL: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.setdigital_);
+          *instruction_oneof_.set_digital_);
       break;
     }
-    // .blox_test.Sequence.WaitDigital waitDigital = 12;
-    case kWaitDigital: {
+    // .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 12;
+    case kWAITDIGITAL: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waitdigital_);
+          *instruction_oneof_.wait_digital_);
       break;
     }
-    // .blox_test.Sequence.SetPwm setPwm = 13;
-    case kSetPwm: {
+    // .blox_test.Sequence.SetPwm SET_PWM = 13;
+    case kSETPWM: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.setpwm_);
+          *instruction_oneof_.set_pwm_);
       break;
     }
-    // .blox_test.Sequence.WaitPwm waitPwm = 14;
-    case kWaitPwm: {
+    // .blox_test.Sequence.WaitPwm WAIT_PWM = 14;
+    case kWAITPWM: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waitpwm_);
+          *instruction_oneof_.wait_pwm_);
       break;
     }
-    // .blox_test.Sequence.StartWaitProfile startProfile = 15;
-    case kStartProfile: {
+    // .blox_test.Sequence.StartWaitProfile START_PROFILE = 15;
+    case kSTARTPROFILE: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.startprofile_);
+          *instruction_oneof_.start_profile_);
       break;
     }
-    // .blox_test.Sequence.StartWaitProfile waitProfile = 16;
-    case kWaitProfile: {
+    // .blox_test.Sequence.StartWaitProfile WAIT_PROFILE = 16;
+    case kWAITPROFILE: {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waitprofile_);
+          *instruction_oneof_.wait_profile_);
       break;
     }
-    // .blox_test.Sequence.StartWaitSequence startSequence = 17;
-    case kStartSequence: {
+    // .blox_test.Sequence.StartWaitSequence START_SEQUENCE = 17;
+    case kSTARTSEQUENCE: {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.startsequence_);
+          *instruction_oneof_.start_sequence_);
       break;
     }
-    // .blox_test.Sequence.StartWaitSequence waitSequence = 18;
-    case kWaitSequence: {
+    // .blox_test.Sequence.StartWaitSequence WAIT_SEQUENCE = 18;
+    case kWAITSEQUENCE: {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *instruction_oneof_.waitsequence_);
+          *instruction_oneof_.wait_sequence_);
       break;
     }
     case INSTRUCTION_ONEOF_NOT_SET: {
@@ -5371,76 +5373,76 @@ void Instruction::MergeFrom(const Instruction& from) {
   (void) cached_has_bits;
 
   switch (from.instruction_oneof_case()) {
-    case kRestart: {
+    case kRESTART: {
       mutable_restart()->::blox_test::Sequence::Restart::MergeFrom(from.restart());
       break;
     }
-    case kEnable: {
+    case kENABLE: {
       mutable_enable()->::blox_test::Sequence::EnableDisable::MergeFrom(from.enable());
       break;
     }
-    case kDisable: {
+    case kDISABLE: {
       mutable_disable()->::blox_test::Sequence::EnableDisable::MergeFrom(from.disable());
       break;
     }
-    case kWaitDuration: {
-      mutable_waitduration()->::blox_test::Sequence::WaitDuration::MergeFrom(from.waitduration());
+    case kWAITDURATION: {
+      mutable_wait_duration()->::blox_test::Sequence::WaitDuration::MergeFrom(from.wait_duration());
       break;
     }
-    case kWaitUntil: {
-      mutable_waituntil()->::blox_test::Sequence::WaitUntil::MergeFrom(from.waituntil());
+    case kWAITUNTIL: {
+      mutable_wait_until()->::blox_test::Sequence::WaitUntil::MergeFrom(from.wait_until());
       break;
     }
-    case kWaitTemperature: {
-      mutable_waittemperature()->::blox_test::Sequence::WaitTemperature::MergeFrom(from.waittemperature());
+    case kWAITTEMPERATUREBETWEEN: {
+      mutable_wait_temperature_between()->::blox_test::Sequence::WaitTemperature::MergeFrom(from.wait_temperature_between());
       break;
     }
-    case kWaitTemperatureAbove: {
-      mutable_waittemperatureabove()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.waittemperatureabove());
+    case kWAITTEMPERATUREABOVE: {
+      mutable_wait_temperature_above()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.wait_temperature_above());
       break;
     }
-    case kWaitTemperatureBelow: {
-      mutable_waittemperaturebelow()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.waittemperaturebelow());
+    case kWAITTEMPERATUREBELOW: {
+      mutable_wait_temperature_below()->::blox_test::Sequence::WaitTemperatureBoundary::MergeFrom(from.wait_temperature_below());
       break;
     }
-    case kSetSetpoint: {
-      mutable_setsetpoint()->::blox_test::Sequence::SetSetpoint::MergeFrom(from.setsetpoint());
+    case kSETSETPOINT: {
+      mutable_set_setpoint()->::blox_test::Sequence::SetSetpoint::MergeFrom(from.set_setpoint());
       break;
     }
-    case kWaitSetpoint: {
-      mutable_waitsetpoint()->::blox_test::Sequence::WaitSetpoint::MergeFrom(from.waitsetpoint());
+    case kWAITSETPOINT: {
+      mutable_wait_setpoint()->::blox_test::Sequence::WaitSetpoint::MergeFrom(from.wait_setpoint());
       break;
     }
-    case kSetDigital: {
-      mutable_setdigital()->::blox_test::Sequence::SetDigital::MergeFrom(from.setdigital());
+    case kSETDIGITAL: {
+      mutable_set_digital()->::blox_test::Sequence::SetDigital::MergeFrom(from.set_digital());
       break;
     }
-    case kWaitDigital: {
-      mutable_waitdigital()->::blox_test::Sequence::WaitDigital::MergeFrom(from.waitdigital());
+    case kWAITDIGITAL: {
+      mutable_wait_digital()->::blox_test::Sequence::WaitDigital::MergeFrom(from.wait_digital());
       break;
     }
-    case kSetPwm: {
-      mutable_setpwm()->::blox_test::Sequence::SetPwm::MergeFrom(from.setpwm());
+    case kSETPWM: {
+      mutable_set_pwm()->::blox_test::Sequence::SetPwm::MergeFrom(from.set_pwm());
       break;
     }
-    case kWaitPwm: {
-      mutable_waitpwm()->::blox_test::Sequence::WaitPwm::MergeFrom(from.waitpwm());
+    case kWAITPWM: {
+      mutable_wait_pwm()->::blox_test::Sequence::WaitPwm::MergeFrom(from.wait_pwm());
       break;
     }
-    case kStartProfile: {
-      mutable_startprofile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.startprofile());
+    case kSTARTPROFILE: {
+      mutable_start_profile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.start_profile());
       break;
     }
-    case kWaitProfile: {
-      mutable_waitprofile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.waitprofile());
+    case kWAITPROFILE: {
+      mutable_wait_profile()->::blox_test::Sequence::StartWaitProfile::MergeFrom(from.wait_profile());
       break;
     }
-    case kStartSequence: {
-      mutable_startsequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.startsequence());
+    case kSTARTSEQUENCE: {
+      mutable_start_sequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.start_sequence());
       break;
     }
-    case kWaitSequence: {
-      mutable_waitsequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.waitsequence());
+    case kWAITSEQUENCE: {
+      mutable_wait_sequence()->::blox_test::Sequence::StartWaitSequence::MergeFrom(from.wait_sequence());
       break;
     }
     case INSTRUCTION_ONEOF_NOT_SET: {
