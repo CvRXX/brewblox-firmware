@@ -50,6 +50,7 @@ public:
     static lv_disp_drv_t* init()
     {
         display = std::make_unique<Display>([]() { lv_disp_flush_ready(&disp_drv); });
+        auto displayLock = std::lock_guard(*display);
         display->init();
 
         lv_disp_draw_buf_init(&disp_buf1, buf1_1, buf1_2, 960);

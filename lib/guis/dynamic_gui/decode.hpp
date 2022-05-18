@@ -128,48 +128,49 @@ namespace detail {
         return DecodeError::success;
     }
 
-    /**
-     * Decodes a set of layoutNodes and contentNodes and returns a screen.
-     * @param layoutNodes The layoutNodes to be added to the screen.
-     * @param contentNodes The contentNodes to be added to the screen.
-     * @return An std::expected type containing either the screen or an error.
-     */
-    tl::expected<Screen, DecodeError> decodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode> contentNodes)
-    {
-        // Temp storage of elements which are to be children of higher elements.
-        auto buffer = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>{};
-        buffer.reserve(layoutNodes.size());
+}
 
-        // Sort the layoutnodes in decending order of nodeId.
-        std::sort(layoutNodes.begin(), layoutNodes.end(), [](auto& a, auto& b) {
-            return a.nodeId > b.nodeId;
-        });
+/**
+ * Decodes a set of layoutNodes and contentNodes and returns a screen.
+ * @param layoutNodes The layoutNodes to be added to the screen.
+ * @param contentNodes The contentNodes to be added to the screen.
+ * @return An std::expected type containing either the screen or an error.
+ */
+tl::expected<Screen, DecodeError> decodeNodes(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode> contentNodes)
+{
+    // Temp storage of elements which are to be children of higher elements.
+    auto buffer = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>{};
+    buffer.reserve(layoutNodes.size());
 
-        // Walk through the list of nodes in decending order of nodeId.
-        // This means that the children of a node are already created when the node is reached.
-        for (auto& nodeToAdd : layoutNodes) {
-            if (nodeToAdd.type == blox_ScreenConfig_Type_Row || nodeToAdd.type == blox_ScreenConfig_Type_Column) {
-                auto status = parseRowCol(nodeToAdd, buffer);
-                if (status != DecodeError::success) {
-                    return tl::unexpected{status};
-                }
-            } else if (nodeToAdd.type == blox_ScreenConfig_Type_Content) {
-                auto status = parseContent(nodeToAdd, buffer, contentNodes);
-                if (status != DecodeError::success) {
-                    return tl::unexpected{status};
-                }
-            } else {
-                return tl::unexpected{DecodeError::unknownLayoutType};
+    // Sort the layoutnodes in decending order of nodeId.
+    std::sort(layoutNodes.begin(), layoutNodes.end(), [](auto& a, auto& b) {
+        return a.nodeId > b.nodeId;
+    });
+
+    // Walk through the list of nodes in decending order of nodeId.
+    // This means that the children of a node are already created when the node is reached.
+    for (auto& nodeToAdd : layoutNodes) {
+        if (nodeToAdd.type == blox_ScreenConfig_Type_Row || nodeToAdd.type == blox_ScreenConfig_Type_Column) {
+            auto status = detail::parseRowCol(nodeToAdd, buffer);
+            if (status != DecodeError::success) {
+                return tl::unexpected{status};
             }
+        } else if (nodeToAdd.type == blox_ScreenConfig_Type_Content) {
+            auto status = detail::parseContent(nodeToAdd, buffer, contentNodes);
+            if (status != DecodeError::success) {
+                return tl::unexpected{status};
+            }
+        } else {
+            return tl::unexpected{DecodeError::unknownLayoutType};
         }
-
-        // The only element left should have a parent of id: 0.
-        if (buffer.size() != 1 || buffer.back().second != 0) {
-            return tl::unexpected{DecodeError::nodeIdsAreNotSequentialPerLevel};
-        }
-
-        return Screen{std::move(buffer.back().first)};
     }
+
+    // The only element left should have a parent of id: 0.
+    if (buffer.size() != 1 || buffer.back().second != 0) {
+        return tl::unexpected{DecodeError::nodeIdsAreNotSequentialPerLevel};
+    }
+
+    return Screen{std::move(buffer.back().first)};
 }
 
 /**
@@ -199,6 +200,6 @@ tl::expected<Screen, DecodeError> decodeBuffer(uint8_t* buffer, size_t length)
         return tl::unexpected{DecodeError::PBError};
     }
 
-    return detail::decodeNodes(layoutNodes, contentNodes);
+    return decodeNodes(layoutNodes, contentNodes);
 }
 }

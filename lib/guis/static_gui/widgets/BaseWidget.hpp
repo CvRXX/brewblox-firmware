@@ -1,8 +1,8 @@
 #pragma once
-#include "../fonts/fonts.hpp"
-#include "../styles.hpp"
 #include "control/Temperature.hpp"
 #include "lvgl.h"
+#include "static_gui/fonts/fonts.hpp"
+#include "static_gui/styles.hpp"
 
 class BaseWidget {
 public:

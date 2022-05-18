@@ -37,11 +37,8 @@ public:
     {
         lv_init();
 
-        { // Display lock scope
-            auto displayLock = std::lock_guard(*LvglScreen<Display>::display);
-            displayDriver = lv_disp_drv_register(LvglScreen<Display>::init());
-            lv_disp_set_bg_color(displayDriver, lv_color_black());
-        }
+        displayDriver = lv_disp_drv_register(LvglScreen<Display>::init());
+        lv_disp_set_bg_color(displayDriver, lv_color_black());
 
         touchScreenDriver = lv_indev_drv_register(LvglTouchscreen<Touchscreen>::init());
 
@@ -66,9 +63,9 @@ public:
     {
         lv_tick_inc(millisElapsed);
     }
+    static std::unique_ptr<Interface> interface;
 
 private:
-    static std::unique_ptr<Interface> interface;
     static lv_disp_t* displayDriver;
     static lv_indev_t* touchScreenDriver;
 };

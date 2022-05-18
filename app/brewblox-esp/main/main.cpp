@@ -18,6 +18,8 @@
 #include "HttpHandler.hpp"
 #include "OkButtonMonitor.hpp"
 #include "blox_hal/hal_network.hpp"
+#include "dynamic_gui/dynamicGui.hpp"
+#include "dynamic_gui/util/test_screen.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
@@ -77,7 +79,9 @@ int main(int /*argc*/, char** /*argv*/)
 #endif
 {
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
-    using gui = Gui<TFT035, FT6236, StaticGui>;
+
+    using screen = Gui<TFT035, FT6236, StaticGui>;
+    // using screen = Gui<TFT035, FT6236, gui::dynamic_interface::DynamicGui>;
 
     spark4::hw_init();
     check_ota();
@@ -85,14 +89,19 @@ int main(int /*argc*/, char** /*argv*/)
     mount_blocks_spiff();
     spark4::adc_init();
     setupSystemBlocks();
-    gui::init();
+    screen::init();
+
+    // auto testScreen = gui::dynamic_interface::testScreen();
+    // if (testScreen) {
+    //     screen::interface->setNewScreen(std::move(*testScreen));
+    // }
 
     static asio::io_context io;
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
                                               RecurringTask::IntervalType::FROM_EXPIRY,
                                               []() -> bool {
-                                                  gui::update();
-                                                  gui::tick(100);
+                                                  screen::update();
+                                                  screen::tick(100);
                                                   return true;
                                               });
 
@@ -122,8 +131,6 @@ int main(int /*argc*/, char** /*argv*/)
             cbox::update(millisSinceBoot);
             return true;
         });
-
-    updater.start();
 
     static CboxServer cboxServer(io, 8332);
     static HttpHandler http(io, 80, cboxServer);

@@ -5,6 +5,9 @@ idf_component_register(
    fonts/font_main_small.c
    fonts/font_numbers_large.c
    fonts/font_numbers_medium.c
+   fonts/font_numbers_huge.c
+   fonts/font_numbers_small.c
+
   INCLUDE_DIRS
     ../
   REQUIRES

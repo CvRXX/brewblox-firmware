@@ -58,7 +58,7 @@ public:
     }
 
     // Returns if the Screen contains a child.
-    const bool empty()
+    bool empty()
     {
         return !!child;
     }
