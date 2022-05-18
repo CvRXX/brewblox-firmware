@@ -36,7 +36,7 @@ std::shared_ptr<cbox::Object> OneWireScanningFactory::scan()
         bus->reset_search();
         while (auto newAddr = bus->search()) {
             auto existing = std::find_if(cbox::objects.begin(), cbox::objects.end(), [&newAddr](const std::shared_ptr<cbox::Object>& obj) {
-                auto devicePtr = cbox::asInterface<OneWireDevice>(obj);
+                auto devicePtr = obj->asInterface<OneWireDevice>();
                 return (devicePtr != nullptr) && devicePtr->address() == newAddr;
             });
 
@@ -57,7 +57,7 @@ std::shared_ptr<cbox::Object> OneWireScanningFactory::scan()
             } else {
                 // device already exists
                 // ensure that the bus id is correct in case it was plugged into a different module
-                if (auto blockPtr = cbox::asInterface<OneWireDeviceBlock>(*existing)) {
+                if (auto blockPtr = (*existing)->asInterface<OneWireDeviceBlock>()) {
                     blockPtr->setBusId(busId);
                 }
             }
