@@ -85,6 +85,18 @@ protected:
         return now + 1000;
     }
 
+private:
+    /**
+     * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
+     * @param iface: typeId of the interface requested
+     */
+    virtual void* implements(obj_type_t iface) = 0;
+
+    const void* implements(obj_type_t iface) const
+    {
+        return const_cast<Object*>(this)->implements(iface);
+    }
+
 public:
     Object() = default;
     virtual ~Object() = default;
@@ -132,17 +144,6 @@ public:
     virtual CboxError loadFromCache()
     {
         return CboxError::OK;
-    }
-
-    /**
-     * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
-     * @param iface: typeId of the interface requested
-     */
-    virtual void* implements(obj_type_t iface) = 0;
-
-    const void* implements(obj_type_t iface) const
-    {
-        return const_cast<Object*>(this)->implements(iface);
     }
 
     template <typename T>

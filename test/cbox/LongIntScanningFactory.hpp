@@ -26,7 +26,7 @@ public:
         for (auto& value : candidates) {
             bool found = false;
             for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
-                auto ptrIfCorrectType = cbox::asInterface<LongIntObject>(*existing);
+                auto ptrIfCorrectType = (*existing)->asInterface<LongIntObject>();
                 if (ptrIfCorrectType == nullptr) {
                     continue; // not the right type, no match
                 }
