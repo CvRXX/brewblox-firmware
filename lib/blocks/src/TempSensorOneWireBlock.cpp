@@ -33,9 +33,9 @@ TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId)
 {
 }
 
-TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr)
+TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, OneWireAddress addr)
     : OneWireDeviceBlock(busId)
-    , sensor(owBus, addr)
+    , sensor(owBus, std::move(addr))
 {
 }
 
@@ -109,7 +109,7 @@ cbox::update_t TempSensorOneWireBlock::updateHandler(const cbox::update_t& now)
 
 void* TempSensorOneWireBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_TempSensorOneWire) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<TempSensor>()) {

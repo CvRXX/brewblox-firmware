@@ -195,7 +195,7 @@ PidBlock::updateHandler(const cbox::update_t& now)
 
 void* PidBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_Pid) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     return nullptr;

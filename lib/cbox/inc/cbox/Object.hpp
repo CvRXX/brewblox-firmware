@@ -27,6 +27,38 @@ namespace cbox {
 
 using update_t = uint32_t;
 
+class Object;
+
+// any type can be assigned a typeid by explicit template instantiation
+// this allows objects to implement returning a pointer for that type, without needing to inherit from it
+template <typename T>
+obj_type_t interfaceIdImpl();
+
+// for objects, the object id is the interface id
+template <typename T>
+obj_type_t interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = 0)
+{
+    return T::staticTypeId();
+}
+
+#if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)
+uint16_t throwIdNotUnique(uint16_t id);
+#endif
+
+// for interface, we check uniqueness on first use, if compiling with gcc (test code)
+template <typename T>
+obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
+{
+#if !defined(PLATFORM_ID) || PLATFORM_ID == 3
+    static auto uniqueId = throwIdNotUnique(interfaceIdImpl<T>());
+    return uniqueId;
+
+#else
+
+    return interfaceIdImpl<T>();
+#endif
+}
+
 class Object {
 private:
     update_t _nextUpdateTime{0}; // ignore update() calls before this time
@@ -51,6 +83,18 @@ protected:
     inline update_t next_update_1s(const update_t& now)
     {
         return now + 1000;
+    }
+
+private:
+    /**
+     * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
+     * @param iface: typeId of the interface requested
+     */
+    virtual void* implements(obj_type_t iface) = 0;
+
+    const void* implements(obj_type_t iface) const
+    {
+        return const_cast<Object*>(this)->implements(iface);
     }
 
 public:
@@ -102,11 +146,17 @@ public:
         return CboxError::OK;
     }
 
-    /**
-     * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
-     * @param iface: typeId of the interface requested
-     */
-    virtual void* implements(obj_type_t iface) = 0;
+    template <typename T>
+    T* asInterface()
+    {
+        return reinterpret_cast<T*>(implements(interfaceId<T>()));
+    }
+
+    template <typename T>
+    const T* asInterface() const
+    {
+        return reinterpret_cast<const T*>(implements(interfaceId<T>()));
+    }
 
     /**
      * update the object, returns timestamp at which the object wants to be updated again (in ms).

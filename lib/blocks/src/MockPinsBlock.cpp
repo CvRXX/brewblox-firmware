@@ -60,7 +60,7 @@ MockPinsBlock::write(const cbox::Payload&)
 
 void* MockPinsBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_MockPins) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

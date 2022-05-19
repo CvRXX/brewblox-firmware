@@ -19,7 +19,7 @@ public:
     {
     }
 
-    cbox::obj_id_t getBusId()
+    cbox::obj_id_t getBusId() const
     {
         return owBus.getId();
     }

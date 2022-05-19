@@ -26,20 +26,18 @@
 #include <memory>
 
 class OneWireDevice {
-public:
-    OneWireDevice(ControlPtr<OneWire>& busPtr_, const OneWireAddress& address_);
-
 protected:
+    OneWireDevice(ControlPtr<OneWire>& busPtr_, OneWireAddress&& address_);
     ~OneWireDevice() = default;
 
 public:
-    OneWireAddress address() const
+    const OneWireAddress& address() const
     {
         return m_address;
     }
-    void address(const OneWireAddress& addr)
+    void address(OneWireAddress addr)
     {
-        m_address = addr;
+        m_address = std::move(addr);
     }
 
     bool connected() const

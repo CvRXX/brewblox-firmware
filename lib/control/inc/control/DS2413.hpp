@@ -43,7 +43,7 @@ private:
 
 public:
     DS2413(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
-        : OneWireDevice(busPtr, address)
+        : OneWireDevice(busPtr, std::move(address))
         , IoArray(2)
     {
     }
