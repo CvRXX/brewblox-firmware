@@ -41,7 +41,7 @@ public:
     cbox::update_t updateHandler(const cbox::update_t& now) override;
     void* implements(cbox::obj_type_t iface) override;
 
-    void reset(const uint16_t activeInstruction, const uint32_t activeInstructionStartedAt);
+    void reset(uint16_t activeInstruction, uint32_t activeInstructionStartedAt);
 
     bool done() const
     {

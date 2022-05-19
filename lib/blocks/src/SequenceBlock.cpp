@@ -82,7 +82,7 @@ SequenceBlock::readStored(const cbox::PayloadCallback& callback) const
     return read(callback);
 }
 
-void SequenceBlock::reset(const uint16_t activeInstruction, const uint32_t activeInstructionStartedAt)
+void SequenceBlock::reset(uint16_t activeInstruction, uint32_t activeInstructionStartedAt)
 {
     _state = {
         .activeInstruction = activeInstruction,
@@ -141,7 +141,7 @@ InstructionResult setEnablerFunc(const SequenceState&, cbox::CboxPtr<Enabler>& t
     return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
-InstructionResult waitDurationFunc(const SequenceState& state, const utc_seconds_t duration)
+InstructionResult waitDurationFunc(const SequenceState& state, utc_seconds_t duration)
 {
     auto utc = ticks.utc();
 
@@ -156,7 +156,7 @@ InstructionResult waitDurationFunc(const SequenceState& state, const utc_seconds
     }
 }
 
-InstructionResult waitUntilFunc(const SequenceState&, const utc_seconds_t time)
+InstructionResult waitUntilFunc(const SequenceState&, utc_seconds_t time)
 {
     auto utc = ticks.utc();
 
@@ -173,8 +173,8 @@ InstructionResult waitUntilFunc(const SequenceState&, const utc_seconds_t time)
 
 InstructionResult waitTemperatureFunc(const SequenceState&,
                                       const cbox::CboxPtr<TempSensor>& target,
-                                      const temp_t lower,
-                                      const temp_t upper)
+                                      temp_t lower,
+                                      temp_t upper)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -191,7 +191,7 @@ InstructionResult waitTemperatureFunc(const SequenceState&,
 
 InstructionResult setSetpointFunc(const SequenceState&,
                                   cbox::CboxPtr<SetpointSensorPair>& target,
-                                  const temp_t setting)
+                                  temp_t setting)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -205,7 +205,7 @@ InstructionResult setSetpointFunc(const SequenceState&,
 
 InstructionResult waitSetpointFunc(const SequenceState&,
                                    const cbox::CboxPtr<SetpointSensorPair>& target,
-                                   const temp_t precision)
+                                   temp_t precision)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -256,7 +256,7 @@ InstructionResult waitDigitalFunc(const SequenceState&,
 
 InstructionResult setPwmFunc(const SequenceState&,
                              cbox::CboxPtr<ActuatorPwmBlock>& target,
-                             const ActuatorPwm::value_t setting)
+                             ActuatorPwm::value_t setting)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -270,7 +270,7 @@ InstructionResult setPwmFunc(const SequenceState&,
 
 InstructionResult waitPwmFunc(const SequenceState&,
                               const cbox::CboxPtr<ActuatorPwmBlock>& target,
-                              const ActuatorPwm::value_t precision)
+                              ActuatorPwm::value_t precision)
 {
     auto ptr = target.lock();
     if (!ptr) {
