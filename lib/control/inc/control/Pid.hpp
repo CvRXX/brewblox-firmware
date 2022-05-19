@@ -35,29 +35,29 @@ public:
     using derivative_t = SetpointSensorPair::derivative_t;
 
 private:
-    ControlPtr<SetpointSensorPair>& m_inputPtr;
-    ControlPtr<ProcessValue<Pid::out_t>>& m_outputPtr;
+    ControlPtr<SetpointSensorPair>& _inputPtr;
+    ControlPtr<ProcessValue<Pid::out_t>>& _outputPtr;
 
     // state
-    in_t m_error = in_t{0};
-    out_t m_p = out_t{0};
-    out_t m_i = out_t{0};
-    out_t m_d = out_t{0};
-    integral_t m_integral = integral_t{0};
-    derivative_t m_derivative = derivative_t{0};
-    uint8_t m_derivativeFilterNr = 0;
+    in_t _error = in_t{0};
+    out_t _p = out_t{0};
+    out_t _i = out_t{0};
+    out_t _d = out_t{0};
+    integral_t _integral = integral_t{0};
+    derivative_t _derivative = derivative_t{0};
+    uint8_t _derivativeFilterNr = 0;
 
     // settings
-    in_t m_kp = in_t{0};   // proportional gain
-    uint16_t m_ti = 0;     // integral time constant
-    uint16_t m_td = 0;     // derivative time constant
-    bool m_active = false; // automatically set when input is invalid
+    in_t _kp = in_t{0};   // proportional gain
+    uint16_t _ti = 0;     // integral time constant
+    uint16_t _td = 0;     // derivative time constant
+    bool _active = false; // automatically set when input is invalid
 
-    in_t m_boilPointAdjust = in_t{0}; // offset from 100C for lower limit to activate boil mode
+    in_t _boilPointAdjust = in_t{0}; // offset from 100C for lower limit to activate boil mode
 
-    out_t m_boilMinOutput = out_t{0}; // minimum output when boiling (to control boil intensity)
+    out_t _boilMinOutput = out_t{0}; // minimum output when boiling (to control boil intensity)
 
-    bool m_boilModeActive = false;
+    bool _boilModeActive = false;
 
 public:
     Enabler enabler;
@@ -65,8 +65,8 @@ public:
     explicit Pid(
         ControlPtr<SetpointSensorPair>& input,
         ControlPtr<ProcessValue<Pid::out_t>>& output)
-        : m_inputPtr(input)
-        , m_outputPtr(output)
+        : _inputPtr(input)
+        , _outputPtr(output)
         , enabler(false, [this](bool arg) {active(arg); return arg; })
     {
     }
@@ -83,105 +83,105 @@ public:
     // state
     auto error() const
     {
-        return m_error;
+        return _error;
     }
 
     integral_t integral() const
     {
-        return m_integral;
+        return _integral;
     }
 
     auto derivative() const
     {
-        return m_derivative;
+        return _derivative;
     }
 
     auto p() const
     {
-        return m_p;
+        return _p;
     }
 
     auto i() const
     {
-        return m_i;
+        return _i;
     }
 
     void i(const out_t& arg);
 
     auto d() const
     {
-        return m_d;
+        return _d;
     }
 
     // settings
     auto kp() const
     {
-        return m_kp;
+        return _kp;
     }
 
     void kp(const in_t& arg);
 
     auto ti() const
     {
-        return m_ti;
+        return _ti;
     }
 
     void ti(const uint16_t& arg);
 
     auto td() const
     {
-        return m_td;
+        return _td;
     }
 
     void td(const uint16_t& arg);
 
     auto active() const
     {
-        return m_active;
+        return _active;
     }
 
     void setIntegral(const out_t& newIntegratorPart);
 
     bool boilModeActive() const
     {
-        return m_boilModeActive;
+        return _boilModeActive;
     }
 
     in_t boilPointAdjust() const
     {
-        return m_boilPointAdjust;
+        return _boilPointAdjust;
     }
 
     void boilPointAdjust(const in_t& v)
     {
-        m_boilPointAdjust = v;
+        _boilPointAdjust = v;
     }
 
     out_t boilMinOutput() const
     {
-        return m_boilMinOutput;
+        return _boilMinOutput;
     }
 
     void boilMinOutput(const out_t& v)
     {
-        m_boilMinOutput = v;
+        _boilMinOutput = v;
     }
 
     uint8_t derivativeFilterNr() const
     {
-        return m_derivativeFilterNr;
+        return _derivativeFilterNr;
     }
 
 private:
     void active(bool state)
     {
-        if (enabler.get() && m_active && !state) {
-            if (auto ptr = m_outputPtr.lock()) {
+        if (enabler.get() && _active && !state) {
+            if (auto ptr = _outputPtr.lock()) {
                 ptr->setting(0);
                 ptr->settingValid(false);
             }
         }
-        m_active = state;
+        _active = state;
     }
     void checkFilterLength();
 };
