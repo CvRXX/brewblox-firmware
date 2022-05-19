@@ -26,7 +26,7 @@
 
 bool encodePoints(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    const std::vector<SetpointProfile::Point>* points = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
+    auto* points = reinterpret_cast<const std::vector<SetpointProfile::Point>*>(*arg);
     for (const auto& p : *points) {
         auto submsg = blox_SetpointProfile_Point();
         submsg.time = p.time;
@@ -44,7 +44,7 @@ bool encodePoints(pb_ostream_t* stream, const pb_field_t* field, void* const* ar
 
 bool decodePoints(pb_istream_t* stream, const pb_field_t*, void** arg)
 {
-    std::vector<SetpointProfile::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
+    auto* newPoints = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
 
     if (stream->bytes_left) {
         blox_SetpointProfile_Point submsg = blox_SetpointProfile_Point_init_zero;
