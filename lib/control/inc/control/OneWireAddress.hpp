@@ -49,7 +49,7 @@ public:
         return asUint8ptr()[i];
     }
 
-    bool getBit(uint8_t i)
+    bool getBit(uint8_t i) const
     {
         uint64_t mask = uint64_t{0x01} << i;
         return (mask & uint64_t(address)) > 0;
@@ -65,7 +65,7 @@ public:
         }
     }
 
-    operator uint64_t()
+    operator const uint64_t&() const
     {
         return address;
     }

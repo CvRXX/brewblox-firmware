@@ -89,7 +89,7 @@ ActuatorOffsetBlock::updateHandler(const cbox::update_t& now)
 
 void* ActuatorOffsetBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_ActuatorOffset) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {

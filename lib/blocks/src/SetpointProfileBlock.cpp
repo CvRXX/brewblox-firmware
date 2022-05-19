@@ -123,7 +123,7 @@ SetpointProfileBlock::updateHandler(const cbox::update_t& now)
 
 void* SetpointProfileBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_SetpointProfile) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceIdImpl<Enabler>()) {

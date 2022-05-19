@@ -57,7 +57,7 @@ MutexBlock::write(const cbox::Payload& payload)
 
 void* MutexBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_Mutex) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<MutexTarget>()) {

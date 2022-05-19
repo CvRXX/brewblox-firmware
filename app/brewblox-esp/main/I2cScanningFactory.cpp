@@ -35,7 +35,7 @@ uint8_t find_next(uint8_t lastAddress)
         if (!err) {
             uint8_t pos = (address & uint8_t{0x3}) + 1;
             auto samePosition = [&pos](const std::shared_ptr<cbox::Object>& obj) {
-                if (auto ptr = cbox::asInterface<IoModule>(obj)) {
+                if (auto ptr = obj->asInterface<IoModule>()) {
                     return ptr->modulePosition() == pos;
                 };
                 return false;

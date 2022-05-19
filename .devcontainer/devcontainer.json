@@ -25,6 +25,7 @@
     "huizhou.githd",
     "letmaik.git-tree-compare",
     "foxundermoon.shell-format",
+    "GitHub.vscode-pull-request-github",
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

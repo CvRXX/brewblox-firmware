@@ -165,7 +165,7 @@ ActuatorLogicBlock::updateHandler(const cbox::update_t& now)
 
 void* ActuatorLogicBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_ActuatorLogic) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceIdImpl<Enabler>()) {

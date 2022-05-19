@@ -27,7 +27,7 @@
  * /param oneWire_ The oneWire bus the device is connected to
  * /param address_ The oneWire address of the device to use.
  */
-OneWireDevice::OneWireDevice(ControlPtr<OneWire>& busPtr_, const OneWireAddress& address_)
+OneWireDevice::OneWireDevice(ControlPtr<OneWire>& busPtr_, OneWireAddress&& address_)
     : m_bus(busPtr_)
     , m_address(address_)
 {

@@ -183,10 +183,9 @@ void OneWire::target_search(uint8_t family_code)
     lastDeviceFlag = false;
 }
 
-bool OneWire::search(OneWireAddress& newAddr)
+OneWireAddress OneWire::search()
 {
     uint8_t id_bit_nr = 0;
-    bool search_result = false;
     bool search_direction = true;
     bool id_bit, cmp_id_bit;
     uint8_t last_zero = 64;
@@ -237,13 +236,9 @@ bool OneWire::search(OneWireAddress& newAddr)
                 // no discrepancies or discrepancy is for device outside of target_search
                 lastDeviceFlag = true;
             };
-            search_result = true;
+            return ROM_NO;
         }
     }
 
-    if (search_result) {
-        newAddr = ROM_NO;
-    }
-
-    return search_result;
+    return 0;
 }

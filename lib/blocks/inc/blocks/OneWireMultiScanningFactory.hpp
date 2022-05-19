@@ -21,6 +21,7 @@
 
 #include "OneWireScanningFactory.hpp"
 #include "cbox/Application.hpp"
+#include "cbox/Box.hpp"
 #include "cbox/CboxPtr.hpp"
 
 class OneWireMultiScanningFactory : public cbox::ScanningFactory {
@@ -34,7 +35,7 @@ public:
     virtual std::shared_ptr<cbox::Object> scan() override final
     {
         for (auto obj_it = cbox::objects.cbegin(); obj_it != cbox::objects.cend(); ++obj_it) {
-            if (cbox::asInterface<OneWire>(*obj_it) == nullptr) {
+            if ((*obj_it)->asInterface<OneWire>() == nullptr) {
                 continue; // not a OneWire bus
             }
             // use a bus scanner to find new devices on this bus
@@ -45,6 +46,6 @@ public:
             }
             // go to next bus
         }
-        return nullptr; // no new OneWire devices on any bus
+        return {}; // no new OneWire devices on any bus
     }
 };

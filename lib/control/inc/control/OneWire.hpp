@@ -75,15 +75,15 @@ public:
     // Setup the search to find the device type 'family_code' on the next search
     void target_search(uint8_t family_code);
 
-    // Look for the next device. Returns true if a new address has been
-    // returned. A zero might mean that the bus is shorted, there are
+    // Look for the next device. Returns non-zero address if a new address has been
+    // found. A zero might mean that the bus is shorted, there are
     // no devices, or you have already retrieved all of them.  It
     // might be a good idea to check the CRC to make sure you didn't
     // get garbage.  The order is deterministic. You will always get
     // the same devices in the same order.
     // When the last device has been return, reset_search or target_search has to be called
     // to reset the search.
-    bool search(OneWireAddress& newAddr);
+    OneWireAddress search();
 
     // Checks the driver for a short on the bus
     bool shortDetected()

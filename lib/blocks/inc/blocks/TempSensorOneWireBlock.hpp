@@ -12,7 +12,7 @@ private:
 public:
     TempSensorOneWireBlock();
     TempSensorOneWireBlock(cbox::obj_id_t busId);
-    TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr);
+    TempSensorOneWireBlock(cbox::obj_id_t busId, OneWireAddress addr);
     ~TempSensorOneWireBlock() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;

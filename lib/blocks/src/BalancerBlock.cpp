@@ -62,7 +62,7 @@ cbox::update_t BalancerBlock::updateHandler(const cbox::update_t& now)
 
 void* BalancerBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_Balancer) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<Balancer_t>()) {
