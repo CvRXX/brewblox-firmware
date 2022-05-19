@@ -27,7 +27,7 @@
         "/opt/esp/idf/components/**",
         "/opt/esp/tools/xtensa-esp32-elf/**"
       ],
-      "compilerPath": "/opt/esp/tools/xtensa-esp32-elf/esp-2021r2-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++",
+      "compilerPath": "/opt/esp/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++",
       "compileCommands": "${workspaceFolder}/app/brewblox-esp/build/compile_commands.json"
     },
     {
