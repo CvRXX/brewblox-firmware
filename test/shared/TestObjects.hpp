@@ -5,6 +5,33 @@
 #include "cbox/Serialization.hpp"
 #include <vector>
 
+class UpdateTestObject : public cbox::ObjectBase<1234> {
+public:
+    uint32_t updateCount{0};
+    uint32_t interval = 100;
+
+    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    {
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    {
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    {
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
+    {
+        updateCount++;
+        return now + interval;
+    }
+};
+
 /**
  * A mixin class to make objects nameable. To test detecting supported interfaces of objects
  */

@@ -13,6 +13,12 @@
 
 namespace cbox {
 
+ObjectContainer& getObjects()
+{
+    static ObjectContainer objects;
+    return objects;
+}
+
 ObjectStorage& getStorage()
 {
     static platform::particle::SparkEepromAccess eeprom;

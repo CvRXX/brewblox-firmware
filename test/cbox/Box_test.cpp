@@ -16,6 +16,56 @@
 
 using namespace cbox;
 
+SCENARIO("Object updates")
+{
+    const auto max = std::numeric_limits<update_t>::max();
+    auto obj = UpdateTestObject();
+
+    WHEN("Updating an object with nextUpdateTime == 0")
+    {
+        obj.update(max - 1);
+        CHECK(obj.updateCount == 1);
+    }
+
+    WHEN("updating without overflow")
+    {
+        obj.update(0);
+        CHECK(obj.updateCount == 1);
+
+        obj.update(50);
+        CHECK(obj.updateCount == 1);
+
+        obj.update(100);
+        CHECK(obj.updateCount == 2);
+
+        obj.update(3000);
+        obj.update(3001);
+        CHECK(obj.updateCount == 3);
+    }
+
+    WHEN("Updating after now overflows")
+    {
+        obj.update(max - 200);
+        CHECK(obj.updateCount == 1);
+        obj.update(100);
+        CHECK(obj.updateCount == 2);
+    }
+
+    WHEN("Updating after nextUpdateTime overflows")
+    {
+        obj.update(max - 70); // nextUpdateTime is set to 0+30
+        obj.update(max - 40); // should be a noop
+        CHECK(obj.updateCount == 1);
+    }
+
+    WHEN("Updating after both now and nextUpdateTime overflow")
+    {
+        obj.update(max - 50); // nextUpdateTime is set to 0+50
+        obj.update(10);
+        CHECK(obj.updateCount == 1);
+    }
+}
+
 SCENARIO("Box commands")
 {
     objects.clearAll();

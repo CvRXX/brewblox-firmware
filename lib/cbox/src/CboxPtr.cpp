@@ -18,7 +18,7 @@
  */
 
 #include "cbox/CboxPtr.hpp"
-#include "cbox/Box.hpp"
+#include "cbox/Application.hpp"
 
 namespace cbox {
 
@@ -37,7 +37,7 @@ void CboxPtrBase::setId(obj_id_t newId)
 
 CboxError CboxPtrBase::store()
 {
-    return objects.store(id);
+    return getObjects().store(id);
 }
 
 std::shared_ptr<Object> CboxPtrBase::lockObject()
@@ -46,7 +46,7 @@ std::shared_ptr<Object> CboxPtrBase::lockObject()
     auto sptr = ptr.lock();
     if (!sptr) {
         // Try to find the object in the container
-        if (auto fetched = objects.fetch(id)) {
+        if (auto fetched = getObjects().fetch(id)) {
             sptr = fetched.value();
             ptr = fetched.value();
         }

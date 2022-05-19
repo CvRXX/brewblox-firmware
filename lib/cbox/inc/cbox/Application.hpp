@@ -8,6 +8,9 @@
 namespace cbox {
 
 // Must be implemented in application code
+ObjectContainer& getObjects();
+
+// Must be implemented in application code
 ObjectStorage& getStorage();
 
 // Must be implemented in application code
