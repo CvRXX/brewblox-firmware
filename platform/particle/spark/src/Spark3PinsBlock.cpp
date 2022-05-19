@@ -128,7 +128,7 @@ cbox::CboxError Spark3PinsBlock::write(const cbox::Payload& payload)
 
 void* Spark3PinsBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_Spark3Pins) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

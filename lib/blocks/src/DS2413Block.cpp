@@ -84,7 +84,7 @@ DS2413Block::updateHandler(const cbox::update_t& now)
 
 void* DS2413Block::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_DS2413) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<IoArray>()) {

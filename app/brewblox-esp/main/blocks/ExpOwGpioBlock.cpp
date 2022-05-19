@@ -131,7 +131,7 @@ ExpOwGpioBlock::updateHandler(const cbox::update_t& now)
 
 void* ExpOwGpioBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_OneWireGpioModule) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
 

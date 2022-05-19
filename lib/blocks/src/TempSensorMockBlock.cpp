@@ -139,7 +139,7 @@ cbox::update_t TempSensorMockBlock::updateHandler(const cbox::update_t& now)
 
 void* TempSensorMockBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_TempSensorMock) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<TempSensor>()) {

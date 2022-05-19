@@ -124,7 +124,7 @@ OneWireBusBlock::write(const cbox::Payload& payload)
 
 void* OneWireBusBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_OneWireBus) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<OneWire>()) {

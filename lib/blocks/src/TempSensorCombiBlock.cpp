@@ -99,7 +99,7 @@ cbox::update_t TempSensorCombiBlock::updateHandler(const cbox::update_t& now)
 
 void* TempSensorCombiBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_TempSensorCombi) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<TempSensor>()) {
