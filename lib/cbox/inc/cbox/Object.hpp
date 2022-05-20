@@ -48,7 +48,7 @@ uint16_t throwIdNotUnique(uint16_t id);
 
 // for interface, we check uniqueness on first use, if compiling with gcc (test code)
 template <typename T>
-constexpr obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
+obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
 {
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3
     static auto uniqueId = throwIdNotUnique(interfaceIdImpl<T>());

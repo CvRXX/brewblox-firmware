@@ -36,7 +36,7 @@ SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
-        cbox::objects.clearAll();
+        cbox::getObjects().clearAll();
         platform::particle::setupSystemBlocks();
 
         auto ticksId = cbox::obj_id_t(3);

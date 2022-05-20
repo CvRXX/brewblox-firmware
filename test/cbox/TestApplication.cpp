@@ -24,6 +24,12 @@ cbox::EepromObjectStorage& getStorage()
 
 namespace cbox {
 
+ObjectContainer& getObjects()
+{
+    static ObjectContainer objects;
+    return objects;
+}
+
 ObjectStorage& getStorage()
 {
     return test::getStorage();

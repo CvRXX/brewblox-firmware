@@ -68,6 +68,7 @@ SCENARIO("Object updates")
 
 SCENARIO("Box commands")
 {
+    auto& objects = getObjects();
     objects.clearAll();
     test::getStorage().clear();
 

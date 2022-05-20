@@ -31,7 +31,7 @@
 
 SCENARIO("Auto discovery of OneWire devices")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
     cbox::update(0);
 

@@ -28,6 +28,7 @@ namespace detail {
 
 uint8_t find_next(uint8_t lastAddress)
 {
+    auto& objects = cbox::getObjects();
     uint8_t address = lastAddress;
     while (address < 128) {
         ++address;
@@ -40,7 +41,7 @@ uint8_t find_next(uint8_t lastAddress)
                 };
                 return false;
             };
-            if (std::find_if(cbox::objects.cbegin(), cbox::objects.cend(), samePosition) != cbox::objects.cend()) {
+            if (std::find_if(objects.cbegin(), objects.cend(), samePosition) != objects.cend()) {
                 // already initialized module at this position;
                 continue;
             }

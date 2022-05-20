@@ -29,7 +29,7 @@
 
 SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
     cbox::update(0);
 
