@@ -20,6 +20,7 @@
 #pragma once
 
 #include "cbox/Application.hpp"
+#include "cbox/Box.hpp"
 #include "cbox/ObjectBase.hpp"
 #include "cbox/ObjectContainer.hpp"
 #include "control/ControlPtr.hpp"
@@ -30,13 +31,26 @@ namespace cbox {
 class CboxPtrBase {
 private:
     obj_id_t id;
-    std::weak_ptr<Object> ptr;
+    mutable std::weak_ptr<Object> ptr;
 
 public:
-    obj_id_t getId() const;
-    void setId(obj_id_t newId);
+    [[nodiscard]] obj_id_t getId() const
+    {
+        return id;
+    }
 
-    CboxError store();
+    void setId(obj_id_t newId)
+    {
+        if (newId != id) {
+            id = newId;
+            ptr.reset();
+        }
+    }
+
+    CboxError store()
+    {
+        return objects.store(id);
+    }
 
 protected:
     explicit CboxPtrBase(const obj_id_t& id)
@@ -45,10 +59,22 @@ protected:
     }
 
     CboxPtrBase(CboxPtrBase&&) = default;
-    // The destructor does not have to be virtual
+    // Don't allow destruction with a base class ptr
     ~CboxPtrBase() = default;
 
-    std::shared_ptr<Object> lockObject();
+    std::shared_ptr<Object> lockObject() const
+    {
+        // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
+        auto sptr = ptr.lock();
+        if (!sptr) {
+            // Try to find the object in the container
+            if (auto fetched = objects.fetch(id)) {
+                sptr = fetched.value();
+                ptr = fetched.value();
+            }
+        }
+        return sptr;
+    }
 
 public:
     CboxPtrBase(const CboxPtrBase&) = delete;
@@ -84,15 +110,16 @@ public:
             return std::shared_ptr<U>(std::move(sptr), sptr->asInterface<U>());
         }
         // return empty share pointer
-        return std::shared_ptr<U>();
+        return {};
     }
 
     template <class U>
-    [[nodiscard]] std::shared_ptr<const U> const_lock_as() const
+    [[nodiscard]] std::shared_ptr<const U> lock_as() const
     {
-        auto this_non_const = const_cast<CboxPtr<T>*>(this);
-        auto sptr = this_non_const->template lock_as<U>();
-        return std::const_pointer_cast<const U>(std::move(sptr));
+        if (auto sptr = lockObject()) {
+            return std::shared_ptr<const U>(std::move(sptr), sptr->asInterface<U>());
+        }
+        return {};
     }
 
     [[nodiscard]] std::shared_ptr<T> lock() override
@@ -102,7 +129,7 @@ public:
 
     [[nodiscard]] std::shared_ptr<const T> lock() const override
     {
-        return const_lock_as<T>();
+        return lock_as<T>();
     }
 };
 
