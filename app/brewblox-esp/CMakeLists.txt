@@ -75,8 +75,3 @@ set(PROJECT_VER "${GIT_DATE}-${GIT_VERSION}")
 project(brewblox_esp)
 
 idf_build_set_property(COMPILE_OPTIONS "-fdiagnostics-color=always" APPEND)
-add_custom_command(
-    TARGET app
-    POST_BUILD
-    COMMAND sed -i 's:-I/opt/esp:-isystem/opt/esp:g' /workspaces/firmware/app/brewblox-esp/build/compile_commands.json && cp /workspaces/firmware/app/brewblox-esp/build/compile_commands.json /workspaces/firmware/build
-)
