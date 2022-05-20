@@ -24,7 +24,7 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
 
-    message.oneWireBusId = owBus.getId();
+    message.oneWireBusId = getBusId();
     message.address = device.address();
     message.connected = device.connected();
     message.connectMode = connectMode;
@@ -58,7 +58,7 @@ DS2408Block::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
 
-    message.oneWireBusId = owBus.getId();
+    message.oneWireBusId = getBusId();
     message.address = device.address();
     message.connectMode = connectMode;
 
@@ -79,7 +79,7 @@ DS2408Block::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {
-            owBus.setId(message.oneWireBusId);
+            busPtr().setId(message.oneWireBusId);
         }
         device.address(OneWireAddress(message.address));
         connectMode = message.connectMode;

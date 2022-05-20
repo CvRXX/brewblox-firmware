@@ -32,7 +32,5 @@ public:
     {
     }
 
-    virtual ~OneWireScanningFactory() = default;
-
     virtual std::shared_ptr<cbox::Object> scan() override final;
 };

@@ -22,20 +22,20 @@
 #include "proto/TempSensorOneWire.pb.h"
 
 TempSensorOneWireBlock::TempSensorOneWireBlock()
-    : OneWireDeviceBlock()
-    , sensor(owBus)
+    : OneWireDeviceBlock(0)
+    , sensor(busPtr())
 {
 }
 
 TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId)
     : OneWireDeviceBlock(busId)
-    , sensor(owBus)
+    , sensor(busPtr())
 {
 }
 
 TempSensorOneWireBlock::TempSensorOneWireBlock(cbox::obj_id_t busId, OneWireAddress addr)
     : OneWireDeviceBlock(busId)
-    , sensor(owBus, std::move(addr))
+    , sensor(busPtr(), std::move(addr))
 {
 }
 
@@ -51,7 +51,7 @@ TempSensorOneWireBlock::read(const cbox::PayloadCallback& callback) const
         stripped.add(blox_TempSensorOneWire_Block_value_tag);
     }
 
-    message.oneWireBusId = owBus.getId();
+    message.oneWireBusId = getBusId();
     message.address = sensor.address();
     message.offset = cnl::unwrap(sensor.getCalibration());
 
@@ -71,7 +71,7 @@ TempSensorOneWireBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
 
-    message.oneWireBusId = owBus.getId();
+    message.oneWireBusId = getBusId();
     message.address = sensor.address();
     message.offset = cnl::unwrap(sensor.getCalibration());
 
@@ -92,7 +92,7 @@ TempSensorOneWireBlock::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         if (message.oneWireBusId) {
-            owBus.setId(message.oneWireBusId);
+            busPtr().setId(message.oneWireBusId);
         }
         sensor.address(OneWireAddress(message.address));
         sensor.setCalibration(cnl::wrap<temp_t>(message.offset));

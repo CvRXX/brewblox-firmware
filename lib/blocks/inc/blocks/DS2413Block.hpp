@@ -31,20 +31,20 @@ private:
 
 public:
     DS2413Block()
-        : OneWireDeviceBlock()
-        , device(owBus)
+        : OneWireDeviceBlock(0)
+        , device(busPtr())
     {
     }
 
     DS2413Block(cbox::obj_id_t busId)
         : OneWireDeviceBlock(busId)
-        , device(owBus)
+        , device(busPtr())
     {
     }
 
     DS2413Block(cbox::obj_id_t busId, OneWireAddress addr)
         : OneWireDeviceBlock(busId)
-        , device(owBus, std::move(addr))
+        , device(busPtr(), std::move(addr))
     {
     }
 

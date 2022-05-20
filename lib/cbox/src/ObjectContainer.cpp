@@ -69,7 +69,7 @@ CboxError ObjectContainer::add(std::shared_ptr<Object> obj, obj_id_t id)
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    obj_id_t newId;
+    obj_id_t newId{0};
     Iterator position;
 
     if (id == invalidId) { // use 0 to let the container assign a free slot
