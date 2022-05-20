@@ -93,12 +93,12 @@ public:
      *
      * @return achieved duty cycle in fixed point.
      */
-    virtual value_t value() const override final;
+    value_t value() const final;
 
     /** Returns the set duty cycle
      * @return duty cycle setting in fixed point
      */
-    virtual value_t setting() const override final
+    value_t setting() const final
     {
         return m_dutySetting;
     }
@@ -106,7 +106,7 @@ public:
     /** Sets a new duty cycle
      * @param val new duty cycle in fixed point
      */
-    virtual void setting(const value_t& val) override final;
+    void setting(const value_t& val) final;
 
     update_t update(const update_t& now);
 
@@ -142,11 +142,11 @@ public:
      */
     void period(const duration_millis_t& p);
 
-    virtual bool valueValid() const override final;
+    bool valueValid() const final;
 
-    virtual bool settingValid() const override final;
+    bool settingValid() const final;
 
-    virtual void settingValid(bool v) override final;
+    void settingValid(bool v) final;
 
     bool enabled() const
     {

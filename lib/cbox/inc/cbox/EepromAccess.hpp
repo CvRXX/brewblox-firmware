@@ -70,7 +70,7 @@ public:
     EepromMemoryAccess() = default;
     virtual ~EepromMemoryAccess() = default;
 
-    int16_t readByte(uint16_t offset) const override final
+    int16_t readByte(uint16_t offset) const final
     {
         if (isValidRange(offset, 1)) {
             return data()[offset];
@@ -78,28 +78,28 @@ public:
         return -1;
     }
 
-    void writeByte(uint16_t offset, uint8_t value) override final
+    void writeByte(uint16_t offset, uint8_t value) final
     {
         if (isValidRange(offset, 1)) {
             data()[offset] = value;
         }
     }
 
-    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const override final
+    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const final
     {
         if (isValidRange(offset, size)) {
             memcpy(target, &data()[offset], size);
         }
     }
 
-    void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) override final
+    void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) final
     {
         if (isValidRange(offset, size)) {
             memcpy(&data()[offset], source, size);
         }
     }
 
-    void clear() override final
+    void clear() final
     {
         memset(data(), 0, length());
     }

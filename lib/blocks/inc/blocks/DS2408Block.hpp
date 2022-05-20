@@ -32,13 +32,7 @@ private:
     blox_DS2408_PinConnectMode connectMode = blox_DS2408_PinConnectMode_CONNECT_VALVE;
 
 public:
-    DS2408Block()
-        : OneWireDeviceBlock(0)
-        , device(busPtr())
-    {
-    }
-
-    DS2408Block(cbox::obj_id_t busId)
+    DS2408Block(cbox::obj_id_t busId = 0)
         : OneWireDeviceBlock(busId)
         , device(busPtr())
     {
@@ -49,8 +43,6 @@ public:
         , device(busPtr(), std::move(addr))
     {
     }
-
-    ~DS2408Block() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;

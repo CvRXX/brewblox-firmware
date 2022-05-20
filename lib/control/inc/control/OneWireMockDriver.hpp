@@ -34,12 +34,12 @@ public:
     virtual ~OneWireMockDriver() = default;
 
 public:
-    virtual bool init() override final
+    bool init() final
     {
         return true;
     }
 
-    virtual bool read(uint8_t& v) override final
+    bool read(uint8_t& v) final
     {
         // if multiple devices are answering, the result is a binary AND
         // This will only give valid responses with single bit replies, just like the real hardware
@@ -50,7 +50,7 @@ public:
         return true;
     }
 
-    virtual bool write(uint8_t b) override final
+    bool write(uint8_t b) final
     {
         for (auto& device : devices) {
             device->write(b);
@@ -58,14 +58,14 @@ public:
         return true;
     }
 
-    virtual uint8_t search_triplet(bool search_direction) override final;
+    uint8_t search_triplet(bool search_direction) final;
 
-    virtual bool write_bit(bool bit) override final
+    bool write_bit(bool bit) final
     {
         write(bit ? 0x80 : 0x00);
         return true;
     }
-    virtual bool read_bit(bool& bit) override final
+    bool read_bit(bool& bit) final
     {
         uint8_t v;
         if (read(v)) {
@@ -75,7 +75,7 @@ public:
         return false;
     }
 
-    virtual bool reset() override final
+    bool reset() final
     {
 
         bool devicePresent = false;
@@ -90,7 +90,7 @@ public:
         devices.push_back(std::move(device));
     }
 
-    bool shortDetected() override final
+    bool shortDetected() final
     {
         return false;
     }

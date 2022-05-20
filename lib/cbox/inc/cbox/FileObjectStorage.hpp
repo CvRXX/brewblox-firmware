@@ -29,15 +29,15 @@ public:
 
     virtual ~FileObjectStorage() = default;
 
-    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback) override final;
+    CboxError loadObject(obj_id_t id, const PayloadCallback& callback) final;
 
-    virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
+    CboxError loadAllObjects(const PayloadCallback& callback) final;
 
-    virtual CboxError saveObject(const Payload& payload) override final;
+    CboxError saveObject(const Payload& payload) final;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true) override final;
+    bool disposeObject(obj_id_t id, bool mergeDisposed = true) final;
 
-    virtual void clear() override final;
+    void clear() final;
 
 private:
     std::string path;

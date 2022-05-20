@@ -28,10 +28,7 @@ namespace cbox {
 template <uint16_t id>
 class ObjectBase : public Object {
 public:
-    ObjectBase() = default;
-    virtual ~ObjectBase() = default;
-
-    static obj_type_t staticTypeId()
+    [[nodiscard]] static obj_type_t staticTypeId()
     {
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)
         static auto uniqueId = throwIdNotUnique(id);
@@ -44,12 +41,12 @@ public:
     /**
      * The application defined typeID for this object instance. Defined by derived class
      */
-    virtual obj_type_t typeId() const override
+    [[nodiscard]] obj_type_t typeId() const override
     {
         return id;
     }
 
-    virtual void* implements(obj_type_t iface) override
+    [[nodiscard]] void* implements(obj_type_t iface) override
     {
         if (id == iface) {
             return this;

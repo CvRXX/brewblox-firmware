@@ -100,7 +100,7 @@ public:
         }
     }
 
-    virtual value_t constrain(const value_t& val) const override final
+    value_t constrain(const value_t& val) const final
     {
         if (auto balancerPtr = m_balancer.lock()) {
             return balancerPtr->constrain(m_req_id, val);
@@ -108,7 +108,7 @@ public:
         return val;
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -125,7 +125,7 @@ public:
         }
         return 0;
     }
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 2;
     }

@@ -60,13 +60,13 @@ public:
 
     virtual ~ActuatorOffset() = default;
 
-    virtual void setting(value_t const& val) override final
+    void setting(value_t const& val) final
     {
         m_setting = val;
         update();
     }
 
-    virtual value_t setting() const override final
+    value_t setting() const final
     {
         return m_setting;
     }
@@ -74,22 +74,22 @@ public:
     // value() returns the actually achieved offset
     // By returning the actually achieved value, instead of the difference between the setpoints,
     // a PID can read back the actual actuator value and perform integrator anti-windup
-    virtual value_t value() const override final
+    value_t value() const final
     {
         return m_value;
     }
 
-    virtual bool valueValid() const override final
+    bool valueValid() const final
     {
         return m_valueValid;
     }
 
-    virtual bool settingValid() const override final
+    bool settingValid() const final
     {
         return m_settingValid;
     }
 
-    virtual void settingValid(bool v) override final
+    void settingValid(bool v) final
     {
         if (m_enabled) {
 

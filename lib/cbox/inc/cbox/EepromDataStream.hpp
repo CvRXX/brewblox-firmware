@@ -131,7 +131,7 @@ public:
     }
     virtual ~RegionDataIn() = default;
 
-    int16_t read() override final
+    int16_t read() final
     {
         int16_t v = -1;
         if (len) {
@@ -141,7 +141,7 @@ public:
         return v;
     }
 
-    int16_t peek() override final
+    int16_t peek() final
     {
         return in.peek();
     }
@@ -227,7 +227,7 @@ public:
     {
     }
 
-    virtual bool write(uint8_t value) override final
+    bool write(uint8_t value) final
     {
         if (_length) {
             eepromAccess.writeByte(_offset++, value);
@@ -252,12 +252,12 @@ public:
     {
     }
 
-    virtual int16_t peek() override final
+    int16_t peek() final
     {
         return eepromAccess.readByte(_offset);
     }
 
-    virtual int16_t read() override final
+    int16_t read() final
     {
         int16_t result = -1;
         if (_length) {

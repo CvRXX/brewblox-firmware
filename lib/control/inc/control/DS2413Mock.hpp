@@ -39,7 +39,7 @@ public:
     {
     }
 
-    virtual void processImpl(uint8_t newCmd) override final
+    void processImpl(uint8_t newCmd) final
     {
         if (newCmd) {
             cmd = newCmd;
@@ -69,7 +69,7 @@ public:
         externalPullDownB = isPulledDown;
     }
 
-    virtual void resetImpl() override final
+    void resetImpl() final
     {
         cmd = 0x00;
     }

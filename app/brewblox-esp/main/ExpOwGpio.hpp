@@ -173,9 +173,9 @@ public:
         friend class ExpOwGpio;
     };
 
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
-    virtual bool supportsFastIo() const override final
+    bool senseChannelImpl(uint8_t channel, State& result) const final;
+    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
+    bool supportsFastIo() const final
     {
         return false;
     }
@@ -234,7 +234,7 @@ public:
         return external.up() | external.down();
     }
 
-    uint8_t modulePosition() const override final
+    uint8_t modulePosition() const final
     {
         auto addr = expander.address();
         if (addr == 0xFF) {
@@ -243,7 +243,7 @@ public:
         return (addr & uint8_t{3}) + 1;
     }
 
-    void modulePosition(uint8_t pos) override final
+    void modulePosition(uint8_t pos) final
     {
         if (pos && pos <= 4) {
             expander.set_address_bits(pos - 1);

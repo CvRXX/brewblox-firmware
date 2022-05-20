@@ -101,7 +101,7 @@ public:
     }
 
     // virtual for when type is not known
-    virtual uint8_t family_address() const override final
+    uint8_t family_address() const final
     {
         return address_base;
     }

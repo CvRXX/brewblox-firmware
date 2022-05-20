@@ -79,13 +79,13 @@ public:
 
     static constexpr uint8_t familyCode{0x28};
 
-    virtual bool valid() const override final
+    bool valid() const final
     {
         return connected();
     }
 
-    virtual temp_t value() const override final; // return cached value
-    void update();                               // read from hardware sensor
+    temp_t value() const final; // return cached value
+    void update();              // read from hardware sensor
 
     void setCalibration(temp_t const& calib)
     {

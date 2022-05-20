@@ -25,7 +25,7 @@ public:
         stop();
     }
 
-    std::unique_ptr<cbox::Connection> newConnection() override final
+    std::unique_ptr<cbox::Connection> newConnection() final
     {
         if (!waiting.empty()) {
             auto conn = std::move(waiting.back());
@@ -35,12 +35,12 @@ public:
         return {};
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         acceptor.cancel();
     }
 
-    virtual void start() override final
+    void start() final
     {
         asio::error_code ec;
         acceptor.set_option(asio::ip::tcp::acceptor::reuse_address(true), ec);

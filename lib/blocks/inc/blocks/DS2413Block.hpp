@@ -30,13 +30,7 @@ private:
     DS2413 device;
 
 public:
-    DS2413Block()
-        : OneWireDeviceBlock(0)
-        , device(busPtr())
-    {
-    }
-
-    DS2413Block(cbox::obj_id_t busId)
+    DS2413Block(cbox::obj_id_t busId = 0)
         : OneWireDeviceBlock(busId)
         , device(busPtr())
     {
@@ -47,8 +41,6 @@ public:
         , device(busPtr(), std::move(addr))
     {
     }
-
-    ~DS2413Block() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;

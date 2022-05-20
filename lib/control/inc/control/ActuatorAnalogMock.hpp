@@ -60,16 +60,16 @@ public:
 
     virtual ~ActuatorAnalogMock() = default;
 
-    virtual void setting(const value_t& val) override final
+    void setting(const value_t& val) final
     {
         m_setting = std::clamp(val, m_minSetting, m_maxSetting);
     }
-    virtual value_t setting() const override final
+    value_t setting() const final
     {
         return m_setting;
     }
 
-    virtual value_t value() const override final
+    value_t value() const final
     {
         return std::clamp(m_setting, m_minValue, m_maxValue);
     }
@@ -114,17 +114,17 @@ public:
         m_maxValue = arg;
     }
 
-    bool valueValid() const override final
+    bool valueValid() const final
     {
         return m_valid;
     }
 
-    bool settingValid() const override final
+    bool settingValid() const final
     {
         return m_valid;
     }
 
-    void settingValid(bool v) override final
+    void settingValid(bool v) final
     {
         m_valid = v;
     }

@@ -18,9 +18,7 @@ public:
     {
     }
 
-    ~DigitalCompare() = default;
-
-    blox_ActuatorLogic_Result eval() const;
+    [[nodiscard]] blox_ActuatorLogic_Result eval() const;
     void write(blox_ActuatorLogic_DigitalCompare& dest, bool includeNotPersisted) const;
 
     void update()
@@ -28,7 +26,7 @@ public:
         m_result = eval();
     }
 
-    auto result() const
+    [[nodiscard]] auto result() const
     {
         return m_result;
     }
@@ -50,9 +48,7 @@ public:
     {
     }
 
-    ~AnalogCompare() = default;
-
-    blox_ActuatorLogic_Result eval() const;
+    [[nodiscard]] blox_ActuatorLogic_Result eval() const;
     void write(blox_ActuatorLogic_AnalogCompare& dest, bool includeNotPersisted) const;
 
     void update()
@@ -60,7 +56,7 @@ public:
         m_result = eval();
     }
 
-    auto result() const
+    [[nodiscard]] auto result() const
     {
         return m_result;
     }
@@ -83,14 +79,11 @@ private:
     uint8_t m_errorPos = 0;
 
 public:
-    ActuatorLogicBlock() = default;
-    ~ActuatorLogicBlock() = default;
-
-    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
-    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
-    cbox::CboxError write(const cbox::Payload& payload) override;
-    cbox::update_t updateHandler(const cbox::update_t& now) override;
-    void* implements(cbox::obj_type_t iface) override;
+    [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    [[nodiscard]] cbox::CboxError write(const cbox::Payload& payload) override;
+    [[nodiscard]] cbox::update_t updateHandler(const cbox::update_t& now) override;
+    [[nodiscard]] void* implements(cbox::obj_type_t iface) override;
 
     blox_ActuatorLogic_Result evaluate();
 

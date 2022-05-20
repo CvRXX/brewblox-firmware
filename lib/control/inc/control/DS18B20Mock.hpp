@@ -49,7 +49,7 @@ public:
         eeprom[2] = scratchpad[4];
     }
 
-    virtual void processImpl(uint8_t cmd) override final
+    void processImpl(uint8_t cmd) final
     {
         switch (cmd) {
         case 0x4E: // WRITE SCRATCHPAD

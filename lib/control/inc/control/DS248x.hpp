@@ -63,7 +63,7 @@ public:
 
     virtual ~DS248x() = default;
 
-    virtual bool init() override final;
+    bool init() final;
 
     bool configure(uint8_t config);
 
@@ -72,13 +72,13 @@ public:
     // and we return a 0;
     //
     // Returns 1 if a device asserted a presence pulse, 0 otherwise.
-    virtual bool reset() override final;
+    bool reset() final;
 
-    virtual bool write(uint8_t b) override final;
-    virtual bool read(uint8_t& b) override final;
+    bool write(uint8_t b) final;
+    bool read(uint8_t& b) final;
 
-    virtual bool write_bit(bool bit) override final;
-    virtual bool read_bit(bool& bit) override final;
+    bool write_bit(bool bit) final;
+    bool read_bit(bool& bit) final;
 
     // DS248X specific functions below
     bool resetMaster();
@@ -94,7 +94,7 @@ public:
     // a discrepancy, the 'search_direction' parameter is used.
     //
     // Returns – The DS248X status byte result from the triplet command
-    virtual uint8_t search_triplet(bool search_direction) override final;
+    uint8_t search_triplet(bool search_direction) final;
 
     typedef union {
         struct {
@@ -117,7 +117,7 @@ public:
         return s;
     }
 
-    virtual bool shortDetected() override final
+    bool shortDetected() final
     {
         bool detected = shortDetectedFlag;
         shortDetectedFlag = false;

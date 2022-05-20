@@ -67,7 +67,7 @@ CPPFLAGS += -std=gnu++17
 CFLAGS += -pthread
 
 # the following warnings can help find opportunities for improvement in virtual functions
-# Warn when virtual functions are overriden without override/override final specifier (requires gcc 5.1)
+# Warn when virtual functions are overriden without override/final specifier (requires gcc 5.1)
 CPPFLAGS += -Wsuggest-override
 # Warn when functions and classes can be marked final
 CPPFLAGS += -Wsuggest-final-types

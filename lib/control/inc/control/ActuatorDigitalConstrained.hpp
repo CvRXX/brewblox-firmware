@@ -185,7 +185,7 @@ public:
     {
     }
 
-    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) override final
+    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) final
     {
         if (act.state() != State::Active) {
             return 0;
@@ -203,7 +203,7 @@ public:
         return m_limit - elapsedOn;
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -213,7 +213,7 @@ public:
         return m_limit;
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 1;
     }
@@ -230,7 +230,7 @@ public:
     {
     }
 
-    virtual duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) override final
+    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) final
     {
         if (act.state() != State::Inactive) {
             return 0;
@@ -250,7 +250,7 @@ public:
         return m_limit - elapsedOff;
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -260,7 +260,7 @@ public:
         return m_limit;
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 0;
     }
@@ -278,7 +278,7 @@ public:
     {
     }
 
-    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged&) override final
+    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged&) final
     {
         if (newState == State::Active) {
             if (m_time_requested == 0) {
@@ -293,7 +293,7 @@ public:
         return 0;
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -303,7 +303,7 @@ public:
         return m_limit;
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 2;
     }
@@ -321,7 +321,7 @@ public:
     {
     }
 
-    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged&) override final
+    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged&) final
     {
         if (newState == State::Inactive) {
             if (m_time_requested == 0) {
@@ -336,7 +336,7 @@ public:
         return 0;
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -346,7 +346,7 @@ public:
         return m_limit;
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 3;
     }
@@ -372,7 +372,7 @@ public:
     }
     virtual ~Mutex() = default;
 
-    virtual duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) override final
+    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) final
     {
         if (m_lock) {
             // already owner of lock.
@@ -441,13 +441,13 @@ public:
     }
 
     virtual uint8_t
-    id() const override final
+    id() const final
     {
         return ID;
     }
 
     virtual uint8_t
-    order() const override final
+    order() const final
     {
         return 4;
     }

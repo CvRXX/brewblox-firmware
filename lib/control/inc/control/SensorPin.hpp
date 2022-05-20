@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   SensorPin.h
  * Author: mat
  *
@@ -26,7 +26,7 @@ public:
     DigitalPinSensor& operator=(const DigitalPinSensor&) = delete;
     virtual ~DigitalPinSensor() = default;
 
-    virtual bool sense() override final
+    bool sense() final
     {
         return digitalRead(pin) ^ invert;
     }
