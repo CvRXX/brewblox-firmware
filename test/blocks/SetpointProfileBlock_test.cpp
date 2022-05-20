@@ -36,10 +36,12 @@ SCENARIO("A SetpointProfile block")
 {
     WHEN("a SetpointProfileBlock is created")
     {
+        ticks.ticksImpl().reset(0);
+        ticks.setUtc(0);
+
         cbox::getObjects().clearAll();
         platform::particle::setupSystemBlocks();
 
-        auto ticksId = cbox::obj_id_t(3);
         auto sensorId = cbox::obj_id_t(100);
         auto setpointId = cbox::obj_id_t(101);
         auto profileId = cbox::obj_id_t(102);
@@ -121,24 +123,8 @@ SCENARIO("A SetpointProfile block")
 
         WHEN("The box has received the current time (in seconds since epoch")
         {
-            // set seconds since epoch
-            {
-                auto cmd = cbox::TestCommand(ticksId, TicksBlock<MockTicks>::staticTypeId());
-                auto message = blox_test::Ticks::Block();
-
-                message.set_secondssinceepoch(20'000);
-
-                messageToPayload(cmd, message);
-                CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
-
-                auto reply = blox_test::Ticks::Block();
-                payloadToMessage(cmd, reply);
-
-                CHECK(reply.millissinceboot() == 10'000);
-                CHECK(reply.secondssinceepoch() == 20'000);
-            }
-
-            update(25000); // system is running for 25 seconds, so seconds since epoch should be 20.015 now
+            ticks.setUtc(20'000);
+            update(25000); // system is running for 25 seconds, so seconds since epoch should be 20'015 now
 
             THEN("The setpoint is valid")
             {

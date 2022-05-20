@@ -87,6 +87,7 @@ CPPSRC += $(ROOT_DIR)/test/blocks/DigitalActuatorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireBusBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireTempSensorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/PidBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/SequenceBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SetpointProfileBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SetpointSensorPairBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SysInfoBlock_test.cpp
