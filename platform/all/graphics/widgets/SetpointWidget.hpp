@@ -15,7 +15,7 @@ public:
      */
     SetpointWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<SetpointSensorPairBlock>&& ptr, const char* label, lv_color_t color)
         : BaseWidget(grid, row, col, label, color)
-        , lookup(ptr)
+        , lookup(std::move(ptr))
         , value(lv_label_create(obj))
         , setting(lv_label_create(obj))
     {

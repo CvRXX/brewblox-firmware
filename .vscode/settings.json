@@ -72,15 +72,12 @@
     "clang-analyzer-*",
     "cppcoreguidelines-*",
     "modernize-*",
+    "google-explicit-constructor",
   ],
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "cppcoreguidelines-pro-bounds-constant-array-index",
     "cppcoreguidelines-pro-bounds-array-to-pointer-decay",
     "modernize-use-trailing-return-type"
-  ],
-  "C_Cpp.codeAnalysis.clangTidy.args": [
-    //   "-p  /workspaces/firmware/app/brewblox_esp/build"
-    "-extra-arg=-std=c++17"
   ],
   "C_Cpp.codeAnalysis.exclude": {
     "**/external_libs": true,

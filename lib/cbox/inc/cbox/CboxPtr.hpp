@@ -44,10 +44,16 @@ protected:
     {
     }
 
+    CboxPtrBase(CboxPtrBase&&) = default;
     // The destructor does not have to be virtual
     ~CboxPtrBase() = default;
 
     std::shared_ptr<Object> lockObject();
+
+public:
+    CboxPtrBase(const CboxPtrBase&) = delete;
+    CboxPtrBase& operator=(const CboxPtrBase&) = delete;
+    CboxPtrBase& operator=(CboxPtrBase&&) = default;
 };
 
 template <typename T>
@@ -60,11 +66,16 @@ public:
     }
     ~CboxPtr() = default;
 
+    CboxPtr(const CboxPtr&) = delete;
+    CboxPtr(CboxPtr&&) = default;
+    CboxPtr& operator=(const CboxPtr&) = delete;
+    CboxPtr& operator=(CboxPtr&&) = default;
+
     template <class U>
-    std::shared_ptr<U> lock_as()
+    [[nodiscard]] std::shared_ptr<U> lock_as()
     {
         if (auto sptr = lockObject()) {
-            // if the lookup succeeded, check if the Object implements the requested interface using the interface id
+            // if the lookup succeeded, check if the CboxPtr implements the requested interface using the interface id
             // If the object returned a non-zero pointer, it supports the interface
             // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
             // do not point to the same address. The pointer that is returned is of the address that implements
@@ -77,19 +88,19 @@ public:
     }
 
     template <class U>
-    std::shared_ptr<const U> const_lock_as() const
+    [[nodiscard]] std::shared_ptr<const U> const_lock_as() const
     {
         auto this_non_const = const_cast<CboxPtr<T>*>(this);
         auto sptr = this_non_const->template lock_as<U>();
         return std::const_pointer_cast<const U>(std::move(sptr));
     }
 
-    std::shared_ptr<T> lock() override
+    [[nodiscard]] std::shared_ptr<T> lock() override
     {
         return lock_as<T>();
     }
 
-    std::shared_ptr<const T> lock() const override
+    [[nodiscard]] std::shared_ptr<const T> lock() const override
     {
         return const_lock_as<T>();
     }

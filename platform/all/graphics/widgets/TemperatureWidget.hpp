@@ -16,7 +16,7 @@ public:
      */
     TemperatureWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<TempSensor>&& ptr, const char* label, lv_color_t color)
         : BaseWidget(grid, row, col, label, color)
-        , lookup(ptr)
+        , lookup(std::move(ptr))
         , value(lv_label_create(obj))
     {
         lv_obj_add_style(value, &style::number_large, LV_PART_MAIN);

@@ -27,8 +27,8 @@ private:
     cbox::CboxPtr<OneWire> busPtr;
 
 public:
-    OneWireScanningFactory(cbox::CboxPtr<OneWire>&& busPtr)
-        : busPtr(busPtr)
+    explicit OneWireScanningFactory(cbox::CboxPtr<OneWire>&& busPtr)
+        : busPtr(std::move(busPtr))
     {
     }
 
