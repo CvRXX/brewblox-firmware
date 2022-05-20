@@ -66,4 +66,24 @@
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
   },
   "cmake.configureOnOpen": false,
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".*",
+  "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
+    "clang-analyzer-*",
+    "cppcoreguidelines-*",
+    "modernize-*",
+  ],
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "cppcoreguidelines-pro-bounds-constant-array-index",
+    "cppcoreguidelines-pro-bounds-array-to-pointer-decay",
+    "modernize-use-trailing-return-type"
+  ],
+  "C_Cpp.codeAnalysis.clangTidy.args": [
+    //   "-p  /workspaces/firmware/app/brewblox_esp/build"
+    "-extra-arg=-std=c++17"
+  ],
+  "C_Cpp.codeAnalysis.exclude": {
+    "**/external_libs": true,
+    "**/build": true
+  },
 }
