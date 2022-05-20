@@ -1,4 +1,7 @@
 #pragma once
+
+#include "intellisense.hpp"
+
 #include "cbox/Payload.hpp"
 #include <google/protobuf/message.h>
 #include <sstream>

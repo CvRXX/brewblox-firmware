@@ -161,7 +161,7 @@ SCENARIO("A container with system objects")
         TestCommand cmd;
         auto fetched = container.fetch(1);
         REQUIRE(fetched);
-        fetched.value()->read(cmd.callback);
+        CHECK(fetched.value()->read(cmd.callback) == CboxError::OK);
         CHECK(hexed(cmd.responses.at(0).content) == "11111111");
     }
 
@@ -171,7 +171,7 @@ SCENARIO("A container with system objects")
 
         auto fetched = container.fetch(1);
         REQUIRE(fetched);
-        fetched.value()->write(cmd.request);
+        CHECK(fetched.value()->write(cmd.request) == CboxError::OK);
         CHECK(*static_cast<LongIntObject*>(fetched.value().get()) == LongIntObject(0x11223344));
     }
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "spark/Buzzer.hpp"
-#include "spark/ConnectionPool.hpp"
 #include <cstdint>
 #include <string>
 
 class OneWire;
 
 namespace platform::particle {
+class BuzzerClass;
+class ConnectionPool;
 
 // Create and return a static ConnectionPool
 ConnectionPool& getConnectionPool();

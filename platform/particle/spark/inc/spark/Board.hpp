@@ -18,6 +18,8 @@
  */
 
 #pragma once
+#include "intellisense.hpp"
+
 #include "core_hal.h"
 #include "gpio_hal.h"
 #include "platforms.h"
@@ -52,10 +54,6 @@ enum class SparkVersion : uint8_t {
     V2,
     V3,
 };
-
-#if !defined(PLATFORM_ID)
-#error
-#endif
 
 #if PLATFORM_ID == 8 // P1
 #define PIN_V3_BOTTOM1 P1S1
