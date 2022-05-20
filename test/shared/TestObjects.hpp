@@ -45,8 +45,8 @@ private:
 
 public:
     LongIntObject() = default;
-    LongIntObject(uint32_t rhs)
-        : val(std::move(rhs))
+    explicit LongIntObject(uint32_t rhs)
+        : val(rhs)
     {
     }
 
@@ -101,7 +101,7 @@ public:
         return cbox::CboxError::NETWORK_READ_ERROR;
     }
 
-    operator uint32_t() const
+    explicit operator uint32_t() const
     {
         uint32_t copy = val;
         return copy;
@@ -122,9 +122,11 @@ public:
 class LongIntVectorObject final : public cbox::ObjectBase<1001> {
 public:
     LongIntVectorObject() = default;
-    LongIntVectorObject(std::initializer_list<LongIntObject> l)
-        : values(l)
+    LongIntVectorObject(std::initializer_list<uint32_t> l)
     {
+        for (auto v : l) {
+            values.push_back(LongIntObject{v});
+        }
     }
     LongIntVectorObject(const LongIntVectorObject& rhs)
         : values(rhs.values)
@@ -270,7 +272,7 @@ public:
 
 class NameableLongIntObject final : public LongIntObject, public Nameable {
 public:
-    NameableLongIntObject(uint32_t rhs = 0)
+    explicit NameableLongIntObject(uint32_t rhs = 0)
         : LongIntObject(rhs)
     {
     }

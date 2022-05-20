@@ -25,7 +25,7 @@
 // provides a protobuf interface to the read only system info
 class SysInfoBlock final : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {
 public:
-    SysInfoBlock(unsigned (&device_id_func_)(uint8_t*, unsigned len))
+    explicit SysInfoBlock(unsigned (&device_id_func_)(uint8_t*, unsigned len))
         : device_id_func(device_id_func_)
     {
     }

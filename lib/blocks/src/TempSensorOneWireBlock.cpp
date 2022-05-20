@@ -52,7 +52,7 @@ TempSensorOneWireBlock::read(const cbox::PayloadCallback& callback) const
     }
 
     message.oneWireBusId = getBusId();
-    message.address = sensor.address();
+    message.address = uint64_t(sensor.address());
     message.offset = cnl::unwrap(sensor.getCalibration());
 
     stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
@@ -72,7 +72,7 @@ TempSensorOneWireBlock::readStored(const cbox::PayloadCallback& callback) const
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
 
     message.oneWireBusId = getBusId();
-    message.address = sensor.address();
+    message.address = uint64_t(sensor.address());
     message.offset = cnl::unwrap(sensor.getCalibration());
 
     return callWithMessage(callback,

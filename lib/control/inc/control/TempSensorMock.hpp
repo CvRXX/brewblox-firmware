@@ -45,7 +45,7 @@ public:
     {
     }
 
-    TempSensorMock(temp_t initial)
+    explicit TempSensorMock(temp_t initial)
         : m_setting(initial)
         , m_fluctuationsSum(0)
         , m_connected(true)

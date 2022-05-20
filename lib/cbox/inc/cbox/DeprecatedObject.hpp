@@ -34,7 +34,7 @@ private:
     obj_id_t originalId;
 
 public:
-    DeprecatedObject(const obj_id_t& oid)
+    explicit DeprecatedObject(const obj_id_t& oid)
         : originalId(oid)
     {
     }

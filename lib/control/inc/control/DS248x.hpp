@@ -52,7 +52,7 @@ constexpr uint8_t DS248X_ADJP = 0xc3; // Adjust OneWire port config (DS2484 only
 class DS248x : public OneWireLowLevelInterface, public I2CDeviceBase<0x18> {
 public:
     // Address is 0-3
-    DS248x(uint8_t address)
+    explicit DS248x(uint8_t address)
         : I2CDeviceBase(address)
     {
     }

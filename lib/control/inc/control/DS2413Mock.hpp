@@ -34,8 +34,8 @@ private:
 public:
     static constexpr uint8_t family_code{0x3A};
 
-    DS2413Mock(const OneWireAddress& address)
-        : OneWireMockDevice(address)
+    explicit DS2413Mock(OneWireAddress address = OneWireAddress{family_code})
+        : OneWireMockDevice(std::move(address))
     {
     }
 

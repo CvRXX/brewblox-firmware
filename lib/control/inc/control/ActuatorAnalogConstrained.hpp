@@ -48,7 +48,7 @@ private:
     value_t m_min;
 
 public:
-    Minimum(const value_t& v)
+    explicit Minimum(const value_t& v)
         : m_min(v)
     {
     }
@@ -80,7 +80,7 @@ private:
     value_t m_max;
 
 public:
-    Maximum(const value_t& v)
+    explicit Maximum(const value_t& v)
         : m_max(v)
     {
     }
@@ -122,7 +122,7 @@ private:
     value_t m_desiredSetting = 0;
 
 public:
-    ActuatorAnalogConstrained(ActuatorAnalog& act)
+    explicit ActuatorAnalogConstrained(ActuatorAnalog& act)
         : actuator(act)
     {
     }

@@ -167,7 +167,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             THEN("It can be changed and rewritten to EEPROM, same size")
             {
-                obj->values = {0x22222222, 0x33333333};
+                *obj = {0x22222222, 0x33333333};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -178,7 +178,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             THEN("It can be changed and rewritten to EEPROM, 4 bytes bigger size")
             {
-                obj->values = {0x22222222, 0x33333333, 0x44444444};
+                *obj = {0x22222222, 0x33333333, 0x44444444};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -189,7 +189,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             THEN("It can be changed and rewritten to EEPROM, 16 bytes bigger size")
             {
-                obj->values = {0x22222222, 0x33333333, 0x44444444, 0x55555555, 0x66666666, 0x77777777};
+                *obj = {0x22222222, 0x33333333, 0x44444444, 0x55555555, 0x66666666, 0x77777777};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -200,7 +200,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             THEN("It can be changed and rewritten to EEPROM, 4 bytes smaller size")
             {
-                obj->values = {0x22222222};
+                *obj = {0x22222222};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -290,7 +290,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             AND_THEN("They can be updated in EEPROM")
             {
-                obj2->values = {0x33333333, 0x33333333};
+                *obj2 = {0x33333333, 0x33333333};
                 CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(2), obj2));
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(2), received));
@@ -343,7 +343,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
     {
         // 18*4 = 72 bytes
         auto big = std::make_shared<LongIntVectorObject>();
-        big->values = {
+        *big = {
             0x22222222,
             0x33333333,
             0x44444444,
@@ -372,7 +372,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
         // 2*4 = 8 bytes
         auto small = std::make_shared<LongIntVectorObject>();
-        small->values = {0x11111111, 0x22222222};
+        *small = {0x11111111, 0x22222222};
 
         uint16_t originalSpace = storage.freeSpace();
 
@@ -453,7 +453,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             AND_WHEN("the same object grows within the reserved space, it can be stored and retrieved")
             {
-                obj->values = {0x22222222, 0x33333333, 0x44444444};
+                *obj = {0x22222222, 0x33333333, 0x44444444};
                 auto res = saveObjectToStorage(obj_id_t(id), obj);
                 CHECK(res == CboxError::OK);
 

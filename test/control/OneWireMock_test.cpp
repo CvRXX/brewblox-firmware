@@ -41,8 +41,9 @@ struct StringMaker<OneWireAddress> {
 }
 
 OneWireAddress
-makeValidAddress(OneWireAddress addr)
+makeValidAddress(uint64_t addressBytes)
 {
+    auto addr = OneWireAddress{addressBytes};
     addr[7] = OneWireCrc8(&addr[0], 7);
     return addr;
 }

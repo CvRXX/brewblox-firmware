@@ -45,7 +45,7 @@ public:
     ActuatorAnalogMock& operator=(const ActuatorAnalogMock&) = delete;
 
     // construct with just val, min and max are defaults
-    ActuatorAnalogMock(const value_t& initial)
+    explicit ActuatorAnalogMock(const value_t& initial)
         : m_setting(initial)
     {
     }

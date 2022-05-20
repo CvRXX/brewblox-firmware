@@ -42,7 +42,7 @@ private:
     static constexpr uint8_t ACK_ERROR = 0xFF;
 
 public:
-    DS2413(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
+    explicit DS2413(ControlPtr<OneWire>& busPtr, OneWireAddress address = OneWireAddress{familyCode})
         : OneWireDevice(busPtr, std::move(address))
         , IoArray(2)
     {

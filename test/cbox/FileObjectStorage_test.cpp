@@ -167,7 +167,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be changed and rewritten to file, same size")
             {
-                obj->values = {0x22222222, 0x33333333};
+                *obj = {0x22222222, 0x33333333};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -179,7 +179,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be changed and rewritten to file, 4 bytes bigger size")
             {
-                obj->values = {0x22222222, 0x33333333, 0x44444444};
+                *obj = {0x22222222, 0x33333333, 0x44444444};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -191,7 +191,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be changed and rewritten to file, 16 bytes bigger size")
             {
-                obj->values = {0x22222222, 0x33333333, 0x44444444, 0x55555555, 0x66666666, 0x77777777};
+                *obj = {0x22222222, 0x33333333, 0x44444444, 0x55555555, 0x66666666, 0x77777777};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -203,7 +203,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be changed and rewritten to file, 4 bytes smaller size")
             {
-                obj->values = {0x22222222};
+                *obj = {0x22222222};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -215,7 +215,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be changed and rewritten to file, 8 bytes smaller size (empty vector)")
             {
-                obj->values = {};
+                *obj = {};
                 auto res = saveObjectToStorage(obj_id_t(1), obj);
                 CHECK(res == CboxError::OK);
 
@@ -296,7 +296,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             AND_THEN("They can be updated in EEPROM")
             {
-                obj2->values = {0x33333333, 0x33333333};
+                *obj2 = {0x33333333, 0x33333333};
                 CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(2), obj2));
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(2), received));

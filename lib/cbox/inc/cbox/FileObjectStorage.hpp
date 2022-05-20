@@ -25,7 +25,7 @@
 namespace cbox {
 class FileObjectStorage : public ObjectStorage {
 public:
-    FileObjectStorage(const std::string& root_);
+    explicit FileObjectStorage(const std::string& root_);
 
     virtual ~FileObjectStorage() = default;
 

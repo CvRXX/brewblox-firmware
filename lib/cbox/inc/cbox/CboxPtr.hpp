@@ -62,7 +62,7 @@ protected:
     // Don't allow destruction with a base class ptr
     ~CboxPtrBase() = default;
 
-    std::shared_ptr<Object> lockObject() const
+    [[nodiscard]] std::shared_ptr<Object> lockObject() const
     {
         // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
         auto sptr = ptr.lock();
@@ -107,7 +107,7 @@ public:
             // do not point to the same address. The pointer that is returned is of the address that implements
             // the interface.
             // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
-            return std::shared_ptr<U>(std::move(sptr), sptr->asInterface<U>());
+            return std::shared_ptr<U>(std::move(sptr), sptr->template asInterface<U>());
         }
         // return empty share pointer
         return {};
@@ -117,7 +117,7 @@ public:
     [[nodiscard]] std::shared_ptr<const U> lock_as() const
     {
         if (auto sptr = lockObject()) {
-            return std::shared_ptr<const U>(std::move(sptr), sptr->asInterface<U>());
+            return std::shared_ptr<const U>(std::move(sptr), sptr->template asInterface<U>());
         }
         return {};
     }

@@ -222,7 +222,7 @@ private:
     EepromAccess& eepromAccess;
 
 public:
-    EepromDataOut(EepromAccess& ea)
+    explicit EepromDataOut(EepromAccess& ea)
         : eepromAccess(ea)
     {
     }
@@ -247,7 +247,7 @@ private:
     EepromAccess& eepromAccess;
 
 public:
-    EepromDataIn(EepromAccess& ea)
+    explicit EepromDataIn(EepromAccess& ea)
         : eepromAccess(ea)
     {
     }

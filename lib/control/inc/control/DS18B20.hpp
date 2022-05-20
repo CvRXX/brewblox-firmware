@@ -67,7 +67,7 @@ public:
      *    on the bus is used.
      * /param calibration	A temperature value that is added to all readings. This can be used to calibrate the sensor.
      */
-    DS18B20(ControlPtr<OneWire>& busPtr, OneWireAddress _address = 0, const temp_t& _calibrationOffset = 0)
+    explicit DS18B20(ControlPtr<OneWire>& busPtr, OneWireAddress _address = OneWireAddress{0}, const temp_t& _calibrationOffset = 0)
         : OneWireDevice(busPtr, std::move(_address))
         , m_calibrationOffset(_calibrationOffset)
     {

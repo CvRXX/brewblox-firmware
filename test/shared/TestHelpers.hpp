@@ -32,7 +32,7 @@ public:
         initCallback();
     }
 
-    TestCommand(Payload&& request_)
+    explicit TestCommand(Payload&& request_)
         : request(std::move(request_))
     {
         initCallback();

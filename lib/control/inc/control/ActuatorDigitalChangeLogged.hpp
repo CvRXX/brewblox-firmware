@@ -43,7 +43,7 @@ protected:
     ticks_millis_t lastUpdateTime = 0;
 
 public:
-    ActuatorDigitalChangeLogged(ActuatorDigitalBase& act)
+    explicit ActuatorDigitalChangeLogged(ActuatorDigitalBase& act)
         : actuator(act)
     {
         resetHistory();

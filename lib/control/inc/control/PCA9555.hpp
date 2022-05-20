@@ -10,7 +10,7 @@ public:
         CONFIG = 0x06,
     };
 
-    PCA9555(uint8_t address)
+    explicit PCA9555(uint8_t address)
         : addr(address)
     {
     }

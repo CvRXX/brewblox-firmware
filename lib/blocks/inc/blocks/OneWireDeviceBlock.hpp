@@ -16,7 +16,7 @@ protected:
     }
 
 public:
-    OneWireDeviceBlock(cbox::obj_id_t busId)
+    explicit OneWireDeviceBlock(cbox::obj_id_t busId)
         : owBus(busId)
     {
     }

@@ -72,7 +72,7 @@ private:
     State m_desiredState = State::Inactive;
 
 public:
-    ActuatorDigitalConstrained(ActuatorDigitalBase& act)
+    explicit ActuatorDigitalConstrained(ActuatorDigitalBase& act)
         : ActuatorDigitalChangeLogged(act)
     {
     }
@@ -80,7 +80,7 @@ public:
     ActuatorDigitalConstrained(const ActuatorDigitalConstrained&) = delete;
     ActuatorDigitalConstrained& operator=(const ActuatorDigitalConstrained&) = delete;
     ActuatorDigitalConstrained& operator=(ActuatorDigitalConstrained&&) = delete;
-    ActuatorDigitalConstrained(ActuatorDigitalConstrained&&) = default;
+    ActuatorDigitalConstrained(ActuatorDigitalConstrained&&) = delete;
 
     virtual ~ActuatorDigitalConstrained() = default;
 
@@ -180,7 +180,7 @@ private:
     duration_millis_t m_limit;
 
 public:
-    MinOnTime(const duration_millis_t& min)
+    explicit MinOnTime(const duration_millis_t& min)
         : m_limit(min)
     {
     }
@@ -225,7 +225,7 @@ private:
     duration_millis_t m_limit;
 
 public:
-    MinOffTime(const duration_millis_t& min)
+    explicit MinOffTime(const duration_millis_t& min)
         : m_limit(min)
     {
     }
@@ -273,7 +273,7 @@ private:
     ticks_millis_t m_time_requested = 0;
 
 public:
-    DelayedOn(const duration_millis_t& delay)
+    explicit DelayedOn(const duration_millis_t& delay)
         : m_limit(delay)
     {
     }
@@ -316,7 +316,7 @@ private:
     ticks_millis_t m_time_requested = 0;
 
 public:
-    DelayedOff(const duration_millis_t& delay)
+    explicit DelayedOff(const duration_millis_t& delay)
         : m_limit(delay)
     {
     }

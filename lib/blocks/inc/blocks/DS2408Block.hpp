@@ -32,7 +32,7 @@ private:
     blox_DS2408_PinConnectMode connectMode = blox_DS2408_PinConnectMode_CONNECT_VALVE;
 
 public:
-    DS2408Block(cbox::obj_id_t busId = 0)
+    explicit DS2408Block(cbox::obj_id_t busId = 0)
         : OneWireDeviceBlock(busId)
         , device(busPtr())
     {

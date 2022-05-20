@@ -30,7 +30,7 @@ private:
 public:
     using value_type = T;
 
-    FpFilterChain(uint8_t initStages = 0)
+    explicit FpFilterChain(uint8_t initStages = 0)
         : chain({0, 2, 2, 2, 2, 2}, {2, 2, 2, 3, 3, 4}, initStages)
     {
     }

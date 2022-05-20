@@ -26,7 +26,7 @@ DS2413Block::read(const cbox::PayloadCallback& callback) const
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
     message.oneWireBusId = getBusId();
-    message.address = device.address();
+    message.address = uint64_t(device.address());
     message.connected = device.connected();
 
     message.channels_count = 2;
@@ -48,7 +48,7 @@ DS2413Block::readStored(const cbox::PayloadCallback& callback) const
     blox_DS2413_Block message = blox_DS2413_Block_init_zero;
 
     message.oneWireBusId = getBusId();
-    message.address = device.address();
+    message.address = uint64_t(device.address());
 
     return callWithMessage(callback,
                            objectId(),

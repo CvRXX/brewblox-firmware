@@ -70,9 +70,9 @@
   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
   "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".*",
   "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
-    "clang-analyzer-*",
-    "cppcoreguidelines-*",
-    "modernize-*",
+    // "clang-analyzer-*",
+    // "cppcoreguidelines-*",
+    // "modernize-*",
     "google-explicit-constructor",
   ],
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
@@ -82,6 +82,8 @@
   ],
   "C_Cpp.codeAnalysis.exclude": {
     "**/external_libs": true,
-    "**/build": true
+    "**/build": true,
+    "**/app/brewblox-esp": true,
+    "**/platform/particle": true
   },
 }

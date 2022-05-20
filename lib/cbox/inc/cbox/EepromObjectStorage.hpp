@@ -41,7 +41,7 @@ operator==(const uint8_t& a, const BlockType& b)
 
 class EepromObjectStorage : public ObjectStorage {
 public:
-    EepromObjectStorage(EepromAccess& _eeprom);
+    explicit EepromObjectStorage(EepromAccess& _eeprom);
     virtual ~EepromObjectStorage() = default;
 
     CboxError loadObject(obj_id_t id, const PayloadCallback& callback) final;

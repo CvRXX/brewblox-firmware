@@ -7,25 +7,25 @@ class TestControlPtr final : public ControlPtr<T> {
 public:
     std::shared_ptr<T> ptr;
 
-    TestControlPtr<T>(T* arg)
+    explicit TestControlPtr<T>(T* arg)
         : ptr(std::shared_ptr<T>(arg))
     {
     }
 
     template <typename SrcT>
-    TestControlPtr<T>(SrcT* arg)
+    explicit TestControlPtr<T>(SrcT* arg)
         : ptr(std::shared_ptr<T>(arg))
     {
     }
 
     template <typename SrcT>
-    TestControlPtr<T>(std::shared_ptr<SrcT> arg)
+    explicit TestControlPtr<T>(std::shared_ptr<SrcT> arg)
         : ptr(std::static_pointer_cast<T>(std::move(arg)))
     {
     }
 
     template <typename SrcT>
-    TestControlPtr<T>(const TestControlPtr<SrcT>& arg)
+    explicit TestControlPtr<T>(const TestControlPtr<SrcT>& arg)
         : ptr(std::static_pointer_cast<T>(arg.ptr))
     {
     }

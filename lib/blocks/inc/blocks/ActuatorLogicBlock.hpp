@@ -10,7 +10,7 @@
 
 class DigitalCompare {
 public:
-    DigitalCompare(const blox_ActuatorLogic_DigitalCompare& data)
+    explicit DigitalCompare(const blox_ActuatorLogic_DigitalCompare& data)
         : m_lookup(cbox::obj_id_t(data.id))
         , m_op(data.op)
         , m_result(blox_ActuatorLogic_Result_RESULT_FALSE)
@@ -40,7 +40,7 @@ private:
 
 class AnalogCompare {
 public:
-    AnalogCompare(const blox_ActuatorLogic_AnalogCompare& data)
+    explicit AnalogCompare(const blox_ActuatorLogic_AnalogCompare& data)
         : m_lookup(cbox::obj_id_t(data.id))
         , m_op(data.op)
         , m_result(blox_ActuatorLogic_Result_RESULT_FALSE)

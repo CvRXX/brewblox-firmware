@@ -30,7 +30,7 @@ private:
     DS2413 device;
 
 public:
-    DS2413Block(cbox::obj_id_t busId = 0)
+    explicit DS2413Block(cbox::obj_id_t busId = 0)
         : OneWireDeviceBlock(busId)
         , device(busPtr())
     {

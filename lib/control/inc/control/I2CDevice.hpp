@@ -89,7 +89,7 @@ private:
 template <uint8_t address_base>
 class I2CDeviceBase : public I2CDevice {
 public:
-    I2CDeviceBase(uint8_t lower_address)
+    explicit I2CDeviceBase(uint8_t lower_address)
     {
         set_address_bits(lower_address);
     }
