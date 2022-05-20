@@ -14,21 +14,6 @@
 static constexpr utc_seconds_t MIN_VALID_SYSTIME = 1'000'000; // mid-2001
 static constexpr utc_seconds_t STORAGE_DELAY = 60;
 
-void PendingStorage::add(cbox::obj_id_t objId)
-{
-    if (std::find(_scheduled.cbegin(), _scheduled.cend(), objId) == _scheduled.cend()) {
-        _scheduled.push_back(objId);
-    }
-}
-
-void PendingStorage::execute()
-{
-    for (auto objId : _scheduled) {
-        cbox::getObjects().store(objId);
-    }
-    _scheduled.clear();
-}
-
 bool encodeInstructions(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
     auto instructions = reinterpret_cast<std::vector<blox_Sequence_Instruction>*>(*arg);
@@ -62,7 +47,7 @@ bool decodeInstructions(pb_istream_t* stream, const pb_field_t*, void** arg)
 cbox::CboxError
 SequenceBlock::read(const cbox::PayloadCallback& callback) const
 {
-    auto message = blox_Sequence_Block();
+    blox_Sequence_Block message = blox_Sequence_Block_init_zero;
     message.enabled = enabler.get();
     message.activeInstruction = _state.activeInstruction;
     message.activeInstructionStartedAt = _state.activeInstructionStartedAt;
@@ -101,7 +86,7 @@ SequenceBlock::readStored(const cbox::PayloadCallback& callback) const
 cbox::CboxError
 SequenceBlock::write(const cbox::Payload& payload)
 {
-    auto message = blox_Sequence_Block();
+    blox_Sequence_Block message = blox_Sequence_Block_init_zero;
     std::vector<blox_Sequence_Instruction> newInstructions;
     message.instructions.funcs.decode = &decodeInstructions;
     message.instructions.arg = &newInstructions;
@@ -124,23 +109,22 @@ SequenceBlock::write(const cbox::Payload& payload)
     return res;
 }
 
-InstructionResult errorFunc(const SequenceState&)
+InstructionResult errorFunc(SequenceBlock&)
 {
     return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_ARGUMENT);
 }
 
-InstructionResult doneFunc(const SequenceState&)
+InstructionResult doneFunc(SequenceBlock&)
 {
     return blox_Sequence_SequenceStatus_DONE;
 }
 
-InstructionResult restartFunc(const SequenceState&)
+InstructionResult restartFunc(SequenceBlock&)
 {
     return blox_Sequence_SequenceStatus_RESTART;
 }
 
-InstructionResult setEnablerFunc(const SequenceState&,
-                                 //  PendingStorage& pending,
+InstructionResult setEnablerFunc(SequenceBlock& sequence,
                                  cbox::CboxPtr<Enabler>& target,
                                  bool value)
 {
@@ -150,23 +134,23 @@ InstructionResult setEnablerFunc(const SequenceState&,
     }
 
     ptr->set(value);
-    // pending.add(target.getId());
+    sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
-InstructionResult waitDurationFunc(const SequenceState& state,
+InstructionResult waitDurationFunc(SequenceBlock& sequence,
                                    utc_seconds_t duration)
 {
     auto utc = ticks.utc();
 
-    if (utc - state.activeInstructionStartedAt > duration) {
+    if (utc - sequence.state().activeInstructionStartedAt > duration) {
         return blox_Sequence_SequenceStatus_ACTIVE;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
 }
 
-InstructionResult waitUntilFunc(const SequenceState&,
+InstructionResult waitUntilFunc(SequenceBlock&,
                                 utc_seconds_t time)
 {
     auto utc = ticks.utc();
@@ -178,8 +162,8 @@ InstructionResult waitUntilFunc(const SequenceState&,
     }
 }
 
-InstructionResult waitTemperatureFunc(const SequenceState&,
-                                      const cbox::CboxPtr<TempSensor>& target,
+InstructionResult waitTemperatureFunc(SequenceBlock&,
+                                      cbox::CboxPtr<TempSensor>& target,
                                       temp_t lower,
                                       temp_t upper)
 {
@@ -196,8 +180,7 @@ InstructionResult waitTemperatureFunc(const SequenceState&,
     }
 }
 
-InstructionResult setSetpointFunc(const SequenceState&,
-                                  //   PendingStorage& pending,
+InstructionResult setSetpointFunc(SequenceBlock& sequence,
                                   cbox::CboxPtr<SetpointSensorPair>& target,
                                   temp_t setting)
 {
@@ -207,12 +190,12 @@ InstructionResult setSetpointFunc(const SequenceState&,
     }
 
     ptr->setting(setting);
-    // pending.add(target.getId());
+    sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_DONE;
 }
 
-InstructionResult waitSetpointFunc(const SequenceState&,
-                                   const cbox::CboxPtr<SetpointSensorPair>& target,
+InstructionResult waitSetpointFunc(SequenceBlock&,
+                                   cbox::CboxPtr<SetpointSensorPair>& target,
                                    temp_t precision)
 {
     auto ptr = target.lock();
@@ -233,8 +216,7 @@ InstructionResult waitSetpointFunc(const SequenceState&,
     }
 }
 
-InstructionResult setDigitalFunc(const SequenceState&,
-                                 //  PendingStorage& pending,
+InstructionResult setDigitalFunc(SequenceBlock& sequence,
                                  cbox::CboxPtr<ActuatorDigitalConstrained>& target,
                                  ActuatorDigitalBase::State state)
 {
@@ -244,12 +226,12 @@ InstructionResult setDigitalFunc(const SequenceState&,
     }
 
     ptr->desiredState(state);
-    // pending.add(target.getId());
+    sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_DONE;
 }
 
-InstructionResult waitDigitalFunc(const SequenceState&,
-                                  const cbox::CboxPtr<ActuatorDigitalConstrained>& target)
+InstructionResult waitDigitalFunc(SequenceBlock&,
+                                  cbox::CboxPtr<ActuatorDigitalConstrained>& target)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -263,8 +245,7 @@ InstructionResult waitDigitalFunc(const SequenceState&,
     }
 }
 
-InstructionResult setPwmFunc(const SequenceState&,
-                             //  PendingStorage& pending,
+InstructionResult setPwmFunc(SequenceBlock& sequence,
                              cbox::CboxPtr<ActuatorPwmBlock>& target,
                              ActuatorPwm::value_t setting)
 {
@@ -274,12 +255,12 @@ InstructionResult setPwmFunc(const SequenceState&,
     }
 
     ptr->getPwm().setting(setting);
-    // pending.add(target.getId());
+    sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_DONE;
 }
 
-InstructionResult waitPwmFunc(const SequenceState&,
-                              const cbox::CboxPtr<ActuatorPwmBlock>& target,
+InstructionResult waitPwmFunc(SequenceBlock&,
+                              cbox::CboxPtr<ActuatorPwmBlock>& target,
                               ActuatorPwm::value_t precision)
 {
     auto ptr = target.lock();
@@ -302,8 +283,7 @@ InstructionResult waitPwmFunc(const SequenceState&,
     }
 }
 
-InstructionResult startProfileFunc(const SequenceState&,
-                                   //    PendingStorage& pending,
+InstructionResult startProfileFunc(SequenceBlock& sequence,
                                    cbox::CboxPtr<SetpointProfileBlock>& target)
 {
     auto ptr = target.lock();
@@ -312,12 +292,12 @@ InstructionResult startProfileFunc(const SequenceState&,
     }
 
     ptr->get().startTime(ticks.utc());
-    // pending.add(target.getId());
+    sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
-InstructionResult waitProfileFunc(const SequenceState& state,
-                                  const cbox::CboxPtr<SetpointProfileBlock>& target)
+InstructionResult waitProfileFunc(SequenceBlock&,
+                                  cbox::CboxPtr<SetpointProfileBlock>& target)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -339,8 +319,7 @@ InstructionResult waitProfileFunc(const SequenceState& state,
     }
 }
 
-InstructionResult startSequenceFunc(const SequenceState&,
-                                    // PendingStorage& pending,
+InstructionResult startSequenceFunc(SequenceBlock& sequence,
                                     cbox::CboxPtr<SequenceBlock>& target)
 {
     auto ptr = target.lock();
@@ -348,13 +327,13 @@ InstructionResult startSequenceFunc(const SequenceState&,
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
-    ptr->reset(0, 0);
-    // pending.add(target.getId());
+    ptr->reset(0);
+    sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
-InstructionResult waitSequenceFunc(const SequenceState&,
-                                   const cbox::CboxPtr<SequenceBlock>& target)
+InstructionResult waitSequenceFunc(SequenceBlock&,
+                                   cbox::CboxPtr<SequenceBlock>& target)
 {
     auto ptr = target.lock();
     if (!ptr) {
@@ -365,7 +344,7 @@ InstructionResult waitSequenceFunc(const SequenceState&,
         return tl::make_unexpected(blox_Sequence_SequenceError_DISABLED_TARGET);
     }
 
-    if (ptr->done()) {
+    if (ptr->state().status == blox_Sequence_SequenceStatus_DONE) {
         return blox_Sequence_SequenceStatus_ACTIVE;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
@@ -387,12 +366,10 @@ InstructionFunctor SequenceBlock::makeRunner()
         return restartFunc;
     case blox_Sequence_Instruction_DISABLE_tag:
         return std::bind(setEnablerFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<Enabler>(ins.instruction_oneof.DISABLE.target),
                          false);
     case blox_Sequence_Instruction_ENABLE_tag:
         return std::bind(setEnablerFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<Enabler>(ins.instruction_oneof.ENABLE.target),
                          true);
     case blox_Sequence_Instruction_WAIT_DURATION_tag:
@@ -418,7 +395,6 @@ InstructionFunctor SequenceBlock::makeRunner()
                          cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMPERATURE_BELOW.value));
     case blox_Sequence_Instruction_SET_SETPOINT_tag:
         return std::bind(setSetpointFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<SetpointSensorPair>(ins.instruction_oneof.SET_SETPOINT.target),
                          cnl::wrap<temp_t>(ins.instruction_oneof.SET_SETPOINT.setting));
     case blox_Sequence_Instruction_WAIT_SETPOINT_tag:
@@ -427,7 +403,6 @@ InstructionFunctor SequenceBlock::makeRunner()
                          cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_SETPOINT.precision));
     case blox_Sequence_Instruction_SET_DIGITAL_tag:
         return std::bind(setDigitalFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<ActuatorDigitalConstrained>(ins.instruction_oneof.SET_DIGITAL.target),
                          ActuatorDigitalBase::State(ins.instruction_oneof.SET_DIGITAL.setting));
     case blox_Sequence_Instruction_WAIT_DIGITAL_tag:
@@ -435,7 +410,6 @@ InstructionFunctor SequenceBlock::makeRunner()
                          cbox::CboxPtr<ActuatorDigitalConstrained>(ins.instruction_oneof.WAIT_DIGITAL.target));
     case blox_Sequence_Instruction_SET_PWM_tag:
         return std::bind(setPwmFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<ActuatorPwmBlock>(ins.instruction_oneof.SET_PWM.target),
                          cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.SET_PWM.setting));
     case blox_Sequence_Instruction_WAIT_PWM_tag:
@@ -444,14 +418,12 @@ InstructionFunctor SequenceBlock::makeRunner()
                          cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.WAIT_PWM.precision));
     case blox_Sequence_Instruction_START_PROFILE_tag:
         return std::bind(startProfileFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.START_PROFILE.target));
     case blox_Sequence_Instruction_WAIT_PROFILE_tag:
         return std::bind(waitProfileFunc, _1,
                          cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.WAIT_PROFILE.target));
     case blox_Sequence_Instruction_START_SEQUENCE_tag:
         return std::bind(startSequenceFunc, _1,
-                         //  _pending,
                          cbox::CboxPtr<SequenceBlock>(ins.instruction_oneof.START_SEQUENCE.target));
     case blox_Sequence_Instruction_WAIT_SEQUENCE_tag:
         return std::bind(waitSequenceFunc, _1,
@@ -476,15 +448,31 @@ void SequenceBlock::reset(uint16_t activeInstruction, utc_seconds_t activeInstru
     resetNextUpdateTime();
 }
 
-void SequenceBlock::checkPendingStorage(utc_seconds_t utc)
+void SequenceBlock::markTargetChanged(cbox::obj_id_t objId)
 {
-    // To reduce EEPROM write calls, autonomous storage save calls are only done if
-    // activeInstruction is stagnant for 1 minute.
-    if (!_state.stored && _state.activeInstructionStartedAt + STORAGE_DELAY > utc) {
-        _pending.execute();
-        readStored(cbox::getStorage().saveObjectCallback);
-        _state.stored = true;
+    if (std::find(_changedTargets.cbegin(), _changedTargets.cend(), objId) == _changedTargets.cend()) {
+        _changedTargets.push_back(objId);
     }
+}
+
+void SequenceBlock::trySaveChanges(utc_seconds_t utc)
+{
+    // To reduce EEPROM write calls, state is only saved if
+    // the current instruction takes a significant amount of time.
+    // This avoids saving every single (idempotent) SET to EEPROM.
+    if (_state.stored || _state.activeInstructionStartedAt + STORAGE_DELAY < utc) {
+        return;
+    }
+
+    // Store targets
+    for (auto objId : _changedTargets) {
+        cbox::getObjects().store(objId);
+    }
+    _changedTargets.clear();
+
+    // Store self
+    readStored(cbox::getStorage().saveObjectCallback);
+    _state.stored = true;
 }
 
 cbox::update_t
@@ -492,27 +480,36 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
 {
     if (!enabler.get()) {
         _state.status = blox_Sequence_SequenceStatus_DISABLED;
-        return next_update_never(now);
+        return next_update_1s(now);
     }
 
     auto utc = ticks.utc();
 
+    // We can't even track instruction start time without a valid system time value.
     if (utc < MIN_VALID_SYSTIME) {
         _state.status = blox_Sequence_SequenceStatus_ERROR;
         _state.error = blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE;
+        trySaveChanges(utc);
         return next_update_1s(now);
     }
 
-    auto result = _runner(_state);
+    auto result = _runner(*this);
 
+    // Instruction encountered an error.
+    // Many errors are resolved automatically (system time),
+    // or by changes to other blocks (invalid / disabled target).
+    // We'll need to keep retrying the instruction.
     if (!result) {
         _state.status = blox_Sequence_SequenceStatus_ERROR;
         _state.error = result.error();
-        checkPendingStorage(utc);
+        trySaveChanges(utc);
         return next_update_1s(now);
     }
 
     auto status = result.value();
+
+    // Instruction completed normally.
+    // The next instruction can start immediately.
     if (status == blox_Sequence_SequenceStatus_ACTIVE) {
         transition({
             .activeInstruction = uint16_t(_state.activeInstruction + 1),
@@ -520,14 +517,22 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
             .status = status,
         });
         return now;
-    } else if (status == blox_Sequence_SequenceStatus_RESTART) {
+    }
+
+    // Instruction restarted the entire sequence.
+    // Go to the first instruction.
+    // Enforce a 1s update pause to avoid overloading the controller
+    // in a sequence that only consists of SET instructions.
+    if (status == blox_Sequence_SequenceStatus_RESTART) {
         reset(0);
         return next_update_1s(now);
-    } else {
-        _state.status = status;
-        checkPendingStorage(utc);
-        return next_update_1s(now);
     }
+
+    // Instruction is not yet done.
+    // Try again next time.
+    _state.status = status;
+    trySaveChanges(utc);
+    return next_update_1s(now);
 }
 
 void* SequenceBlock::implements(cbox::obj_type_t iface)

@@ -8,15 +8,6 @@
 #include "tl/expected.hpp"
 #include <functional>
 
-class PendingStorage {
-private:
-    std::vector<cbox::obj_id_t> _scheduled;
-
-public:
-    void add(cbox::obj_id_t);
-    void execute();
-};
-
 struct SequenceState {
     bool stored{false};
     uint16_t activeInstruction{0};
@@ -27,18 +18,20 @@ struct SequenceState {
     blox_Sequence_SequenceError error{blox_Sequence_SequenceError_NONE};
 };
 
+class SequenceBlock;
+
 using InstructionResult = tl::expected<blox_Sequence_SequenceStatus, blox_Sequence_SequenceError>;
-using InstructionFunctor = std::function<InstructionResult(const SequenceState& state)>;
+using InstructionFunctor = std::function<InstructionResult(SequenceBlock& sequence)>;
 
 class SequenceBlock final : public Block<brewblox_BlockType_Sequence> {
 private:
-    PendingStorage _pending;
     SequenceState _state;
+    std::vector<cbox::obj_id_t> _changedTargets;
     std::vector<blox_Sequence_Instruction> _instructions;
-    InstructionFunctor _runner{[](const SequenceState&) { return blox_Sequence_SequenceStatus_DONE; }};
+    InstructionFunctor _runner{[](SequenceBlock& sequence) { return blox_Sequence_SequenceStatus_DONE; }};
 
     InstructionFunctor makeRunner();
-    void checkPendingStorage(utc_seconds_t utc);
+    void trySaveChanges(utc_seconds_t utc);
     void transition(SequenceState&& state);
 
 public:
@@ -54,9 +47,10 @@ public:
     void* implements(cbox::obj_type_t iface) override;
 
     void reset(uint16_t activeInstruction, utc_seconds_t activeInstructionStartedAt = 0);
+    void markTargetChanged(cbox::obj_id_t objId);
 
-    bool done() const
+    const SequenceState& state() const
     {
-        return _state.status == blox_Sequence_SequenceStatus_DONE;
+        return _state;
     }
 };
