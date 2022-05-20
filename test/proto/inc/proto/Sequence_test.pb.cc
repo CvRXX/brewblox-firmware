@@ -21,7 +21,6 @@
 
 namespace protobuf_Sequence_5ftest_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Sequence_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_EnableDisable;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_Sequence_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_InstructionReset;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Sequence_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Restart;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Sequence_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetDigital;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Sequence_5ftest_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SetPwm;
@@ -141,7 +140,6 @@ class BlockDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Block>
       _instance;
-  const ::blox_test::Sequence::InstructionReset* reset_;
 } _Block_default_instance_;
 }  // namespace Sequence
 }  // namespace blox_test
@@ -395,10 +393,9 @@ static void InitDefaultsBlock() {
   ::blox_test::Sequence::Block::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<2> scc_info_Block =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsBlock}, {
-      &protobuf_Sequence_5ftest_2eproto::scc_info_Instruction.base,
-      &protobuf_Sequence_5ftest_2eproto::scc_info_InstructionReset.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsBlock}, {
+      &protobuf_Sequence_5ftest_2eproto::scc_info_Instruction.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_Restart.base);
@@ -549,18 +546,17 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, _internal_metadata_),
   ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, _oneof_case_[0]),
+  ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, instructions_),
-  offsetof(::blox_test::Sequence::BlockDefaultTypeInternal, reset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, overridestate_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, activeinstruction_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, activeinstructionstartedat_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, disabledat_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, disabledduration_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, status_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, error_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Sequence::Block, reset_oneof_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::Sequence::Restart)},
@@ -678,29 +674,27 @@ void AddDescriptorsImpl() {
       "WaitSequenceH\000B\023\n\021instruction_oneof\"_\n\020I"
       "nstructionReset\022 \n\021activeInstruction\030\001 \001"
       "(\rB\005\222\?\0028\020\022)\n\032activeInstructionStartedAt\030"
-      "\002 \001(\rB\005\222\?\0028 \"\341\003\n\005Block\022\027\n\007enabled\030\001 \001(\010B"
+      "\002 \001(\rB\005\222\?\0028 \"\232\003\n\005Block\022\027\n\007enabled\030\001 \001(\010B"
       "\006\212\265\030\0020\001\0225\n\014instructions\030\002 \003(\0132\037.blox_tes"
-      "t.Sequence.Instruction\0225\n\005reset\030\003 \001(\0132$."
-      "blox_test.Sequence.InstructionResetH\000\022,\n"
-      "\021activeInstruction\030\004 \001(\rB\021\222\?\0028\020\212\265\030\0020\001\212\265\030"
-      "\002(\001\022;\n\032activeInstructionStartedAt\030\005 \001(\rB"
-      "\027\222\?\0028 \212\265\030\002X\001\212\265\030\002(\001\212\265\030\0020\001\022%\n\ndisabledAt\030\006"
-      " \001(\rB\021\222\?\0028 \212\265\030\002X\001\212\265\030\002(\001\022+\n\020disabledDurat"
-      "ion\030\007 \001(\rB\021\222\?\0028 \212\265\030\002\010\003\212\265\030\002(\001\022:\n\006status\030\010"
-      " \001(\0162\".blox_test.Sequence.SequenceStatus"
-      "B\006\212\265\030\002(\001\0228\n\005error\030\t \001(\0162!.blox_test.Sequ"
-      "ence.SequenceErrorB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H"
-      "\017B\r\n\013reset_oneof*r\n\016SequenceStatus\022\013\n\007UN"
-      "KNOWN\020\000\022\014\n\010DISABLED\020\001\022\n\n\006PAUSED\020\002\022\n\n\006ACT"
-      "IVE\020\003\022\013\n\007WAITING\020\004\022\010\n\004DONE\020\005\022\013\n\007RESTART\020"
-      "\006\022\t\n\005ERROR\020\007*\220\001\n\rSequenceError\022\010\n\004NONE\020\000"
-      "\022\024\n\020INVALID_ARGUMENT\020\001\022\022\n\016INVALID_TARGET"
-      "\020\002\022\027\n\023INVALID_TARGET_TYPE\020\003\022\023\n\017DISABLED_"
-      "TARGET\020\004\022\035\n\031SYSTEM_TIME_NOT_AVAILABLE\020\005b"
-      "\006proto3"
+      "t.Sequence.Instruction\022\025\n\roverrideState\030"
+      "\003 \001(\010\022&\n\021activeInstruction\030\004 \001(\rB\013\222\?\0028\020\212"
+      "\265\030\0020\001\0225\n\032activeInstructionStartedAt\030\005 \001("
+      "\rB\021\222\?\0028 \212\265\030\002X\001\212\265\030\0020\001\022\037\n\ndisabledAt\030\006 \001(\r"
+      "B\013\222\?\0028 \212\265\030\002X\001\022%\n\020disabledDuration\030\007 \001(\rB"
+      "\013\222\?\0028 \212\265\030\002\010\003\022:\n\006status\030\010 \001(\0162\".blox_test"
+      ".Sequence.SequenceStatusB\006\212\265\030\002(\001\0228\n\005erro"
+      "r\030\t \001(\0162!.blox_test.Sequence.SequenceErr"
+      "orB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H\017*r\n\016SequenceSta"
+      "tus\022\013\n\007UNKNOWN\020\000\022\014\n\010DISABLED\020\001\022\n\n\006PAUSED"
+      "\020\002\022\n\n\006ACTIVE\020\003\022\013\n\007WAITING\020\004\022\010\n\004DONE\020\005\022\013\n"
+      "\007RESTART\020\006\022\t\n\005ERROR\020\007*\220\001\n\rSequenceError\022"
+      "\010\n\004NONE\020\000\022\024\n\020INVALID_ARGUMENT\020\001\022\022\n\016INVAL"
+      "ID_TARGET\020\002\022\027\n\023INVALID_TARGET_TYPE\020\003\022\023\n\017"
+      "DISABLED_TARGET\020\004\022\035\n\031SYSTEM_TIME_NOT_AVA"
+      "ILABLE\020\005b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2967);
+      descriptor, 2896);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Sequence_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -5754,27 +5748,11 @@ void InstructionReset::InternalSwap(InstructionReset* other) {
 // ===================================================================
 
 void Block::InitAsDefaultInstance() {
-  ::blox_test::Sequence::_Block_default_instance_.reset_ = const_cast< ::blox_test::Sequence::InstructionReset*>(
-      ::blox_test::Sequence::InstructionReset::internal_default_instance());
-}
-void Block::set_allocated_reset(::blox_test::Sequence::InstructionReset* reset) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  clear_reset_oneof();
-  if (reset) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      reset = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, reset, submessage_arena);
-    }
-    set_has_reset();
-    reset_oneof_.reset_ = reset;
-  }
-  // @@protoc_insertion_point(field_set_allocated:blox_test.Sequence.Block.reset)
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Block::kEnabledFieldNumber;
 const int Block::kInstructionsFieldNumber;
-const int Block::kResetFieldNumber;
+const int Block::kOverrideStateFieldNumber;
 const int Block::kActiveInstructionFieldNumber;
 const int Block::kActiveInstructionStartedAtFieldNumber;
 const int Block::kDisabledAtFieldNumber;
@@ -5798,16 +5776,6 @@ Block::Block(const Block& from)
   ::memcpy(&enabled_, &from.enabled_,
     static_cast<size_t>(reinterpret_cast<char*>(&error_) -
     reinterpret_cast<char*>(&enabled_)) + sizeof(error_));
-  clear_has_reset_oneof();
-  switch (from.reset_oneof_case()) {
-    case kReset: {
-      mutable_reset()->::blox_test::Sequence::InstructionReset::MergeFrom(from.reset());
-      break;
-    }
-    case RESET_ONEOF_NOT_SET: {
-      break;
-    }
-  }
   // @@protoc_insertion_point(copy_constructor:blox_test.Sequence.Block)
 }
 
@@ -5815,7 +5783,6 @@ void Block::SharedCtor() {
   ::memset(&enabled_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&error_) -
       reinterpret_cast<char*>(&enabled_)) + sizeof(error_));
-  clear_has_reset_oneof();
 }
 
 Block::~Block() {
@@ -5824,9 +5791,6 @@ Block::~Block() {
 }
 
 void Block::SharedDtor() {
-  if (has_reset_oneof()) {
-    clear_reset_oneof();
-  }
 }
 
 void Block::SetCachedSize(int size) const {
@@ -5843,21 +5807,6 @@ const Block& Block::default_instance() {
 }
 
 
-void Block::clear_reset_oneof() {
-// @@protoc_insertion_point(one_of_clear_start:blox_test.Sequence.Block)
-  switch (reset_oneof_case()) {
-    case kReset: {
-      delete reset_oneof_.reset_;
-      break;
-    }
-    case RESET_ONEOF_NOT_SET: {
-      break;
-    }
-  }
-  _oneof_case_[0] = RESET_ONEOF_NOT_SET;
-}
-
-
 void Block::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.Sequence.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -5868,7 +5817,6 @@ void Block::Clear() {
   ::memset(&enabled_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&error_) -
       reinterpret_cast<char*>(&enabled_)) + sizeof(error_));
-  clear_reset_oneof();
   _internal_metadata_.Clear();
 }
 
@@ -5908,12 +5856,14 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.Sequence.InstructionReset reset = 3;
+      // bool overrideState = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_reset()));
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &overridestate_)));
         } else {
           goto handle_unusual;
         }
@@ -6046,10 +5996,9 @@ void Block::SerializeWithCachedSizes(
       output);
   }
 
-  // .blox_test.Sequence.InstructionReset reset = 3;
-  if (has_reset()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->_internal_reset(), output);
+  // bool overrideState = 3;
+  if (this->overridestate() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->overridestate(), output);
   }
 
   // uint32 activeInstruction = 4 [(.nanopb) = {
@@ -6111,11 +6060,9 @@ void Block::SerializeWithCachedSizes(
         2, this->instructions(static_cast<int>(i)), deterministic, target);
   }
 
-  // .blox_test.Sequence.InstructionReset reset = 3;
-  if (has_reset()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        3, this->_internal_reset(), deterministic, target);
+  // bool overrideState = 3;
+  if (this->overridestate() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->overridestate(), target);
   }
 
   // uint32 activeInstruction = 4 [(.nanopb) = {
@@ -6183,6 +6130,11 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // bool overrideState = 3;
+  if (this->overridestate() != 0) {
+    total_size += 1 + 1;
+  }
+
   // uint32 activeInstruction = 4 [(.nanopb) = {
   if (this->activeinstruction() != 0) {
     total_size += 1 +
@@ -6223,18 +6175,6 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->error());
   }
 
-  switch (reset_oneof_case()) {
-    // .blox_test.Sequence.InstructionReset reset = 3;
-    case kReset: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *reset_oneof_.reset_);
-      break;
-    }
-    case RESET_ONEOF_NOT_SET: {
-      break;
-    }
-  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -6266,6 +6206,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.enabled() != 0) {
     set_enabled(from.enabled());
   }
+  if (from.overridestate() != 0) {
+    set_overridestate(from.overridestate());
+  }
   if (from.activeinstruction() != 0) {
     set_activeinstruction(from.activeinstruction());
   }
@@ -6283,15 +6226,6 @@ void Block::MergeFrom(const Block& from) {
   }
   if (from.error() != 0) {
     set_error(from.error());
-  }
-  switch (from.reset_oneof_case()) {
-    case kReset: {
-      mutable_reset()->::blox_test::Sequence::InstructionReset::MergeFrom(from.reset());
-      break;
-    }
-    case RESET_ONEOF_NOT_SET: {
-      break;
-    }
   }
 }
 
@@ -6321,14 +6255,13 @@ void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&instructions_)->InternalSwap(CastToBase(&other->instructions_));
   swap(enabled_, other->enabled_);
+  swap(overridestate_, other->overridestate_);
   swap(activeinstruction_, other->activeinstruction_);
   swap(activeinstructionstartedat_, other->activeinstructionstartedat_);
   swap(disabledat_, other->disabledat_);
   swap(disabledduration_, other->disabledduration_);
   swap(status_, other->status_);
   swap(error_, other->error_);
-  swap(reset_oneof_, other->reset_oneof_);
-  swap(_oneof_case_[0], other->_oneof_case_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

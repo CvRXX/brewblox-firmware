@@ -10,8 +10,9 @@
 #include "pb_decode.h"
 #include "pb_encode.h"
 #include "proto/Sequence.pb.h"
+#include <algorithm>
 
-static constexpr utc_seconds_t MIN_VALID_SYSTIME = 1'000'000; // mid-2001
+static constexpr utc_seconds_t MIN_VALID_SYSTIME = 1'000'000'000; // mid-2001
 static constexpr utc_seconds_t STORAGE_DELAY = 60;
 
 bool encodeInstructions(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
@@ -80,7 +81,32 @@ SequenceBlock::read(const cbox::PayloadCallback& callback) const
 cbox::CboxError
 SequenceBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return read(callback);
+    blox_Sequence_Block message = blox_Sequence_Block_init_zero;
+    message.enabled = enabler.get();
+    message.overrideState = true;
+    message.activeInstruction = _state.activeInstruction;
+    message.activeInstructionStartedAt = _state.activeInstructionStartedAt;
+    message.disabledAt = _state.disabledAt;
+    message.disabledDuration = _state.disabledDuration;
+    message.instructions.funcs.encode = &encodeInstructions;
+    message.instructions.arg = const_cast<std::vector<blox_Sequence_Instruction>*>(&_instructions);
+
+    size_t blockSize = (blox_Sequence_Instruction_size + 1) * _instructions.size()
+                       + 3 // enabled
+                       + 3 // overrideState
+                       + 4 // activeInstruction
+                       + 6 // activeInstructionStartedAt
+                       + 6 // disabledAt
+                       + 6 // disabledDuration
+        ;
+
+    return callWithMessage(callback,
+                           objectId(),
+                           staticTypeId(),
+                           0,
+                           &message,
+                           blox_Sequence_Block_fields,
+                           blockSize);
 }
 
 cbox::CboxError
@@ -95,11 +121,26 @@ SequenceBlock::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         enabler.set(message.enabled);
+        bool sameOpcodes = std::equal(_instructions.begin(),
+                                      _instructions.begin() + std::min(size_t(_state.activeInstruction), _instructions.size()),
+                                      newInstructions.begin(),
+                                      [](const blox_Sequence_Instruction& lhs, const blox_Sequence_Instruction& rhs) {
+                                          return lhs.which_instruction_oneof == rhs.which_instruction_oneof;
+                                      });
         _instructions.swap(newInstructions);
 
-        if (message.which_reset_oneof == blox_Sequence_Block_reset_tag) {
-            reset(message.reset_oneof.reset.activeInstruction,
-                  message.reset_oneof.reset.activeInstructionStartedAt);
+        if (message.overrideState) {
+            transition({
+                .activeInstruction = message.activeInstruction,
+                .activeInstructionStartedAt = message.activeInstructionStartedAt || ticks.utc(),
+                .disabledAt = message.disabledAt,
+                .disabledDuration = message.disabledDuration,
+            });
+        } else if (sameOpcodes) {
+            // Reload active state in case arguments changed
+            transition(std::move(_state));
+        } else {
+            reset(0);
         }
 
         // During external write calls the caller is responsible for persisting state to storage
@@ -191,7 +232,7 @@ InstructionResult setSetpointFunc(SequenceBlock& sequence,
 
     ptr->setting(setting);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_DONE;
+    return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
 InstructionResult waitSetpointFunc(SequenceBlock&,
@@ -227,7 +268,7 @@ InstructionResult setDigitalFunc(SequenceBlock& sequence,
 
     ptr->desiredState(state);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_DONE;
+    return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
 InstructionResult waitDigitalFunc(SequenceBlock&,
@@ -256,7 +297,7 @@ InstructionResult setPwmFunc(SequenceBlock& sequence,
 
     ptr->getPwm().setting(setting);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_DONE;
+    return blox_Sequence_SequenceStatus_ACTIVE;
 }
 
 InstructionResult waitPwmFunc(SequenceBlock&,

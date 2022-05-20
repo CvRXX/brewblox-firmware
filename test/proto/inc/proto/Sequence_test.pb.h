@@ -2192,11 +2192,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   static const ::google::protobuf::Descriptor* descriptor();
   static const Block& default_instance();
 
-  enum ResetOneofCase {
-    kReset = 3,
-    RESET_ONEOF_NOT_SET = 0,
-  };
-
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
   static inline const Block* internal_default_instance() {
     return reinterpret_cast<const Block*>(
@@ -2273,6 +2268,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool enabled() const;
   void set_enabled(bool value);
 
+  // bool overrideState = 3;
+  void clear_overridestate();
+  static const int kOverrideStateFieldNumber = 3;
+  bool overridestate() const;
+  void set_overridestate(bool value);
+
   // uint32 activeInstruction = 4 [(.nanopb) = {
   void clear_activeinstruction();
   static const int kActiveInstructionFieldNumber = 4;
@@ -2309,43 +2310,20 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::Sequence::SequenceError error() const;
   void set_error(::blox_test::Sequence::SequenceError value);
 
-  // .blox_test.Sequence.InstructionReset reset = 3;
-  bool has_reset() const;
-  void clear_reset();
-  static const int kResetFieldNumber = 3;
-  private:
-  const ::blox_test::Sequence::InstructionReset& _internal_reset() const;
-  public:
-  const ::blox_test::Sequence::InstructionReset& reset() const;
-  ::blox_test::Sequence::InstructionReset* release_reset();
-  ::blox_test::Sequence::InstructionReset* mutable_reset();
-  void set_allocated_reset(::blox_test::Sequence::InstructionReset* reset);
-
-  void clear_reset_oneof();
-  ResetOneofCase reset_oneof_case() const;
   // @@protoc_insertion_point(class_scope:blox_test.Sequence.Block)
  private:
-  void set_has_reset();
-
-  inline bool has_reset_oneof() const;
-  inline void clear_has_reset_oneof();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox_test::Sequence::Instruction > instructions_;
   bool enabled_;
+  bool overridestate_;
   ::google::protobuf::uint32 activeinstruction_;
   ::google::protobuf::uint32 activeinstructionstartedat_;
   ::google::protobuf::uint32 disabledat_;
   ::google::protobuf::uint32 disabledduration_;
   int status_;
   int error_;
-  union ResetOneofUnion {
-    ResetOneofUnion() {}
-    ::blox_test::Sequence::InstructionReset* reset_;
-  } reset_oneof_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  ::google::protobuf::uint32 _oneof_case_[1];
-
   friend struct ::protobuf_Sequence_5ftest_2eproto::TableStruct;
 };
 // ===================================================================
@@ -3590,48 +3568,18 @@ Block::instructions() const {
   return instructions_;
 }
 
-// .blox_test.Sequence.InstructionReset reset = 3;
-inline bool Block::has_reset() const {
-  return reset_oneof_case() == kReset;
+// bool overrideState = 3;
+inline void Block::clear_overridestate() {
+  overridestate_ = false;
 }
-inline void Block::set_has_reset() {
-  _oneof_case_[0] = kReset;
+inline bool Block::overridestate() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.Block.overrideState)
+  return overridestate_;
 }
-inline void Block::clear_reset() {
-  if (has_reset()) {
-    delete reset_oneof_.reset_;
-    clear_has_reset_oneof();
-  }
-}
-inline const ::blox_test::Sequence::InstructionReset& Block::_internal_reset() const {
-  return *reset_oneof_.reset_;
-}
-inline ::blox_test::Sequence::InstructionReset* Block::release_reset() {
-  // @@protoc_insertion_point(field_release:blox_test.Sequence.Block.reset)
-  if (has_reset()) {
-    clear_has_reset_oneof();
-      ::blox_test::Sequence::InstructionReset* temp = reset_oneof_.reset_;
-    reset_oneof_.reset_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox_test::Sequence::InstructionReset& Block::reset() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.Block.reset)
-  return has_reset()
-      ? *reset_oneof_.reset_
-      : *reinterpret_cast< ::blox_test::Sequence::InstructionReset*>(&::blox_test::Sequence::_InstructionReset_default_instance_);
-}
-inline ::blox_test::Sequence::InstructionReset* Block::mutable_reset() {
-  if (!has_reset()) {
-    clear_reset_oneof();
-    set_has_reset();
-    reset_oneof_.reset_ = CreateMaybeMessage< ::blox_test::Sequence::InstructionReset >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Block.reset)
-  return reset_oneof_.reset_;
+inline void Block::set_overridestate(bool value) {
+  
+  overridestate_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.Block.overrideState)
 }
 
 // uint32 activeInstruction = 4 [(.nanopb) = {
@@ -3718,15 +3666,6 @@ inline void Block::set_error(::blox_test::Sequence::SequenceError value) {
   // @@protoc_insertion_point(field_set:blox_test.Sequence.Block.error)
 }
 
-inline bool Block::has_reset_oneof() const {
-  return reset_oneof_case() != RESET_ONEOF_NOT_SET;
-}
-inline void Block::clear_has_reset_oneof() {
-  _oneof_case_[0] = RESET_ONEOF_NOT_SET;
-}
-inline Block::ResetOneofCase Block::reset_oneof_case() const {
-  return Block::ResetOneofCase(_oneof_case_[0]);
-}
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__

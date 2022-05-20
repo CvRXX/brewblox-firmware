@@ -50,6 +50,19 @@ typedef struct _blox_Sequence_Restart {
 /* @@protoc_insertion_point(struct:blox_Sequence_Restart) */
 } blox_Sequence_Restart;
 
+typedef struct _blox_Sequence_Block {
+    bool enabled;
+    pb_callback_t instructions;
+    bool overrideState;
+    uint16_t activeInstruction;
+    uint32_t activeInstructionStartedAt;
+    uint32_t disabledAt;
+    uint32_t disabledDuration;
+    blox_Sequence_SequenceStatus status;
+    blox_Sequence_SequenceError error;
+/* @@protoc_insertion_point(struct:blox_Sequence_Block) */
+} blox_Sequence_Block;
+
 typedef struct _blox_Sequence_EnableDisable {
     uint16_t target;
 /* @@protoc_insertion_point(struct:blox_Sequence_EnableDisable) */
@@ -129,22 +142,6 @@ typedef struct _blox_Sequence_WaitUntil {
 /* @@protoc_insertion_point(struct:blox_Sequence_WaitUntil) */
 } blox_Sequence_WaitUntil;
 
-typedef struct _blox_Sequence_Block {
-    bool enabled;
-    pb_callback_t instructions;
-    pb_size_t which_reset_oneof;
-    union {
-        blox_Sequence_InstructionReset reset;
-    } reset_oneof;
-    uint16_t activeInstruction;
-    uint32_t activeInstructionStartedAt;
-    uint32_t disabledAt;
-    uint32_t disabledDuration;
-    blox_Sequence_SequenceStatus status;
-    blox_Sequence_SequenceError error;
-/* @@protoc_insertion_point(struct:blox_Sequence_Block) */
-} blox_Sequence_Block;
-
 typedef struct _blox_Sequence_Instruction {
     pb_size_t which_instruction_oneof;
     union {
@@ -189,7 +186,7 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_StartWaitSequence_init_default {0}
 #define blox_Sequence_Instruction_init_default   {0, {blox_Sequence_Restart_init_default}}
 #define blox_Sequence_InstructionReset_init_default {0, 0}
-#define blox_Sequence_Block_init_default         {0, {{NULL}, NULL}, 0, {blox_Sequence_InstructionReset_init_default}, 0, 0, 0, 0, _blox_Sequence_SequenceStatus_MIN, _blox_Sequence_SequenceError_MIN}
+#define blox_Sequence_Block_init_default         {0, {{NULL}, NULL}, 0, 0, 0, 0, 0, _blox_Sequence_SequenceStatus_MIN, _blox_Sequence_SequenceError_MIN}
 #define blox_Sequence_Restart_init_zero          {0}
 #define blox_Sequence_EnableDisable_init_zero    {0}
 #define blox_Sequence_WaitDuration_init_zero     {0}
@@ -206,9 +203,18 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_StartWaitSequence_init_zero {0}
 #define blox_Sequence_Instruction_init_zero      {0, {blox_Sequence_Restart_init_zero}}
 #define blox_Sequence_InstructionReset_init_zero {0, 0}
-#define blox_Sequence_Block_init_zero            {0, {{NULL}, NULL}, 0, {blox_Sequence_InstructionReset_init_zero}, 0, 0, 0, 0, _blox_Sequence_SequenceStatus_MIN, _blox_Sequence_SequenceError_MIN}
+#define blox_Sequence_Block_init_zero            {0, {{NULL}, NULL}, 0, 0, 0, 0, 0, _blox_Sequence_SequenceStatus_MIN, _blox_Sequence_SequenceError_MIN}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define blox_Sequence_Block_enabled_tag          1
+#define blox_Sequence_Block_instructions_tag     2
+#define blox_Sequence_Block_overrideState_tag    3
+#define blox_Sequence_Block_activeInstruction_tag 4
+#define blox_Sequence_Block_activeInstructionStartedAt_tag 5
+#define blox_Sequence_Block_disabledAt_tag       6
+#define blox_Sequence_Block_disabledDuration_tag 7
+#define blox_Sequence_Block_status_tag           8
+#define blox_Sequence_Block_error_tag            9
 #define blox_Sequence_EnableDisable_target_tag   1
 #define blox_Sequence_InstructionReset_activeInstruction_tag 1
 #define blox_Sequence_InstructionReset_activeInstructionStartedAt_tag 2
@@ -232,15 +238,6 @@ typedef struct _blox_Sequence_Instruction {
 #define blox_Sequence_WaitTemperatureBoundary_target_tag 1
 #define blox_Sequence_WaitTemperatureBoundary_value_tag 2
 #define blox_Sequence_WaitUntil_time_tag         1
-#define blox_Sequence_Block_reset_tag            3
-#define blox_Sequence_Block_enabled_tag          1
-#define blox_Sequence_Block_instructions_tag     2
-#define blox_Sequence_Block_activeInstruction_tag 4
-#define blox_Sequence_Block_activeInstructionStartedAt_tag 5
-#define blox_Sequence_Block_disabledAt_tag       6
-#define blox_Sequence_Block_disabledDuration_tag 7
-#define blox_Sequence_Block_status_tag           8
-#define blox_Sequence_Block_error_tag            9
 #define blox_Sequence_Instruction_RESTART_tag    1
 #define blox_Sequence_Instruction_ENABLE_tag     2
 #define blox_Sequence_Instruction_DISABLE_tag    3

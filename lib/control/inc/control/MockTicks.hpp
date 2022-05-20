@@ -54,7 +54,11 @@ public:
     }
     void setUtc(const utc_seconds_t& t)
     {
-        _utc_boot_time = t - millis() / 1000;
+        if (t) {
+            _utc_boot_time = t - millis() / 1000;
+        } else {
+            _utc_boot_time = t;
+        }
     }
     utc_seconds_t timeSinceSeconds(utc_seconds_t timeStamp) const
     {
@@ -64,7 +68,10 @@ public:
     {
         return millis() - timeStamp;
     }
-    void reset(ticks_millis_t v = 0) { _ticks = v; }
+    void reset(ticks_millis_t v = 0)
+    {
+        _ticks = v;
+    }
     void delayMillis(const duration_millis_t& duration) const
     {
         _ticks += duration;
@@ -73,5 +80,5 @@ public:
 private:
     ticks_millis_t _increment;
     mutable ticks_millis_t _ticks;
-    utc_seconds_t _utc_boot_time;
+    utc_seconds_t _utc_boot_time{0};
 };
