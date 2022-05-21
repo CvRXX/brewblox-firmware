@@ -14,7 +14,9 @@ inline void clear()
 
 inline bool contains(const std::string& s)
 {
-    return std::any_of(std::begin(logs), std::end(logs), s);
+    return std::any_of(std::begin(logs), std::end(logs), [&s](const std::string& entry) {
+        return entry == s;
+    });
 }
 
 inline uint32_t count(const std::string& s)
