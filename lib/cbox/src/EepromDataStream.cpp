@@ -38,11 +38,11 @@ bool DataIn::readBytes(uint8_t* t, stream_size_t length)
 {
     uint8_t* target = t;
     while (length-- > 0) {
-        auto v = read();
-        if (v < 0) {
+        if (auto v = read()) {
+            *target++ = v.value();
+        } else {
             return false;
         }
-        *target++ = v;
     }
     return true;
 }
@@ -50,12 +50,12 @@ bool DataIn::readBytes(uint8_t* t, stream_size_t length)
 CboxError DataIn::push(DataOut& out, stream_size_t length)
 {
     while (length-- > 0) {
-        auto v = read();
-        if (v < 0) {
+        if (auto v = read()) {
+            if (!out.write(v.value())) {
+                return CboxError::NETWORK_WRITE_ERROR;
+            }
+        } else {
             return CboxError::NETWORK_READ_ERROR;
-        }
-        if (!out.write(v)) {
-            return CboxError::NETWORK_WRITE_ERROR;
         }
     }
     return CboxError::OK;
@@ -63,17 +63,15 @@ CboxError DataIn::push(DataOut& out, stream_size_t length)
 
 CboxError DataIn::push(DataOut& out)
 {
-    while (true) {
-        auto v = read();
-        if (v < 0) {
-            // stream is empty or error
-            // we don't know the expected length, so we assume this was expected
-            return CboxError::OK;
-        }
-        if (!out.write(v)) {
+    while (auto v = read()) {
+        if (!out.write(v.value())) {
             return CboxError::NETWORK_WRITE_ERROR;
         }
     }
+
+    // stream is empty or error
+    // we don't know the expected length, so we assume this was expected
+    return CboxError::OK;
 }
 
 } // end namespace cbox

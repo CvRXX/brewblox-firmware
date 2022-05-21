@@ -126,15 +126,14 @@ CboxError EepromObjectStorage::loadAllObjects(const PayloadCallback& callback)
 {
     reader.reset(EepromLocation(objects), EepromLocationSize(objects));
 
-    while (reader.peek() >= 0) {
-        uint8_t type = reader.read();
+    while (auto type = reader.read()) {
         // loop over all blocks and write objects to output stream
         uint16_t blockSize = 0;
         if (!reader.get(blockSize)) {
             return CboxError::STORAGE_READ_ERROR;
         }
 
-        switch (BlockType(type)) {
+        switch (BlockType(type.value())) {
         case BlockType::object: {
             auto blockData = RegionDataIn(reader, blockSize);
             auto handleBlock = [&blockData, &callback]() -> CboxError {
@@ -240,13 +239,12 @@ void EepromObjectStorage::defrag()
 // To ensure this, after using the RegionDataIn object, skip to the end of the block.
 RegionDataIn EepromObjectStorage::getBlockReader(BlockType requestedType)
 {
-    while (reader.peek() >= 0) {
-        uint8_t type = reader.read();
-        uint16_t blockSize = 0;
+    while (auto type = reader.read()) {
+        uint16_t blockSize{0};
         if (!reader.get(blockSize)) {
             break; // couldn't read blocksize, due to reaching end of reader
         }
-        if (!(type == requestedType)) {
+        if (!(type.value() == requestedType)) {
             reader.skip(blockSize);
             continue;
         }
@@ -276,7 +274,7 @@ RegionDataOut EepromObjectStorage::getBlockWriter(BlockType requestedType, uint1
 RegionDataIn EepromObjectStorage::getObjectReader(obj_id_t id, bool usedSize)
 {
     resetReader();
-    while (reader.peek() >= 0) {
+    while (reader.peek().has_value()) {
         RegionDataIn block = getBlockReader(BlockType::object);
         if (block.available() < sizeof(uint16_t) + sizeof(obj_id_t)) {
             reader.skip(block.available());
@@ -467,18 +465,18 @@ bool EepromObjectStorage::mergeDisposedBlocks()
 {
     resetReader();
     bool didMerge = false;
-    while (reader.peek() >= 0) {
+    while (reader.peek().has_value()) {
         RegionDataIn disposedBlock1 = getBlockReader(BlockType::disposed_block);
 
         uint16_t disposedDataStart1 = reader.offset();
         uint16_t disposedDataLength1 = disposedBlock1.available();
 
         reader.skip(disposedDataLength1);
-        if (reader.peek() < 0) {
+
+        auto nextBlockType = reader.peek();
+        if (!nextBlockType.has_value()) {
             return false; // end of EEPROM, no next block
         }
-
-        uint8_t nextBlockType = reader.peek();
         if (nextBlockType == BlockType::disposed_block) {
             RegionDataIn disposedBlock2 = getBlockReader(BlockType::disposed_block);
             uint16_t disposedLength2 = disposedBlock2.available();
