@@ -47,7 +47,7 @@ public:
         }
     }
 
-    CboxError store()
+    CboxError store() const
     {
         return objects.store(id);
     }
@@ -93,9 +93,9 @@ public:
     ~CboxPtr() = default;
 
     CboxPtr(const CboxPtr&) = delete;
-    CboxPtr(CboxPtr&&) = default;
+    CboxPtr(CboxPtr&&) noexcept = default;
     CboxPtr& operator=(const CboxPtr&) = delete;
-    CboxPtr& operator=(CboxPtr&&) = default;
+    CboxPtr& operator=(CboxPtr&&) noexcept = default;
 
     template <class U>
     [[nodiscard]] std::shared_ptr<U> lock_as()

@@ -38,26 +38,25 @@ public:
         : originalId(oid)
     {
     }
-    ~DeprecatedObject() = default;
 
-    CboxError read(const PayloadCallback& callback) const override
+    [[nodiscard]] CboxError read(const PayloadCallback& callback) const override
     {
         Payload payload(objectId(), typeId(), 0);
         appendToByteVector(payload.content, originalId);
         return callback(payload);
     }
 
-    CboxError readStored(const PayloadCallback& callback) const override
+    [[nodiscard]] CboxError readStored(const PayloadCallback& callback) const override
     {
         return read(callback);
     }
 
-    CboxError write(const Payload&) override
+    CboxError write(const Payload& /*payload*/) override
     {
         return CboxError::BLOCK_NOT_WRITABLE;
     }
 
-    obj_id_t storageId()
+    [[nodiscard]] obj_id_t storageId() const
     {
         return originalId;
     }

@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -13,12 +14,7 @@ inline void clear()
 
 inline bool contains(const std::string& s)
 {
-    for (const auto& log : logs) {
-        if (s == log) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of(std::begin(logs), std::end(logs), s);
 }
 
 inline uint32_t count(const std::string& s)

@@ -36,7 +36,7 @@ obj_type_t interfaceIdImpl();
 
 // for objects, the object id is the interface id
 template <typename T>
-obj_type_t interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = 0)
+obj_type_t interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = nullptr)
 {
     return T::staticTypeId();
 }
@@ -47,7 +47,7 @@ uint16_t throwIdNotUnique(uint16_t id);
 
 // for interface, we check uniqueness on first use, if compiling with gcc (test code)
 template <typename T>
-obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
+obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = nullptr)
 {
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3
     static auto uniqueId = throwIdNotUnique(interfaceIdImpl<T>());

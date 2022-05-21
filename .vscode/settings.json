@@ -68,12 +68,17 @@
   },
   "cmake.configureOnOpen": false,
   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
-  "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".*",
+  "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".hpp",
   "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
     "clang-analyzer-*",
     "cppcoreguidelines-*",
     "modernize-*",
-    "google-explicit-constructor",
+    "bugprone-*",
+    "google-*",
+    "hicpp-*",
+    "performance-*",
+    "readability-*",
+    // "google-explicit-constructor",
   ],
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "cppcoreguidelines-pro-bounds-constant-array-index",
@@ -87,6 +92,6 @@
     "**/platform/particle/d4d_display": true
   },
   "C_Cpp.codeAnalysis.clangTidy.args": [
-    "-Wno-pragma-once-outside-header" // false positives before build
+    // "-Wno-pragma-once-outside-header" // false positives before build
   ]
 }

@@ -39,8 +39,7 @@ public:
     virtual CboxError saveObject(const Payload& payload)
         = 0;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true)
-        = 0;
+    virtual bool disposeObject(obj_id_t id, bool mergeDisposed) = 0;
 
     virtual void clear() = 0;
 };
@@ -60,7 +59,7 @@ public:
         return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
-    CboxError saveObject(const Payload&) final
+    CboxError saveObject(const Payload& /*payload*/) final
     {
         return CboxError::OK;
     }

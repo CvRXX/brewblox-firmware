@@ -63,9 +63,9 @@ CboxError parseFromStream(obj_id_t id, const PayloadCallback& callback, std::fst
         ;
 
     // get length of file:
-    fs.seekg(0, fs.end);
+    fs.seekg(0, std::fstream::end);
     size_t length = fs.tellg();
-    fs.seekg(0, fs.beg);
+    fs.seekg(0, std::fstream::beg);
 
     if (length < metadataLength) {
         return CboxError::STORAGE_READ_ERROR;

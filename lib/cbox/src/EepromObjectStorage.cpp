@@ -408,10 +408,9 @@ void EepromObjectStorage::init()
 {
     uint16_t header;
     eeprom.get(EepromLocation(header), header);
-    if (header != referenceHeader()) {
+    if (header != referenceHeader) {
         eeprom.clear(); // writes zeros, active groups is now also 0x00
-        auto referenceHeaderValue = referenceHeader();
-        eeprom.put(EepromLocation(header), referenceHeaderValue);
+        eeprom.put(EepromLocation(header), referenceHeader);
         resetWriter();
         // make eeprom one big disposed block
         writer.put(BlockType::disposed_block);

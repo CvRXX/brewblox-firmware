@@ -229,7 +229,7 @@ public:
 
     bool write(uint8_t value) final
     {
-        if (_length) {
+        if (_length > 0) {
             eepromAccess.writeByte(_offset++, value);
             _length--;
             return true;
@@ -260,7 +260,7 @@ public:
     int16_t read() final
     {
         int16_t result = -1;
-        if (_length) {
+        if (_length > 0) {
             result = eepromAccess.readByte(_offset);
         }
         if (result >= 0) {
@@ -283,4 +283,4 @@ public:
         return _length;
     }
 };
-}
+} // end namespace cbox

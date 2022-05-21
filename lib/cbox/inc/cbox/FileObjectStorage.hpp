@@ -27,15 +27,13 @@ class FileObjectStorage : public ObjectStorage {
 public:
     explicit FileObjectStorage(const std::string& root_);
 
-    virtual ~FileObjectStorage() = default;
-
     CboxError loadObject(obj_id_t id, const PayloadCallback& callback) final;
 
     CboxError loadAllObjects(const PayloadCallback& callback) final;
 
     CboxError saveObject(const Payload& payload) final;
 
-    bool disposeObject(obj_id_t id, bool mergeDisposed = true) final;
+    bool disposeObject(obj_id_t id, bool mergeDisposed) final;
 
     void clear() final;
 
@@ -43,11 +41,7 @@ private:
     std::string path;
     size_t rootLen;
 
-    inline uint8_t
-    storageVersion() const
-    {
-        return 0x01;
-    }
+    static constexpr uint8_t storageVersion = 0x01;
 
     void setPath(obj_id_t id)
     {

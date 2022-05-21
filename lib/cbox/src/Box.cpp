@@ -154,8 +154,8 @@ CboxError deleteBlock(const Payload& request)
     }
 
     status = objects.remove(id);
-    getStorage().disposeObject(storageId);
-    getCacheStorage().disposeObject(storageId);
+    getStorage().disposeObject(storageId, true);
+    getCacheStorage().disposeObject(storageId, true);
 
     return status;
 }

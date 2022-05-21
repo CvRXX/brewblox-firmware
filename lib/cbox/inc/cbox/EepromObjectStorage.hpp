@@ -72,29 +72,15 @@ private:
     EepromDataIn reader;
     EepromDataOut writer;
 
-    inline uint8_t
-    magicByte() const
-    {
-        return 0x69;
-    }
-    inline uint8_t
-    storageVersion() const
-    {
-        return 0x01;
-    }
-    inline uint16_t
-    referenceHeader() const
-    {
-        return magicByte() << 8 | storageVersion();
-    }
+    static constexpr uint8_t magicByte = 0x69;
+    static constexpr uint8_t storageVersion = 0x01;
+    static constexpr uint16_t referenceHeader = uint16_t(uint16_t(magicByte) << 8U) + storageVersion;
 
-    void
-    resetReader()
+    void resetReader()
     {
         reader.reset(EepromLocation(objects), EepromLocationSize(objects));
     }
-    void
-    resetWriter()
+    void resetWriter()
     {
         writer.reset(EepromLocation(objects), EepromLocationSize(objects));
     }
