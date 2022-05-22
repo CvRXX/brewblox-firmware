@@ -191,7 +191,7 @@ CboxError FileObjectStorage::loadAllObjects(const PayloadCallback& callback)
     return CboxError::OK;
 }
 
-bool FileObjectStorage::disposeObject(obj_id_t id, bool /*mergeDisposed*/)
+bool FileObjectStorage::disposeObject(obj_id_t id)
 {
     setPath(id);
     return remove(path.c_str()) == 0;

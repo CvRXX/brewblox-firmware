@@ -50,7 +50,7 @@ public:
 
     CboxError loadAllObjects(const PayloadCallback& callback) final;
 
-    bool disposeObject(obj_id_t id, bool mergeDisposed = true) final;
+    bool disposeObject(obj_id_t id) final;
 
     void clear() final;
 
@@ -95,18 +95,18 @@ private:
     objectHeaderLength()
     {
         // actual size + id
-        return blockHeaderLength() + sizeof(uint16_t) + sizeof(obj_id_t);
+        return sizeof(uint16_t) + sizeof(obj_id_t);
     }
 
-    RegionDataIn getBlockReader(BlockType requestedType);
-    RegionDataOut getBlockWriter(BlockType requestedType, uint16_t minSize);
-    RegionDataIn getObjectReader(obj_id_t id, bool usedSize);
-    RegionDataOut getObjectWriter(obj_id_t id);
-    RegionDataOut newObjectWriter(obj_id_t id, uint16_t objectSize);
+    std::optional<RegionDataIn> getBlockReader(BlockType requestedType);
+    std::optional<RegionDataOut> getBlockWriter(BlockType requestedType, uint16_t minSize);
+    std::optional<RegionDataIn> getObjectReader(obj_id_t id, bool usedSize);
+    std::optional<RegionDataOut> getObjectWriter(obj_id_t id);
+    std::optional<RegionDataOut> newObjectWriter(obj_id_t id, uint16_t objectSize);
 
     void init();
     bool moveDisposedBackwards();
-    bool mergeDisposedBlocks();
+    void mergeDisposedBlocks();
 
     static CboxError parseFromStream(obj_id_t id,
                                      const PayloadCallback& callback,

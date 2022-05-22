@@ -33,7 +33,7 @@ public:
 
     CboxError saveObject(const Payload& payload) final;
 
-    bool disposeObject(obj_id_t id, bool mergeDisposed) final;
+    bool disposeObject(obj_id_t id) final;
 
     void clear() final;
 

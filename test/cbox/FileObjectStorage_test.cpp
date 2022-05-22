@@ -109,7 +109,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be disposed")
             {
-                bool success = storage.disposeObject(obj_id_t{1}, true);
+                bool success = storage.disposeObject(obj_id_t{1});
 
                 THEN("Which returns true for success")
                 {
@@ -227,7 +227,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             THEN("It can be disposed")
             {
-                bool success = storage.disposeObject(obj_id_t{1}, true);
+                bool success = storage.disposeObject(obj_id_t{1});
                 THEN("Which returns true for success")
                 {
                     CHECK(success);
@@ -305,7 +305,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
             AND_THEN("If one is deleted, it doesn't affect the others")
             {
-                storage.disposeObject(obj_id_t{2}, true);
+                storage.disposeObject(obj_id_t{2});
                 auto received = std::make_shared<LongIntVectorObject>();
                 CHECK(CboxError::OK == loadObjectFromStorage(obj_id_t(1), received));
                 CHECK(*obj1 == *received);

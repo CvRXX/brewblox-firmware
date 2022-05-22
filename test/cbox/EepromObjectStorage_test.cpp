@@ -53,6 +53,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
     THEN("Storage is one big disposed block initially")
     {
+        CHECK(totalSpace == storage.freeSpace());
         CHECK(totalSpace == storage.continuousFreeSpace());
     }
 
@@ -385,10 +386,10 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
         obj_id_t id = 0; // first id will be 1, 0 is an invalid id
         while (true) {
             ++id;
-            if (id % 2 == 0) {
-                res = saveObjectToStorage(id, small);
-            } else {
+            if (id % 20 == 0) {
                 res = saveObjectToStorage(id, big);
+            } else {
+                res = saveObjectToStorage(id, small);
             }
             if (res != CboxError::OK) {
                 break;
@@ -412,23 +413,16 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
                                 + 1 // CRC
             ;
 
+        uint16_t bigSizeTotal = bigSizeReserved + metadataSize;
+        uint16_t smallSizeTotal = smallSizeReserved + metadataSize;
+
         // last id was not successfully created
-        THEN("26 objects have been created")
+        THEN("The expected number of objects have been created")
         {
-            CHECK(id == 27); // failed to create id 27
-        }
-
-        stream_size_t expectedFreeSpace = originalSpace - (13 * bigSizeReserved + 13 * smallSizeReserved + 26 * metadataSize);
-
-        THEN("Free space left is as expected")
-        {
-            CHECK(storage.freeSpace() == expectedFreeSpace);
-        }
-
-        THEN("Continuous free space left is the same, which is too small for another big object")
-        {
-            CHECK(storage.continuousFreeSpace() == expectedFreeSpace);
-            CHECK(expectedFreeSpace < bigSizeReserved + metadataSize);
+            CHECK(bigSizeTotal == 121);
+            CHECK(smallSizeTotal == 25);
+            CHECK(3 * bigSizeTotal + 66 * smallSizeTotal == originalSpace); // exactly fits
+            CHECK(id == 70);                                                // failed to create id 60. 5 big and 45 small objects
         }
 
         THEN("Last object has not been stored")
@@ -438,38 +432,59 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
             CHECK(res == CboxError::INVALID_STORED_BLOCK_ID);
         }
 
-        THEN("But we can still create a small object")
+        THEN("Free space left is 0")
         {
-            CHECK(CboxError::OK == saveObjectToStorage(id, small));
+            CHECK(storage.freeSpace() == 0);
+            CHECK(storage.continuousFreeSpace() == 0);
         }
 
-        THEN("We can still create a small variable size object")
+        AND_THEN("When we delete 4 small objects")
         {
 
-            auto obj = std::shared_ptr<LongIntVectorObject>(new LongIntVectorObject({0x11111111, 0x22222222}));
+            REQUIRE(storage.disposeObject(3));
+            REQUIRE(storage.disposeObject(4));
+            REQUIRE(storage.disposeObject(5));
+            REQUIRE(storage.disposeObject(6));
 
-            auto res = saveObjectToStorage(obj_id_t(id), obj);
-            CHECK(res == CboxError::OK);
-
-            AND_WHEN("the same object grows within the reserved space, it can be stored and retrieved")
+            THEN("Continuous free space is a single small object, they are not merged yet")
             {
-                *obj = {0x22222222, 0x33333333, 0x44444444};
+                CHECK(storage.continuousFreeSpace() == 4 * smallSizeTotal - 3U); // subtract bytes needed for block header
+                CHECK(storage.freeSpace() == 4 * smallSizeTotal - 3U);
+            }
+
+            THEN("When we create a small variable size object in that space")
+            {
+                auto obj = std::shared_ptr<LongIntVectorObject>(new LongIntVectorObject({0x11111111, 0x22222222}));
+
                 auto res = saveObjectToStorage(obj_id_t(id), obj);
                 CHECK(res == CboxError::OK);
 
-                auto received = std::make_shared<LongIntVectorObject>();
-                res = loadObjectFromStorage(obj_id_t(id), received);
-                CHECK(res == CboxError::OK);
-                CHECK(*obj == *received);
-
-                auto spaceBefore = storage.freeSpace();
-
-                AND_WHEN("the object grows beyond the reserved space, we get an error")
+                AND_WHEN("the same object grows beyond the reserved space, it can be stored and retrieved")
                 {
+                    *obj = {0x22222222, 0x33333333, 0x44444444,
+                            0x22222222, 0x33333333, 0x44444444,
+                            0x22222222, 0x33333333, 0x44444444};
+                    auto res = saveObjectToStorage(obj_id_t(id), obj);
+                    CHECK(res == CboxError::OK);
+
+                    auto received = std::make_shared<LongIntVectorObject>();
+                    res = loadObjectFromStorage(obj_id_t(id), received);
+                    CHECK(res == CboxError::OK);
+                    CHECK(*obj == *received);
+
+                    THEN("Disposed blocks have been merged")
+                    {
+                        CHECK(storage.continuousFreeSpace() == smallSizeTotal - 3U);
+                    }
+                }
+
+                AND_WHEN("the object grows beyond the available total space, we get an error")
+                {
+                    auto spaceBefore = storage.freeSpace();
                     auto res = saveObjectToStorage(obj_id_t(id), big);
                     CHECK(uint8_t(res) == uint8_t(CboxError::INSUFFICIENT_STORAGE));
 
-                    AND_THEN("the original object is unchanged in eeprom")
+                    THEN("the original object is unchanged in eeprom")
                     {
                         auto received = std::make_shared<LongIntVectorObject>();
                         res = loadObjectFromStorage(obj_id_t(id), received);
@@ -477,15 +492,15 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
                         CHECK(*obj == *received);
                     }
 
-                    AND_THEN("The free space is unchanged")
+                    THEN("The free space is unchanged")
                     {
                         CHECK(storage.freeSpace() == spaceBefore);
                     }
 
-                    AND_WHEN("We delete a big object allocated near the start of EEPROM")
+                    AND_WHEN("We delete a big object")
                     {
-                        CHECK(storage.disposeObject(3));
-                        auto spaceAfterDelete = spaceBefore + bigSizeReserved + metadataSize; // freed up 1 big object of bytes
+                        CHECK(storage.disposeObject(20));
+                        auto spaceAfterDelete = spaceBefore + bigSizeTotal; // freed up 1 big object of bytes
                         CHECK(storage.freeSpace() == spaceAfterDelete);
 
                         THEN("We can store the grown object again, it is relocated")
@@ -504,46 +519,56 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
             }
         }
 
-        AND_WHEN("Only the small objects are deleted")
+        AND_WHEN("All the small objects are deleted")
         {
-            obj_id_t id;
-            for (id = 1; id <= 26; id++) {
-                if (id % 2 == 0) {
+            for (obj_id_t id = 1; id <= 69; id++) {
+                if (id % 20 != 0) {
                     bool deleted = storage.disposeObject(id);
                     CHECK(deleted);
                 }
             }
-            THEN("Continuous free space has increased by size of 1 small object + metadata")
+            THEN("Continuous free space is size of 19 small objects")
             {
-                CHECK(storage.continuousFreeSpace() == expectedFreeSpace + smallSizeReserved + metadataSize);
-            }
-            THEN("But free space has increased by the size of all small objects combined")
-            {
-                CHECK(storage.freeSpace() == expectedFreeSpace + 13 * (smallSizeReserved + metadataSize));
+                CHECK(storage.continuousFreeSpace() == 19 * smallSizeTotal - 3U);
             }
 
-            AND_WHEN("We create 2 big objects again")
+            THEN("Total free space has increased by the size of all small objects combined")
             {
-                auto res1 = saveObjectToStorage(obj_id_t(1000), big);
-                auto res2 = saveObjectToStorage(obj_id_t(1001), big);
-                THEN("It succeeds")
-                {
-                    CHECK(res1 == CboxError::OK);
-                    CHECK(res2 == CboxError::OK);
+                CHECK(storage.freeSpace() == 66 * smallSizeTotal);
+            }
+
+            AND_WHEN("We create 100 big objects again")
+            {
+                for (obj_id_t newId = 1000; newId <= 1009; newId++) {
+                    auto res = saveObjectToStorage(newId, big);
+                    INFO(newId);
+                    REQUIRE(res == CboxError::OK);
                 }
 
-                THEN("Eeprom was defragmented and continuous free space equals free space")
+                THEN("They just fitted in the merged disposed blocks")
                 {
-                    INFO("Continuous free space after defrag: " << storage.continuousFreeSpace());
-                    CHECK(storage.freeSpace() == storage.continuousFreeSpace());
+                    CHECK(storage.continuousFreeSpace() != storage.freeSpace());
+                    CHECK(storage.continuousFreeSpace() < bigSizeTotal - 3U);
                 }
 
-                THEN("All big objects still have the right value")
+                AND_WHEN("Another big object is created")
                 {
-                    for (id = 1; id < 10; id = id + 2) {
-                        auto received = std::make_shared<LongIntVectorObject>();
-                        CHECK(CboxError::OK == loadObjectFromStorage(id, received));
-                        CHECK(*received == *big);
+                    auto res = saveObjectToStorage(1010, big);
+                    REQUIRE(res == CboxError::OK);
+
+                    THEN("Eeprom was defragmented and continuous free space equals free space")
+                    {
+                        INFO("Continuous free space after defrag: " << storage.continuousFreeSpace());
+                        CHECK(storage.freeSpace() == storage.continuousFreeSpace());
+                    }
+
+                    AND_THEN("All relocated big objects still have the right value")
+                    {
+                        for (id = 20; id < 70; id = id + 20) {
+                            auto received = std::make_shared<LongIntVectorObject>();
+                            CHECK(CboxError::OK == loadObjectFromStorage(id, received));
+                            CHECK(*received == *big);
+                        }
                     }
                 }
             }

@@ -39,7 +39,7 @@ public:
     virtual CboxError saveObject(const Payload& payload)
         = 0;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed) = 0;
+    virtual bool disposeObject(obj_id_t id) = 0;
 
     virtual void clear() = 0;
 };
@@ -64,7 +64,7 @@ public:
         return CboxError::OK;
     }
 
-    bool disposeObject(obj_id_t /*id*/, bool /*mergeDisposed = true*/) final
+    bool disposeObject(obj_id_t /*id*/) final
     {
         return false;
     }
