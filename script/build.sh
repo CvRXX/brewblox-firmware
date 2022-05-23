@@ -44,6 +44,7 @@ elif [[ "${PLATFORM}" =~ ^(photon|p1|gcc)$ ]]; then
         TARGET_FILE="brewblox-${PLATFORM}" \
         TARGET_DIR="$(pwd)/build/target/brewblox-${PLATFORM}" \
         BUILD_PATH_BASE="$(pwd)/build/target" \
+        COMPILE_LTO=y \
         "$@"
 
 elif [[ "${PLATFORM}" == sim ]]; then
