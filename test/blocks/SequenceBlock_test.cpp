@@ -34,6 +34,7 @@ void update(ticks_millis_t now)
 
 SCENARIO("A Sequence block with basic targets")
 {
+    cbox::getStorage().clear();
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
@@ -288,6 +289,61 @@ SCENARIO("A Sequence block with basic targets")
         CHECK(sequence->state().activeInstructionStartedAt == 100'000);
         CHECK(sequence->state().disabledDuration == 200);
     }
+
+    WHEN("A change is made, it is not stored immediately")
+    {
+        resetTime(2'000'000'000, 0); // 2033/05/18
+
+        update(1000);
+        CHECK(sequence->state().activeInstruction == 1);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+
+        update(2000);
+        CHECK(sequence->state().activeInstruction == 2);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+
+        update(3000);
+        CHECK(sequence->state().activeInstruction == 2);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().stored == false);
+
+        CHECK(setpoint->get().setting() == temp_t(30));
+        cbox::getStorage().loadObject(setpointId, [&setpoint](const cbox::Payload& payload) {
+            return setpoint->write(payload);
+        });
+        CHECK(setpoint->get().setting() == temp_t(21));
+    }
+
+    WHEN("A change is made, it is stored after spending 60s on the same instruction")
+    {
+        resetTime(2'000'000'000, 0); // 2033/05/18
+
+        update(1'000);
+        CHECK(sequence->state().activeInstruction == 1);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().stored == false);
+
+        update(2'000);
+        CHECK(sequence->state().activeInstruction == 2);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().stored == false);
+
+        update(3'000);
+        CHECK(sequence->state().activeInstruction == 2);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().stored == false);
+
+        update(63'000);
+        CHECK(sequence->state().activeInstruction == 2);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().stored == true);
+
+        CHECK(setpoint->get().setting() == temp_t(30));
+        cbox::getStorage().loadObject(setpointId, [&setpoint](const cbox::Payload& payload) {
+            return setpoint->write(payload);
+        });
+        CHECK(setpoint->get().setting() == temp_t(30));
+    }
 }
 
 SCENARIO("A Sequence block with a RESTART instruction")
@@ -379,7 +435,7 @@ SCENARIO("A Sequence block with a RESTART instruction")
 
         // jump to a RESTART instruction
         sequence->reset(3);
-        update(1000);
+        update(1100);
         CHECK(sequence->state().activeInstruction == 0);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_RESTART);
     }
@@ -971,43 +1027,245 @@ SCENARIO("A Sequence with a SetpointProfile target")
     auto sequence = sequenceLookup.lock();
     REQUIRE(sequence);
 
-    update(1'000);
-    CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
-    CHECK(sequence->state().activeInstruction == 0);
+    WHEN("Starting and waiting for a Setpoint Profile")
+    {
+        update(1'000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().activeInstruction == 0);
 
-    update(19'000);
-    CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
-    CHECK(sequence->state().activeInstruction == 0);
+        update(19'000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().activeInstruction == 0);
 
-    update(20'000);
-    CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
-    CHECK(sequence->state().activeInstruction == 1);
+        update(20'000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().activeInstruction == 1);
 
-    update(20'000);
-    CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
-    CHECK(sequence->state().activeInstruction == 2);
-    CHECK(profile->get().startTime() == 2'000'000'020);
+        update(20'000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().activeInstruction == 2);
+        CHECK(profile->get().startTime() == 2'000'000'020);
 
-    // Stay in error mode while profile is disabled
-    profile->get().enabler.set(false);
-    update(21'000);
-    CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
-    CHECK(sequence->state().activeInstruction == 2);
+        // Stay in error mode while profile is disabled
+        profile->get().enabler.set(false);
+        update(21'000);
+        CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
+        CHECK(sequence->state().activeInstruction == 2);
 
-    // Still in error mode, even if profile is technically done
-    update(40'000);
-    CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
-    CHECK(sequence->state().activeInstruction == 2);
+        // Still in error mode, even if profile is technically done
+        update(40'000);
+        CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
+        CHECK(sequence->state().activeInstruction == 2);
 
-    // As soon as profile is enabled, instruction is done
-    profile->get().enabler.set(true);
-    update(41'000);
-    CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
-    CHECK(sequence->state().activeInstruction == 3);
+        // As soon as profile is enabled, instruction is done
+        profile->get().enabler.set(true);
+        update(41'000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().activeInstruction == 3);
+    }
 }
 
-// TODO:
-// - start sequence
-// - wait sequence
-// - recursive sequence
-// - delayed storage
+SCENARIO("A Sequence with a Sequence target")
+{
+    cbox::getStorage().clear();
+    cbox::getObjects().clearAll();
+    platform::particle::setupSystemBlocks();
+
+    resetTime(2'000'000'000, 0);
+    update(0); // resets lastUpdateTime
+
+    auto sequenceId1 = cbox::obj_id_t(100);
+    auto sequenceId2 = cbox::obj_id_t(101);
+
+    // create Sequence 1
+    auto sequenceMessage1 = blox_test::Sequence::Block();
+    {
+        auto cmd = cbox::TestCommand(sequenceId1, SequenceBlock::staticTypeId());
+
+        sequenceMessage1.set_enabled(true);
+        {
+            auto* instruction = sequenceMessage1.add_instructions();
+            auto* waitDuration = new blox_test::Sequence::WaitDuration();
+            instruction->set_allocated_wait_duration(waitDuration);
+
+            waitDuration->set_duration(10);
+        }
+
+        messageToPayload(cmd, sequenceMessage1);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
+
+    // create Sequence 2
+    auto sequenceMessage2 = blox_test::Sequence::Block();
+    {
+        auto cmd = cbox::TestCommand(sequenceId2, SequenceBlock::staticTypeId());
+
+        sequenceMessage2.set_enabled(true);
+        {
+            auto* instruction = sequenceMessage2.add_instructions();
+            auto* waitSequence = new blox_test::Sequence::StartWaitSequence();
+            instruction->set_allocated_wait_sequence(waitSequence);
+
+            waitSequence->set_target(sequenceId1);
+        }
+        {
+            auto* instruction = sequenceMessage2.add_instructions();
+            auto* startSequence = new blox_test::Sequence::StartWaitSequence();
+            instruction->set_allocated_start_sequence(startSequence);
+
+            startSequence->set_target(sequenceId1);
+        }
+
+        messageToPayload(cmd, sequenceMessage2);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
+
+    auto sequenceLookup1 = cbox::CboxPtr<SequenceBlock>(sequenceId1);
+    auto sequence1 = sequenceLookup1.lock();
+    REQUIRE(sequence1);
+
+    auto sequenceLookup2 = cbox::CboxPtr<SequenceBlock>(sequenceId2);
+    auto sequence2 = sequenceLookup2.lock();
+    REQUIRE(sequence2);
+
+    WHEN("Waiting for and restarting a Sequence")
+    {
+        // Waiting 10s
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence1->state().activeInstruction == 0);
+
+        // Waiting for sequence1 to finish
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence2->state().activeInstruction == 0);
+
+        // Duration wait done
+        update(10'000);
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence1->state().activeInstruction == 1);
+
+        // Sequence 1 is still in NEXT status
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence2->state().activeInstruction == 0);
+
+        // Sequence 1 is now in END status
+        // Sequence 2 finishes its wait
+        update(11'000);
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_END);
+        CHECK(sequence1->state().activeInstruction == 1);
+
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence2->state().activeInstruction == 1);
+
+        // Sequence 1 has been reset, but it was updated first.
+        // It will re-evaluate its state next update.
+        // Sequence 2 completed its START instruction
+        update(12'000);
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
+        CHECK(sequence1->state().activeInstruction == 0);
+
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence2->state().activeInstruction == 2);
+
+        // Sequence 1 is waiting again
+        // Sequence 2 is now in END status
+        update(13'000);
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence1->state().activeInstruction == 0);
+
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_END);
+        CHECK(sequence2->state().activeInstruction == 2);
+    }
+}
+
+SCENARIO("Mutually starting Sequences")
+{
+    cbox::getStorage().clear();
+    cbox::getObjects().clearAll();
+    platform::particle::setupSystemBlocks();
+
+    resetTime(2'000'000'000, 0);
+    update(0); // resets lastUpdateTime
+
+    auto sequenceId1 = cbox::obj_id_t(100);
+    auto sequenceId2 = cbox::obj_id_t(101);
+
+    // create Sequence 1
+    auto sequenceMessage1 = blox_test::Sequence::Block();
+    {
+        auto cmd = cbox::TestCommand(sequenceId1, SequenceBlock::staticTypeId());
+
+        sequenceMessage1.set_enabled(false);
+        {
+            auto* instruction = sequenceMessage1.add_instructions();
+            auto* startSequence = new blox_test::Sequence::StartWaitSequence();
+            instruction->set_allocated_start_sequence(startSequence);
+
+            startSequence->set_target(sequenceId2);
+        }
+
+        messageToPayload(cmd, sequenceMessage1);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
+
+    // create Sequence 2
+    auto sequenceMessage2 = blox_test::Sequence::Block();
+    {
+        auto cmd = cbox::TestCommand(sequenceId2, SequenceBlock::staticTypeId());
+
+        sequenceMessage2.set_enabled(false);
+        {
+            auto* instruction = sequenceMessage2.add_instructions();
+            auto* startSequence = new blox_test::Sequence::StartWaitSequence();
+            instruction->set_allocated_start_sequence(startSequence);
+
+            startSequence->set_target(sequenceId1);
+        }
+
+        messageToPayload(cmd, sequenceMessage2);
+        CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+    }
+
+    auto sequenceLookup1 = cbox::CboxPtr<SequenceBlock>(sequenceId1);
+    auto sequence1 = sequenceLookup1.lock();
+    REQUIRE(sequence1);
+
+    auto sequenceLookup2 = cbox::CboxPtr<SequenceBlock>(sequenceId2);
+    auto sequence2 = sequenceLookup2.lock();
+    REQUIRE(sequence2);
+
+    WHEN("Both Sequences only start each other")
+    {
+        sequence1->enabler.set(true);
+        sequence2->enabler.set(true);
+
+        update(1000);
+
+        // Sequence 1 hasn't reloaded its active instruction yet
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
+        CHECK(sequence1->state().activeInstruction == 0);
+
+        // Sequence 2 was last to update
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence2->state().activeInstruction == 1);
+
+        update(1100);
+
+        // Sequence 1 started Sequence 2
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
+        CHECK(sequence1->state().activeInstruction == 0);
+
+        // Sequence 2 immediately restarted Sequence 1
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence2->state().activeInstruction == 1);
+
+        update(1200);
+
+        // Sequence 1 started Sequence 2
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
+        CHECK(sequence1->state().activeInstruction == 0);
+
+        // Sequence 2 immediately restarted Sequence 1
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence2->state().activeInstruction == 1);
+    }
+}

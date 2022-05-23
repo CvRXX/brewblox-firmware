@@ -46,8 +46,14 @@ public:
     cbox::update_t updateHandler(const cbox::update_t& now) override;
     void* implements(cbox::obj_type_t iface) override;
 
-    void reset(uint16_t activeInstruction, utc_seconds_t activeInstructionStartedAt = 0);
     void markTargetChanged(cbox::obj_id_t objId);
+
+    void reset(uint16_t activeInstruction = 0)
+    {
+        transition({
+            .activeInstruction = activeInstruction,
+        });
+    }
 
     const SequenceState& state() const
     {

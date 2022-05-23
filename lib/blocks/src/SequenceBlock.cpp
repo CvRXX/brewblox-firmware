@@ -140,7 +140,7 @@ SequenceBlock::write(const cbox::Payload& payload)
             // Reload active state in case arguments changed
             transition(std::move(_state));
         } else {
-            reset(0);
+            reset();
         }
 
         // During external write calls the caller is responsible for persisting state to storage
@@ -383,7 +383,7 @@ InstructionResult startSequenceFunc(SequenceBlock& sequence,
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
-    ptr->reset(0);
+    ptr->reset();
     sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_NEXT;
 }
@@ -499,15 +499,6 @@ void SequenceBlock::transition(SequenceState&& state)
     _runner = makeRunner();
 }
 
-void SequenceBlock::reset(uint16_t activeInstruction, utc_seconds_t activeInstructionStartedAt)
-{
-    transition({
-        .activeInstruction = activeInstruction,
-        .activeInstructionStartedAt = activeInstructionStartedAt,
-    });
-    resetNextUpdateTime();
-}
-
 void SequenceBlock::markTargetChanged(cbox::obj_id_t objId)
 {
     if (std::find(_changedTargets.cbegin(), _changedTargets.cend(), objId) == _changedTargets.cend()) {
@@ -520,7 +511,9 @@ void SequenceBlock::trySaveChanges(utc_seconds_t utc)
     // To reduce EEPROM write calls, state is only saved if
     // the current instruction takes a significant amount of time.
     // This avoids saving every single (idempotent) SET to EEPROM.
-    if (_state.stored || _state.activeInstructionStartedAt + STORAGE_DELAY < utc) {
+    if (_state.stored
+        || _state.activeInstructionStartedAt == 0
+        || utc - STORAGE_DELAY < _state.activeInstructionStartedAt) {
         return;
     }
 
@@ -544,7 +537,6 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     if (utc < MIN_VALID_SYSTIME) {
         _state.status = blox_Sequence_SequenceStatus_ERROR;
         _state.error = blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE;
-        trySaveChanges(utc);
         return next_update_1s(now);
     }
 
