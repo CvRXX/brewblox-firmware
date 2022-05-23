@@ -512,6 +512,7 @@ void SequenceBlock::trySaveChanges(utc_seconds_t utc)
     // the current instruction takes a significant amount of time.
     // This avoids saving every single (idempotent) SET to EEPROM.
     if (_state.stored
+        || utc == 0
         || _state.activeInstructionStartedAt == 0
         || utc - STORAGE_DELAY < _state.activeInstructionStartedAt) {
         return;
