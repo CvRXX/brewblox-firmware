@@ -684,17 +684,17 @@ void AddDescriptorsImpl() {
       "\013\222\?\0028 \212\265\030\002\010\003\022:\n\006status\030\010 \001(\0162\".blox_test"
       ".Sequence.SequenceStatusB\006\212\265\030\002(\001\0228\n\005erro"
       "r\030\t \001(\0162!.blox_test.Sequence.SequenceErr"
-      "orB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H\017*r\n\016SequenceSta"
+      "orB\006\212\265\030\002(\001:\r\212\265\030\003\030\306\002\212\265\030\002H\017*o\n\016SequenceSta"
       "tus\022\013\n\007UNKNOWN\020\000\022\014\n\010DISABLED\020\001\022\n\n\006PAUSED"
-      "\020\002\022\n\n\006ACTIVE\020\003\022\013\n\007WAITING\020\004\022\010\n\004DONE\020\005\022\013\n"
-      "\007RESTART\020\006\022\t\n\005ERROR\020\007*\220\001\n\rSequenceError\022"
-      "\010\n\004NONE\020\000\022\024\n\020INVALID_ARGUMENT\020\001\022\022\n\016INVAL"
-      "ID_TARGET\020\002\022\027\n\023INVALID_TARGET_TYPE\020\003\022\023\n\017"
-      "DISABLED_TARGET\020\004\022\035\n\031SYSTEM_TIME_NOT_AVA"
-      "ILABLE\020\005b\006proto3"
+      "\020\002\022\010\n\004NEXT\020\003\022\013\n\007WAITING\020\004\022\007\n\003END\020\005\022\013\n\007RE"
+      "START\020\006\022\t\n\005ERROR\020\007*\214\001\n\rSequenceError\022\010\n\004"
+      "NONE\020\000\022\024\n\020INVALID_ARGUMENT\020\001\022\022\n\016INVALID_"
+      "TARGET\020\002\022\023\n\017INACTIVE_TARGET\020\003\022\023\n\017DISABLE"
+      "D_TARGET\020\004\022\035\n\031SYSTEM_TIME_NOT_AVAILABLE\020"
+      "\005b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2896);
+      descriptor, 2889);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Sequence_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

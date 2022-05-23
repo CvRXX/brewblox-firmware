@@ -28,7 +28,7 @@ private:
     SequenceState _state;
     std::vector<cbox::obj_id_t> _changedTargets;
     std::vector<blox_Sequence_Instruction> _instructions;
-    InstructionFunctor _runner{[](SequenceBlock& sequence) { return blox_Sequence_SequenceStatus_DONE; }};
+    InstructionFunctor _runner{[](SequenceBlock& sequence) { return blox_Sequence_SequenceStatus_END; }};
 
     InstructionFunctor makeRunner();
     void trySaveChanges(utc_seconds_t utc);

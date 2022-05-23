@@ -22,9 +22,9 @@ typedef enum _blox_Sequence_SequenceStatus {
     blox_Sequence_SequenceStatus_UNKNOWN = 0,
     blox_Sequence_SequenceStatus_DISABLED = 1,
     blox_Sequence_SequenceStatus_PAUSED = 2,
-    blox_Sequence_SequenceStatus_ACTIVE = 3,
+    blox_Sequence_SequenceStatus_NEXT = 3,
     blox_Sequence_SequenceStatus_WAITING = 4,
-    blox_Sequence_SequenceStatus_DONE = 5,
+    blox_Sequence_SequenceStatus_END = 5,
     blox_Sequence_SequenceStatus_RESTART = 6,
     blox_Sequence_SequenceStatus_ERROR = 7
 } blox_Sequence_SequenceStatus;
@@ -36,7 +36,7 @@ typedef enum _blox_Sequence_SequenceError {
     blox_Sequence_SequenceError_NONE = 0,
     blox_Sequence_SequenceError_INVALID_ARGUMENT = 1,
     blox_Sequence_SequenceError_INVALID_TARGET = 2,
-    blox_Sequence_SequenceError_INVALID_TARGET_TYPE = 3,
+    blox_Sequence_SequenceError_INACTIVE_TARGET = 3,
     blox_Sequence_SequenceError_DISABLED_TARGET = 4,
     blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE = 5
 } blox_Sequence_SequenceError;

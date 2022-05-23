@@ -55,7 +55,7 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
         auto cmd = cbox::TestCommand(pwmId, ActuatorPwmBlock::staticTypeId());
         auto message = blox_test::ActuatorPwm::Block();
 
-        message.set_actuatorid(actId); // predefined system object for pin actuator
+        message.set_actuatorid(actId);
         message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(20)));
         message.set_period(4000);
         message.set_enabled(true);

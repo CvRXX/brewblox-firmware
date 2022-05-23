@@ -132,7 +132,7 @@ SequenceBlock::write(const cbox::Payload& payload)
         if (message.overrideState) {
             transition({
                 .activeInstruction = message.activeInstruction,
-                .activeInstructionStartedAt = message.activeInstructionStartedAt || ticks.utc(),
+                .activeInstructionStartedAt = message.activeInstructionStartedAt,
                 .disabledAt = message.disabledAt,
                 .disabledDuration = message.disabledDuration,
             });
@@ -155,9 +155,9 @@ InstructionResult errorFunc(SequenceBlock&)
     return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_ARGUMENT);
 }
 
-InstructionResult doneFunc(SequenceBlock&)
+InstructionResult endFunc(SequenceBlock&)
 {
-    return blox_Sequence_SequenceStatus_DONE;
+    return blox_Sequence_SequenceStatus_END;
 }
 
 InstructionResult restartFunc(SequenceBlock&)
@@ -176,16 +176,17 @@ InstructionResult setEnablerFunc(SequenceBlock& sequence,
 
     ptr->set(value);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_ACTIVE;
+    return blox_Sequence_SequenceStatus_NEXT;
 }
 
 InstructionResult waitDurationFunc(SequenceBlock& sequence,
                                    utc_seconds_t duration)
 {
     auto utc = ticks.utc();
+    auto& state = sequence.state();
 
-    if (utc - sequence.state().activeInstructionStartedAt > duration) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+    if (utc - state.activeInstructionStartedAt >= duration + state.disabledDuration) {
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -196,8 +197,8 @@ InstructionResult waitUntilFunc(SequenceBlock&,
 {
     auto utc = ticks.utc();
 
-    if (time < utc) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+    if (time <= utc) {
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -213,9 +214,13 @@ InstructionResult waitTemperatureFunc(SequenceBlock&,
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
+    if (!ptr->valid()) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
+    }
+
     auto value = ptr->value();
     if (value >= lower && value <= upper) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -232,7 +237,7 @@ InstructionResult setSetpointFunc(SequenceBlock& sequence,
 
     ptr->setting(setting);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_ACTIVE;
+    return blox_Sequence_SequenceStatus_NEXT;
 }
 
 InstructionResult waitSetpointFunc(SequenceBlock&,
@@ -248,10 +253,14 @@ InstructionResult waitSetpointFunc(SequenceBlock&,
         return tl::make_unexpected(blox_Sequence_SequenceError_DISABLED_TARGET);
     }
 
+    if (!ptr->sensorValid()) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
+    }
+
     auto setting = ptr->setting();
     auto value = ptr->value();
-    if (value > setting - precision && value < setting + precision) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+    if (value >= setting - precision && value <= setting + precision) {
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -268,7 +277,7 @@ InstructionResult setDigitalFunc(SequenceBlock& sequence,
 
     ptr->desiredState(state);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_ACTIVE;
+    return blox_Sequence_SequenceStatus_NEXT;
 }
 
 InstructionResult waitDigitalFunc(SequenceBlock&,
@@ -280,7 +289,7 @@ InstructionResult waitDigitalFunc(SequenceBlock&,
     }
 
     if (ptr->desiredState() == ptr->state()) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -295,9 +304,9 @@ InstructionResult setPwmFunc(SequenceBlock& sequence,
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
-    ptr->getPwm().setting(setting);
+    ptr->getConstrained().setting(setting);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_ACTIVE;
+    return blox_Sequence_SequenceStatus_NEXT;
 }
 
 InstructionResult waitPwmFunc(SequenceBlock&,
@@ -311,14 +320,20 @@ InstructionResult waitPwmFunc(SequenceBlock&,
 
     auto& pwm = ptr->getPwm();
 
-    if (!pwm.settingValid()) {
+    if (!pwm.enabler.get()) {
         return tl::make_unexpected(blox_Sequence_SequenceError_DISABLED_TARGET);
     }
 
-    auto setting = pwm.setting();
-    auto value = pwm.value();
-    if (value > setting - precision && value < setting + precision) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+    if (!pwm.valueValid() || !pwm.settingValid()) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
+    }
+
+    auto& constrained = ptr->getConstrained();
+    std::vector<int> v{int(pwm.setting()), int(pwm.value()), int(constrained.desiredSetting()), int(constrained.value())};
+    auto setting = constrained.desiredSetting();
+    auto value = constrained.value();
+    if (value >= setting - precision && value <= setting + precision) {
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -334,7 +349,7 @@ InstructionResult startProfileFunc(SequenceBlock& sequence,
 
     ptr->get().startTime(ticks.utc());
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_ACTIVE;
+    return blox_Sequence_SequenceStatus_NEXT;
 }
 
 InstructionResult waitProfileFunc(SequenceBlock&,
@@ -353,8 +368,8 @@ InstructionResult waitProfileFunc(SequenceBlock&,
 
     auto& points = profile.points();
 
-    if ((!points.size()) || (ticks.utc() - points.back().time < profile.startTime())) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+    if (!points.size() || ticks.utc() - points.back().time >= profile.startTime()) {
+        return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -370,7 +385,7 @@ InstructionResult startSequenceFunc(SequenceBlock& sequence,
 
     ptr->reset(0);
     sequence.markTargetChanged(target.getId());
-    return blox_Sequence_SequenceStatus_ACTIVE;
+    return blox_Sequence_SequenceStatus_NEXT;
 }
 
 InstructionResult waitSequenceFunc(SequenceBlock&,
@@ -385,8 +400,12 @@ InstructionResult waitSequenceFunc(SequenceBlock&,
         return tl::make_unexpected(blox_Sequence_SequenceError_DISABLED_TARGET);
     }
 
-    if (ptr->state().status == blox_Sequence_SequenceStatus_DONE) {
-        return blox_Sequence_SequenceStatus_ACTIVE;
+    auto& status = ptr->state().status;
+
+    if (status == blox_Sequence_SequenceStatus_END) {
+        return blox_Sequence_SequenceStatus_NEXT;
+    } else if (status == blox_Sequence_SequenceStatus_ERROR) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
     } else {
         return blox_Sequence_SequenceStatus_WAITING;
     }
@@ -397,7 +416,7 @@ InstructionFunctor SequenceBlock::makeRunner()
     using namespace std::placeholders;
 
     if (_state.activeInstruction >= _instructions.size()) {
-        return doneFunc;
+        return endFunc;
     }
 
     auto& ins = _instructions.at(_state.activeInstruction);
@@ -484,7 +503,7 @@ void SequenceBlock::reset(uint16_t activeInstruction, utc_seconds_t activeInstru
 {
     transition({
         .activeInstruction = activeInstruction,
-        .activeInstructionStartedAt = activeInstructionStartedAt || ticks.utc(),
+        .activeInstructionStartedAt = activeInstructionStartedAt,
     });
     resetNextUpdateTime();
 }
@@ -519,11 +538,6 @@ void SequenceBlock::trySaveChanges(utc_seconds_t utc)
 cbox::update_t
 SequenceBlock::updateHandler(const cbox::update_t& now)
 {
-    if (!enabler.get()) {
-        _state.status = blox_Sequence_SequenceStatus_DISABLED;
-        return next_update_1s(now);
-    }
-
     auto utc = ticks.utc();
 
     // We can't even track instruction start time without a valid system time value.
@@ -532,6 +546,25 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
         _state.error = blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE;
         trySaveChanges(utc);
         return next_update_1s(now);
+    }
+
+    if (_state.activeInstructionStartedAt == 0) {
+        _state.activeInstructionStartedAt = utc;
+    }
+
+    if (!enabler.get()) {
+        _state.status = blox_Sequence_SequenceStatus_DISABLED;
+        if (!_state.disabledAt) {
+            _state.disabledAt = utc;
+        }
+        trySaveChanges(utc);
+        return next_update_1s(now);
+    } else if (_state.disabledAt) {
+        // Used to be disabled.
+        // Increment disabled duration to have a correct total value
+        // if block is toggled multiple times during the same instruction.
+        _state.disabledDuration += utc - _state.disabledAt;
+        _state.disabledAt = 0;
     }
 
     auto result = _runner(*this);
@@ -551,7 +584,7 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
 
     // Instruction completed normally.
     // The next instruction can start immediately.
-    if (status == blox_Sequence_SequenceStatus_ACTIVE) {
+    if (status == blox_Sequence_SequenceStatus_NEXT) {
         transition({
             .activeInstruction = uint16_t(_state.activeInstruction + 1),
             .activeInstructionStartedAt = utc,
@@ -565,7 +598,11 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     // Enforce a 1s update pause to avoid overloading the controller
     // in a sequence that only consists of SET instructions.
     if (status == blox_Sequence_SequenceStatus_RESTART) {
-        reset(0);
+        transition({
+            .activeInstruction = 0,
+            .activeInstructionStartedAt = utc,
+            .status = status,
+        });
         return next_update_1s(now);
     }
 
