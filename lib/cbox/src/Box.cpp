@@ -168,7 +168,7 @@ CboxError readAllStoredBlocks(const PayloadCallback& callback)
 CboxError clearBlocks()
 {
     // remove user objects from storage
-    auto cit = getObjects().userbegin();
+    auto cit = getObjects().usercbegin();
     while (cit != getObjects().cend()) {
         auto id = (*cit)->objectId();
         cit++;

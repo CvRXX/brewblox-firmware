@@ -110,10 +110,8 @@ void ObjectContainer::clear()
     // Objects can perform lookups during their destructor.
     // Copy removed objects to `temp` to ensure that `contained` is empty
     // before any objects are destructed.
-    decltype(contained) temp(
-        std::make_move_iterator(findPosition(startId).first),
-        std::make_move_iterator(contained.end()));
-    contained.erase(userbegin(), cend());
+    decltype(contained) temp(findPosition(startId).first, contained.end());
+    contained.erase(usercbegin(), cend());
     contained.shrink_to_fit();
 }
 
