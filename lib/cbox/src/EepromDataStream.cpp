@@ -18,60 +18,60 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cbox/EepromDataStream.hpp"
-#include "cbox/Crc.hpp"
-#include <algorithm>
+// #include "cbox/EepromDataStream.hpp"
+// #include "cbox/Crc.hpp"
+// #include <algorithm>
 
 namespace cbox {
 
-bool DataOut::writeBuffer(const uint8_t* data, stream_size_t len)
-{
-    const uint8_t* d = data;
-    while (len-- > 0) {
-        if (!write(*d++))
-            return false;
-    }
-    return true;
-}
+// bool DataOut::writeBuffer(const uint8_t* data, stream_size_t len)
+// {
+//     const uint8_t* d = data;
+//     while (len-- > 0) {
+//         if (!write(*d++))
+//             return false;
+//     }
+//     return true;
+// }
 
-bool DataIn::readBytes(uint8_t* t, stream_size_t length)
-{
-    uint8_t* target = t;
-    while (length-- > 0) {
-        if (auto v = read()) {
-            *target++ = v.value();
-        } else {
-            return false;
-        }
-    }
-    return true;
-}
+// bool DataIn::readBytes(uint8_t* t, stream_size_t length)
+// {
+//     uint8_t* target = t;
+//     while (length-- > 0) {
+//         if (auto v = read()) {
+//             *target++ = v.value();
+//         } else {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
-CboxError DataIn::push(DataOut& out, stream_size_t length)
-{
-    while (length-- > 0) {
-        if (auto v = read()) {
-            if (!out.write(v.value())) {
-                return CboxError::NETWORK_WRITE_ERROR;
-            }
-        } else {
-            return CboxError::NETWORK_READ_ERROR;
-        }
-    }
-    return CboxError::OK;
-}
+// CboxError DataIn::push(DataOut& out, stream_size_t length)
+// {
+//     while (length-- > 0) {
+//         if (auto v = read()) {
+//             if (!out.write(v.value())) {
+//                 return CboxError::NETWORK_WRITE_ERROR;
+//             }
+//         } else {
+//             return CboxError::NETWORK_READ_ERROR;
+//         }
+//     }
+//     return CboxError::OK;
+// }
 
-CboxError DataIn::push(DataOut& out)
-{
-    while (auto v = read()) {
-        if (!out.write(v.value())) {
-            return CboxError::NETWORK_WRITE_ERROR;
-        }
-    }
+// CboxError DataIn::push(DataOut& out)
+// {
+//     while (auto v = read()) {
+//         if (!out.write(v.value())) {
+//             return CboxError::NETWORK_WRITE_ERROR;
+//         }
+//     }
 
-    // stream is empty or error
-    // we don't know the expected length, so we assume this was expected
-    return CboxError::OK;
-}
+//     // stream is empty or error
+//     // we don't know the expected length, so we assume this was expected
+//     return CboxError::OK;
+// }
 
 } // end namespace cbox

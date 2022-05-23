@@ -36,28 +36,34 @@ public:
     [[nodiscard]] virtual std::optional<uint8_t> readByte(uint16_t offset) const = 0;
     virtual void writeByte(uint16_t offset, uint8_t value) = 0;
     virtual void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const = 0;
-    virtual void writeBlock(uint16_t target, const uint8_t* source, uint16_t size) = 0;
+    virtual void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) = 0;
     virtual void clear() = 0;
 
     template <typename T>
-    T& get(const uint16_t& idx, T& t) const
+    void get(uint16_t idx, T& t) const
     {
         readBlock(reinterpret_cast<uint8_t*>(std::addressof(t)), idx, sizeof(T));
-        return t;
     }
 
     template <typename T>
-    bool get(std::optional<T>&) = delete;
+    [[nodiscard]] T get(uint16_t idx, T&& t = {}) const
+    {
+        T val;
+        get(idx, val);
+        return val;
+    }
 
     template <typename T>
-    const T& put(const uint16_t& idx, const T& t)
+    T& get(std::optional<T>&) = delete;
+
+    template <typename T>
+    void put(uint16_t idx, const T& t)
     {
         writeBlock(idx, reinterpret_cast<const uint8_t*>(std::addressof(t)), sizeof(T));
-        return t;
     }
 
     template <typename T>
-    bool put(std::optional<T>&) = delete;
+    void put(std::optional<T>&) = delete;
 };
 
 class EepromMemoryAccess : public EepromAccess {

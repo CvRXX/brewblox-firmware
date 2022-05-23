@@ -18,26 +18,24 @@
  */
 
 #pragma once
+#include "cbox/EepromLayout.hpp"
 
 #include "cbox/CboxError.hpp"
 #include "cbox/EepromAccess.hpp"
 #include "cbox/EepromDataStream.hpp"
-#include "cbox/EepromLayout.hpp"
 #include "cbox/ObjectStorage.hpp"
 
 namespace cbox {
-
-enum class BlockType : uint8_t {
-    invalid, // ensures cleared eeprom reads as invalid block type
-    object,
-    disposed_block,
-};
-
 inline bool
-operator==(const uint8_t& a, const BlockType& b)
+operator==(const uint8_t& a, const EepromBlockType& b)
 {
     return a == static_cast<uint8_t>(b);
 }
+
+struct EepromFreeSpace {
+    uint16_t total;
+    uint16_t continuous;
+};
 
 class EepromObjectStorage : public ObjectStorage {
 public:
@@ -54,9 +52,7 @@ public:
 
     void clear() final;
 
-    stream_size_t freeSpace();
-
-    stream_size_t continuousFreeSpace();
+    EepromFreeSpace freeSpace();
 
     void defrag();
 
@@ -66,51 +62,21 @@ private:
      */
     EepromAccess& eeprom;
 
-    /**
-     * Stream wrappers for reading, writing and limiting region
-     */
-    EepromDataIn reader;
-    EepromDataOut writer;
-
     static constexpr uint8_t magicByte = 0x69;
     static constexpr uint8_t storageVersion = 0x01;
     static constexpr uint16_t referenceHeader = uint16_t(uint16_t(magicByte) << 8U) + storageVersion;
 
-    void resetReader()
-    {
-        reader.reset(EepromLocation(objects), EepromLocationSize(objects));
-    }
-    void resetWriter()
-    {
-        writer.reset(EepromLocation(objects), EepromLocationSize(objects));
-    }
-
-    static uint16_t
-    blockHeaderLength()
-    {
-        return sizeof(BlockType) + sizeof(uint16_t);
-    }
-
-    static uint16_t
-    objectHeaderLength()
-    {
-        // actual size + id
-        return sizeof(uint16_t) + sizeof(obj_id_t);
-    }
-
-    std::optional<RegionDataIn> getBlockReader(BlockType requestedType);
-    std::optional<RegionDataOut> getBlockWriter(BlockType requestedType, uint16_t minSize);
-    std::optional<RegionDataIn> getObjectReader(obj_id_t id, bool usedSize);
-    std::optional<RegionDataOut> getObjectWriter(obj_id_t id);
-    std::optional<RegionDataOut> newObjectWriter(obj_id_t id, uint16_t objectSize);
+    std::optional<EepromBlock> getExistingBlock(EepromBlockType requestedType, uint16_t minSize, uint16_t start);
+    std::optional<EepromBlock> getExistingObject(obj_id_t id, bool usedSize);
+    std::optional<EepromBlock> getNewObject(uint16_t minSize);
+    std::optional<EepromBlock> tryNewObject(uint16_t minSize);
 
     void init();
     bool moveDisposedBackwards();
     void mergeDisposedBlocks();
 
-    static CboxError parseFromStream(obj_id_t id,
-                                     const PayloadCallback& callback,
-                                     RegionDataIn& in);
+    static CboxError eepromToPayload(const PayloadCallback& callback,
+                                     EepromBlock& block);
 };
 
 } // end namespace cbox

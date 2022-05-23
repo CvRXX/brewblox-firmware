@@ -20,284 +20,231 @@
 
 #pragma once
 
-#include "cbox/CboxError.hpp"
 #include "cbox/EepromAccess.hpp"
 #include <cstdint>
+#include <functional>
+#include <vector>
 
 namespace cbox {
-
-using stream_size_t = size_t;
-
-/**
- * An output stream that supports writing data.
- */
-class DataOut {
-public:
-protected:
-    DataOut() = default;
-    ~DataOut() = default;
-
-public:
-    /**
-     * Writes a byte to the stream.
-     * @return {@code true} if the byte was successfully written, false otherwise.
-     */
-    virtual bool write(uint8_t data) = 0;
-
-    template <typename T>
-    bool put(const T& t)
-    {
-        const auto* p = reinterpret_cast<const uint8_t*>(std::addressof(t));
-        return writeBuffer(p, sizeof(T));
-    }
-
-    template <typename T>
-    bool put(std::optional<T>&) = delete;
-
-    /**
-     * Writes a number of bytes to the stream.
-     * @param data	The address of the data to write.
-     * @param len	The number of bytes to write.
-     * @return {@code true} if the byte was successfully written, false otherwise.
-     */
-    virtual bool writeBuffer(const uint8_t* data, stream_size_t len);
-
-    inline bool writeBuffer(const char* data, stream_size_t len)
-    {
-        return writeBuffer(reinterpret_cast<const uint8_t*>(data), len);
-    }
-};
-
-/**
- * A data input stream. Byte based, but returns int16_t to be able to return negative values for error conditions
- */
-class DataIn {
-public:
-    virtual ~DataIn() = default;
-    /**
-     * Retrieves the next byte of data.
-     */
-    virtual std::optional<uint8_t> read() = 0;
-
-    /**
-     * Retrieves the next byte of data without removing it from the stream.
-     */
-    virtual std::optional<uint8_t> peek() = 0;
-
-    /**
-     * Discards all data until no new data is available
-     */
-    void spool()
-    {
-        while (read()) {
-            ;
-        }
-    }
-
-    /**
-     * Read of {@code length} bytes.
-     */
-    bool readBytes(uint8_t* t, stream_size_t length);
-
-    template <typename T>
-    bool get(T& t)
-    {
-        auto* ptr = reinterpret_cast<uint8_t*>(std::addressof(t));
-        return readBytes(ptr, sizeof(T));
-    }
-
-    template <typename T>
-    bool get(std::optional<T>&) = delete;
-
-    /**
-     * Writes the contents of this stream to an output stream.
-     * @param out
-     * @param length
-     * @return CboxError
-     */
-    CboxError push(DataOut& out, stream_size_t length);
-
-    /**
-     * Writes the contents of this stream to an output stream, until input stream is empty
-     * @param out
-     * @return CboxError
-     */
-    CboxError push(DataOut& out);
-};
-
-/**
- * Limits reading from the stream to the given number of bytes.
- */
-class RegionDataIn : public DataIn {
-    DataIn& in;
-    stream_size_t len;
-
-public:
-    RegionDataIn(DataIn& _in, stream_size_t _len)
-        : in(_in)
-        , len(_len)
-    {
-    }
-    virtual ~RegionDataIn() = default;
-
-    std::optional<uint8_t> read() final
-    {
-        if (len == 0) {
-            return std::nullopt;
-        }
-        auto v = in.read();
-        if (v) {
-            --len;
-        }
-        return v;
-    }
-
-    std::optional<uint8_t> peek() final
-    {
-        return in.peek();
-    }
-
-    stream_size_t available()
-    {
-        return len;
-    }
-
-    void reduceLength(stream_size_t newLen)
-    {
-        if (newLen < len) {
-            len = newLen; // only allow making region smaller
-        }
-    }
-};
-
-/**
- * Limits writing to the stream to the given number of bytes.
- */
-class RegionDataOut final : public DataOut {
-    DataOut* out; // use pointer to have assignment operator
-    stream_size_t len;
-
-public:
-    RegionDataOut(DataOut& _out, stream_size_t _len)
-        : out(&_out)
-        , len(_len)
-    {
-    }
-    ~RegionDataOut() = default;
-
-    RegionDataOut(const RegionDataOut&) = delete;
-    RegionDataOut(RegionDataOut&&) = default;
-    RegionDataOut& operator=(const RegionDataOut&) = delete;
-    RegionDataOut& operator=(RegionDataOut&&) = default;
-
-    bool write(uint8_t data) override
-    {
-        if (len > 0) {
-            --len;
-            return out->write(data);
-        }
-        return false;
-    }
-
-    void setLength(stream_size_t len_)
-    {
-        len = len_;
-    }
-
-    stream_size_t availableForWrite()
-    {
-        return len;
-    }
-};
-
 class EepromStreamRegion {
 protected:
-    uint16_t _offset = 0;
-    stream_size_t _length = 0;
+    std::reference_wrapper<EepromAccess> _eepromAccess;
+    uint16_t _start;
+    uint16_t _pos;
+    uint16_t _length;
+    uint16_t _accessible_length;
 
 public:
-    uint16_t offset() { return _offset; }
-    stream_size_t length() { return _length; }
-
-    void reset(uint16_t o, stream_size_t l)
+    EepromStreamRegion(EepromAccess& eepromAccess, uint16_t start, uint16_t length)
+        : _eepromAccess(eepromAccess)
+        , _start(start)
+        , _pos(start)
+        , _length(length)
+        , _accessible_length(length)
     {
-        _offset = o;
-        _length = l;
+    }
+    ~EepromStreamRegion() = default;
+
+    EepromStreamRegion(EepromStreamRegion&& other) = default;
+    EepromStreamRegion& operator=(EepromStreamRegion&& other) = default;
+    EepromStreamRegion(const EepromStreamRegion& other) = default;
+    EepromStreamRegion& operator=(const EepromStreamRegion& other) = default;
+
+    constexpr uint16_t start() { return _start; }
+    constexpr uint16_t offset() { return _pos - _start; }
+    constexpr uint16_t remaining() { return _start + _accessible_length - _pos; }
+    constexpr uint16_t length() { return _length; }
+    constexpr uint16_t end() { return _pos + _length; }
+
+    void reset(uint16_t o)
+    {
+        _pos = _start + o;
+    }
+
+    void put(uint8_t value)
+    {
+        if (_pos < _start + _accessible_length) {
+            _eepromAccess.get().writeByte(_pos, value);
+            ++_pos;
+        }
+    }
+
+    void put(const std::vector<uint8_t>& bytes)
+    {
+        if (_pos + bytes.size() <= _start + _accessible_length) {
+            _eepromAccess.get().writeBlock(_pos, bytes.data(), bytes.size());
+            _pos += bytes.size();
+        }
+    }
+
+    template <typename T>
+    void put(const std::vector<T>& bytes) = delete;
+
+    template <typename T>
+    void put(const T& t)
+    {
+        if (_pos + sizeof(T) <= _start + _accessible_length) {
+            _eepromAccess.get().put<T>(_pos, t);
+            _pos += sizeof(T);
+        }
+    }
+
+    template <typename T>
+    void put(std::optional<T>&) = delete;
+
+    template <typename T>
+    void get(T& t)
+    {
+        if (_pos + sizeof(T) <= _start + _accessible_length) {
+            _eepromAccess.get().get<T>(_pos, t);
+            _pos += sizeof(T);
+        }
+    }
+
+    void get(std::vector<uint8_t>& bytes)
+    {
+        if (_pos + bytes.size() <= _start + _accessible_length) {
+            _eepromAccess.get().readBlock(bytes.data(), _pos, bytes.size());
+            _pos += bytes.size();
+        }
+    }
+
+    template <typename T>
+    void get(std::vector<T>& bytes) = delete;
+
+    template <typename T>
+    [[nodiscard]] T get(T&& t = {})
+    {
+        T val;
+        get(val);
+        return val;
+    }
+
+    template <typename T>
+    const T& get(std::optional<T>&) = delete;
+
+    [[nodiscard]] std::optional<uint8_t> peek()
+    {
+        return _eepromAccess.get().readByte(_pos);
+    }
+
+    void skip(uint16_t skip_length)
+    {
+        auto skip = std::min(skip_length, _accessible_length);
+        _pos += skip;
+    }
+
+    void reduceLength(uint16_t new_length)
+    {
+        if (new_length < _accessible_length) {
+            _accessible_length = new_length;
+        }
     }
 };
 
-/**
- * A datastream implementation that writes to a region of eeprom.
- * Eeprom is written via the EepromAccess helper.
- * The stream is only written up to the length specified - once that length has been filled
- * writes are silently failed.
- * @see EepromAccess
- */
-class EepromDataOut final : public DataOut, public EepromStreamRegion {
-private:
-    EepromAccess& eepromAccess;
+enum class EepromBlockType : uint8_t {
+    invalid, // ensures cleared eeprom reads as invalid block type
+    object,
+    disposed_block,
+};
 
+class EepromBlock : public EepromStreamRegion {
 public:
-    explicit EepromDataOut(EepromAccess& ea)
-        : eepromAccess(ea)
+    EepromBlock(EepromAccess& eepromAccess, uint16_t start, uint16_t length)
+        : EepromStreamRegion(eepromAccess, start, length)
     {
     }
 
-    bool write(uint8_t value) final
+    static constexpr uint16_t blockHeaderLength = sizeof(EepromBlockType) + sizeof(uint16_t); // type, block data size
+    static constexpr uint16_t objectHeaderLength = sizeof(uint16_t) + sizeof(uint16_t);       // id, actualsize
+
+    void setBlockType(EepromBlockType type)
     {
-        if (_length > 0) {
-            eepromAccess.writeByte(_offset++, value);
-            _length--;
-            return true;
+        _eepromAccess.get().writeByte(_start, uint8_t(type));
+    }
+
+    void setBlockLength(uint16_t size)
+    {
+        _length = size;
+        _accessible_length = _length;
+        _eepromAccess.get().put(_start + 1, size - blockHeaderLength);
+    }
+
+    void resetToObjectData()
+    {
+        _pos = _start + blockHeaderLength + objectHeaderLength;
+    }
+
+    uint16_t objectOffset()
+    {
+        uint16_t offset = _pos - _start;
+        uint16_t header = blockHeaderLength + objectHeaderLength;
+        return offset > header ? offset - header : 0;
+    }
+
+    void setObjectSize(uint16_t size)
+    {
+        _eepromAccess.get().put(_start + blockHeaderLength, size);
+    }
+
+    uint16_t getObjectSize()
+    {
+        return _eepromAccess.get().get<uint16_t>(_start + blockHeaderLength);
+    }
+
+    void setObjectId(uint16_t id)
+    {
+        _eepromAccess.get().put(_start + blockHeaderLength + sizeof(uint16_t), id);
+    }
+
+    uint16_t getObjectId()
+    {
+        return _eepromAccess.get().get<uint16_t>(_start + blockHeaderLength + sizeof(uint16_t));
+    }
+
+    void reduceAccessLength(uint16_t new_length)
+    {
+        reduceLength(new_length);
+    }
+
+    void split(uint16_t newBlockLength)
+    {
+        // split into shorter block and new disposed block
+        // first write new disposed block (at the end)
+        uint16_t newDisposedLength = length() - newBlockLength;
+        if (newDisposedLength < 8) {
+            // don't create blocks smaller than 8 bytes
+            return;
         }
-        return false; // LCOV_EXCL_LINE: doesn't happen if length is managed properly
+        _eepromAccess.get().put(start() + newBlockLength, EepromBlockType::disposed_block);
+        _eepromAccess.get().put(start() + newBlockLength + 1, newDisposedLength - objectHeaderLength);
+
+        // then we update the current block
+        setBlockLength(newBlockLength);
+    }
+
+    void join(EepromBlock& other)
+    {
+        setBlockLength(length() + other.length());
+    }
+
+    static uint16_t allocationSize(uint16_t objectSize)
+    {
+        // 1 byte eeprom block type
+        // 2 bytes eeprom size
+        // 2 bytes object id
+        // 2 bytes actual object size
+        // 1 byte flags (previously groups)
+        // 2 bytes cbox object type
+        // x bytes object data
+        // 4+ bytes overprovision
+        // 1 byte CRC
+
+        // over-provision minimally 4 bytes or 12.5% to prevent having to relocate the block if it grows
+        uint16_t provisionedObjectSize = objectSize + std::max(objectSize / 8, 4);
+
+        return provisionedObjectSize + objectHeaderLength;
     }
 };
 
-/**
- * A data input stream that reads from a region of eeprom.
- * @see EepromAccess
- */
-class EepromDataIn : public DataIn, public EepromStreamRegion {
-private:
-    EepromAccess& eepromAccess;
-
-public:
-    explicit EepromDataIn(EepromAccess& ea)
-        : eepromAccess(ea)
-    {
-    }
-
-    [[nodiscard]] std::optional<uint8_t> peek() final
-    {
-        return eepromAccess.readByte(_offset);
-    }
-
-    [[nodiscard]] std::optional<uint8_t> read() final
-    {
-        if (_length <= 0) {
-            return std::nullopt;
-        }
-        auto result = eepromAccess.readByte(_offset);
-        if (result) {
-            _length--;
-            _offset++;
-        }
-
-        return result;
-    }
-
-    bool skip(stream_size_t skip_length)
-    {
-        auto skip = std::min(skip_length, _length);
-        _offset += skip;
-        _length -= skip;
-        return skip == skip_length;
-    }
-
-    stream_size_t available()
-    {
-        return _length;
-    }
-};
 } // end namespace cbox

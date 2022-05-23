@@ -63,10 +63,10 @@ class Object {
 public:
     Object() = default;
     virtual ~Object() = default;
-    Object(const Object&) = delete;
-    Object(Object&&) = delete;
-    Object& operator=(const Object&) = delete;
-    Object& operator=(Object&&) = delete;
+    Object(const Object&) = default;
+    Object(Object&&) = default;
+    Object& operator=(const Object&) = default;
+    Object& operator=(Object&&) = default;
 
 private:
     update_t _nextUpdateTime{0}; // ignore update() calls before this time

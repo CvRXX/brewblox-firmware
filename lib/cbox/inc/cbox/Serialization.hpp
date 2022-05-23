@@ -51,33 +51,40 @@ public:
 };
 
 template <typename T>
-bool readFromByteVector(const std::vector<uint8_t>& in, T& v, size_t pos)
+bool readFromByteVector(const std::vector<uint8_t>& in, T& v, int pos)
 {
     if (pos + sizeof(T) > in.size()) {
         return false;
     }
-    auto p = reinterpret_cast<uint8_t*>(&v);
-    std::memcpy(p, in.data() + pos, sizeof(T));
+    memcpy(reinterpret_cast<uint8_t*>(std::addressof(v)),
+           std::addressof(in[pos]),
+           sizeof(T));
+
     return true;
 }
 
-template <typename T>
-bool writeToByteVector(std::vector<uint8_t>& out, const T& v, size_t pos)
-{
-    if (pos + sizeof(T) > out.size()) {
-        return false;
-    }
-    auto p = reinterpret_cast<const uint8_t*>(std::addressof(v));
-    std::memcpy(out.data() + pos, p, sizeof(T));
-    return true;
-}
+// template <typename T>
+// bool writeToByteVector(std::vector<uint8_t>& out, const T& v, size_t pos)
+// {
+//     if (pos + sizeof(T) > out.size()) {
+//         return false;
+//     }
+
+//     std::memcpy(out.data() + pos, p, sizeof(T));
+//     return true;
+// }
 
 template <typename T>
 bool appendToByteVector(std::vector<uint8_t>& out, const T& v)
 {
-    auto pos = out.size();
-    out.resize(pos + sizeof(T));
-    return writeToByteVector<T>(out, v, pos);
+    out.reserve(out.size() + sizeof(T));
+    auto* ptr = reinterpret_cast<const uint8_t*>(std::addressof(v));
+    auto* dataEnd = ptr + sizeof(T);
+    while (ptr < dataEnd) {
+        out.push_back(*ptr);
+        ++ptr;
+    }
+    return true;
 }
 
 CboxExpected<Request> parseRequest(const std::string& b64Bytes);
