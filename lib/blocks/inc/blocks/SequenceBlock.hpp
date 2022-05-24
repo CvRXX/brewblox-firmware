@@ -31,14 +31,11 @@ private:
     InstructionFunctor _runner{[](SequenceBlock& sequence) { return blox_Sequence_SequenceStatus_END; }};
 
     InstructionFunctor makeRunner();
-    void trySaveChanges(utc_seconds_t utc);
+    void saveChanges(utc_seconds_t utc);
     void transition(SequenceState&& state);
 
 public:
     Enabler enabler;
-
-    SequenceBlock() = default;
-    ~SequenceBlock() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;

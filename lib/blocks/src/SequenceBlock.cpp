@@ -506,7 +506,7 @@ void SequenceBlock::markTargetChanged(cbox::obj_id_t objId)
     }
 }
 
-void SequenceBlock::trySaveChanges(utc_seconds_t utc)
+void SequenceBlock::saveChanges(utc_seconds_t utc)
 {
     // To reduce EEPROM write calls, state is only saved if
     // the current instruction takes a significant amount of time.
@@ -517,6 +517,8 @@ void SequenceBlock::trySaveChanges(utc_seconds_t utc)
         || utc - STORAGE_DELAY < _state.activeInstructionStartedAt) {
         return;
     }
+
+    // TODO(Bob): save to cache
 
     // Store targets
     for (auto objId : _changedTargets) {
@@ -546,13 +548,14 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     }
 
     if (!enabler.get()) {
-        _state.status = _state.activeInstruction == 0
-                            ? blox_Sequence_SequenceStatus_DISABLED
-                            : blox_Sequence_SequenceStatus_PAUSED;
         if (!_state.disabledAt) {
             _state.disabledAt = utc;
         }
-        trySaveChanges(utc);
+        _state.status = _state.activeInstruction > 0
+                                || _state.disabledAt > _state.activeInstructionStartedAt
+                            ? blox_Sequence_SequenceStatus_PAUSED
+                            : blox_Sequence_SequenceStatus_DISABLED;
+        saveChanges(utc);
         return next_update_1s(now);
     } else if (_state.disabledAt) {
         // Used to be disabled.
@@ -571,7 +574,7 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     if (!result) {
         _state.status = blox_Sequence_SequenceStatus_ERROR;
         _state.error = result.error();
-        trySaveChanges(utc);
+        saveChanges(utc);
         return next_update_1s(now);
     }
 
@@ -582,7 +585,6 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     if (status == blox_Sequence_SequenceStatus_NEXT) {
         transition({
             .activeInstruction = uint16_t(_state.activeInstruction + 1),
-            .activeInstructionStartedAt = utc,
             .status = status,
         });
         return now;
@@ -595,7 +597,6 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     if (status == blox_Sequence_SequenceStatus_RESTART) {
         transition({
             .activeInstruction = 0,
-            .activeInstructionStartedAt = utc,
             .status = status,
         });
         return next_update_1s(now);
@@ -604,7 +605,7 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     // Instruction is not yet done.
     // Try again next time.
     _state.status = status;
-    trySaveChanges(utc);
+    saveChanges(utc);
     return next_update_1s(now);
 }
 
