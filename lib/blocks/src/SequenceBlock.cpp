@@ -546,7 +546,9 @@ SequenceBlock::updateHandler(const cbox::update_t& now)
     }
 
     if (!enabler.get()) {
-        _state.status = blox_Sequence_SequenceStatus_DISABLED;
+        _state.status = _state.activeInstruction == 0
+                            ? blox_Sequence_SequenceStatus_DISABLED
+                            : blox_Sequence_SequenceStatus_PAUSED;
         if (!_state.disabledAt) {
             _state.disabledAt = utc;
         }

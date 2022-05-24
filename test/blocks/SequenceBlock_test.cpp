@@ -627,7 +627,7 @@ SCENARIO("A Sequence block with time-related instructions")
 
         sequence->enabler.set(false);
         update(15'000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_DISABLED);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_PAUSED);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().activeInstructionStartedAt == 2'000'000'015);
         CHECK(sequence->state().disabledAt == 2'000'000'015);
