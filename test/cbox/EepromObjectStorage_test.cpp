@@ -625,7 +625,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
                         CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(id), obj));
                         auto received = std::make_shared<LongIntVectorObject>();
 
-                        THEN("Its size is reduced during a defrag")
+                        THEN("Its size is reduced if needed to create a new object")
                         {
                             auto blockOpt = storage.getExistingObject(id, true);
                             REQUIRE(blockOpt.has_value());
@@ -633,7 +633,8 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
                             uint16_t expectedWrittenLength = 2 + 3 * 4 + 4; // data + flags + type + crc
                             CHECK((*blockOpt).getWrittenLength() == expectedWrittenLength);
 
-                            storage.defrag();
+                            auto res = saveObjectToStorage(obj_id_t(id + 1), big);
+                            CHECK(res == CboxError::OK);
 
                             auto blockOpt2 = storage.getExistingObject(id, true);
                             REQUIRE(blockOpt2.has_value());
