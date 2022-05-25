@@ -173,7 +173,7 @@ public:
         }
     }
 
-    void setObjectSize(uint16_t size)
+    void setWrittenLength(uint16_t size)
     {
         // first 2 bytes after the header
         if (_type == EepromBlockType::object) {

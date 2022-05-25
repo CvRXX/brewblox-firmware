@@ -98,7 +98,7 @@ SCENARIO("Low level functions test", "[eeprom]")
             objBlock.setObjectId(1);
             CHECK(objBlock.getObjectId() == 1);
 
-            objBlock.setObjectSize(50);
+            objBlock.setWrittenLength(50);
             CHECK(objBlock.getWrittenLength() == 50);
 
             AND_THEN("It can be retrieved from storage")
@@ -584,12 +584,20 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
                             auto blockOpt = storage.getExistingObject(id, true);
                             REQUIRE(blockOpt.has_value());
                             CHECK((*blockOpt).length() == 51);
+                            uint16_t expectedWrittenLength = 2 + 3 * 4 + 4; // data + flags + type + crc
+                            CHECK((*blockOpt).getWrittenLength() == expectedWrittenLength);
 
                             storage.defrag();
 
                             auto blockOpt2 = storage.getExistingObject(id, true);
                             REQUIRE(blockOpt2.has_value());
                             CHECK((*blockOpt2).length() == 26);
+                            CHECK((*blockOpt2).getWrittenLength() == expectedWrittenLength);
+
+                            auto received = std::make_shared<LongIntVectorObject>();
+                            res = loadObjectFromStorage(obj_id_t(id), received);
+                            CHECK(res == CboxError::OK);
+                            CHECK(*obj == *received);
                         }
                     }
                 }

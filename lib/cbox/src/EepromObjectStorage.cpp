@@ -49,7 +49,7 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
         eepromBlock.put(crc);
         uint16_t end = eepromBlock.offset();
         auto written = end - start;
-        eepromBlock.setObjectSize(written);
+        eepromBlock.setWrittenLength(written);
     };
 
     bool makeNewBlock = false; // set to true if a new block has to be created
