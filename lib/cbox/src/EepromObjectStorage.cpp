@@ -22,6 +22,15 @@
 
 namespace cbox {
 
+uint8_t calc_crc(const Payload& payload)
+{
+    uint8_t crc = calc_crc_16(0, payload.blockId);
+    crc = calc_crc_8(crc, 0); // flags reserved byte
+    crc = calc_crc_16(crc, payload.blockType);
+    crc = calc_crc_vector(crc, payload.content);
+    return crc;
+}
+
 EepromObjectStorage::EepromObjectStorage(EepromAccess& _eeprom)
     : eeprom(_eeprom)
 {
@@ -87,17 +96,12 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
 
     EepromBlock& blockToWrite = newBlock ? *newBlock : *existingBlock;
 
-    // ID is included in the CRC calculation
-    uint8_t crc = calc_crc_16(0, payload.blockId);
-    crc = calc_crc_8(crc, 0); // flags reserved byte
-    crc = calc_crc_16(crc, payload.blockType);
-    crc = calc_crc_vector(crc, payload.content);
-
     uint16_t start = blockToWrite.offset();
     uint8_t flags{0}; // unused, used to be groups, kept for backwards compatibility
     blockToWrite.put(flags);
     blockToWrite.put(payload.blockType);
     blockToWrite.put(payload.content);
+    auto crc = calc_crc(payload);
     blockToWrite.put(crc);
     uint16_t end = blockToWrite.offset();
     auto written = end - start;
@@ -286,7 +290,7 @@ CboxError EepromObjectStorage::eepromToPayload(const PayloadCallback& callback,
     auto id = in.getObjectId();
     in.resetToObjectData();
 
-    auto flags = in.get<uint8_t>();
+    in.skip(1); // flags
     auto objType = in.get<obj_type_t>();
 
     auto payload = Payload(id, objType, 0);
@@ -296,10 +300,7 @@ CboxError EepromObjectStorage::eepromToPayload(const PayloadCallback& callback,
 
     auto objCrc = in.get<uint8_t>();
 
-    uint8_t crc = calc_crc_16(0, id);
-    crc = calc_crc_8(crc, flags);
-    crc = calc_crc_16(crc, objType);
-    crc = calc_crc_vector(crc, payload.content);
+    uint8_t crc = calc_crc(payload);
     crc = calc_crc_8(crc, objCrc);
 
     if (crc != 0) {
