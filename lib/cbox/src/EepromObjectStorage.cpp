@@ -198,7 +198,7 @@ std::optional<EepromBlock> EepromObjectStorage::getNextObject(uint16_t start, bo
     if (auto blockOpt = getExistingBlock(EepromBlockType::object, 0, start)) {
         auto& block = *blockOpt;
         if (limitToWrittenSize) {
-            block.reduceLength(block.getObjectSize());
+            block.reduceLength(block.getWrittenLength());
         }
         block.seekToObjectData();
         return block;
@@ -227,26 +227,26 @@ std::optional<EepromBlock> EepromObjectStorage::getExistingObject(obj_id_t id, b
 // gets a block large enough to write object data and headers. objectLength does not include object header
 std::optional<EepromBlock> EepromObjectStorage::getNewObject(uint16_t objectLength)
 {
-    auto provisionedLength = objectLength + std::max(objectLength / 8, 4) + EepromBlock::objectHeaderLength; // overprovision by 12.5%, minimal 4 bytes
-    auto findBlock = [this, &provisionedLength]() -> std::optional<EepromBlock> {
+    auto provisioned = provisionedLength(objectLength);
+    auto findBlock = [this, &provisioned]() -> std::optional<EepromBlock> {
         auto pos = EepromLocation(objects);
-        if (auto block = getExistingBlock(EepromBlockType::disposed_block, provisionedLength, pos)) {
+        if (auto block = getExistingBlock(EepromBlockType::disposed_block, provisioned, pos)) {
             return block;
         }
         // not enough space
         auto space = freeSpace();
-        if (space.total < provisionedLength) {
+        if (space.total < provisioned) {
             return std::nullopt;
         }
-        if (space.continuous < provisionedLength) {
+        if (space.continuous < provisioned) {
             defrag();
         }
         space = freeSpace();
-        if (space.continuous < provisionedLength) {
+        if (space.continuous < provisioned) {
             return std::nullopt; // this should be impossible after defrag
         }
 
-        if (auto block = getExistingBlock(EepromBlockType::disposed_block, provisionedLength, pos)) {
+        if (auto block = getExistingBlock(EepromBlockType::disposed_block, provisioned, pos)) {
             return block;
         }
         // this should be impossible
@@ -256,7 +256,7 @@ std::optional<EepromBlock> EepromObjectStorage::getNewObject(uint16_t objectLeng
     if (auto blockOpt = findBlock()) {
         auto& block = (*blockOpt);
         // split the block into the required length for the object and a new disposed block
-        block.split(provisionedLength);
+        block.split(provisioned);
         // change the block from disposed to object.
         // Don't write the id yet, this will be done after valid data has been written
         block.setBlockType(EepromBlockType::object);
@@ -328,10 +328,19 @@ bool EepromObjectStorage::moveDisposedBackwards()
             // We first write the disposed length of the combined block, so that if power is lost, the entire block is treated as disposed and only 1 object is lost.
             disposedBlock.setBlockLength(disposedBlock.length() + objectBlock.block_size());
 
+            // if object has shrunk and now overprovisioning is large, reduce it to the default
+            auto writtenLength = objectBlock.getWrittenLength();
+            auto provisioned = objectBlock.length();
+            uint16_t normallyProvisioned = provisionedLength(writtenLength);
+            if (objectBlock.length() > normallyProvisioned + 16) {
+                // if block has more than 16 bytes more than normally provisioned
+                // reduce it to the normally provisioned size by splitting off by splitting earlier than before
+                provisioned = normallyProvisioned;
+            }
+
             uint16_t writePos = disposedBlock.object_pos();
             uint16_t readPos = objectBlock.object_pos();
-            uint16_t readEnd = readPos + objectBlock.getObjectSize() + EepromBlock::objectHeaderLength;
-            uint16_t provisionedSize = objectBlock.length();
+            uint16_t readEnd = readPos + writtenLength + EepromBlock::objectHeaderLength;
 
             // Then we copy the data to the front of the block
             while (readPos < readEnd) {
@@ -341,7 +350,7 @@ bool EepromObjectStorage::moveDisposedBackwards()
             }
 
             // Then we split the block again
-            disposedBlock.split(provisionedSize);
+            disposedBlock.split(provisioned);
 
             // And finally we make the disposed block an object block again
             disposedBlock.setBlockType(EepromBlockType::object);

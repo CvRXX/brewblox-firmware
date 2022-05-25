@@ -98,9 +98,7 @@ private:
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
      * @param iface: typeId of the interface requested
      */
-    [[nodiscard]] virtual void* implements(obj_type_t iface)
-        = 0;
-
+    [[nodiscard]] virtual void* implements(obj_type_t iface) = 0;
     [[nodiscard]] const void* implements(obj_type_t iface) const
     {
         return const_cast<Object*>(this)->implements(iface);

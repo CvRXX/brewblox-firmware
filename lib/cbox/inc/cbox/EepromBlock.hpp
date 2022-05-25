@@ -181,7 +181,7 @@ public:
         }
     }
 
-    uint16_t getObjectSize()
+    uint16_t getWrittenLength()
     {
         if (_type == EepromBlockType::object) {
             return _eeprom.get().get<uint16_t>(_start + blockHeaderLength);

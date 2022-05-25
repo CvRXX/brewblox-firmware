@@ -77,6 +77,12 @@ protected:
 
     static CboxError eepromToPayload(const PayloadCallback& callback,
                                      EepromBlock& block);
+
+    static uint16_t provisionedLength(uint16_t objectLength)
+    {
+        // overprovision by 12.5%, minimal 4 bytes
+        return objectLength + std::max(objectLength / 8, 4) + EepromBlock::objectHeaderLength;
+    }
 };
 
 } // end namespace cbox

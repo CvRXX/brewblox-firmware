@@ -99,7 +99,7 @@ SCENARIO("Low level functions test", "[eeprom]")
             CHECK(objBlock.getObjectId() == 1);
 
             objBlock.setObjectSize(50);
-            CHECK(objBlock.getObjectSize() == 50);
+            CHECK(objBlock.getWrittenLength() == 50);
 
             AND_THEN("It can be retrieved from storage")
             {
@@ -116,7 +116,7 @@ SCENARIO("Low level functions test", "[eeprom]")
 SCENARIO("Storing and retrieving blocks with EEPROM storage")
 {
     ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
+    EepromOjectStorageTester storage(eeprom);
 
     auto totalSpace = storage.freeSpace().total;
 
@@ -567,6 +567,30 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
                     THEN("Disposed blocks have been merged")
                     {
                         CHECK(storage.freeSpace().continuous == smallSizeTotal - 3U);
+                    }
+
+                    AND_WHEN("The object shrinks again by over 16 bytes")
+                    {
+                        *obj = {
+                            0x22222222,
+                            0x33333333,
+                            0x44444444,
+                        };
+                        CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(id), obj));
+                        auto received = std::make_shared<LongIntVectorObject>();
+
+                        THEN("Its size is reduced during a defrag")
+                        {
+                            auto blockOpt = storage.getExistingObject(id, true);
+                            REQUIRE(blockOpt.has_value());
+                            CHECK((*blockOpt).length() == 51);
+
+                            storage.defrag();
+
+                            auto blockOpt2 = storage.getExistingObject(id, true);
+                            REQUIRE(blockOpt2.has_value());
+                            CHECK((*blockOpt2).length() == 26);
+                        }
                     }
                 }
 
