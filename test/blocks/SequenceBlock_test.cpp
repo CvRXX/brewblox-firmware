@@ -105,7 +105,7 @@ SCENARIO("A Sequence block with basic targets")
         {
             auto* instruction = sequenceMessage.add_instructions();
             auto* waitTempAbove = new blox_test::Sequence::WaitTemperatureBoundary();
-            instruction->set_allocated_wait_temperature_above(waitTempAbove);
+            instruction->set_allocated_wait_temp_above(waitTempAbove);
 
             waitTempAbove->set_target(sensorId);
             waitTempAbove->set_value(cnl::unwrap(temp_t(25)));
@@ -172,7 +172,7 @@ SCENARIO("A Sequence block with basic targets")
 
         update(1000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_NONE);
 
         sensor->get().setting(temp_t(30.5));
@@ -183,7 +183,7 @@ SCENARIO("A Sequence block with basic targets")
         // nothing yet
         update(1000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
 
         // updated again, and the condition is active
         update(2000);
@@ -215,7 +215,7 @@ SCENARIO("A Sequence block with basic targets")
 
         update(1000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
 
         {
             auto cmd = cbox::TestCommand(sequenceId, SequenceBlock::staticTypeId());
@@ -225,7 +225,7 @@ SCENARIO("A Sequence block with basic targets")
 
         update(2000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
     }
 
     WHEN("A Sequence is written with different instructions, it resets its state")
@@ -240,7 +240,7 @@ SCENARIO("A Sequence block with basic targets")
 
         update(1000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
 
         {
             auto cmd = cbox::TestCommand(sequenceId, SequenceBlock::staticTypeId());
@@ -285,7 +285,7 @@ SCENARIO("A Sequence block with basic targets")
         }
 
         CHECK(sequence->state().activeInstruction == 3);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstructionStartedAt == 100'000);
         CHECK(sequence->state().disabledDuration == 200);
     }
@@ -304,7 +304,7 @@ SCENARIO("A Sequence block with basic targets")
 
         update(3000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().stored == false);
 
         CHECK(setpoint->get().setting() == temp_t(30));
@@ -330,12 +330,12 @@ SCENARIO("A Sequence block with basic targets")
 
         update(3'000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().stored == false);
 
         update(63'000);
         CHECK(sequence->state().activeInstruction == 2);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().stored == true);
 
         CHECK(setpoint->get().setting() == temp_t(30));
@@ -613,12 +613,12 @@ SCENARIO("A Sequence block with time-related instructions")
         resetTime(2'000'000'000, 0); // 2033/05/18
         update(5'000);               // instruction starts now, not when written
 
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
         CHECK(sequence->state().activeInstructionStartedAt == 2'000'000'005);
 
         update(13'000); // should not yet be done
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
         update(15'000);
@@ -634,7 +634,7 @@ SCENARIO("A Sequence block with time-related instructions")
 
         sequence->enabler.set(true);
         update(115'000); // disabled time should not count towards the wait
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().activeInstructionStartedAt == 2'000'000'015);
         CHECK(sequence->state().disabledAt == 0);
@@ -642,7 +642,7 @@ SCENARIO("A Sequence block with time-related instructions")
 
         // Still waiting
         update(214'000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 1);
 
         // Now we're done (115'000 -> 215'000)
@@ -667,7 +667,7 @@ SCENARIO("A Sequence block with time-related instructions")
         update(215'000);
         sequence->enabler.set(true);
         update(315000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 4);
         CHECK(sequence->state().disabledDuration == 100);
 
@@ -710,7 +710,7 @@ SCENARIO("A Sequence with a sensor target")
         {
             auto* instruction = sequenceMessage.add_instructions();
             auto* waitTempBelow = new blox_test::Sequence::WaitTemperatureBoundary();
-            instruction->set_allocated_wait_temperature_below(waitTempBelow);
+            instruction->set_allocated_wait_temp_below(waitTempBelow);
 
             waitTempBelow->set_target(sensorId);
             waitTempBelow->set_value(cnl::unwrap(temp_t(10)));
@@ -718,15 +718,33 @@ SCENARIO("A Sequence with a sensor target")
         {
             auto* instruction = sequenceMessage.add_instructions();
             auto* waitTempAbove = new blox_test::Sequence::WaitTemperatureBoundary();
-            instruction->set_allocated_wait_temperature_above(waitTempAbove);
+            instruction->set_allocated_wait_temp_above(waitTempAbove);
 
             waitTempAbove->set_target(sensorId);
             waitTempAbove->set_value(cnl::unwrap(temp_t(30)));
         }
         {
             auto* instruction = sequenceMessage.add_instructions();
-            auto* waitTempBetween = new blox_test::Sequence::WaitTemperature();
-            instruction->set_allocated_wait_temperature_between(waitTempBetween);
+            auto* waitTempBetween = new blox_test::Sequence::WaitTemperatureRange();
+            instruction->set_allocated_wait_temp_between(waitTempBetween);
+
+            waitTempBetween->set_target(sensorId);
+            waitTempBetween->set_lower(cnl::unwrap(temp_t(0)));
+            waitTempBetween->set_upper(cnl::unwrap(temp_t(1)));
+        }
+        {
+            auto* instruction = sequenceMessage.add_instructions();
+            auto* waitTempBetween = new blox_test::Sequence::WaitTemperatureRange();
+            instruction->set_allocated_wait_temp_not_between(waitTempBetween);
+
+            waitTempBetween->set_target(sensorId);
+            waitTempBetween->set_lower(cnl::unwrap(temp_t(0)));
+            waitTempBetween->set_upper(cnl::unwrap(temp_t(1)));
+        }
+        {
+            auto* instruction = sequenceMessage.add_instructions();
+            auto* waitTempBetween = new blox_test::Sequence::WaitTemperatureRange();
+            instruction->set_allocated_wait_temp_unexpected(waitTempBetween);
 
             waitTempBetween->set_target(sensorId);
             waitTempBetween->set_lower(cnl::unwrap(temp_t(0)));
@@ -747,7 +765,7 @@ SCENARIO("A Sequence with a sensor target")
 
     WHEN("Waiting for temperature values")
     {
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
         // below 10
@@ -758,7 +776,7 @@ SCENARIO("A Sequence with a sensor target")
         CHECK(sequence->state().activeInstruction == 1);
 
         update(1000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 1);
 
         // above 30
@@ -769,7 +787,7 @@ SCENARIO("A Sequence with a sensor target")
         CHECK(sequence->state().activeInstruction == 2);
 
         update(2000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 2);
 
         // between 0-1
@@ -778,6 +796,23 @@ SCENARIO("A Sequence with a sensor target")
         update(3000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 3);
+
+        // not between 0-1
+        update(3000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
+        CHECK(sequence->state().activeInstruction == 3);
+
+        sensor->get().setting(temp_t(2));
+        update(4000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().activeInstruction == 4);
+
+        // not between 0-1, or inactive
+        sensor->get().setting(temp_t(0));
+        sensor->get().connected(false);
+        update(4000);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
+        CHECK(sequence->state().activeInstruction == 5);
     }
 }
 
@@ -851,14 +886,6 @@ SCENARIO("A Sequence with Actuator targets")
             setPwm->set_target(pwmId);
             setPwm->set_setting(cnl::unwrap(ActuatorPwm::value_t(20)));
         }
-        {
-            auto* instruction = sequenceMessage.add_instructions();
-            auto* waitPwm = new blox_test::Sequence::WaitPwm();
-            instruction->set_allocated_wait_pwm(waitPwm);
-
-            waitPwm->set_target(pwmId);
-            waitPwm->set_precision(cnl::unwrap(ActuatorPwm::value_t(1)));
-        }
 
         messageToPayload(cmd, sequenceMessage);
         CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
@@ -887,40 +914,6 @@ SCENARIO("A Sequence with Actuator targets")
         CHECK(digital->getConstrained().state() == ActuatorDigital::State::Active);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 2);
-    }
-
-    WHEN("Setting and waiting for PWM state")
-    {
-        sequence->reset(2);
-
-        update(0);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
-        CHECK(sequence->state().activeInstruction == 3);
-
-        // PWM is still disabled
-        update(0);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_ERROR);
-        CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
-        CHECK(sequence->state().activeInstruction == 3);
-
-        pwm->getPwm().enabler.set(true);
-
-        update(1000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
-        CHECK(sequence->state().activeInstruction == 3);
-
-        // Let PWM achieve value
-        // Check the actual value as soon as the Sequence reports the instruction done
-        for (auto i = 2; i < 100; i++) {
-            update(i * 1000);
-            if (sequence->state().status == blox_Sequence_SequenceStatus_NEXT) {
-                CHECK(sequence->state().activeInstruction == 4);
-                auto value = pwm->getConstrained().value();
-                CHECK(value >= ActuatorPwm::value_t(19));
-                CHECK(value <= ActuatorPwm::value_t(21));
-                break;
-            }
-        }
     }
 }
 
@@ -995,21 +988,21 @@ SCENARIO("A Sequence with a SetpointProfile target")
         sequenceMessage.set_enabled(true);
         {
             auto* instruction = sequenceMessage.add_instructions();
-            auto* waitProfile = new blox_test::Sequence::StartWaitProfile();
+            auto* waitProfile = new blox_test::Sequence::TargetProfile();
             instruction->set_allocated_wait_profile(waitProfile);
 
             waitProfile->set_target(profileId);
         }
         {
             auto* instruction = sequenceMessage.add_instructions();
-            auto* startProfile = new blox_test::Sequence::StartWaitProfile();
+            auto* startProfile = new blox_test::Sequence::TargetProfile();
             instruction->set_allocated_start_profile(startProfile);
 
             startProfile->set_target(profileId);
         }
         {
             auto* instruction = sequenceMessage.add_instructions();
-            auto* waitProfile = new blox_test::Sequence::StartWaitProfile();
+            auto* waitProfile = new blox_test::Sequence::TargetProfile();
             instruction->set_allocated_wait_profile(waitProfile);
 
             waitProfile->set_target(profileId);
@@ -1030,11 +1023,11 @@ SCENARIO("A Sequence with a SetpointProfile target")
     WHEN("Starting and waiting for a Setpoint Profile")
     {
         update(1'000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
         update(19'000);
-        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
         update(20'000);
@@ -1103,14 +1096,14 @@ SCENARIO("A Sequence with a Sequence target")
         sequenceMessage2.set_enabled(true);
         {
             auto* instruction = sequenceMessage2.add_instructions();
-            auto* waitSequence = new blox_test::Sequence::StartWaitSequence();
+            auto* waitSequence = new blox_test::Sequence::TargetSequence();
             instruction->set_allocated_wait_sequence(waitSequence);
 
             waitSequence->set_target(sequenceId1);
         }
         {
             auto* instruction = sequenceMessage2.add_instructions();
-            auto* startSequence = new blox_test::Sequence::StartWaitSequence();
+            auto* startSequence = new blox_test::Sequence::TargetSequence();
             instruction->set_allocated_start_sequence(startSequence);
 
             startSequence->set_target(sequenceId1);
@@ -1131,11 +1124,11 @@ SCENARIO("A Sequence with a Sequence target")
     WHEN("Waiting for and restarting a Sequence")
     {
         // Waiting 10s
-        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence1->state().activeInstruction == 0);
 
         // Waiting for sequence1 to finish
-        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence2->state().activeInstruction == 0);
 
         // Duration wait done
@@ -1144,7 +1137,7 @@ SCENARIO("A Sequence with a Sequence target")
         CHECK(sequence1->state().activeInstruction == 1);
 
         // Sequence 1 is still in NEXT status
-        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence2->state().activeInstruction == 0);
 
         // Sequence 1 is now in END status
@@ -1169,7 +1162,7 @@ SCENARIO("A Sequence with a Sequence target")
         // Sequence 1 is waiting again
         // Sequence 2 is now in END status
         update(13'000);
-        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAITING);
+        CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence1->state().activeInstruction == 0);
 
         CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_END);
@@ -1197,7 +1190,7 @@ SCENARIO("Mutually starting Sequences")
         sequenceMessage1.set_enabled(false);
         {
             auto* instruction = sequenceMessage1.add_instructions();
-            auto* startSequence = new blox_test::Sequence::StartWaitSequence();
+            auto* startSequence = new blox_test::Sequence::TargetSequence();
             instruction->set_allocated_start_sequence(startSequence);
 
             startSequence->set_target(sequenceId2);
@@ -1215,7 +1208,7 @@ SCENARIO("Mutually starting Sequences")
         sequenceMessage2.set_enabled(false);
         {
             auto* instruction = sequenceMessage2.add_instructions();
-            auto* startSequence = new blox_test::Sequence::StartWaitSequence();
+            auto* startSequence = new blox_test::Sequence::TargetSequence();
             instruction->set_allocated_start_sequence(startSequence);
 
             startSequence->set_target(sequenceId1);

@@ -3,6 +3,7 @@
 #include "blocks/ActuatorPwmBlock.hpp"
 #include "blocks/SetpointProfileBlock.hpp"
 #include "cbox/Application.hpp"
+#include "cbox/Cache.hpp"
 #include "control/ActuatorDigitalBase.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/SetpointSensorPair.hpp"
@@ -150,6 +151,15 @@ SequenceBlock::write(const cbox::Payload& payload)
     return res;
 }
 
+cbox::CboxError
+SequenceBlock::loadFromCache()
+{
+    if (auto loaded = cbox::loadFromCache<SequenceState>(objectId(), staticTypeId())) {
+        transition(std::move(*loaded));
+    }
+    return cbox::CboxError::OK;
+}
+
 InstructionResult errorFunc(SequenceBlock&)
 {
     return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_ARGUMENT);
@@ -188,7 +198,7 @@ InstructionResult waitDurationFunc(SequenceBlock& sequence,
     if (utc - state.activeInstructionStartedAt >= duration + state.disabledDuration) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
 
@@ -200,29 +210,42 @@ InstructionResult waitUntilFunc(SequenceBlock&,
     if (time <= utc) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
+
+enum class WaitTempMode {
+    BETWEEN,
+    NOT_BETWEEN,
+    UNEXPECTED,
+};
 
 InstructionResult waitTemperatureFunc(SequenceBlock&,
                                       cbox::CboxPtr<TempSensor>& target,
                                       temp_t lower,
-                                      temp_t upper)
+                                      temp_t upper,
+                                      WaitTempMode mode)
 {
     auto ptr = target.lock();
     if (!ptr) {
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
+    bool within = false;
+
     if (!ptr->valid()) {
-        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
+        if (mode != WaitTempMode::UNEXPECTED) {
+            return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
+        }
+    } else {
+        auto value = ptr->value();
+        within = value >= lower && value <= upper;
     }
 
-    auto value = ptr->value();
-    if (value >= lower && value <= upper) {
+    if (within == (mode == WaitTempMode::BETWEEN)) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
 
@@ -262,7 +285,7 @@ InstructionResult waitSetpointFunc(SequenceBlock&,
     if (value >= setting - precision && value <= setting + precision) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
 
@@ -291,7 +314,7 @@ InstructionResult waitDigitalFunc(SequenceBlock&,
     if (ptr->desiredState() == ptr->state()) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
 
@@ -307,36 +330,6 @@ InstructionResult setPwmFunc(SequenceBlock& sequence,
     ptr->getConstrained().setting(setting);
     sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_NEXT;
-}
-
-InstructionResult waitPwmFunc(SequenceBlock&,
-                              cbox::CboxPtr<ActuatorPwmBlock>& target,
-                              ActuatorPwm::value_t precision)
-{
-    auto ptr = target.lock();
-    if (!ptr) {
-        return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
-    }
-
-    auto& pwm = ptr->getPwm();
-
-    if (!pwm.enabler.get()) {
-        return tl::make_unexpected(blox_Sequence_SequenceError_DISABLED_TARGET);
-    }
-
-    if (!pwm.valueValid() || !pwm.settingValid()) {
-        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
-    }
-
-    auto& constrained = ptr->getConstrained();
-    std::vector<int> v{int(pwm.setting()), int(pwm.value()), int(constrained.desiredSetting()), int(constrained.value())};
-    auto setting = constrained.desiredSetting();
-    auto value = constrained.value();
-    if (value >= setting - precision && value <= setting + precision) {
-        return blox_Sequence_SequenceStatus_NEXT;
-    } else {
-        return blox_Sequence_SequenceStatus_WAITING;
-    }
 }
 
 InstructionResult startProfileFunc(SequenceBlock& sequence,
@@ -371,7 +364,7 @@ InstructionResult waitProfileFunc(SequenceBlock&,
     if (!points.size() || ticks.utc() - points.back().time >= profile.startTime()) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
 
@@ -407,7 +400,7 @@ InstructionResult waitSequenceFunc(SequenceBlock&,
     } else if (status == blox_Sequence_SequenceStatus_ERROR) {
         return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
     } else {
-        return blox_Sequence_SequenceStatus_WAITING;
+        return blox_Sequence_SequenceStatus_WAIT;
     }
 }
 
@@ -438,21 +431,36 @@ InstructionFunctor SequenceBlock::makeRunner()
     case blox_Sequence_Instruction_WAIT_UNTIL_tag:
         return std::bind(waitUntilFunc, _1,
                          ins.instruction_oneof.WAIT_UNTIL.time);
-    case blox_Sequence_Instruction_WAIT_TEMPERATURE_BETWEEN_tag:
+    case blox_Sequence_Instruction_WAIT_TEMP_BETWEEN_tag:
         return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMPERATURE_BETWEEN.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMPERATURE_BETWEEN.lower),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMPERATURE_BETWEEN.upper));
-    case blox_Sequence_Instruction_WAIT_TEMPERATURE_ABOVE_tag:
+                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.target),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.lower),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.upper),
+                         WaitTempMode::BETWEEN);
+    case blox_Sequence_Instruction_WAIT_TEMP_NOT_BETWEEN_tag:
         return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMPERATURE_ABOVE.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMPERATURE_ABOVE.value),
-                         cnl::wrap<temp_t>(std::numeric_limits<int32_t>::max()));
-    case blox_Sequence_Instruction_WAIT_TEMPERATURE_BELOW_tag:
+                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.target),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.lower),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.upper),
+                         WaitTempMode::NOT_BETWEEN);
+    case blox_Sequence_Instruction_WAIT_TEMP_UNEXPECTED_tag:
         return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMPERATURE_BELOW.target),
+                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.target),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.lower),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.upper),
+                         WaitTempMode::UNEXPECTED);
+    case blox_Sequence_Instruction_WAIT_TEMP_ABOVE_tag:
+        return std::bind(waitTemperatureFunc, _1,
+                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_ABOVE.target),
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_ABOVE.value),
+                         cnl::wrap<temp_t>(std::numeric_limits<int32_t>::max()),
+                         WaitTempMode::BETWEEN);
+    case blox_Sequence_Instruction_WAIT_TEMP_BELOW_tag:
+        return std::bind(waitTemperatureFunc, _1,
+                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_BELOW.target),
                          cnl::wrap<temp_t>(std::numeric_limits<int32_t>::min()),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMPERATURE_BELOW.value));
+                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BELOW.value),
+                         WaitTempMode::BETWEEN);
     case blox_Sequence_Instruction_SET_SETPOINT_tag:
         return std::bind(setSetpointFunc, _1,
                          cbox::CboxPtr<SetpointSensorPair>(ins.instruction_oneof.SET_SETPOINT.target),
@@ -472,10 +480,6 @@ InstructionFunctor SequenceBlock::makeRunner()
         return std::bind(setPwmFunc, _1,
                          cbox::CboxPtr<ActuatorPwmBlock>(ins.instruction_oneof.SET_PWM.target),
                          cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.SET_PWM.setting));
-    case blox_Sequence_Instruction_WAIT_PWM_tag:
-        return std::bind(waitPwmFunc, _1,
-                         cbox::CboxPtr<ActuatorPwmBlock>(ins.instruction_oneof.WAIT_PWM.target),
-                         cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.WAIT_PWM.precision));
     case blox_Sequence_Instruction_START_PROFILE_tag:
         return std::bind(startProfileFunc, _1,
                          cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.START_PROFILE.target));
@@ -508,27 +512,29 @@ void SequenceBlock::markTargetChanged(cbox::obj_id_t objId)
 
 void SequenceBlock::saveChanges(utc_seconds_t utc)
 {
-    // To reduce EEPROM write calls, state is only saved if
-    // the current instruction takes a significant amount of time.
-    // This avoids saving every single (idempotent) SET to EEPROM.
     if (_state.stored
         || utc == 0
-        || _state.activeInstructionStartedAt == 0
-        || utc - STORAGE_DELAY < _state.activeInstructionStartedAt) {
+        || _state.activeInstructionStartedAt == 0) {
         return;
     }
 
-    // TODO(Bob): save to cache
+    // State can always be saved to cache
+    cbox::saveToCache(objectId(), staticTypeId(), _state);
 
-    // Store targets
-    for (auto objId : _changedTargets) {
-        cbox::getObjects().store(objId);
+    // To reduce EEPROM write calls, state is only saved if
+    // the current instruction takes a significant amount of time.
+    // This avoids saving every single (idempotent) SET to EEPROM.
+    if (utc - STORAGE_DELAY >= _state.activeInstructionStartedAt) {
+        // Store targets
+        for (auto objId : _changedTargets) {
+            cbox::getObjects().store(objId);
+        }
+        _changedTargets.clear();
+
+        // Store self
+        readStored(cbox::getStorage().saveObjectCallback);
+        _state.stored = true;
     }
-    _changedTargets.clear();
-
-    // Store self
-    readStored(cbox::getStorage().saveObjectCallback);
-    _state.stored = true;
 }
 
 cbox::update_t

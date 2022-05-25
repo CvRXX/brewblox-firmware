@@ -8,7 +8,7 @@
 #include "tl/expected.hpp"
 #include <functional>
 
-struct SequenceState {
+struct __attribute__((packed)) SequenceState {
     bool stored{false};
     uint16_t activeInstruction{0};
     utc_seconds_t activeInstructionStartedAt{0};
@@ -40,6 +40,7 @@ public:
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::CboxError loadFromCache() override;
     cbox::update_t updateHandler(const cbox::update_t& now) override;
     void* implements(cbox::obj_type_t iface) override;
 

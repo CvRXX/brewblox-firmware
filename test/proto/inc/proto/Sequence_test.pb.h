@@ -42,7 +42,7 @@ namespace protobuf_Sequence_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[17];
+  static const ::google::protobuf::internal::ParseTable schema[15];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -60,9 +60,6 @@ extern EnableDisableDefaultTypeInternal _EnableDisable_default_instance_;
 class Instruction;
 class InstructionDefaultTypeInternal;
 extern InstructionDefaultTypeInternal _Instruction_default_instance_;
-class InstructionReset;
-class InstructionResetDefaultTypeInternal;
-extern InstructionResetDefaultTypeInternal _InstructionReset_default_instance_;
 class Restart;
 class RestartDefaultTypeInternal;
 extern RestartDefaultTypeInternal _Restart_default_instance_;
@@ -75,30 +72,27 @@ extern SetPwmDefaultTypeInternal _SetPwm_default_instance_;
 class SetSetpoint;
 class SetSetpointDefaultTypeInternal;
 extern SetSetpointDefaultTypeInternal _SetSetpoint_default_instance_;
-class StartWaitProfile;
-class StartWaitProfileDefaultTypeInternal;
-extern StartWaitProfileDefaultTypeInternal _StartWaitProfile_default_instance_;
-class StartWaitSequence;
-class StartWaitSequenceDefaultTypeInternal;
-extern StartWaitSequenceDefaultTypeInternal _StartWaitSequence_default_instance_;
+class TargetProfile;
+class TargetProfileDefaultTypeInternal;
+extern TargetProfileDefaultTypeInternal _TargetProfile_default_instance_;
+class TargetSequence;
+class TargetSequenceDefaultTypeInternal;
+extern TargetSequenceDefaultTypeInternal _TargetSequence_default_instance_;
 class WaitDigital;
 class WaitDigitalDefaultTypeInternal;
 extern WaitDigitalDefaultTypeInternal _WaitDigital_default_instance_;
 class WaitDuration;
 class WaitDurationDefaultTypeInternal;
 extern WaitDurationDefaultTypeInternal _WaitDuration_default_instance_;
-class WaitPwm;
-class WaitPwmDefaultTypeInternal;
-extern WaitPwmDefaultTypeInternal _WaitPwm_default_instance_;
 class WaitSetpoint;
 class WaitSetpointDefaultTypeInternal;
 extern WaitSetpointDefaultTypeInternal _WaitSetpoint_default_instance_;
-class WaitTemperature;
-class WaitTemperatureDefaultTypeInternal;
-extern WaitTemperatureDefaultTypeInternal _WaitTemperature_default_instance_;
 class WaitTemperatureBoundary;
 class WaitTemperatureBoundaryDefaultTypeInternal;
 extern WaitTemperatureBoundaryDefaultTypeInternal _WaitTemperatureBoundary_default_instance_;
+class WaitTemperatureRange;
+class WaitTemperatureRangeDefaultTypeInternal;
+extern WaitTemperatureRangeDefaultTypeInternal _WaitTemperatureRange_default_instance_;
 class WaitUntil;
 class WaitUntilDefaultTypeInternal;
 extern WaitUntilDefaultTypeInternal _WaitUntil_default_instance_;
@@ -109,19 +103,17 @@ namespace protobuf {
 template<> ::blox_test::Sequence::Block* Arena::CreateMaybeMessage<::blox_test::Sequence::Block>(Arena*);
 template<> ::blox_test::Sequence::EnableDisable* Arena::CreateMaybeMessage<::blox_test::Sequence::EnableDisable>(Arena*);
 template<> ::blox_test::Sequence::Instruction* Arena::CreateMaybeMessage<::blox_test::Sequence::Instruction>(Arena*);
-template<> ::blox_test::Sequence::InstructionReset* Arena::CreateMaybeMessage<::blox_test::Sequence::InstructionReset>(Arena*);
 template<> ::blox_test::Sequence::Restart* Arena::CreateMaybeMessage<::blox_test::Sequence::Restart>(Arena*);
 template<> ::blox_test::Sequence::SetDigital* Arena::CreateMaybeMessage<::blox_test::Sequence::SetDigital>(Arena*);
 template<> ::blox_test::Sequence::SetPwm* Arena::CreateMaybeMessage<::blox_test::Sequence::SetPwm>(Arena*);
 template<> ::blox_test::Sequence::SetSetpoint* Arena::CreateMaybeMessage<::blox_test::Sequence::SetSetpoint>(Arena*);
-template<> ::blox_test::Sequence::StartWaitProfile* Arena::CreateMaybeMessage<::blox_test::Sequence::StartWaitProfile>(Arena*);
-template<> ::blox_test::Sequence::StartWaitSequence* Arena::CreateMaybeMessage<::blox_test::Sequence::StartWaitSequence>(Arena*);
+template<> ::blox_test::Sequence::TargetProfile* Arena::CreateMaybeMessage<::blox_test::Sequence::TargetProfile>(Arena*);
+template<> ::blox_test::Sequence::TargetSequence* Arena::CreateMaybeMessage<::blox_test::Sequence::TargetSequence>(Arena*);
 template<> ::blox_test::Sequence::WaitDigital* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitDigital>(Arena*);
 template<> ::blox_test::Sequence::WaitDuration* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitDuration>(Arena*);
-template<> ::blox_test::Sequence::WaitPwm* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitPwm>(Arena*);
 template<> ::blox_test::Sequence::WaitSetpoint* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitSetpoint>(Arena*);
-template<> ::blox_test::Sequence::WaitTemperature* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitTemperature>(Arena*);
 template<> ::blox_test::Sequence::WaitTemperatureBoundary* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitTemperatureBoundary>(Arena*);
+template<> ::blox_test::Sequence::WaitTemperatureRange* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitTemperatureRange>(Arena*);
 template<> ::blox_test::Sequence::WaitUntil* Arena::CreateMaybeMessage<::blox_test::Sequence::WaitUntil>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -133,7 +125,7 @@ enum SequenceStatus {
   DISABLED = 1,
   PAUSED = 2,
   NEXT = 3,
-  WAITING = 4,
+  WAIT = 4,
   END = 5,
   RESTART = 6,
   ERROR = 7,
@@ -587,24 +579,24 @@ class WaitUntil : public ::google::protobuf::Message /* @@protoc_insertion_point
 };
 // -------------------------------------------------------------------
 
-class WaitTemperature : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.WaitTemperature) */ {
+class WaitTemperatureRange : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.WaitTemperatureRange) */ {
  public:
-  WaitTemperature();
-  virtual ~WaitTemperature();
+  WaitTemperatureRange();
+  virtual ~WaitTemperatureRange();
 
-  WaitTemperature(const WaitTemperature& from);
+  WaitTemperatureRange(const WaitTemperatureRange& from);
 
-  inline WaitTemperature& operator=(const WaitTemperature& from) {
+  inline WaitTemperatureRange& operator=(const WaitTemperatureRange& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  WaitTemperature(WaitTemperature&& from) noexcept
-    : WaitTemperature() {
+  WaitTemperatureRange(WaitTemperatureRange&& from) noexcept
+    : WaitTemperatureRange() {
     *this = ::std::move(from);
   }
 
-  inline WaitTemperature& operator=(WaitTemperature&& from) noexcept {
+  inline WaitTemperatureRange& operator=(WaitTemperatureRange&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -614,34 +606,34 @@ class WaitTemperature : public ::google::protobuf::Message /* @@protoc_insertion
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const WaitTemperature& default_instance();
+  static const WaitTemperatureRange& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const WaitTemperature* internal_default_instance() {
-    return reinterpret_cast<const WaitTemperature*>(
-               &_WaitTemperature_default_instance_);
+  static inline const WaitTemperatureRange* internal_default_instance() {
+    return reinterpret_cast<const WaitTemperatureRange*>(
+               &_WaitTemperatureRange_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     4;
 
-  void Swap(WaitTemperature* other);
-  friend void swap(WaitTemperature& a, WaitTemperature& b) {
+  void Swap(WaitTemperatureRange* other);
+  friend void swap(WaitTemperatureRange& a, WaitTemperatureRange& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline WaitTemperature* New() const final {
-    return CreateMaybeMessage<WaitTemperature>(NULL);
+  inline WaitTemperatureRange* New() const final {
+    return CreateMaybeMessage<WaitTemperatureRange>(NULL);
   }
 
-  WaitTemperature* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<WaitTemperature>(arena);
+  WaitTemperatureRange* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WaitTemperatureRange>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const WaitTemperature& from);
-  void MergeFrom(const WaitTemperature& from);
+  void CopyFrom(const WaitTemperatureRange& from);
+  void MergeFrom(const WaitTemperatureRange& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -658,7 +650,7 @@ class WaitTemperature : public ::google::protobuf::Message /* @@protoc_insertion
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(WaitTemperature* other);
+  void InternalSwap(WaitTemperatureRange* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -692,7 +684,7 @@ class WaitTemperature : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 upper() const;
   void set_upper(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:blox_test.Sequence.WaitTemperature)
+  // @@protoc_insertion_point(class_scope:blox_test.Sequence.WaitTemperatureRange)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -1357,24 +1349,24 @@ class SetPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 };
 // -------------------------------------------------------------------
 
-class WaitPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.WaitPwm) */ {
+class TargetProfile : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.TargetProfile) */ {
  public:
-  WaitPwm();
-  virtual ~WaitPwm();
+  TargetProfile();
+  virtual ~TargetProfile();
 
-  WaitPwm(const WaitPwm& from);
+  TargetProfile(const TargetProfile& from);
 
-  inline WaitPwm& operator=(const WaitPwm& from) {
+  inline TargetProfile& operator=(const TargetProfile& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  WaitPwm(WaitPwm&& from) noexcept
-    : WaitPwm() {
+  TargetProfile(TargetProfile&& from) noexcept
+    : TargetProfile() {
     *this = ::std::move(from);
   }
 
-  inline WaitPwm& operator=(WaitPwm&& from) noexcept {
+  inline TargetProfile& operator=(TargetProfile&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1384,34 +1376,34 @@ class WaitPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const WaitPwm& default_instance();
+  static const TargetProfile& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const WaitPwm* internal_default_instance() {
-    return reinterpret_cast<const WaitPwm*>(
-               &_WaitPwm_default_instance_);
+  static inline const TargetProfile* internal_default_instance() {
+    return reinterpret_cast<const TargetProfile*>(
+               &_TargetProfile_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     11;
 
-  void Swap(WaitPwm* other);
-  friend void swap(WaitPwm& a, WaitPwm& b) {
+  void Swap(TargetProfile* other);
+  friend void swap(TargetProfile& a, TargetProfile& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline WaitPwm* New() const final {
-    return CreateMaybeMessage<WaitPwm>(NULL);
+  inline TargetProfile* New() const final {
+    return CreateMaybeMessage<TargetProfile>(NULL);
   }
 
-  WaitPwm* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<WaitPwm>(arena);
+  TargetProfile* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<TargetProfile>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const WaitPwm& from);
-  void MergeFrom(const WaitPwm& from);
+  void CopyFrom(const TargetProfile& from);
+  void MergeFrom(const TargetProfile& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -1428,7 +1420,7 @@ class WaitPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(WaitPwm* other);
+  void InternalSwap(TargetProfile* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1450,41 +1442,34 @@ class WaitPwm : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint32 target() const;
   void set_target(::google::protobuf::uint32 value);
 
-  // sint32 precision = 2 [(.nanopb) = {
-  void clear_precision();
-  static const int kPrecisionFieldNumber = 2;
-  ::google::protobuf::int32 precision() const;
-  void set_precision(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:blox_test.Sequence.WaitPwm)
+  // @@protoc_insertion_point(class_scope:blox_test.Sequence.TargetProfile)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 target_;
-  ::google::protobuf::int32 precision_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Sequence_5ftest_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class StartWaitProfile : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.StartWaitProfile) */ {
+class TargetSequence : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.TargetSequence) */ {
  public:
-  StartWaitProfile();
-  virtual ~StartWaitProfile();
+  TargetSequence();
+  virtual ~TargetSequence();
 
-  StartWaitProfile(const StartWaitProfile& from);
+  TargetSequence(const TargetSequence& from);
 
-  inline StartWaitProfile& operator=(const StartWaitProfile& from) {
+  inline TargetSequence& operator=(const TargetSequence& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  StartWaitProfile(StartWaitProfile&& from) noexcept
-    : StartWaitProfile() {
+  TargetSequence(TargetSequence&& from) noexcept
+    : TargetSequence() {
     *this = ::std::move(from);
   }
 
-  inline StartWaitProfile& operator=(StartWaitProfile&& from) noexcept {
+  inline TargetSequence& operator=(TargetSequence&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1494,34 +1479,34 @@ class StartWaitProfile : public ::google::protobuf::Message /* @@protoc_insertio
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const StartWaitProfile& default_instance();
+  static const TargetSequence& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const StartWaitProfile* internal_default_instance() {
-    return reinterpret_cast<const StartWaitProfile*>(
-               &_StartWaitProfile_default_instance_);
+  static inline const TargetSequence* internal_default_instance() {
+    return reinterpret_cast<const TargetSequence*>(
+               &_TargetSequence_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     12;
 
-  void Swap(StartWaitProfile* other);
-  friend void swap(StartWaitProfile& a, StartWaitProfile& b) {
+  void Swap(TargetSequence* other);
+  friend void swap(TargetSequence& a, TargetSequence& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline StartWaitProfile* New() const final {
-    return CreateMaybeMessage<StartWaitProfile>(NULL);
+  inline TargetSequence* New() const final {
+    return CreateMaybeMessage<TargetSequence>(NULL);
   }
 
-  StartWaitProfile* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<StartWaitProfile>(arena);
+  TargetSequence* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<TargetSequence>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const StartWaitProfile& from);
-  void MergeFrom(const StartWaitProfile& from);
+  void CopyFrom(const TargetSequence& from);
+  void MergeFrom(const TargetSequence& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -1538,7 +1523,7 @@ class StartWaitProfile : public ::google::protobuf::Message /* @@protoc_insertio
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(StartWaitProfile* other);
+  void InternalSwap(TargetSequence* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1560,110 +1545,7 @@ class StartWaitProfile : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::uint32 target() const;
   void set_target(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox_test.Sequence.StartWaitProfile)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 target_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_Sequence_5ftest_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class StartWaitSequence : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.StartWaitSequence) */ {
- public:
-  StartWaitSequence();
-  virtual ~StartWaitSequence();
-
-  StartWaitSequence(const StartWaitSequence& from);
-
-  inline StartWaitSequence& operator=(const StartWaitSequence& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  StartWaitSequence(StartWaitSequence&& from) noexcept
-    : StartWaitSequence() {
-    *this = ::std::move(from);
-  }
-
-  inline StartWaitSequence& operator=(StartWaitSequence&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const StartWaitSequence& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const StartWaitSequence* internal_default_instance() {
-    return reinterpret_cast<const StartWaitSequence*>(
-               &_StartWaitSequence_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    13;
-
-  void Swap(StartWaitSequence* other);
-  friend void swap(StartWaitSequence& a, StartWaitSequence& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline StartWaitSequence* New() const final {
-    return CreateMaybeMessage<StartWaitSequence>(NULL);
-  }
-
-  StartWaitSequence* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<StartWaitSequence>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const StartWaitSequence& from);
-  void MergeFrom(const StartWaitSequence& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(StartWaitSequence* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // uint32 target = 1 [(.nanopb) = {
-  void clear_target();
-  static const int kTargetFieldNumber = 1;
-  ::google::protobuf::uint32 target() const;
-  void set_target(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:blox_test.Sequence.StartWaitSequence)
+  // @@protoc_insertion_point(class_scope:blox_test.Sequence.TargetSequence)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -1708,19 +1590,20 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
     kDISABLE = 3,
     kWAITDURATION = 4,
     kWAITUNTIL = 5,
-    kWAITTEMPERATUREBETWEEN = 6,
-    kWAITTEMPERATUREABOVE = 7,
-    kWAITTEMPERATUREBELOW = 8,
-    kSETSETPOINT = 9,
-    kWAITSETPOINT = 10,
-    kSETDIGITAL = 11,
-    kWAITDIGITAL = 12,
-    kSETPWM = 13,
-    kWAITPWM = 14,
-    kSTARTPROFILE = 15,
-    kWAITPROFILE = 16,
-    kSTARTSEQUENCE = 17,
-    kWAITSEQUENCE = 18,
+    kWAITTEMPBETWEEN = 6,
+    kWAITTEMPNOTBETWEEN = 7,
+    kWAITTEMPUNEXPECTED = 8,
+    kWAITTEMPABOVE = 9,
+    kWAITTEMPBELOW = 10,
+    kSETSETPOINT = 11,
+    kWAITSETPOINT = 12,
+    kSETDIGITAL = 13,
+    kWAITDIGITAL = 14,
+    kSETPWM = 15,
+    kSTARTPROFILE = 16,
+    kWAITPROFILE = 17,
+    kSTARTSEQUENCE = 18,
+    kWAITSEQUENCE = 19,
     INSTRUCTION_ONEOF_NOT_SET = 0,
   };
 
@@ -1730,7 +1613,7 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_Instruction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    13;
 
   void Swap(Instruction* other);
   friend void swap(Instruction& a, Instruction& b) {
@@ -1842,46 +1725,70 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::blox_test::Sequence::WaitUntil* mutable_wait_until();
   void set_allocated_wait_until(::blox_test::Sequence::WaitUntil* wait_until);
 
-  // .blox_test.Sequence.WaitTemperature WAIT_TEMPERATURE_BETWEEN = 6;
-  bool has_wait_temperature_between() const;
-  void clear_wait_temperature_between();
-  static const int kWAITTEMPERATUREBETWEENFieldNumber = 6;
+  // .blox_test.Sequence.WaitTemperatureRange WAIT_TEMP_BETWEEN = 6;
+  bool has_wait_temp_between() const;
+  void clear_wait_temp_between();
+  static const int kWAITTEMPBETWEENFieldNumber = 6;
   private:
-  const ::blox_test::Sequence::WaitTemperature& _internal_wait_temperature_between() const;
+  const ::blox_test::Sequence::WaitTemperatureRange& _internal_wait_temp_between() const;
   public:
-  const ::blox_test::Sequence::WaitTemperature& wait_temperature_between() const;
-  ::blox_test::Sequence::WaitTemperature* release_wait_temperature_between();
-  ::blox_test::Sequence::WaitTemperature* mutable_wait_temperature_between();
-  void set_allocated_wait_temperature_between(::blox_test::Sequence::WaitTemperature* wait_temperature_between);
+  const ::blox_test::Sequence::WaitTemperatureRange& wait_temp_between() const;
+  ::blox_test::Sequence::WaitTemperatureRange* release_wait_temp_between();
+  ::blox_test::Sequence::WaitTemperatureRange* mutable_wait_temp_between();
+  void set_allocated_wait_temp_between(::blox_test::Sequence::WaitTemperatureRange* wait_temp_between);
 
-  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE = 7;
-  bool has_wait_temperature_above() const;
-  void clear_wait_temperature_above();
-  static const int kWAITTEMPERATUREABOVEFieldNumber = 7;
+  // .blox_test.Sequence.WaitTemperatureRange WAIT_TEMP_NOT_BETWEEN = 7;
+  bool has_wait_temp_not_between() const;
+  void clear_wait_temp_not_between();
+  static const int kWAITTEMPNOTBETWEENFieldNumber = 7;
   private:
-  const ::blox_test::Sequence::WaitTemperatureBoundary& _internal_wait_temperature_above() const;
+  const ::blox_test::Sequence::WaitTemperatureRange& _internal_wait_temp_not_between() const;
   public:
-  const ::blox_test::Sequence::WaitTemperatureBoundary& wait_temperature_above() const;
-  ::blox_test::Sequence::WaitTemperatureBoundary* release_wait_temperature_above();
-  ::blox_test::Sequence::WaitTemperatureBoundary* mutable_wait_temperature_above();
-  void set_allocated_wait_temperature_above(::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_above);
+  const ::blox_test::Sequence::WaitTemperatureRange& wait_temp_not_between() const;
+  ::blox_test::Sequence::WaitTemperatureRange* release_wait_temp_not_between();
+  ::blox_test::Sequence::WaitTemperatureRange* mutable_wait_temp_not_between();
+  void set_allocated_wait_temp_not_between(::blox_test::Sequence::WaitTemperatureRange* wait_temp_not_between);
 
-  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW = 8;
-  bool has_wait_temperature_below() const;
-  void clear_wait_temperature_below();
-  static const int kWAITTEMPERATUREBELOWFieldNumber = 8;
+  // .blox_test.Sequence.WaitTemperatureRange WAIT_TEMP_UNEXPECTED = 8;
+  bool has_wait_temp_unexpected() const;
+  void clear_wait_temp_unexpected();
+  static const int kWAITTEMPUNEXPECTEDFieldNumber = 8;
   private:
-  const ::blox_test::Sequence::WaitTemperatureBoundary& _internal_wait_temperature_below() const;
+  const ::blox_test::Sequence::WaitTemperatureRange& _internal_wait_temp_unexpected() const;
   public:
-  const ::blox_test::Sequence::WaitTemperatureBoundary& wait_temperature_below() const;
-  ::blox_test::Sequence::WaitTemperatureBoundary* release_wait_temperature_below();
-  ::blox_test::Sequence::WaitTemperatureBoundary* mutable_wait_temperature_below();
-  void set_allocated_wait_temperature_below(::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_below);
+  const ::blox_test::Sequence::WaitTemperatureRange& wait_temp_unexpected() const;
+  ::blox_test::Sequence::WaitTemperatureRange* release_wait_temp_unexpected();
+  ::blox_test::Sequence::WaitTemperatureRange* mutable_wait_temp_unexpected();
+  void set_allocated_wait_temp_unexpected(::blox_test::Sequence::WaitTemperatureRange* wait_temp_unexpected);
 
-  // .blox_test.Sequence.SetSetpoint SET_SETPOINT = 9;
+  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMP_ABOVE = 9;
+  bool has_wait_temp_above() const;
+  void clear_wait_temp_above();
+  static const int kWAITTEMPABOVEFieldNumber = 9;
+  private:
+  const ::blox_test::Sequence::WaitTemperatureBoundary& _internal_wait_temp_above() const;
+  public:
+  const ::blox_test::Sequence::WaitTemperatureBoundary& wait_temp_above() const;
+  ::blox_test::Sequence::WaitTemperatureBoundary* release_wait_temp_above();
+  ::blox_test::Sequence::WaitTemperatureBoundary* mutable_wait_temp_above();
+  void set_allocated_wait_temp_above(::blox_test::Sequence::WaitTemperatureBoundary* wait_temp_above);
+
+  // .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMP_BELOW = 10;
+  bool has_wait_temp_below() const;
+  void clear_wait_temp_below();
+  static const int kWAITTEMPBELOWFieldNumber = 10;
+  private:
+  const ::blox_test::Sequence::WaitTemperatureBoundary& _internal_wait_temp_below() const;
+  public:
+  const ::blox_test::Sequence::WaitTemperatureBoundary& wait_temp_below() const;
+  ::blox_test::Sequence::WaitTemperatureBoundary* release_wait_temp_below();
+  ::blox_test::Sequence::WaitTemperatureBoundary* mutable_wait_temp_below();
+  void set_allocated_wait_temp_below(::blox_test::Sequence::WaitTemperatureBoundary* wait_temp_below);
+
+  // .blox_test.Sequence.SetSetpoint SET_SETPOINT = 11;
   bool has_set_setpoint() const;
   void clear_set_setpoint();
-  static const int kSETSETPOINTFieldNumber = 9;
+  static const int kSETSETPOINTFieldNumber = 11;
   private:
   const ::blox_test::Sequence::SetSetpoint& _internal_set_setpoint() const;
   public:
@@ -1890,10 +1797,10 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::blox_test::Sequence::SetSetpoint* mutable_set_setpoint();
   void set_allocated_set_setpoint(::blox_test::Sequence::SetSetpoint* set_setpoint);
 
-  // .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 10;
+  // .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 12;
   bool has_wait_setpoint() const;
   void clear_wait_setpoint();
-  static const int kWAITSETPOINTFieldNumber = 10;
+  static const int kWAITSETPOINTFieldNumber = 12;
   private:
   const ::blox_test::Sequence::WaitSetpoint& _internal_wait_setpoint() const;
   public:
@@ -1902,10 +1809,10 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::blox_test::Sequence::WaitSetpoint* mutable_wait_setpoint();
   void set_allocated_wait_setpoint(::blox_test::Sequence::WaitSetpoint* wait_setpoint);
 
-  // .blox_test.Sequence.SetDigital SET_DIGITAL = 11;
+  // .blox_test.Sequence.SetDigital SET_DIGITAL = 13;
   bool has_set_digital() const;
   void clear_set_digital();
-  static const int kSETDIGITALFieldNumber = 11;
+  static const int kSETDIGITALFieldNumber = 13;
   private:
   const ::blox_test::Sequence::SetDigital& _internal_set_digital() const;
   public:
@@ -1914,10 +1821,10 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::blox_test::Sequence::SetDigital* mutable_set_digital();
   void set_allocated_set_digital(::blox_test::Sequence::SetDigital* set_digital);
 
-  // .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 12;
+  // .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 14;
   bool has_wait_digital() const;
   void clear_wait_digital();
-  static const int kWAITDIGITALFieldNumber = 12;
+  static const int kWAITDIGITALFieldNumber = 14;
   private:
   const ::blox_test::Sequence::WaitDigital& _internal_wait_digital() const;
   public:
@@ -1926,10 +1833,10 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::blox_test::Sequence::WaitDigital* mutable_wait_digital();
   void set_allocated_wait_digital(::blox_test::Sequence::WaitDigital* wait_digital);
 
-  // .blox_test.Sequence.SetPwm SET_PWM = 13;
+  // .blox_test.Sequence.SetPwm SET_PWM = 15;
   bool has_set_pwm() const;
   void clear_set_pwm();
-  static const int kSETPWMFieldNumber = 13;
+  static const int kSETPWMFieldNumber = 15;
   private:
   const ::blox_test::Sequence::SetPwm& _internal_set_pwm() const;
   public:
@@ -1938,65 +1845,53 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::blox_test::Sequence::SetPwm* mutable_set_pwm();
   void set_allocated_set_pwm(::blox_test::Sequence::SetPwm* set_pwm);
 
-  // .blox_test.Sequence.WaitPwm WAIT_PWM = 14;
-  bool has_wait_pwm() const;
-  void clear_wait_pwm();
-  static const int kWAITPWMFieldNumber = 14;
-  private:
-  const ::blox_test::Sequence::WaitPwm& _internal_wait_pwm() const;
-  public:
-  const ::blox_test::Sequence::WaitPwm& wait_pwm() const;
-  ::blox_test::Sequence::WaitPwm* release_wait_pwm();
-  ::blox_test::Sequence::WaitPwm* mutable_wait_pwm();
-  void set_allocated_wait_pwm(::blox_test::Sequence::WaitPwm* wait_pwm);
-
-  // .blox_test.Sequence.StartWaitProfile START_PROFILE = 15;
+  // .blox_test.Sequence.TargetProfile START_PROFILE = 16;
   bool has_start_profile() const;
   void clear_start_profile();
-  static const int kSTARTPROFILEFieldNumber = 15;
+  static const int kSTARTPROFILEFieldNumber = 16;
   private:
-  const ::blox_test::Sequence::StartWaitProfile& _internal_start_profile() const;
+  const ::blox_test::Sequence::TargetProfile& _internal_start_profile() const;
   public:
-  const ::blox_test::Sequence::StartWaitProfile& start_profile() const;
-  ::blox_test::Sequence::StartWaitProfile* release_start_profile();
-  ::blox_test::Sequence::StartWaitProfile* mutable_start_profile();
-  void set_allocated_start_profile(::blox_test::Sequence::StartWaitProfile* start_profile);
+  const ::blox_test::Sequence::TargetProfile& start_profile() const;
+  ::blox_test::Sequence::TargetProfile* release_start_profile();
+  ::blox_test::Sequence::TargetProfile* mutable_start_profile();
+  void set_allocated_start_profile(::blox_test::Sequence::TargetProfile* start_profile);
 
-  // .blox_test.Sequence.StartWaitProfile WAIT_PROFILE = 16;
+  // .blox_test.Sequence.TargetProfile WAIT_PROFILE = 17;
   bool has_wait_profile() const;
   void clear_wait_profile();
-  static const int kWAITPROFILEFieldNumber = 16;
+  static const int kWAITPROFILEFieldNumber = 17;
   private:
-  const ::blox_test::Sequence::StartWaitProfile& _internal_wait_profile() const;
+  const ::blox_test::Sequence::TargetProfile& _internal_wait_profile() const;
   public:
-  const ::blox_test::Sequence::StartWaitProfile& wait_profile() const;
-  ::blox_test::Sequence::StartWaitProfile* release_wait_profile();
-  ::blox_test::Sequence::StartWaitProfile* mutable_wait_profile();
-  void set_allocated_wait_profile(::blox_test::Sequence::StartWaitProfile* wait_profile);
+  const ::blox_test::Sequence::TargetProfile& wait_profile() const;
+  ::blox_test::Sequence::TargetProfile* release_wait_profile();
+  ::blox_test::Sequence::TargetProfile* mutable_wait_profile();
+  void set_allocated_wait_profile(::blox_test::Sequence::TargetProfile* wait_profile);
 
-  // .blox_test.Sequence.StartWaitSequence START_SEQUENCE = 17;
+  // .blox_test.Sequence.TargetSequence START_SEQUENCE = 18;
   bool has_start_sequence() const;
   void clear_start_sequence();
-  static const int kSTARTSEQUENCEFieldNumber = 17;
+  static const int kSTARTSEQUENCEFieldNumber = 18;
   private:
-  const ::blox_test::Sequence::StartWaitSequence& _internal_start_sequence() const;
+  const ::blox_test::Sequence::TargetSequence& _internal_start_sequence() const;
   public:
-  const ::blox_test::Sequence::StartWaitSequence& start_sequence() const;
-  ::blox_test::Sequence::StartWaitSequence* release_start_sequence();
-  ::blox_test::Sequence::StartWaitSequence* mutable_start_sequence();
-  void set_allocated_start_sequence(::blox_test::Sequence::StartWaitSequence* start_sequence);
+  const ::blox_test::Sequence::TargetSequence& start_sequence() const;
+  ::blox_test::Sequence::TargetSequence* release_start_sequence();
+  ::blox_test::Sequence::TargetSequence* mutable_start_sequence();
+  void set_allocated_start_sequence(::blox_test::Sequence::TargetSequence* start_sequence);
 
-  // .blox_test.Sequence.StartWaitSequence WAIT_SEQUENCE = 18;
+  // .blox_test.Sequence.TargetSequence WAIT_SEQUENCE = 19;
   bool has_wait_sequence() const;
   void clear_wait_sequence();
-  static const int kWAITSEQUENCEFieldNumber = 18;
+  static const int kWAITSEQUENCEFieldNumber = 19;
   private:
-  const ::blox_test::Sequence::StartWaitSequence& _internal_wait_sequence() const;
+  const ::blox_test::Sequence::TargetSequence& _internal_wait_sequence() const;
   public:
-  const ::blox_test::Sequence::StartWaitSequence& wait_sequence() const;
-  ::blox_test::Sequence::StartWaitSequence* release_wait_sequence();
-  ::blox_test::Sequence::StartWaitSequence* mutable_wait_sequence();
-  void set_allocated_wait_sequence(::blox_test::Sequence::StartWaitSequence* wait_sequence);
+  const ::blox_test::Sequence::TargetSequence& wait_sequence() const;
+  ::blox_test::Sequence::TargetSequence* release_wait_sequence();
+  ::blox_test::Sequence::TargetSequence* mutable_wait_sequence();
+  void set_allocated_wait_sequence(::blox_test::Sequence::TargetSequence* wait_sequence);
 
   void clear_instruction_oneof();
   InstructionOneofCase instruction_oneof_case() const;
@@ -2007,15 +1902,16 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void set_has_disable();
   void set_has_wait_duration();
   void set_has_wait_until();
-  void set_has_wait_temperature_between();
-  void set_has_wait_temperature_above();
-  void set_has_wait_temperature_below();
+  void set_has_wait_temp_between();
+  void set_has_wait_temp_not_between();
+  void set_has_wait_temp_unexpected();
+  void set_has_wait_temp_above();
+  void set_has_wait_temp_below();
   void set_has_set_setpoint();
   void set_has_wait_setpoint();
   void set_has_set_digital();
   void set_has_wait_digital();
   void set_has_set_pwm();
-  void set_has_wait_pwm();
   void set_has_start_profile();
   void set_has_wait_profile();
   void set_has_start_sequence();
@@ -2032,133 +1928,24 @@ class Instruction : public ::google::protobuf::Message /* @@protoc_insertion_poi
     ::blox_test::Sequence::EnableDisable* disable_;
     ::blox_test::Sequence::WaitDuration* wait_duration_;
     ::blox_test::Sequence::WaitUntil* wait_until_;
-    ::blox_test::Sequence::WaitTemperature* wait_temperature_between_;
-    ::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_above_;
-    ::blox_test::Sequence::WaitTemperatureBoundary* wait_temperature_below_;
+    ::blox_test::Sequence::WaitTemperatureRange* wait_temp_between_;
+    ::blox_test::Sequence::WaitTemperatureRange* wait_temp_not_between_;
+    ::blox_test::Sequence::WaitTemperatureRange* wait_temp_unexpected_;
+    ::blox_test::Sequence::WaitTemperatureBoundary* wait_temp_above_;
+    ::blox_test::Sequence::WaitTemperatureBoundary* wait_temp_below_;
     ::blox_test::Sequence::SetSetpoint* set_setpoint_;
     ::blox_test::Sequence::WaitSetpoint* wait_setpoint_;
     ::blox_test::Sequence::SetDigital* set_digital_;
     ::blox_test::Sequence::WaitDigital* wait_digital_;
     ::blox_test::Sequence::SetPwm* set_pwm_;
-    ::blox_test::Sequence::WaitPwm* wait_pwm_;
-    ::blox_test::Sequence::StartWaitProfile* start_profile_;
-    ::blox_test::Sequence::StartWaitProfile* wait_profile_;
-    ::blox_test::Sequence::StartWaitSequence* start_sequence_;
-    ::blox_test::Sequence::StartWaitSequence* wait_sequence_;
+    ::blox_test::Sequence::TargetProfile* start_profile_;
+    ::blox_test::Sequence::TargetProfile* wait_profile_;
+    ::blox_test::Sequence::TargetSequence* start_sequence_;
+    ::blox_test::Sequence::TargetSequence* wait_sequence_;
   } instruction_oneof_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
 
-  friend struct ::protobuf_Sequence_5ftest_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class InstructionReset : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.Sequence.InstructionReset) */ {
- public:
-  InstructionReset();
-  virtual ~InstructionReset();
-
-  InstructionReset(const InstructionReset& from);
-
-  inline InstructionReset& operator=(const InstructionReset& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  InstructionReset(InstructionReset&& from) noexcept
-    : InstructionReset() {
-    *this = ::std::move(from);
-  }
-
-  inline InstructionReset& operator=(InstructionReset&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const InstructionReset& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const InstructionReset* internal_default_instance() {
-    return reinterpret_cast<const InstructionReset*>(
-               &_InstructionReset_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    15;
-
-  void Swap(InstructionReset* other);
-  friend void swap(InstructionReset& a, InstructionReset& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline InstructionReset* New() const final {
-    return CreateMaybeMessage<InstructionReset>(NULL);
-  }
-
-  InstructionReset* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<InstructionReset>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const InstructionReset& from);
-  void MergeFrom(const InstructionReset& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(InstructionReset* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // uint32 activeInstruction = 1 [(.nanopb) = {
-  void clear_activeinstruction();
-  static const int kActiveInstructionFieldNumber = 1;
-  ::google::protobuf::uint32 activeinstruction() const;
-  void set_activeinstruction(::google::protobuf::uint32 value);
-
-  // uint32 activeInstructionStartedAt = 2 [(.nanopb) = {
-  void clear_activeinstructionstartedat();
-  static const int kActiveInstructionStartedAtFieldNumber = 2;
-  ::google::protobuf::uint32 activeinstructionstartedat() const;
-  void set_activeinstructionstartedat(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:blox_test.Sequence.InstructionReset)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 activeinstruction_;
-  ::google::protobuf::uint32 activeinstructionstartedat_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Sequence_5ftest_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
@@ -2198,7 +1985,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
                &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    14;
 
   void Swap(Block* other);
   friend void swap(Block& a, Block& b) {
@@ -2393,48 +2180,48 @@ inline void WaitUntil::set_time(::google::protobuf::uint32 value) {
 
 // -------------------------------------------------------------------
 
-// WaitTemperature
+// WaitTemperatureRange
 
 // uint32 target = 1 [(.nanopb) = {
-inline void WaitTemperature::clear_target() {
+inline void WaitTemperatureRange::clear_target() {
   target_ = 0u;
 }
-inline ::google::protobuf::uint32 WaitTemperature::target() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitTemperature.target)
+inline ::google::protobuf::uint32 WaitTemperatureRange::target() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitTemperatureRange.target)
   return target_;
 }
-inline void WaitTemperature::set_target(::google::protobuf::uint32 value) {
+inline void WaitTemperatureRange::set_target(::google::protobuf::uint32 value) {
   
   target_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitTemperature.target)
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitTemperatureRange.target)
 }
 
 // sint32 lower = 2 [(.nanopb) = {
-inline void WaitTemperature::clear_lower() {
+inline void WaitTemperatureRange::clear_lower() {
   lower_ = 0;
 }
-inline ::google::protobuf::int32 WaitTemperature::lower() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitTemperature.lower)
+inline ::google::protobuf::int32 WaitTemperatureRange::lower() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitTemperatureRange.lower)
   return lower_;
 }
-inline void WaitTemperature::set_lower(::google::protobuf::int32 value) {
+inline void WaitTemperatureRange::set_lower(::google::protobuf::int32 value) {
   
   lower_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitTemperature.lower)
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitTemperatureRange.lower)
 }
 
 // sint32 upper = 3 [(.nanopb) = {
-inline void WaitTemperature::clear_upper() {
+inline void WaitTemperatureRange::clear_upper() {
   upper_ = 0;
 }
-inline ::google::protobuf::int32 WaitTemperature::upper() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitTemperature.upper)
+inline ::google::protobuf::int32 WaitTemperatureRange::upper() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitTemperatureRange.upper)
   return upper_;
 }
-inline void WaitTemperature::set_upper(::google::protobuf::int32 value) {
+inline void WaitTemperatureRange::set_upper(::google::protobuf::int32 value) {
   
   upper_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitTemperature.upper)
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitTemperatureRange.upper)
 }
 
 // -------------------------------------------------------------------
@@ -2617,70 +2404,38 @@ inline void SetPwm::set_setting(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
-// WaitPwm
+// TargetProfile
 
 // uint32 target = 1 [(.nanopb) = {
-inline void WaitPwm::clear_target() {
+inline void TargetProfile::clear_target() {
   target_ = 0u;
 }
-inline ::google::protobuf::uint32 WaitPwm::target() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitPwm.target)
+inline ::google::protobuf::uint32 TargetProfile::target() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.TargetProfile.target)
   return target_;
 }
-inline void WaitPwm::set_target(::google::protobuf::uint32 value) {
+inline void TargetProfile::set_target(::google::protobuf::uint32 value) {
   
   target_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitPwm.target)
-}
-
-// sint32 precision = 2 [(.nanopb) = {
-inline void WaitPwm::clear_precision() {
-  precision_ = 0;
-}
-inline ::google::protobuf::int32 WaitPwm::precision() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.WaitPwm.precision)
-  return precision_;
-}
-inline void WaitPwm::set_precision(::google::protobuf::int32 value) {
-  
-  precision_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.WaitPwm.precision)
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.TargetProfile.target)
 }
 
 // -------------------------------------------------------------------
 
-// StartWaitProfile
+// TargetSequence
 
 // uint32 target = 1 [(.nanopb) = {
-inline void StartWaitProfile::clear_target() {
+inline void TargetSequence::clear_target() {
   target_ = 0u;
 }
-inline ::google::protobuf::uint32 StartWaitProfile::target() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.StartWaitProfile.target)
+inline ::google::protobuf::uint32 TargetSequence::target() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.TargetSequence.target)
   return target_;
 }
-inline void StartWaitProfile::set_target(::google::protobuf::uint32 value) {
+inline void TargetSequence::set_target(::google::protobuf::uint32 value) {
   
   target_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.StartWaitProfile.target)
-}
-
-// -------------------------------------------------------------------
-
-// StartWaitSequence
-
-// uint32 target = 1 [(.nanopb) = {
-inline void StartWaitSequence::clear_target() {
-  target_ = 0u;
-}
-inline ::google::protobuf::uint32 StartWaitSequence::target() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.StartWaitSequence.target)
-  return target_;
-}
-inline void StartWaitSequence::set_target(::google::protobuf::uint32 value) {
-  
-  target_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.StartWaitSequence.target)
+  // @@protoc_insertion_point(field_set:blox_test.Sequence.TargetSequence.target)
 }
 
 // -------------------------------------------------------------------
@@ -2907,139 +2662,227 @@ inline ::blox_test::Sequence::WaitUntil* Instruction::mutable_wait_until() {
   return instruction_oneof_.wait_until_;
 }
 
-// .blox_test.Sequence.WaitTemperature WAIT_TEMPERATURE_BETWEEN = 6;
-inline bool Instruction::has_wait_temperature_between() const {
-  return instruction_oneof_case() == kWAITTEMPERATUREBETWEEN;
+// .blox_test.Sequence.WaitTemperatureRange WAIT_TEMP_BETWEEN = 6;
+inline bool Instruction::has_wait_temp_between() const {
+  return instruction_oneof_case() == kWAITTEMPBETWEEN;
 }
-inline void Instruction::set_has_wait_temperature_between() {
-  _oneof_case_[0] = kWAITTEMPERATUREBETWEEN;
+inline void Instruction::set_has_wait_temp_between() {
+  _oneof_case_[0] = kWAITTEMPBETWEEN;
 }
-inline void Instruction::clear_wait_temperature_between() {
-  if (has_wait_temperature_between()) {
-    delete instruction_oneof_.wait_temperature_between_;
+inline void Instruction::clear_wait_temp_between() {
+  if (has_wait_temp_between()) {
+    delete instruction_oneof_.wait_temp_between_;
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::WaitTemperature& Instruction::_internal_wait_temperature_between() const {
-  return *instruction_oneof_.wait_temperature_between_;
+inline const ::blox_test::Sequence::WaitTemperatureRange& Instruction::_internal_wait_temp_between() const {
+  return *instruction_oneof_.wait_temp_between_;
 }
-inline ::blox_test::Sequence::WaitTemperature* Instruction::release_wait_temperature_between() {
-  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BETWEEN)
-  if (has_wait_temperature_between()) {
+inline ::blox_test::Sequence::WaitTemperatureRange* Instruction::release_wait_temp_between() {
+  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMP_BETWEEN)
+  if (has_wait_temp_between()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::WaitTemperature* temp = instruction_oneof_.wait_temperature_between_;
-    instruction_oneof_.wait_temperature_between_ = NULL;
+      ::blox_test::Sequence::WaitTemperatureRange* temp = instruction_oneof_.wait_temp_between_;
+    instruction_oneof_.wait_temp_between_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::WaitTemperature& Instruction::wait_temperature_between() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BETWEEN)
-  return has_wait_temperature_between()
-      ? *instruction_oneof_.wait_temperature_between_
-      : *reinterpret_cast< ::blox_test::Sequence::WaitTemperature*>(&::blox_test::Sequence::_WaitTemperature_default_instance_);
+inline const ::blox_test::Sequence::WaitTemperatureRange& Instruction::wait_temp_between() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMP_BETWEEN)
+  return has_wait_temp_between()
+      ? *instruction_oneof_.wait_temp_between_
+      : *reinterpret_cast< ::blox_test::Sequence::WaitTemperatureRange*>(&::blox_test::Sequence::_WaitTemperatureRange_default_instance_);
 }
-inline ::blox_test::Sequence::WaitTemperature* Instruction::mutable_wait_temperature_between() {
-  if (!has_wait_temperature_between()) {
+inline ::blox_test::Sequence::WaitTemperatureRange* Instruction::mutable_wait_temp_between() {
+  if (!has_wait_temp_between()) {
     clear_instruction_oneof();
-    set_has_wait_temperature_between();
-    instruction_oneof_.wait_temperature_between_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperature >(
+    set_has_wait_temp_between();
+    instruction_oneof_.wait_temp_between_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureRange >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BETWEEN)
-  return instruction_oneof_.wait_temperature_between_;
+  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMP_BETWEEN)
+  return instruction_oneof_.wait_temp_between_;
 }
 
-// .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_ABOVE = 7;
-inline bool Instruction::has_wait_temperature_above() const {
-  return instruction_oneof_case() == kWAITTEMPERATUREABOVE;
+// .blox_test.Sequence.WaitTemperatureRange WAIT_TEMP_NOT_BETWEEN = 7;
+inline bool Instruction::has_wait_temp_not_between() const {
+  return instruction_oneof_case() == kWAITTEMPNOTBETWEEN;
 }
-inline void Instruction::set_has_wait_temperature_above() {
-  _oneof_case_[0] = kWAITTEMPERATUREABOVE;
+inline void Instruction::set_has_wait_temp_not_between() {
+  _oneof_case_[0] = kWAITTEMPNOTBETWEEN;
 }
-inline void Instruction::clear_wait_temperature_above() {
-  if (has_wait_temperature_above()) {
-    delete instruction_oneof_.wait_temperature_above_;
+inline void Instruction::clear_wait_temp_not_between() {
+  if (has_wait_temp_not_between()) {
+    delete instruction_oneof_.wait_temp_not_between_;
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::_internal_wait_temperature_above() const {
-  return *instruction_oneof_.wait_temperature_above_;
+inline const ::blox_test::Sequence::WaitTemperatureRange& Instruction::_internal_wait_temp_not_between() const {
+  return *instruction_oneof_.wait_temp_not_between_;
 }
-inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::release_wait_temperature_above() {
-  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_ABOVE)
-  if (has_wait_temperature_above()) {
+inline ::blox_test::Sequence::WaitTemperatureRange* Instruction::release_wait_temp_not_between() {
+  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMP_NOT_BETWEEN)
+  if (has_wait_temp_not_between()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::WaitTemperatureBoundary* temp = instruction_oneof_.wait_temperature_above_;
-    instruction_oneof_.wait_temperature_above_ = NULL;
+      ::blox_test::Sequence::WaitTemperatureRange* temp = instruction_oneof_.wait_temp_not_between_;
+    instruction_oneof_.wait_temp_not_between_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::wait_temperature_above() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_ABOVE)
-  return has_wait_temperature_above()
-      ? *instruction_oneof_.wait_temperature_above_
+inline const ::blox_test::Sequence::WaitTemperatureRange& Instruction::wait_temp_not_between() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMP_NOT_BETWEEN)
+  return has_wait_temp_not_between()
+      ? *instruction_oneof_.wait_temp_not_between_
+      : *reinterpret_cast< ::blox_test::Sequence::WaitTemperatureRange*>(&::blox_test::Sequence::_WaitTemperatureRange_default_instance_);
+}
+inline ::blox_test::Sequence::WaitTemperatureRange* Instruction::mutable_wait_temp_not_between() {
+  if (!has_wait_temp_not_between()) {
+    clear_instruction_oneof();
+    set_has_wait_temp_not_between();
+    instruction_oneof_.wait_temp_not_between_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureRange >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMP_NOT_BETWEEN)
+  return instruction_oneof_.wait_temp_not_between_;
+}
+
+// .blox_test.Sequence.WaitTemperatureRange WAIT_TEMP_UNEXPECTED = 8;
+inline bool Instruction::has_wait_temp_unexpected() const {
+  return instruction_oneof_case() == kWAITTEMPUNEXPECTED;
+}
+inline void Instruction::set_has_wait_temp_unexpected() {
+  _oneof_case_[0] = kWAITTEMPUNEXPECTED;
+}
+inline void Instruction::clear_wait_temp_unexpected() {
+  if (has_wait_temp_unexpected()) {
+    delete instruction_oneof_.wait_temp_unexpected_;
+    clear_has_instruction_oneof();
+  }
+}
+inline const ::blox_test::Sequence::WaitTemperatureRange& Instruction::_internal_wait_temp_unexpected() const {
+  return *instruction_oneof_.wait_temp_unexpected_;
+}
+inline ::blox_test::Sequence::WaitTemperatureRange* Instruction::release_wait_temp_unexpected() {
+  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMP_UNEXPECTED)
+  if (has_wait_temp_unexpected()) {
+    clear_has_instruction_oneof();
+      ::blox_test::Sequence::WaitTemperatureRange* temp = instruction_oneof_.wait_temp_unexpected_;
+    instruction_oneof_.wait_temp_unexpected_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::blox_test::Sequence::WaitTemperatureRange& Instruction::wait_temp_unexpected() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMP_UNEXPECTED)
+  return has_wait_temp_unexpected()
+      ? *instruction_oneof_.wait_temp_unexpected_
+      : *reinterpret_cast< ::blox_test::Sequence::WaitTemperatureRange*>(&::blox_test::Sequence::_WaitTemperatureRange_default_instance_);
+}
+inline ::blox_test::Sequence::WaitTemperatureRange* Instruction::mutable_wait_temp_unexpected() {
+  if (!has_wait_temp_unexpected()) {
+    clear_instruction_oneof();
+    set_has_wait_temp_unexpected();
+    instruction_oneof_.wait_temp_unexpected_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureRange >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMP_UNEXPECTED)
+  return instruction_oneof_.wait_temp_unexpected_;
+}
+
+// .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMP_ABOVE = 9;
+inline bool Instruction::has_wait_temp_above() const {
+  return instruction_oneof_case() == kWAITTEMPABOVE;
+}
+inline void Instruction::set_has_wait_temp_above() {
+  _oneof_case_[0] = kWAITTEMPABOVE;
+}
+inline void Instruction::clear_wait_temp_above() {
+  if (has_wait_temp_above()) {
+    delete instruction_oneof_.wait_temp_above_;
+    clear_has_instruction_oneof();
+  }
+}
+inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::_internal_wait_temp_above() const {
+  return *instruction_oneof_.wait_temp_above_;
+}
+inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::release_wait_temp_above() {
+  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMP_ABOVE)
+  if (has_wait_temp_above()) {
+    clear_has_instruction_oneof();
+      ::blox_test::Sequence::WaitTemperatureBoundary* temp = instruction_oneof_.wait_temp_above_;
+    instruction_oneof_.wait_temp_above_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::wait_temp_above() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMP_ABOVE)
+  return has_wait_temp_above()
+      ? *instruction_oneof_.wait_temp_above_
       : *reinterpret_cast< ::blox_test::Sequence::WaitTemperatureBoundary*>(&::blox_test::Sequence::_WaitTemperatureBoundary_default_instance_);
 }
-inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::mutable_wait_temperature_above() {
-  if (!has_wait_temperature_above()) {
+inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::mutable_wait_temp_above() {
+  if (!has_wait_temp_above()) {
     clear_instruction_oneof();
-    set_has_wait_temperature_above();
-    instruction_oneof_.wait_temperature_above_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureBoundary >(
+    set_has_wait_temp_above();
+    instruction_oneof_.wait_temp_above_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureBoundary >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_ABOVE)
-  return instruction_oneof_.wait_temperature_above_;
+  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMP_ABOVE)
+  return instruction_oneof_.wait_temp_above_;
 }
 
-// .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMPERATURE_BELOW = 8;
-inline bool Instruction::has_wait_temperature_below() const {
-  return instruction_oneof_case() == kWAITTEMPERATUREBELOW;
+// .blox_test.Sequence.WaitTemperatureBoundary WAIT_TEMP_BELOW = 10;
+inline bool Instruction::has_wait_temp_below() const {
+  return instruction_oneof_case() == kWAITTEMPBELOW;
 }
-inline void Instruction::set_has_wait_temperature_below() {
-  _oneof_case_[0] = kWAITTEMPERATUREBELOW;
+inline void Instruction::set_has_wait_temp_below() {
+  _oneof_case_[0] = kWAITTEMPBELOW;
 }
-inline void Instruction::clear_wait_temperature_below() {
-  if (has_wait_temperature_below()) {
-    delete instruction_oneof_.wait_temperature_below_;
+inline void Instruction::clear_wait_temp_below() {
+  if (has_wait_temp_below()) {
+    delete instruction_oneof_.wait_temp_below_;
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::_internal_wait_temperature_below() const {
-  return *instruction_oneof_.wait_temperature_below_;
+inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::_internal_wait_temp_below() const {
+  return *instruction_oneof_.wait_temp_below_;
 }
-inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::release_wait_temperature_below() {
-  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BELOW)
-  if (has_wait_temperature_below()) {
+inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::release_wait_temp_below() {
+  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_TEMP_BELOW)
+  if (has_wait_temp_below()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::WaitTemperatureBoundary* temp = instruction_oneof_.wait_temperature_below_;
-    instruction_oneof_.wait_temperature_below_ = NULL;
+      ::blox_test::Sequence::WaitTemperatureBoundary* temp = instruction_oneof_.wait_temp_below_;
+    instruction_oneof_.wait_temp_below_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::wait_temperature_below() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BELOW)
-  return has_wait_temperature_below()
-      ? *instruction_oneof_.wait_temperature_below_
+inline const ::blox_test::Sequence::WaitTemperatureBoundary& Instruction::wait_temp_below() const {
+  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_TEMP_BELOW)
+  return has_wait_temp_below()
+      ? *instruction_oneof_.wait_temp_below_
       : *reinterpret_cast< ::blox_test::Sequence::WaitTemperatureBoundary*>(&::blox_test::Sequence::_WaitTemperatureBoundary_default_instance_);
 }
-inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::mutable_wait_temperature_below() {
-  if (!has_wait_temperature_below()) {
+inline ::blox_test::Sequence::WaitTemperatureBoundary* Instruction::mutable_wait_temp_below() {
+  if (!has_wait_temp_below()) {
     clear_instruction_oneof();
-    set_has_wait_temperature_below();
-    instruction_oneof_.wait_temperature_below_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureBoundary >(
+    set_has_wait_temp_below();
+    instruction_oneof_.wait_temp_below_ = CreateMaybeMessage< ::blox_test::Sequence::WaitTemperatureBoundary >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMPERATURE_BELOW)
-  return instruction_oneof_.wait_temperature_below_;
+  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_TEMP_BELOW)
+  return instruction_oneof_.wait_temp_below_;
 }
 
-// .blox_test.Sequence.SetSetpoint SET_SETPOINT = 9;
+// .blox_test.Sequence.SetSetpoint SET_SETPOINT = 11;
 inline bool Instruction::has_set_setpoint() const {
   return instruction_oneof_case() == kSETSETPOINT;
 }
@@ -3083,7 +2926,7 @@ inline ::blox_test::Sequence::SetSetpoint* Instruction::mutable_set_setpoint() {
   return instruction_oneof_.set_setpoint_;
 }
 
-// .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 10;
+// .blox_test.Sequence.WaitSetpoint WAIT_SETPOINT = 12;
 inline bool Instruction::has_wait_setpoint() const {
   return instruction_oneof_case() == kWAITSETPOINT;
 }
@@ -3127,7 +2970,7 @@ inline ::blox_test::Sequence::WaitSetpoint* Instruction::mutable_wait_setpoint()
   return instruction_oneof_.wait_setpoint_;
 }
 
-// .blox_test.Sequence.SetDigital SET_DIGITAL = 11;
+// .blox_test.Sequence.SetDigital SET_DIGITAL = 13;
 inline bool Instruction::has_set_digital() const {
   return instruction_oneof_case() == kSETDIGITAL;
 }
@@ -3171,7 +3014,7 @@ inline ::blox_test::Sequence::SetDigital* Instruction::mutable_set_digital() {
   return instruction_oneof_.set_digital_;
 }
 
-// .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 12;
+// .blox_test.Sequence.WaitDigital WAIT_DIGITAL = 14;
 inline bool Instruction::has_wait_digital() const {
   return instruction_oneof_case() == kWAITDIGITAL;
 }
@@ -3215,7 +3058,7 @@ inline ::blox_test::Sequence::WaitDigital* Instruction::mutable_wait_digital() {
   return instruction_oneof_.wait_digital_;
 }
 
-// .blox_test.Sequence.SetPwm SET_PWM = 13;
+// .blox_test.Sequence.SetPwm SET_PWM = 15;
 inline bool Instruction::has_set_pwm() const {
   return instruction_oneof_case() == kSETPWM;
 }
@@ -3259,51 +3102,7 @@ inline ::blox_test::Sequence::SetPwm* Instruction::mutable_set_pwm() {
   return instruction_oneof_.set_pwm_;
 }
 
-// .blox_test.Sequence.WaitPwm WAIT_PWM = 14;
-inline bool Instruction::has_wait_pwm() const {
-  return instruction_oneof_case() == kWAITPWM;
-}
-inline void Instruction::set_has_wait_pwm() {
-  _oneof_case_[0] = kWAITPWM;
-}
-inline void Instruction::clear_wait_pwm() {
-  if (has_wait_pwm()) {
-    delete instruction_oneof_.wait_pwm_;
-    clear_has_instruction_oneof();
-  }
-}
-inline const ::blox_test::Sequence::WaitPwm& Instruction::_internal_wait_pwm() const {
-  return *instruction_oneof_.wait_pwm_;
-}
-inline ::blox_test::Sequence::WaitPwm* Instruction::release_wait_pwm() {
-  // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_PWM)
-  if (has_wait_pwm()) {
-    clear_has_instruction_oneof();
-      ::blox_test::Sequence::WaitPwm* temp = instruction_oneof_.wait_pwm_;
-    instruction_oneof_.wait_pwm_ = NULL;
-    return temp;
-  } else {
-    return NULL;
-  }
-}
-inline const ::blox_test::Sequence::WaitPwm& Instruction::wait_pwm() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_PWM)
-  return has_wait_pwm()
-      ? *instruction_oneof_.wait_pwm_
-      : *reinterpret_cast< ::blox_test::Sequence::WaitPwm*>(&::blox_test::Sequence::_WaitPwm_default_instance_);
-}
-inline ::blox_test::Sequence::WaitPwm* Instruction::mutable_wait_pwm() {
-  if (!has_wait_pwm()) {
-    clear_instruction_oneof();
-    set_has_wait_pwm();
-    instruction_oneof_.wait_pwm_ = CreateMaybeMessage< ::blox_test::Sequence::WaitPwm >(
-        GetArenaNoVirtual());
-  }
-  // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_PWM)
-  return instruction_oneof_.wait_pwm_;
-}
-
-// .blox_test.Sequence.StartWaitProfile START_PROFILE = 15;
+// .blox_test.Sequence.TargetProfile START_PROFILE = 16;
 inline bool Instruction::has_start_profile() const {
   return instruction_oneof_case() == kSTARTPROFILE;
 }
@@ -3316,38 +3115,38 @@ inline void Instruction::clear_start_profile() {
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::StartWaitProfile& Instruction::_internal_start_profile() const {
+inline const ::blox_test::Sequence::TargetProfile& Instruction::_internal_start_profile() const {
   return *instruction_oneof_.start_profile_;
 }
-inline ::blox_test::Sequence::StartWaitProfile* Instruction::release_start_profile() {
+inline ::blox_test::Sequence::TargetProfile* Instruction::release_start_profile() {
   // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.START_PROFILE)
   if (has_start_profile()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::StartWaitProfile* temp = instruction_oneof_.start_profile_;
+      ::blox_test::Sequence::TargetProfile* temp = instruction_oneof_.start_profile_;
     instruction_oneof_.start_profile_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::StartWaitProfile& Instruction::start_profile() const {
+inline const ::blox_test::Sequence::TargetProfile& Instruction::start_profile() const {
   // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.START_PROFILE)
   return has_start_profile()
       ? *instruction_oneof_.start_profile_
-      : *reinterpret_cast< ::blox_test::Sequence::StartWaitProfile*>(&::blox_test::Sequence::_StartWaitProfile_default_instance_);
+      : *reinterpret_cast< ::blox_test::Sequence::TargetProfile*>(&::blox_test::Sequence::_TargetProfile_default_instance_);
 }
-inline ::blox_test::Sequence::StartWaitProfile* Instruction::mutable_start_profile() {
+inline ::blox_test::Sequence::TargetProfile* Instruction::mutable_start_profile() {
   if (!has_start_profile()) {
     clear_instruction_oneof();
     set_has_start_profile();
-    instruction_oneof_.start_profile_ = CreateMaybeMessage< ::blox_test::Sequence::StartWaitProfile >(
+    instruction_oneof_.start_profile_ = CreateMaybeMessage< ::blox_test::Sequence::TargetProfile >(
         GetArenaNoVirtual());
   }
   // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.START_PROFILE)
   return instruction_oneof_.start_profile_;
 }
 
-// .blox_test.Sequence.StartWaitProfile WAIT_PROFILE = 16;
+// .blox_test.Sequence.TargetProfile WAIT_PROFILE = 17;
 inline bool Instruction::has_wait_profile() const {
   return instruction_oneof_case() == kWAITPROFILE;
 }
@@ -3360,38 +3159,38 @@ inline void Instruction::clear_wait_profile() {
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::StartWaitProfile& Instruction::_internal_wait_profile() const {
+inline const ::blox_test::Sequence::TargetProfile& Instruction::_internal_wait_profile() const {
   return *instruction_oneof_.wait_profile_;
 }
-inline ::blox_test::Sequence::StartWaitProfile* Instruction::release_wait_profile() {
+inline ::blox_test::Sequence::TargetProfile* Instruction::release_wait_profile() {
   // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_PROFILE)
   if (has_wait_profile()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::StartWaitProfile* temp = instruction_oneof_.wait_profile_;
+      ::blox_test::Sequence::TargetProfile* temp = instruction_oneof_.wait_profile_;
     instruction_oneof_.wait_profile_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::StartWaitProfile& Instruction::wait_profile() const {
+inline const ::blox_test::Sequence::TargetProfile& Instruction::wait_profile() const {
   // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_PROFILE)
   return has_wait_profile()
       ? *instruction_oneof_.wait_profile_
-      : *reinterpret_cast< ::blox_test::Sequence::StartWaitProfile*>(&::blox_test::Sequence::_StartWaitProfile_default_instance_);
+      : *reinterpret_cast< ::blox_test::Sequence::TargetProfile*>(&::blox_test::Sequence::_TargetProfile_default_instance_);
 }
-inline ::blox_test::Sequence::StartWaitProfile* Instruction::mutable_wait_profile() {
+inline ::blox_test::Sequence::TargetProfile* Instruction::mutable_wait_profile() {
   if (!has_wait_profile()) {
     clear_instruction_oneof();
     set_has_wait_profile();
-    instruction_oneof_.wait_profile_ = CreateMaybeMessage< ::blox_test::Sequence::StartWaitProfile >(
+    instruction_oneof_.wait_profile_ = CreateMaybeMessage< ::blox_test::Sequence::TargetProfile >(
         GetArenaNoVirtual());
   }
   // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_PROFILE)
   return instruction_oneof_.wait_profile_;
 }
 
-// .blox_test.Sequence.StartWaitSequence START_SEQUENCE = 17;
+// .blox_test.Sequence.TargetSequence START_SEQUENCE = 18;
 inline bool Instruction::has_start_sequence() const {
   return instruction_oneof_case() == kSTARTSEQUENCE;
 }
@@ -3404,38 +3203,38 @@ inline void Instruction::clear_start_sequence() {
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::StartWaitSequence& Instruction::_internal_start_sequence() const {
+inline const ::blox_test::Sequence::TargetSequence& Instruction::_internal_start_sequence() const {
   return *instruction_oneof_.start_sequence_;
 }
-inline ::blox_test::Sequence::StartWaitSequence* Instruction::release_start_sequence() {
+inline ::blox_test::Sequence::TargetSequence* Instruction::release_start_sequence() {
   // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.START_SEQUENCE)
   if (has_start_sequence()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::StartWaitSequence* temp = instruction_oneof_.start_sequence_;
+      ::blox_test::Sequence::TargetSequence* temp = instruction_oneof_.start_sequence_;
     instruction_oneof_.start_sequence_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::StartWaitSequence& Instruction::start_sequence() const {
+inline const ::blox_test::Sequence::TargetSequence& Instruction::start_sequence() const {
   // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.START_SEQUENCE)
   return has_start_sequence()
       ? *instruction_oneof_.start_sequence_
-      : *reinterpret_cast< ::blox_test::Sequence::StartWaitSequence*>(&::blox_test::Sequence::_StartWaitSequence_default_instance_);
+      : *reinterpret_cast< ::blox_test::Sequence::TargetSequence*>(&::blox_test::Sequence::_TargetSequence_default_instance_);
 }
-inline ::blox_test::Sequence::StartWaitSequence* Instruction::mutable_start_sequence() {
+inline ::blox_test::Sequence::TargetSequence* Instruction::mutable_start_sequence() {
   if (!has_start_sequence()) {
     clear_instruction_oneof();
     set_has_start_sequence();
-    instruction_oneof_.start_sequence_ = CreateMaybeMessage< ::blox_test::Sequence::StartWaitSequence >(
+    instruction_oneof_.start_sequence_ = CreateMaybeMessage< ::blox_test::Sequence::TargetSequence >(
         GetArenaNoVirtual());
   }
   // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.START_SEQUENCE)
   return instruction_oneof_.start_sequence_;
 }
 
-// .blox_test.Sequence.StartWaitSequence WAIT_SEQUENCE = 18;
+// .blox_test.Sequence.TargetSequence WAIT_SEQUENCE = 19;
 inline bool Instruction::has_wait_sequence() const {
   return instruction_oneof_case() == kWAITSEQUENCE;
 }
@@ -3448,31 +3247,31 @@ inline void Instruction::clear_wait_sequence() {
     clear_has_instruction_oneof();
   }
 }
-inline const ::blox_test::Sequence::StartWaitSequence& Instruction::_internal_wait_sequence() const {
+inline const ::blox_test::Sequence::TargetSequence& Instruction::_internal_wait_sequence() const {
   return *instruction_oneof_.wait_sequence_;
 }
-inline ::blox_test::Sequence::StartWaitSequence* Instruction::release_wait_sequence() {
+inline ::blox_test::Sequence::TargetSequence* Instruction::release_wait_sequence() {
   // @@protoc_insertion_point(field_release:blox_test.Sequence.Instruction.WAIT_SEQUENCE)
   if (has_wait_sequence()) {
     clear_has_instruction_oneof();
-      ::blox_test::Sequence::StartWaitSequence* temp = instruction_oneof_.wait_sequence_;
+      ::blox_test::Sequence::TargetSequence* temp = instruction_oneof_.wait_sequence_;
     instruction_oneof_.wait_sequence_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::Sequence::StartWaitSequence& Instruction::wait_sequence() const {
+inline const ::blox_test::Sequence::TargetSequence& Instruction::wait_sequence() const {
   // @@protoc_insertion_point(field_get:blox_test.Sequence.Instruction.WAIT_SEQUENCE)
   return has_wait_sequence()
       ? *instruction_oneof_.wait_sequence_
-      : *reinterpret_cast< ::blox_test::Sequence::StartWaitSequence*>(&::blox_test::Sequence::_StartWaitSequence_default_instance_);
+      : *reinterpret_cast< ::blox_test::Sequence::TargetSequence*>(&::blox_test::Sequence::_TargetSequence_default_instance_);
 }
-inline ::blox_test::Sequence::StartWaitSequence* Instruction::mutable_wait_sequence() {
+inline ::blox_test::Sequence::TargetSequence* Instruction::mutable_wait_sequence() {
   if (!has_wait_sequence()) {
     clear_instruction_oneof();
     set_has_wait_sequence();
-    instruction_oneof_.wait_sequence_ = CreateMaybeMessage< ::blox_test::Sequence::StartWaitSequence >(
+    instruction_oneof_.wait_sequence_ = CreateMaybeMessage< ::blox_test::Sequence::TargetSequence >(
         GetArenaNoVirtual());
   }
   // @@protoc_insertion_point(field_mutable:blox_test.Sequence.Instruction.WAIT_SEQUENCE)
@@ -3488,38 +3287,6 @@ inline void Instruction::clear_has_instruction_oneof() {
 inline Instruction::InstructionOneofCase Instruction::instruction_oneof_case() const {
   return Instruction::InstructionOneofCase(_oneof_case_[0]);
 }
-// -------------------------------------------------------------------
-
-// InstructionReset
-
-// uint32 activeInstruction = 1 [(.nanopb) = {
-inline void InstructionReset::clear_activeinstruction() {
-  activeinstruction_ = 0u;
-}
-inline ::google::protobuf::uint32 InstructionReset::activeinstruction() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.InstructionReset.activeInstruction)
-  return activeinstruction_;
-}
-inline void InstructionReset::set_activeinstruction(::google::protobuf::uint32 value) {
-  
-  activeinstruction_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.InstructionReset.activeInstruction)
-}
-
-// uint32 activeInstructionStartedAt = 2 [(.nanopb) = {
-inline void InstructionReset::clear_activeinstructionstartedat() {
-  activeinstructionstartedat_ = 0u;
-}
-inline ::google::protobuf::uint32 InstructionReset::activeinstructionstartedat() const {
-  // @@protoc_insertion_point(field_get:blox_test.Sequence.InstructionReset.activeInstructionStartedAt)
-  return activeinstructionstartedat_;
-}
-inline void InstructionReset::set_activeinstructionstartedat(::google::protobuf::uint32 value) {
-  
-  activeinstructionstartedat_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Sequence.InstructionReset.activeInstructionStartedAt)
-}
-
 // -------------------------------------------------------------------
 
 // Block
@@ -3669,10 +3436,6 @@ inline void Block::set_error(::blox_test::Sequence::SequenceError value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
