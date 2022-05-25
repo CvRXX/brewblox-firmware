@@ -11,10 +11,11 @@
 #include "pb_decode.h"
 #include "pb_encode.h"
 #include "proto/Sequence.pb.h"
-#include <algorithm>
 
 static constexpr utc_seconds_t MIN_VALID_SYSTIME = 1'000'000'000; // mid-2001
 static constexpr utc_seconds_t STORAGE_DELAY = 60;
+static constexpr temp_t MIN_TEMP = cnl::wrap<temp_t>(std::numeric_limits<int32_t>::min());
+static constexpr temp_t MAX_TEMP = cnl::wrap<temp_t>(std::numeric_limits<int32_t>::max());
 
 bool encodeInstructions(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
@@ -406,8 +407,6 @@ InstructionResult waitSequenceFunc(SequenceBlock&,
 
 InstructionFunctor SequenceBlock::makeRunner()
 {
-    using namespace std::placeholders;
-
     if (_state.activeInstruction >= _instructions.size()) {
         return endFunc;
     }
@@ -418,80 +417,89 @@ InstructionFunctor SequenceBlock::makeRunner()
     case blox_Sequence_Instruction_RESTART_tag:
         return restartFunc;
     case blox_Sequence_Instruction_DISABLE_tag:
-        return std::bind(setEnablerFunc, _1,
-                         cbox::CboxPtr<Enabler>(ins.instruction_oneof.DISABLE.target),
-                         false);
+        return [target = cbox::CboxPtr<Enabler>(ins.instruction_oneof.DISABLE.target)](SequenceBlock& sequence) mutable {
+            return setEnablerFunc(sequence, target, false);
+        };
     case blox_Sequence_Instruction_ENABLE_tag:
-        return std::bind(setEnablerFunc, _1,
-                         cbox::CboxPtr<Enabler>(ins.instruction_oneof.ENABLE.target),
-                         true);
+        return [target = cbox::CboxPtr<Enabler>(ins.instruction_oneof.ENABLE.target)](SequenceBlock& sequence) mutable {
+            return setEnablerFunc(sequence, target, true);
+        };
     case blox_Sequence_Instruction_WAIT_DURATION_tag:
-        return std::bind(waitDurationFunc, _1,
-                         ins.instruction_oneof.WAIT_DURATION.duration);
+        return [duration = ins.instruction_oneof.WAIT_DURATION.duration](SequenceBlock& sequence) mutable {
+            return waitDurationFunc(sequence, duration);
+        };
     case blox_Sequence_Instruction_WAIT_UNTIL_tag:
-        return std::bind(waitUntilFunc, _1,
-                         ins.instruction_oneof.WAIT_UNTIL.time);
+        return [time = ins.instruction_oneof.WAIT_UNTIL.time](SequenceBlock& sequence) mutable {
+            return waitUntilFunc(sequence, time);
+        };
     case blox_Sequence_Instruction_WAIT_TEMP_BETWEEN_tag:
-        return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.lower),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.upper),
-                         WaitTempMode::BETWEEN);
+        return [target = cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.target),
+                lower = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.lower),
+                upper = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BETWEEN.upper)](SequenceBlock& sequence) mutable {
+            return waitTemperatureFunc(sequence, target, lower, upper, WaitTempMode::BETWEEN);
+        };
     case blox_Sequence_Instruction_WAIT_TEMP_NOT_BETWEEN_tag:
-        return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.lower),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.upper),
-                         WaitTempMode::NOT_BETWEEN);
+        return [target = cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.target),
+                lower = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.lower),
+                upper = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_NOT_BETWEEN.upper)](SequenceBlock& sequence) mutable {
+            return waitTemperatureFunc(sequence, target, lower, upper, WaitTempMode::NOT_BETWEEN);
+        };
     case blox_Sequence_Instruction_WAIT_TEMP_UNEXPECTED_tag:
-        return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.lower),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.upper),
-                         WaitTempMode::UNEXPECTED);
+        return [target = cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.target),
+                lower = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.lower),
+                upper = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_UNEXPECTED.upper)](SequenceBlock& sequence) mutable {
+            return waitTemperatureFunc(sequence, target, lower, upper, WaitTempMode::UNEXPECTED);
+        };
     case blox_Sequence_Instruction_WAIT_TEMP_ABOVE_tag:
-        return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_ABOVE.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_ABOVE.value),
-                         cnl::wrap<temp_t>(std::numeric_limits<int32_t>::max()),
-                         WaitTempMode::BETWEEN);
+        return [target = cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_ABOVE.target),
+                value = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_ABOVE.value)](SequenceBlock& sequence) mutable {
+            return waitTemperatureFunc(sequence, target, value, MAX_TEMP, WaitTempMode::BETWEEN);
+        };
     case blox_Sequence_Instruction_WAIT_TEMP_BELOW_tag:
-        return std::bind(waitTemperatureFunc, _1,
-                         cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_BELOW.target),
-                         cnl::wrap<temp_t>(std::numeric_limits<int32_t>::min()),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BELOW.value),
-                         WaitTempMode::BETWEEN);
+        return [target = cbox::CboxPtr<TempSensor>(ins.instruction_oneof.WAIT_TEMP_BELOW.target),
+                value = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_TEMP_BELOW.value)](SequenceBlock& sequence) mutable {
+            return waitTemperatureFunc(sequence, target, MIN_TEMP, value, WaitTempMode::BETWEEN);
+        };
     case blox_Sequence_Instruction_SET_SETPOINT_tag:
-        return std::bind(setSetpointFunc, _1,
-                         cbox::CboxPtr<SetpointSensorPair>(ins.instruction_oneof.SET_SETPOINT.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.SET_SETPOINT.setting));
+        return [target = cbox::CboxPtr<SetpointSensorPair>(ins.instruction_oneof.SET_SETPOINT.target),
+                setting = cnl::wrap<temp_t>(ins.instruction_oneof.SET_SETPOINT.setting)](SequenceBlock& sequence) mutable {
+            return setSetpointFunc(sequence, target, setting);
+        };
     case blox_Sequence_Instruction_WAIT_SETPOINT_tag:
-        return std::bind(waitSetpointFunc, _1,
-                         cbox::CboxPtr<SetpointSensorPair>(ins.instruction_oneof.WAIT_SETPOINT.target),
-                         cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_SETPOINT.precision));
+        return [target = cbox::CboxPtr<SetpointSensorPair>(ins.instruction_oneof.WAIT_SETPOINT.target),
+                precision = cnl::wrap<temp_t>(ins.instruction_oneof.WAIT_SETPOINT.precision)](SequenceBlock& sequence) mutable {
+            return waitSetpointFunc(sequence, target, precision);
+        };
     case blox_Sequence_Instruction_SET_DIGITAL_tag:
-        return std::bind(setDigitalFunc, _1,
-                         cbox::CboxPtr<ActuatorDigitalConstrained>(ins.instruction_oneof.SET_DIGITAL.target),
-                         ActuatorDigitalBase::State(ins.instruction_oneof.SET_DIGITAL.setting));
+        return [target = cbox::CboxPtr<ActuatorDigitalConstrained>(ins.instruction_oneof.SET_DIGITAL.target),
+                setting = ActuatorDigitalBase::State(ins.instruction_oneof.SET_DIGITAL.setting)](SequenceBlock& sequence) mutable {
+            return setDigitalFunc(sequence, target, setting);
+        };
     case blox_Sequence_Instruction_WAIT_DIGITAL_tag:
-        return std::bind(waitDigitalFunc, _1,
-                         cbox::CboxPtr<ActuatorDigitalConstrained>(ins.instruction_oneof.WAIT_DIGITAL.target));
+        return [target = cbox::CboxPtr<ActuatorDigitalConstrained>(ins.instruction_oneof.WAIT_DIGITAL.target)](SequenceBlock& sequence) mutable {
+            return waitDigitalFunc(sequence, target);
+        };
     case blox_Sequence_Instruction_SET_PWM_tag:
-        return std::bind(setPwmFunc, _1,
-                         cbox::CboxPtr<ActuatorPwmBlock>(ins.instruction_oneof.SET_PWM.target),
-                         cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.SET_PWM.setting));
+        return [target = cbox::CboxPtr<ActuatorPwmBlock>(ins.instruction_oneof.SET_PWM.target),
+                setting = cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.SET_PWM.setting)](SequenceBlock& sequence) mutable {
+            return setPwmFunc(sequence, target, setting);
+        };
     case blox_Sequence_Instruction_START_PROFILE_tag:
-        return std::bind(startProfileFunc, _1,
-                         cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.START_PROFILE.target));
+        return [target = cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.START_PROFILE.target)](SequenceBlock& sequence) mutable {
+            return startProfileFunc(sequence, target);
+        };
     case blox_Sequence_Instruction_WAIT_PROFILE_tag:
-        return std::bind(waitProfileFunc, _1,
-                         cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.WAIT_PROFILE.target));
+        return [target = cbox::CboxPtr<SetpointProfileBlock>(ins.instruction_oneof.WAIT_PROFILE.target)](SequenceBlock& sequence) mutable {
+            return waitProfileFunc(sequence, target);
+        };
     case blox_Sequence_Instruction_START_SEQUENCE_tag:
-        return std::bind(startSequenceFunc, _1,
-                         cbox::CboxPtr<SequenceBlock>(ins.instruction_oneof.START_SEQUENCE.target));
+        return [target = cbox::CboxPtr<SequenceBlock>(ins.instruction_oneof.START_SEQUENCE.target)](SequenceBlock& sequence) mutable {
+            return startSequenceFunc(sequence, target);
+        };
     case blox_Sequence_Instruction_WAIT_SEQUENCE_tag:
-        return std::bind(waitSequenceFunc, _1,
-                         cbox::CboxPtr<SequenceBlock>(ins.instruction_oneof.WAIT_SEQUENCE.target));
+        return [target = cbox::CboxPtr<SequenceBlock>(ins.instruction_oneof.WAIT_SEQUENCE.target)](SequenceBlock& sequence) mutable {
+            return waitSequenceFunc(sequence, target);
+        };
     default:
         return errorFunc;
     }
