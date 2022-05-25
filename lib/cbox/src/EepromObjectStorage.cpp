@@ -34,24 +34,6 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    // ID is included in the CRC calculation
-    uint8_t crc = calc_crc_16(0, payload.blockId);
-    crc = calc_crc_8(crc, 0); // flags reserved byte
-    crc = calc_crc_16(crc, payload.blockType);
-    crc = calc_crc_vector(crc, payload.content);
-
-    auto writeWithCrc = [&payload, &crc](EepromBlock& eepromBlock) -> void {
-        uint16_t start = eepromBlock.offset();
-        uint8_t flags{0}; // unused, used to be groups, kept for backwards compatibility
-        eepromBlock.put(flags);
-        eepromBlock.put(payload.blockType);
-        eepromBlock.put(payload.content);
-        eepromBlock.put(crc);
-        uint16_t end = eepromBlock.offset();
-        auto written = end - start;
-        eepromBlock.setWrittenLength(written);
-    };
-
     bool makeNewBlock = false; // set to true if a new block has to be created
 
     std::optional<EepromBlock> existingBlock;
@@ -105,7 +87,21 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
 
     EepromBlock& blockToWrite = newBlock ? *newBlock : *existingBlock;
 
-    writeWithCrc(blockToWrite);
+    // ID is included in the CRC calculation
+    uint8_t crc = calc_crc_16(0, payload.blockId);
+    crc = calc_crc_8(crc, 0); // flags reserved byte
+    crc = calc_crc_16(crc, payload.blockType);
+    crc = calc_crc_vector(crc, payload.content);
+
+    uint16_t start = blockToWrite.offset();
+    uint8_t flags{0}; // unused, used to be groups, kept for backwards compatibility
+    blockToWrite.put(flags);
+    blockToWrite.put(payload.blockType);
+    blockToWrite.put(payload.content);
+    blockToWrite.put(crc);
+    uint16_t end = blockToWrite.offset();
+    auto written = end - start;
+    blockToWrite.setWrittenLength(written);
 
     if (newBlock) {
         // overwrite invalid id with actual id to validate the new block
