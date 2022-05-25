@@ -183,9 +183,6 @@ EepromFreeSpace EepromObjectStorage::freeSpace()
 
 void EepromObjectStorage::defrag()
 {
-    // ensure no invalid objects with ID zero remain in eeprom
-    // these are only temporary while relocating data
-    disposeObject(0);
     do {
         mergeDisposedBlocks();
     } while (moveDisposedBackwards());
@@ -328,13 +325,19 @@ void EepromObjectStorage::shrinkOverallocatedBlocks()
     uint16_t pos = EepromLocation(objects);
     while (auto objOpt = getNextObject(pos, false)) {
         auto& objectBlock = *objOpt;
-        // if object has shrunk and now overprovisioning is large, reduce it to the default
-        auto writtenLength = objectBlock.getWrittenLength();
-        uint16_t normallyProvisioned = provisionedLength(writtenLength);
-        if (objectBlock.length() > normallyProvisioned + 16) {
-            // if block has more than 16 bytes more than normally provisioned
-            // reduce it to the normally provisioned size by splitting off by splitting earlier than before
-            objectBlock.split(normallyProvisioned);
+        // ensure no invalid objects with ID zero remain in eeprom
+        // these are only temporary while relocating data
+        if (objectBlock.getObjectId() == 0) {
+            objectBlock.setBlockType(EepromBlockType::disposed_block);
+        } else {
+            // if object has shrunk and now overprovisioning is large, reduce it to the default
+            auto writtenLength = objectBlock.getWrittenLength();
+            uint16_t normallyProvisioned = provisionedLength(writtenLength);
+            if (objectBlock.length() > normallyProvisioned + 16) {
+                // if block has more than 16 bytes more than normally provisioned
+                // reduce it to the normally provisioned size by splitting off by splitting earlier than before
+                objectBlock.split(normallyProvisioned);
+            }
         }
         pos = objectBlock.end();
     }
