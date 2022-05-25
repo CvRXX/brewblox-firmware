@@ -45,53 +45,35 @@ private:
 
 public:
     LongIntObject() = default;
-    explicit LongIntObject(uint32_t rhs)
-        : val(rhs)
+    explicit LongIntObject(uint32_t v) noexcept
+        : val(v)
     {
     }
 
-    LongIntObject(LongIntObject&& rhs)
-        : val(rhs.val)
+    ~LongIntObject() override = default;
+    LongIntObject(LongIntObject&& other) = default;
+    LongIntObject(const LongIntObject& other) = default;
+    LongIntObject& operator=(const LongIntObject& other) = default;
+    LongIntObject& operator=(LongIntObject&& other) = default;
+
+    bool operator==(const LongIntObject& other) const noexcept
     {
+        return val == other.val;
     }
 
-    LongIntObject(const LongIntObject& rhs)
-        : val(rhs.val)
-    {
-    }
-
-    virtual ~LongIntObject() = default;
-
-    bool operator==(const LongIntObject& rhs) const
-    {
-        return val == rhs.val;
-    }
-
-    LongIntObject& operator=(const LongIntObject& rhs)
-    {
-        this->val = rhs.val;
-        return *this;
-    }
-
-    LongIntObject& operator=(LongIntObject&& rhs)
-    {
-        this->val = rhs.val;
-        return *this;
-    }
-
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
         cbox::appendToByteVector(payload.content, val);
         return callback(payload);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override
     {
         return read(callback);
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         uint32_t newValue = 0;
         if (cbox::readFromByteVector(payload.content, newValue, 0)) {
@@ -107,7 +89,7 @@ public:
         return copy;
     }
 
-    uint32_t value() const
+    [[nodiscard]] uint32_t value() const
     {
         return val;
     }
@@ -125,30 +107,15 @@ public:
     LongIntVectorObject(std::initializer_list<uint32_t> l)
     {
         for (auto v : l) {
-            values.push_back(LongIntObject{v});
+            values.push_back(v);
         }
     }
-    LongIntVectorObject(const LongIntVectorObject& rhs)
-        : values(rhs.values)
-    {
-    }
 
-    LongIntVectorObject(LongIntVectorObject&& rhs)
-        : values(std::move(rhs.values))
-    {
-    }
-
-    LongIntVectorObject& operator=(const LongIntVectorObject& rhs)
-    {
-        this->values = rhs.values;
-        return *this;
-    }
-
-    LongIntVectorObject& operator=(LongIntVectorObject&& rhs)
-    {
-        this->values = std::move(rhs.values);
-        return *this;
-    }
+    ~LongIntVectorObject() override = default;
+    LongIntVectorObject(const LongIntVectorObject& other) = default;
+    LongIntVectorObject(LongIntVectorObject&& other) = default;
+    LongIntVectorObject& operator=(const LongIntVectorObject& other) = default;
+    LongIntVectorObject& operator=(LongIntVectorObject&& other) = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
@@ -158,8 +125,8 @@ public:
         cbox::appendToByteVector(payload.content, uint16_t(values.size()));
 
         // write value for all elements
-        for (auto& value : values) {
-            cbox::appendToByteVector(payload.content, value.value());
+        for (auto value : values) {
+            cbox::appendToByteVector(payload.content, value);
         }
 
         return callback(payload);
@@ -177,25 +144,27 @@ public:
             return cbox::CboxError::INVALID_BLOCK;
         }
 
-        size_t pos = sizeof(newSize);
-        values.resize(newSize);
-        for (auto& value : values) {
-            uint32_t content = 0;
-            if (!cbox::readFromByteVector(payload.content, content, pos)) {
+        int pos = sizeof(newSize);
+        values.clear();
+        values.reserve(newSize);
+
+        while (values.size() < newSize) {
+            uint32_t newVal = 0;
+            if (!cbox::readFromByteVector(payload.content, newVal, pos)) {
                 return cbox::CboxError::NETWORK_READ_ERROR;
             }
-            pos += sizeof(content);
-            value.value(content);
+            pos += sizeof(newVal);
+            values.push_back(newVal);
         }
         return cbox::CboxError::OK;
     }
 
-    bool operator==(const LongIntVectorObject& rhs) const
+    bool operator==(const LongIntVectorObject& other) const
     {
-        return values == rhs.values;
+        return values == other.values;
     }
 
-    std::vector<LongIntObject> values;
+    std::vector<uint32_t> values;
 };
 
 /**

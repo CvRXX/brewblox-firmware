@@ -58,6 +58,9 @@ CFLAGS += -ffunction-sections -Wall
 # Flag compiler error for [-Wdeprecated-declarations]
 CFLAGS += -Werror=deprecated-declarations
 
+# stop on first error
+CFLAGS += -Wfatal-errors
+
 # Generate dependency files automatically.
 CFLAGS += -g -Og
 CFLAGS += -MD -MP -MF $@.d

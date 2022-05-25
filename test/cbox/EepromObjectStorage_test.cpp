@@ -17,6 +17,7 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "TestHelpers.hpp"
 #include "TestObjects.hpp"
 #include "cbox/EepromAccess.hpp"
 #include "cbox/EepromObjectStorage.hpp"
@@ -26,24 +27,110 @@
 
 using namespace cbox;
 
+class EepromOjectStorageTester : public EepromObjectStorage {
+public:
+    using EepromObjectStorage::EepromObjectStorage;
+    using EepromObjectStorage::getExistingBlock;
+    using EepromObjectStorage::getExistingObject;
+    using EepromObjectStorage::getNewObject;
+};
+
+SCENARIO("Low level functions test", "[eeprom]")
+{
+    ArrayEepromAccess<2048> eeprom;
+    EepromOjectStorageTester storage(eeprom);
+
+    WHEN("A block is split")
+    {
+        auto block1Opt = storage.getExistingBlock(EepromBlockType::disposed_block, 0, EepromLocation(objects));
+        REQUIRE(block1Opt.has_value());
+        auto& block1 = block1Opt.value();
+        CHECK(block1.length() == 2013);
+        CHECK(block1.block_size() == 2016);
+        CHECK(block1.object_pos() == EepromLocation(objects) + 3);
+        CHECK(block1.object_data_pos() == EepromLocation(objects) + 3 + 4);
+        CHECK(block1.end() == EepromLocation(objects) + 2016);
+        CHECK(block1.remaining() == 2013);
+        CHECK(storage.freeSpace().continuous == 2013);
+        CHECK(storage.freeSpace().total == 2013);
+
+        block1.split(100);
+        CHECK(block1.remaining() == 100);
+        CHECK(block1.end() == EepromLocation(objects) + 3 + 100);
+        auto blockOpt2 = storage.getExistingBlock(EepromBlockType::disposed_block, 0, block1.end());
+        REQUIRE(blockOpt2.has_value());
+        auto block2 = blockOpt2.value();
+
+        THEN("The new blocks have the expected length and size")
+        {
+            CHECK(block1.length() == 100);
+            CHECK(block1.block_size() == 100 + EepromBlock::blockHeaderLength);
+            CHECK(block2.length() == 2013 - block1.block_size());
+            CHECK(block1.block_size() + block2.block_size() == 2016);
+            CHECK(storage.freeSpace().continuous == block2.length());
+            CHECK(storage.freeSpace().total == 2013);
+        }
+        AND_WHEN("When the blocks are joined again")
+        {
+            block1.join(block2);
+            THEN("block 1 has the original size")
+            {
+                CHECK(block1.length() == 2013);
+                CHECK(storage.freeSpace().continuous == 2013);
+                CHECK(storage.freeSpace().total == 2013);
+            }
+        }
+    }
+
+    WHEN("A new object block is created")
+    {
+        auto objBlockOpt = storage.getNewObject(100);
+        REQUIRE(objBlockOpt.has_value());
+        auto& objBlock = objBlockOpt.value();
+
+        THEN("The properties are as expected")
+        {
+            CHECK(objBlock.object_data_length() == 112);
+            CHECK(objBlock.block_size() == 119);
+            CHECK(objBlock.remaining() == 112); // pos starts at object data
+            // object id is 0 until set
+            CHECK(objBlock.getObjectId() == 0);
+            objBlock.setObjectId(1);
+            CHECK(objBlock.getObjectId() == 1);
+
+            objBlock.setWrittenLength(50);
+            CHECK(objBlock.getWrittenLength() == 50);
+
+            AND_THEN("It can be retrieved from storage")
+            {
+                auto obj2Opt = storage.getExistingObject(1, true);
+                REQUIRE(obj2Opt.has_value());
+                auto obj2 = obj2Opt.value();
+                CHECK(obj2.remaining() == 50);
+                CHECK(obj2.object_data_length() == 112);
+            }
+        }
+    }
+}
+
 SCENARIO("Storing and retrieving blocks with EEPROM storage")
 {
     ArrayEepromAccess<2048> eeprom;
-    EepromObjectStorage storage(eeprom);
+    EepromOjectStorageTester storage(eeprom);
 
-    stream_size_t totalSpace = storage.freeSpace();
+    auto totalSpace = storage.freeSpace().total;
 
     // storage doesn't know about the Object class, these functors handle the conversion to payload
-    auto loadObjectFromStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& target) -> CboxError {
+    auto loadObjectFromStorage = [&storage](obj_id_t id, const std::shared_ptr<Object>& target) -> CboxError {
         return storage.loadObject(id, [&target](const Payload& stored) {
             return target->write(stored);
         });
     };
 
-    auto saveObjectToStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& source) -> CboxError {
+    auto saveObjectToStorage = [&storage](obj_id_t id, const std::shared_ptr<Object>& source) -> CboxError {
         return source->readStored([&storage, &id](const Payload& stored) {
-            auto contentCopy = std::vector<uint8_t>();
-            std::copy(stored.content.begin(), stored.content.end(), std::back_inserter(contentCopy));
+            // make a new Payload because we cannot set id in const Payload
+            auto contentCopy = stored.content;
             return storage.saveObject(Payload(id,
                                               stored.blockType,
                                               0,
@@ -53,8 +140,9 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
     THEN("Storage is one big disposed block initially")
     {
-        CHECK(totalSpace == storage.freeSpace());
-        CHECK(totalSpace == storage.continuousFreeSpace());
+        auto space = storage.freeSpace();
+        CHECK(totalSpace == space.total);
+        CHECK(totalSpace == space.continuous);
     }
 
     WHEN("An object is created")
@@ -73,15 +161,17 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             THEN(
                 "Free space has decreased by 19 bytes"
+                ", 1 byte eeprom block type"
+                ", 2 bytes eeprom size"
+                ", 2 bytes actual object size incl id and flags"
+                ", 2 bytes object id"
                 ", 1 byte flags (previously groups)"
                 ", 2 bytes object type"
                 ", 4 bytes object data"
-                ", 2 bytes object id"
-                ", 4 bytes overprovision"
-                ", 5 bytes object header"
-                ", 1 byte CRC")
+                ", 1 byte CRC"
+                ", 4 bytes overprovision")
             {
-                CHECK(storage.freeSpace() == totalSpace - 19);
+                CHECK(storage.freeSpace().total == totalSpace - 19);
             }
 
             THEN("The data can be streamed back from EEPROM")
@@ -114,7 +204,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
                 THEN("Free space equals total space again")
                 {
-                    CHECK(storage.freeSpace() == totalSpace);
+                    CHECK(storage.freeSpace().total == totalSpace);
                 }
 
                 THEN("It cannot be retrieved anymore")
@@ -261,7 +351,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
         auto obj1 = std::shared_ptr<LongIntVectorObject>(new LongIntVectorObject({0x11111111, 0x22222222}));
         auto obj2 = std::shared_ptr<LongIntVectorObject>(new LongIntVectorObject({0x11111111, 0x22222222, 0x33333333}));
         auto obj3 = std::shared_ptr<LongIntVectorObject>(new LongIntVectorObject({0x11111111, 0x22222222, 0x33333333, 0x44444444}));
-        auto obj4 = std::make_shared<LongIntObject>(0x11111111);
+        auto obj4 = std::shared_ptr<LongIntObject>(new LongIntObject(uint32_t{0x11111111}));
 
         auto res1 = saveObjectToStorage(obj_id_t(1), obj1);
         auto res2 = saveObjectToStorage(obj_id_t(2), obj2);
@@ -375,7 +465,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
         auto small = std::make_shared<LongIntVectorObject>();
         *small = {0x11111111, 0x22222222};
 
-        uint16_t originalSpace = storage.freeSpace();
+        uint16_t originalSpace = storage.freeSpace().total;
 
         THEN("The free space is as expected before adding any objects")
         {
@@ -422,7 +512,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
             CHECK(bigSizeTotal == 121);
             CHECK(smallSizeTotal == 25);
             CHECK(3 * bigSizeTotal + 66 * smallSizeTotal == originalSpace); // exactly fits
-            CHECK(id == 70);                                                // failed to create id 60. 5 big and 45 small objects
+            CHECK(id == 70);                                                // failed to create id 70. 3 big and 66 small objects
         }
 
         THEN("Last object has not been stored")
@@ -434,8 +524,9 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
         THEN("Free space left is 0")
         {
-            CHECK(storage.freeSpace() == 0);
-            CHECK(storage.continuousFreeSpace() == 0);
+            auto space = storage.freeSpace();
+            CHECK(space.total == 0);
+            CHECK(space.continuous == 0);
         }
 
         AND_THEN("When we delete 4 small objects")
@@ -448,8 +539,9 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
             THEN("Continuous free space is a single small object, they are not merged yet")
             {
-                CHECK(storage.continuousFreeSpace() == 4 * smallSizeTotal - 3U); // subtract bytes needed for block header
-                CHECK(storage.freeSpace() == 4 * smallSizeTotal - 3U);
+                auto space = storage.freeSpace();
+                CHECK(space.total == 4 * smallSizeTotal - 3U);
+                CHECK(space.continuous == 4 * smallSizeTotal - 3U); // subtract bytes needed for block header
             }
 
             THEN("When we create a small variable size object in that space")
@@ -474,7 +566,39 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
                     THEN("Disposed blocks have been merged")
                     {
-                        CHECK(storage.continuousFreeSpace() == smallSizeTotal - 3U);
+                        CHECK(storage.freeSpace().continuous == smallSizeTotal - 3U);
+                    }
+
+                    AND_WHEN("The object shrinks again by over 16 bytes")
+                    {
+                        *obj = {
+                            0x22222222,
+                            0x33333333,
+                            0x44444444,
+                        };
+                        CHECK(CboxError::OK == saveObjectToStorage(obj_id_t(id), obj));
+                        auto received = std::make_shared<LongIntVectorObject>();
+
+                        THEN("Its size is reduced during a defrag")
+                        {
+                            auto blockOpt = storage.getExistingObject(id, true);
+                            REQUIRE(blockOpt.has_value());
+                            CHECK((*blockOpt).length() == 51);
+                            uint16_t expectedWrittenLength = 2 + 3 * 4 + 4; // data + flags + type + crc
+                            CHECK((*blockOpt).getWrittenLength() == expectedWrittenLength);
+
+                            storage.defrag();
+
+                            auto blockOpt2 = storage.getExistingObject(id, true);
+                            REQUIRE(blockOpt2.has_value());
+                            CHECK((*blockOpt2).length() == 26);
+                            CHECK((*blockOpt2).getWrittenLength() == expectedWrittenLength);
+
+                            auto received = std::make_shared<LongIntVectorObject>();
+                            res = loadObjectFromStorage(obj_id_t(id), received);
+                            CHECK(res == CboxError::OK);
+                            CHECK(*obj == *received);
+                        }
                     }
                 }
 
@@ -494,20 +618,20 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
                     THEN("The free space is unchanged")
                     {
-                        CHECK(storage.freeSpace() == spaceBefore);
+                        CHECK(storage.freeSpace().total == spaceBefore.total);
                     }
 
                     AND_WHEN("We delete a big object")
                     {
                         CHECK(storage.disposeObject(20));
-                        auto spaceAfterDelete = spaceBefore + bigSizeTotal; // freed up 1 big object of bytes
-                        CHECK(storage.freeSpace() == spaceAfterDelete);
+                        auto spaceAfterDelete = spaceBefore.total + bigSizeTotal; // freed up 1 big object of bytes
+                        CHECK(storage.freeSpace().total == spaceAfterDelete);
 
                         THEN("We can store the grown object again, it is relocated")
                         {
                             auto res = saveObjectToStorage(obj_id_t(id), big);
                             CHECK(res == CboxError::OK);
-                            CHECK(storage.freeSpace() == spaceAfterDelete - bigSizeReserved + smallSizeReserved);
+                            CHECK(storage.freeSpace().total == spaceAfterDelete - bigSizeReserved + smallSizeReserved);
 
                             auto received = std::make_shared<LongIntVectorObject>();
                             res = loadObjectFromStorage(obj_id_t(id), received);
@@ -524,17 +648,18 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
             for (obj_id_t id = 1; id <= 69; id++) {
                 if (id % 20 != 0) {
                     bool deleted = storage.disposeObject(id);
-                    CHECK(deleted);
+                    REQUIRE(deleted);
                 }
             }
+
             THEN("Continuous free space is size of 19 small objects")
             {
-                CHECK(storage.continuousFreeSpace() == 19 * smallSizeTotal - 3U);
+                CHECK(storage.freeSpace().continuous == 19 * smallSizeTotal - 3U);
             }
 
             THEN("Total free space has increased by the size of all small objects combined")
             {
-                CHECK(storage.freeSpace() == 66 * smallSizeTotal);
+                CHECK(storage.freeSpace().total == 66 * smallSizeTotal);
             }
 
             AND_WHEN("We create 100 big objects again")
@@ -547,8 +672,9 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
                 THEN("They just fitted in the merged disposed blocks")
                 {
-                    CHECK(storage.continuousFreeSpace() != storage.freeSpace());
-                    CHECK(storage.continuousFreeSpace() < bigSizeTotal - 3U);
+                    auto space = storage.freeSpace();
+                    CHECK(space.continuous != space.total);
+                    CHECK(space.continuous < bigSizeTotal - 3U);
                 }
 
                 AND_WHEN("Another big object is created")
@@ -558,8 +684,9 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
                     THEN("Eeprom was defragmented and continuous free space equals free space")
                     {
-                        INFO("Continuous free space after defrag: " << storage.continuousFreeSpace());
-                        CHECK(storage.freeSpace() == storage.continuousFreeSpace());
+                        auto space = storage.freeSpace();
+                        INFO("Continuous free space after defrag: " << space.continuous);
+                        CHECK(space.total == space.continuous);
                     }
 
                     AND_THEN("All relocated big objects still have the right value")
@@ -588,7 +715,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
         THEN("free space is unaffected")
         {
-            CHECK(storage.freeSpace() == totalSpace);
+            CHECK(storage.freeSpace().total == totalSpace);
         }
     }
 
