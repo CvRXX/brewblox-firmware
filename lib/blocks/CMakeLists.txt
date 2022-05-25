@@ -19,6 +19,7 @@ idf_component_register(
     src/OneWireBusBlock.cpp
     src/OneWireScanningFactory.cpp
     src/PidBlock.cpp
+    src/SequenceBlock.cpp
     src/SetpointProfileBlock.cpp
     src/SetpointSensorPairBlock.cpp
     src/SysInfoBlock.cpp

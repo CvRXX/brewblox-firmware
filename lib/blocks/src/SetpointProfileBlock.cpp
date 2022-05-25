@@ -24,9 +24,9 @@
 #include "pb_encode.h"
 #include "proto/SetpointProfile.pb.h"
 
-bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool encodePoints(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    const std::vector<SetpointProfile::Point>* points = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
+    auto* points = reinterpret_cast<const std::vector<SetpointProfile::Point>*>(*arg);
     for (const auto& p : *points) {
         auto submsg = blox_SetpointProfile_Point();
         submsg.time = p.time;
@@ -42,9 +42,9 @@ bool streamPointsOut(pb_ostream_t* stream, const pb_field_t* field, void* const*
     return true;
 }
 
-bool streamPointsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
+bool decodePoints(pb_istream_t* stream, const pb_field_t*, void** arg)
 {
-    std::vector<SetpointProfile::Point>* newPoints = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
+    auto* newPoints = reinterpret_cast<std::vector<SetpointProfile::Point>*>(*arg);
 
     if (stream->bytes_left) {
         blox_SetpointProfile_Point submsg = blox_SetpointProfile_Point_init_zero;
@@ -62,9 +62,9 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     FieldTags stripped;
 
-    message.points.funcs.encode = &streamPointsOut;
+    message.points.funcs.encode = &encodePoints;
     message.points.arg = const_cast<std::vector<SetpointProfile::Point>*>(&profile.points());
-    message.enabled = profile.enabled();
+    message.enabled = profile.enabler.get();
     message.start = profile.startTime();
     message.targetId = target.getId();
     if (profile.isDriving()) {
@@ -98,14 +98,14 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
     std::vector<SetpointProfile::Point> newPoints;
-    message.points.funcs.decode = &streamPointsIn;
+    message.points.funcs.decode = &decodePoints;
     message.points.arg = &newPoints;
 
     auto res = payloadToMessage(payload, &message, blox_SetpointProfile_Block_fields);
 
     if (res == cbox::CboxError::OK) {
         profile.points(std::move(newPoints));
-        profile.enabled(message.enabled);
+        profile.enabler.set(message.enabled);
         profile.startTime(message.start);
         target.setId(message.targetId);
     }
@@ -125,6 +125,10 @@ void* SetpointProfileBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceIdImpl<Enabler>()) {
+        Enabler* ptr = &profile.enabler;
+        return ptr;
     }
 
     return nullptr;

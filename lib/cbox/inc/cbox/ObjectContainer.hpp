@@ -100,7 +100,7 @@ public:
         return contained.cend();
     }
 
-    CIterator userbegin()
+    CIterator usercbegin()
     {
         return findPosition(startId).first;
     }

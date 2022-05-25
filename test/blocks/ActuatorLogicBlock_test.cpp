@@ -34,7 +34,7 @@
 
 SCENARIO("ActuatorLogicBlock")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
     cbox::update(0);
 

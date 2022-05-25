@@ -21,6 +21,7 @@
 
 #include "control/ActuatorAnalog.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
+#include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
 #include <cstdint>
 #include <functional>
@@ -58,15 +59,15 @@ private:
 
     safe_elastic_fixed_point<2, 28> dutyFraction() const;
 
-    // separate flag for manually disabling the pwm actuator
-    bool m_enabled = true;
-
 #if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     uint8_t timerFuncId = 0;
     duration_millis_t m_fastPwmElapsed = 0;
 #endif
 
 public:
+    // separate flag for manually disabling the pwm actuator
+    Enabler enabler;
+
     /** Constructor.
      *  @param _m_
      target Digital actuator to be toggled with PWM
@@ -83,7 +84,7 @@ public:
     virtual ~ActuatorPwm()
     {
         // ensure that interrupts are removed before destruction.
-        enabled(false);
+        enabler.set(false);
     }
 
     /** ActuatorPWM keeps track of the last high and low transition.
@@ -93,12 +94,12 @@ public:
      *
      * @return achieved duty cycle in fixed point.
      */
-    value_t value() const final;
+    [[nodiscard]] value_t value() const final;
 
     /** Returns the set duty cycle
      * @return duty cycle setting in fixed point
      */
-    value_t setting() const final
+    [[nodiscard]] value_t setting() const final
     {
         return m_dutySetting;
     }
@@ -135,32 +136,16 @@ public:
     /** returns the PWM period
      * @return PWM period in seconds
      */
-    duration_millis_t period() const;
+    [[nodiscard]] duration_millis_t period() const;
 
     /** sets the PWM period
      * @param sec new period in seconds
      */
     void period(const duration_millis_t& p);
 
-    bool valueValid() const final;
+    [[nodiscard]] bool valueValid() const final;
 
-    bool settingValid() const final;
+    [[nodiscard]] bool settingValid() const final;
 
     void settingValid(bool v) final;
-
-    bool enabled() const
-    {
-        return m_enabled;
-    }
-
-    void enabled(bool v)
-    {
-        if (!v && m_enabled) {
-            settingValid(false);
-        }
-        m_enabled = v;
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-        manageTimerTask();
-#endif
-    }
 };

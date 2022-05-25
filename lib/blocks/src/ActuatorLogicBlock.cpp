@@ -73,11 +73,11 @@ void AnalogCompare::write(blox_ActuatorLogic_AnalogCompare& dest, bool includeNo
 void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool includeNotPersisted) const
 {
     message.targetId = target.getId();
-    message.enabled = enabled;
+    message.enabled = enabler.get();
     if (includeNotPersisted) {
         message.result = m_result;
         message.errorPos = m_errorPos;
-        if (enabled) {
+        if (enabler.get()) {
             message.drivenTargetId = message.targetId;
         }
     }
@@ -130,7 +130,7 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         target.setId(message.targetId);
-        enabled = message.enabled;
+        enabler.set(message.enabled);
         digitals.clear();
         analogs.clear();
 
@@ -151,7 +151,7 @@ cbox::update_t
 ActuatorLogicBlock::updateHandler(const cbox::update_t& now)
 {
     m_result = evaluate();
-    if (enabled) {
+    if (enabler.get()) {
         if (auto targetPtr = target.lock()) {
             if (m_result == blox_ActuatorLogic_Result_RESULT_TRUE) {
                 targetPtr->desiredState(ActuatorDigitalBase::State::Active);
@@ -167,6 +167,10 @@ void* ActuatorLogicBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceIdImpl<Enabler>()) {
+        Enabler* ptr = &enabler;
+        return ptr;
     }
     return nullptr;
 }

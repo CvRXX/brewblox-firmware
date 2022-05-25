@@ -27,6 +27,10 @@ namespace cbox {
 
 class ObjectStorage {
 public:
+    const PayloadCallback saveObjectCallback = [this](const Payload& payload) {
+        return saveObject(payload);
+    };
+
     ObjectStorage() = default;
     virtual ~ObjectStorage() = default;
 

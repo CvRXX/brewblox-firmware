@@ -21,7 +21,6 @@
 
 #include "OneWireScanningFactory.hpp"
 #include "cbox/Application.hpp"
-#include "cbox/Box.hpp"
 #include "cbox/CboxPtr.hpp"
 
 class OneWireMultiScanningFactory : public cbox::ScanningFactory {
@@ -34,7 +33,8 @@ public:
 
     std::shared_ptr<cbox::Object> scan() final
     {
-        for (auto obj_it = cbox::objects.cbegin(); obj_it != cbox::objects.cend(); ++obj_it) {
+        auto& objects = cbox::getObjects();
+        for (auto obj_it = objects.cbegin(); obj_it != objects.cend(); ++obj_it) {
             if ((*obj_it)->asInterface<OneWire>() == nullptr) {
                 continue; // not a OneWire bus
             }

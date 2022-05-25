@@ -111,6 +111,7 @@ enum BlockType {
   OneWireBusInterface = 12,
   IoModuleInterface = 13,
   OneWireDeviceBlockInterface = 14,
+  EnablerInterface = 15,
   Any = 255,
   SysInfo = 256,
   Ticks = 257,
@@ -141,12 +142,13 @@ enum BlockType {
   MockPins = 323,
   TempSensorCombi = 324,
   OneWireGpioModule = 325,
+  Sequence = 326,
   BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool BlockType_IsValid(int value);
 const BlockType BlockType_MIN = Invalid;
-const BlockType BlockType_MAX = OneWireGpioModule;
+const BlockType BlockType_MAX = Sequence;
 const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BlockType_descriptor();
@@ -430,6 +432,12 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool bitfield() const;
   void set_bitfield(bool value);
 
+  // bool datetime = 11;
+  void clear_datetime();
+  static const int kDatetimeFieldNumber = 11;
+  bool datetime() const;
+  void set_datetime(bool value);
+
   // @@protoc_insertion_point(class_scope:brewblox.FieldOpts)
  private:
 
@@ -444,6 +452,7 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool driven_;
   bool ignored_;
   bool bitfield_;
+  bool datetime_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
 };
@@ -666,6 +675,20 @@ inline void FieldOpts::set_bitfield(bool value) {
   
   bitfield_ = value;
   // @@protoc_insertion_point(field_set:brewblox.FieldOpts.bitfield)
+}
+
+// bool datetime = 11;
+inline void FieldOpts::clear_datetime() {
+  datetime_ = false;
+}
+inline bool FieldOpts::datetime() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.datetime)
+  return datetime_;
+}
+inline void FieldOpts::set_datetime(bool value) {
+  
+  datetime_ = value;
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.datetime)
 }
 
 #ifdef __GNUC__

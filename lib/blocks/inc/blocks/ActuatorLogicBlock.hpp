@@ -3,6 +3,7 @@
 #include "blocks/Block.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
+#include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
 #include "control/ProcessValue.hpp"
 #include "proto/ActuatorLogic.pb.h"
@@ -71,7 +72,7 @@ private:
 class ActuatorLogicBlock final : public Block<brewblox_BlockType_ActuatorLogic> {
 private:
     cbox::CboxPtr<ActuatorDigitalConstrained> target;
-    bool enabled = false;
+    Enabler enabler;
     std::vector<DigitalCompare> digitals;
     std::vector<AnalogCompare> analogs;
     std::string expression;

@@ -128,5 +128,9 @@ void* SetpointSensorPairBlock::implements(cbox::obj_type_t iface)
         SetpointSensorPair* ptr = &pair;
         return ptr;
     }
+    if (iface == cbox::interfaceId<Enabler>()) {
+        Enabler* ptr = &pair.enabler;
+        return ptr;
+    }
     return nullptr;
 }

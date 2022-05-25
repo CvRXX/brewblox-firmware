@@ -30,7 +30,7 @@ SCENARIO("A TempSensorOneWireBlock")
 {
     WHEN("a TempSensorOneWire object is created")
     {
-        cbox::objects.clearAll();
+        cbox::getObjects().clearAll();
         platform::particle::setupSystemBlocks();
         cbox::update(0);
 

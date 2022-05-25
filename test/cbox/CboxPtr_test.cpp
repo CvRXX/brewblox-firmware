@@ -29,6 +29,7 @@ using namespace cbox;
 
 SCENARIO("A CboxPtr is a dynamic lookup that checks type compatibility and works similar to a weak pointer")
 {
+    auto& objects = getObjects();
     test::getStorage().clear();
     objects.clearAll();
     objects.setObjectsStartId(systemStartId);

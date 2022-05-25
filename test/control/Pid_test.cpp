@@ -46,7 +46,7 @@ SCENARIO("PID Test with mock actuator", "[pid]")
     auto actuator = TestControlPtr<ProcessValue<Pid::out_t>>(actuatorMock);
 
     Pid pid(setpoint, actuator);
-    pid.enabled(true);
+    pid.enabler.set(true);
 
     WHEN("Only proportional gain is active, the output value is correct")
     {
@@ -464,7 +464,7 @@ SCENARIO("PID Test with offset actuator", "[pid]")
     auto output = TestControlPtr<ProcessValue<Pid::out_t>>(actuator);
 
     Pid pid(reference, output);
-    pid.enabled(true);
+    pid.enabler.set(true);
 
     pid.kp(2);
     pid.ti(0);
@@ -516,7 +516,7 @@ SCENARIO("PID Test with offset actuator", "[pid]")
 
     WHEN("The PID is disabled")
     {
-        pid.enabled(false);
+        pid.enabler.set(false);
         reference.ptr->update();
         pid.update();
 
@@ -566,7 +566,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
     auto output = TestControlPtr<ProcessValue<Pid::out_t>>(actuator);
     Pid pid(setpoint, output);
 
-    pid.enabled(true);
+    pid.enabler.set(true);
 
     auto nextPwmUpdate = now;
     auto nextPidUpdate = now;
@@ -876,7 +876,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
 
     WHEN("The PID is disabled")
     {
-        pid.enabled(false);
+        pid.enabler.set(false);
         setpoint.ptr->update();
         pid.update();
 

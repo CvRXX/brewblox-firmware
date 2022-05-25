@@ -79,7 +79,7 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
         message.drivenOutputId = message.outputId;
     }
 
-    message.enabled = pid.enabled();
+    message.enabled = pid.enabler.get();
     message.active = pid.active();
     message.kp = cnl::unwrap(pid.kp());
     message.ti = pid.ti();
@@ -113,7 +113,7 @@ PidBlock::readStored(const cbox::PayloadCallback& callback) const
 
     message.inputId = input.getId();
     message.outputId = output.getId();
-    message.enabled = pid.enabled();
+    message.enabled = pid.enabler.get();
     message.kp = cnl::unwrap(pid.kp());
     message.ti = pid.ti();
     message.td = pid.td();
@@ -135,7 +135,7 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
     auto res = payloadToMessage(payload, &message, blox_Pid_Block_fields);
 
     if (res == cbox::CboxError::OK) {
-        pid.enabled(message.enabled);
+        pid.enabler.set(message.enabled);
         input.setId(message.inputId);
         output.setId(message.outputId);
         pid.kp(cnl::wrap<Pid::in_t>(message.kp));
@@ -197,6 +197,10 @@ void* PidBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceIdImpl<Enabler>()) {
+        Enabler* ptr = &pid.enabler;
+        return ptr;
     }
     return nullptr;
 }

@@ -22,7 +22,7 @@
 #include "blocks/DS2413Block.hpp"
 #include "blocks/TempSensorOneWireBlock.hpp"
 #include "blox_hal/hal_delay.hpp"
-#include "cbox/Box.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/Object.hpp"
 #include "control/OneWireAddress.hpp"
 #include "control/OneWireDevice.hpp"
@@ -32,17 +32,18 @@
 std::shared_ptr<cbox::Object> OneWireScanningFactory::scan()
 {
     if (auto bus = busPtr.lock()) {
+        auto& objects = cbox::getObjects();
         auto busId = busPtr.getId();
         bus->reset_search();
         while (auto newAddr = bus->search()) {
-            auto existing = std::find_if(cbox::objects.begin(), cbox::objects.end(), [&newAddr](const std::shared_ptr<cbox::Object>& obj) {
+            auto existing = std::find_if(objects.begin(), objects.end(), [&newAddr](const std::shared_ptr<cbox::Object>& obj) {
                 if (auto devicePtr = obj->asInterface<OneWireDevice>()) {
                     return devicePtr->address() == newAddr;
                 };
                 return false;
             });
 
-            if (existing == cbox::objects.cend()) {
+            if (existing == objects.cend()) {
                 // create new object
                 uint8_t familyCode = newAddr[0];
                 switch (familyCode) {

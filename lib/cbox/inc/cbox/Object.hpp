@@ -26,6 +26,7 @@
 namespace cbox {
 
 using update_t = uint32_t;
+static constexpr update_t MAX_UPDATE_INTERVAL = std::numeric_limits<update_t>::max() / 2;
 
 class Object;
 
@@ -80,7 +81,7 @@ protected:
      */
     static inline update_t next_update_never(const update_t& now)
     {
-        return now + std::numeric_limits<update_t>::max() / 2;
+        return now + MAX_UPDATE_INTERVAL;
     }
 
     /**
@@ -91,6 +92,11 @@ protected:
     inline update_t next_update_1s(const update_t& now)
     {
         return now + 1000;
+    }
+
+    void resetNextUpdateTime()
+    {
+        _nextUpdateTime = 0;
     }
 
 private:
@@ -173,15 +179,15 @@ public:
 
     void update(update_t now)
     {
-        const update_t overflowGuard = std::numeric_limits<update_t>::max() / 2;
-        if (overflowGuard - now + _nextUpdateTime <= overflowGuard) {
-            forcedUpdate(now);
+        if (_nextUpdateTime == 0 || MAX_UPDATE_INTERVAL - now + _nextUpdateTime <= MAX_UPDATE_INTERVAL) {
+            _nextUpdateTime = updateHandler(now);
         }
     }
 
     void forcedUpdate(update_t now)
     {
-        _nextUpdateTime = updateHandler(now);
+        _nextUpdateTime = 0;
+        update(now);
     }
 };
 

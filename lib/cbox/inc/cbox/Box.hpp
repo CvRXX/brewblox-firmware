@@ -26,8 +26,6 @@
 
 namespace cbox {
 
-extern ObjectContainer objects;
-
 CboxError createBlock(const Payload& request, const PayloadCallback& callback);
 CboxError writeBlock(const Payload& request, const PayloadCallback& callback);
 CboxError readBlock(const Payload& request, const PayloadCallback& callback);

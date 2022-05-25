@@ -1,5 +1,5 @@
 #include "TestObjects.hpp"
-#include "cbox/Box.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/Object.hpp"
 #include "cbox/ScanningFactory.hpp"
 #include <algorithm>
@@ -24,6 +24,7 @@ public:
 
     virtual std::shared_ptr<Object> scan() override final
     {
+        auto& objects = getObjects();
         for (auto& value : candidates) {
             auto existing = std::find_if(objects.cbegin(), objects.cend(), [value](const std::shared_ptr<Object>& obj) {
                 if (auto ptrIfCorrectType = obj->asInterface<LongIntObject>()) {

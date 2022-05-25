@@ -21,23 +21,23 @@
 
 void Pid::update()
 {
-    auto input = m_inputPtr.lock();
+    auto input = _inputPtr.lock();
     auto setpoint = in_t{0};
     if (input && input->settingValid() && input->valueValid()) {
-        if (m_enabled) {
+        if (enabler.get()) {
             active(true);
         }
         setpoint = input->setting();
-        m_boilModeActive = setpoint >= in_t{100} + m_boilPointAdjust;
-        m_error = input->error();
+        _boilModeActive = setpoint >= in_t{100} + _boilPointAdjust;
+        _error = input->error();
 
         checkFilterLength();
-        m_derivative = input->readDerivative(m_derivativeFilterNr);
+        _derivative = input->readDerivative(_derivativeFilterNr);
     } else {
         if (active()) {
             active(false);
         }
-        m_integral = 0;
+        _integral = 0;
     }
     if (!active()) {
         return;
@@ -45,42 +45,42 @@ void Pid::update()
 
     // calculate PID parts.
 
-    m_p = m_kp * m_error;
+    _p = _kp * _error;
 
     // limit D +/- kp max to prevent large spikes
-    auto derivative_val = fp12_t(m_derivative * m_td);
+    auto derivative_val = fp12_t(_derivative * _td);
     if (derivative_val < fp12_t{-1}) {
         derivative_val = fp12_t{-1};
     } else if (derivative_val > fp12_t{1}) {
         derivative_val = fp12_t{1};
     }
-    m_d = -m_kp * derivative_val;
+    _d = -_kp * derivative_val;
 
-    decltype(m_integral) integral_increase = 0;
-    if (m_ti != 0 && m_kp != 0 && !m_boilModeActive) {
-        integral_increase = cnl::quotient(m_p + m_d, m_kp);
-        m_integral += integral_increase;
-        m_i = m_integral * safe_elastic_fixed_point<4, 27>(cnl::quotient(m_kp, m_ti));
+    decltype(_integral) integral_increase = 0;
+    if (_ti != 0 && _kp != 0 && !_boilModeActive) {
+        integral_increase = cnl::quotient(_p + _d, _kp);
+        _integral += integral_increase;
+        _i = _integral * safe_elastic_fixed_point<4, 27>(cnl::quotient(_kp, _ti));
     } else {
-        m_integral = integral_t{0};
-        m_i = 0;
+        _integral = integral_t{0};
+        _i = 0;
     }
 
-    auto pidResult = m_p + m_i + m_d;
+    auto pidResult = _p + _i + _d;
 
     out_t outputValue = pidResult;
 
-    if (m_boilModeActive) {
-        outputValue = std::max(outputValue, m_boilMinOutput);
+    if (_boilModeActive) {
+        outputValue = std::max(outputValue, _boilMinOutput);
     }
 
     // try to set the output to the desired setting
-    if (m_enabled) {
-        if (auto output = m_outputPtr.lock()) {
+    if (enabler.get()) {
+        if (auto output = _outputPtr.lock()) {
             output->settingValid(true);
             output->setting(outputValue);
 
-            if (m_boilModeActive) {
+            if (_boilModeActive) {
                 return;
             }
 
@@ -88,14 +88,14 @@ void Pid::update()
             if (output->settingValid()) {
                 auto outputSetting = output->setting();
 
-                if (m_ti != 0) { // 0 has been chosen to indicate that the integrator is disabled. This also prevents divide by zero.
-                                 // update integral with anti-windup back calculation
-                                 // pidResult - output is zero when actuator is not saturated
+                if (_ti != 0) { // 0 has been chosen to indicate that the integrator is disabled. This also prevents divide by zero.
+                                // update integral with anti-windup back calculation
+                                // pidResult - output is zero when actuator is not saturated
 
                     auto antiWindup = integral_t{0};
                     auto antiWindupValue = outputSetting; // P + I + D, clipped
 
-                    if (m_kp != 0) { // prevent divide by zero
+                    if (_kp != 0) { // prevent divide by zero
                         if (pidResult == outputSetting && output->valueValid()) {
                             // Actuator could be set to desired value, but might not reach set value due to physics or limits in its target actuator
                             // Get the actual achieved value in actuator. This could differ due to slowness time/mutex limits
@@ -108,15 +108,15 @@ void Pid::update()
                             antiWindup += integral_increase;
                         }
 
-                        out_t excess = cnl::quotient(pidResult - antiWindupValue, m_kp);
+                        out_t excess = cnl::quotient(pidResult - antiWindupValue, _kp);
                         antiWindup += int8_t(3) * excess; // anti windup gain is 3
                     }
                     // make sure integral does not cross zero and does not increase by anti-windup
-                    integral_t newIntegral = m_integral - antiWindup;
-                    if (m_integral >= integral_t{0}) {
-                        m_integral = std::clamp(newIntegral, integral_t{0}, m_integral);
+                    integral_t newIntegral = _integral - antiWindup;
+                    if (_integral >= integral_t{0}) {
+                        _integral = std::clamp(newIntegral, integral_t{0}, _integral);
                     } else {
-                        m_integral = std::clamp(newIntegral, m_integral, integral_t{0});
+                        _integral = std::clamp(newIntegral, _integral, integral_t{0});
                     }
                 }
             }
@@ -126,40 +126,40 @@ void Pid::update()
 
 void Pid::i(const out_t& arg)
 {
-    m_i = arg;
+    _i = arg;
 }
 
 void Pid::kp(const in_t& arg)
 {
     if (arg != 0) {
         // scale integral history so integral action doesn't change
-        m_integral = m_integral * safe_elastic_fixed_point<15, 15>(cnl::quotient(m_kp, arg));
+        _integral = _integral * safe_elastic_fixed_point<15, 15>(cnl::quotient(_kp, arg));
     }
-    m_kp = arg;
+    _kp = arg;
 }
 
 void Pid::ti(const uint16_t& arg)
 {
-    if (m_ti != 0) {
+    if (_ti != 0) {
         // scale integral history so integral action doesn't change
-        m_integral = cnl::wrap<integral_t>((int64_t(cnl::unwrap(m_integral)) * arg) / m_ti);
+        _integral = cnl::wrap<integral_t>((int64_t(cnl::unwrap(_integral)) * arg) / _ti);
     }
-    m_ti = arg;
+    _ti = arg;
 }
 
 void Pid::td(const uint16_t& arg)
 {
-    m_td = arg;
-    m_derivativeFilterNr = 0; // trigger automatic filter selection
+    _td = arg;
+    _derivativeFilterNr = 0; // trigger automatic filter selection
     checkFilterLength();
 }
 
 void Pid::setIntegral(const out_t& newIntegratorPart)
 {
-    if (m_kp == 0) {
+    if (_kp == 0) {
         return;
     }
-    m_integral = m_ti * safe_elastic_fixed_point<14, 16>(cnl::quotient(newIntegratorPart, m_kp));
+    _integral = _ti * safe_elastic_fixed_point<14, 16>(cnl::quotient(newIntegratorPart, _kp));
 }
 
 void Pid::checkFilterLength()
@@ -167,18 +167,18 @@ void Pid::checkFilterLength()
 
     // delay for each filter between input step and max derivative: 8, 34, 85, 188, 492, 1428
     const uint16_t limits[6] = {20, 89, 179, 359, 959, 1799};
-    if (!m_derivativeFilterNr) {
-        if (auto input = m_inputPtr.lock()) {
+    if (!_derivativeFilterNr) {
+        if (auto input = _inputPtr.lock()) {
             // selected filter must use an update interval a lot faster than Td to be meaningful
             // The filter delay is roughly 6x the update rate.
-            m_derivativeFilterNr = 1;
-            while (m_derivativeFilterNr < 6) {
-                if (limits[m_derivativeFilterNr - 1] >= m_td) {
+            _derivativeFilterNr = 1;
+            while (_derivativeFilterNr < 6) {
+                if (limits[_derivativeFilterNr - 1] >= _td) {
                     break;
                 }
-                ++m_derivativeFilterNr;
+                ++_derivativeFilterNr;
             };
-            input->resizeFilterIfNeeded(m_derivativeFilterNr);
+            input->resizeFilterIfNeeded(_derivativeFilterNr);
         }
     }
 }

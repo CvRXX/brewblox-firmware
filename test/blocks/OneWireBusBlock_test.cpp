@@ -22,6 +22,7 @@
 #include "TestHelpers.hpp"
 #include "blocks/Block.hpp"
 #include "blocks/OneWireBusBlock.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/Box.hpp"
 #include "cbox/Object.hpp"
 #include "proto/OneWireBus_test.pb.h"
@@ -32,7 +33,7 @@ SCENARIO("A Blox OneWireBus can stream a variable number of found addresses")
 
     GIVEN("A Blox OneWireBus")
     {
-        cbox::objects.clearAll();
+        cbox::getObjects().clearAll();
         platform::particle::setupSystemBlocks();
         cbox::update(0);
         cbox::obj_id_t owId(4);
