@@ -36,7 +36,7 @@ private:
     uint32_t counter = 0;
 
 public:
-    FilterChain(std::vector<uint8_t> params);
+    explicit FilterChain(std::vector<uint8_t> params);
     FilterChain(std::vector<uint8_t> params, std::vector<uint8_t> intervals, uint8_t initStages = 0, int32_t stepThreshold = std::numeric_limits<int32_t>::max());
 
     FilterChain(const FilterChain&) = delete;

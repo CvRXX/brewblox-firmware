@@ -29,9 +29,9 @@ public:
     TouchSettingsBlock() = default;
     ~TouchSettingsBlock() = default;
 
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final;
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final;
+    cbox::CboxError read(const cbox::PayloadCallback& callback) const final;
+    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const final;
+    cbox::CboxError write(const cbox::Payload& payload) final;
 };
 
 } // end namespace platform::particle

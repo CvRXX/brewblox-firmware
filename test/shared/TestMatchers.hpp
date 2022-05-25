@@ -11,7 +11,7 @@ class ArrayMatcher : public Catch::MatcherBase<T const* const&> {
     T target[n];
 
 public:
-    ArrayMatcher(T const* const& _target)
+    explicit ArrayMatcher(T const* const& _target)
     {
         for (int i = 0; i < n; i++) {
             target[i] = _target[i];

@@ -28,7 +28,7 @@ public:
         : address(0)
     {
     }
-    OneWireAddress(uint64_t addr)
+    explicit OneWireAddress(uint64_t addr)
         : address(addr)
     {
     }
@@ -65,9 +65,14 @@ public:
         }
     }
 
-    operator const uint64_t&() const
+    explicit operator const uint64_t&() const
     {
         return address;
+    }
+
+    explicit operator bool() const
+    {
+        return address != 0;
     }
 
     bool valid() const;

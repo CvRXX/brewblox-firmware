@@ -1,4 +1,7 @@
 #pragma once
+
+#include "intellisense.hpp"
+
 #include "cbox/Payload.hpp"
 #include <google/protobuf/message.h>
 #include <sstream>
@@ -32,7 +35,7 @@ public:
         initCallback();
     }
 
-    TestCommand(Payload&& request_)
+    explicit TestCommand(Payload&& request_)
         : request(std::move(request_))
     {
         initCallback();

@@ -37,7 +37,7 @@ obj_type_t interfaceIdImpl();
 
 // for objects, the object id is the interface id
 template <typename T>
-constexpr obj_type_t interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = 0)
+obj_type_t interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = nullptr)
 {
     return T::staticTypeId();
 }
@@ -48,7 +48,7 @@ uint16_t throwIdNotUnique(uint16_t id);
 
 // for interface, we check uniqueness on first use, if compiling with gcc (test code)
 template <typename T>
-obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
+obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = nullptr)
 {
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3
     static auto uniqueId = throwIdNotUnique(interfaceIdImpl<T>());
@@ -61,6 +61,14 @@ obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::va
 }
 
 class Object {
+public:
+    Object() = default;
+    virtual ~Object() = default;
+    Object(const Object&) = delete;
+    Object(Object&&) = delete;
+    Object& operator=(const Object&) = delete;
+    Object& operator=(Object&&) = delete;
+
 private:
     update_t _nextUpdateTime{0}; // ignore update() calls before this time
     obj_id_t _objectId{0};       // unique object ID
@@ -96,18 +104,16 @@ private:
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
      * @param iface: typeId of the interface requested
      */
-    virtual void* implements(obj_type_t iface) = 0;
+    [[nodiscard]] virtual void* implements(obj_type_t iface)
+        = 0;
 
-    const void* implements(obj_type_t iface) const
+    [[nodiscard]] const void* implements(obj_type_t iface) const
     {
         return const_cast<Object*>(this)->implements(iface);
     }
 
 public:
-    Object() = default;
-    virtual ~Object() = default;
-
-    obj_id_t objectId() const
+    [[nodiscard]] obj_id_t objectId() const
     {
         return _objectId;
     }
@@ -122,32 +128,32 @@ public:
      * @return object type
      *
      */
-    virtual obj_type_t typeId() const = 0;
+    [[nodiscard]] virtual obj_type_t typeId() const = 0;
 
     /**
      * Each object can yield its data.
      * A callback is provided so the return value can be processed immediately.
      * The yielded data should be compatible with write().
      */
-    virtual CboxError read(const PayloadCallback& callback) const = 0;
+    [[nodiscard]] virtual CboxError read(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can yield data they want persisted.
      * A callback is provided so the return value can be processed immediately.
      * The yielded data should be compatible with write().
      */
-    virtual CboxError readStored(const PayloadCallback& callback) const = 0;
+    [[nodiscard]] virtual CboxError readStored(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can receive incoming data.
      * This function should be compatible with data yielded from either read() or readStored().
      */
-    virtual CboxError write(const Payload& payload) = 0;
+    [[nodiscard]] virtual CboxError write(const Payload& payload) = 0;
 
     /**
      * Prompt object to load cached data if required.
      */
-    virtual CboxError loadFromCache()
+    [[nodiscard]] virtual CboxError loadFromCache()
     {
         return CboxError::OK;
     }
@@ -159,7 +165,7 @@ public:
     }
 
     template <typename T>
-    const T* asInterface() const
+    [[nodiscard]] const T* asInterface() const
     {
         return reinterpret_cast<const T*>(implements(interfaceId<T>()));
     }
@@ -168,7 +174,7 @@ public:
      * update the object, returns timestamp at which the object wants to be updated again (in ms).
      * The default implementation permanently skips updates.
      */
-    virtual update_t updateHandler(const update_t& now)
+    [[nodiscard]] virtual update_t updateHandler(const update_t& now)
     {
         return next_update_never(now);
     }

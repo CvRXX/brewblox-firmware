@@ -60,11 +60,11 @@ struct Callbacks : public CallbacksBase {
     Pre pre;
     Post post;
 
-    void callPre(TransactionData& t) override final
+    void callPre(TransactionData& t) final
     {
         pre(t);
     }
-    void callPost(TransactionData& t) override final
+    void callPost(TransactionData& t) final
     {
         post(t);
     }
@@ -81,13 +81,13 @@ struct StaticCallbacks : public CallbacksBase {
     void (*pre)(TransactionData& t);
     void (*post)(TransactionData& t);
 
-    void callPre(TransactionData& t) override final
+    void callPre(TransactionData& t) final
     {
         if (pre) {
             pre(t);
         }
     }
-    void callPost(TransactionData& t) override final
+    void callPost(TransactionData& t) final
     {
         if (post) {
             post(t);

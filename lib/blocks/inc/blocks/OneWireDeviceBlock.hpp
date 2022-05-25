@@ -6,20 +6,22 @@
 class OneWire;
 
 class OneWireDeviceBlock {
-protected:
+private:
     cbox::CboxPtr<OneWire> owBus;
 
-public:
-    OneWireDeviceBlock()
+protected:
+    [[nodiscard]] auto& busPtr()
     {
+        return owBus;
     }
 
-    OneWireDeviceBlock(cbox::obj_id_t busId)
+public:
+    explicit OneWireDeviceBlock(cbox::obj_id_t busId)
         : owBus(busId)
     {
     }
 
-    cbox::obj_id_t getBusId() const
+    [[nodiscard]] cbox::obj_id_t getBusId() const
     {
         return owBus.getId();
     }

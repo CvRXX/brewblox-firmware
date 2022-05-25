@@ -29,7 +29,7 @@
  */
 OneWireDevice::OneWireDevice(ControlPtr<OneWire>& busPtr_, OneWireAddress&& address_)
     : m_bus(busPtr_)
-    , m_address(address_)
+    , m_address(std::move(address_))
 {
 }
 

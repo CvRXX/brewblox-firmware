@@ -9,10 +9,6 @@ private:
     std::vector<uint16_t> m_tags;
 
 public:
-    FieldTags() {}
-
-    ~FieldTags() = default;
-
     void add(uint16_t&& t)
     {
         m_tags.push_back(t);

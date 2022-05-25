@@ -27,12 +27,10 @@ private:
     cbox::CboxPtr<OneWire> busPtr;
 
 public:
-    OneWireScanningFactory(cbox::CboxPtr<OneWire>&& busPtr)
-        : busPtr(busPtr)
+    explicit OneWireScanningFactory(cbox::CboxPtr<OneWire>&& busPtr)
+        : busPtr(std::move(busPtr))
     {
     }
 
-    virtual ~OneWireScanningFactory() = default;
-
-    virtual std::shared_ptr<cbox::Object> scan() override final;
+    std::shared_ptr<cbox::Object> scan() final;
 };

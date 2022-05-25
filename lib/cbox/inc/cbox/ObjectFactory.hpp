@@ -52,7 +52,7 @@ struct ObjectFactoryEntry {
     }
 
     template <class T>
-    ObjectFactoryEntry(obj_type_t id)
+    explicit ObjectFactoryEntry(obj_type_t id)
         : typeId(id)
         , createFn(make<T>)
     {

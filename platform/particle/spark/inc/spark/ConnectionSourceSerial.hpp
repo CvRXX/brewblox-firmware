@@ -45,7 +45,7 @@ public:
         serial_connection_active = false;
     };
 
-    virtual std::optional<std::string> readMessage() override final
+    std::optional<std::string> readMessage() final
     {
         bool hasMessage = false;
         buffer.reserve(buffer.size() + 50); // ballpark guess, stream.available() is never >1
@@ -80,29 +80,29 @@ public:
         return std::make_optional(std::move(line));
     }
 
-    virtual bool write(const std::string& message) override final
+    bool write(const std::string& message) final
     {
         return stream.write(reinterpret_cast<const uint8_t*>(message.data()),
                             message.size())
                == message.size();
     }
 
-    virtual void commit() override final
+    void commit() final
     {
         stream.flush();
     }
 
-    virtual ConnectionKind kind() const override final
+    ConnectionKind kind() const final
     {
         return ConnectionKind::Usb;
     }
 
-    virtual bool isConnected() override final
+    bool isConnected() final
     {
         return stream.isConnected();
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         stream.flush();
     }
@@ -119,7 +119,7 @@ public:
     {
     }
 
-    std::unique_ptr<Connection> newConnection() override final
+    std::unique_ptr<Connection> newConnection() final
     {
         if (serial_enabled && !serial_connection_active && ser.isConnected()) {
             return std::make_unique<SerialConnection>(ser);
@@ -127,13 +127,13 @@ public:
         return std::unique_ptr<Connection>();
     }
 
-    virtual void start() override final
+    void start() final
     {
         serial_enabled = true;
         ser.begin(115200);
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         // ser.end(); Don't close serial, leave it open
         serial_enabled = false;

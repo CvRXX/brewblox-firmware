@@ -60,17 +60,17 @@ public:
 
     virtual ~SetpointSensorPair() = default;
 
-    virtual void setting(temp_t const& setting) override final
+    void setting(temp_t const& setting) final
     {
         m_setting = setting;
     }
 
-    virtual temp_t setting() const override final
+    temp_t setting() const final
     {
         return m_setting;
     }
 
-    virtual temp_t value() const override final
+    temp_t value() const final
     {
         if (m_filterNr == 0) {
             return m_filter.readLastInput();
@@ -87,7 +87,7 @@ public:
         }
     }
 
-    bool valueValid() const override final
+    bool valueValid() const final
     {
         return m_sensorFailureCount <= 10;
     }
@@ -100,12 +100,12 @@ public:
         return false;
     }
 
-    bool settingValid() const override final
+    bool settingValid() const final
     {
         return enabler.get();
     }
 
-    virtual void settingValid(bool v) override final
+    void settingValid(bool v) final
     {
         enabler.set(v);
     }

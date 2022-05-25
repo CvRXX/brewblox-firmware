@@ -94,12 +94,12 @@ public:
      *
      * @return achieved duty cycle in fixed point.
      */
-    virtual value_t value() const override final;
+    [[nodiscard]] value_t value() const final;
 
     /** Returns the set duty cycle
      * @return duty cycle setting in fixed point
      */
-    virtual value_t setting() const override final
+    [[nodiscard]] value_t setting() const final
     {
         return m_dutySetting;
     }
@@ -107,7 +107,7 @@ public:
     /** Sets a new duty cycle
      * @param val new duty cycle in fixed point
      */
-    virtual void setting(const value_t& val) override final;
+    void setting(const value_t& val) final;
 
     update_t update(const update_t& now);
 
@@ -136,16 +136,16 @@ public:
     /** returns the PWM period
      * @return PWM period in seconds
      */
-    duration_millis_t period() const;
+    [[nodiscard]] duration_millis_t period() const;
 
     /** sets the PWM period
      * @param sec new period in seconds
      */
     void period(const duration_millis_t& p);
 
-    virtual bool valueValid() const override final;
+    [[nodiscard]] bool valueValid() const final;
 
-    virtual bool settingValid() const override final;
+    [[nodiscard]] bool settingValid() const final;
 
-    virtual void settingValid(bool v) override final;
+    void settingValid(bool v) final;
 };

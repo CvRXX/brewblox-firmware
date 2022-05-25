@@ -17,7 +17,7 @@ public:
     BufferResponseWriter(const BufferResponseWriter&) = delete;
     BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
 
-    bool write(const std::string& message) override final
+    bool write(const std::string& message) final
     {
         if (buf.size() + message.size() <= buf.max_size()) {
             buf.sputn(message.c_str(), message.size());
@@ -26,7 +26,7 @@ public:
         return false;
     }
 
-    bool write(char c) override final
+    bool write(char c) final
     {
         if (buf.size() + 1 <= buf.max_size()) {
             buf.sputc(c);
@@ -35,7 +35,7 @@ public:
         return false;
     }
 
-    bool writeLog(const std::string& message) override final
+    bool writeLog(const std::string& message) final
     {
         if (buf.size() + message.size() + 2 <= buf.max_size()) {
             buf.sputc('<');
@@ -46,7 +46,7 @@ public:
         return false;
     }
 
-    void commit() override final
+    void commit() final
     {
         buf.pubsync();
     }

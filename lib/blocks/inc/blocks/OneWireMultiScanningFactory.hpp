@@ -31,7 +31,7 @@ public:
 
     virtual ~OneWireMultiScanningFactory() = default;
 
-    virtual std::shared_ptr<cbox::Object> scan() override final
+    std::shared_ptr<cbox::Object> scan() final
     {
         auto& objects = cbox::getObjects();
         for (auto obj_it = objects.cbegin(); obj_it != objects.cend(); ++obj_it) {

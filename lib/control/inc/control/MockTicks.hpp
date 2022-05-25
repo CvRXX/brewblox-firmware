@@ -28,7 +28,7 @@
  */
 class MockTicks {
 public:
-    MockTicks(duration_millis_t autoIncrement = 0)
+    explicit MockTicks(duration_millis_t autoIncrement = 0)
         : _increment(autoIncrement)
         , _ticks(0)
     {
