@@ -30,7 +30,7 @@ template <typename T>
 CboxError saveToCache(obj_id_t blockId, obj_type_t blockType, const T& content)
 {
     auto payload = Payload(blockId, blockType, 0);
-    writeToByteVector(payload.content, content, 0);
+    appendToByteVector(payload.content, 0);
     return getCacheStorage().saveObject(payload);
 }
 

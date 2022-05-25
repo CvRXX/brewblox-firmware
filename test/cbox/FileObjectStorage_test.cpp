@@ -45,8 +45,7 @@ SCENARIO("Storing and retrieving blocks with file storage")
 
     auto saveObjectToStorage = [&storage](const obj_id_t& id, const std::shared_ptr<Object>& source) -> CboxError {
         return source->readStored([&storage, &id](const Payload& stored) {
-            auto contentCopy = std::vector<uint8_t>();
-            std::copy(stored.content.begin(), stored.content.end(), std::back_inserter(contentCopy));
+            auto contentCopy = stored.content;
             return storage.saveObject(Payload(id,
                                               stored.blockType,
                                               0,

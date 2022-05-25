@@ -64,10 +64,10 @@ class Object {
 public:
     Object() = default;
     virtual ~Object() = default;
-    Object(const Object&) = delete;
-    Object(Object&&) = delete;
-    Object& operator=(const Object&) = delete;
-    Object& operator=(Object&&) = delete;
+    Object(const Object&) = default;
+    Object(Object&&) = default;
+    Object& operator=(const Object&) = default;
+    Object& operator=(Object&&) = default;
 
 private:
     update_t _nextUpdateTime{0}; // ignore update() calls before this time
@@ -104,9 +104,7 @@ private:
      * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
      * @param iface: typeId of the interface requested
      */
-    [[nodiscard]] virtual void* implements(obj_type_t iface)
-        = 0;
-
+    [[nodiscard]] virtual void* implements(obj_type_t iface) = 0;
     [[nodiscard]] const void* implements(obj_type_t iface) const
     {
         return const_cast<Object*>(this)->implements(iface);

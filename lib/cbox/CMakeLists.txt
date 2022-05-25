@@ -3,7 +3,6 @@ idf_component_register(
     src/Base64.cpp
     src/Box.cpp
     src/Crc.cpp
-    src/EepromDataStream.cpp
     src/EepromObjectStorage.cpp
     src/FileObjectStorage.cpp
     src/ObjectBase.cpp

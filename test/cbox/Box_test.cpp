@@ -157,7 +157,7 @@ SCENARIO("Box commands")
 
                 AND_THEN("The eeprom data can be reloaded")
                 {
-                    objects.reloadStored(100);
+                    CHECK(objects.reloadStored(100) == CboxError::OK);
                     CHECK(obj->value() == 0x44444444);
                 }
             }

@@ -76,3 +76,9 @@ void messageToPayload(cbox::TestCommand& cmd, ::google::protobuf::Message& messa
 void payloadToMessage(cbox::Payload& payload, ::google::protobuf::Message& message);
 
 void payloadToMessage(cbox::TestCommand& cmd, ::google::protobuf::Message& message);
+
+inline std::ostream& operator<<(std::ostream& os, const cbox::CboxError& item)
+{
+    os << static_cast<int>(item);
+    return os;
+}
