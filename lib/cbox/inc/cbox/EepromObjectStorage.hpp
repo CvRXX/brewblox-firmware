@@ -74,6 +74,7 @@ protected:
     void init();
     bool moveDisposedBackwards();
     void mergeDisposedBlocks();
+    void shrinkOverallocatedBlocks();
 
     static CboxError eepromToPayload(const PayloadCallback& callback,
                                      EepromBlock& block);
