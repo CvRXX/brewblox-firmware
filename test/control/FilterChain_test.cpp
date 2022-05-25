@@ -274,18 +274,19 @@ void test_frequencies(
     char* csv = nullptr)
 {
 
-    double t = 0;
     double dt = double(1.0) / double(input_freq);
     double max_period = 1.0 / *std::min_element(freq.begin(), freq.end());
     double t_end = std::max(10.0 * max_period, 10.0 * chain.sampleInterval() * dt);
     double sensor = 0;
     double max = 0;
     double t_max = 0;
+    uint32_t steps = t_end / dt;
 
     std::ofstream csvFile(csv);
 
-    for (t = 0; t < t_end; t += dt) {
+    for (uint32_t step = 0; step < steps; step++) {
         REQUIRE(freq.size() == ampl.size());
+        auto t = dt * step;
         sensor = 0.0;
         auto f = freq.begin();
         auto a = ampl.begin();

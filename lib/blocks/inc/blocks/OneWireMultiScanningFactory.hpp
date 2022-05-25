@@ -32,7 +32,7 @@ public:
 
     virtual ~OneWireMultiScanningFactory() = default;
 
-    virtual std::shared_ptr<cbox::Object> scan() override final
+    std::shared_ptr<cbox::Object> scan() final
     {
         for (auto obj_it = cbox::objects.cbegin(); obj_it != cbox::objects.cend(); ++obj_it) {
             if ((*obj_it)->asInterface<OneWire>() == nullptr) {

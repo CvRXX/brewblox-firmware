@@ -9,7 +9,7 @@
         "PROTO_VERSION=\"ddccbbaa\"",
         "GIT_VERSION=\"aabbccdd\"",
         "GIT_DATE=\"2000-01-01\"",
-        "PLATFORM_ID=100" // gcc=3, photon=6, p1=8, esp32=100
+        "PLATFORM_ID=100"
       ],
       "includePath": [
         ".",
@@ -40,7 +40,7 @@
         "PROTO_VERSION=\"ddccbbaa\"",
         "GIT_VERSION=\"aabbccdd\"",
         "GIT_DATE=\"2000-01-01\"",
-        "PLATFORM_ID=8" // gcc=3, photon=6, p1=8, esp32=100
+        "PLATFORM_ID=8"
       ],
       "includePath": [
         ".",
@@ -83,7 +83,7 @@
         "PROTO_VERSION=\"ddccbbaa\"",
         "GIT_VERSION=\"aabbccdd\"",
         "GIT_DATE=\"2000-01-01\"",
-        "PLATFORM_ID=6" // gcc=3, photon=6, p1=8, esp32=100
+        "PLATFORM_ID=6"
       ],
       "includePath": [
         ".",
@@ -126,7 +126,7 @@
         "PROTO_VERSION=\"ddccbbaa\"",
         "GIT_VERSION=\"aabbccdd\"",
         "GIT_DATE=\"2000-01-01\"",
-        "PLATFORM_ID=3" // gcc=3, photon=6, p1=8, esp32=100
+        "PLATFORM_ID=3"
       ],
       "includePath": [
         ".",
@@ -168,7 +168,7 @@
         "PROTO_VERSION=\"ddccbbaa\"",
         "GIT_VERSION=\"aabbccdd\"",
         "GIT_DATE=\"2000-01-01\"",
-        "PLATFORM_ID=3" // gcc=3, photon=6, p1=8, esp32=100
+        "PLATFORM_ID=3"
       ],
       "includePath": [
         ".",

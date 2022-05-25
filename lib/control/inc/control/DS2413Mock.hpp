@@ -34,12 +34,12 @@ private:
 public:
     static constexpr uint8_t family_code{0x3A};
 
-    DS2413Mock(const OneWireAddress& address)
-        : OneWireMockDevice(address)
+    explicit DS2413Mock(OneWireAddress address = OneWireAddress{family_code})
+        : OneWireMockDevice(std::move(address))
     {
     }
 
-    virtual void processImpl(uint8_t newCmd) override final
+    void processImpl(uint8_t newCmd) final
     {
         if (newCmd) {
             cmd = newCmd;
@@ -69,7 +69,7 @@ public:
         externalPullDownB = isPulledDown;
     }
 
-    virtual void resetImpl() override final
+    void resetImpl() final
     {
         cmd = 0x00;
     }

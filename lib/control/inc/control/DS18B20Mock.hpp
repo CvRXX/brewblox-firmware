@@ -32,8 +32,8 @@ private:
 public:
     static constexpr uint8_t family_code{0x28};
 
-    DS18B20Mock(const OneWireAddress& address)
-        : OneWireMockDevice(address)
+    explicit DS18B20Mock(OneWireAddress address = OneWireAddress{family_code})
+        : OneWireMockDevice(std::move(address))
     {
         scratchpad[0] = 0x40; // TLSB
         scratchpad[1] = 0x01; // TMSB // default to 20 deg
@@ -49,7 +49,7 @@ public:
         eeprom[2] = scratchpad[4];
     }
 
-    virtual void processImpl(uint8_t cmd) override final
+    void processImpl(uint8_t cmd) final
     {
         switch (cmd) {
         case 0x4E: // WRITE SCRATCHPAD

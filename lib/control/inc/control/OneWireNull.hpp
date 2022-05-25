@@ -25,11 +25,11 @@ class OneWireNull : public OneWireLowLevelInterface {
 public:
     OneWireNull() {}
     virtual ~OneWireNull() = default;
-    virtual bool init() override final { return false; }
-    virtual bool reset(void) override final { return true; }
-    virtual void write(uint8_t) override final {}
-    virtual uint8_t read(void) override final { return 0; }
-    virtual void write_bit(uint8_t) override final {}
-    virtual uint8_t read_bit(void) override final { return 0; }
-    virtual uint8_t search_triplet(bool) override final { return 0; }
+    bool init() final { return false; }
+    bool reset(void) final { return true; }
+    bool write(uint8_t) final { return true; }
+    bool read(uint8_t& v) final { return true; }
+    bool write_bit(bool) final { return true; }
+    bool read_bit(bool&) final { return true; }
+    uint8_t search_triplet(bool) final { return 0; }
 };

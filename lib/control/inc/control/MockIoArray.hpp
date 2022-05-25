@@ -37,7 +37,7 @@ public:
 
     virtual ~MockIoArray() = default;
 
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final
+    bool senseChannelImpl(uint8_t channel, State& result) const final
     {
         // TODO
         if (isConnected && validChannel(channel) && ((getMask(channel) & errorState) == 0)) {
@@ -48,7 +48,7 @@ public:
         return false;
     }
 
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final
+    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final
     {
         if (isConnected && validChannel(channel)) {
             uint8_t mask = getMask(channel);
@@ -92,7 +92,7 @@ public:
         }
     }
 
-    virtual bool supportsFastIo() const override final
+    bool supportsFastIo() const final
     {
         return true;
     }

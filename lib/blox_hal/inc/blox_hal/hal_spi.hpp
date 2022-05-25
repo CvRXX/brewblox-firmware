@@ -45,7 +45,7 @@ struct SpiDevice {
      * @param onAquire Gets called when te bus is aquired.
      * @param onRelease Gets called when te bus is released.
      */
-    SpiDevice(hal_spi::Settings&& settings)
+    explicit SpiDevice(hal_spi::Settings&& settings)
         : settings{settings}
     {
         init();

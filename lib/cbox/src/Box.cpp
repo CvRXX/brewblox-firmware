@@ -177,9 +177,8 @@ CboxError clearBlocks()
     while (cit != objects.cend()) {
         auto id = (*cit)->objectId();
         cit++;
-        bool mergeDisposed = cit == objects.cend(); // merge disposed blocks on last delete
-        getStorage().disposeObject(id, mergeDisposed);
-        getCacheStorage().disposeObject(id, mergeDisposed);
+        getStorage().disposeObject(id);
+        getCacheStorage().disposeObject(id);
     }
 
     // remove all user objects from vector
@@ -241,9 +240,8 @@ void loadBlocksFromStorage()
                 if (makeResult.error() == CboxError::BLOCK_NOT_CREATABLE) {
                     deprecatedList.push_back(payload.blockId);
                     return CboxError::OK;
-                } else {
-                    return makeResult.error();
                 }
+                return makeResult.error();
             }
 
             // Write desired settings to the newly created block

@@ -41,16 +41,22 @@ protected:
 
 class LongIntObject : public cbox::ObjectBase<1000> {
 private:
-    uint32_t obj;
+    uint32_t val = 0;
 
 public:
-    LongIntObject()
-        : obj(0)
+    LongIntObject() = default;
+    explicit LongIntObject(uint32_t rhs)
+        : val(rhs)
     {
     }
 
-    LongIntObject(uint32_t rhs)
-        : obj(std::move(rhs))
+    LongIntObject(LongIntObject&& rhs)
+        : val(rhs.val)
+    {
+    }
+
+    LongIntObject(const LongIntObject& rhs)
+        : val(rhs.val)
     {
     }
 
@@ -58,13 +64,25 @@ public:
 
     bool operator==(const LongIntObject& rhs) const
     {
-        return obj == rhs.obj;
+        return val == rhs.val;
+    }
+
+    LongIntObject& operator=(const LongIntObject& rhs)
+    {
+        this->val = rhs.val;
+        return *this;
+    }
+
+    LongIntObject& operator=(LongIntObject&& rhs)
+    {
+        this->val = rhs.val;
+        return *this;
     }
 
     virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
     {
         cbox::Payload payload(objectId(), typeId(), 0);
-        cbox::appendToByteVector(payload.content, obj);
+        cbox::appendToByteVector(payload.content, val);
         return callback(payload);
     }
 
@@ -77,39 +95,59 @@ public:
     {
         uint32_t newValue = 0;
         if (cbox::readFromByteVector(payload.content, newValue, 0)) {
-            obj = newValue;
+            val = newValue;
             return cbox::CboxError::OK;
         }
         return cbox::CboxError::NETWORK_READ_ERROR;
     }
 
-    operator uint32_t() const
+    explicit operator uint32_t() const
     {
-        uint32_t copy = obj;
+        uint32_t copy = val;
         return copy;
     }
 
     uint32_t value() const
     {
-        return obj;
+        return val;
     }
 
     void value(uint32_t v)
     {
-        obj = v;
+        val = v;
     }
 };
 
 // variable size object of multiple long ints
 class LongIntVectorObject final : public cbox::ObjectBase<1001> {
 public:
-    LongIntVectorObject()
-        : values()
+    LongIntVectorObject() = default;
+    LongIntVectorObject(std::initializer_list<uint32_t> l)
+    {
+        for (auto v : l) {
+            values.push_back(LongIntObject{v});
+        }
+    }
+    LongIntVectorObject(const LongIntVectorObject& rhs)
+        : values(rhs.values)
     {
     }
-    LongIntVectorObject(std::initializer_list<LongIntObject> l)
-        : values(l)
+
+    LongIntVectorObject(LongIntVectorObject&& rhs)
+        : values(std::move(rhs.values))
     {
+    }
+
+    LongIntVectorObject& operator=(const LongIntVectorObject& rhs)
+    {
+        this->values = rhs.values;
+        return *this;
+    }
+
+    LongIntVectorObject& operator=(LongIntVectorObject&& rhs)
+    {
+        this->values = std::move(rhs.values);
+        return *this;
     }
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override
@@ -234,7 +272,7 @@ public:
 
 class NameableLongIntObject final : public LongIntObject, public Nameable {
 public:
-    NameableLongIntObject(uint32_t rhs = 0)
+    explicit NameableLongIntObject(uint32_t rhs = 0)
         : LongIntObject(rhs)
     {
     }

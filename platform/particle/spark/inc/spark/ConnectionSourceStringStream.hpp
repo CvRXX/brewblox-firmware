@@ -47,7 +47,7 @@ public:
         stop();
     }
 
-    virtual std::optional<std::string> readMessage() override final
+    std::optional<std::string> readMessage() final
     {
         // We'll just assume there won't be any partial messages
         std::string buf;
@@ -59,28 +59,28 @@ public:
         }
     }
 
-    virtual bool write(const std::string& message) override final
+    bool write(const std::string& message) final
     {
         *out << message;
         return true;
     }
 
-    virtual void commit() override final
+    void commit() final
     {
         // we don't need to flush a stringstream
     }
 
-    virtual ConnectionKind kind() const override final
+    ConnectionKind kind() const final
     {
         return ConnectionKind::Mock;
     }
 
-    virtual bool isConnected() override final
+    bool isConnected() final
     {
         return !(in->bad() || out->bad()); // use badbit of either stream to simulate disconnect
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         in->setstate(std::istream::badbit);
         out->setstate(std::ostream::badbit);
@@ -101,7 +101,7 @@ public:
         connectionQueue.push(std::move(newConnection));
     }
 
-    virtual std::unique_ptr<Connection> newConnection() override final
+    std::unique_ptr<Connection> newConnection() final
     {
         if (connectionQueue.empty()) {
             return nullptr;
@@ -111,11 +111,11 @@ public:
         return retval;
     }
 
-    virtual void stop() override final
+    void stop() final
     {
     }
 
-    virtual void start() override final
+    void start() final
     {
     }
 };

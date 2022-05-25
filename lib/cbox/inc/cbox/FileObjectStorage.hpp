@@ -25,29 +25,23 @@
 namespace cbox {
 class FileObjectStorage : public ObjectStorage {
 public:
-    FileObjectStorage(const std::string& root_);
+    explicit FileObjectStorage(const std::string& root_);
 
-    virtual ~FileObjectStorage() = default;
+    CboxError loadObject(obj_id_t id, const PayloadCallback& callback) final;
 
-    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback) override final;
+    CboxError loadAllObjects(const PayloadCallback& callback) final;
 
-    virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
+    CboxError saveObject(const Payload& payload) final;
 
-    virtual CboxError saveObject(const Payload& payload) override final;
+    bool disposeObject(obj_id_t id) final;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true) override final;
-
-    virtual void clear() override final;
+    void clear() final;
 
 private:
     std::string path;
     size_t rootLen;
 
-    inline uint8_t
-    storageVersion() const
-    {
-        return 0x01;
-    }
+    static constexpr uint8_t storageVersion = 0x01;
 
     void setPath(obj_id_t id)
     {

@@ -53,9 +53,9 @@ public:
         channel(0); // release channel before destruction
     }
 
-    virtual void state(const State& v) override final;
+    void state(const State& v) final;
 
-    virtual State state() const override final;
+    State state() const final;
 
     bool invert() const
     {
@@ -96,5 +96,5 @@ public:
         update();
     }
 
-    virtual bool supportsFastIo() const override final;
+    bool supportsFastIo() const final;
 };

@@ -35,7 +35,7 @@ public:
     }
     virtual ~TcpConnection() = default;
 
-    virtual void stop() override final
+    void stop() final
     {
         get().stop();
     }
@@ -54,7 +54,7 @@ public:
     }
     virtual ~TcpConnectionSource() = default;
 
-    std::unique_ptr<Connection> newConnection() override final
+    std::unique_ptr<Connection> newConnection() final
     {
         if (spark::WiFi.ready() && !spark::WiFi.listening()) {
             if (server_enabled && !server_started) {
@@ -72,13 +72,13 @@ public:
         return std::unique_ptr<Connection>();
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         server.stop();
         server_enabled = false;
     }
 
-    virtual void start() override final
+    void start() final
     {
         server_enabled = true;
         server.begin();

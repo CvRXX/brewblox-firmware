@@ -14,7 +14,7 @@ public:
      */
     PidWidget(lv_obj_t* grid, uint8_t row, uint8_t col, cbox::CboxPtr<PidBlock>&& ptr, const char* label, lv_color_t color)
         : BaseWidget(grid, row, col, label, color)
-        , lookup(ptr)
+        , lookup(std::move(ptr))
         , inputValue(lv_label_create(obj))
         , inputSetting(lv_label_create(obj))
         , outputValue(lv_label_create(obj))

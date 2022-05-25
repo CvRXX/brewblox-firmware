@@ -41,18 +41,18 @@ operator==(const uint8_t& a, const BlockType& b)
 
 class EepromObjectStorage : public ObjectStorage {
 public:
-    EepromObjectStorage(EepromAccess& _eeprom);
+    explicit EepromObjectStorage(EepromAccess& _eeprom);
     virtual ~EepromObjectStorage() = default;
 
-    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback) override final;
+    CboxError loadObject(obj_id_t id, const PayloadCallback& callback) final;
 
-    virtual CboxError saveObject(const Payload& payload) override final;
+    CboxError saveObject(const Payload& payload) final;
 
-    virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
+    CboxError loadAllObjects(const PayloadCallback& callback) final;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true) override final;
+    bool disposeObject(obj_id_t id) final;
 
-    virtual void clear() override final;
+    void clear() final;
 
     stream_size_t freeSpace();
 
@@ -72,29 +72,15 @@ private:
     EepromDataIn reader;
     EepromDataOut writer;
 
-    inline uint8_t
-    magicByte() const
-    {
-        return 0x69;
-    }
-    inline uint8_t
-    storageVersion() const
-    {
-        return 0x01;
-    }
-    inline uint16_t
-    referenceHeader() const
-    {
-        return magicByte() << 8 | storageVersion();
-    }
+    static constexpr uint8_t magicByte = 0x69;
+    static constexpr uint8_t storageVersion = 0x01;
+    static constexpr uint16_t referenceHeader = uint16_t(uint16_t(magicByte) << 8U) + storageVersion;
 
-    void
-    resetReader()
+    void resetReader()
     {
         reader.reset(EepromLocation(objects), EepromLocationSize(objects));
     }
-    void
-    resetWriter()
+    void resetWriter()
     {
         writer.reset(EepromLocation(objects), EepromLocationSize(objects));
     }
@@ -109,18 +95,18 @@ private:
     objectHeaderLength()
     {
         // actual size + id
-        return blockHeaderLength() + sizeof(uint16_t) + sizeof(obj_id_t);
+        return sizeof(uint16_t) + sizeof(obj_id_t);
     }
 
-    RegionDataIn getBlockReader(BlockType requestedType);
-    RegionDataOut getBlockWriter(BlockType requestedType, uint16_t minSize);
-    RegionDataIn getObjectReader(obj_id_t id, bool usedSize);
-    RegionDataOut getObjectWriter(obj_id_t id);
-    RegionDataOut newObjectWriter(obj_id_t id, uint16_t objectSize);
+    std::optional<RegionDataIn> getBlockReader(BlockType requestedType);
+    std::optional<RegionDataOut> getBlockWriter(BlockType requestedType, uint16_t minSize);
+    std::optional<RegionDataIn> getObjectReader(obj_id_t id, bool usedSize);
+    std::optional<RegionDataOut> getObjectWriter(obj_id_t id);
+    std::optional<RegionDataOut> newObjectWriter(obj_id_t id, uint16_t objectSize);
 
     void init();
     bool moveDisposedBackwards();
-    bool mergeDisposedBlocks();
+    void mergeDisposedBlocks();
 
     static CboxError parseFromStream(obj_id_t id,
                                      const PayloadCallback& callback,

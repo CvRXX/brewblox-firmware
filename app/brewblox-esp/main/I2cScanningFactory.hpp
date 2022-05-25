@@ -27,5 +27,5 @@ public:
     I2cScanningFactory() = default;
     virtual ~I2cScanningFactory() = default;
 
-    virtual std::shared_ptr<cbox::Object> scan() override final;
+    std::shared_ptr<cbox::Object> scan() final;
 };

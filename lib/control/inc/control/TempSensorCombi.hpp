@@ -46,12 +46,12 @@ public:
     TempSensorCombi() = default;
     virtual ~TempSensorCombi() = default;
 
-    virtual bool valid() const override final
+    bool valid() const final
     {
         return m_valid;
     }
 
-    virtual temp_t value() const override final
+    temp_t value() const final
     {
         return m_value;
     }

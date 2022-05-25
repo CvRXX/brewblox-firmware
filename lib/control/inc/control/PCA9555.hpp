@@ -10,7 +10,7 @@ public:
         CONFIG = 0x06,
     };
 
-    PCA9555(uint8_t address)
+    explicit PCA9555(uint8_t address)
         : addr(address)
     {
     }
@@ -19,15 +19,15 @@ public:
     {
         uint8_t* asBytes = reinterpret_cast<uint8_t*>(&data);
         uint8_t bytes[3] = {uint8_t(target), asBytes[0], asBytes[1]};
-        return hal_i2c_master_write(addr, bytes, 3, true);
+        return hal_i2c_write(addr, bytes, 3, true);
     }
 
     hal_i2c_err_t readRegister(RegAddr target, uint16_t& data)
     {
         uint8_t bytes[2] = {uint8_t(target), 0};
-        hal_i2c_err_t err = hal_i2c_master_write(addr, bytes, 1, true);
+        hal_i2c_err_t err = hal_i2c_write(addr, bytes, 1, true);
         if (err == 0) {
-            err = hal_i2c_master_read(addr, bytes, 2, hal_i2c_ack_type_t::I2C_MASTER_ACK, true);
+            err = hal_i2c_read(addr, bytes, 2, true);
             uint8_t* resultAsBytes = reinterpret_cast<uint8_t*>(&data);
             resultAsBytes[0] = bytes[0];
             resultAsBytes[1] = bytes[1];

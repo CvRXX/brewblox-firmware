@@ -6,7 +6,7 @@ public:
 
     static void set_pins(uint8_t bits)
     {
-        hal_i2c_master_write(addr, &bits, 1, true);
+        hal_i2c_write(addr, &bits, 1, true);
     }
 
     void set_pin(uint8_t pin, bool state)
@@ -17,7 +17,7 @@ public:
         } else {
             outputs &= ~mask;
         }
-        hal_i2c_master_write(addr, &outputs, 1, true);
+        hal_i2c_write(addr, &outputs, 1, true);
     }
 
 private:

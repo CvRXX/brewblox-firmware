@@ -33,9 +33,11 @@ using stream_size_t = size_t;
  */
 class DataOut {
 public:
+protected:
     DataOut() = default;
-    virtual ~DataOut() = default;
+    ~DataOut() = default;
 
+public:
     /**
      * Writes a byte to the stream.
      * @return {@code true} if the byte was successfully written, false otherwise.
@@ -45,9 +47,12 @@ public:
     template <typename T>
     bool put(const T& t)
     {
-        auto p = reinterpret_cast<const uint8_t*>(std::addressof(t));
+        const auto* p = reinterpret_cast<const uint8_t*>(std::addressof(t));
         return writeBuffer(p, sizeof(T));
     }
+
+    template <typename T>
+    bool put(std::optional<T>&) = delete;
 
     /**
      * Writes a number of bytes to the stream.
@@ -70,21 +75,21 @@ class DataIn {
 public:
     virtual ~DataIn() = default;
     /**
-     * Retrieves the next byte of data. The return value is -1 if no data is available.
+     * Retrieves the next byte of data.
      */
-    virtual int16_t read() = 0;
+    virtual std::optional<uint8_t> read() = 0;
 
     /**
-     * Retrieves the next byte of data without removing it from the stream. -1 when no data is availabe.
+     * Retrieves the next byte of data without removing it from the stream.
      */
-    virtual int16_t peek() = 0;
+    virtual std::optional<uint8_t> peek() = 0;
 
     /**
      * Discards all data until no new data is available
      */
     void spool()
     {
-        while (read() >= 0) {
+        while (read()) {
             ;
         }
     }
@@ -97,8 +102,12 @@ public:
     template <typename T>
     bool get(T& t)
     {
-        return readBytes(reinterpret_cast<uint8_t*>(&t), sizeof(T));
+        auto* ptr = reinterpret_cast<uint8_t*>(std::addressof(t));
+        return readBytes(ptr, sizeof(T));
     }
+
+    template <typename T>
+    bool get(std::optional<T>&) = delete;
 
     /**
      * Writes the contents of this stream to an output stream.
@@ -131,17 +140,19 @@ public:
     }
     virtual ~RegionDataIn() = default;
 
-    int16_t read() override final
+    std::optional<uint8_t> read() final
     {
-        int16_t v = -1;
-        if (len) {
-            v = in.read();
+        if (len == 0) {
+            return std::nullopt;
+        }
+        auto v = in.read();
+        if (v) {
             --len;
         }
         return v;
     }
 
-    int16_t peek() override final
+    std::optional<uint8_t> peek() final
     {
         return in.peek();
     }
@@ -172,9 +183,14 @@ public:
         , len(_len)
     {
     }
-    virtual ~RegionDataOut() = default;
+    ~RegionDataOut() = default;
 
-    virtual bool write(uint8_t data) override
+    RegionDataOut(const RegionDataOut&) = delete;
+    RegionDataOut(RegionDataOut&&) = default;
+    RegionDataOut& operator=(const RegionDataOut&) = delete;
+    RegionDataOut& operator=(RegionDataOut&&) = default;
+
+    bool write(uint8_t data) override
     {
         if (len > 0) {
             --len;
@@ -222,14 +238,14 @@ private:
     EepromAccess& eepromAccess;
 
 public:
-    EepromDataOut(EepromAccess& ea)
+    explicit EepromDataOut(EepromAccess& ea)
         : eepromAccess(ea)
     {
     }
 
-    virtual bool write(uint8_t value) override final
+    bool write(uint8_t value) final
     {
-        if (_length) {
+        if (_length > 0) {
             eepromAccess.writeByte(_offset++, value);
             _length--;
             return true;
@@ -247,26 +263,27 @@ private:
     EepromAccess& eepromAccess;
 
 public:
-    EepromDataIn(EepromAccess& ea)
+    explicit EepromDataIn(EepromAccess& ea)
         : eepromAccess(ea)
     {
     }
 
-    virtual int16_t peek() override final
+    [[nodiscard]] std::optional<uint8_t> peek() final
     {
         return eepromAccess.readByte(_offset);
     }
 
-    virtual int16_t read() override final
+    [[nodiscard]] std::optional<uint8_t> read() final
     {
-        int16_t result = -1;
-        if (_length) {
-            result = eepromAccess.readByte(_offset);
+        if (_length <= 0) {
+            return std::nullopt;
         }
-        if (result >= 0) {
+        auto result = eepromAccess.readByte(_offset);
+        if (result) {
             _length--;
             _offset++;
         }
+
         return result;
     }
 
@@ -283,4 +300,4 @@ public:
         return _length;
     }
 };
-}
+} // end namespace cbox

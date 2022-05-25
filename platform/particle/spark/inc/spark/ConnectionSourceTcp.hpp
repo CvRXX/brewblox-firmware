@@ -39,7 +39,7 @@ public:
     }
     virtual ~TcpConnection() = default;
 
-    virtual std::optional<std::string> readMessage() override final
+    std::optional<std::string> readMessage() final
     {
         bool hasMessage = false;
         buffer.reserve(buffer.size() + client.available());
@@ -74,29 +74,29 @@ public:
         return std::make_optional(std::move(line));
     }
 
-    virtual bool write(const std::string& message) override final
+    bool write(const std::string& message) final
     {
         return client.write(reinterpret_cast<const uint8_t*>(message.data()),
                             message.size())
                == message.size();
     }
 
-    virtual void commit() override final
+    void commit() final
     {
         client.flush();
     }
 
-    virtual ConnectionKind kind() const override final
+    ConnectionKind kind() const final
     {
         return ConnectionKind::Tcp;
     }
 
-    virtual bool isConnected() override final
+    bool isConnected() final
     {
         return client.status();
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         client.stop();
     }
@@ -115,7 +115,7 @@ public:
     }
     virtual ~TcpConnectionSource() = default;
 
-    std::unique_ptr<Connection> newConnection() override final
+    std::unique_ptr<Connection> newConnection() final
     {
         if (spark::WiFi.ready()) {
             if (server_enabled && !server_started) {
@@ -133,13 +133,13 @@ public:
         return std::unique_ptr<Connection>();
     }
 
-    virtual void stop() override final
+    void stop() final
     {
         server.stop();
         server_enabled = false;
     }
 
-    virtual void start() override final
+    void start() final
     {
         server_enabled = true;
         server.begin();

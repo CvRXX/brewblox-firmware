@@ -39,8 +39,7 @@ public:
     virtual CboxError saveObject(const Payload& payload)
         = 0;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true)
-        = 0;
+    virtual bool disposeObject(obj_id_t id) = 0;
 
     virtual void clear() = 0;
 };
@@ -50,27 +49,27 @@ public:
     ObjectStorageStub() = default;
     virtual ~ObjectStorageStub() = default;
 
-    virtual CboxError loadObject(obj_id_t, const PayloadCallback&) override final
+    CboxError loadObject(obj_id_t, const PayloadCallback&) final
     {
         return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
-    virtual CboxError loadAllObjects(const PayloadCallback&) override final
+    CboxError loadAllObjects(const PayloadCallback&) final
     {
         return CboxError::INVALID_STORED_BLOCK_ID;
     }
 
-    virtual CboxError saveObject(const Payload&) override final
+    CboxError saveObject(const Payload& /*payload*/) final
     {
         return CboxError::OK;
     }
 
-    virtual bool disposeObject(obj_id_t /*id*/, bool /*mergeDisposed = true*/) override final
+    bool disposeObject(obj_id_t /*id*/) final
     {
         return false;
     }
 
-    virtual void clear() override final
+    void clear() final
     {
     }
 };

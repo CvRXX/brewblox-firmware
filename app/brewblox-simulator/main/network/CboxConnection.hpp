@@ -41,7 +41,7 @@ public:
         return in.in_avail();
     }
 
-    virtual StreamType streamType() const override final
+    StreamType streamType() const final
     {
         return StreamType::Tcp;
     }
@@ -59,7 +59,7 @@ public:
     {
     }
 
-    virtual bool write(uint8_t data) override final
+    bool write(uint8_t data) final
     {
         out.sputc(data);
         if (data == '\n') {

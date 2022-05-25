@@ -62,7 +62,7 @@ randomIntervalTest(
 {
     pwm.setting(duty);
     ticks_millis_t lowToHighTime = now;
-    ticks_millis_t highToLowTime = now;
+    ticks_millis_t highToLowTime = 0;
     ticks_millis_t totalHighTime = 0;
     ticks_millis_t totalLowTime = 0;
     ticks_millis_t nextUpdate = now;
@@ -180,9 +180,10 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
     {
         auto duty = value_t(50);
         pwm.setting(duty);
-        ticks_millis_t lowToHighTime1 = now;
-        ticks_millis_t highToLowTime1 = now;
-        ticks_millis_t lowToHighTime2 = now;
+        ticks_millis_t lowToHighTime1 = 0;
+        ticks_millis_t highToLowTime1 = 0;
+        ticks_millis_t lowToHighTime2 = 0;
+
         auto nextUpdate = now;
 
         do {
@@ -822,8 +823,6 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
         constrained.ptr->addConstraint(std::make_unique<ADConstraints::MinOnTime<2>>(4000)); // 4 s
         pwm.setting(30);                                                                     // will result in 4s on, 13.3s period
 
-        auto nextUpdate = pwm.update(now);
-
         while (now < 100000) {
             now = pwm.update(now);
         }
@@ -832,10 +831,10 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
         CHECK(durations.previousPeriod == Approx(13333).margin(10));
 
         pwm.setting(20);
-        nextUpdate = pwm.update(now);
 
         THEN("The output is turned off when the minimum ON time is elapsed")
         {
+            auto nextUpdate = ActuatorPwm::update_t{0};
             while (mock.state() == State::Active) {
                 nextUpdate = pwm.update(now);
                 now = nextUpdate;

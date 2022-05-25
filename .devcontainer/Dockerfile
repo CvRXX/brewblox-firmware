@@ -152,3 +152,9 @@ RUN : \
         https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64 \
     && chmod +x /usr/local/bin/shfmt \
     && :
+
+RUN : \
+    && . /opt/esp/idf/export.sh \
+    && pip install --upgrade pyclang \
+    && idf_tools.py install xtensa-clang \
+    && :
