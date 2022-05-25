@@ -13,12 +13,12 @@ public:
     }
     ~SparkEepromAccess() = default;
 
-    std::optional<uint8_t> readByte(uint16_t offset) const override
+    uint8_t readByte(uint16_t offset) const override
     {
-        if (offset < 2048) {
+        if (offset < length()) {
             return HAL_EEPROM_Read(offset);
         }
-        return std::nullopt;
+        return 0;
     }
 
     void writeByte(uint16_t offset, uint8_t value) override

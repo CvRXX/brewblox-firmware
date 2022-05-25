@@ -335,11 +335,7 @@ bool EepromObjectStorage::moveDisposedBackwards()
 
             // Then we copy the data to the front of the block
             while (readPos < readEnd) {
-                auto v = eeprom.readByte(readPos);
-                if (!v) {
-                    return false;
-                }
-                eeprom.writeByte(writePos, (*v));
+                eeprom.writeByte(writePos, eeprom.readByte(readPos));
                 ++readPos;
                 ++writePos;
             }

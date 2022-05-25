@@ -33,7 +33,7 @@ protected:
     ~EepromAccess() = default;
 
 public:
-    [[nodiscard]] virtual std::optional<uint8_t> readByte(uint16_t offset) const = 0;
+    [[nodiscard]] virtual uint8_t readByte(uint16_t offset) const = 0;
     virtual void writeByte(uint16_t offset, uint8_t value) = 0;
     virtual void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const = 0;
     virtual void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) = 0;
@@ -84,12 +84,12 @@ protected:
     }
 
 public:
-    [[nodiscard]] std::optional<uint8_t> readByte(uint16_t offset) const final
+    [[nodiscard]] uint8_t readByte(uint16_t offset) const final
     {
         if (isValidRange(offset, 1)) {
             return data()[offset];
         }
-        return std::nullopt;
+        return 0;
     }
 
     void writeByte(uint16_t offset, uint8_t value) final
