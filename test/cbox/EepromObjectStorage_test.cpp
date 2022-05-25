@@ -27,6 +27,92 @@
 
 using namespace cbox;
 
+class EepromOjectStorageTester : public EepromObjectStorage {
+public:
+    using EepromObjectStorage::EepromObjectStorage;
+    using EepromObjectStorage::getExistingBlock;
+    using EepromObjectStorage::getExistingObject;
+    using EepromObjectStorage::getNewObject;
+};
+
+SCENARIO("Low level functions test", "[eeprom]")
+{
+    ArrayEepromAccess<2048> eeprom;
+    EepromOjectStorageTester storage(eeprom);
+
+    WHEN("A block is split")
+    {
+        auto block1Opt = storage.getExistingBlock(EepromBlockType::disposed_block, 0, EepromLocation(objects));
+        REQUIRE(block1Opt.has_value());
+        auto& block1 = block1Opt.value();
+        CHECK(block1.length() == 2013);
+        CHECK(block1.block_size() == 2016);
+        CHECK(block1.object_pos() == EepromLocation(objects) + 3);
+        CHECK(block1.object_data_pos() == EepromLocation(objects) + 3 + 4);
+        CHECK(block1.end() == EepromLocation(objects) + 2016);
+        CHECK(block1.remaining() == 2013);
+        CHECK(storage.freeSpace().continuous == 2013);
+        CHECK(storage.freeSpace().total == 2013);
+
+        block1.split(100);
+        CHECK(block1.remaining() == 100);
+        CHECK(block1.end() == EepromLocation(objects) + 3 + 100);
+        auto blockOpt2 = storage.getExistingBlock(EepromBlockType::disposed_block, 0, block1.end());
+        REQUIRE(blockOpt2.has_value());
+        auto block2 = blockOpt2.value();
+
+        THEN("The new blocks have the expected length and size")
+        {
+            CHECK(block1.length() == 100);
+            CHECK(block1.block_size() == 100 + EepromBlock::blockHeaderLength);
+            CHECK(block2.length() == 2013 - block1.block_size());
+            CHECK(block1.block_size() + block2.block_size() == 2016);
+            CHECK(storage.freeSpace().continuous == block2.length());
+            CHECK(storage.freeSpace().total == 2013);
+        }
+        AND_WHEN("When the blocks are joined again")
+        {
+            block1.join(block2);
+            THEN("block 1 has the original size")
+            {
+                CHECK(block1.length() == 2013);
+                CHECK(storage.freeSpace().continuous == 2013);
+                CHECK(storage.freeSpace().total == 2013);
+            }
+        }
+    }
+
+    WHEN("A new object block is created")
+    {
+        auto objBlockOpt = storage.getNewObject(100);
+        REQUIRE(objBlockOpt.has_value());
+        auto& objBlock = objBlockOpt.value();
+
+        THEN("The properties are as expected")
+        {
+            CHECK(objBlock.object_data_length() == 112);
+            CHECK(objBlock.block_size() == 119);
+            CHECK(objBlock.remaining() == 112); // pos starts at object data
+            // object id is 0 until set
+            CHECK(objBlock.getObjectId() == 0);
+            objBlock.setObjectId(1);
+            CHECK(objBlock.getObjectId() == 1);
+
+            objBlock.setObjectSize(50);
+            CHECK(objBlock.getObjectSize() == 50);
+
+            AND_THEN("It can be retrieved from storage")
+            {
+                auto obj2Opt = storage.getExistingObject(1, true);
+                REQUIRE(obj2Opt.has_value());
+                auto obj2 = obj2Opt.value();
+                CHECK(obj2.remaining() == 50);
+                CHECK(obj2.object_data_length() == 112);
+            }
+        }
+    }
+}
+
 SCENARIO("Storing and retrieving blocks with EEPROM storage")
 {
     ArrayEepromAccess<2048> eeprom;
@@ -43,6 +129,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
 
     auto saveObjectToStorage = [&storage](obj_id_t id, const std::shared_ptr<Object>& source) -> CboxError {
         return source->readStored([&storage, &id](const Payload& stored) {
+            // make a new Payload because we cannot set id in const Payload
             auto contentCopy = stored.content;
             return storage.saveObject(Payload(id,
                                               stored.blockType,

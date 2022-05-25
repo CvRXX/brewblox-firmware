@@ -33,7 +33,6 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/test/blocks/build/runner",
-      // "preLaunchTask": "Test blocks",
       "args": [
         "-a"
       ],
@@ -56,7 +55,6 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/test/cbox/build/runner",
-      // "preLaunchTask": "Test cbox",
       "args": [
         "-a"
       ],
@@ -84,7 +82,6 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceRoot}/test/control/build/runner",
-      // "preLaunchTask": "Test control",
       "args": [
         "-a"
       ],
@@ -97,7 +94,6 @@
         {
           "description": "Enable pretty-printing for gdb",
           "text": "-enable-pretty-printing"
-          // "ignoreFailures": true
         }
       ],
       "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"

@@ -56,7 +56,7 @@ public:
 
     void defrag();
 
-private:
+protected:
     /**
      * The application supplied EEPROM storage class
      */
@@ -67,9 +67,9 @@ private:
     static constexpr uint16_t referenceHeader = uint16_t(uint16_t(magicByte) << 8U) + storageVersion;
 
     std::optional<EepromBlock> getExistingBlock(EepromBlockType requestedType, uint16_t minSize, uint16_t start);
-    std::optional<EepromBlock> getExistingObject(obj_id_t id, bool usedSize);
+    std::optional<EepromBlock> getNextObject(uint16_t start, bool limitToWrittenSize);
+    std::optional<EepromBlock> getExistingObject(obj_id_t id, bool limitToWrittenSize);
     std::optional<EepromBlock> getNewObject(uint16_t minSize);
-    std::optional<EepromBlock> tryNewObject(uint16_t minSize);
 
     void init();
     bool moveDisposedBackwards();
