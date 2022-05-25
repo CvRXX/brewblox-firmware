@@ -20,7 +20,6 @@
 #pragma once
 
 #include "cbox/Application.hpp"
-#include "cbox/Box.hpp"
 #include "cbox/ObjectBase.hpp"
 #include "cbox/ObjectContainer.hpp"
 #include "control/ControlPtr.hpp"
@@ -49,7 +48,7 @@ public:
 
     CboxError store() const
     {
-        return objects.store(id);
+        return getObjects().store(id);
     }
 
 protected:
@@ -68,7 +67,7 @@ protected:
         auto sptr = ptr.lock();
         if (!sptr) {
             // Try to find the object in the container
-            if (auto fetched = objects.fetch(id)) {
+            if (auto fetched = getObjects().fetch(id)) {
                 sptr = fetched.value();
                 ptr = fetched.value();
             }
@@ -77,8 +76,8 @@ protected:
     }
 
 public:
-    CboxPtrBase(const CboxPtrBase&) = delete;
-    CboxPtrBase& operator=(const CboxPtrBase&) = delete;
+    CboxPtrBase(const CboxPtrBase&) = default;
+    CboxPtrBase& operator=(const CboxPtrBase&) = default;
     CboxPtrBase& operator=(CboxPtrBase&&) = default;
 };
 
