@@ -186,7 +186,6 @@ void EepromObjectStorage::defrag()
     // ensure no invalid objects with ID zero remain in eeprom
     // these are only temporary while relocating data
     disposeObject(0);
-    shrinkOverallocatedBlocks();
     do {
         mergeDisposedBlocks();
     } while (moveDisposedBackwards());
@@ -252,6 +251,7 @@ std::optional<EepromBlock> EepromObjectStorage::getNewObject(uint16_t objectLeng
             return block;
         }
         // not enough space
+        shrinkOverallocatedBlocks();
         auto space = freeSpace();
         if (space.total < provisioned) {
             return std::nullopt;
