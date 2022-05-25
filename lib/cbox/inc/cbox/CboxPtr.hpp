@@ -92,9 +92,9 @@ public:
     }
     ~CboxPtr() = default;
 
-    CboxPtr(const CboxPtr&) = delete;
+    CboxPtr(const CboxPtr&) = default;
     CboxPtr(CboxPtr&&) noexcept = default;
-    CboxPtr& operator=(const CboxPtr&) = delete;
+    CboxPtr& operator=(const CboxPtr&) = default;
     CboxPtr& operator=(CboxPtr&&) noexcept = default;
 
     template <class U>
