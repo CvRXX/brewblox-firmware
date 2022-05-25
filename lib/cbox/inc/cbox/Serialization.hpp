@@ -63,17 +63,6 @@ bool readFromByteVector(const std::vector<uint8_t>& in, T& v, int pos)
     return true;
 }
 
-// template <typename T>
-// bool writeToByteVector(std::vector<uint8_t>& out, const T& v, size_t pos)
-// {
-//     if (pos + sizeof(T) > out.size()) {
-//         return false;
-//     }
-
-//     std::memcpy(out.data() + pos, p, sizeof(T));
-//     return true;
-// }
-
 template <typename T>
 bool appendToByteVector(std::vector<uint8_t>& out, const T& v)
 {

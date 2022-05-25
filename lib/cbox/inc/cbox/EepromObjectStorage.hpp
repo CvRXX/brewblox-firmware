@@ -22,7 +22,7 @@
 
 #include "cbox/CboxError.hpp"
 #include "cbox/EepromAccess.hpp"
-#include "cbox/EepromDataStream.hpp"
+#include "cbox/EepromBlock.hpp"
 #include "cbox/ObjectStorage.hpp"
 
 namespace cbox {
