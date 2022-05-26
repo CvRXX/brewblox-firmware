@@ -22,7 +22,7 @@
 #include "dynamic_gui/elements/widgets/color_widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/util/color.hpp"
-#include "dynamic_gui/util/lvgl_object_wrapper.hpp"
+#include "dynamic_gui/util/lvgl_wrapper.hpp"
 #include "proto/ScreenConfig.pb.h"
 
 #include "lvgl.h"
