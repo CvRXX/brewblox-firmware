@@ -22,6 +22,15 @@
 
 namespace cbox {
 
+uint8_t calc_crc(const Payload& payload)
+{
+    uint8_t crc = calc_crc_16(0, payload.blockId);
+    crc = calc_crc_8(crc, 0); // flags reserved byte
+    crc = calc_crc_16(crc, payload.blockType);
+    crc = calc_crc_vector(crc, payload.content);
+    return crc;
+}
+
 EepromObjectStorage::EepromObjectStorage(EepromAccess& _eeprom)
     : eeprom(_eeprom)
 {
@@ -33,24 +42,6 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
     if (payload.blockId == 0) {
         return CboxError::INVALID_BLOCK_ID;
     }
-
-    // ID is included in the CRC calculation
-    uint8_t crc = calc_crc_16(0, payload.blockId);
-    crc = calc_crc_8(crc, 0); // flags reserved byte
-    crc = calc_crc_16(crc, payload.blockType);
-    crc = calc_crc_vector(crc, payload.content);
-
-    auto writeWithCrc = [&payload, &crc](EepromBlock& eepromBlock) -> void {
-        uint16_t start = eepromBlock.offset();
-        uint8_t flags{0}; // unused, used to be groups, kept for backwards compatibility
-        eepromBlock.put(flags);
-        eepromBlock.put(payload.blockType);
-        eepromBlock.put(payload.content);
-        eepromBlock.put(crc);
-        uint16_t end = eepromBlock.offset();
-        auto written = end - start;
-        eepromBlock.setWrittenLength(written);
-    };
 
     bool makeNewBlock = false; // set to true if a new block has to be created
 
@@ -64,34 +55,60 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
         ;
     existingBlock = getExistingObject(payload.blockId, false);
     if (existingBlock) {
-        auto& objectBlock = (*existingBlock);
+        auto& objectBlock = *existingBlock;
         if (objectBlock.object_data_length() < expectedSize) {
             // new data does not fit in region already allocated to the block
-            makeNewBlock = true;
+            // check if the next block is a disposed block
+            if (objectBlock.end() + EepromBlock::blockHeaderLength < EepromLocationEnd(objects)) {
+                auto nextBlock = EepromBlock(eeprom, objectBlock.end());
+                if (nextBlock.type() == EepromBlockType::disposed_block
+                    && objectBlock.object_data_length() + nextBlock.block_size() >= expectedSize) {
+                    objectBlock.join(nextBlock);
+                    objectBlock.split(provisionedLength(expectedSize));
+                } else {
+                    makeNewBlock = true;
+                }
+            } else {
+                makeNewBlock = true;
+            }
         }
     } else {
         // no existing block found
         makeNewBlock = true;
     }
 
+    if (makeNewBlock && existingBlock) {
+        // must remove the old block before getNewObject possibly reshuffles eeprom during defrag
+        // caveat: if the new data doesn't fit, the old data is lost too
+        (*existingBlock).setBlockType(EepromBlockType::disposed_block);
+    }
     if (makeNewBlock) {
-        // block didn't fit or not found, should allocate a new block
-        // block id is 0 until sucessfully relocated
+        // block id is 0 until sucessfully written
         newBlock = getNewObject(expectedSize);
         if (!newBlock) {
+            // if this fails, the original location should still be intact, restore it
+            if (existingBlock) {
+                (*existingBlock).setBlockType(EepromBlockType::object);
+            }
             return CboxError::INSUFFICIENT_STORAGE;
         }
     }
-    EepromBlock& blockToWrite = newBlock ? (*newBlock) : (*existingBlock);
 
-    writeWithCrc(blockToWrite);
-    // successfully written when we reach here
+    EepromBlock& blockToWrite = newBlock ? *newBlock : *existingBlock;
 
-    if (newBlock && existingBlock) {
-        (*existingBlock).setBlockType(EepromBlockType::disposed_block);
-    }
+    uint16_t start = blockToWrite.offset();
+    uint8_t flags{0}; // unused, used to be groups, kept for backwards compatibility
+    blockToWrite.put(flags);
+    blockToWrite.put(payload.blockType);
+    blockToWrite.put(payload.content);
+    auto crc = calc_crc(payload);
+    blockToWrite.put(crc);
+    uint16_t end = blockToWrite.offset();
+    auto written = end - start;
+    blockToWrite.setWrittenLength(written);
+
     if (newBlock) {
-        // overwrite invalid id with actual id to validate the block
+        // overwrite invalid id with actual id to validate the new block
         (*newBlock).setObjectId(payload.blockId);
     }
 
@@ -166,9 +183,6 @@ EepromFreeSpace EepromObjectStorage::freeSpace()
 
 void EepromObjectStorage::defrag()
 {
-    // ensure no invalid objects with ID zero remain in eeprom
-    // these are only temporary while relocating data
-    disposeObject(0);
     do {
         mergeDisposedBlocks();
     } while (moveDisposedBackwards());
@@ -234,6 +248,7 @@ std::optional<EepromBlock> EepromObjectStorage::getNewObject(uint16_t objectLeng
             return block;
         }
         // not enough space
+        shrinkOverallocatedBlocks();
         auto space = freeSpace();
         if (space.total < provisioned) {
             return std::nullopt;
@@ -272,7 +287,7 @@ CboxError EepromObjectStorage::eepromToPayload(const PayloadCallback& callback,
     auto id = in.getObjectId();
     in.resetToObjectData();
 
-    auto flags = in.get<uint8_t>();
+    in.skip(1); // flags
     auto objType = in.get<obj_type_t>();
 
     auto payload = Payload(id, objType, 0);
@@ -282,10 +297,7 @@ CboxError EepromObjectStorage::eepromToPayload(const PayloadCallback& callback,
 
     auto objCrc = in.get<uint8_t>();
 
-    uint8_t crc = calc_crc_16(0, id);
-    crc = calc_crc_8(crc, flags);
-    crc = calc_crc_16(crc, objType);
-    crc = calc_crc_vector(crc, payload.content);
+    uint8_t crc = calc_crc(payload);
     crc = calc_crc_8(crc, objCrc);
 
     if (crc != 0) {
@@ -308,56 +320,72 @@ void EepromObjectStorage::init()
     }
 }
 
-// move a single disposed block backwards by swapping it with an object
-bool EepromObjectStorage::moveDisposedBackwards()
+void EepromObjectStorage::shrinkOverallocatedBlocks()
 {
-    auto pos = EepromLocation(objects);
-    if (auto disposedBlockOpt = getExistingBlock(EepromBlockType::disposed_block, 0, pos)) {
-        auto& disposedBlock = (*disposedBlockOpt);
-        if (auto objectBlockOpt = getExistingBlock(EepromBlockType::object, 0, disposedBlock.end())) {
-            auto& objectBlock = (*objectBlockOpt);
-            if (objectBlock.header_pos() != disposedBlock.end()) {
-                // blocks are not contiguous, should have called mergeDisposedBlocks first
-                return false;
-            }
-
-            // write object at location of disposed block and mark the remainder as disposed.
-            // essentially, they swap places
-
-            // The order of operations here is to prevent losing EEPROM block offsets/alignment when power is lost during the swap.
-            // We first write the disposed length of the combined block, so that if power is lost, the entire block is treated as disposed and only 1 object is lost.
-            disposedBlock.setBlockLength(disposedBlock.length() + objectBlock.block_size());
-
+    uint16_t pos = EepromLocation(objects);
+    while (auto objOpt = getNextObject(pos, false)) {
+        auto& objectBlock = *objOpt;
+        // ensure no invalid objects with ID zero remain in eeprom
+        // these are only temporary while relocating data
+        if (objectBlock.getObjectId() == 0) {
+            objectBlock.setBlockType(EepromBlockType::disposed_block);
+        } else {
             // if object has shrunk and now overprovisioning is large, reduce it to the default
             auto writtenLength = objectBlock.getWrittenLength();
-            auto provisioned = objectBlock.length();
             uint16_t normallyProvisioned = provisionedLength(writtenLength);
             if (objectBlock.length() > normallyProvisioned + 16) {
                 // if block has more than 16 bytes more than normally provisioned
                 // reduce it to the normally provisioned size by splitting off by splitting earlier than before
-                provisioned = normallyProvisioned;
+                objectBlock.split(normallyProvisioned);
             }
-
-            uint16_t writePos = disposedBlock.object_pos();
-            uint16_t readPos = objectBlock.object_pos();
-            uint16_t readEnd = readPos + writtenLength + EepromBlock::objectHeaderLength;
-
-            // Then we copy the data to the front of the block
-            while (readPos < readEnd) {
-                eeprom.writeByte(writePos, eeprom.readByte(readPos));
-                ++readPos;
-                ++writePos;
-            }
-
-            // Then we split the block again
-            disposedBlock.split(provisioned);
-
-            // And finally we make the disposed block an object block again
-            disposedBlock.setBlockType(EepromBlockType::object);
-            return true;
         }
+        pos = objectBlock.end();
     }
-    return false;
+}
+
+// move a single disposed block backwards by swapping it with an object
+bool EepromObjectStorage::moveDisposedBackwards()
+{
+    bool didMove = false;
+    auto pos = EepromLocation(objects);
+    while (auto disposedBlockOpt = getExistingBlock(EepromBlockType::disposed_block, 0, pos)) {
+        auto& disposedBlock = (*disposedBlockOpt);
+        if (disposedBlock.end() + EepromBlock::blockHeaderLength > EepromLocationEnd(objects)) {
+            return didMove;
+        }
+        auto objectBlock = EepromBlock(eeprom, disposedBlock.end());
+        if (objectBlock.type() != EepromBlockType::object) {
+            // next block is not an object, find the next disposed block
+            pos = objectBlock.end();
+            continue;
+        }
+
+        // Write object at location of disposed block and mark the remainder as disposed, they swap places.
+
+        // The order of operations here is to prevent losing EEPROM block offsets/alignment when power is lost during the swap.
+        // We first write the disposed length of the combined block, so that if power is lost, the entire block is treated as disposed and only 1 object is lost.
+        disposedBlock.setBlockLength(disposedBlock.length() + objectBlock.block_size());
+
+        uint16_t writePos = disposedBlock.object_pos();
+        uint16_t readPos = objectBlock.object_pos();
+        uint16_t readEnd = readPos + EepromBlock::objectHeaderLength + objectBlock.getWrittenLength();
+
+        // Then we copy the data to the front of the block
+        while (readPos < readEnd) {
+            eeprom.writeByte(writePos, eeprom.readByte(readPos));
+            ++readPos;
+            ++writePos;
+        }
+
+        // Then we split the block again
+        disposedBlock.split(objectBlock.length());
+
+        // And finally we make the disposed block an object block again
+        disposedBlock.setBlockType(EepromBlockType::object);
+        didMove = true;
+        pos = disposedBlock.end();
+    }
+    return didMove;
 }
 
 void EepromObjectStorage::mergeDisposedBlocks()
@@ -365,16 +393,17 @@ void EepromObjectStorage::mergeDisposedBlocks()
 
     auto pos = EepromLocation(objects);
     while (pos + EepromBlock::blockHeaderLength < EepromLocationEnd(objects)) {
-        if (auto disposedBlock1Opt = getExistingBlock(EepromBlockType::disposed_block, 0, pos)) {
-            auto& disposedBlock1 = (*disposedBlock1Opt);
-            pos = disposedBlock1.end();
-            if (auto disposedBlock2Opt = getExistingBlock(EepromBlockType::disposed_block, 0, pos)) {
-                if (disposedBlock1.end() == (*disposedBlock2Opt).header_pos()) {
-                    // blocks are consecutive
-                    disposedBlock1.join((*disposedBlock2Opt));
-                } else {
-                    pos = (*disposedBlock2Opt).end();
-                }
+        if (auto disposedBlockOpt = getExistingBlock(EepromBlockType::disposed_block, 0, pos)) {
+            auto& disposedBlock = (*disposedBlockOpt);
+            if (disposedBlock.end() + EepromBlock::blockHeaderLength > EepromLocationEnd(objects)) {
+                return;
+            }
+            auto nextBlock = EepromBlock(eeprom, disposedBlock.end());
+            if (nextBlock.type() == EepromBlockType::disposed_block) {
+                // pos is not updated, in case this block should join with another disposed block
+                disposedBlock.join(nextBlock);
+            } else {
+                pos = nextBlock.end();
             }
         } else {
             return;

@@ -98,9 +98,21 @@ public:
         _pos = _start + blockHeaderLength + objectHeaderLength;
     }
 
+    bool inRange(uint16_t count)
+    {
+        return _pos + count <= _start + _accessible_size;
+    }
+
+    void skip(uint16_t count)
+    {
+        if (inRange(count)) {
+            _pos += count;
+        }
+    }
+
     void put(uint8_t value)
     {
-        if (_pos < _start + _accessible_size) {
+        if (inRange(1)) {
             _eeprom.get().writeByte(_pos, value);
             ++_pos;
         }
@@ -108,7 +120,7 @@ public:
 
     void put(const std::vector<uint8_t>& bytes)
     {
-        if (_pos + bytes.size() <= _start + _accessible_size) {
+        if (inRange(bytes.size())) {
             _eeprom.get().writeBlock(_pos, bytes.data(), bytes.size());
             _pos += bytes.size();
         }
@@ -120,7 +132,7 @@ public:
     template <typename T>
     void put(const T& t)
     {
-        if (_pos + sizeof(T) <= _start + _accessible_size) {
+        if (inRange(sizeof(T))) {
             _eeprom.get().put<T>(_pos, t);
             _pos += sizeof(T);
         }
@@ -132,7 +144,7 @@ public:
     template <typename T>
     void get(T& t)
     {
-        if (_pos + sizeof(T) <= _start + _accessible_size) {
+        if (inRange(sizeof(T))) {
             _eeprom.get().get<T>(_pos, t);
             _pos += sizeof(T);
         }
@@ -140,7 +152,7 @@ public:
 
     void get(std::vector<uint8_t>& bytes)
     {
-        if (_pos + bytes.size() <= _start + _accessible_size) {
+        if (inRange(bytes.size())) {
             _eeprom.get().readBlock(bytes.data(), _pos, bytes.size());
             _pos += bytes.size();
         }
