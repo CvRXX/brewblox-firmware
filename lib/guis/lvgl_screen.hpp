@@ -19,6 +19,7 @@
 
 #include "pixel_format.hpp"
 #include <lvgl.h>
+#include <utility>
 
 template <typename Display>
 class LvglScreen {
@@ -34,7 +35,8 @@ public:
             uint8_t* readPtr = reinterpret_cast<uint8_t*>(color_p);
             uint8_t* writePtr = reinterpret_cast<uint8_t*>(color_p);
 
-            for (auto index = 0; index < nPixels; index++) {
+            std::swap(*(writePtr + 2), *writePtr);
+            for (auto index = 1; index < nPixels; index++) {
                 *writePtr = *(readPtr + 2);
                 *(writePtr + 1) = *(readPtr + 1);
                 *(writePtr + 2) = *readPtr;
