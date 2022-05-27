@@ -36,6 +36,8 @@ public:
             uint8_t* writePtr = reinterpret_cast<uint8_t*>(color_p);
 
             std::swap(*(writePtr + 2), *writePtr);
+            readPtr += 4;
+            writePtr += 3;
             for (auto index = 1; index < nPixels; index++) {
                 *writePtr = *(readPtr + 2);
                 *(writePtr + 1) = *(readPtr + 1);
@@ -43,6 +45,25 @@ public:
 
                 readPtr += 4;
                 writePtr += 3;
+            }
+        } else if constexpr (Display::pixelformat == PixelFormat::rgb565) {
+            uint8_t* readPtr = reinterpret_cast<uint8_t*>(color_p);
+            uint16_t* writePtr = reinterpret_cast<uint16_t*>(color_p);
+
+            for (auto index = 0; index < nPixels; index++) {
+                auto b = *readPtr;
+                auto g = *(readPtr + 1);
+                auto r = *(readPtr + 2);
+
+                uint16_t Rgb565 = 0;
+                Rgb565 = (r & 0b11111000) << 8;
+                Rgb565 = Rgb565 + ((g & 0b11111100) << 3);
+                Rgb565 = Rgb565 + ((b) >> 3);
+
+                *writePtr = Rgb565;
+
+                readPtr += 4;
+                writePtr += 1;
             }
         }
 
