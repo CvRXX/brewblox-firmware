@@ -31,7 +31,7 @@ struct Color {
     }
 
     // Returns a lvgl color.
-    auto lvglColor() const
+    operator lv_color_t() const
     {
         return lv_color_make(r, g, b);
     }

@@ -76,7 +76,7 @@ public:
         lv_obj_clear_flag(contentArea.get(), LV_OBJ_FLAG_SCROLLABLE);
         lv_obj_set_size(contentArea.get(), lv_pct(100), lv_pct(100));
         lv_obj_add_style(placeholder, &style::block, LV_STATE_DEFAULT);
-        lv_obj_set_style_bg_color(contentArea.get(), color.lvglColor(), LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_color(contentArea.get(), color, LV_STATE_DEFAULT);
         lv_obj_add_style(contentArea.get(), luminance() < 128 ? &style::bg_dark : &style::bg_light, 0);
         lv_obj_add_event_cb(contentArea.get(), pressed, LV_EVENT_CLICKED, this); /*Assign an event callback*/
     }
@@ -139,7 +139,7 @@ private:
             } else if (!strcmp(buf, "blue")) {
                 widget->color = Color{0, 0, 255};
             }
-            lv_obj_set_style_bg_color(widget->contentArea.get(), widget->color.lvglColor(), LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(widget->contentArea.get(), widget->color, LV_STATE_DEFAULT);
             settings->exit();
         }
     }
