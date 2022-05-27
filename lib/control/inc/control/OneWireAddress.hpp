@@ -28,7 +28,7 @@ public:
         : address(0)
     {
     }
-    OneWireAddress(uint64_t addr)
+    explicit OneWireAddress(uint64_t addr)
         : address(addr)
     {
     }
@@ -49,7 +49,7 @@ public:
         return asUint8ptr()[i];
     }
 
-    bool getBit(uint8_t i)
+    bool getBit(uint8_t i) const
     {
         uint64_t mask = uint64_t{0x01} << i;
         return (mask & uint64_t(address)) > 0;
@@ -65,9 +65,14 @@ public:
         }
     }
 
-    operator uint64_t()
+    explicit operator const uint64_t&() const
     {
         return address;
+    }
+
+    explicit operator bool() const
+    {
+        return address != 0;
     }
 
     bool valid() const;

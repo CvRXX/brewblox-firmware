@@ -11,6 +11,7 @@
 #include "blocks/MotorValveBlock.hpp"
 #include "blocks/MutexBlock.hpp"
 #include "blocks/PidBlock.hpp"
+#include "blocks/SequenceBlock.hpp"
 #include "blocks/SetpointProfileBlock.hpp"
 #include "blocks/SetpointSensorPairBlock.hpp"
 #include "blocks/TempSensorCombiBlock.hpp"
@@ -35,6 +36,7 @@ static const cbox::ObjectFactory blocksFactory({
     cbox::makeFactoryEntry<ActuatorLogicBlock>(),
     cbox::makeFactoryEntry<MockPinsBlock>(),
     cbox::makeFactoryEntry<TempSensorCombiBlock>(),
+    cbox::makeFactoryEntry<SequenceBlock>(),
 });
 
 cbox::CboxExpected<std::shared_ptr<cbox::Object>> makeBlock(cbox::obj_type_t t)

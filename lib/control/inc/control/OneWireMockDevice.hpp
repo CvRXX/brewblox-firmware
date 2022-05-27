@@ -26,8 +26,8 @@ class OneWireMockDriver;
 
 class OneWireMockDevice {
 public:
-    OneWireMockDevice(const OneWireAddress& address_)
-        : address(address_)
+    explicit OneWireMockDevice(OneWireAddress&& address_)
+        : address(std::move(address_))
     {
     }
 

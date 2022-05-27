@@ -168,7 +168,7 @@ bool OneWire::skip()
 void OneWire::reset_search()
 {
     // reset the search state
-    ROM_NO = 0;
+    ROM_NO = OneWireAddress{0};
     lastDiscrepancy = 64;
     lastDeviceFlag = false;
     lockedSearchBits = 0;
@@ -177,16 +177,15 @@ void OneWire::reset_search()
 void OneWire::target_search(uint8_t family_code)
 {
     // set the search state to find SearchFamily type devices
-    ROM_NO = family_code;
+    ROM_NO = OneWireAddress{family_code};
     lastDiscrepancy = 64;
     lockedSearchBits = 8;
     lastDeviceFlag = false;
 }
 
-bool OneWire::search(OneWireAddress& newAddr)
+OneWireAddress OneWire::search()
 {
     uint8_t id_bit_nr = 0;
-    bool search_result = false;
     bool search_direction = true;
     bool id_bit, cmp_id_bit;
     uint8_t last_zero = 64;
@@ -194,7 +193,7 @@ bool OneWire::search(OneWireAddress& newAddr)
     // if the last call was not the last one
     if (!lastDeviceFlag) {
         if (!reset()) {
-            return false;
+            return OneWireAddress{0};
         }
 
         // issue the search command
@@ -237,13 +236,9 @@ bool OneWire::search(OneWireAddress& newAddr)
                 // no discrepancies or discrepancy is for device outside of target_search
                 lastDeviceFlag = true;
             };
-            search_result = true;
+            return ROM_NO;
         }
     }
 
-    if (search_result) {
-        newAddr = ROM_NO;
-    }
-
-    return search_result;
+    return OneWireAddress{0};
 }

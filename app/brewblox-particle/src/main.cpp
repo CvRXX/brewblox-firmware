@@ -31,6 +31,8 @@
 #include "proto/proto_version.h"
 #include "spark/Board.hpp"
 #include "spark/Brewblox.hpp"
+#include "spark/Buzzer.hpp"
+#include "spark/ConnectionPool.hpp"
 #include "spark/Connectivity.hpp"
 #include "spark_wiring_startup.h"
 #include "spark_wiring_system.h"

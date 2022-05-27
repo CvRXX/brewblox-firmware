@@ -29,7 +29,7 @@
 class IoArray {
 public:
     using State = ActuatorDigitalBase::State;
-    IoArray(uint8_t size)
+    explicit IoArray(uint8_t size)
         : channels(size, {ChannelConfig::UNUSED, State::Unknown})
     {
     }

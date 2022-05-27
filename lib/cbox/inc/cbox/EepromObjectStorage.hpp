@@ -18,113 +18,72 @@
  */
 
 #pragma once
+#include "cbox/EepromLayout.hpp"
 
 #include "cbox/CboxError.hpp"
 #include "cbox/EepromAccess.hpp"
-#include "cbox/EepromDataStream.hpp"
-#include "cbox/EepromLayout.hpp"
+#include "cbox/EepromBlock.hpp"
 #include "cbox/ObjectStorage.hpp"
 
 namespace cbox {
-
-enum class BlockType : uint8_t {
-    invalid, // ensures cleared eeprom reads as invalid block type
-    object,
-    disposed_block,
-};
-
 inline bool
-operator==(const uint8_t& a, const BlockType& b)
+operator==(const uint8_t& a, const EepromBlockType& b)
 {
     return a == static_cast<uint8_t>(b);
 }
 
+struct EepromFreeSpace {
+    uint16_t total;
+    uint16_t continuous;
+};
+
 class EepromObjectStorage : public ObjectStorage {
 public:
-    EepromObjectStorage(EepromAccess& _eeprom);
+    explicit EepromObjectStorage(EepromAccess& _eeprom);
     virtual ~EepromObjectStorage() = default;
 
-    virtual CboxError loadObject(obj_id_t id, const PayloadCallback& callback) override final;
+    CboxError loadObject(obj_id_t id, const PayloadCallback& callback) final;
 
-    virtual CboxError saveObject(const Payload& payload) override final;
+    CboxError saveObject(const Payload& payload) final;
 
-    virtual CboxError loadAllObjects(const PayloadCallback& callback) override final;
+    CboxError loadAllObjects(const PayloadCallback& callback) final;
 
-    virtual bool disposeObject(obj_id_t id, bool mergeDisposed = true) override final;
+    bool disposeObject(obj_id_t id) final;
 
-    virtual void clear() override final;
+    void clear() final;
 
-    stream_size_t freeSpace();
-
-    stream_size_t continuousFreeSpace();
+    EepromFreeSpace freeSpace();
 
     void defrag();
 
-private:
+protected:
     /**
      * The application supplied EEPROM storage class
      */
     EepromAccess& eeprom;
 
-    /**
-     * Stream wrappers for reading, writing and limiting region
-     */
-    EepromDataIn reader;
-    EepromDataOut writer;
+    static constexpr uint8_t magicByte = 0x69;
+    static constexpr uint8_t storageVersion = 0x01;
+    static constexpr uint16_t referenceHeader = uint16_t(uint16_t(magicByte) << 8U) + storageVersion;
 
-    inline uint8_t
-    magicByte() const
-    {
-        return 0x69;
-    }
-    inline uint8_t
-    storageVersion() const
-    {
-        return 0x01;
-    }
-    inline uint16_t
-    referenceHeader() const
-    {
-        return magicByte() << 8 | storageVersion();
-    }
-
-    void
-    resetReader()
-    {
-        reader.reset(EepromLocation(objects), EepromLocationSize(objects));
-    }
-    void
-    resetWriter()
-    {
-        writer.reset(EepromLocation(objects), EepromLocationSize(objects));
-    }
-
-    static uint16_t
-    blockHeaderLength()
-    {
-        return sizeof(BlockType) + sizeof(uint16_t);
-    }
-
-    static uint16_t
-    objectHeaderLength()
-    {
-        // actual size + id
-        return blockHeaderLength() + sizeof(uint16_t) + sizeof(obj_id_t);
-    }
-
-    RegionDataIn getBlockReader(BlockType requestedType);
-    RegionDataOut getBlockWriter(BlockType requestedType, uint16_t minSize);
-    RegionDataIn getObjectReader(obj_id_t id, bool usedSize);
-    RegionDataOut getObjectWriter(obj_id_t id);
-    RegionDataOut newObjectWriter(obj_id_t id, uint16_t objectSize);
+    std::optional<EepromBlock> getExistingBlock(EepromBlockType requestedType, uint16_t minSize, uint16_t start);
+    std::optional<EepromBlock> getNextObject(uint16_t start, bool limitToWrittenSize);
+    std::optional<EepromBlock> getExistingObject(obj_id_t id, bool limitToWrittenSize);
+    std::optional<EepromBlock> getNewObject(uint16_t minSize);
 
     void init();
     bool moveDisposedBackwards();
-    bool mergeDisposedBlocks();
+    void mergeDisposedBlocks();
+    void shrinkOverallocatedBlocks();
 
-    static CboxError parseFromStream(obj_id_t id,
-                                     const PayloadCallback& callback,
-                                     RegionDataIn& in);
+    static CboxError eepromToPayload(const PayloadCallback& callback,
+                                     EepromBlock& block);
+
+    static uint16_t provisionedLength(uint16_t objectLength)
+    {
+        // overprovision by 12.5%, minimal 4 bytes
+        return objectLength + std::max(objectLength / 8, 4) + EepromBlock::objectHeaderLength;
+    }
 };
 
 } // end namespace cbox

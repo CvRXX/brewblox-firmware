@@ -41,6 +41,12 @@ std::shared_ptr<Object> scan()
     return retv;
 }
 
+ObjectContainer& getObjects()
+{
+    static ObjectContainer objects;
+    return objects;
+}
+
 ObjectStorage& getStorage()
 {
     static FileObjectStorage objectStore{"/blocks/"};

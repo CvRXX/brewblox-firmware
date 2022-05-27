@@ -25,18 +25,10 @@
 
 namespace cbox {
 
-#if !defined(PLATFORM_ID) || PLATFORM_ID == 3
-uint16_t
-throwIdNotUnique(uint16_t id);
-#endif
-
 template <uint16_t id>
 class ObjectBase : public Object {
 public:
-    ObjectBase() = default;
-    virtual ~ObjectBase() = default;
-
-    static obj_type_t staticTypeId()
+    [[nodiscard]] static obj_type_t staticTypeId()
     {
 #if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)
         static auto uniqueId = throwIdNotUnique(id);
@@ -49,12 +41,12 @@ public:
     /**
      * The application defined typeID for this object instance. Defined by derived class
      */
-    virtual obj_type_t typeId() const override
+    [[nodiscard]] obj_type_t typeId() const override
     {
         return id;
     }
 
-    virtual void* implements(obj_type_t iface) override
+    [[nodiscard]] void* implements(obj_type_t iface) override
     {
         if (id == iface) {
             return this;
@@ -62,56 +54,5 @@ public:
         return nullptr;
     }
 };
-
-// any type can be assigned a typeid by explicit template instantiation
-// this allows objects to implement returning a pointer for that type, without needing to inherit from it
-template <typename T>
-obj_type_t
-interfaceIdImpl();
-
-// for objects, the object id is the interface id
-template <typename T>
-obj_type_t
-interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = 0)
-{
-    return T::staticTypeId();
-}
-
-// for interface, we check uniqueness on first use, if compiling with gcc (test code)
-template <typename T>
-obj_type_t
-interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = 0)
-{
-#if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)
-    static auto uniqueId = throwIdNotUnique(interfaceIdImpl<T>());
-    return uniqueId;
-#else
-    return interfaceIdImpl<T>();
-#endif
-}
-
-template <class T>
-T* asInterface(Object& obj)
-{
-    return reinterpret_cast<T*>(obj.implements(interfaceId<T>()));
-}
-
-template <class T>
-T* asInterface(std::shared_ptr<Object>& obj)
-{
-    if (obj) {
-        return reinterpret_cast<T*>(obj->implements(interfaceId<T>()));
-    }
-    return nullptr;
-}
-
-template <class T>
-const T* asInterface(const std::shared_ptr<Object>& obj)
-{
-    if (obj) {
-        return reinterpret_cast<const T*>(obj->implements(interfaceId<T>()));
-    }
-    return nullptr;
-}
 
 } // end namespace cbox

@@ -42,8 +42,8 @@ private:
     static constexpr uint8_t ACK_ERROR = 0xFF;
 
 public:
-    DS2413(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
-        : OneWireDevice(busPtr, address)
+    explicit DS2413(ControlPtr<OneWire>& busPtr, OneWireAddress address = OneWireAddress{familyCode})
+        : OneWireDevice(busPtr, std::move(address))
         , IoArray(2)
     {
     }
@@ -67,11 +67,11 @@ public:
     bool writeNeeded();
 
     // generic ArrayIO interface
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
+    bool senseChannelImpl(uint8_t channel, State& result) const final;
 
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
+    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
 
-    virtual bool supportsFastIo() const override final
+    bool supportsFastIo() const final
     {
         return false;
     }

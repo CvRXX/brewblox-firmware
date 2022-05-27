@@ -26,8 +26,49 @@
 namespace cbox {
 
 using update_t = uint32_t;
+static constexpr update_t MAX_UPDATE_INTERVAL = std::numeric_limits<update_t>::max() / 2;
+
+class Object;
+
+// any type can be assigned a typeid by explicit template instantiation
+// this allows objects to implement returning a pointer for that type, without needing to inherit from it
+template <typename T>
+obj_type_t interfaceIdImpl();
+
+// for objects, the object id is the interface id
+template <typename T>
+obj_type_t interfaceId(typename std::enable_if_t<std::is_base_of<Object, T>::value>* = nullptr)
+{
+    return T::staticTypeId();
+}
+
+#if !defined(PLATFORM_ID) || PLATFORM_ID == 3 // check that ID is unique if building for cross platform (tests)
+uint16_t throwIdNotUnique(uint16_t id);
+#endif
+
+// for interface, we check uniqueness on first use, if compiling with gcc (test code)
+template <typename T>
+obj_type_t interfaceId(typename std::enable_if_t<!std::is_base_of<Object, T>::value>* = nullptr)
+{
+#if !defined(PLATFORM_ID) || PLATFORM_ID == 3
+    static auto uniqueId = throwIdNotUnique(interfaceIdImpl<T>());
+    return uniqueId;
+
+#else
+
+    return interfaceIdImpl<T>();
+#endif
+}
 
 class Object {
+public:
+    Object() = default;
+    virtual ~Object() = default;
+    Object(const Object&) = default;
+    Object(Object&&) = default;
+    Object& operator=(const Object&) = default;
+    Object& operator=(Object&&) = default;
+
 private:
     update_t _nextUpdateTime{0}; // ignore update() calls before this time
     obj_id_t _objectId{0};       // unique object ID
@@ -40,7 +81,7 @@ protected:
      */
     static inline update_t next_update_never(const update_t& now)
     {
-        return now + std::numeric_limits<update_t>::max() / 2;
+        return now + MAX_UPDATE_INTERVAL;
     }
 
     /**
@@ -53,11 +94,24 @@ protected:
         return now + 1000;
     }
 
-public:
-    Object() = default;
-    virtual ~Object() = default;
+    void resetNextUpdateTime()
+    {
+        _nextUpdateTime = 0;
+    }
 
-    obj_id_t objectId() const
+private:
+    /**
+     * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
+     * @param iface: typeId of the interface requested
+     */
+    [[nodiscard]] virtual void* implements(obj_type_t iface) = 0;
+    [[nodiscard]] const void* implements(obj_type_t iface) const
+    {
+        return const_cast<Object*>(this)->implements(iface);
+    }
+
+public:
+    [[nodiscard]] obj_id_t objectId() const
     {
         return _objectId;
     }
@@ -72,62 +126,68 @@ public:
      * @return object type
      *
      */
-    virtual obj_type_t typeId() const = 0;
+    [[nodiscard]] virtual obj_type_t typeId() const = 0;
 
     /**
      * Each object can yield its data.
      * A callback is provided so the return value can be processed immediately.
      * The yielded data should be compatible with write().
      */
-    virtual CboxError read(const PayloadCallback& callback) const = 0;
+    [[nodiscard]] virtual CboxError read(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can yield data they want persisted.
      * A callback is provided so the return value can be processed immediately.
      * The yielded data should be compatible with write().
      */
-    virtual CboxError readStored(const PayloadCallback& callback) const = 0;
+    [[nodiscard]] virtual CboxError readStored(const PayloadCallback& callback) const = 0;
 
     /**
      * Objects can receive incoming data.
      * This function should be compatible with data yielded from either read() or readStored().
      */
-    virtual CboxError write(const Payload& payload) = 0;
+    [[nodiscard]] virtual CboxError write(const Payload& payload) = 0;
 
     /**
      * Prompt object to load cached data if required.
      */
-    virtual CboxError loadFromCache()
+    [[nodiscard]] virtual CboxError loadFromCache()
     {
         return CboxError::OK;
     }
 
-    /**
-     * checks whether the class implements a certain interface. If it does, it returns the this pointer implementing it
-     * @param iface: typeId of the interface requested
-     */
-    virtual void* implements(obj_type_t iface) = 0;
+    template <typename T>
+    T* asInterface()
+    {
+        return reinterpret_cast<T*>(implements(interfaceId<T>()));
+    }
+
+    template <typename T>
+    [[nodiscard]] const T* asInterface() const
+    {
+        return reinterpret_cast<const T*>(implements(interfaceId<T>()));
+    }
 
     /**
      * update the object, returns timestamp at which the object wants to be updated again (in ms).
      * The default implementation permanently skips updates.
      */
-    virtual update_t updateHandler(const update_t& now)
+    [[nodiscard]] virtual update_t updateHandler(const update_t& now)
     {
         return next_update_never(now);
     }
 
     void update(update_t now)
     {
-        const update_t overflowGuard = std::numeric_limits<update_t>::max() / 2;
-        if (overflowGuard - now + _nextUpdateTime <= overflowGuard) {
-            forcedUpdate(now);
+        if (_nextUpdateTime == 0 || MAX_UPDATE_INTERVAL - now + _nextUpdateTime <= MAX_UPDATE_INTERVAL) {
+            _nextUpdateTime = updateHandler(now);
         }
     }
 
     void forcedUpdate(update_t now)
     {
-        _nextUpdateTime = updateHandler(now);
+        _nextUpdateTime = 0;
+        update(now);
     }
 };
 

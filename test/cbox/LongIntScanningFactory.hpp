@@ -1,7 +1,8 @@
 #include "TestObjects.hpp"
-#include "cbox/Box.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/Object.hpp"
 #include "cbox/ScanningFactory.hpp"
+#include <algorithm>
 #include <memory>
 #include <vector>
 
@@ -23,19 +24,15 @@ public:
 
     virtual std::shared_ptr<Object> scan() override final
     {
+        auto& objects = getObjects();
         for (auto& value : candidates) {
-            bool found = false;
-            for (auto existing = objects.cbegin(); existing != objects.cend(); ++existing) {
-                LongIntObject* ptrIfCorrectType = reinterpret_cast<LongIntObject*>((*existing)->implements(LongIntObject::staticTypeId()));
-                if (ptrIfCorrectType == nullptr) {
-                    continue; // not the right type, no match
-                }
-                if (ptrIfCorrectType->value() == value) {
-                    found = true; // object with value already exists
-                    break;
-                }
-            }
-            if (!found) {
+            auto existing = std::find_if(objects.cbegin(), objects.cend(), [value](const std::shared_ptr<Object>& obj) {
+                if (auto ptrIfCorrectType = obj->asInterface<LongIntObject>()) {
+                    return ptrIfCorrectType->value() == value;
+                };
+                return false;
+            });
+            if (existing == objects.cend()) {
                 // create new object
                 return std::make_shared<LongIntObject>(value);
             }

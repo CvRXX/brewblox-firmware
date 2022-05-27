@@ -13,7 +13,7 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
     message.actuatorId = actuator.getId();
 
     message.period = pwm.period();
-    message.enabled = pwm.enabled();
+    message.enabled = pwm.enabler.get();
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
 
     if (constrained.valueValid()) {
@@ -23,7 +23,7 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
     }
     if (constrained.settingValid()) {
         message.setting = cnl::unwrap(constrained.setting());
-        if (pwm.enabled()) {
+        if (pwm.enabler.get()) {
             message.drivenActuatorId = message.actuatorId;
         }
     } else {
@@ -49,7 +49,7 @@ ActuatorPwmBlock::readStored(const cbox::PayloadCallback& callback) const
 
     message.actuatorId = actuator.getId();
     message.period = pwm.period();
-    message.enabled = pwm.enabled();
+    message.enabled = pwm.enabler.get();
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(message.constrainedBy, constrained);
 
@@ -73,7 +73,7 @@ ActuatorPwmBlock::write(const cbox::Payload& payload)
         pwm.period(message.period);
         setAnalogConstraints(message.constrainedBy, constrained);
         constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
-        pwm.enabled(message.enabled);
+        pwm.enabler.set(message.enabled);
     }
 
     return res;
@@ -103,7 +103,7 @@ ActuatorPwmBlock::updateHandler(const cbox::update_t& now)
 
 void* ActuatorPwmBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_ActuatorPwm) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
@@ -114,6 +114,10 @@ void* ActuatorPwmBlock::implements(cbox::obj_type_t iface)
     if (iface == cbox::interfaceId<ProcessValue<ActuatorAnalog::value_t>>()) {
         // return the member that implements the interface in this case
         ProcessValue<ActuatorAnalog::value_t>* ptr = &constrained;
+        return ptr;
+    }
+    if (iface == cbox::interfaceId<Enabler>()) {
+        Enabler* ptr = &pwm.enabler;
         return ptr;
     }
     return nullptr;

@@ -2,9 +2,7 @@ idf_component_register(
   SRCS
     src/Base64.cpp
     src/Box.cpp
-    src/CboxPtr.cpp
     src/Crc.cpp
-    src/EepromDataStream.cpp
     src/EepromObjectStorage.cpp
     src/FileObjectStorage.cpp
     src/ObjectBase.cpp

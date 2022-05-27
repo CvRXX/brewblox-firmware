@@ -31,10 +31,11 @@ public:
 
     virtual ~OneWireMultiScanningFactory() = default;
 
-    virtual std::shared_ptr<cbox::Object> scan() override final
+    std::shared_ptr<cbox::Object> scan() final
     {
-        for (auto obj_it = cbox::objects.cbegin(); obj_it != cbox::objects.cend(); ++obj_it) {
-            if (cbox::asInterface<OneWire>(*obj_it) == nullptr) {
+        auto& objects = cbox::getObjects();
+        for (auto obj_it = objects.cbegin(); obj_it != objects.cend(); ++obj_it) {
+            if ((*obj_it)->asInterface<OneWire>() == nullptr) {
                 continue; // not a OneWire bus
             }
             // use a bus scanner to find new devices on this bus
@@ -45,6 +46,6 @@ public:
             }
             // go to next bus
         }
-        return nullptr; // no new OneWire devices on any bus
+        return {}; // no new OneWire devices on any bus
     }
 };

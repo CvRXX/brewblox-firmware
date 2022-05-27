@@ -38,7 +38,7 @@ private:
     static constexpr uint8_t estimatedRebootTimeS = 5;
 
 public:
-    TicksBlock(T& _ticks)
+    explicit TicksBlock(T& _ticks)
         : ticks(_ticks)
     {
     }

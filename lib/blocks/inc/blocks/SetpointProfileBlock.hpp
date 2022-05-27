@@ -47,4 +47,9 @@ public:
     {
         return profile;
     }
+
+    const SetpointProfile& get() const
+    {
+        return profile;
+    }
 };

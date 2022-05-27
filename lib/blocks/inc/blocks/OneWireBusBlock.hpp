@@ -34,7 +34,7 @@ private:
     static const uint8_t SEARCH = 2; // pass family as data, 00 for all
 
 public:
-    OneWireBusBlock(OneWire& ow, void (*onShortDetected)() = nullptr);
+    explicit OneWireBusBlock(OneWire& ow, void (*onShortDetected)() = nullptr);
     ~OneWireBusBlock() = default;
 
     OneWire& oneWire() { return bus; }

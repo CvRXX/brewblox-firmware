@@ -28,6 +28,7 @@ namespace detail {
 
 uint8_t find_next(uint8_t lastAddress)
 {
+    auto& objects = cbox::getObjects();
     uint8_t address = lastAddress;
     while (address < 128) {
         ++address;
@@ -35,12 +36,12 @@ uint8_t find_next(uint8_t lastAddress)
         if (!err) {
             uint8_t pos = (address & uint8_t{0x3}) + 1;
             auto samePosition = [&pos](const std::shared_ptr<cbox::Object>& obj) {
-                if (auto ptr = cbox::asInterface<IoModule>(obj)) {
+                if (auto ptr = obj->asInterface<IoModule>()) {
                     return ptr->modulePosition() == pos;
                 };
                 return false;
             };
-            if (std::find_if(cbox::objects.cbegin(), cbox::objects.cend(), samePosition) != cbox::objects.cend()) {
+            if (std::find_if(objects.cbegin(), objects.cend(), samePosition) != objects.cend()) {
                 // already initialized module at this position;
                 continue;
             }

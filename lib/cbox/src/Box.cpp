@@ -19,6 +19,7 @@
  */
 
 #include "cbox/Box.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/CboxError.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "cbox/DeprecatedObject.hpp"
@@ -33,8 +34,6 @@
 #include <vector>
 
 namespace cbox {
-
-ObjectContainer objects;
 
 update_t lastUpdateTime = 0;
 
@@ -57,18 +56,16 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
     auto block = makeResult.value();
 
     // Add created block to the container
-    status = objects.add(block, request.blockId);
+    status = getObjects().add(block, request.blockId);
     if (status != CboxError::OK) {
         return status;
     }
 
     // Save block settings to storage
-    status = block->readStored([](const Payload& stored) {
-        return getStorage().saveObject(stored);
-    });
+    status = block->readStored(getStorage().saveObjectCallback);
 
     if (status != CboxError::OK) {
-        objects.remove(block->objectId());
+        getObjects().remove(block->objectId());
         return status;
     }
 
@@ -83,7 +80,7 @@ CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
 
-    auto fetched = objects.fetch(request.blockId);
+    auto fetched = getObjects().fetch(request.blockId);
     if (!fetched) {
         return fetched.error();
     }
@@ -100,9 +97,7 @@ CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
     }
 
     // Save updated settings to storage
-    status = obj->readStored([](const Payload& stored) {
-        return getStorage().saveObject(stored);
-    });
+    status = obj->readStored(getStorage().saveObjectCallback);
 
     if (status != CboxError::OK) {
         return status;
@@ -117,7 +112,7 @@ CboxError writeBlock(const Payload& request, const PayloadCallback& callback)
 
 CboxError readBlock(const Payload& request, const PayloadCallback& callback)
 {
-    auto fetched = objects.fetch(request.blockId);
+    auto fetched = getObjects().fetch(request.blockId);
     if (!fetched) {
         return fetched.error();
     }
@@ -134,7 +129,7 @@ CboxError readBlock(const Payload& request, const PayloadCallback& callback)
 CboxError readAllBlocks(const PayloadCallback& callback)
 {
     CboxError status = CboxError::OK;
-    for (auto it = objects.cbegin(); (it < objects.cend() && status == CboxError::OK); it++) {
+    for (auto it = getObjects().cbegin(); (it < getObjects().cend() && status == CboxError::OK); it++) {
         status = (*it)->read(callback);
     }
     return status;
@@ -153,7 +148,7 @@ CboxError deleteBlock(const Payload& request)
         storageId = obj->storageId();
     }
 
-    status = objects.remove(id);
+    status = getObjects().remove(id);
     getStorage().disposeObject(storageId);
     getCacheStorage().disposeObject(storageId);
 
@@ -173,17 +168,16 @@ CboxError readAllStoredBlocks(const PayloadCallback& callback)
 CboxError clearBlocks()
 {
     // remove user objects from storage
-    auto cit = objects.userbegin();
-    while (cit != objects.cend()) {
+    auto cit = getObjects().usercbegin();
+    while (cit != getObjects().cend()) {
         auto id = (*cit)->objectId();
         cit++;
-        bool mergeDisposed = cit == objects.cend(); // merge disposed blocks on last delete
-        getStorage().disposeObject(id, mergeDisposed);
-        getCacheStorage().disposeObject(id, mergeDisposed);
+        getStorage().disposeObject(id);
+        getCacheStorage().disposeObject(id);
     }
 
     // remove all user objects from vector
-    objects.clear();
+    getObjects().clear();
 
     return CboxError::OK;
 }
@@ -191,14 +185,12 @@ CboxError clearBlocks()
 CboxError discoverBlocks(const PayloadCallback& callback)
 {
     while (auto newObj = scan()) {
-        auto status = objects.add(newObj);
+        auto status = getObjects().add(newObj);
         if (status != CboxError::OK) {
             return status;
         }
 
-        status = newObj->readStored([](const Payload& stored) {
-            return getStorage().saveObject(stored);
-        });
+        status = newObj->readStored(getStorage().saveObjectCallback);
         if (status != CboxError::OK) {
             return status;
         }
@@ -229,7 +221,7 @@ void loadBlocksFromStorage()
     getStorage().loadAllObjects([&deprecatedList](const Payload& payload) -> CboxError {
         CboxError status = CboxError::OK;
 
-        if (auto fetched = objects.fetch(payload.blockId)) {
+        if (auto fetched = getObjects().fetch(payload.blockId)) {
             // existing object
             status = fetched.value()->write(payload);
         } else {
@@ -241,9 +233,8 @@ void loadBlocksFromStorage()
                 if (makeResult.error() == CboxError::BLOCK_NOT_CREATABLE) {
                     deprecatedList.push_back(payload.blockId);
                     return CboxError::OK;
-                } else {
-                    return makeResult.error();
                 }
+                return makeResult.error();
             }
 
             // Write desired settings to the newly created block
@@ -252,34 +243,34 @@ void loadBlocksFromStorage()
                 return status;
             }
 
-            objects.add(std::move(makeResult.value()), payload.blockId);
+            getObjects().add(std::move(makeResult.value()), payload.blockId);
         }
         return status;
     });
 
     // add deprecated object placeholders at the end
     for (auto& id : deprecatedList) {
-        objects.add(std::shared_ptr<Object>(new DeprecatedObject(id)));
+        getObjects().add(std::shared_ptr<Object>(new DeprecatedObject(id)));
     }
 
-    objects.loadFromCache();
+    getObjects().loadFromCache();
 }
 
 void unloadBlocks()
 {
-    objects.clearAll();
+    getObjects().clearAll();
 }
 
 void update(const update_t& now)
 {
     lastUpdateTime = now;
-    objects.update(now);
+    getObjects().update(now);
 }
 
 void forcedUpdate(const update_t& now)
 {
     lastUpdateTime = now;
-    objects.forcedUpdate(now);
+    getObjects().forcedUpdate(now);
 }
 
 } // end namespace cbox

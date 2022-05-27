@@ -36,12 +36,12 @@ public:
         return m_balanced.requesterId();
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return m_balanced.id();
     }
 
-    virtual AAConstraints::value_t constrain(const AAConstraints::value_t& val) const override final
+    AAConstraints::value_t constrain(const AAConstraints::value_t& val) const final
     {
         return m_balanced.constrain(val);
     }
@@ -51,7 +51,7 @@ public:
         return m_balanced.granted();
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return m_balanced.order();
     }
@@ -133,7 +133,7 @@ public:
     {
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return m_mutexConstraint.id();
     }
@@ -143,12 +143,12 @@ public:
         return lookup.getId();
     }
 
-    virtual duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) override final
+    duration_millis_t allowedImpl(const State& newState, const ticks_millis_t& now, const ActuatorDigitalChangeLogged& act) final
     {
         return m_mutexConstraint.allowedImpl(newState, now, act);
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return m_mutexConstraint.order();
     }

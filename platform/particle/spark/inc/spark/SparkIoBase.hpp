@@ -37,11 +37,11 @@ public:
 
     // generic ArrayIO interface
     virtual bool
-    senseChannelImpl(uint8_t channel, State& result) const override final;
+    senseChannelImpl(uint8_t channel, State& result) const final;
     virtual bool
-    writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
+    writeChannelImpl(uint8_t channel, ChannelConfig config) final;
     virtual bool
-    supportsFastIo() const override final
+    supportsFastIo() const final
     {
         return true;
     }

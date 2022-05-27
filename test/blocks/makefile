@@ -87,6 +87,7 @@ CPPSRC += $(ROOT_DIR)/test/blocks/DigitalActuatorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireBusBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireTempSensorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/PidBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/SequenceBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SetpointProfileBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SetpointSensorPairBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SysInfoBlock_test.cpp
@@ -119,5 +120,8 @@ CPPFLAGS += -Wsuggest-final-methods
 
 # don't generate warnings for system headers
 CFLAGS += -Wno-system-headers
+
+# ignore warnings for generated protobuf files
+CCFLAGS += -Wno-maybe-uninitialized
 
 include ../targets.mk

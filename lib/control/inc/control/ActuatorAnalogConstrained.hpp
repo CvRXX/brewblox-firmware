@@ -48,17 +48,17 @@ private:
     value_t m_min;
 
 public:
-    Minimum(const value_t& v)
+    explicit Minimum(const value_t& v)
         : m_min(v)
     {
     }
 
-    virtual value_t constrain(const value_t& val) const override final
+    value_t constrain(const value_t& val) const final
     {
         return std::max(val, m_min);
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -68,7 +68,7 @@ public:
         return m_min;
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 0;
     }
@@ -80,17 +80,17 @@ private:
     value_t m_max;
 
 public:
-    Maximum(const value_t& v)
+    explicit Maximum(const value_t& v)
         : m_max(v)
     {
     }
 
-    virtual value_t constrain(const value_t& val) const override final
+    value_t constrain(const value_t& val) const final
     {
         return std::min(val, m_max);
     }
 
-    virtual uint8_t id() const override final
+    uint8_t id() const final
     {
         return ID;
     }
@@ -100,7 +100,7 @@ public:
         return m_max;
     }
 
-    virtual uint8_t order() const override final
+    uint8_t order() const final
     {
         return 1;
     }
@@ -122,7 +122,7 @@ private:
     value_t m_desiredSetting = 0;
 
 public:
-    ActuatorAnalogConstrained(ActuatorAnalog& act)
+    explicit ActuatorAnalogConstrained(ActuatorAnalog& act)
         : actuator(act)
     {
     }
@@ -138,7 +138,7 @@ public:
 
     value_t constrain(const value_t& val);
 
-    virtual void setting(const value_t& val) override final;
+    void setting(const value_t& val) final;
 
     void update()
     {
@@ -148,31 +148,31 @@ public:
     }
 
     virtual value_t
-    setting() const override final
+    setting() const final
     {
         return actuator.setting();
     }
 
     virtual value_t
-    value() const override final
+    value() const final
     {
         return actuator.value();
     }
 
     virtual bool
-    valueValid() const override final
+    valueValid() const final
     {
         return actuator.valueValid();
     }
 
     virtual bool
-    settingValid() const override final
+    settingValid() const final
     {
         return actuator.settingValid();
     }
 
     virtual void
-    settingValid(bool v) override final;
+    settingValid(bool v) final;
 
     value_t
     desiredSetting() const

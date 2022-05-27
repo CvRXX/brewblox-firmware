@@ -9,6 +9,15 @@ ActuatorPwm::ActuatorPwm(
     ControlPtr<ActuatorDigitalConstrained>& target_,
     duration_millis_t period_)
     : m_target(target_)
+    , enabler(true, [this](bool arg) {
+        if (!arg && this->enabler.get()) {
+            this->settingValid(false);
+        }
+#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
+        manageTimerTask();
+#endif
+        return arg;
+    })
 {
     period(period_);
 }
@@ -47,7 +56,7 @@ ActuatorPwm::dutyFraction() const
 #if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
 void ActuatorPwm::manageTimerTask()
 {
-    if (m_period < 1000 && m_enabled) {
+    if (m_period < 1000 && enabler.get()) {
         m_period = 100;
         if (!timerFuncId) {
             timerFuncId = TimerInterrupts::add([this]() { timerTask(); });
@@ -341,7 +350,7 @@ ActuatorPwm::slowPwmUpdate(const update_t& now)
         }
 
         // Toggle actuator if necessary
-        if (m_enabled && m_settingValid && (wait == 0)) {
+        if (enabler.get() && m_settingValid && (wait == 0)) {
             // if actuator is blocked, update wait time to prevent useless pwm updates
             if (lastHistoricState == State::Inactive) {
                 wait = actPtr->desiredState(State::Active, now);
@@ -394,7 +403,7 @@ bool ActuatorPwm::settingValid() const
 
 void ActuatorPwm::settingValid(bool v)
 {
-    if (!v && m_enabled) {
+    if (!v && enabler.get()) {
         if (auto actPtr = m_target.lock()) {
             actPtr->desiredState(State::Inactive);
         }

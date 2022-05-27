@@ -104,7 +104,7 @@ MotorValveBlock::updateHandler(const cbox::update_t& now)
 
 void* MotorValveBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_MotorValve) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {

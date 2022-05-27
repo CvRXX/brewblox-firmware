@@ -19,87 +19,101 @@
 
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <cstring>
+#include <memory>
+#include <optional>
 
 namespace cbox {
 
 class EepromAccess {
-public:
+protected:
     EepromAccess() = default;
-    virtual ~EepromAccess() = default;
+    ~EepromAccess() = default;
 
-    virtual int16_t readByte(uint16_t offset) const = 0;
+public:
+    [[nodiscard]] virtual uint8_t readByte(uint16_t offset) const = 0;
     virtual void writeByte(uint16_t offset, uint8_t value) = 0;
     virtual void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const = 0;
-    virtual void writeBlock(uint16_t target, const uint8_t* source, uint16_t size) = 0;
+    virtual void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) = 0;
     virtual void clear() = 0;
 
     template <typename T>
-    T& get(const uint16_t& idx, T& t) const
+    void get(uint16_t idx, T& t) const
     {
-        readBlock(reinterpret_cast<uint8_t*>(&t), idx, sizeof(T));
-        return t;
+        readBlock(reinterpret_cast<uint8_t*>(std::addressof(t)), idx, sizeof(T));
     }
 
     template <typename T>
-    const T& put(const uint16_t& idx, const T& t)
+    [[nodiscard]] T get(uint16_t idx, T&& t = {}) const
     {
-        writeBlock(idx, reinterpret_cast<const uint8_t*>(&t), sizeof(T));
-        return t;
+        T val;
+        get(idx, val);
+        return val;
     }
+
+    template <typename T>
+    T& get(std::optional<T>&) = delete;
+
+    template <typename T>
+    void put(uint16_t idx, const T& t)
+    {
+        writeBlock(idx, reinterpret_cast<const uint8_t*>(std::addressof(t)), sizeof(T));
+    }
+
+    template <typename T>
+    void put(std::optional<T>&) = delete;
 };
 
 class EepromMemoryAccess : public EepromAccess {
 private:
-    bool isValidRange(uint16_t offset, uint16_t size) const
+    [[nodiscard]] bool isValidRange(uint16_t offset, uint16_t size) const
     {
         return offset + size <= length();
     }
 
 protected:
-    virtual uint16_t length() const = 0;
+    [[nodiscard]] virtual uint16_t length() const = 0;
     virtual uint8_t* data() = 0;
 
-    const uint8_t* data() const
+    [[nodiscard]] const uint8_t* data() const
     {
-        return const_cast<EepromMemoryAccess*>(this)->data();
+        auto* self = const_cast<EepromMemoryAccess*>(this);
+        return self->data();
     }
 
 public:
-    EepromMemoryAccess() = default;
-    virtual ~EepromMemoryAccess() = default;
-
-    int16_t readByte(uint16_t offset) const override final
+    [[nodiscard]] uint8_t readByte(uint16_t offset) const final
     {
         if (isValidRange(offset, 1)) {
             return data()[offset];
         }
-        return -1;
+        return 0;
     }
 
-    void writeByte(uint16_t offset, uint8_t value) override final
+    void writeByte(uint16_t offset, uint8_t value) final
     {
         if (isValidRange(offset, 1)) {
             data()[offset] = value;
         }
     }
 
-    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const override final
+    void readBlock(uint8_t* target, uint16_t offset, uint16_t size) const final
     {
         if (isValidRange(offset, size)) {
-            memcpy(target, &data()[offset], size);
+            memcpy(target, data() + offset, size);
         }
     }
 
-    void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) override final
+    void writeBlock(uint16_t offset, const uint8_t* source, uint16_t size) final
     {
         if (isValidRange(offset, size)) {
-            memcpy(&data()[offset], source, size);
+            memcpy(data() + offset, source, size);
         }
     }
 
-    void clear() override final
+    void clear() final
     {
         memset(data(), 0, length());
     }
@@ -108,26 +122,26 @@ public:
 /**
  * Emulate eeprom in memory. Used for testing.
  */
-template <size_t eeprom_size>
+template <uint16_t eeprom_size>
 class ArrayEepromAccess final : public EepromMemoryAccess {
 private:
-    uint8_t dataArray[eeprom_size];
+    std::array<uint8_t, eeprom_size> dataArray;
 
 public:
     ArrayEepromAccess()
     {
-        memset(dataArray, -1, length());
+        dataArray.fill(uint8_t{0xFF});
     }
     ~ArrayEepromAccess() = default;
 
-    uint8_t* data() override
+    [[nodiscard]] uint8_t* data() override
     {
-        return dataArray;
+        return dataArray.data();
     }
 
-    uint16_t length() const override
+    [[nodiscard]] uint16_t length() const override
     {
-        return eeprom_size;
+        return dataArray.size();
     }
 };
 

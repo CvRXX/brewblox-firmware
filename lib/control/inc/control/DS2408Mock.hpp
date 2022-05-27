@@ -42,8 +42,8 @@ private:
 public:
     static constexpr uint8_t family_code{0x29};
 
-    DS2408Mock(const OneWireAddress& address)
-        : OneWireMockDevice(address)
+    explicit DS2408Mock(OneWireAddress address = OneWireAddress{family_code})
+        : OneWireMockDevice(std::move(address))
     {
         status = 0x08; // Only power on reset bit is high
         latches = 0xFF;
@@ -70,7 +70,7 @@ public:
         pins = latches & externalPullDowns;
     }
 
-    virtual void processImpl(uint8_t newCmd) override final
+    void processImpl(uint8_t newCmd) final
     {
         if (newCmd) {
             cmd = newCmd;
@@ -132,7 +132,7 @@ public:
         }
     }
 
-    virtual void resetImpl() override final
+    void resetImpl() final
     {
         cmd = 0x00;
     }

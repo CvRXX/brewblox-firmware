@@ -31,7 +31,7 @@
 
 SCENARIO("Auto discovery of OneWire devices")
 {
-    cbox::objects.clearAll();
+    cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
     cbox::update(0);
 
@@ -42,7 +42,7 @@ SCENARIO("Auto discovery of OneWire devices")
 
         THEN("New objects are discovered")
         {
-            CHECK(discoverCmd.responses.size() == 5);
+            REQUIRE(discoverCmd.responses.size() == 5);
             CHECK(discoverCmd.responses.at(0).blockType == TempSensorOneWireBlock::staticTypeId());
             CHECK(discoverCmd.responses.at(1).blockType == TempSensorOneWireBlock::staticTypeId());
             CHECK(discoverCmd.responses.at(2).blockType == TempSensorOneWireBlock::staticTypeId());

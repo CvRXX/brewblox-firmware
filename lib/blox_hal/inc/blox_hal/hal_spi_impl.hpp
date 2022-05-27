@@ -23,6 +23,8 @@
 
 namespace platform_spi {
 using Settings = hal_spi::Settings;
+using error_t = hal_spi::error_t;
+
 /**
  * Initialises the spi device.
  *

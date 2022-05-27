@@ -23,19 +23,18 @@
 #include "pb_encode.h"
 #include <limits>
 
-bool streamAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool searchAndEncodeAdresses(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
-    OneWireAddress address;
     OneWire* busPtr = reinterpret_cast<OneWire*>(*arg);
     if (busPtr == nullptr) {
         return false;
     }
-    while (busPtr->search(address)) {
+    while (auto address = busPtr->search()) {
         if (!pb_encode_tag_for_field(stream, field)) {
             return false;
         }
-        uint64_t addr = uint64_t(address);
-        if (!pb_encode_fixed64(stream, &addr)) {
+        auto rawAddress = uint64_t(address);
+        if (!pb_encode_fixed64(stream, &rawAddress)) {
             return false;
         }
     }
@@ -78,7 +77,7 @@ OneWireBusBlock::read(const cbox::PayloadCallback& callback) const
         if (command.data) {
             bus.target_search(command.data);
         }
-        message.address.funcs.encode = &streamAdresses;
+        message.address.funcs.encode = &searchAndEncodeAdresses;
         break;
     }
     // commands are one-shot - once the command is done clear it.
@@ -125,7 +124,7 @@ OneWireBusBlock::write(const cbox::Payload& payload)
 
 void* OneWireBusBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_OneWireBus) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<OneWire>()) {

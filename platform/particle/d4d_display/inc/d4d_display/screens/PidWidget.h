@@ -87,7 +87,7 @@ public:
         wrapper.colorScheme.bckgDis = wrapper.colorScheme.bckg;
     }
 
-    virtual void update(const WidgetSettings& settings) override final;
+    void update(const WidgetSettings& settings) final;
 
     static void
     onClickStatic(void* thisPtr)

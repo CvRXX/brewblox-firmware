@@ -116,7 +116,7 @@ SetpointSensorPairBlock::updateHandler(const cbox::update_t& now)
 
 void* SetpointSensorPairBlock::implements(cbox::obj_type_t iface)
 {
-    if (iface == brewblox_BlockType_SetpointSensorPair) {
+    if (iface == staticTypeId()) {
         return this; // me!
     }
     if (iface == cbox::interfaceId<ProcessValue<temp_t>>()) {
@@ -126,6 +126,10 @@ void* SetpointSensorPairBlock::implements(cbox::obj_type_t iface)
     }
     if (iface == cbox::interfaceId<SetpointSensorPair>()) {
         SetpointSensorPair* ptr = &pair;
+        return ptr;
+    }
+    if (iface == cbox::interfaceId<Enabler>()) {
+        Enabler* ptr = &pair.enabler;
         return ptr;
     }
     return nullptr;

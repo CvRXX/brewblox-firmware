@@ -11,6 +11,7 @@
 #include "spark/Board.hpp"
 #include "spark/Brewblox.hpp"
 #include "spark/Connection.hpp"
+#include "spark/ConnectionPool.hpp"
 #include "spark/ConnectionSourceTcp.hpp"
 #include "spark/Connectivity.hpp"
 #include "spark_wiring_stream.h"

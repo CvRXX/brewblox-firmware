@@ -47,10 +47,15 @@
     "**/.gitmodules": false
   },
   "search.exclude": {
+    "**/build": true,
     "**/node_modules": true,
     "**/bower_components": true,
     "**/*.code-search": true,
-    "**/external_libs": true,
+    "**/external_libs/cnl": true,
+    "**/external_libs/device-os": true,
+    "**/external_libs/expected": true,
+    "**/external_libs/lvgl_wrapper": true,
+    "**/external_libs/nanopb": true,
     "**/platform/particle/eGUI": true,
     "**/platform/particle/WebSockets": true,
   },
@@ -60,5 +65,58 @@
   "[dockerfile]": {
     "editor.formatOnSave": false
   },
-  "remote.localPortHost": "allInterfaces"
+  "remote.localPortHost": "allInterfaces",
+  "disasexpl.associations": {
+    "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
+    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
+  },
+  "cmake.configureOnOpen": false,
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".hpp",
+  "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
+    "clang-analyzer-*",
+    "cppcoreguidelines-*",
+    "modernize-*",
+    "bugprone-*",
+    "google-*",
+    "hicpp-*",
+    "performance-*",
+    "readability-*",
+    // "google-explicit-constructor",
+  ],
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "cppcoreguidelines-pro-bounds-constant-array-index",
+    "cppcoreguidelines-pro-bounds-array-to-pointer-decay",
+    "modernize-use-trailing-return-type",
+  ],
+  "C_Cpp.codeAnalysis.exclude": {
+    "**/external_libs": true,
+    "**/build": true,
+    "**/platform/particle/eGUI": true,
+    "**/platform/particle/d4d_display": true
+  },
+  "C_Cpp.codeAnalysis.clangTidy.args": [
+    "-Wno-pragma-once-outside-header", // false positives before build
+    "bugprone-easily-swappable-parameters"
+  ],
+  "testMate.cpp.test.advancedExecutables": [
+    {
+      "pattern": "test/**/runner",
+      "catch2": {
+        "testGrouping": {
+          "groupByExecutable": {
+            "label": "${filename}",
+            "description": "${relDirpath}/",
+            "groupBySource": {
+              "label": "Source: ${sourceRelPath[2:]}",
+              "groupByTags": {
+                "tags": [],
+                "label": "[${tag}]"
+              }
+            }
+          }
+        }
+      },
+    }
+  ],
 }

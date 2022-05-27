@@ -50,8 +50,8 @@ public:
      * Constructor initializes both caches to 0xFF.
      * This means the output latches are disabled and all pins are sensed high
      */
-    DS2408(ControlPtr<OneWire>& busPtr, OneWireAddress address = familyCode)
-        : OneWireDevice(busPtr, address)
+    explicit DS2408(ControlPtr<OneWire>& busPtr, OneWireAddress address = OneWireAddress{familyCode})
+        : OneWireDevice(busPtr, std::move(address))
         , IoArray(8)
     {
     }
@@ -67,11 +67,11 @@ public:
     bool writeNeeded() const;
 
     // generic ArrayIo interface
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const override final;
+    bool senseChannelImpl(uint8_t channel, State& result) const final;
 
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) override final;
+    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
 
-    virtual bool supportsFastIo() const override final
+    bool supportsFastIo() const final
     {
         return false;
     }

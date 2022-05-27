@@ -30,13 +30,26 @@ namespace cbox {
 class CboxPtrBase {
 private:
     obj_id_t id;
-    std::weak_ptr<Object> ptr;
+    mutable std::weak_ptr<Object> ptr;
 
 public:
-    obj_id_t getId() const;
-    void setId(obj_id_t newId);
+    [[nodiscard]] obj_id_t getId() const
+    {
+        return id;
+    }
 
-    CboxError store();
+    void setId(obj_id_t newId)
+    {
+        if (newId != id) {
+            id = newId;
+            ptr.reset();
+        }
+    }
+
+    CboxError store() const
+    {
+        return getObjects().store(id);
+    }
 
 protected:
     explicit CboxPtrBase(const obj_id_t& id)
@@ -44,10 +57,28 @@ protected:
     {
     }
 
-    // The destructor does not have to be virtual
+    CboxPtrBase(CboxPtrBase&&) = default;
+    // Don't allow destruction with a base class ptr
     ~CboxPtrBase() = default;
 
-    std::shared_ptr<Object> lockObject();
+    [[nodiscard]] std::shared_ptr<Object> lockObject() const
+    {
+        // try to lock the weak pointer we already had. If it cannot be locked, we need to do a lookup again
+        auto sptr = ptr.lock();
+        if (!sptr) {
+            // Try to find the object in the container
+            if (auto fetched = getObjects().fetch(id)) {
+                sptr = fetched.value();
+                ptr = fetched.value();
+            }
+        }
+        return sptr;
+    }
+
+public:
+    CboxPtrBase(const CboxPtrBase&) = default;
+    CboxPtrBase& operator=(const CboxPtrBase&) = default;
+    CboxPtrBase& operator=(CboxPtrBase&&) = default;
 };
 
 template <typename T>
@@ -60,38 +91,44 @@ public:
     }
     ~CboxPtr() = default;
 
+    CboxPtr(const CboxPtr&) = default;
+    CboxPtr(CboxPtr&&) noexcept = default;
+    CboxPtr& operator=(const CboxPtr&) = default;
+    CboxPtr& operator=(CboxPtr&&) noexcept = default;
+
     template <class U>
-    std::shared_ptr<U> lock_as()
+    [[nodiscard]] std::shared_ptr<U> lock_as()
     {
         if (auto sptr = lockObject()) {
-            // if the lookup succeeded, check if the Object implements the requested interface using the interface id
+            // if the lookup succeeded, check if the CboxPtr implements the requested interface using the interface id
             // If the object returned a non-zero pointer, it supports the interface
             // If multiple-inheritance is involved, it is possible that the shared pointer and interface pointer
             // do not point to the same address. The pointer that is returned is of the address that implements
             // the interface.
             // create a shared_ptr by re-using the ref counting block, but for the offset pointer.
-            return std::shared_ptr<U>(std::move(sptr), reinterpret_cast<U*>(sptr->implements(interfaceId<U>())));
+            return std::shared_ptr<U>(std::move(sptr), sptr->template asInterface<U>());
         }
         // return empty share pointer
-        return std::shared_ptr<U>();
+        return {};
     }
 
     template <class U>
-    std::shared_ptr<const U> const_lock_as() const
+    [[nodiscard]] std::shared_ptr<const U> lock_as() const
     {
-        auto this_non_const = const_cast<CboxPtr<T>*>(this);
-        auto sptr = this_non_const->template lock_as<U>();
-        return std::const_pointer_cast<const U>(std::move(sptr));
+        if (auto sptr = lockObject()) {
+            return std::shared_ptr<const U>(std::move(sptr), sptr->template asInterface<U>());
+        }
+        return {};
     }
 
-    std::shared_ptr<T> lock() override
+    [[nodiscard]] std::shared_ptr<T> lock() override
     {
         return lock_as<T>();
     }
 
-    std::shared_ptr<const T> lock() const override
+    [[nodiscard]] std::shared_ptr<const T> lock() const override
     {
-        return const_lock_as<T>();
+        return lock_as<T>();
     }
 };
 

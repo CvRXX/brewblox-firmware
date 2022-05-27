@@ -20,6 +20,7 @@
 #pragma once
 
 #include "control/ControlPtr.hpp"
+#include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
 #include "control/FpFilterChain.hpp"
 #include "control/ProcessValue.hpp"
@@ -37,17 +38,19 @@ public:
 
 private:
     temp_t m_setting = 20;
-    bool m_settingEnabled = false;
     ControlPtr<TempSensor>& m_sensor;
     FpFilterChain<temp_t> m_filter;
     uint8_t m_sensorFailureCount = 255; // force a reset on init
     uint8_t m_filterNr = 1;
 
 public:
+    Enabler enabler;
+
     explicit SetpointSensorPair(
         ControlPtr<TempSensor>& _sensor)
         : m_sensor(_sensor)
         , m_filter(1)
+        , enabler(false)
     {
         update();
     }
@@ -57,17 +60,17 @@ public:
 
     virtual ~SetpointSensorPair() = default;
 
-    virtual void setting(temp_t const& setting) override final
+    void setting(temp_t const& setting) final
     {
         m_setting = setting;
     }
 
-    virtual temp_t setting() const override final
+    temp_t setting() const final
     {
         return m_setting;
     }
 
-    virtual temp_t value() const override final
+    temp_t value() const final
     {
         if (m_filterNr == 0) {
             return m_filter.readLastInput();
@@ -84,7 +87,7 @@ public:
         }
     }
 
-    bool valueValid() const override final
+    bool valueValid() const final
     {
         return m_sensorFailureCount <= 10;
     }
@@ -97,14 +100,14 @@ public:
         return false;
     }
 
-    bool settingValid() const override final
+    bool settingValid() const final
     {
-        return m_settingEnabled;
+        return enabler.get();
     }
 
-    virtual void settingValid(bool v) override final
+    void settingValid(bool v) final
     {
-        m_settingEnabled = v;
+        enabler.set(v);
     }
 
     auto filterChoice() const

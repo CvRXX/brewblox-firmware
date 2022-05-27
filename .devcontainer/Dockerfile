@@ -114,7 +114,7 @@ RUN : \
 
 # Install idf.py
 ARG IDF_CLONE_URL=https://github.com/espressif/esp-idf.git
-ARG IDF_CLONE_BRANCH_OR_TAG=v4.4
+ARG IDF_CLONE_BRANCH_OR_TAG=v4.4.1
 ARG IDF_CHECKOUT_REF=
 
 ENV IDF_PATH=/opt/esp/idf
@@ -152,4 +152,10 @@ RUN : \
         -o /usr/local/bin/shfmt \
         https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64 \
     && chmod +x /usr/local/bin/shfmt \
+    && :
+
+RUN : \
+    && . /opt/esp/idf/export.sh \
+    && pip install --upgrade pyclang \
+    && idf_tools.py install xtensa-clang \
     && :

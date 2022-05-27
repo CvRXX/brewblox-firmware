@@ -45,7 +45,7 @@ public:
     {
     }
 
-    TempSensorMock(temp_t initial)
+    explicit TempSensorMock(temp_t initial)
         : m_setting(initial)
         , m_fluctuationsSum(0)
         , m_connected(true)
@@ -82,12 +82,12 @@ public:
         return m_setting;
     }
 
-    temp_t value() const override final
+    temp_t value() const final
     {
         return m_setting + m_fluctuationsSum;
     }
 
-    virtual bool valid() const override final
+    bool valid() const final
     {
         return m_connected;
     }

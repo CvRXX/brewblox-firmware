@@ -11,17 +11,22 @@ private:
 
 public:
     TempSensorOneWireBlock();
-    TempSensorOneWireBlock(cbox::obj_id_t busId);
-    TempSensorOneWireBlock(cbox::obj_id_t busId, const OneWireAddress& addr);
-    ~TempSensorOneWireBlock() = default;
+    explicit TempSensorOneWireBlock(cbox::obj_id_t busId);
+    TempSensorOneWireBlock(cbox::obj_id_t busId, OneWireAddress addr);
+    ~TempSensorOneWireBlock() override = default;
 
-    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
-    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
-    cbox::CboxError write(const cbox::Payload& payload) override;
-    cbox::update_t updateHandler(const cbox::update_t& now) override;
-    void* implements(cbox::obj_type_t iface) override;
+    TempSensorOneWireBlock(const TempSensorOneWireBlock&) = delete;
+    TempSensorOneWireBlock(TempSensorOneWireBlock&&) = delete;
+    TempSensorOneWireBlock& operator=(const TempSensorOneWireBlock&) = delete;
+    TempSensorOneWireBlock& operator=(TempSensorOneWireBlock&&) = delete;
 
-    DS18B20& get()
+    [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    [[nodiscard]] cbox::CboxError write(const cbox::Payload& payload) override;
+    [[nodiscard]] cbox::update_t updateHandler(const cbox::update_t& now) override;
+    [[nodiscard]] void* implements(cbox::obj_type_t iface) override;
+
+    [[nodiscard]] DS18B20& get()
     {
         return sensor;
     }

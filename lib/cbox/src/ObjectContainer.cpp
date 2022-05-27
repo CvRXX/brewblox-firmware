@@ -69,7 +69,7 @@ CboxError ObjectContainer::add(std::shared_ptr<Object> obj, obj_id_t id)
         return CboxError::INVALID_BLOCK_ID;
     }
 
-    obj_id_t newId;
+    obj_id_t newId{0};
     Iterator position;
 
     if (id == invalidId) { // use 0 to let the container assign a free slot
@@ -110,10 +110,8 @@ void ObjectContainer::clear()
     // Objects can perform lookups during their destructor.
     // Copy removed objects to `temp` to ensure that `contained` is empty
     // before any objects are destructed.
-    decltype(contained) temp(
-        std::make_move_iterator(findPosition(startId).first),
-        std::make_move_iterator(contained.end()));
-    contained.erase(userbegin(), cend());
+    decltype(contained) temp(findPosition(startId).first, contained.end());
+    contained.erase(usercbegin(), cend());
     contained.shrink_to_fit();
 }
 
@@ -155,9 +153,7 @@ CboxError ObjectContainer::store(obj_id_t id)
         return fetched.error();
     }
 
-    return fetched.value()->readStored([](const Payload& stored) {
-        return getStorage().saveObject(stored);
-    });
+    return fetched.value()->readStored(getStorage().saveObjectCallback);
 }
 
 CboxError ObjectContainer::reloadStored(obj_id_t id)

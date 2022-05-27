@@ -7,6 +7,12 @@
 
 namespace cbox {
 
+ObjectContainer& getObjects()
+{
+    static ObjectContainer objects;
+    return objects;
+}
+
 ObjectStorage& getStorage()
 {
     static ArrayEepromAccess<2048> eeprom;

@@ -1,4 +1,7 @@
 #pragma once
+
+#include "intellisense.hpp"
+
 #include "cbox/Payload.hpp"
 #include <google/protobuf/message.h>
 #include <sstream>
@@ -32,7 +35,7 @@ public:
         initCallback();
     }
 
-    TestCommand(Payload&& request_)
+    explicit TestCommand(Payload&& request_)
         : request(std::move(request_))
     {
         initCallback();
@@ -73,3 +76,9 @@ void messageToPayload(cbox::TestCommand& cmd, ::google::protobuf::Message& messa
 void payloadToMessage(cbox::Payload& payload, ::google::protobuf::Message& message);
 
 void payloadToMessage(cbox::TestCommand& cmd, ::google::protobuf::Message& message);
+
+inline std::ostream& operator<<(std::ostream& os, const cbox::CboxError& item)
+{
+    os << static_cast<int>(item);
+    return os;
+}

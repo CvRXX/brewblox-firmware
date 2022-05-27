@@ -3,6 +3,7 @@
 #include "blocks/Block.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
+#include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
 #include "control/ProcessValue.hpp"
 #include "proto/ActuatorLogic.pb.h"
@@ -10,7 +11,7 @@
 
 class DigitalCompare {
 public:
-    DigitalCompare(const blox_ActuatorLogic_DigitalCompare& data)
+    explicit DigitalCompare(const blox_ActuatorLogic_DigitalCompare& data)
         : m_lookup(cbox::obj_id_t(data.id))
         , m_op(data.op)
         , m_result(blox_ActuatorLogic_Result_RESULT_FALSE)
@@ -18,9 +19,7 @@ public:
     {
     }
 
-    ~DigitalCompare() = default;
-
-    blox_ActuatorLogic_Result eval() const;
+    [[nodiscard]] blox_ActuatorLogic_Result eval() const;
     void write(blox_ActuatorLogic_DigitalCompare& dest, bool includeNotPersisted) const;
 
     void update()
@@ -28,7 +27,7 @@ public:
         m_result = eval();
     }
 
-    auto result() const
+    [[nodiscard]] auto result() const
     {
         return m_result;
     }
@@ -42,7 +41,7 @@ private:
 
 class AnalogCompare {
 public:
-    AnalogCompare(const blox_ActuatorLogic_AnalogCompare& data)
+    explicit AnalogCompare(const blox_ActuatorLogic_AnalogCompare& data)
         : m_lookup(cbox::obj_id_t(data.id))
         , m_op(data.op)
         , m_result(blox_ActuatorLogic_Result_RESULT_FALSE)
@@ -50,9 +49,7 @@ public:
     {
     }
 
-    ~AnalogCompare() = default;
-
-    blox_ActuatorLogic_Result eval() const;
+    [[nodiscard]] blox_ActuatorLogic_Result eval() const;
     void write(blox_ActuatorLogic_AnalogCompare& dest, bool includeNotPersisted) const;
 
     void update()
@@ -60,7 +57,7 @@ public:
         m_result = eval();
     }
 
-    auto result() const
+    [[nodiscard]] auto result() const
     {
         return m_result;
     }
@@ -75,7 +72,7 @@ private:
 class ActuatorLogicBlock final : public Block<brewblox_BlockType_ActuatorLogic> {
 private:
     cbox::CboxPtr<ActuatorDigitalConstrained> target;
-    bool enabled = false;
+    Enabler enabler;
     std::vector<DigitalCompare> digitals;
     std::vector<AnalogCompare> analogs;
     std::string expression;
@@ -83,14 +80,11 @@ private:
     uint8_t m_errorPos = 0;
 
 public:
-    ActuatorLogicBlock() = default;
-    ~ActuatorLogicBlock() = default;
-
-    cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
-    cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
-    cbox::CboxError write(const cbox::Payload& payload) override;
-    cbox::update_t updateHandler(const cbox::update_t& now) override;
-    void* implements(cbox::obj_type_t iface) override;
+    [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
+    [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
+    [[nodiscard]] cbox::CboxError write(const cbox::Payload& payload) override;
+    [[nodiscard]] cbox::update_t updateHandler(const cbox::update_t& now) override;
+    [[nodiscard]] void* implements(cbox::obj_type_t iface) override;
 
     blox_ActuatorLogic_Result evaluate();
 

@@ -160,7 +160,7 @@ void PidWidget::update(const WidgetSettings& settings)
         drawPidRects(pid->get());
 
         char icons[2] = "\x28";
-        if (auto pwmBlock = outputLookup.const_lock_as<ActuatorPwmBlock>()) {
+        if (auto pwmBlock = outputLookup.lock_as<ActuatorPwmBlock>()) {
             if (auto pwmTarget = pwmBlock->targetLookup().lock()) {
                 switch (pwmTarget->state()) {
                 case ActuatorPwm::State::Inactive:

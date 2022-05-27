@@ -100,7 +100,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\026ActuatorPwm_test.proto\022\025blox_test.Actu"
       "atorPwm\032\023brewblox_test.proto\032\021nanopb_tes"
-      "t.proto\032\026Constraints_test.proto\"\213\003\n\005Bloc"
+      "t.proto\032\026Constraints_test.proto\"\221\003\n\005Bloc"
       "k\022\037\n\nactuatorId\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022\035\n\006pe"
       "riod\030\003 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022)\n\007setting\030\004 \001"
       "(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\005 "
@@ -110,10 +110,11 @@ void AddDescriptorsImpl() {
       "B\027\212\265\030\002\030\006\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n\007enabled\030\010 \001"
       "(\010\022*\n\016desiredSetting\030\t \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200"
       " \222\?\0028 \022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?"
-      "\0028\020\222\?\002\020\002:\023\212\265\030\003\030\263\002\212\265\030\002H\001\212\265\030\002H\005b\006proto3"
+      "\0028\020\222\?\002\020\002:\031\212\265\030\003\030\263\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017b\006pro"
+      "to3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 517);
+      descriptor, 523);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

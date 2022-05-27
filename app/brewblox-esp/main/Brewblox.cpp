@@ -14,13 +14,13 @@
 
 void setupSystemBlocks()
 {
-    cbox::objects.setObjectsStartId(cbox::systemStartId);
+    auto& objects = cbox::getObjects();
 
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 2);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 3);
-    cbox::objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
-
-    cbox::objects.setObjectsStartId(cbox::userStartId);
+    objects.setObjectsStartId(cbox::systemStartId);
+    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 2);
+    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 3);
+    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    objects.setObjectsStartId(cbox::userStartId);
 }
 
 // platform specific implementation for prototype in brewblox.hpp

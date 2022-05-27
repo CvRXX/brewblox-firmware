@@ -5,6 +5,33 @@
 #include "cbox/Serialization.hpp"
 #include <vector>
 
+class UpdateTestObject : public cbox::ObjectBase<1234> {
+public:
+    uint32_t updateCount{0};
+    uint32_t interval = 100;
+
+    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    {
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    {
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    {
+        return cbox::CboxError::OK;
+    }
+
+    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
+    {
+        updateCount++;
+        return now + interval;
+    }
+};
+
 /**
  * A mixin class to make objects nameable. To test detecting supported interfaces of objects
  */
@@ -41,76 +68,81 @@ protected:
 
 class LongIntObject : public cbox::ObjectBase<1000> {
 private:
-    uint32_t obj;
+    uint32_t val = 0;
 
 public:
-    LongIntObject()
-        : obj(0)
+    LongIntObject() = default;
+    explicit LongIntObject(uint32_t v) noexcept
+        : val(v)
     {
     }
 
-    LongIntObject(uint32_t rhs)
-        : obj(std::move(rhs))
+    ~LongIntObject() override = default;
+    LongIntObject(LongIntObject&& other) = default;
+    LongIntObject(const LongIntObject& other) = default;
+    LongIntObject& operator=(const LongIntObject& other) = default;
+    LongIntObject& operator=(LongIntObject&& other) = default;
+
+    bool operator==(const LongIntObject& other) const noexcept
     {
+        return val == other.val;
     }
 
-    virtual ~LongIntObject() = default;
-
-    bool operator==(const LongIntObject& rhs) const
-    {
-        return obj == rhs.obj;
-    }
-
-    virtual cbox::CboxError read(const cbox::PayloadCallback& callback) const override final
+    [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
         cbox::Payload payload(objectId(), typeId(), 0);
-        cbox::appendToByteVector(payload.content, obj);
+        cbox::appendToByteVector(payload.content, val);
         return callback(payload);
     }
 
-    virtual cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override final
+    [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override
     {
         return read(callback);
     }
 
-    virtual cbox::CboxError write(const cbox::Payload& payload) override final
+    cbox::CboxError write(const cbox::Payload& payload) override
     {
         uint32_t newValue = 0;
         if (cbox::readFromByteVector(payload.content, newValue, 0)) {
-            obj = newValue;
+            val = newValue;
             return cbox::CboxError::OK;
         }
         return cbox::CboxError::NETWORK_READ_ERROR;
     }
 
-    operator uint32_t() const
+    explicit operator uint32_t() const
     {
-        uint32_t copy = obj;
+        uint32_t copy = val;
         return copy;
     }
 
-    uint32_t value() const
+    [[nodiscard]] uint32_t value() const
     {
-        return obj;
+        return val;
     }
 
     void value(uint32_t v)
     {
-        obj = v;
+        val = v;
     }
 };
 
 // variable size object of multiple long ints
 class LongIntVectorObject final : public cbox::ObjectBase<1001> {
 public:
-    LongIntVectorObject()
-        : values()
+    LongIntVectorObject() = default;
+    LongIntVectorObject(std::initializer_list<uint32_t> l)
     {
+        for (auto v : l) {
+            values.push_back(v);
+        }
     }
-    LongIntVectorObject(std::initializer_list<LongIntObject> l)
-        : values(l)
-    {
-    }
+
+    ~LongIntVectorObject() override = default;
+    LongIntVectorObject(const LongIntVectorObject& other) = default;
+    LongIntVectorObject(LongIntVectorObject&& other) = default;
+    LongIntVectorObject& operator=(const LongIntVectorObject& other) = default;
+    LongIntVectorObject& operator=(LongIntVectorObject&& other) = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
@@ -120,8 +152,8 @@ public:
         cbox::appendToByteVector(payload.content, uint16_t(values.size()));
 
         // write value for all elements
-        for (auto& value : values) {
-            cbox::appendToByteVector(payload.content, value.value());
+        for (auto value : values) {
+            cbox::appendToByteVector(payload.content, value);
         }
 
         return callback(payload);
@@ -139,25 +171,27 @@ public:
             return cbox::CboxError::INVALID_BLOCK;
         }
 
-        size_t pos = sizeof(newSize);
-        values.resize(newSize);
-        for (auto& value : values) {
-            uint32_t content = 0;
-            if (!cbox::readFromByteVector(payload.content, content, pos)) {
+        int pos = sizeof(newSize);
+        values.clear();
+        values.reserve(newSize);
+
+        while (values.size() < newSize) {
+            uint32_t newVal = 0;
+            if (!cbox::readFromByteVector(payload.content, newVal, pos)) {
                 return cbox::CboxError::NETWORK_READ_ERROR;
             }
-            pos += sizeof(content);
-            value.value(content);
+            pos += sizeof(newVal);
+            values.push_back(newVal);
         }
         return cbox::CboxError::OK;
     }
 
-    bool operator==(const LongIntVectorObject& rhs) const
+    bool operator==(const LongIntVectorObject& other) const
     {
-        return values == rhs.values;
+        return values == other.values;
     }
 
-    std::vector<LongIntObject> values;
+    std::vector<uint32_t> values;
 };
 
 /**
@@ -234,7 +268,7 @@ public:
 
 class NameableLongIntObject final : public LongIntObject, public Nameable {
 public:
-    NameableLongIntObject(uint32_t rhs = 0)
+    explicit NameableLongIntObject(uint32_t rhs = 0)
         : LongIntObject(rhs)
     {
     }

@@ -128,7 +128,7 @@ public:
     MetaRecord(Label&& label);
     MetaRecord(const Label& label) = delete;
 
-    void matched(uint16_t qtype) override final
+    void matched(uint16_t qtype) final
     {
         // meta records are only used for labels and should not be sent in a response
     }
@@ -141,7 +141,7 @@ public:
     ARecord(Label&& label, HostNSECRecord* nsec);
     virtual void writeSpecific(UDPMessage& udp) const;
 
-    void matched(uint16_t qtype) override final;
+    void matched(uint16_t qtype) final;
 
     HostNSECRecord* nsecRecord;
 };
@@ -156,7 +156,7 @@ class HostNSECRecord : public NSECRecord {
 public:
     HostNSECRecord(Label&& label);
 
-    void matched(uint16_t qtype) override final
+    void matched(uint16_t qtype) final
     {
         this->setAdditionalRecord();
     }
@@ -169,7 +169,7 @@ class ServiceNSECRecord : public NSECRecord {
 public:
     ServiceNSECRecord(Label&& label);
 
-    void matched(uint16_t qtype) override final
+    void matched(uint16_t qtype) final
     {
         // added to response by SRV record
     }
@@ -185,7 +185,7 @@ public:
     virtual void writeSpecific(UDPMessage& udp) const;
     void setTargetRecord(Record* target);
 
-    virtual void matched(uint16_t qtype) override final;
+    void matched(uint16_t qtype) final;
 
 private:
     Record* targetRecord = nullptr;
@@ -197,7 +197,7 @@ public:
     TXTRecord(Label&& label, std::vector<std::string>&& entries);
 
     virtual void writeSpecific(UDPMessage& udp) const;
-    virtual void matched(uint16_t qtype) override final
+    void matched(uint16_t qtype) final
     {
         // will be included by SRV record
     }
@@ -215,7 +215,7 @@ public:
 
     void setHostRecord(Record* host);
     void setPort(uint16_t port);
-    virtual void matched(uint16_t qtype) override final;
+    void matched(uint16_t qtype) final;
 
     // TXT and NSEC record will use use this record for their label, so need to be set after construction
     void setTxtRecord(TXTRecord* txt)

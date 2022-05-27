@@ -80,7 +80,16 @@ public:
 
     CboxError remove(obj_id_t id);
 
-    // only const iterators are exposed. We don't want the caller to be able to modify the container
+    Iterator begin()
+    {
+        return contained.begin();
+    }
+
+    Iterator end()
+    {
+        return contained.end();
+    }
+
     CIterator cbegin() const
     {
         return contained.cbegin();
@@ -91,7 +100,7 @@ public:
         return contained.cend();
     }
 
-    CIterator userbegin()
+    CIterator usercbegin()
     {
         return findPosition(startId).first;
     }

@@ -4,6 +4,7 @@ idf_component_register(
     main.cpp
     ota.cpp
     AppTicks.cpp
+    AppLogger.cpp
     Brewblox.cpp
     EspApplication.cpp
     EspBox.cpp

@@ -68,8 +68,8 @@ public:
         startChannel(0); // release channels before destruction
     }
 
-    virtual void state(const State& v) override final;
-    virtual State state() const override final;
+    void state(const State& v) final;
+    State state() const final;
 
     ValveState valveState() const
     {
@@ -101,7 +101,7 @@ public:
     void claimChannel();
 
     virtual bool
-    supportsFastIo() const override final
+    supportsFastIo() const final
     {
         return false;
     }
