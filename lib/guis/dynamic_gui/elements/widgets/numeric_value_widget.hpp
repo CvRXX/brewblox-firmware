@@ -27,7 +27,6 @@
 #include "proto/ScreenConfig.pb.h"
 
 #include "lvgl.h"
-#include <iostream>
 #include <vector>
 
 namespace gui::dynamic_interface {
