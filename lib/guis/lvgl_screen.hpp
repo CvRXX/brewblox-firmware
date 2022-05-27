@@ -58,7 +58,7 @@ public:
                 uint16_t Rgb565 = 0;
                 Rgb565 = (r & 0b11111000) << 8;
                 Rgb565 = Rgb565 + ((g & 0b11111100) << 3);
-                Rgb565 = Rgb565 + ((b) >> 3);
+                Rgb565 = Rgb565 + ((b) >> 3);f
 
                 *writePtr = Rgb565;
 

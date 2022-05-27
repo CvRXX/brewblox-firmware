@@ -132,7 +132,11 @@ public:
 
     void on_read(beast::error_code ec, std::size_t bytes_transferred)
     {
-        boost::ignore_unused(bytes_transferred);
+        if (bytes_transferred != 5) {
+            fail(ec, "read");
+            do_read();
+            return;
+        }
         auto touchString = boost::asio::buffer_cast<char*>(buffer_.data());
         std::int8_t index = *touchString;
         std::uint8_t xl = *(touchString + 1);
@@ -153,7 +157,7 @@ public:
         buffer_.consume(5);
 
         if (ec == websocket::error::closed) {
-            sessions.erase(std::remove_if(sessions.begin(), sessions.end(), [this](std::shared_ptr<session> s) {
+            sessions.erase(std::remove_if(sessions.begin(), sessions.end(), [this](const std::shared_ptr<session>& s) {
                 return s.get() == this;
             }));
 
