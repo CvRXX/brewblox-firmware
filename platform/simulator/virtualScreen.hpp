@@ -34,7 +34,7 @@ public:
     VirtualScreen(void (*finishCallback)(void));
     ~VirtualScreen() = default;
 
-    static constexpr auto pixelformat = PixelFormat::rgb555;
+    static constexpr auto pixelformat = PixelFormat::rgb888;
 
     /// Initialises the display driver.
     void init();

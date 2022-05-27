@@ -20,5 +20,5 @@
 #pragma once
 
 enum class PixelFormat {
-    rgb555
+    rgb888
 };

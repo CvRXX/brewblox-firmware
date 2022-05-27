@@ -30,7 +30,7 @@ public:
             // Log here when a better debug log is available.
         }
 
-        if constexpr (Display::pixelformat == PixelFormat::rgb555) {
+        if constexpr (Display::pixelformat == PixelFormat::rgb888) {
             uint8_t* readPtr = reinterpret_cast<uint8_t*>(color_p);
             uint8_t* writePtr = reinterpret_cast<uint8_t*>(color_p);
 
