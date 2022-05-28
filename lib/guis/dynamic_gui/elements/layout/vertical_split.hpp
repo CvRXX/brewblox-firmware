@@ -29,7 +29,7 @@ namespace gui::dynamic_interface {
  * An edgenode for the layout tree which contains a children.
  * The children will be drawn vertically.
  */
-class VerticalSplit : public LayoutNode {
+class VerticalSplit final : public LayoutNode {
 public:
     /**
      * Constructs a vertical split.
@@ -50,7 +50,7 @@ public:
      * @param layoutNodes This class will be serialized into this vector.
      * @param contentNodes The widgets of children will be serialized into this vector.
      */
-    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
+    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Column, weight});
         for (auto& child : children) {
@@ -61,7 +61,7 @@ public:
     /**
      * Calls update on all the childs.
      */
-    void update() override
+    void update() override final
     {
         for (auto& child : children) {
             child->update();
@@ -83,7 +83,7 @@ public:
      * @param width the width of the available space in the placeholder.
      * @param height the height of the available space in the placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
     {
         lv_obj_set_style_pad_gap(placeholder, 0, 0);
         lv_obj_set_style_pad_all(placeholder, 0, 0);

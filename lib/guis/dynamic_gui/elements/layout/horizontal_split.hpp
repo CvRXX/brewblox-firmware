@@ -30,7 +30,7 @@ namespace gui::dynamic_interface {
  * An edgenode for the layout tree which contains a children.
  * The children will be drawn horizontally.
  */
-class HorizontalSplit : public LayoutNode {
+class HorizontalSplit final : public LayoutNode {
 public:
     /**
      * Constructs a horizontal split.

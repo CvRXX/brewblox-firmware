@@ -34,7 +34,7 @@ namespace gui::dynamic_interface {
  * An empty widget.
  * This is usefull for content layout blocks with no widget.
  */
-class EmptyWidget : public ColorWidget {
+class EmptyWidget final : public ColorWidget {
 public:
     /**
      * Constructs a numeric value.
@@ -53,7 +53,7 @@ public:
      * @param layOutNodeId The id of it's matching layoutNode.
      * Because the widget is empty no widget will be added to the vector.
      */
-    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override
+    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
     }
 };

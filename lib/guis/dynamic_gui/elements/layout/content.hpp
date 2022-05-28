@@ -41,7 +41,7 @@ public:
     }
 
     // Calls update on it's widget.
-    void update() override
+    void update() override final
     {
         widget->update();
     }
@@ -50,7 +50,7 @@ public:
      * Returns the weight of the contentnode.
      * Weights are used for deciding the ratio in which nodes are displayed.
      */
-    uint16_t getWeight() const override
+    uint16_t getWeight() const override final
     {
         return weight;
     }
@@ -59,7 +59,7 @@ public:
      * @param layoutNodes This class will be serialized into this vector.
      * @param contentNodes The child of this class will be serialized into this vector.
      */
-    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override
+    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
     {
         layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Content, weight});
         widget->serialize(contentNodes, layOutNodeId);
@@ -71,7 +71,7 @@ public:
      * @param width the width of the available space in the placeholder.
      * @param height the height of the available space in the placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
     {
         widget->draw(placeholder, width, height);
     }
