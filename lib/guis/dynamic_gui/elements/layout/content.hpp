@@ -28,7 +28,7 @@ namespace gui::dynamic_interface {
 /**
  * A leafnode for the layout tree which contains a widget as content.
  */
-class Content : public LayoutNode {
+class Content final : public LayoutNode {
 public:
     /**
      * Constructs a content node.

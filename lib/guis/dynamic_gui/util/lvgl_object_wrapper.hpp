@@ -22,19 +22,12 @@
 #include "lvgl.h"
 #include <memory>
 
-struct LvglObjectDeleter {
+struct LvglDeleter {
     void operator()(lv_obj_t* lvglObject)
     {
         lv_obj_del(lvglObject);
     }
 };
-struct LvglTimerDeleter {
-    void operator()(lv_timer_t* lvglTimerObject)
-    {
-        lv_timer_del(lvglTimerObject);
-    }
-};
 
 // A wrapper type which wraps an lv_obj_t in a std::unique_ptr which calls the lvgl deleter.
-using LvglObjectWrapper = std::unique_ptr<lv_obj_t, LvglObjectDeleter>;
-using LvglTimerWrapper = std::unique_ptr<lv_timer_t, LvglTimerDeleter>;
+using LvglObjectWrapper = std::unique_ptr<lv_obj_t, LvglDeleter>;

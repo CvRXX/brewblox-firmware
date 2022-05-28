@@ -22,16 +22,14 @@
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "dynamic_gui/styles/styles.hpp"
 #include "dynamic_gui/util/color.hpp"
-#include "dynamic_gui/util/lvgl_wrapper.hpp"
+#include "dynamic_gui/util/lvgl_object_wrapper.hpp"
 #include "proto/ScreenConfig.pb.h"
 
 namespace gui::dynamic_interface {
 
 // A widget that displays a singe color.
-class ColorWidgetSettings;
 class ColorWidget : public Widget {
 public:
-    friend ColorWidgetSettings;
     /**
      * Constructs the ColorWidget.
      * @param color The background color of the widget.
@@ -41,8 +39,6 @@ public:
         , color({colorWidget.color.r, colorWidget.color.g, colorWidget.color.b})
     {
     }
-
-    static void pressed(lv_event_t* event);
 
     /**
      * Serializes the widget and adds it to a vector.
@@ -78,7 +74,6 @@ public:
         lv_obj_add_style(placeholder, &style::block, LV_STATE_DEFAULT);
         lv_obj_set_style_bg_color(contentArea.get(), color, LV_STATE_DEFAULT);
         lv_obj_add_style(contentArea.get(), luminance() < 128 ? &style::bg_dark : &style::bg_light, 0);
-        lv_obj_add_event_cb(contentArea.get(), pressed, LV_EVENT_CLICKED, this); /*Assign an event callback*/
     }
 
     /**
@@ -96,84 +91,4 @@ protected:
     Color color;
     LvglObjectWrapper contentArea = nullptr;
 };
-
-class ColorWidgetSettings {
-public:
-    static void draw(ColorWidget& colorWidget)
-    {
-        auto settings = new ColorWidgetSettings(colorWidget);
-        settings->drawSettings();
-    }
-
-private:
-    ColorWidgetSettings(ColorWidget& colorWidget)
-        : colorWidget(colorWidget)
-    {
-    }
-
-    void exit()
-    {
-        lv_scr_load(oldScreen);
-        delete (this);
-    }
-
-    static void timerFunc(lv_timer_t* timer)
-    {
-        auto settings = reinterpret_cast<ColorWidgetSettings*>(timer->user_data);
-        settings->exit();
-    }
-
-    static void dropDownHandler(lv_event_t* e)
-    {
-        auto settings = reinterpret_cast<ColorWidgetSettings*>(e->user_data);
-        auto widget = &(settings->colorWidget);
-        lv_event_code_t code = lv_event_get_code(e);
-        lv_obj_t* obj = lv_event_get_target(e);
-        if (code == LV_EVENT_VALUE_CHANGED) {
-            char buf[32];
-            lv_dropdown_get_selected_str(obj, buf, sizeof(buf));
-            if (!strcmp(buf, "red")) {
-                widget->color = Color{255, 0, 0};
-            } else if (!strcmp(buf, "green")) {
-                widget->color = Color{0, 255, 0};
-            } else if (!strcmp(buf, "blue")) {
-                widget->color = Color{0, 0, 255};
-            }
-            lv_obj_set_style_bg_color(widget->contentArea.get(), widget->color, LV_STATE_DEFAULT);
-            settings->exit();
-        }
-    }
-
-public:
-    void drawSettings()
-    {
-        scr.reset(lv_obj_create(NULL));
-        oldScreen = lv_scr_act();
-
-        dd.reset(lv_dropdown_create(scr.get()));
-
-        lv_dropdown_set_options(dd.get(),
-                                "red\n"
-                                "green\n"
-                                "blue\n");
-
-        lv_obj_align(dd.get(), LV_ALIGN_TOP_MID, 0, 20);
-        lv_obj_add_event_cb(dd.get(), dropDownHandler, LV_EVENT_ALL, this);
-
-        lv_scr_load(scr.get());
-        timer.reset(lv_timer_create(timerFunc, 30000, this));
-        lv_timer_set_repeat_count(timer.get(), 1);
-    }
-    ColorWidget& colorWidget;
-    lv_obj_t* oldScreen = nullptr;
-    LvglObjectWrapper scr = nullptr;
-    LvglObjectWrapper dd = nullptr;
-    LvglTimerWrapper timer = nullptr;
-};
-
-void ColorWidget::pressed(lv_event_t* event)
-{
-    auto obj = reinterpret_cast<ColorWidget*>(event->user_data);
-    ColorWidgetSettings::draw(*obj);
-}
 }
