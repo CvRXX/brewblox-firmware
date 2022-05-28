@@ -69,7 +69,7 @@ public:
      */
     uint16_t getWeight() const override final
     {
-        return 0;
+        return 1;
     }
 
     /**
