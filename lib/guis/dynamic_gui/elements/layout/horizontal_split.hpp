@@ -112,7 +112,7 @@ public:
 private:
     const std::vector<std::unique_ptr<LayoutNode>> children;
     std::vector<LvglObjectWrapper> placeholders;
-    const uint16_t weight = 1;
+    const uint16_t weight;
     const uint8_t layOutNodeId;
 };
 }
