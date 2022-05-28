@@ -32,7 +32,6 @@ public:
      * @param finishCallback The callback to be called when the pixels are transfered to the screen.
      */
     VirtualScreen(void (*finishCallback)(void));
-    ~VirtualScreen() = default;
 
     static constexpr auto pixelformat = PixelFormat::rgb565;
 

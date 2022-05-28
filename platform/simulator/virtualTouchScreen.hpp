@@ -15,7 +15,6 @@ public:
      * @param address The lower address of the i2c device
      */
     VirtualTouchScreen(uint8_t address){};
-    ~VirtualTouchScreen(){};
 
     enum class Gesture {
         moveUp,
