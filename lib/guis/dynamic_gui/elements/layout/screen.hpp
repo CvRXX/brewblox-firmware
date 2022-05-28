@@ -39,7 +39,7 @@ public:
     // Calls update on it's child.
     void update() override final
     {
-        if (child) {
+        if (!empty()) {
             child->update();
         }
     }
@@ -52,15 +52,15 @@ public:
      */
     void draw(lv_obj_t* screen, uint16_t width, uint16_t height) override final
     {
-        if (child) {
+        if (!empty()) {
             child->draw(screen, width, height);
         }
     }
 
-    // Returns if the Screen contains a child.
+    // Returns if the Screen is empty.
     bool empty()
     {
-        return !!child;
+        return !child;
     }
 
     /**
