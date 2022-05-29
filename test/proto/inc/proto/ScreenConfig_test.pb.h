@@ -31,7 +31,6 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
-#include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_ScreenConfig_5ftest_2eproto 
@@ -48,7 +47,6 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_ScreenConfig_5ftest_2eproto
-namespace blox_test {
 namespace ScreenConfig {
 class Color;
 class ColorDefaultTypeInternal;
@@ -69,45 +67,43 @@ class ScreenConfig;
 class ScreenConfigDefaultTypeInternal;
 extern ScreenConfigDefaultTypeInternal _ScreenConfig_default_instance_;
 }  // namespace ScreenConfig
-}  // namespace blox_test
 namespace google {
 namespace protobuf {
-template<> ::blox_test::ScreenConfig::Color* Arena::CreateMaybeMessage<::blox_test::ScreenConfig::Color>(Arena*);
-template<> ::blox_test::ScreenConfig::ColorWidget* Arena::CreateMaybeMessage<::blox_test::ScreenConfig::ColorWidget>(Arena*);
-template<> ::blox_test::ScreenConfig::ContentNode* Arena::CreateMaybeMessage<::blox_test::ScreenConfig::ContentNode>(Arena*);
-template<> ::blox_test::ScreenConfig::LayoutNode* Arena::CreateMaybeMessage<::blox_test::ScreenConfig::LayoutNode>(Arena*);
-template<> ::blox_test::ScreenConfig::NumericValueWidget* Arena::CreateMaybeMessage<::blox_test::ScreenConfig::NumericValueWidget>(Arena*);
-template<> ::blox_test::ScreenConfig::ScreenConfig* Arena::CreateMaybeMessage<::blox_test::ScreenConfig::ScreenConfig>(Arena*);
+template<> ::ScreenConfig::Color* Arena::CreateMaybeMessage<::ScreenConfig::Color>(Arena*);
+template<> ::ScreenConfig::ColorWidget* Arena::CreateMaybeMessage<::ScreenConfig::ColorWidget>(Arena*);
+template<> ::ScreenConfig::ContentNode* Arena::CreateMaybeMessage<::ScreenConfig::ContentNode>(Arena*);
+template<> ::ScreenConfig::LayoutNode* Arena::CreateMaybeMessage<::ScreenConfig::LayoutNode>(Arena*);
+template<> ::ScreenConfig::NumericValueWidget* Arena::CreateMaybeMessage<::ScreenConfig::NumericValueWidget>(Arena*);
+template<> ::ScreenConfig::ScreenConfig* Arena::CreateMaybeMessage<::ScreenConfig::ScreenConfig>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace blox_test {
 namespace ScreenConfig {
 
-enum Type {
-  Row = 0,
-  Column = 1,
-  Content = 2,
-  Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum LayoutNode_Type {
+  LayoutNode_Type_Row = 0,
+  LayoutNode_Type_Column = 1,
+  LayoutNode_Type_Content = 2,
+  LayoutNode_Type_LayoutNode_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  LayoutNode_Type_LayoutNode_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Type_IsValid(int value);
-const Type Type_MIN = Row;
-const Type Type_MAX = Content;
-const int Type_ARRAYSIZE = Type_MAX + 1;
+bool LayoutNode_Type_IsValid(int value);
+const LayoutNode_Type LayoutNode_Type_Type_MIN = LayoutNode_Type_Row;
+const LayoutNode_Type LayoutNode_Type_Type_MAX = LayoutNode_Type_Content;
+const int LayoutNode_Type_Type_ARRAYSIZE = LayoutNode_Type_Type_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Type_descriptor();
-inline const ::std::string& Type_Name(Type value) {
+const ::google::protobuf::EnumDescriptor* LayoutNode_Type_descriptor();
+inline const ::std::string& LayoutNode_Type_Name(LayoutNode_Type value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Type_descriptor(), value);
+    LayoutNode_Type_descriptor(), value);
 }
-inline bool Type_Parse(
-    const ::std::string& name, Type* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Type>(
-    Type_descriptor(), name, value);
+inline bool LayoutNode_Type_Parse(
+    const ::std::string& name, LayoutNode_Type* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<LayoutNode_Type>(
+    LayoutNode_Type_descriptor(), name, value);
 }
 // ===================================================================
 
-class LayoutNode : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ScreenConfig.LayoutNode) */ {
+class LayoutNode : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ScreenConfig.LayoutNode) */ {
  public:
   LayoutNode();
   virtual ~LayoutNode();
@@ -192,6 +188,34 @@ class LayoutNode : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // nested types ----------------------------------------------------
 
+  typedef LayoutNode_Type Type;
+  static const Type Row =
+    LayoutNode_Type_Row;
+  static const Type Column =
+    LayoutNode_Type_Column;
+  static const Type Content =
+    LayoutNode_Type_Content;
+  static inline bool Type_IsValid(int value) {
+    return LayoutNode_Type_IsValid(value);
+  }
+  static const Type Type_MIN =
+    LayoutNode_Type_Type_MIN;
+  static const Type Type_MAX =
+    LayoutNode_Type_Type_MAX;
+  static const int Type_ARRAYSIZE =
+    LayoutNode_Type_Type_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Type_descriptor() {
+    return LayoutNode_Type_descriptor();
+  }
+  static inline const ::std::string& Type_Name(Type value) {
+    return LayoutNode_Type_Name(value);
+  }
+  static inline bool Type_Parse(const ::std::string& name,
+      Type* value) {
+    return LayoutNode_Type_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // uint32 parent = 1 [(.nanopb) = {
@@ -206,11 +230,11 @@ class LayoutNode : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::uint32 nodeid() const;
   void set_nodeid(::google::protobuf::uint32 value);
 
-  // .blox_test.ScreenConfig.Type type = 3;
+  // .ScreenConfig.LayoutNode.Type type = 3;
   void clear_type();
   static const int kTypeFieldNumber = 3;
-  ::blox_test::ScreenConfig::Type type() const;
-  void set_type(::blox_test::ScreenConfig::Type value);
+  ::ScreenConfig::LayoutNode_Type type() const;
+  void set_type(::ScreenConfig::LayoutNode_Type value);
 
   // uint32 weight = 4 [(.nanopb) = {
   void clear_weight();
@@ -218,7 +242,7 @@ class LayoutNode : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::uint32 weight() const;
   void set_weight(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox_test.ScreenConfig.LayoutNode)
+  // @@protoc_insertion_point(class_scope:ScreenConfig.LayoutNode)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -231,7 +255,7 @@ class LayoutNode : public ::google::protobuf::Message /* @@protoc_insertion_poin
 };
 // -------------------------------------------------------------------
 
-class Color : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ScreenConfig.Color) */ {
+class Color : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ScreenConfig.Color) */ {
  public:
   Color();
   virtual ~Color();
@@ -336,7 +360,7 @@ class Color : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 b() const;
   void set_b(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox_test.ScreenConfig.Color)
+  // @@protoc_insertion_point(class_scope:ScreenConfig.Color)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -348,7 +372,7 @@ class Color : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class NumericValueWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ScreenConfig.NumericValueWidget) */ {
+class NumericValueWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ScreenConfig.NumericValueWidget) */ {
  public:
   NumericValueWidget();
   virtual ~NumericValueWidget();
@@ -449,17 +473,17 @@ class NumericValueWidget : public ::google::protobuf::Message /* @@protoc_insert
   ::std::string* release_label();
   void set_allocated_label(::std::string* label);
 
-  // .blox_test.ScreenConfig.Color color = 1;
+  // .ScreenConfig.Color color = 1;
   bool has_color() const;
   void clear_color();
   static const int kColorFieldNumber = 1;
   private:
-  const ::blox_test::ScreenConfig::Color& _internal_color() const;
+  const ::ScreenConfig::Color& _internal_color() const;
   public:
-  const ::blox_test::ScreenConfig::Color& color() const;
-  ::blox_test::ScreenConfig::Color* release_color();
-  ::blox_test::ScreenConfig::Color* mutable_color();
-  void set_allocated_color(::blox_test::ScreenConfig::Color* color);
+  const ::ScreenConfig::Color& color() const;
+  ::ScreenConfig::Color* release_color();
+  ::ScreenConfig::Color* mutable_color();
+  void set_allocated_color(::ScreenConfig::Color* color);
 
   // uint32 value = 2 [(.nanopb) = {
   void clear_value();
@@ -467,19 +491,19 @@ class NumericValueWidget : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::uint32 value() const;
   void set_value(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:blox_test.ScreenConfig.NumericValueWidget)
+  // @@protoc_insertion_point(class_scope:ScreenConfig.NumericValueWidget)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr label_;
-  ::blox_test::ScreenConfig::Color* color_;
+  ::ScreenConfig::Color* color_;
   ::google::protobuf::uint32 value_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_ScreenConfig_5ftest_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ScreenConfig.ColorWidget) */ {
+class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ScreenConfig.ColorWidget) */ {
  public:
   ColorWidget();
   virtual ~ColorWidget();
@@ -566,29 +590,29 @@ class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // .blox_test.ScreenConfig.Color color = 1;
+  // .ScreenConfig.Color color = 1;
   bool has_color() const;
   void clear_color();
   static const int kColorFieldNumber = 1;
   private:
-  const ::blox_test::ScreenConfig::Color& _internal_color() const;
+  const ::ScreenConfig::Color& _internal_color() const;
   public:
-  const ::blox_test::ScreenConfig::Color& color() const;
-  ::blox_test::ScreenConfig::Color* release_color();
-  ::blox_test::ScreenConfig::Color* mutable_color();
-  void set_allocated_color(::blox_test::ScreenConfig::Color* color);
+  const ::ScreenConfig::Color& color() const;
+  ::ScreenConfig::Color* release_color();
+  ::ScreenConfig::Color* mutable_color();
+  void set_allocated_color(::ScreenConfig::Color* color);
 
-  // @@protoc_insertion_point(class_scope:blox_test.ScreenConfig.ColorWidget)
+  // @@protoc_insertion_point(class_scope:ScreenConfig.ColorWidget)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::blox_test::ScreenConfig::Color* color_;
+  ::ScreenConfig::Color* color_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_ScreenConfig_5ftest_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ScreenConfig.ContentNode) */ {
+class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ScreenConfig.ContentNode) */ {
  public:
   ContentNode();
   virtual ~ContentNode();
@@ -687,47 +711,47 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::uint32 layoutnodeid() const;
   void set_layoutnodeid(::google::protobuf::uint32 value);
 
-  // .blox_test.ScreenConfig.NumericValueWidget numericValueWidget = 2;
+  // .ScreenConfig.NumericValueWidget numericValueWidget = 2;
   bool has_numericvaluewidget() const;
   void clear_numericvaluewidget();
   static const int kNumericValueWidgetFieldNumber = 2;
   private:
-  const ::blox_test::ScreenConfig::NumericValueWidget& _internal_numericvaluewidget() const;
+  const ::ScreenConfig::NumericValueWidget& _internal_numericvaluewidget() const;
   public:
-  const ::blox_test::ScreenConfig::NumericValueWidget& numericvaluewidget() const;
-  ::blox_test::ScreenConfig::NumericValueWidget* release_numericvaluewidget();
-  ::blox_test::ScreenConfig::NumericValueWidget* mutable_numericvaluewidget();
-  void set_allocated_numericvaluewidget(::blox_test::ScreenConfig::NumericValueWidget* numericvaluewidget);
+  const ::ScreenConfig::NumericValueWidget& numericvaluewidget() const;
+  ::ScreenConfig::NumericValueWidget* release_numericvaluewidget();
+  ::ScreenConfig::NumericValueWidget* mutable_numericvaluewidget();
+  void set_allocated_numericvaluewidget(::ScreenConfig::NumericValueWidget* numericvaluewidget);
 
-  // .blox_test.ScreenConfig.ColorWidget colorWidget = 3;
+  // .ScreenConfig.ColorWidget colorWidget = 3;
   bool has_colorwidget() const;
   void clear_colorwidget();
   static const int kColorWidgetFieldNumber = 3;
   private:
-  const ::blox_test::ScreenConfig::ColorWidget& _internal_colorwidget() const;
+  const ::ScreenConfig::ColorWidget& _internal_colorwidget() const;
   public:
-  const ::blox_test::ScreenConfig::ColorWidget& colorwidget() const;
-  ::blox_test::ScreenConfig::ColorWidget* release_colorwidget();
-  ::blox_test::ScreenConfig::ColorWidget* mutable_colorwidget();
-  void set_allocated_colorwidget(::blox_test::ScreenConfig::ColorWidget* colorwidget);
+  const ::ScreenConfig::ColorWidget& colorwidget() const;
+  ::ScreenConfig::ColorWidget* release_colorwidget();
+  ::ScreenConfig::ColorWidget* mutable_colorwidget();
+  void set_allocated_colorwidget(::ScreenConfig::ColorWidget* colorwidget);
 
-  void clear_Content();
-  ContentCase Content_case() const;
-  // @@protoc_insertion_point(class_scope:blox_test.ScreenConfig.ContentNode)
+  void clear_content();
+  ContentCase content_case() const;
+  // @@protoc_insertion_point(class_scope:ScreenConfig.ContentNode)
  private:
   void set_has_numericvaluewidget();
   void set_has_colorwidget();
 
-  inline bool has_Content() const;
-  inline void clear_has_Content();
+  inline bool has_content() const;
+  inline void clear_has_content();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 layoutnodeid_;
   union ContentUnion {
     ContentUnion() {}
-    ::blox_test::ScreenConfig::NumericValueWidget* numericvaluewidget_;
-    ::blox_test::ScreenConfig::ColorWidget* colorwidget_;
-  } Content_;
+    ::ScreenConfig::NumericValueWidget* numericvaluewidget_;
+    ::ScreenConfig::ColorWidget* colorwidget_;
+  } content_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
 
@@ -735,7 +759,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class ScreenConfig : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.ScreenConfig.ScreenConfig) */ {
+class ScreenConfig : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ScreenConfig.ScreenConfig) */ {
  public:
   ScreenConfig();
   virtual ~ScreenConfig();
@@ -822,36 +846,36 @@ class ScreenConfig : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox_test.ScreenConfig.LayoutNode layoutNodes = 1;
+  // repeated .ScreenConfig.LayoutNode layoutNodes = 1;
   int layoutnodes_size() const;
   void clear_layoutnodes();
   static const int kLayoutNodesFieldNumber = 1;
-  ::blox_test::ScreenConfig::LayoutNode* mutable_layoutnodes(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::LayoutNode >*
+  ::ScreenConfig::LayoutNode* mutable_layoutnodes(int index);
+  ::google::protobuf::RepeatedPtrField< ::ScreenConfig::LayoutNode >*
       mutable_layoutnodes();
-  const ::blox_test::ScreenConfig::LayoutNode& layoutnodes(int index) const;
-  ::blox_test::ScreenConfig::LayoutNode* add_layoutnodes();
-  const ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::LayoutNode >&
+  const ::ScreenConfig::LayoutNode& layoutnodes(int index) const;
+  ::ScreenConfig::LayoutNode* add_layoutnodes();
+  const ::google::protobuf::RepeatedPtrField< ::ScreenConfig::LayoutNode >&
       layoutnodes() const;
 
-  // repeated .blox_test.ScreenConfig.ContentNode contentNodes = 2;
+  // repeated .ScreenConfig.ContentNode contentNodes = 2;
   int contentnodes_size() const;
   void clear_contentnodes();
   static const int kContentNodesFieldNumber = 2;
-  ::blox_test::ScreenConfig::ContentNode* mutable_contentnodes(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::ContentNode >*
+  ::ScreenConfig::ContentNode* mutable_contentnodes(int index);
+  ::google::protobuf::RepeatedPtrField< ::ScreenConfig::ContentNode >*
       mutable_contentnodes();
-  const ::blox_test::ScreenConfig::ContentNode& contentnodes(int index) const;
-  ::blox_test::ScreenConfig::ContentNode* add_contentnodes();
-  const ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::ContentNode >&
+  const ::ScreenConfig::ContentNode& contentnodes(int index) const;
+  ::ScreenConfig::ContentNode* add_contentnodes();
+  const ::google::protobuf::RepeatedPtrField< ::ScreenConfig::ContentNode >&
       contentnodes() const;
 
-  // @@protoc_insertion_point(class_scope:blox_test.ScreenConfig.ScreenConfig)
+  // @@protoc_insertion_point(class_scope:ScreenConfig.ScreenConfig)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::LayoutNode > layoutnodes_;
-  ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::ContentNode > contentnodes_;
+  ::google::protobuf::RepeatedPtrField< ::ScreenConfig::LayoutNode > layoutnodes_;
+  ::google::protobuf::RepeatedPtrField< ::ScreenConfig::ContentNode > contentnodes_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_ScreenConfig_5ftest_2eproto::TableStruct;
 };
@@ -871,13 +895,13 @@ inline void LayoutNode::clear_parent() {
   parent_ = 0u;
 }
 inline ::google::protobuf::uint32 LayoutNode::parent() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.LayoutNode.parent)
+  // @@protoc_insertion_point(field_get:ScreenConfig.LayoutNode.parent)
   return parent_;
 }
 inline void LayoutNode::set_parent(::google::protobuf::uint32 value) {
   
   parent_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.LayoutNode.parent)
+  // @@protoc_insertion_point(field_set:ScreenConfig.LayoutNode.parent)
 }
 
 // uint32 nodeId = 2 [(.nanopb) = {
@@ -885,27 +909,27 @@ inline void LayoutNode::clear_nodeid() {
   nodeid_ = 0u;
 }
 inline ::google::protobuf::uint32 LayoutNode::nodeid() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.LayoutNode.nodeId)
+  // @@protoc_insertion_point(field_get:ScreenConfig.LayoutNode.nodeId)
   return nodeid_;
 }
 inline void LayoutNode::set_nodeid(::google::protobuf::uint32 value) {
   
   nodeid_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.LayoutNode.nodeId)
+  // @@protoc_insertion_point(field_set:ScreenConfig.LayoutNode.nodeId)
 }
 
-// .blox_test.ScreenConfig.Type type = 3;
+// .ScreenConfig.LayoutNode.Type type = 3;
 inline void LayoutNode::clear_type() {
   type_ = 0;
 }
-inline ::blox_test::ScreenConfig::Type LayoutNode::type() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.LayoutNode.type)
-  return static_cast< ::blox_test::ScreenConfig::Type >(type_);
+inline ::ScreenConfig::LayoutNode_Type LayoutNode::type() const {
+  // @@protoc_insertion_point(field_get:ScreenConfig.LayoutNode.type)
+  return static_cast< ::ScreenConfig::LayoutNode_Type >(type_);
 }
-inline void LayoutNode::set_type(::blox_test::ScreenConfig::Type value) {
+inline void LayoutNode::set_type(::ScreenConfig::LayoutNode_Type value) {
   
   type_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.LayoutNode.type)
+  // @@protoc_insertion_point(field_set:ScreenConfig.LayoutNode.type)
 }
 
 // uint32 weight = 4 [(.nanopb) = {
@@ -913,13 +937,13 @@ inline void LayoutNode::clear_weight() {
   weight_ = 0u;
 }
 inline ::google::protobuf::uint32 LayoutNode::weight() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.LayoutNode.weight)
+  // @@protoc_insertion_point(field_get:ScreenConfig.LayoutNode.weight)
   return weight_;
 }
 inline void LayoutNode::set_weight(::google::protobuf::uint32 value) {
   
   weight_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.LayoutNode.weight)
+  // @@protoc_insertion_point(field_set:ScreenConfig.LayoutNode.weight)
 }
 
 // -------------------------------------------------------------------
@@ -931,13 +955,13 @@ inline void Color::clear_r() {
   r_ = 0u;
 }
 inline ::google::protobuf::uint32 Color::r() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.Color.r)
+  // @@protoc_insertion_point(field_get:ScreenConfig.Color.r)
   return r_;
 }
 inline void Color::set_r(::google::protobuf::uint32 value) {
   
   r_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.Color.r)
+  // @@protoc_insertion_point(field_set:ScreenConfig.Color.r)
 }
 
 // uint32 g = 2 [(.nanopb) = {
@@ -945,13 +969,13 @@ inline void Color::clear_g() {
   g_ = 0u;
 }
 inline ::google::protobuf::uint32 Color::g() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.Color.g)
+  // @@protoc_insertion_point(field_get:ScreenConfig.Color.g)
   return g_;
 }
 inline void Color::set_g(::google::protobuf::uint32 value) {
   
   g_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.Color.g)
+  // @@protoc_insertion_point(field_set:ScreenConfig.Color.g)
 }
 
 // uint32 b = 3 [(.nanopb) = {
@@ -959,20 +983,20 @@ inline void Color::clear_b() {
   b_ = 0u;
 }
 inline ::google::protobuf::uint32 Color::b() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.Color.b)
+  // @@protoc_insertion_point(field_get:ScreenConfig.Color.b)
   return b_;
 }
 inline void Color::set_b(::google::protobuf::uint32 value) {
   
   b_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.Color.b)
+  // @@protoc_insertion_point(field_set:ScreenConfig.Color.b)
 }
 
 // -------------------------------------------------------------------
 
 // NumericValueWidget
 
-// .blox_test.ScreenConfig.Color color = 1;
+// .ScreenConfig.Color color = 1;
 inline bool NumericValueWidget::has_color() const {
   return this != internal_default_instance() && color_ != NULL;
 }
@@ -982,32 +1006,32 @@ inline void NumericValueWidget::clear_color() {
   }
   color_ = NULL;
 }
-inline const ::blox_test::ScreenConfig::Color& NumericValueWidget::_internal_color() const {
+inline const ::ScreenConfig::Color& NumericValueWidget::_internal_color() const {
   return *color_;
 }
-inline const ::blox_test::ScreenConfig::Color& NumericValueWidget::color() const {
-  const ::blox_test::ScreenConfig::Color* p = color_;
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.NumericValueWidget.color)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::ScreenConfig::Color*>(
-      &::blox_test::ScreenConfig::_Color_default_instance_);
+inline const ::ScreenConfig::Color& NumericValueWidget::color() const {
+  const ::ScreenConfig::Color* p = color_;
+  // @@protoc_insertion_point(field_get:ScreenConfig.NumericValueWidget.color)
+  return p != NULL ? *p : *reinterpret_cast<const ::ScreenConfig::Color*>(
+      &::ScreenConfig::_Color_default_instance_);
 }
-inline ::blox_test::ScreenConfig::Color* NumericValueWidget::release_color() {
-  // @@protoc_insertion_point(field_release:blox_test.ScreenConfig.NumericValueWidget.color)
+inline ::ScreenConfig::Color* NumericValueWidget::release_color() {
+  // @@protoc_insertion_point(field_release:ScreenConfig.NumericValueWidget.color)
   
-  ::blox_test::ScreenConfig::Color* temp = color_;
+  ::ScreenConfig::Color* temp = color_;
   color_ = NULL;
   return temp;
 }
-inline ::blox_test::ScreenConfig::Color* NumericValueWidget::mutable_color() {
+inline ::ScreenConfig::Color* NumericValueWidget::mutable_color() {
   
   if (color_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox_test::ScreenConfig::Color>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::ScreenConfig::Color>(GetArenaNoVirtual());
     color_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.NumericValueWidget.color)
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.NumericValueWidget.color)
   return color_;
 }
-inline void NumericValueWidget::set_allocated_color(::blox_test::ScreenConfig::Color* color) {
+inline void NumericValueWidget::set_allocated_color(::ScreenConfig::Color* color) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete color_;
@@ -1023,7 +1047,7 @@ inline void NumericValueWidget::set_allocated_color(::blox_test::ScreenConfig::C
     
   }
   color_ = color;
-  // @@protoc_insertion_point(field_set_allocated:blox_test.ScreenConfig.NumericValueWidget.color)
+  // @@protoc_insertion_point(field_set_allocated:ScreenConfig.NumericValueWidget.color)
 }
 
 // uint32 value = 2 [(.nanopb) = {
@@ -1031,13 +1055,13 @@ inline void NumericValueWidget::clear_value() {
   value_ = 0u;
 }
 inline ::google::protobuf::uint32 NumericValueWidget::value() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.NumericValueWidget.value)
+  // @@protoc_insertion_point(field_get:ScreenConfig.NumericValueWidget.value)
   return value_;
 }
 inline void NumericValueWidget::set_value(::google::protobuf::uint32 value) {
   
   value_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.NumericValueWidget.value)
+  // @@protoc_insertion_point(field_set:ScreenConfig.NumericValueWidget.value)
 }
 
 // string label = 3 [(.nanopb) = {
@@ -1045,41 +1069,41 @@ inline void NumericValueWidget::clear_label() {
   label_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& NumericValueWidget::label() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_get:ScreenConfig.NumericValueWidget.label)
   return label_.GetNoArena();
 }
 inline void NumericValueWidget::set_label(const ::std::string& value) {
   
   label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_set:ScreenConfig.NumericValueWidget.label)
 }
 #if LANG_CXX11
 inline void NumericValueWidget::set_label(::std::string&& value) {
   
   label_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_set_rvalue:ScreenConfig.NumericValueWidget.label)
 }
 #endif
 inline void NumericValueWidget::set_label(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_set_char:ScreenConfig.NumericValueWidget.label)
 }
 inline void NumericValueWidget::set_label(const char* value, size_t size) {
   
   label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_set_pointer:ScreenConfig.NumericValueWidget.label)
 }
 inline ::std::string* NumericValueWidget::mutable_label() {
   
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.NumericValueWidget.label)
   return label_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* NumericValueWidget::release_label() {
-  // @@protoc_insertion_point(field_release:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_release:ScreenConfig.NumericValueWidget.label)
   
   return label_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1090,14 +1114,14 @@ inline void NumericValueWidget::set_allocated_label(::std::string* label) {
     
   }
   label_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), label);
-  // @@protoc_insertion_point(field_set_allocated:blox_test.ScreenConfig.NumericValueWidget.label)
+  // @@protoc_insertion_point(field_set_allocated:ScreenConfig.NumericValueWidget.label)
 }
 
 // -------------------------------------------------------------------
 
 // ColorWidget
 
-// .blox_test.ScreenConfig.Color color = 1;
+// .ScreenConfig.Color color = 1;
 inline bool ColorWidget::has_color() const {
   return this != internal_default_instance() && color_ != NULL;
 }
@@ -1107,32 +1131,32 @@ inline void ColorWidget::clear_color() {
   }
   color_ = NULL;
 }
-inline const ::blox_test::ScreenConfig::Color& ColorWidget::_internal_color() const {
+inline const ::ScreenConfig::Color& ColorWidget::_internal_color() const {
   return *color_;
 }
-inline const ::blox_test::ScreenConfig::Color& ColorWidget::color() const {
-  const ::blox_test::ScreenConfig::Color* p = color_;
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.ColorWidget.color)
-  return p != NULL ? *p : *reinterpret_cast<const ::blox_test::ScreenConfig::Color*>(
-      &::blox_test::ScreenConfig::_Color_default_instance_);
+inline const ::ScreenConfig::Color& ColorWidget::color() const {
+  const ::ScreenConfig::Color* p = color_;
+  // @@protoc_insertion_point(field_get:ScreenConfig.ColorWidget.color)
+  return p != NULL ? *p : *reinterpret_cast<const ::ScreenConfig::Color*>(
+      &::ScreenConfig::_Color_default_instance_);
 }
-inline ::blox_test::ScreenConfig::Color* ColorWidget::release_color() {
-  // @@protoc_insertion_point(field_release:blox_test.ScreenConfig.ColorWidget.color)
+inline ::ScreenConfig::Color* ColorWidget::release_color() {
+  // @@protoc_insertion_point(field_release:ScreenConfig.ColorWidget.color)
   
-  ::blox_test::ScreenConfig::Color* temp = color_;
+  ::ScreenConfig::Color* temp = color_;
   color_ = NULL;
   return temp;
 }
-inline ::blox_test::ScreenConfig::Color* ColorWidget::mutable_color() {
+inline ::ScreenConfig::Color* ColorWidget::mutable_color() {
   
   if (color_ == NULL) {
-    auto* p = CreateMaybeMessage<::blox_test::ScreenConfig::Color>(GetArenaNoVirtual());
+    auto* p = CreateMaybeMessage<::ScreenConfig::Color>(GetArenaNoVirtual());
     color_ = p;
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.ColorWidget.color)
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.ColorWidget.color)
   return color_;
 }
-inline void ColorWidget::set_allocated_color(::blox_test::ScreenConfig::Color* color) {
+inline void ColorWidget::set_allocated_color(::ScreenConfig::Color* color) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   if (message_arena == NULL) {
     delete color_;
@@ -1148,7 +1172,7 @@ inline void ColorWidget::set_allocated_color(::blox_test::ScreenConfig::Color* c
     
   }
   color_ = color;
-  // @@protoc_insertion_point(field_set_allocated:blox_test.ScreenConfig.ColorWidget.color)
+  // @@protoc_insertion_point(field_set_allocated:ScreenConfig.ColorWidget.color)
 }
 
 // -------------------------------------------------------------------
@@ -1160,173 +1184,173 @@ inline void ContentNode::clear_layoutnodeid() {
   layoutnodeid_ = 0u;
 }
 inline ::google::protobuf::uint32 ContentNode::layoutnodeid() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.ContentNode.layoutNodeId)
+  // @@protoc_insertion_point(field_get:ScreenConfig.ContentNode.layoutNodeId)
   return layoutnodeid_;
 }
 inline void ContentNode::set_layoutnodeid(::google::protobuf::uint32 value) {
   
   layoutnodeid_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ScreenConfig.ContentNode.layoutNodeId)
+  // @@protoc_insertion_point(field_set:ScreenConfig.ContentNode.layoutNodeId)
 }
 
-// .blox_test.ScreenConfig.NumericValueWidget numericValueWidget = 2;
+// .ScreenConfig.NumericValueWidget numericValueWidget = 2;
 inline bool ContentNode::has_numericvaluewidget() const {
-  return Content_case() == kNumericValueWidget;
+  return content_case() == kNumericValueWidget;
 }
 inline void ContentNode::set_has_numericvaluewidget() {
   _oneof_case_[0] = kNumericValueWidget;
 }
 inline void ContentNode::clear_numericvaluewidget() {
   if (has_numericvaluewidget()) {
-    delete Content_.numericvaluewidget_;
-    clear_has_Content();
+    delete content_.numericvaluewidget_;
+    clear_has_content();
   }
 }
-inline const ::blox_test::ScreenConfig::NumericValueWidget& ContentNode::_internal_numericvaluewidget() const {
-  return *Content_.numericvaluewidget_;
+inline const ::ScreenConfig::NumericValueWidget& ContentNode::_internal_numericvaluewidget() const {
+  return *content_.numericvaluewidget_;
 }
-inline ::blox_test::ScreenConfig::NumericValueWidget* ContentNode::release_numericvaluewidget() {
-  // @@protoc_insertion_point(field_release:blox_test.ScreenConfig.ContentNode.numericValueWidget)
+inline ::ScreenConfig::NumericValueWidget* ContentNode::release_numericvaluewidget() {
+  // @@protoc_insertion_point(field_release:ScreenConfig.ContentNode.numericValueWidget)
   if (has_numericvaluewidget()) {
-    clear_has_Content();
-      ::blox_test::ScreenConfig::NumericValueWidget* temp = Content_.numericvaluewidget_;
-    Content_.numericvaluewidget_ = NULL;
+    clear_has_content();
+      ::ScreenConfig::NumericValueWidget* temp = content_.numericvaluewidget_;
+    content_.numericvaluewidget_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::ScreenConfig::NumericValueWidget& ContentNode::numericvaluewidget() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.ContentNode.numericValueWidget)
+inline const ::ScreenConfig::NumericValueWidget& ContentNode::numericvaluewidget() const {
+  // @@protoc_insertion_point(field_get:ScreenConfig.ContentNode.numericValueWidget)
   return has_numericvaluewidget()
-      ? *Content_.numericvaluewidget_
-      : *reinterpret_cast< ::blox_test::ScreenConfig::NumericValueWidget*>(&::blox_test::ScreenConfig::_NumericValueWidget_default_instance_);
+      ? *content_.numericvaluewidget_
+      : *reinterpret_cast< ::ScreenConfig::NumericValueWidget*>(&::ScreenConfig::_NumericValueWidget_default_instance_);
 }
-inline ::blox_test::ScreenConfig::NumericValueWidget* ContentNode::mutable_numericvaluewidget() {
+inline ::ScreenConfig::NumericValueWidget* ContentNode::mutable_numericvaluewidget() {
   if (!has_numericvaluewidget()) {
-    clear_Content();
+    clear_content();
     set_has_numericvaluewidget();
-    Content_.numericvaluewidget_ = CreateMaybeMessage< ::blox_test::ScreenConfig::NumericValueWidget >(
+    content_.numericvaluewidget_ = CreateMaybeMessage< ::ScreenConfig::NumericValueWidget >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.ContentNode.numericValueWidget)
-  return Content_.numericvaluewidget_;
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.ContentNode.numericValueWidget)
+  return content_.numericvaluewidget_;
 }
 
-// .blox_test.ScreenConfig.ColorWidget colorWidget = 3;
+// .ScreenConfig.ColorWidget colorWidget = 3;
 inline bool ContentNode::has_colorwidget() const {
-  return Content_case() == kColorWidget;
+  return content_case() == kColorWidget;
 }
 inline void ContentNode::set_has_colorwidget() {
   _oneof_case_[0] = kColorWidget;
 }
 inline void ContentNode::clear_colorwidget() {
   if (has_colorwidget()) {
-    delete Content_.colorwidget_;
-    clear_has_Content();
+    delete content_.colorwidget_;
+    clear_has_content();
   }
 }
-inline const ::blox_test::ScreenConfig::ColorWidget& ContentNode::_internal_colorwidget() const {
-  return *Content_.colorwidget_;
+inline const ::ScreenConfig::ColorWidget& ContentNode::_internal_colorwidget() const {
+  return *content_.colorwidget_;
 }
-inline ::blox_test::ScreenConfig::ColorWidget* ContentNode::release_colorwidget() {
-  // @@protoc_insertion_point(field_release:blox_test.ScreenConfig.ContentNode.colorWidget)
+inline ::ScreenConfig::ColorWidget* ContentNode::release_colorwidget() {
+  // @@protoc_insertion_point(field_release:ScreenConfig.ContentNode.colorWidget)
   if (has_colorwidget()) {
-    clear_has_Content();
-      ::blox_test::ScreenConfig::ColorWidget* temp = Content_.colorwidget_;
-    Content_.colorwidget_ = NULL;
+    clear_has_content();
+      ::ScreenConfig::ColorWidget* temp = content_.colorwidget_;
+    content_.colorwidget_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::blox_test::ScreenConfig::ColorWidget& ContentNode::colorwidget() const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.ContentNode.colorWidget)
+inline const ::ScreenConfig::ColorWidget& ContentNode::colorwidget() const {
+  // @@protoc_insertion_point(field_get:ScreenConfig.ContentNode.colorWidget)
   return has_colorwidget()
-      ? *Content_.colorwidget_
-      : *reinterpret_cast< ::blox_test::ScreenConfig::ColorWidget*>(&::blox_test::ScreenConfig::_ColorWidget_default_instance_);
+      ? *content_.colorwidget_
+      : *reinterpret_cast< ::ScreenConfig::ColorWidget*>(&::ScreenConfig::_ColorWidget_default_instance_);
 }
-inline ::blox_test::ScreenConfig::ColorWidget* ContentNode::mutable_colorwidget() {
+inline ::ScreenConfig::ColorWidget* ContentNode::mutable_colorwidget() {
   if (!has_colorwidget()) {
-    clear_Content();
+    clear_content();
     set_has_colorwidget();
-    Content_.colorwidget_ = CreateMaybeMessage< ::blox_test::ScreenConfig::ColorWidget >(
+    content_.colorwidget_ = CreateMaybeMessage< ::ScreenConfig::ColorWidget >(
         GetArenaNoVirtual());
   }
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.ContentNode.colorWidget)
-  return Content_.colorwidget_;
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.ContentNode.colorWidget)
+  return content_.colorwidget_;
 }
 
-inline bool ContentNode::has_Content() const {
-  return Content_case() != CONTENT_NOT_SET;
+inline bool ContentNode::has_content() const {
+  return content_case() != CONTENT_NOT_SET;
 }
-inline void ContentNode::clear_has_Content() {
+inline void ContentNode::clear_has_content() {
   _oneof_case_[0] = CONTENT_NOT_SET;
 }
-inline ContentNode::ContentCase ContentNode::Content_case() const {
+inline ContentNode::ContentCase ContentNode::content_case() const {
   return ContentNode::ContentCase(_oneof_case_[0]);
 }
 // -------------------------------------------------------------------
 
 // ScreenConfig
 
-// repeated .blox_test.ScreenConfig.LayoutNode layoutNodes = 1;
+// repeated .ScreenConfig.LayoutNode layoutNodes = 1;
 inline int ScreenConfig::layoutnodes_size() const {
   return layoutnodes_.size();
 }
 inline void ScreenConfig::clear_layoutnodes() {
   layoutnodes_.Clear();
 }
-inline ::blox_test::ScreenConfig::LayoutNode* ScreenConfig::mutable_layoutnodes(int index) {
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.ScreenConfig.layoutNodes)
+inline ::ScreenConfig::LayoutNode* ScreenConfig::mutable_layoutnodes(int index) {
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.ScreenConfig.layoutNodes)
   return layoutnodes_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::LayoutNode >*
+inline ::google::protobuf::RepeatedPtrField< ::ScreenConfig::LayoutNode >*
 ScreenConfig::mutable_layoutnodes() {
-  // @@protoc_insertion_point(field_mutable_list:blox_test.ScreenConfig.ScreenConfig.layoutNodes)
+  // @@protoc_insertion_point(field_mutable_list:ScreenConfig.ScreenConfig.layoutNodes)
   return &layoutnodes_;
 }
-inline const ::blox_test::ScreenConfig::LayoutNode& ScreenConfig::layoutnodes(int index) const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.ScreenConfig.layoutNodes)
+inline const ::ScreenConfig::LayoutNode& ScreenConfig::layoutnodes(int index) const {
+  // @@protoc_insertion_point(field_get:ScreenConfig.ScreenConfig.layoutNodes)
   return layoutnodes_.Get(index);
 }
-inline ::blox_test::ScreenConfig::LayoutNode* ScreenConfig::add_layoutnodes() {
-  // @@protoc_insertion_point(field_add:blox_test.ScreenConfig.ScreenConfig.layoutNodes)
+inline ::ScreenConfig::LayoutNode* ScreenConfig::add_layoutnodes() {
+  // @@protoc_insertion_point(field_add:ScreenConfig.ScreenConfig.layoutNodes)
   return layoutnodes_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::LayoutNode >&
+inline const ::google::protobuf::RepeatedPtrField< ::ScreenConfig::LayoutNode >&
 ScreenConfig::layoutnodes() const {
-  // @@protoc_insertion_point(field_list:blox_test.ScreenConfig.ScreenConfig.layoutNodes)
+  // @@protoc_insertion_point(field_list:ScreenConfig.ScreenConfig.layoutNodes)
   return layoutnodes_;
 }
 
-// repeated .blox_test.ScreenConfig.ContentNode contentNodes = 2;
+// repeated .ScreenConfig.ContentNode contentNodes = 2;
 inline int ScreenConfig::contentnodes_size() const {
   return contentnodes_.size();
 }
 inline void ScreenConfig::clear_contentnodes() {
   contentnodes_.Clear();
 }
-inline ::blox_test::ScreenConfig::ContentNode* ScreenConfig::mutable_contentnodes(int index) {
-  // @@protoc_insertion_point(field_mutable:blox_test.ScreenConfig.ScreenConfig.contentNodes)
+inline ::ScreenConfig::ContentNode* ScreenConfig::mutable_contentnodes(int index) {
+  // @@protoc_insertion_point(field_mutable:ScreenConfig.ScreenConfig.contentNodes)
   return contentnodes_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::ContentNode >*
+inline ::google::protobuf::RepeatedPtrField< ::ScreenConfig::ContentNode >*
 ScreenConfig::mutable_contentnodes() {
-  // @@protoc_insertion_point(field_mutable_list:blox_test.ScreenConfig.ScreenConfig.contentNodes)
+  // @@protoc_insertion_point(field_mutable_list:ScreenConfig.ScreenConfig.contentNodes)
   return &contentnodes_;
 }
-inline const ::blox_test::ScreenConfig::ContentNode& ScreenConfig::contentnodes(int index) const {
-  // @@protoc_insertion_point(field_get:blox_test.ScreenConfig.ScreenConfig.contentNodes)
+inline const ::ScreenConfig::ContentNode& ScreenConfig::contentnodes(int index) const {
+  // @@protoc_insertion_point(field_get:ScreenConfig.ScreenConfig.contentNodes)
   return contentnodes_.Get(index);
 }
-inline ::blox_test::ScreenConfig::ContentNode* ScreenConfig::add_contentnodes() {
-  // @@protoc_insertion_point(field_add:blox_test.ScreenConfig.ScreenConfig.contentNodes)
+inline ::ScreenConfig::ContentNode* ScreenConfig::add_contentnodes() {
+  // @@protoc_insertion_point(field_add:ScreenConfig.ScreenConfig.contentNodes)
   return contentnodes_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox_test::ScreenConfig::ContentNode >&
+inline const ::google::protobuf::RepeatedPtrField< ::ScreenConfig::ContentNode >&
 ScreenConfig::contentnodes() const {
-  // @@protoc_insertion_point(field_list:blox_test.ScreenConfig.ScreenConfig.contentNodes)
+  // @@protoc_insertion_point(field_list:ScreenConfig.ScreenConfig.contentNodes)
   return contentnodes_;
 }
 
@@ -1347,15 +1371,14 @@ ScreenConfig::contentnodes() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace ScreenConfig
-}  // namespace blox_test
 
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox_test::ScreenConfig::Type> : ::std::true_type {};
+template <> struct is_proto_enum< ::ScreenConfig::LayoutNode_Type> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::ScreenConfig::Type>() {
-  return ::blox_test::ScreenConfig::Type_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::ScreenConfig::LayoutNode_Type>() {
+  return ::ScreenConfig::LayoutNode_Type_descriptor();
 }
 
 }  // namespace protobuf

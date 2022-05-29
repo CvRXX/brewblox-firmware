@@ -42,7 +42,7 @@ public:
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    NumericValueWidget(blox_ScreenConfig_NumericValueWidget& numericValueWidget)
+    NumericValueWidget(ScreenConfig_NumericValueWidget& numericValueWidget)
         : ColorWidget({numericValueWidget.color.r, numericValueWidget.color.g, numericValueWidget.color.b})
         , settings(numericValueWidget)
     {
@@ -53,9 +53,9 @@ public:
      * @param contentNodes The vector to which the serialized widget will be added.
      * @param layOutNodeId The id of it's matching layoutNode.
      */
-    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
+    void serialize(std::vector<ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
-        contentnodes.push_back({layOutNodeId, blox_ScreenConfig_ContentNode_numericValueWidget_tag, settings});
+        contentnodes.push_back({layOutNodeId, ScreenConfig_ContentNode_numericValueWidget_tag, settings});
     }
 
     void update() override final
@@ -86,7 +86,7 @@ public:
     }
 
 private:
-    blox_ScreenConfig_NumericValueWidget settings;
+    ScreenConfig_NumericValueWidget settings;
     LvglObjectWrapper valueLabel;
     LvglObjectWrapper LabelLabel;
 };

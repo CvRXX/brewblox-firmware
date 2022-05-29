@@ -111,7 +111,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016Pid_test.proto\022\rblox_test.Pid\032\023brewblo"
       "x_test.proto\032\021nanopb_test.proto\032\035Setpoin"
-      "tSensorPair_test.proto\"\371\007\n\005Block\022\034\n\007inpu"
+      "tSensorPair_test.proto\"\363\007\n\005Block\022\034\n\007inpu"
       "tId\030\001 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\022\035\n\010outputId\030\002 \001(\r"
       "B\013\212\265\030\002\030\005\222\?\0028\020\0222\n\ninputValue\030\005 \001(\021B\036\212\265\030\0020"
       "\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\0224\n\014inputSettin"
@@ -136,11 +136,11 @@ void AddDescriptorsImpl() {
       "eActive\030\032 \001(\010B\014\212\265\030\0020\001\212\265\030\002(\001\022L\n\020derivativ"
       "eFilter\030\033 \001(\0162*.blox_test.SetpointSensor"
       "Pair.FilterChoiceB\006\212\265\030\002(\001\022(\n\016strippedFie"
-      "lds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\004:\r\212\265\030\003\030\260\002\212\265\030\002"
-      "H\017b\006proto3"
+      "lds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\004:\007\212\265\030\003\030\260\002b\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1130);
+      descriptor, 1124);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Pid_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

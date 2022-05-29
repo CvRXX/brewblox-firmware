@@ -48,7 +48,6 @@ typedef enum _brewblox_BlockType {
     brewblox_BlockType_OneWireBusInterface = 12,
     brewblox_BlockType_IoModuleInterface = 13,
     brewblox_BlockType_OneWireDeviceBlockInterface = 14,
-    brewblox_BlockType_EnablerInterface = 15,
     brewblox_BlockType_Any = 255,
     brewblox_BlockType_SysInfo = 256,
     brewblox_BlockType_Ticks = 257,
@@ -78,12 +77,11 @@ typedef enum _brewblox_BlockType {
     brewblox_BlockType_ActuatorLogic = 322,
     brewblox_BlockType_MockPins = 323,
     brewblox_BlockType_TempSensorCombi = 324,
-    brewblox_BlockType_OneWireGpioModule = 325,
-    brewblox_BlockType_Sequence = 326
+    brewblox_BlockType_OneWireGpioModule = 325
 } brewblox_BlockType;
 #define _brewblox_BlockType_MIN brewblox_BlockType_Invalid
-#define _brewblox_BlockType_MAX brewblox_BlockType_Sequence
-#define _brewblox_BlockType_ARRAYSIZE ((brewblox_BlockType)(brewblox_BlockType_Sequence+1))
+#define _brewblox_BlockType_MAX brewblox_BlockType_OneWireGpioModule
+#define _brewblox_BlockType_ARRAYSIZE ((brewblox_BlockType)(brewblox_BlockType_OneWireGpioModule+1))
 
 #ifdef __cplusplus
 } /* extern "C" */

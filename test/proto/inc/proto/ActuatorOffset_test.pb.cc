@@ -102,7 +102,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\031ActuatorOffset_test.proto\022\030blox_test.A"
       "ctuatorOffset\032\023brewblox_test.proto\032\021nano"
-      "pb_test.proto\032\026Constraints_test.proto\"\324\003"
+      "pb_test.proto\032\026Constraints_test.proto\"\316\003"
       "\n\005Block\022\035\n\010targetId\030\001 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022 "
       "\n\013referenceId\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022H\n\027refe"
       "renceSettingOrValue\030\004 \001(\0162\'.blox_test.Ac"
@@ -114,12 +114,11 @@ void AddDescriptorsImpl() {
       "\027\212\265\030\002\030\001\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n\007enabled\030\n \001("
       "\010\022*\n\016desiredSetting\030\013 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 "
       "\222\?\0028 \022(\n\016strippedFields\030c \003(\rB\020\212\265\030\002(\001\222\?\002"
-      "8\020\222\?\002\020\002:\023\212\265\030\003\030\264\002\212\265\030\002H\005\212\265\030\002H\017*/\n\rReferenc"
-      "eKind\022\017\n\013REF_SETTING\020\000\022\r\n\tREF_VALUE\020\001b\006p"
-      "roto3"
+      "8\020\222\?\002\020\002:\r\212\265\030\003\030\264\002\212\265\030\002H\005*/\n\rReferenceKind\022"
+      "\017\n\013REF_SETTING\020\000\022\r\n\tREF_VALUE\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 645);
+      descriptor, 639);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorOffset_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

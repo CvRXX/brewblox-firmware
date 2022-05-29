@@ -129,15 +129,15 @@ void AddDescriptorsImpl() {
       "SetpointProfile\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\"U\n\005Point\022\014\n\004time\030\001 \001(\r\022)"
       "\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 H"
-      "\000B\023\n\021temperature_oneof\"\272\001\n\005Block\0220\n\006poin"
+      "\000B\023\n\021temperature_oneof\"\264\001\n\005Block\0220\n\006poin"
       "ts\030\001 \003(\0132 .blox_test.SetpointProfile.Poi"
       "nt\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targetId\030\004 \001(\rB\014\212"
       "\265\030\003\030\257\002\222\?\0028\020\0220\n\016drivenTargetId\030\005 \001(\rB\030\212\265\030"
-      "\003\030\257\002\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\r\n\005start\030\006 \001(\r:\r\212\265"
-      "\030\003\030\267\002\212\265\030\002H\017b\006proto3"
+      "\003\030\257\002\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\r\n\005start\030\006 \001(\r:\007\212\265"
+      "\030\003\030\267\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 379);
+      descriptor, 373);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointProfile_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

@@ -41,8 +41,8 @@ SCENARIO("VerticalSplit")
 
         REQUIRE(verticalSplit.getWeight() == 15);
 
-        std::vector<blox_ScreenConfig_LayoutNode> layoutNodes = {};
-        std::vector<blox_ScreenConfig_ContentNode> contentNodes = {};
+        std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
+        std::vector<ScreenConfig_ContentNode> contentNodes = {};
         verticalSplit.serialize(layoutNodes, contentNodes, 5);
 
         REQUIRE(layoutNodes.size() == 3);
@@ -56,17 +56,17 @@ SCENARIO("VerticalSplit")
 
         REQUIRE(widget2Serialized.parent == 33);
         REQUIRE(widget2Serialized.nodeId == 15);
-        REQUIRE(widget2Serialized.type == blox_ScreenConfig_Type_Content);
+        REQUIRE(widget2Serialized.type == ScreenConfig_LayoutNode_Type_Content);
         REQUIRE(widget2Serialized.weight == 13);
 
         REQUIRE(widget1Serialized.parent == 33);
         REQUIRE(widget1Serialized.nodeId == 12);
-        REQUIRE(widget1Serialized.type == blox_ScreenConfig_Type_Content);
+        REQUIRE(widget1Serialized.type == ScreenConfig_LayoutNode_Type_Content);
         REQUIRE(widget1Serialized.weight == 55);
 
         REQUIRE(verticalSplitSerialized.parent == 5);
         REQUIRE(verticalSplitSerialized.nodeId == 33);
-        REQUIRE(verticalSplitSerialized.type == blox_ScreenConfig_Type_Column);
+        REQUIRE(verticalSplitSerialized.type == ScreenConfig_LayoutNode_Type_Column);
         REQUIRE(verticalSplitSerialized.weight == 15);
     }
 }

@@ -30,14 +30,14 @@ SCENARIO("DynamicGui")
     {
         uint8_t buffer[128];
         // size_t message_length;
-        std::vector<blox_ScreenConfig_LayoutNode> layoutNodes;
-        layoutNodes.push_back({1, 2, blox_ScreenConfig_Type_Content, 1});
-        layoutNodes.push_back({0, 1, blox_ScreenConfig_Type_Row, 1});
-        layoutNodes.push_back({1, 3, blox_ScreenConfig_Type_Content, 1});
+        std::vector<ScreenConfig_LayoutNode> layoutNodes;
+        layoutNodes.push_back({1, 2, ScreenConfig_LayoutNode_Type_Content, 1});
+        layoutNodes.push_back({0, 1, ScreenConfig_LayoutNode_Type_Row, 1});
+        layoutNodes.push_back({1, 3, ScreenConfig_LayoutNode_Type_Content, 1});
 
-        std::vector<blox_ScreenConfig_ContentNode> contentNodes;
-        auto numericValueWidget = blox_ScreenConfig_NumericValueWidget{blox_ScreenConfig_Color{0, 255, 0}, 99, "proto"};
-        auto node = blox_ScreenConfig_ContentNode{2, blox_ScreenConfig_ContentNode_numericValueWidget_tag, numericValueWidget};
+        std::vector<ScreenConfig_ContentNode> contentNodes;
+        auto numericValueWidget = ScreenConfig_NumericValueWidget{ScreenConfig_Color{0, 255, 0}, 99, "proto"};
+        auto node = ScreenConfig_ContentNode{2, ScreenConfig_ContentNode_numericValueWidget_tag, numericValueWidget};
         contentNodes.push_back(node);
 
         auto encodeResult = gui::dynamic_interface::encodeNodes(layoutNodes, contentNodes, buffer, sizeof(buffer));
@@ -55,8 +55,8 @@ SCENARIO("DynamicGui")
                 // Validate assumption of the GIVEN clause
                 WHEN("Serialising the screen")
                 {
-                    std::vector<blox_ScreenConfig_LayoutNode> layoutNodesBack;
-                    std::vector<blox_ScreenConfig_ContentNode> contentNodesBack;
+                    std::vector<ScreenConfig_LayoutNode> layoutNodesBack;
+                    std::vector<ScreenConfig_ContentNode> contentNodesBack;
                     newScreen->serialize(layoutNodesBack, contentNodesBack);
 
                     std::sort(layoutNodes.begin(), layoutNodes.end(), [](const auto& a, const auto& b) {
@@ -85,7 +85,7 @@ SCENARIO("DynamicGui")
 
                         REQUIRE(
                             std::mismatch(contentNodes.begin(), contentNodes.end(), contentNodesBack.begin(), contentNodesBack.end(), [](const auto& a, const auto& b) {
-                                return a.layoutNodeId == b.layoutNodeId && a.which_Content == b.which_Content;
+                                return a.layoutNodeId == b.layoutNodeId && a.which_content == b.which_content;
                             }).first
                             == contentNodes.end());
                     }

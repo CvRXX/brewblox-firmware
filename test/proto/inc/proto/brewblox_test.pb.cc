@@ -96,7 +96,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, driven_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, ignored_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, bitfield_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, datetime_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::brewblox::MessageOpts)},
@@ -134,29 +133,28 @@ void AddDescriptorsImpl() {
       "roto\"|\n\013MessageOpts\022$\n\007objtype\030\003 \001(\0162\023.b"
       "rewblox.BlockType\022(\n\004impl\030\t \003(\0162\023.brewbl"
       "ox.BlockTypeB\005\222\?\002\020\005\022\026\n\007subtype\030\013 \001(\rB\005\222\?"
-      "\0028\020:\005\222\?\0020\001\"\357\001\n\tFieldOpts\022 \n\004unit\030\001 \001(\0162\022"
+      "\0028\020:\005\222\?\0020\001\"\335\001\n\tFieldOpts\022 \n\004unit\030\001 \001(\0162\022"
       ".brewblox.UnitType\022\r\n\005scale\030\002 \001(\r\022$\n\007obj"
       "type\030\003 \001(\0162\023.brewblox.BlockType\022\r\n\005hexed"
       "\030\004 \001(\010\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001(\010"
       "\022\016\n\006hexstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007igno"
-      "red\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010\022\020\n\010datetime\030"
-      "\013 \001(\010:\005\222\?\0020\001*\214\002\n\010UnitType\022\n\n\006NotSet\020\000\022\013\n"
-      "\007Celsius\020\001\022\022\n\016InverseCelsius\020\002\022\n\n\006Second"
-      "\020\003\022\n\n\006Minute\020\004\022\010\n\004Hour\020\005\022\020\n\014DeltaCelsius"
-      "\020\006\022\031\n\025DeltaCelsiusPerSecond\020\007\022\031\n\025DeltaCe"
-      "lsiusPerMinute\020\010\022\027\n\023DeltaCelsiusPerHour\020"
-      "\t\022\032\n\026DeltaCelsiusMultSecond\020\n\022\032\n\026DeltaCe"
-      "lsiusMultMinute\020\013\022\030\n\024DeltaCelsiusMultHou"
-      "r\020\014*\257\007\n\tBlockType\022\013\n\007Invalid\020\000\022\031\n\025Proces"
-      "sValueInterface\020\001\022\027\n\023TempSensorInterface"
-      "\020\002\022\037\n\033SetpointSensorPairInterface\020\004\022\033\n\027A"
-      "ctuatorAnalogInterface\020\005\022\034\n\030ActuatorDigi"
-      "talInterface\020\006\022\025\n\021BalancerInterface\020\007\022\022\n"
-      "\016MutexInterface\020\010\022\032\n\026OneWireDeviceInterf"
-      "ace\020\t\022\024\n\020IoArrayInterface\020\n\022\023\n\017DS2408Int"
-      "erface\020\013\022\027\n\023OneWireBusInterface\020\014\022\025\n\021IoM"
-      "oduleInterface\020\r\022\037\n\033OneWireDeviceBlockIn"
-      "terface\020\016\022\024\n\020EnablerInterface\020\017\022\010\n\003Any\020\377"
+      "red\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010:\005\222\?\0020\001*\214\002\n\010U"
+      "nitType\022\n\n\006NotSet\020\000\022\013\n\007Celsius\020\001\022\022\n\016Inve"
+      "rseCelsius\020\002\022\n\n\006Second\020\003\022\n\n\006Minute\020\004\022\010\n\004"
+      "Hour\020\005\022\020\n\014DeltaCelsius\020\006\022\031\n\025DeltaCelsius"
+      "PerSecond\020\007\022\031\n\025DeltaCelsiusPerMinute\020\010\022\027"
+      "\n\023DeltaCelsiusPerHour\020\t\022\032\n\026DeltaCelsiusM"
+      "ultSecond\020\n\022\032\n\026DeltaCelsiusMultMinute\020\013\022"
+      "\030\n\024DeltaCelsiusMultHour\020\014*\212\007\n\tBlockType\022"
+      "\013\n\007Invalid\020\000\022\031\n\025ProcessValueInterface\020\001\022"
+      "\027\n\023TempSensorInterface\020\002\022\037\n\033SetpointSens"
+      "orPairInterface\020\004\022\033\n\027ActuatorAnalogInter"
+      "face\020\005\022\034\n\030ActuatorDigitalInterface\020\006\022\025\n\021"
+      "BalancerInterface\020\007\022\022\n\016MutexInterface\020\010\022"
+      "\032\n\026OneWireDeviceInterface\020\t\022\024\n\020IoArrayIn"
+      "terface\020\n\022\023\n\017DS2408Interface\020\013\022\027\n\023OneWir"
+      "eBusInterface\020\014\022\025\n\021IoModuleInterface\020\r\022\037"
+      "\n\033OneWireDeviceBlockInterface\020\016\022\010\n\003Any\020\377"
       "\001\022\014\n\007SysInfo\020\200\002\022\n\n\005Ticks\020\201\002\022\017\n\nOneWireBu"
       "s\020\202\002\022\016\n\tBoardPins\020\203\002\022\023\n\016TempSensorMock\020\255"
       "\002\022\026\n\021TempSensorOneWire\020\256\002\022\027\n\022SetpointSen"
@@ -170,14 +168,14 @@ void AddDescriptorsImpl() {
       "\276\002\022\017\n\nSpark3Pins\020\277\002\022\017\n\nSpark2Pins\020\300\002\022\017\n\n"
       "MotorValve\020\301\002\022\022\n\rActuatorLogic\020\302\002\022\r\n\010Moc"
       "kPins\020\303\002\022\024\n\017TempSensorCombi\020\304\002\022\026\n\021OneWir"
-      "eGpioModule\020\305\002\022\r\n\010Sequence\020\306\002:J\n\005field\022\035"
-      ".google.protobuf.FieldOptions\030\321\206\003 \001(\0132\023."
-      "brewblox.FieldOptsB\005\222\?\002\030\003:L\n\003msg\022\037.googl"
-      "e.protobuf.MessageOptions\030\321\206\003 \001(\0132\025.brew"
-      "blox.MessageOptsB\005\222\?\002\030\003b\006proto3"
+      "eGpioModule\020\305\002:J\n\005field\022\035.google.protobu"
+      "f.FieldOptions\030\321\206\003 \001(\0132\023.brewblox.FieldO"
+      "ptsB\005\222\?\002\030\003:L\n\003msg\022\037.google.protobuf.Mess"
+      "ageOptions\030\321\206\003 \001(\0132\025.brewblox.MessageOpt"
+      "sB\005\222\?\002\030\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1831);
+      descriptor, 1776);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "brewblox_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -241,7 +239,6 @@ bool BlockType_IsValid(int value) {
     case 12:
     case 13:
     case 14:
-    case 15:
     case 255:
     case 256:
     case 257:
@@ -272,7 +269,6 @@ bool BlockType_IsValid(int value) {
     case 323:
     case 324:
     case 325:
-    case 326:
       return true;
     default:
       return false;
@@ -641,7 +637,6 @@ const int FieldOpts::kHexstrFieldNumber;
 const int FieldOpts::kDrivenFieldNumber;
 const int FieldOpts::kIgnoredFieldNumber;
 const int FieldOpts::kBitfieldFieldNumber;
-const int FieldOpts::kDatetimeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FieldOpts::FieldOpts()
@@ -656,15 +651,15 @@ FieldOpts::FieldOpts(const FieldOpts& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&unit_, &from.unit_,
-    static_cast<size_t>(reinterpret_cast<char*>(&datetime_) -
-    reinterpret_cast<char*>(&unit_)) + sizeof(datetime_));
+    static_cast<size_t>(reinterpret_cast<char*>(&bitfield_) -
+    reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
   // @@protoc_insertion_point(copy_constructor:brewblox.FieldOpts)
 }
 
 void FieldOpts::SharedCtor() {
   ::memset(&unit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&datetime_) -
-      reinterpret_cast<char*>(&unit_)) + sizeof(datetime_));
+      reinterpret_cast<char*>(&bitfield_) -
+      reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
 }
 
 FieldOpts::~FieldOpts() {
@@ -696,8 +691,8 @@ void FieldOpts::Clear() {
   (void) cached_has_bits;
 
   ::memset(&unit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&datetime_) -
-      reinterpret_cast<char*>(&unit_)) + sizeof(datetime_));
+      reinterpret_cast<char*>(&bitfield_) -
+      reinterpret_cast<char*>(&unit_)) + sizeof(bitfield_));
   _internal_metadata_.Clear();
 }
 
@@ -853,20 +848,6 @@ bool FieldOpts::MergePartialFromCodedStream(
         break;
       }
 
-      // bool datetime = 11;
-      case 11: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &datetime_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -945,11 +926,6 @@ void FieldOpts::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(10, this->bitfield(), output);
   }
 
-  // bool datetime = 11;
-  if (this->datetime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(11, this->datetime(), output);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1014,11 +990,6 @@ void FieldOpts::SerializeWithCachedSizes(
   // bool bitfield = 10;
   if (this->bitfield() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(10, this->bitfield(), target);
-  }
-
-  // bool datetime = 11;
-  if (this->datetime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(11, this->datetime(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1092,11 +1063,6 @@ size_t FieldOpts::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // bool datetime = 11;
-  if (this->datetime() != 0) {
-    total_size += 1 + 1;
-  }
-
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -1154,9 +1120,6 @@ void FieldOpts::MergeFrom(const FieldOpts& from) {
   if (from.bitfield() != 0) {
     set_bitfield(from.bitfield());
   }
-  if (from.datetime() != 0) {
-    set_datetime(from.datetime());
-  }
 }
 
 void FieldOpts::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1193,7 +1156,6 @@ void FieldOpts::InternalSwap(FieldOpts* other) {
   swap(driven_, other->driven_);
   swap(ignored_, other->ignored_);
   swap(bitfield_, other->bitfield_);
-  swap(datetime_, other->datetime_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

@@ -34,7 +34,7 @@ public:
      * Constructs the ColorWidget.
      * @param color The background color of the widget.
      */
-    constexpr ColorWidget(blox_ScreenConfig_ColorWidget colorWidget)
+    constexpr ColorWidget(ScreenConfig_ColorWidget colorWidget)
         : settings(colorWidget)
         , color({colorWidget.color.r, colorWidget.color.g, colorWidget.color.b})
     {
@@ -45,12 +45,12 @@ public:
      * @param contentNodes The vector to which the serialized widget will be added.
      * @param layOutNodeId The id of it's matching layoutNode.
      */
-    void serialize(std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t layOutNodeId) override
+    void serialize(std::vector<ScreenConfig_ContentNode>& contentNodes, uint8_t layOutNodeId) override
     {
-        blox_ScreenConfig_ContentNode node = blox_ScreenConfig_ContentNode_init_default;
+        ScreenConfig_ContentNode node = ScreenConfig_ContentNode_init_default;
         node.layoutNodeId = layOutNodeId;
-        node.which_Content = blox_ScreenConfig_ContentNode_colorWidget_tag;
-        node.Content.colorWidget = settings;
+        node.which_content = ScreenConfig_ContentNode_colorWidget_tag;
+        node.content.colorWidget = settings;
 
         contentNodes.push_back(node);
     }
@@ -87,7 +87,7 @@ public:
     }
 
 protected:
-    blox_ScreenConfig_ColorWidget settings;
+    ScreenConfig_ColorWidget settings;
     Color color;
     LvglObjectWrapper contentArea = nullptr;
 };

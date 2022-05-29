@@ -98,7 +98,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\035SetpointSensorPair_test.proto\022\034blox_te"
       "st.SetpointSensorPair\032\023brewblox_test.pro"
-      "to\032\021nanopb_test.proto\"\313\003\n\005Block\022\035\n\010senso"
+      "to\032\021nanopb_test.proto\"\305\003\n\005Block\022\035\n\010senso"
       "rId\030\002 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022/\n\007setting\030\005 \001(\021B"
       "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005value"
       "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\026"
@@ -109,14 +109,14 @@ void AddDescriptorsImpl() {
       "\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001("
       "\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013res"
       "etFilter\030\014 \001(\010\022(\n\016strippedFields\030c \003(\rB\020"
-      "\212\265\030\002(\001\222\?\0028\020\222\?\002\020\003:\031\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030"
-      "\002H\017*~\n\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\n"
-      "FILTER_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_9"
-      "0s\020\003\022\r\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nF"
-      "ILTER_30m\020\006b\006proto3"
+      "\212\265\030\002(\001\222\?\0028\020\222\?\002\020\003:\023\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004*~\n"
+      "\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFILTER"
+      "_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s\020\003\022\r"
+      "\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFILTER_"
+      "30m\020\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 699);
+      descriptor, 693);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointSensorPair_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

@@ -50,9 +50,9 @@ public:
      * @param layoutNodes This class will be serialized into this vector.
      * @param contentNodes The widgets of children will be serialized into this vector.
      */
-    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
+    void serialize(std::vector<ScreenConfig_LayoutNode>& layoutNodes, std::vector<ScreenConfig_ContentNode>& contentNodes, uint8_t parentId) override final
     {
-        layoutNodes.push_back({parentId, layOutNodeId, blox_ScreenConfig_Type_Row, weight});
+        layoutNodes.push_back({parentId, layOutNodeId, ScreenConfig_LayoutNode_Type_Row, weight});
         for (auto& child : children) {
             child->serialize(layoutNodes, contentNodes, layOutNodeId);
         }

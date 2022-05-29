@@ -77,7 +77,7 @@ public:
      * @param layoutNodes This class will be serialized into this vector.
      * @param contentNodes The child of this class will be serialized into this vector.
      */
-    void serialize(std::vector<blox_ScreenConfig_LayoutNode>& layoutNodes, std::vector<blox_ScreenConfig_ContentNode>& contentNodes, uint8_t parentId = 0) override final
+    void serialize(std::vector<ScreenConfig_LayoutNode>& layoutNodes, std::vector<ScreenConfig_ContentNode>& contentNodes, uint8_t parentId = 0) override final
     {
         return child->serialize(layoutNodes, contentNodes, 0);
     }
