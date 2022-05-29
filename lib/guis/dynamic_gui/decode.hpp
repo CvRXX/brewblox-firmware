@@ -16,7 +16,7 @@ enum class DecodeError : uint8_t {
     success = 0,
     bufferIsNullptr = 1,
     unknownLayoutType = 2,
-    PBError = 3,
+    pbError = 3,
     nodeIdsAreNotSequentialPerLevel = 4,
 
 };
@@ -28,7 +28,7 @@ namespace detail {
     {
         auto nodes = reinterpret_cast<std::vector<ScreenConfig_LayoutNode>*>(*arg);
         while (stream->bytes_left) {
-            auto node = ScreenConfig_LayoutNode{};
+            ScreenConfig_LayoutNode node = ScreenConfig_LayoutNode_init_default;
             if (!pb_decode(stream, ScreenConfig_LayoutNode_fields, &node)) {
                 return false;
             }
@@ -58,7 +58,7 @@ namespace detail {
      * @param nodeToAdd The row or collumn to parse.
      * @param buffer The buffer with the children in it where the parse node will go into.
      */
-    DecodeError parseRowCol(ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& buffer)
+    DecodeError parseRowCol(ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint8_t>>& buffer)
     {
         auto children = std::vector<std::unique_ptr<LayoutNode>>{};
 
@@ -92,7 +92,7 @@ namespace detail {
      * @param buffer The buffer with the children in it where the parse node will go into.
      * @param contentNodes The contentNodes list.
      */
-    DecodeError parseContent(ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>& buffer, std::vector<ScreenConfig_ContentNode>& contentNodes)
+    DecodeError parseContent(ScreenConfig_LayoutNode& nodeToAdd, std::vector<std::pair<std::unique_ptr<LayoutNode>, uint8_t>>& buffer, std::vector<ScreenConfig_ContentNode>& contentNodes)
     {
         // Find the content node with a layoutId that matches the id of the current node.
         auto content = std::find_if(contentNodes.begin(), contentNodes.end(), [nodeToAdd](const auto& node) {
@@ -136,10 +136,10 @@ namespace detail {
  * @param contentNodes The contentNodes to be added to the screen.
  * @return An std::expected type containing either the screen or an error.
  */
-tl::expected<Screen, DecodeError> decodeNodes(std::vector<ScreenConfig_LayoutNode>& layoutNodes, std::vector<ScreenConfig_ContentNode> contentNodes)
+tl::expected<Screen, DecodeError> decodeNodes(std::vector<ScreenConfig_LayoutNode>&& layoutNodes, std::vector<ScreenConfig_ContentNode>&& contentNodes)
 {
     // Temp storage of elements which are to be children of higher elements.
-    auto buffer = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint32_t>>{};
+    auto buffer = std::vector<std::pair<std::unique_ptr<LayoutNode>, uint8_t>>{};
     buffer.reserve(layoutNodes.size());
 
     // Sort the layoutnodes in decending order of nodeId.
@@ -174,7 +174,7 @@ tl::expected<Screen, DecodeError> decodeNodes(std::vector<ScreenConfig_LayoutNod
 }
 
 /**
- * Decodes a protobuf error.
+ * Decodes a protobuf ScreenConfig message.
  * @param buffer A pointer to the buffer.
  * @param length The length of the message in the buffer.
  * @return An std::expected type containing either the screen or an error.
@@ -197,9 +197,9 @@ tl::expected<Screen, DecodeError> decodeBuffer(uint8_t* buffer, size_t length)
 
     pb_istream_t stream = pb_istream_from_buffer(buffer, length);
     if (!pb_decode(&stream, ScreenConfig_ScreenConfig_fields, &protoMessage)) {
-        return tl::unexpected{DecodeError::PBError};
+        return tl::unexpected{DecodeError::pbError};
     }
 
-    return decodeNodes(layoutNodes, contentNodes);
+    return decodeNodes(std::move(layoutNodes), std::move(contentNodes));
 }
 }
