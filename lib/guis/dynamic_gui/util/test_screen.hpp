@@ -20,6 +20,6 @@ tl::expected<Screen, DecodeError> testScreen()
     auto node2 = ScreenConfig_ContentNode{5, ScreenConfig_ContentNode_numericValueWidget_tag, numericValueWidget2};
     contentNodes.push_back(node2);
 
-    return decodeNodes(layoutNodes, contentNodes);
+    return decodeNodes(std::move(layoutNodes), std::move(contentNodes));
 }
 }
