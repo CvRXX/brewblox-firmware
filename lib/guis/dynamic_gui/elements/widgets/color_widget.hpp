@@ -139,7 +139,7 @@ private:
             } else if (!strcmp(buf, "blue")) {
                 widget->color = Color{0, 0, 255};
             }
-            lv_obj_set_style_bg_color(widget->contentArea.get(), widget->color.lvglColor(), LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(widget->contentArea.get(), widget->color, LV_STATE_DEFAULT);
             settings->exit();
         }
     }
@@ -171,7 +171,7 @@ public:
     LvglTimerWrapper timer = nullptr;
 };
 
-void ColorWidget::pressed(lv_event_t* event)
+inline void ColorWidget::pressed(lv_event_t* event)
 {
     auto obj = reinterpret_cast<ColorWidget*>(event->user_data);
     ColorWidgetSettings::draw(*obj);
