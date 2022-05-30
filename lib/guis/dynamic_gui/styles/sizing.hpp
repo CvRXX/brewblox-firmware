@@ -4,11 +4,12 @@
 
 namespace gui::dynamic_interface::sizing {
 
-// The number of chars that should fit for a number
+// The number of chars that a number can consist of.
+// This includes the decimal separator.
 constexpr uint16_t numbersNChars = 3;
 
 // The margin in px to apply to the numbers
-constexpr double numbersMargin = 10;
+constexpr uint16_t numbersMargin = 10;
 
 constexpr uint16_t hugeBreakPointWidth = fonts::numbers_huge_width * numbersNChars + numbersMargin;
 constexpr uint16_t hugeBreakPointHeight = fonts::numbers_huge_height + numbersMargin;
@@ -27,12 +28,13 @@ constexpr uint16_t labelNChars = 10;
 constexpr uint16_t labelBreakingPointWidth = fonts::main_small_width * labelNChars + 10;
 constexpr uint16_t labelBreakingPointHeight = hugeBreakPointHeight;
 
-constexpr bool toDrawLabel(uint16_t width, uint16_t height)
+// Returns true if there is space for a label.
+constexpr bool spaceForNameLabel(uint16_t width, uint16_t height)
 {
     return (width > labelBreakingPointWidth) && (height > labelBreakingPointHeight);
 }
 
-lv_obj_t* bigNumber(lv_obj_t* parent, uint16_t width, uint16_t height)
+lv_obj_t* makeBigNumberLabel(lv_obj_t* parent, uint16_t width, uint16_t height)
 {
     auto label = lv_label_create(parent);
     if ((width > hugeBreakPointWidth) && (height > hugeBreakPointHeight)) {
