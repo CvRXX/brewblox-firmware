@@ -5,112 +5,134 @@
 
 #include <algorithm>
 
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite.h>
+#include <google/protobuf/wire_format_lite_inl.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
+// This is a temporary google only hack
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+#include "third_party/protobuf/version.h"
+#endif
 // @@protoc_insertion_point(includes)
-#include <google/protobuf/port_def.inc>
-
-PROTOBUF_PRAGMA_INIT_SEG
-
-namespace _pb = ::PROTOBUF_NAMESPACE_ID;
-namespace _pbi = _pb::internal;
 
 namespace blox_test {
 namespace WiFiSettings {
-PROTOBUF_CONSTEXPR Block::Block(
-    ::_pbi::ConstantInitialized)
-  : ssid_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
-  , password_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
-  , ip_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
-  , security_(0)
-
-  , cipher_(0)
-
-  , signal_(0){}
-struct BlockDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR BlockDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~BlockDefaultTypeInternal() {}
-  union {
-    Block _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BlockDefaultTypeInternal _Block_default_instance_;
+class BlockDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<Block>
+      _instance;
+} _Block_default_instance_;
 }  // namespace WiFiSettings
 }  // namespace blox_test
-static ::_pb::Metadata file_level_metadata_WiFiSettings_5ftest_2eproto[1];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_WiFiSettings_5ftest_2eproto[2];
-static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_WiFiSettings_5ftest_2eproto = nullptr;
+namespace protobuf_WiFiSettings_5ftest_2eproto {
+static void InitDefaultsBlock() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-const uint32_t TableStruct_WiFiSettings_5ftest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  {
+    void* ptr = &::blox_test::WiFiSettings::_Block_default_instance_;
+    new (ptr) ::blox_test::WiFiSettings::Block();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::blox_test::WiFiSettings::Block::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_Block =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsBlock}, {}};
+
+void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
+}
+
+::google::protobuf::Metadata file_level_metadata[1];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
+
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, ssid_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, password_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, security_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, cipher_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, signal_),
-  PROTOBUF_FIELD_OFFSET(::blox_test::WiFiSettings::Block, ip_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, ssid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, password_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, security_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, cipher_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, signal_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, ip_),
 };
-static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::blox_test::WiFiSettings::Block)},
-};
-
-static const ::_pb::Message* const file_default_instances[] = {
-  &::blox_test::WiFiSettings::_Block_default_instance_._instance,
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, sizeof(::blox_test::WiFiSettings::Block)},
 };
 
-const char descriptor_table_protodef_WiFiSettings_5ftest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\027WiFiSettings_test.proto\022\026blox_test.WiF"
-  "iSettings\032\023brewblox_test.proto\032\021nanopb_t"
-  "est.proto\"\343\001\n\005Block\022\023\n\004ssid\030\001 \001(\tB\005\222\?\002\010!"
-  "\022\027\n\010password\030\002 \001(\tB\005\222\?\002\010@\0222\n\010security\030\003 "
-  "\001(\0162 .blox_test.WiFiSettings.Security\022.\n"
-  "\006cipher\030\004 \001(\0162\036.blox_test.WiFiSettings.C"
-  "ipher\022!\n\006signal\030\005 \001(\005B\021\212\265\030\002(\001\212\265\030\0020\001\222\?\0028\010"
-  "\022\034\n\002ip\030\006 \001(\tB\020\212\265\030\002(\001\222\?\002\010\020\222\?\002x\001:\007\212\265\030\003\030\270\002*"
-  "\247\001\n\010Security\022\022\n\016WLAN_SEC_UNSEC\020\000\022\020\n\014WLAN"
-  "_SEC_WEP\020\001\022\020\n\014WLAN_SEC_WPA\020\002\022\021\n\rWLAN_SEC"
-  "_WPA2\020\003\022\033\n\027WLAN_SEC_WPA_ENTERPRISE\020\004\022\034\n\030"
-  "WLAN_SEC_WPA2_ENTERPRISE\020\005\022\025\n\020WLAN_SEC_N"
-  "OT_SET\020\377\001*i\n\006Cipher\022\027\n\023WLAN_CIPHER_NOT_S"
-  "ET\020\000\022\023\n\017WLAN_CIPHER_AES\020\001\022\024\n\020WLAN_CIPHER"
-  "_TKIP\020\002\022\033\n\027WLAN_CIPHER_AES_OR_TKIP\020\003b\006pr"
-  "oto3"
-  ;
-static const ::_pbi::DescriptorTable* const descriptor_table_WiFiSettings_5ftest_2eproto_deps[2] = {
-  &::descriptor_table_brewblox_5ftest_2eproto,
-  &::descriptor_table_nanopb_5ftest_2eproto,
+static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&::blox_test::WiFiSettings::_Block_default_instance_),
 };
-static ::_pbi::once_flag descriptor_table_WiFiSettings_5ftest_2eproto_once;
-const ::_pbi::DescriptorTable descriptor_table_WiFiSettings_5ftest_2eproto = {
-    false, false, 604, descriptor_table_protodef_WiFiSettings_5ftest_2eproto,
-    "WiFiSettings_test.proto",
-    &descriptor_table_WiFiSettings_5ftest_2eproto_once, descriptor_table_WiFiSettings_5ftest_2eproto_deps, 2, 1,
-    schemas, file_default_instances, TableStruct_WiFiSettings_5ftest_2eproto::offsets,
-    file_level_metadata_WiFiSettings_5ftest_2eproto, file_level_enum_descriptors_WiFiSettings_5ftest_2eproto,
-    file_level_service_descriptors_WiFiSettings_5ftest_2eproto,
-};
-PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_WiFiSettings_5ftest_2eproto_getter() {
-  return &descriptor_table_WiFiSettings_5ftest_2eproto;
+
+void protobuf_AssignDescriptors() {
+  AddDescriptors();
+  AssignDescriptors(
+      "WiFiSettings_test.proto", schemas, file_default_instances, TableStruct::offsets,
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
-// Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_WiFiSettings_5ftest_2eproto(&descriptor_table_WiFiSettings_5ftest_2eproto);
+void protobuf_AssignDescriptorsOnce() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
+}
+
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
+void protobuf_RegisterTypes(const ::std::string&) {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
+}
+
+void AddDescriptorsImpl() {
+  InitDefaults();
+  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+      "\n\027WiFiSettings_test.proto\022\026blox_test.WiF"
+      "iSettings\032\023brewblox_test.proto\032\021nanopb_t"
+      "est.proto\"\343\001\n\005Block\022\023\n\004ssid\030\001 \001(\tB\005\222\?\002\010!"
+      "\022\027\n\010password\030\002 \001(\tB\005\222\?\002\010@\0222\n\010security\030\003 "
+      "\001(\0162 .blox_test.WiFiSettings.Security\022.\n"
+      "\006cipher\030\004 \001(\0162\036.blox_test.WiFiSettings.C"
+      "ipher\022!\n\006signal\030\005 \001(\005B\021\212\265\030\002(\001\212\265\030\0020\001\222\?\0028\010"
+      "\022\034\n\002ip\030\006 \001(\tB\020\212\265\030\002(\001\222\?\002\010\020\222\?\002x\001:\007\212\265\030\003\030\270\002*"
+      "\247\001\n\010Security\022\022\n\016WLAN_SEC_UNSEC\020\000\022\020\n\014WLAN"
+      "_SEC_WEP\020\001\022\020\n\014WLAN_SEC_WPA\020\002\022\021\n\rWLAN_SEC"
+      "_WPA2\020\003\022\033\n\027WLAN_SEC_WPA_ENTERPRISE\020\004\022\034\n\030"
+      "WLAN_SEC_WPA2_ENTERPRISE\020\005\022\025\n\020WLAN_SEC_N"
+      "OT_SET\020\377\001*i\n\006Cipher\022\027\n\023WLAN_CIPHER_NOT_S"
+      "ET\020\000\022\023\n\017WLAN_CIPHER_AES\020\001\022\024\n\020WLAN_CIPHER"
+      "_TKIP\020\002\022\033\n\027WLAN_CIPHER_AES_OR_TKIP\020\003b\006pr"
+      "oto3"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 604);
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
+    "WiFiSettings_test.proto", &protobuf_RegisterTypes);
+  ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
+  ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
+}
+
+void AddDescriptors() {
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
+}
+// Force AddDescriptors() to be called at dynamic initialization time.
+struct StaticDescriptorInitializer {
+  StaticDescriptorInitializer() {
+    AddDescriptors();
+  }
+} static_descriptor_initializer;
+}  // namespace protobuf_WiFiSettings_5ftest_2eproto
 namespace blox_test {
 namespace WiFiSettings {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Security_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_WiFiSettings_5ftest_2eproto);
-  return file_level_enum_descriptors_WiFiSettings_5ftest_2eproto[0];
+const ::google::protobuf::EnumDescriptor* Security_descriptor() {
+  protobuf_WiFiSettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_WiFiSettings_5ftest_2eproto::file_level_enum_descriptors[0];
 }
 bool Security_IsValid(int value) {
   switch (value) {
@@ -127,9 +149,9 @@ bool Security_IsValid(int value) {
   }
 }
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Cipher_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_WiFiSettings_5ftest_2eproto);
-  return file_level_enum_descriptors_WiFiSettings_5ftest_2eproto[1];
+const ::google::protobuf::EnumDescriptor* Cipher_descriptor() {
+  protobuf_WiFiSettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_WiFiSettings_5ftest_2eproto::file_level_enum_descriptors[1];
 }
 bool Cipher_IsValid(int value) {
   switch (value) {
@@ -146,42 +168,39 @@ bool Cipher_IsValid(int value) {
 
 // ===================================================================
 
-class Block::_Internal {
- public:
-};
+void Block::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int Block::kSsidFieldNumber;
+const int Block::kPasswordFieldNumber;
+const int Block::kSecurityFieldNumber;
+const int Block::kCipherFieldNumber;
+const int Block::kSignalFieldNumber;
+const int Block::kIpFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Block::Block(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+Block::Block()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_WiFiSettings_5ftest_2eproto::scc_info_Block.base);
   SharedCtor();
-  // @@protoc_insertion_point(arena_constructor:blox_test.WiFiSettings.Block)
+  // @@protoc_insertion_point(constructor:blox_test.WiFiSettings.Block)
 }
 Block::Block(const Block& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ssid_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    ssid_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_ssid().empty()) {
-    ssid_.Set(from._internal_ssid(), 
-      GetArenaForAllocation());
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ssid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.ssid().size() > 0) {
+    ssid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ssid_);
   }
-  password_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    password_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_password().empty()) {
-    password_.Set(from._internal_password(), 
-      GetArenaForAllocation());
+  password_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.password().size() > 0) {
+    password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
   }
-  ip_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    ip_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_ip().empty()) {
-    ip_.Set(from._internal_ip(), 
-      GetArenaForAllocation());
+  ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.ip().size() > 0) {
+    ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ip_);
   }
   ::memcpy(&security_, &from.security_,
     static_cast<size_t>(reinterpret_cast<char*>(&signal_) -
@@ -189,204 +208,297 @@ Block::Block(const Block& from)
   // @@protoc_insertion_point(copy_constructor:blox_test.WiFiSettings.Block)
 }
 
-inline void Block::SharedCtor() {
-ssid_.InitDefault();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  ssid_.Set("", GetArenaForAllocation());
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-password_.InitDefault();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  password_.Set("", GetArenaForAllocation());
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-ip_.InitDefault();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  ip_.Set("", GetArenaForAllocation());
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&security_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&signal_) -
-    reinterpret_cast<char*>(&security_)) + sizeof(signal_));
+void Block::SharedCtor() {
+  ssid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  password_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&security_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&signal_) -
+      reinterpret_cast<char*>(&security_)) + sizeof(signal_));
 }
 
 Block::~Block() {
   // @@protoc_insertion_point(destructor:blox_test.WiFiSettings.Block)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
   SharedDtor();
 }
 
-inline void Block::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  ssid_.Destroy();
-  password_.Destroy();
-  ip_.Destroy();
+void Block::SharedDtor() {
+  ssid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  password_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ip_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void Block::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
+const ::google::protobuf::Descriptor* Block::descriptor() {
+  ::protobuf_WiFiSettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_WiFiSettings_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const Block& Block::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_WiFiSettings_5ftest_2eproto::scc_info_Block.base);
+  return *internal_default_instance();
+}
+
 
 void Block::Clear() {
 // @@protoc_insertion_point(message_clear_start:blox_test.WiFiSettings.Block)
-  uint32_t cached_has_bits = 0;
+  ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ssid_.ClearToEmpty();
-  password_.ClearToEmpty();
-  ip_.ClearToEmpty();
+  ssid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&security_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&signal_) -
       reinterpret_cast<char*>(&security_)) + sizeof(signal_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
-const char* Block::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
+bool Block::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:blox_test.WiFiSettings.Block)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // string ssid = 1 [(.nanopb) = {
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_ssid();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "blox_test.WiFiSettings.Block.ssid"));
-        } else
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ssid()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->ssid().data(), static_cast<int>(this->ssid().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox_test.WiFiSettings.Block.ssid"));
+        } else {
           goto handle_unusual;
-        continue;
+        }
+        break;
+      }
+
       // string password = 2 [(.nanopb) = {
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_password();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "blox_test.WiFiSettings.Block.password"));
-        } else
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_password()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->password().data(), static_cast<int>(this->password().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox_test.WiFiSettings.Block.password"));
+        } else {
           goto handle_unusual;
-        continue;
+        }
+        break;
+      }
+
       // .blox_test.WiFiSettings.Security security = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_security(static_cast<::blox_test::WiFiSettings::Security>(val));
-        } else
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_security(static_cast< ::blox_test::WiFiSettings::Security >(value));
+        } else {
           goto handle_unusual;
-        continue;
+        }
+        break;
+      }
+
       // .blox_test.WiFiSettings.Cipher cipher = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_cipher(static_cast<::blox_test::WiFiSettings::Cipher>(val));
-        } else
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_cipher(static_cast< ::blox_test::WiFiSettings::Cipher >(value));
+        } else {
           goto handle_unusual;
-        continue;
+        }
+        break;
+      }
+
       // int32 signal = 5 [(.nanopb) = {
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
-          signal_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &signal_)));
+        } else {
           goto handle_unusual;
-        continue;
+        }
+        break;
+      }
+
       // string ip = 6 [(.nanopb) = {
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
-          auto str = _internal_mutable_ip();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "blox_test.WiFiSettings.Block.ip"));
-        } else
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ip()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->ip().data(), static_cast<int>(this->ip().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "blox_test.WiFiSettings.Block.ip"));
+        } else {
           goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
     }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
+  }
+success:
+  // @@protoc_insertion_point(parse_success:blox_test.WiFiSettings.Block)
+  return true;
 failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
+  // @@protoc_insertion_point(parse_failure:blox_test.WiFiSettings.Block)
+  return false;
+#undef DO_
 }
 
-uint8_t* Block::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:blox_test.WiFiSettings.Block)
-  uint32_t cached_has_bits = 0;
+void Block::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:blox_test.WiFiSettings.Block)
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // string ssid = 1 [(.nanopb) = {
-  if (!this->_internal_ssid().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ssid().data(), static_cast<int>(this->_internal_ssid().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->ssid().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ssid().data(), static_cast<int>(this->ssid().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox_test.WiFiSettings.Block.ssid");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_ssid(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->ssid(), output);
   }
 
   // string password = 2 [(.nanopb) = {
-  if (!this->_internal_password().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_password().data(), static_cast<int>(this->_internal_password().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->password().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->password().data(), static_cast<int>(this->password().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox_test.WiFiSettings.Block.password");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_password(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->password(), output);
   }
 
   // .blox_test.WiFiSettings.Security security = 3;
-  if (this->_internal_security() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      3, this->_internal_security(), target);
+  if (this->security() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      3, this->security(), output);
   }
 
   // .blox_test.WiFiSettings.Cipher cipher = 4;
-  if (this->_internal_cipher() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      4, this->_internal_cipher(), target);
+  if (this->cipher() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      4, this->cipher(), output);
   }
 
   // int32 signal = 5 [(.nanopb) = {
-  if (this->_internal_signal() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_signal(), target);
+  if (this->signal() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->signal(), output);
   }
 
   // string ip = 6 [(.nanopb) = {
-  if (!this->_internal_ip().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+  if (this->ip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ip().data(), static_cast<int>(this->ip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox_test.WiFiSettings.Block.ip");
-    target = stream->WriteStringMaybeAliased(
-        6, this->_internal_ip(), target);
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->ip(), output);
   }
 
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:blox_test.WiFiSettings.Block)
+}
+
+::google::protobuf::uint8* Block::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:blox_test.WiFiSettings.Block)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string ssid = 1 [(.nanopb) = {
+  if (this->ssid().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ssid().data(), static_cast<int>(this->ssid().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox_test.WiFiSettings.Block.ssid");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->ssid(), target);
+  }
+
+  // string password = 2 [(.nanopb) = {
+  if (this->password().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->password().data(), static_cast<int>(this->password().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox_test.WiFiSettings.Block.password");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->password(), target);
+  }
+
+  // .blox_test.WiFiSettings.Security security = 3;
+  if (this->security() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      3, this->security(), target);
+  }
+
+  // .blox_test.WiFiSettings.Cipher cipher = 4;
+  if (this->cipher() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      4, this->cipher(), target);
+  }
+
+  // int32 signal = 5 [(.nanopb) = {
+  if (this->signal() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->signal(), target);
+  }
+
+  // string ip = 6 [(.nanopb) = {
+  if (this->ip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ip().data(), static_cast<int>(this->ip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "blox_test.WiFiSettings.Block.ip");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->ip(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:blox_test.WiFiSettings.Block)
   return target;
@@ -396,89 +508,106 @@ size_t Block::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:blox_test.WiFiSettings.Block)
   size_t total_size = 0;
 
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
   // string ssid = 1 [(.nanopb) = {
-  if (!this->_internal_ssid().empty()) {
+  if (this->ssid().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ssid());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ssid());
   }
 
   // string password = 2 [(.nanopb) = {
-  if (!this->_internal_password().empty()) {
+  if (this->password().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_password());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->password());
   }
 
   // string ip = 6 [(.nanopb) = {
-  if (!this->_internal_ip().empty()) {
+  if (this->ip().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ip());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ip());
   }
 
   // .blox_test.WiFiSettings.Security security = 3;
-  if (this->_internal_security() != 0) {
+  if (this->security() != 0) {
     total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_security());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->security());
   }
 
   // .blox_test.WiFiSettings.Cipher cipher = 4;
-  if (this->_internal_cipher() != 0) {
+  if (this->cipher() != 0) {
     total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_cipher());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->cipher());
   }
 
   // int32 signal = 5 [(.nanopb) = {
-  if (this->_internal_signal() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_signal());
+  if (this->signal() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->signal());
   }
 
-  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Block::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    Block::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Block::GetClassData() const { return &_class_data_; }
-
-void Block::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<Block *>(to)->MergeFrom(
-      static_cast<const Block &>(from));
+void Block::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:blox_test.WiFiSettings.Block)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Block* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Block>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:blox_test.WiFiSettings.Block)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:blox_test.WiFiSettings.Block)
+    MergeFrom(*source);
+  }
 }
-
 
 void Block::MergeFrom(const Block& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:blox_test.WiFiSettings.Block)
   GOOGLE_DCHECK_NE(&from, this);
-  uint32_t cached_has_bits = 0;
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_ssid().empty()) {
-    _internal_set_ssid(from._internal_ssid());
+  if (from.ssid().size() > 0) {
+
+    ssid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ssid_);
   }
-  if (!from._internal_password().empty()) {
-    _internal_set_password(from._internal_password());
+  if (from.password().size() > 0) {
+
+    password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
   }
-  if (!from._internal_ip().empty()) {
-    _internal_set_ip(from._internal_ip());
+  if (from.ip().size() > 0) {
+
+    ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ip_);
   }
-  if (from._internal_security() != 0) {
-    _internal_set_security(from._internal_security());
+  if (from.security() != 0) {
+    set_security(from.security());
   }
-  if (from._internal_cipher() != 0) {
-    _internal_set_cipher(from._internal_cipher());
+  if (from.cipher() != 0) {
+    set_cipher(from.cipher());
   }
-  if (from._internal_signal() != 0) {
-    _internal_set_signal(from._internal_signal());
+  if (from.signal() != 0) {
+    set_signal(from.signal());
   }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Block::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:blox_test.WiFiSettings.Block)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
 }
 
 void Block::CopyFrom(const Block& from) {
@@ -492,46 +621,39 @@ bool Block::IsInitialized() const {
   return true;
 }
 
+void Block::Swap(Block* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &ssid_, lhs_arena,
-      &other->ssid_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &password_, lhs_arena,
-      &other->password_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &ip_, lhs_arena,
-      &other->ip_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Block, signal_)
-      + sizeof(Block::signal_)
-      - PROTOBUF_FIELD_OFFSET(Block, security_)>(
-          reinterpret_cast<char*>(&security_),
-          reinterpret_cast<char*>(&other->security_));
+  ssid_.Swap(&other->ssid_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  password_.Swap(&other->password_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  ip_.Swap(&other->ip_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(security_, other->security_);
+  swap(cipher_, other->cipher_);
+  swap(signal_, other->signal_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata Block::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_WiFiSettings_5ftest_2eproto_getter, &descriptor_table_WiFiSettings_5ftest_2eproto_once,
-      file_level_metadata_WiFiSettings_5ftest_2eproto[0]);
+::google::protobuf::Metadata Block::GetMetadata() const {
+  protobuf_WiFiSettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_WiFiSettings_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
+
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace WiFiSettings
 }  // namespace blox_test
-PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::blox_test::WiFiSettings::Block*
-Arena::CreateMaybeMessage< ::blox_test::WiFiSettings::Block >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::blox_test::WiFiSettings::Block >(arena);
+namespace google {
+namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::blox_test::WiFiSettings::Block* Arena::CreateMaybeMessage< ::blox_test::WiFiSettings::Block >(Arena* arena) {
+  return Arena::CreateInternal< ::blox_test::WiFiSettings::Block >(arena);
 }
-PROTOBUF_NAMESPACE_CLOSE
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
-#include <google/protobuf/port_undef.inc>
