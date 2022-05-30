@@ -123,12 +123,12 @@ SequenceBlock::write(const cbox::Payload& payload)
 
     if (res == cbox::CboxError::OK) {
         enabler.set(message.enabled);
-        bool sameOpcodes = std::equal(_instructions.begin(),
-                                      _instructions.begin() + std::min(size_t(_state.activeInstruction), _instructions.size()),
-                                      newInstructions.begin(),
-                                      [](const blox_Sequence_Instruction& lhs, const blox_Sequence_Instruction& rhs) {
-                                          return lhs.which_instruction_oneof == rhs.which_instruction_oneof;
-                                      });
+        bool sameOpcodes = _instructions.size() > _state.activeInstruction
+                           && std::equal(_instructions.begin(),
+                                         _instructions.begin() + std::min(size_t(_state.activeInstruction), _instructions.size()), newInstructions.begin(),
+                                         [](const blox_Sequence_Instruction& lhs, const blox_Sequence_Instruction& rhs) {
+                                             return lhs.which_instruction_oneof == rhs.which_instruction_oneof;
+                                         });
         _instructions.swap(newInstructions);
 
         if (message.overrideState) {
