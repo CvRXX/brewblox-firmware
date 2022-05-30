@@ -26,7 +26,7 @@
 #include <string>
 #include <thread>
 #include <vector>
-extern std::vector<uint64_t> graphicsBuffer;
+extern std::array<uint64_t, 320 * 480> graphicsBuffer;
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -107,7 +107,7 @@ public:
         do_read();
     }
 
-    void write_pixels1(std::vector<uint64_t> pixels)
+    void write_pixels1(std::array<uint64_t, 320 * 480> pixels)
     {
         auto buffer = boost::asio::buffer(pixels);
         ws_.text(false);
@@ -217,7 +217,7 @@ public:
             return;
         }
     }
-    void flush(std::vector<uint64_t> pixels)
+    void flush(std::array<uint64_t, 320 * 480> pixels)
     {
         for (auto currentSession : sessions) {
             currentSession->write_pixels1(pixels);

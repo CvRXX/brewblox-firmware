@@ -2,7 +2,7 @@
 #include "websocketserver.hpp"
 #include <cassert>
 #include <vector>
-std::vector<uint64_t> graphicsBuffer;
+std::array<uint64_t, 320 * 480> graphicsBuffer;
 
 VirtualScreen::VirtualScreen(void (*finishCallback)(void))
     : finishCallback(finishCallback)
@@ -24,7 +24,6 @@ void VirtualScreen::unlock()
 extern std::shared_ptr<listener> webSocketServer;
 bool VirtualScreen::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsigned int ye, uint8_t* pixels, uint16_t nPixels)
 {
-    graphicsBuffer.resize(320 * 480);
     for (uint32_t y = ys; y <= ye; y++) {
         for (uint32_t x = xs; x <= xe; x++) {
             uint16_t Rgb565 = ((*(pixels + 1)) << 8) | (*(pixels + 0));
