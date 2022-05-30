@@ -43,8 +43,8 @@ SCENARIO("VerticalSplit")
 
         THEN("The horizontalsplit can be serialised")
         {
-            std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
-            std::vector<ScreenConfig_ContentNode> contentNodes = {};
+            std::vector<screen_LayoutNode> layoutNodes = {};
+            std::vector<screen_ContentNode> contentNodes = {};
             verticalSplit.serialize(layoutNodes, contentNodes, 5);
 
             REQUIRE(layoutNodes.size() == 3);
@@ -58,17 +58,17 @@ SCENARIO("VerticalSplit")
 
             CHECK(widget2Serialized.parent == 33);
             CHECK(widget2Serialized.nodeId == 15);
-            CHECK(widget2Serialized.type == ScreenConfig_LayoutNode_Type_Content);
+            CHECK(widget2Serialized.type == screen_LayoutNode_Type_Content);
             CHECK(widget2Serialized.weight == 13);
 
             CHECK(widget1Serialized.parent == 33);
             CHECK(widget1Serialized.nodeId == 12);
-            CHECK(widget1Serialized.type == ScreenConfig_LayoutNode_Type_Content);
+            CHECK(widget1Serialized.type == screen_LayoutNode_Type_Content);
             CHECK(widget1Serialized.weight == 55);
 
             CHECK(verticalSplitSerialized.parent == 5);
             CHECK(verticalSplitSerialized.nodeId == 33);
-            CHECK(verticalSplitSerialized.type == ScreenConfig_LayoutNode_Type_Column);
+            CHECK(verticalSplitSerialized.type == screen_LayoutNode_Type_Column);
             CHECK(verticalSplitSerialized.weight == 15);
         }
     }

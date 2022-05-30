@@ -33,8 +33,8 @@ SCENARIO("Content")
 
         THEN("The content node can be serialised")
         {
-            std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
-            std::vector<ScreenConfig_ContentNode> contentNodes = {};
+            std::vector<screen_LayoutNode> layoutNodes = {};
+            std::vector<screen_ContentNode> contentNodes = {};
             content.serialize(layoutNodes, contentNodes, 5);
 
             REQUIRE(layoutNodes.size() == 1);
@@ -44,7 +44,7 @@ SCENARIO("Content")
 
             CHECK(layoutNode.parent == 5);
             CHECK(layoutNode.nodeId == 12);
-            CHECK(layoutNode.type == ScreenConfig_LayoutNode_Type_Content);
+            CHECK(layoutNode.type == screen_LayoutNode_Type_Content);
             CHECK(layoutNode.weight == 55);
         }
     }

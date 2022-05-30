@@ -1,6 +1,6 @@
 #pragma once
 #include "elements/layout/screen.hpp"
-#include "proto/ScreenConfig.pb.h"
+#include "proto/Screen.pb.h"
 #include "styles/styles.hpp"
 #include <array>
 #include <iostream>

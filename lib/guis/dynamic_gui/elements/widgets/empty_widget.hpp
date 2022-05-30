@@ -23,7 +23,7 @@
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/util/color.hpp"
 #include "dynamic_gui/util/lvgl_object_wrapper.hpp"
-#include "proto/ScreenConfig.pb.h"
+#include "proto/Screen.pb.h"
 
 #include "lvgl.h"
 #include <iostream>
@@ -43,7 +43,7 @@ public:
      * @param color The background color of the widget.
      */
     EmptyWidget()
-        : ColorWidget({ScreenConfig_Color{150, 150, 150}})
+        : ColorWidget({screen_Color{150, 150, 150}})
     {
     }
 
@@ -53,7 +53,7 @@ public:
      * @param layOutNodeId The id of it's matching layoutNode.
      * Because the widget is empty no widget will be added to the vector.
      */
-    void serialize(std::vector<ScreenConfig_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
+    void serialize(std::vector<screen_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
     {
     }
 };

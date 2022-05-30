@@ -1,18 +1,18 @@
 #pragma once
 #include "elements/layout/screen.hpp"
-#include "proto/ScreenConfig.pb.h"
+#include "proto/Screen.pb.h"
 #include "tl/expected.hpp"
 #include <pb_encode.h>
 
 namespace gui::dynamic_interface {
 namespace detail {
     auto layoutNodeEncoder = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
-        for (auto node : *reinterpret_cast<std::vector<ScreenConfig_LayoutNode>*>(*arg)) {
+        for (auto node : *reinterpret_cast<std::vector<screen_LayoutNode>*>(*arg)) {
             if (!pb_encode_tag_for_field(stream, field)) {
                 return false;
             }
 
-            if (!pb_encode_submessage(stream, ScreenConfig_LayoutNode_fields, &node)) {
+            if (!pb_encode_submessage(stream, screen_LayoutNode_fields, &node)) {
                 return false;
             }
         }
@@ -20,12 +20,12 @@ namespace detail {
     };
 
     auto contentNodeEncoder = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
-        for (auto node : *reinterpret_cast<std::vector<ScreenConfig_ContentNode>*>(*arg)) {
+        for (auto node : *reinterpret_cast<std::vector<screen_ContentNode>*>(*arg)) {
             if (!pb_encode_tag_for_field(stream, field)) {
                 return false;
             }
 
-            if (!pb_encode_submessage(stream, ScreenConfig_ContentNode_fields, &node)) {
+            if (!pb_encode_submessage(stream, screen_ContentNode_fields, &node)) {
                 return false;
             }
         }
@@ -46,7 +46,7 @@ enum class EncodeError : uint8_t {
  * @param bufferSize The size of the buffer.
  * @return An std::expected type containing either the size of the protobuf message written or an error.
  */
-tl::expected<size_t, EncodeError> encodeNodes(std::vector<ScreenConfig_LayoutNode>& layoutNodes, std::vector<ScreenConfig_ContentNode>& contentNodes, uint8_t* buffer, size_t bufferSize)
+tl::expected<size_t, EncodeError> encodeNodes(std::vector<screen_LayoutNode>& layoutNodes, std::vector<screen_ContentNode>& contentNodes, uint8_t* buffer, size_t bufferSize)
 {
     if (!buffer) {
         return tl::unexpected{EncodeError::bufferIsNullptr};
@@ -54,7 +54,7 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<ScreenConfig_LayoutNod
 
     pb_ostream_t stream = pb_ostream_from_buffer(buffer, bufferSize);
 
-    ScreenConfig_ScreenConfig protoMessage = ScreenConfig_ScreenConfig_init_default;
+    screen_Config protoMessage = screen_Config_init_default;
 
     protoMessage.layoutNodes.funcs.encode = detail::layoutNodeEncoder;
     protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
@@ -62,7 +62,7 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<ScreenConfig_LayoutNod
     protoMessage.contentNodes.funcs.encode = detail::contentNodeEncoder;
     protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
-    if (!pb_encode(&stream, ScreenConfig_ScreenConfig_fields, &protoMessage)) {
+    if (!pb_encode(&stream, screen_Config_fields, &protoMessage)) {
         return tl::unexpected{EncodeError::PBError};
     }
 
@@ -78,8 +78,8 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<ScreenConfig_LayoutNod
  */
 tl::expected<size_t, EncodeError> encodeBuffer(Screen& screen, uint8_t* buffer, size_t bufferSize)
 {
-    auto layoutNodes = std::vector<ScreenConfig_LayoutNode>{};
-    auto contentNodes = std::vector<ScreenConfig_ContentNode>{};
+    auto layoutNodes = std::vector<screen_LayoutNode>{};
+    auto contentNodes = std::vector<screen_ContentNode>{};
 
     if (!buffer) {
         return tl::unexpected{EncodeError::bufferIsNullptr};

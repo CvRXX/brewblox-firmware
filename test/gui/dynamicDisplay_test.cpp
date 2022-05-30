@@ -30,14 +30,14 @@ SCENARIO("DynamicGui")
     {
         uint8_t buffer[128];
         // size_t message_length;
-        std::vector<ScreenConfig_LayoutNode> layoutNodes;
-        layoutNodes.push_back({1, 2, ScreenConfig_LayoutNode_Type_Content, 1});
-        layoutNodes.push_back({0, 1, ScreenConfig_LayoutNode_Type_Row, 1});
-        layoutNodes.push_back({1, 3, ScreenConfig_LayoutNode_Type_Content, 1});
+        std::vector<screen_LayoutNode> layoutNodes;
+        layoutNodes.push_back({1, 2, screen_LayoutNode_Type_Content, 1});
+        layoutNodes.push_back({0, 1, screen_LayoutNode_Type_Row, 1});
+        layoutNodes.push_back({1, 3, screen_LayoutNode_Type_Content, 1});
 
-        std::vector<ScreenConfig_ContentNode> contentNodes;
-        auto numericValueWidget = ScreenConfig_NumericValueWidget{ScreenConfig_Color{0, 255, 0}, 99, "proto"};
-        auto node = ScreenConfig_ContentNode{2, ScreenConfig_ContentNode_numericValueWidget_tag, numericValueWidget};
+        std::vector<screen_ContentNode> contentNodes;
+        auto numericValueWidget = screen_NumericValueWidget{screen_Color{0, 255, 0}, 99, "proto"};
+        auto node = screen_ContentNode{2, screen_ContentNode_numericValueWidget_tag, numericValueWidget};
         contentNodes.push_back(node);
 
         auto encodeResult = gui::dynamic_interface::encodeNodes(layoutNodes, contentNodes, buffer, sizeof(buffer));
@@ -55,8 +55,8 @@ SCENARIO("DynamicGui")
                 // Validate assumption of the GIVEN clause
                 WHEN("Serialising the screen")
                 {
-                    std::vector<ScreenConfig_LayoutNode> layoutNodesBack;
-                    std::vector<ScreenConfig_ContentNode> contentNodesBack;
+                    std::vector<screen_LayoutNode> layoutNodesBack;
+                    std::vector<screen_ContentNode> contentNodesBack;
                     newScreen->serialize(layoutNodesBack, contentNodesBack);
 
                     std::sort(layoutNodes.begin(), layoutNodes.end(), [](const auto& a, const auto& b) {

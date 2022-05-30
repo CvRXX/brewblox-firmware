@@ -21,7 +21,7 @@
 
 #include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "lvgl.h"
-#include "proto/ScreenConfig.pb.h"
+#include "proto/Screen.pb.h"
 #include <type_traits>
 
 namespace gui::dynamic_interface {
@@ -77,7 +77,7 @@ public:
      * @param layoutNodes This class will be serialized into this vector.
      * @param contentNodes The child of this class will be serialized into this vector.
      */
-    void serialize(std::vector<ScreenConfig_LayoutNode>& layoutNodes, std::vector<ScreenConfig_ContentNode>& contentNodes, uint8_t parentId = 0) override final
+    void serialize(std::vector<screen_LayoutNode>& layoutNodes, std::vector<screen_ContentNode>& contentNodes, uint8_t parentId = 0) override final
     {
         return child->serialize(layoutNodes, contentNodes, 0);
     }

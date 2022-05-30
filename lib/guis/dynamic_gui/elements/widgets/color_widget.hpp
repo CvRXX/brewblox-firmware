@@ -23,7 +23,7 @@
 #include "dynamic_gui/styles/styles.hpp"
 #include "dynamic_gui/util/color.hpp"
 #include "dynamic_gui/util/lvgl_object_wrapper.hpp"
-#include "proto/ScreenConfig.pb.h"
+#include "proto/Screen.pb.h"
 
 namespace gui::dynamic_interface {
 
@@ -34,7 +34,7 @@ public:
      * Constructs the ColorWidget.
      * @param color The background color of the widget.
      */
-    constexpr ColorWidget(ScreenConfig_ColorWidget colorWidget)
+    constexpr ColorWidget(screen_ColorWidget colorWidget)
         : settings(colorWidget)
         , color({colorWidget.color.r, colorWidget.color.g, colorWidget.color.b})
     {
@@ -45,11 +45,11 @@ public:
      * @param contentNodes The vector to which the serialized widget will be added.
      * @param layOutNodeId The id of it's matching layoutNode.
      */
-    void serialize(std::vector<ScreenConfig_ContentNode>& contentNodes, uint8_t layOutNodeId) override
+    void serialize(std::vector<screen_ContentNode>& contentNodes, uint8_t layOutNodeId) override
     {
-        ScreenConfig_ContentNode node = ScreenConfig_ContentNode_init_default;
+        screen_ContentNode node = screen_ContentNode_init_default;
         node.layoutNodeId = layOutNodeId;
-        node.which_content = ScreenConfig_ContentNode_colorWidget_tag;
+        node.which_content = screen_ContentNode_colorWidget_tag;
         node.content.colorWidget = settings;
 
         contentNodes.push_back(node);
@@ -87,7 +87,7 @@ public:
     }
 
 protected:
-    ScreenConfig_ColorWidget settings;
+    screen_ColorWidget settings;
     Color color;
     LvglObjectWrapper contentArea = nullptr;
 };

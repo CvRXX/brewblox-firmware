@@ -20,7 +20,7 @@
 #pragma once
 
 #include "lvgl.h"
-#include "proto/ScreenConfig.pb.h"
+#include "proto/Screen.pb.h"
 
 namespace gui::dynamic_interface {
 
@@ -32,7 +32,7 @@ public:
     virtual void update() = 0;
     virtual void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) = 0;
     virtual uint16_t getWeight() const = 0;
-    virtual void serialize(std::vector<ScreenConfig_LayoutNode>& layoutNodes, std::vector<ScreenConfig_ContentNode>& contentnodes, uint8_t parentId) = 0;
+    virtual void serialize(std::vector<screen_LayoutNode>& layoutNodes, std::vector<screen_ContentNode>& contentnodes, uint8_t parentId) = 0;
 
     virtual ~LayoutNode() = default;
 
