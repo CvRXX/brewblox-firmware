@@ -39,34 +39,37 @@ SCENARIO("VerticalSplit")
 
         auto verticalSplit = VerticalSplit(std::move(children), 15, 33);
 
-        REQUIRE(verticalSplit.getWeight() == 15);
+        CHECK(verticalSplit.getWeight() == 15);
 
-        std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
-        std::vector<ScreenConfig_ContentNode> contentNodes = {};
-        verticalSplit.serialize(layoutNodes, contentNodes, 5);
+        THEN("The horizontalsplit can be serialised")
+        {
+            std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
+            std::vector<ScreenConfig_ContentNode> contentNodes = {};
+            verticalSplit.serialize(layoutNodes, contentNodes, 5);
 
-        REQUIRE(layoutNodes.size() == 3);
-        REQUIRE(contentNodes.size() == 0);
+            REQUIRE(layoutNodes.size() == 3);
+            REQUIRE(contentNodes.size() == 0);
 
-        auto widget2Serialized = layoutNodes.back();
-        layoutNodes.pop_back();
-        auto widget1Serialized = layoutNodes.back();
-        layoutNodes.pop_back();
-        auto verticalSplitSerialized = layoutNodes.back();
+            auto widget2Serialized = layoutNodes.back();
+            layoutNodes.pop_back();
+            auto widget1Serialized = layoutNodes.back();
+            layoutNodes.pop_back();
+            auto verticalSplitSerialized = layoutNodes.back();
 
-        REQUIRE(widget2Serialized.parent == 33);
-        REQUIRE(widget2Serialized.nodeId == 15);
-        REQUIRE(widget2Serialized.type == ScreenConfig_LayoutNode_Type_Content);
-        REQUIRE(widget2Serialized.weight == 13);
+            CHECK(widget2Serialized.parent == 33);
+            CHECK(widget2Serialized.nodeId == 15);
+            CHECK(widget2Serialized.type == ScreenConfig_LayoutNode_Type_Content);
+            CHECK(widget2Serialized.weight == 13);
 
-        REQUIRE(widget1Serialized.parent == 33);
-        REQUIRE(widget1Serialized.nodeId == 12);
-        REQUIRE(widget1Serialized.type == ScreenConfig_LayoutNode_Type_Content);
-        REQUIRE(widget1Serialized.weight == 55);
+            CHECK(widget1Serialized.parent == 33);
+            CHECK(widget1Serialized.nodeId == 12);
+            CHECK(widget1Serialized.type == ScreenConfig_LayoutNode_Type_Content);
+            CHECK(widget1Serialized.weight == 55);
 
-        REQUIRE(verticalSplitSerialized.parent == 5);
-        REQUIRE(verticalSplitSerialized.nodeId == 33);
-        REQUIRE(verticalSplitSerialized.type == ScreenConfig_LayoutNode_Type_Column);
-        REQUIRE(verticalSplitSerialized.weight == 15);
+            CHECK(verticalSplitSerialized.parent == 5);
+            CHECK(verticalSplitSerialized.nodeId == 33);
+            CHECK(verticalSplitSerialized.type == ScreenConfig_LayoutNode_Type_Column);
+            CHECK(verticalSplitSerialized.weight == 15);
+        }
     }
 }

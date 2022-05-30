@@ -77,13 +77,13 @@ SCENARIO("DynamicGui")
 
                     THEN("The output should be the same as the original input.")
                     {
-                        REQUIRE(
+                        CHECK(
                             std::mismatch(layoutNodes.begin(), layoutNodes.end(), layoutNodesBack.begin(), layoutNodesBack.end(), [](const auto& a, const auto& b) {
                                 return a.parent == b.parent && a.nodeId == b.nodeId && a.type == b.type && a.weight == b.weight;
                             }).first
                             == layoutNodes.end());
 
-                        REQUIRE(
+                        CHECK(
                             std::mismatch(contentNodes.begin(), contentNodes.end(), contentNodesBack.begin(), contentNodesBack.end(), [](const auto& a, const auto& b) {
                                 return a.layoutNodeId == b.layoutNodeId && a.which_content == b.which_content;
                             }).first

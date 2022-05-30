@@ -29,20 +29,23 @@ SCENARIO("Content")
     {
         std::unique_ptr<Widget> widget = std::make_unique<EmptyWidget>(EmptyWidget{});
         auto content = Content(55, 12, std::move(widget));
-        REQUIRE(content.getWeight() == 55);
+        CHECK(content.getWeight() == 55);
 
-        std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
-        std::vector<ScreenConfig_ContentNode> contentNodes = {};
-        content.serialize(layoutNodes, contentNodes, 5);
+        THEN("The content node can be serialised")
+        {
+            std::vector<ScreenConfig_LayoutNode> layoutNodes = {};
+            std::vector<ScreenConfig_ContentNode> contentNodes = {};
+            content.serialize(layoutNodes, contentNodes, 5);
 
-        REQUIRE(layoutNodes.size() == 1);
-        REQUIRE(contentNodes.size() == 0);
+            REQUIRE(layoutNodes.size() == 1);
+            REQUIRE(contentNodes.size() == 0);
 
-        auto layoutNode = layoutNodes.back();
+            auto layoutNode = layoutNodes.back();
 
-        REQUIRE(layoutNode.parent == 5);
-        REQUIRE(layoutNode.nodeId == 12);
-        REQUIRE(layoutNode.type == ScreenConfig_LayoutNode_Type_Content);
-        REQUIRE(layoutNode.weight == 55);
+            CHECK(layoutNode.parent == 5);
+            CHECK(layoutNode.nodeId == 12);
+            CHECK(layoutNode.type == ScreenConfig_LayoutNode_Type_Content);
+            CHECK(layoutNode.weight == 55);
+        }
     }
 }
