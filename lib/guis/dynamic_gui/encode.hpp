@@ -6,7 +6,7 @@
 
 namespace gui::dynamic_interface {
 namespace detail {
-    auto nodeReturner = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
+    auto layoutNodeEncoder = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
         for (auto node : *reinterpret_cast<std::vector<ScreenConfig_LayoutNode>*>(*arg)) {
             if (!pb_encode_tag_for_field(stream, field)) {
                 return false;
@@ -19,7 +19,7 @@ namespace detail {
         return true;
     };
 
-    auto contentNodeReturner = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
+    auto contentNodeEncoder = [](pb_ostream_t* stream, const pb_field_t* field, void* const* arg) -> bool {
         for (auto node : *reinterpret_cast<std::vector<ScreenConfig_ContentNode>*>(*arg)) {
             if (!pb_encode_tag_for_field(stream, field)) {
                 return false;
@@ -56,10 +56,10 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<ScreenConfig_LayoutNod
 
     ScreenConfig_ScreenConfig protoMessage = ScreenConfig_ScreenConfig_init_default;
 
-    protoMessage.layoutNodes.funcs.encode = detail::nodeReturner;
+    protoMessage.layoutNodes.funcs.encode = detail::layoutNodeEncoder;
     protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
 
-    protoMessage.contentNodes.funcs.encode = detail::contentNodeReturner;
+    protoMessage.contentNodes.funcs.encode = detail::contentNodeEncoder;
     protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
     if (!pb_encode(&stream, ScreenConfig_ScreenConfig_fields, &protoMessage)) {
