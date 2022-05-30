@@ -56,10 +56,4 @@ public:
         }
         return std::nullopt;
     };
-
-private:
-    Gesture getGesture()
-    {
-        return Gesture::noGesture;
-    }
 };
