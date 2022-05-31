@@ -4,7 +4,7 @@ A dynamic interface build on top of lvgl.
 This interface features:
    * A tiling layout system allowing for a very wide range of layouts.
    * Widgets for the brewblox blox aswell as some breblox agnostic widgets.
-   * Configpanel support for some widget where touching the widget opens a configpanel for onsite changes.
+   * Configpanel support for some widgets where touching the widget opens a configpanel for onsite changes.
    * Widgets scale the available space they are given.
    * Serialisation and deserialisation of the layout and widgets to a protobuf stream.
 
