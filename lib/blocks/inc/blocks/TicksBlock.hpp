@@ -34,6 +34,7 @@ class TicksBlock final : public Block<brewblox_BlockType_Ticks> {
     T& ticks;
 
 private:
+    static constexpr utc_seconds_t minValidUtc = 1'000'000'000; // mid-2001
     static constexpr cbox::update_t updateInterval = 5000;
     static constexpr uint8_t estimatedRebootTimeS = 5;
 
@@ -76,7 +77,10 @@ public:
         auto res = payloadToMessage(payload, &message, blox_Ticks_Block_fields);
 
         if (res == cbox::CboxError::OK) {
-            ticks.setUtc(message.secondsSinceEpoch);
+            // Only accept UTC time from block write if we don't already have a value
+            if (ticks.utc() < minValidUtc && message.secondsSinceEpoch > minValidUtc) {
+                ticks.setUtc(message.secondsSinceEpoch);
+            }
         }
 
         return res;
