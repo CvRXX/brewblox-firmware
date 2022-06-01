@@ -1,6 +1,6 @@
+#include "drivers/TFT035.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "blox_hal/hal_spi_types.hpp"
-#include "drivers/TFT035.hpp"
 #include "driver/gpio.h"
 #include "drivers/Spark4.hpp"
 #include "freertos/FreeRTOS.h"
@@ -240,12 +240,12 @@ bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsi
                                         }});
 }
 
-void TFT035::aquire_spi()
+void TFT035::lock()
 {
     spiDevice.aquire_bus();
 }
 
-void TFT035::release_spi()
+void TFT035::unlock()
 {
     spiDevice.release_bus();
 }

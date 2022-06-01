@@ -88,6 +88,20 @@
       "problemMatcher": "$gcc"
     },
     {
+      "label": "Test guis",
+      "command": "script/test.sh",
+      "args": [
+        "gui"
+      ],
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
       "label": "Test control",
       "command": "script/test.sh",
       "args": [
@@ -109,6 +123,7 @@
         "Test blocks",
         "Test cbox",
         "Test control",
+        "Test guis",
       ]
     },
     {

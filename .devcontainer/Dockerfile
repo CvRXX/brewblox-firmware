@@ -9,7 +9,6 @@ RUN : \
         curl \
         wget \
         software-properties-common \
-    && add-apt-repository ppa:aos1/diff-so-fancy \
     && apt-get update -q \
     && apt-get -y install --no-install-recommends \
         autoconf \
@@ -21,7 +20,7 @@ RUN : \
         ca-certificates \
         ccache \
         check \
-        diff-so-fancy \
+        cmake \
         dfu-util \
         flex \
         g++-10 \
@@ -32,6 +31,7 @@ RUN : \
         gperf \
         jq \
         lcov \
+        libboost-all-dev \
         libffi-dev \
         libncurses-dev \
         libprotobuf-dev \
@@ -60,6 +60,7 @@ RUN : \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
     && npm install -g \
         lv_font_conv \
+        diff-so-fancy \ 
     && python3 -m pip install --upgrade \
         autopep8 \
         pip \
