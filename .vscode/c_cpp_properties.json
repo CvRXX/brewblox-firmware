@@ -55,8 +55,8 @@
         "${workspaceFolder}/app/brewblox-esp/components/*",
         "${workspaceFolder}/app/brewblox-simulator/main/*",
         "${workspaceFolder}/external_libs/device-os/third_party/catch2/catch2/single_include/catch2/*",
-        "${workspaceFolder}/external_libs/lvgl_wrapper/lvgl/src*",
-        "${workspaceFolder}/external_libs/lvgl_wrapper/lvgl/*"
+        "${workspaceFolder}/external_libs/lvgl/lvgl/src*",
+        "${workspaceFolder}/external_libs/lvgl/lvgl/*"
       ],
       "compilerPath": "/usr/bin/g++",
       "compileCommands": "${workspaceFolder}/app/brewblox-simulator/build/compile_commands.json"

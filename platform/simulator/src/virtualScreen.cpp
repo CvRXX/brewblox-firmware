@@ -1,5 +1,5 @@
-#include "virtualScreen.hpp"
-#include "websocketserver.hpp"
+#include "simulator/virtualScreen.hpp"
+#include "simulator/websocketserver.hpp"
 #include <cassert>
 #include <vector>
 std::array<uint64_t, 320 * 480> graphicsBuffer;

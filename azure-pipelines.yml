@@ -43,11 +43,6 @@ jobs:
         target: firmware-compiler
         displayName: Run block tests
 
-      # Skipping broken tests for now
-      # - script: script/test-brewblox-esp.sh
-      #   target: firmware-compiler
-      #   displayName: Run brewblox-esp tests
-
       - script: script/test.sh cbox
         target: firmware-compiler
         displayName: Run cbox tests
@@ -58,7 +53,7 @@ jobs:
 
       - script: script/test.sh gui
         target: firmware-compiler
-        displayName: Run guis tests
+        displayName: Run gui tests
 
       - script: script/collect-test-coverage.sh
         target: firmware-compiler
@@ -80,7 +75,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build.sh sim
+      - script: script/build.sh particle-sim
         target: simulator-compiler
         displayName: Build executable
 
@@ -104,7 +99,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build.sh sim
+      - script: script/build.sh particle-sim
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc
@@ -127,7 +122,7 @@ jobs:
       - script: git submodule update --init --recursive --depth 1
         displayName: Checkout submodules
 
-      - script: script/build.sh sim
+      - script: script/build.sh particle-sim
         displayName: Build executable
 
       - publish: build/target/brewblox-gcc

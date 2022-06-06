@@ -12,5 +12,4 @@ idf_component_register(
     ../
   REQUIRES
     main
-    external_libs
 )

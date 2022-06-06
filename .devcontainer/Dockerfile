@@ -20,7 +20,6 @@ RUN : \
         ca-certificates \
         ccache \
         check \
-        cmake \
         dfu-util \
         flex \
         g++-10 \
@@ -60,7 +59,7 @@ RUN : \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
     && npm install -g \
         lv_font_conv \
-        diff-so-fancy \ 
+        diff-so-fancy \
     && python3 -m pip install --upgrade \
         autopep8 \
         pip \
@@ -68,6 +67,29 @@ RUN : \
         pyusb \
         virtualenv \
     && :
+
+# The CMake version in apt is significantly outdated
+# Get binary dist from vendor
+ARG CMAKE_VERSION=3.23.2
+
+RUN : \
+    && curl -sSL -o /tmp/cmake-installer.sh \
+        https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.sh \
+    && sh /tmp/cmake-installer.sh --skip-license --prefix=/usr/local/ \
+    && :
+
+# # We need a separate apt repo for CMake
+# RUN : \
+#     && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
+#     | gpg --dearmor - \
+#     > /etc/apt/trusted.gpg.d/kitware.gpg \
+#     && echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' \
+#     > /etc/apt/sources.list.d/kitware.list \
+#     && apt-get update -q \
+#     && rm /usr/share/keyrings/kitware-archive-keyring.gpg \
+#     && apt-get -y install kitware-archive-keyring \
+#     && apt-get -y install cmake \
+#     && :
 
 # Set udev rules so we can flash Particle devices
 RUN : \
@@ -137,6 +159,8 @@ RUN : \
     && $IDF_PATH/tools/idf_tools.py --non-interactive install cmake \
     && $IDF_PATH/tools/idf_tools.py --non-interactive install-python-env \
     && rm -rf $IDF_TOOLS_PATH/dist \
+    && git config --global --add safe.directory /opt/esp/idf \
+    && git config --global --add safe.directory /opt/esp/idf/components/openthread/openthread \
     && :
 
 # Give the user the required permissions for using USB devices

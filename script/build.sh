@@ -5,7 +5,7 @@ SUBTASK_SILENT=y
 
 PLATFORM="${1:-}"
 
-if [[ ! "${PLATFORM}" =~ ^(esp|photon|p1|gcc|sim)$ ]]; then
+if [[ ! "${PLATFORM}" =~ ^(esp|photon|p1|gcc|sim|particle-sim)$ ]]; then
     echo "Unknown platform argument: '${PLATFORM}'"
     echo "Options: 'esp', 'photon', 'p1', 'gcc', 'sim'"
     exit 1
@@ -48,6 +48,18 @@ elif [[ "${PLATFORM}" =~ ^(photon|p1|gcc)$ ]]; then
         "$@"
 
 elif [[ "${PLATFORM}" == sim ]]; then
+    BUILD_DIR=app/brewblox-simulator/build
+
+    if [[ "${1:-}" == "clean" ]]; then
+        rm -rf ${BUILD_DIR}
+    else
+        mkdir -p ${BUILD_DIR}
+        cd ${BUILD_DIR}
+        subtask cmake ..
+        subtask make -s ${MAKE_ARGS} "$@"
+    fi
+
+elif [[ "${PLATFORM}" == particle-sim ]]; then
     if [[ $(arch) != 'x86_64' ]]; then
         # -m64 is not supported for ARM
         sed -i 's/-m64//g' external_libs/device-os/build/gcc-tools.mk

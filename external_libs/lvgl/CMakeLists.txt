@@ -1,24 +1,24 @@
-set(blox_hal_srcs
-  src/hal_spi.cpp
-)
+file(GLOB_RECURSE lvgl_srcs lvgl/src/*.c)
+
+add_compile_definitions(LV_LVGL_H_INCLUDE_SIMPLE)
 
 if(ESP_PLATFORM)
   idf_component_register(
     SRCS
-      ${blox_hal_srcs}
+      ${lvgl_srcs}
     INCLUDE_DIRS
-      inc
+      lvgl/src
     REQUIRES
       main
   )
 
 else()
   target_sources(brewblox PRIVATE
-    ${blox_hal_srcs}
+    ${lvgl_srcs}
   )
 
   target_include_directories(brewblox PRIVATE
-    inc
+    lvgl/src
   )
 
 endif()

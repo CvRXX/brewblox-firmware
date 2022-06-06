@@ -1,43 +1,56 @@
-cmake_minimum_required(VERSION 3.10)
-
-# set the project name
-project(simulator)
+cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 17)
-find_package(Threads REQUIRED)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-add_definitions(-DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE)
+cmake_policy(SET CMP0076 NEW)
 
-file(GLOB_RECURSE lvgl_srcs ../../external_libs/lvgl_wrapper/lvgl/src/*.c)
+# Declare the project
+project(brewblox_sim)
+add_executable(brewblox)
 
-
-file(GLOB SOURCES
-main/*.cpp
-../../lib/control/inc/graphics/fonts/*.cpp
-../../lib/guis/dynamic_gui/styles/*.cpp
-../../lib/guis/dynamic_gui/fonts/*.c
-../../platform/simulator/*.cpp
-../../external_libs/nanopb/*.c
-../../brewblox/blox
-../../controlbox/src/
-../../lib/proto/inc/proto/*.c
+# Get system variables
+get_filename_component(APP_ROOT
+  ${CMAKE_CURRENT_LIST_DIR}/
+  ABSOLUTE
 )
 
-include_directories(
-    ../../external_libs/expected/expected/include
-    ../../platform/simulator
-    ../../lib/guis
-    ../../lib/proto/inc
-    ../../external_libs/cnl/include
-    ../../external_libs/nanopb
-    ../../brewblox
-    ../../platform/spark/device-os/third_party/nanopb/nanopb
-    ../../controlbox/src/
-    main
-    ../../external_libs/lvgl_wrapper/lvgl/src
-    )
+get_filename_component(REPO_ROOT
+  ${APP_ROOT}/../../
+  ABSOLUTE
+)
 
+# Includes
+include(${REPO_ROOT}/tools/version.cmake)
 
-# add the executable
-add_executable(simulator ${lvgl_srcs} ${SOURCES})
-target_link_libraries(simulator PRIVATE Threads::Threads)
+# External packages
+find_package(Threads REQUIRED)
+
+add_compile_definitions(PLATFORM_ID=200)
+add_compile_definitions(PLATFORM_NAME=\"sim\")
+
+set(components
+  external_libs/cnl
+  external_libs/expected
+  external_libs/lvgl
+  external_libs/nanopb
+  lib/blocks
+  lib/blox_hal
+  lib/cbox
+  lib/control
+  lib/guis/dynamic_gui
+  lib/proto
+  platform/simulator
+)
+
+add_subdirectory(main)
+# add_subdirectory(components/httpserver)
+# add_subdirectory(components/network)
+
+foreach(comp IN ITEMS ${components})
+  add_subdirectory(${REPO_ROOT}/${comp} ./${comp})
+endforeach()
+
+# Link against system libraries
+target_link_libraries(brewblox PRIVATE
+  Threads::Threads
+)

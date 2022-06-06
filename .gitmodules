@@ -1,12 +1,12 @@
-[submodule "external_libs/cnl"]
-	path = external_libs/cnl
+[submodule "external_libs/cnl/cnl"]
+	path = external_libs/cnl/cnl
 	url = https://github.com/johnmcfarlane/cnl.git
 	branch = develop
-[submodule "external_libs/lvgl_wrapper/lvgl"]
-	path = external_libs/lvgl_wrapper/lvgl
+[submodule "external_libs/lvgl/lvgl"]
+	path = external_libs/lvgl/lvgl
 	url = https://github.com/lvgl/lvgl.git
-[submodule "external_libs/nanopb"]
-	path = external_libs/nanopb
+[submodule "external_libs/nanopb/nanopb"]
+	path = external_libs/nanopb/nanopb
 	url = https://github.com/particle-iot/nanopb.git
 [submodule "external_libs/brewblox-proto"]
 	path = external_libs/brewblox-proto

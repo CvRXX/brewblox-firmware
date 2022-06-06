@@ -54,7 +54,7 @@
     "**/external_libs/cnl": true,
     "**/external_libs/device-os": true,
     "**/external_libs/expected": true,
-    "**/external_libs/lvgl_wrapper": true,
+    "**/external_libs/lvgl": true,
     "**/external_libs/nanopb": true,
     "**/platform/particle/eGUI": true,
     "**/platform/particle/WebSockets": true,
