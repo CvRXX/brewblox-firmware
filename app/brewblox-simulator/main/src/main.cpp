@@ -4,9 +4,9 @@
 #include "dynamic_gui/util/test_screen.hpp"
 #include "gui.hpp"
 #include "lvgl.h"
-#include "virtualScreen.hpp"
-#include "virtualTouchScreen.hpp"
-#include "websocketserver.hpp"
+#include "simulator/virtualScreen.hpp"
+#include "simulator/virtualTouchScreen.hpp"
+#include "simulator/websocketserver.hpp"
 #include <boost/asio.hpp>
 #include <boost/asio/dispatch.hpp>
 #include <boost/asio/strand.hpp>
