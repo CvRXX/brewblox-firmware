@@ -1,8 +1,0 @@
-CMake Installer Version: 3.23.2, Copyright (c) Kitware
-This is a self-extracting archive.
-The archive will be extracted to: /usr/local/
-
-Using target directory: /usr/local/
-Extracting, please wait...
-
-Unpacking finished successfully
