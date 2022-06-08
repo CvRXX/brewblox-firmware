@@ -52,8 +52,9 @@
         "${workspaceFolder}/platform/simulator/inc",
         "${workspaceFolder}/external_libs/nanopb/nanopb",
         "${workspaceFolder}/external_libs/cnl/cnl/include",
-        "${workspaceFolder}/app/brewblox-esp/components/*",
-        "${workspaceFolder}/app/brewblox-simulator/main/*",
+        "${workspaceFolder}/app/brewblox-simulator/components/httpserver",
+        "${workspaceFolder}/app/brewblox-simulator/components/network",
+        "${workspaceFolder}/app/brewblox-simulator/main/inc",
         "${workspaceFolder}/external_libs/device-os/third_party/catch2/catch2/single_include/catch2/*",
         "${workspaceFolder}/external_libs/lvgl/lvgl/src*",
         "${workspaceFolder}/external_libs/lvgl/lvgl/*"

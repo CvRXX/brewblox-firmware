@@ -35,7 +35,8 @@
     "cstring": "cpp",
     "ctime": "cpp",
     "*.ipp": "cpp",
-    "*.inc": "c"
+    "*.inc": "c",
+    "**/CMakeLists.txt": "cmake"
   },
   "C_Cpp.formatting": "clangFormat",
   "C_Cpp.configurationWarnings": "Disabled",
@@ -71,6 +72,7 @@
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
   },
   "cmake.configureOnOpen": false,
+  "cmake.cmakePath": "/usr/local/bin/cmake",
   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
   "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".hpp",
   "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
