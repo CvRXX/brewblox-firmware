@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+set(CMAKE_RULE_MESSAGES OFF)
 
 cmake_policy(SET CMP0076 NEW)
 
@@ -21,9 +22,6 @@ get_filename_component(REPO_ROOT
 
 # Includes
 include(${REPO_ROOT}/tools/version.cmake)
-
-# External packages
-find_package(Threads REQUIRED)
 
 add_compile_definitions(PLATFORM_ID=200)
 add_compile_definitions(PLATFORM_NAME=\"sim\")
@@ -49,6 +47,9 @@ add_subdirectory(main)
 foreach(comp IN ITEMS ${components})
   add_subdirectory(${REPO_ROOT}/${comp} ./${comp})
 endforeach()
+
+# External packages
+find_package(Threads REQUIRED)
 
 # Link against system libraries
 target_link_libraries(brewblox PRIVATE

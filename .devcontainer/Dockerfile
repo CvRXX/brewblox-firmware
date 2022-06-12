@@ -78,19 +78,6 @@ RUN : \
     && sh /tmp/cmake-installer.sh --skip-license --prefix=/usr/local/ \
     && :
 
-# # We need a separate apt repo for CMake
-# RUN : \
-#     && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
-#     | gpg --dearmor - \
-#     > /etc/apt/trusted.gpg.d/kitware.gpg \
-#     && echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' \
-#     > /etc/apt/sources.list.d/kitware.list \
-#     && apt-get update -q \
-#     && rm /usr/share/keyrings/kitware-archive-keyring.gpg \
-#     && apt-get -y install kitware-archive-keyring \
-#     && apt-get -y install cmake \
-#     && :
-
 # Set udev rules so we can flash Particle devices
 RUN : \
     && mkdir -p /etc/udev/rules.d \
@@ -159,15 +146,16 @@ RUN : \
     && $IDF_PATH/tools/idf_tools.py --non-interactive install cmake \
     && $IDF_PATH/tools/idf_tools.py --non-interactive install-python-env \
     && rm -rf $IDF_TOOLS_PATH/dist \
-    && git config --global --add safe.directory /opt/esp/idf \
-    && git config --global --add safe.directory /opt/esp/idf/components/openthread/openthread \
     && :
 
 # Give the user the required permissions for using USB devices
+# Sets ownership of IDF dir to user to prevent git ownership errors
 ARG USERNAME=vscode
 RUN : \
     && usermod -aG dialout $USERNAME \
     && usermod -aG plugdev $USERNAME \
+    && chown $USERNAME $IDF_PATH \
+    && chown &USERNAME $IDF_PATH/components/openthread/openthread \
     && :
 
 ARG SHFMT_VERSION=v3.4.2

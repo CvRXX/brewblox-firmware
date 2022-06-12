@@ -1,4 +1,3 @@
-
 #include "RecurringTask.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
 #include "dynamic_gui/util/test_screen.hpp"
@@ -12,8 +11,8 @@
 #include <boost/asio/strand.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
-
 #include <thread>
+
 std::shared_ptr<listener> webSocketServer;
 net::io_context ioc{1};
 

@@ -7,7 +7,9 @@ void setupSystemBlocks();
 
 const std::string& deviceIdString();
 
-size_t get_device_id(uint8_t* dest, size_t max_len);
+// write device id as raw bytes to destination buffer
+// returns actual bytes written
+unsigned get_device_id(uint8_t* dest, unsigned max_len);
 
 const std::string& versionCsv();
 

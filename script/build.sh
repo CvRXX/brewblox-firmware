@@ -5,9 +5,9 @@ SUBTASK_SILENT=y
 
 PLATFORM="${1:-}"
 
-if [[ ! "${PLATFORM}" =~ ^(esp|photon|p1|gcc|sim|particle-sim)$ ]]; then
+if [[ ! "${PLATFORM}" =~ ^(esp|sim|photon|p1|gcc|particle-sim)$ ]]; then
     echo "Unknown platform argument: '${PLATFORM}'"
-    echo "Options: 'esp', 'photon', 'p1', 'gcc', 'sim'"
+    echo "Options: 'esp', 'sim', 'photon', 'p1', 'gcc', 'particle-sim'"
     exit 1
 fi
 
@@ -16,6 +16,9 @@ shift
 if [[ "${PLATFORM}" == esp ]]; then
     if [ "$#" -eq 0 ]; then
         CMD="idf.py build"
+    elif [[ "$1" == "clean" ]]; then
+        CMD="idf.py fullclean"
+        shift
     else
         CMD="idf.py"
     fi
@@ -55,7 +58,7 @@ elif [[ "${PLATFORM}" == sim ]]; then
     else
         mkdir -p ${BUILD_DIR}
         cd ${BUILD_DIR}
-        subtask cmake ..
+        subtask cmake -S ..
         subtask make -s ${MAKE_ARGS} "$@"
     fi
 
