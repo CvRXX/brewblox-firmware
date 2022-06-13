@@ -155,7 +155,7 @@ RUN : \
     && usermod -aG dialout $USERNAME \
     && usermod -aG plugdev $USERNAME \
     && chown $USERNAME $IDF_PATH \
-    && chown &USERNAME $IDF_PATH/components/openthread/openthread \
+    && chown $USERNAME $IDF_PATH/components/openthread/openthread \
     && :
 
 ARG SHFMT_VERSION=v3.4.2

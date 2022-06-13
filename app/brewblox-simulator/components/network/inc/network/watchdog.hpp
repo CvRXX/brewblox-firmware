@@ -1,9 +1,11 @@
 #pragma once
-#include <asio>
+#include <boost/asio.hpp>
+
+namespace asio = boost::asio;
 
 class WatchDog {
 private:
-    using Clock = asio::steady_clock;
+    using Clock = std::chrono::steady_clock;
 
     struct State {
         WatchDog* self;

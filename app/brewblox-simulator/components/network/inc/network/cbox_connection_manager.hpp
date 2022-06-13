@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "CboxConnection.hpp"
+#include "network/cbox_connection.hpp"
 #include <set>
 
 /// Manages open connections so that they may be cleanly stopped when the server

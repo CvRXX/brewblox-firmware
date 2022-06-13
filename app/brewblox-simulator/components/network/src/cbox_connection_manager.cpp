@@ -1,6 +1,4 @@
-
-
-#include "CboxConnectionManager.hpp"
+#include "network/cbox_connection_manager.hpp"
 
 CboxConnectionManager::CboxConnectionManager()
 {

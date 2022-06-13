@@ -46,8 +46,8 @@
       "includePath": [
         ".",
         "${workspaceFolder}/app/brewblox-simulator/main/inc",
-        "${workspaceFolder}/app/brewblox-simulator/components/httpserver",
-        "${workspaceFolder}/app/brewblox-simulator/components/network",
+        "${workspaceFolder}/app/brewblox-simulator/components/httpserver/inc",
+        "${workspaceFolder}/app/brewblox-simulator/components/network/inc",
         "${workspaceFolder}/platform/simulator/inc",
         "${workspaceFolder}/lib/blocks/inc",
         "${workspaceFolder}/lib/blox_hal/inc",
