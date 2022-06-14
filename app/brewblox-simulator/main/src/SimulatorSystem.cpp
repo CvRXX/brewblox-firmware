@@ -10,46 +10,35 @@
 #include "cbox/Hex.hpp"
 #include "proto/proto_version.h"
 
-void setupSystemBlocks()
-{
-    auto& objects = cbox::getObjects();
+std::string deviceIdString;
+std::vector<uint8_t> deviceIdVector;
 
-    objects.setObjectsStartId(cbox::systemStartId);
-    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 2);
-    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
-    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
-    objects.setObjectsStartId(cbox::userStartId);
+const std::string& getDeviceId()
+{
+    return deviceIdString;
 }
 
-unsigned get_device_id(uint8_t* dest, unsigned max_len)
+void setDeviceId(const std::string& id)
 {
-    uint8_t mac[6]{0, 1, 2, 3, 4, 5};
-    std::memcpy(dest, mac, 6);
-    return 6;
-}
-
-std::string deviceIdStringInit()
-{
-    uint8_t id[12];
-    auto len = get_device_id(id, 12);
-    std::string hex;
-    hex.reserve(len);
-    for (uint8_t i = 0; i < len; i++) {
-        auto pair = cbox::d2h(id[i]);
-        hex.push_back(pair.first);
-        hex.push_back(pair.second);
+    deviceIdString = id;
+    if (deviceIdString.size() % 2 > 0) {
+        deviceIdString.push_back('0');
     }
-    return hex;
+
+    size_t digitSize = deviceIdString.size() / 2;
+    deviceIdVector.resize(digitSize);
+    for (size_t i = 0; i <= digitSize; i++) {
+        deviceIdVector[i] = cbox::h2d(deviceIdString[i * 2], deviceIdString[i * 2 + 1]);
+    }
 }
 
-const std::string& deviceIdString()
+size_t rawDeviceId(uint8_t* dest, size_t max_len)
 {
-    static std::string hexId;
-    if (hexId.empty()) {
-        // device ID can be unknown before wifi is initialized
-        hexId = deviceIdStringInit();
+    if (max_len > deviceIdVector.size()) {
+        max_len = deviceIdVector.size();
     }
-    return hexId;
+    std::memcpy(dest, deviceIdVector.data(), max_len);
+    return max_len;
 }
 
 const std::string& versionCsv()
@@ -66,4 +55,15 @@ int resetReason()
 int resetReasonData()
 {
     return 0; // todo
+}
+
+void setupSystemBlocks()
+{
+    auto& objects = cbox::getObjects();
+
+    objects.setObjectsStartId(cbox::systemStartId);
+    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(rawDeviceId)), 2);
+    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
+    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    objects.setObjectsStartId(cbox::userStartId);
 }

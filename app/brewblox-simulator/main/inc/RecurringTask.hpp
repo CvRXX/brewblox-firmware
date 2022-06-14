@@ -1,15 +1,15 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <functional>
-namespace asio = boost::asio;
+
 class RecurringTask {
 public:
     enum class IntervalType {
         FROM_EXECUTION,
         FROM_EXPIRY,
     };
-    RecurringTask(asio::io_context& io_,
-                  asio::chrono::milliseconds interval_,
+    RecurringTask(boost::asio::io_context& io_,
+                  boost::asio::chrono::milliseconds interval_,
                   IntervalType intervalType_,
                   std::function<void()>&& task_)
         : interval(interval_)
@@ -56,8 +56,8 @@ private:
         run();
     }
 
-    asio::chrono::milliseconds interval;
+    boost::asio::chrono::milliseconds interval;
     IntervalType type;
     std::function<void()> task;
-    asio::steady_timer timer;
+    boost::asio::steady_timer timer;
 };

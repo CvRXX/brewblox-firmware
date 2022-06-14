@@ -23,8 +23,11 @@ get_filename_component(REPO_ROOT
 # Includes
 include(${REPO_ROOT}/tools/version.cmake)
 
+set(SYSTEM_VERSION_STRING ${CMAKE_CXX_COMPILER_VERSION})
+
 add_compile_definitions(PLATFORM_ID=200)
 add_compile_definitions(PLATFORM_NAME=\"sim\")
+add_compile_definitions(SYSTEM_VERSION_STRING=${SYSTEM_VERSION_STRING})
 
 set(components
   external_libs/cnl
@@ -42,16 +45,20 @@ set(components
 
 add_subdirectory(main)
 # add_subdirectory(components/httpserver)
-# add_subdirectory(components/network)
+add_subdirectory(components/network)
 
 foreach(comp IN ITEMS ${components})
   add_subdirectory(${REPO_ROOT}/${comp} ./${comp})
 endforeach()
 
-# External packages
-find_package(Threads REQUIRED)
+find_package(Boost REQUIRED
+  COMPONENTS
+    system
+    program_options
+    random
+    thread
+)
 
-# Link against system libraries
 target_link_libraries(brewblox PRIVATE
-  Threads::Threads
+  ${Boost_LIBRARIES}
 )

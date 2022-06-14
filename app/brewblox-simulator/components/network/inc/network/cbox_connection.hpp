@@ -4,14 +4,12 @@
 #include "SimulatorBox.hpp"
 #include <boost/asio.hpp>
 
-namespace asio = boost::asio;
-
 class BufferResponseWriter : public ResponseWriter {
 private:
-    asio::streambuf& buf;
+    boost::asio::streambuf& buf;
 
 public:
-    BufferResponseWriter(asio::streambuf& buf_)
+    BufferResponseWriter(boost::asio::streambuf& buf_)
         : buf(buf_)
     {
     }
@@ -68,8 +66,8 @@ public:
     virtual void start();
     virtual void stop();
     // virtual dispatch because only derived class knows stream type to pass to templated async read/write
-    virtual void async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) = 0;
-    virtual void async_read_impl(asio::streambuf& buffer_in, std::shared_ptr<CboxConnection> self) = 0;
+    virtual void async_write_impl(boost::asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) = 0;
+    virtual void async_read_impl(boost::asio::streambuf& buffer_in, std::shared_ptr<CboxConnection> self) = 0;
 
     void start_read();
     void start_write();
@@ -80,8 +78,8 @@ protected:
     void handle_read(std::error_code ec, std::size_t bytes_transferred);
     void handle_write(std::error_code ec, std::size_t bytes_transferred);
 
-    asio::streambuf buffer_in;
-    asio::streambuf buffer_out;
+    boost::asio::streambuf buffer_in;
+    boost::asio::streambuf buffer_out;
     CboxConnectionManager& connection_manager;
     bool writing = false;
 };

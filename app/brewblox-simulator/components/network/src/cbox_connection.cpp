@@ -43,7 +43,7 @@ void CboxConnection::finish_write(std::error_code ec, std::size_t bytes_transfer
     if (!ec) {
         writing = false;
         start_write(); // write more in case data if not already writing
-    } else if (ec != asio::error::operation_aborted) {
+    } else if (ec.value() != boost::asio::error::operation_aborted) {
         connection_manager.stop(shared_from_this());
     }
 }
@@ -58,7 +58,7 @@ void CboxConnection::finish_read(std::error_code ec, std::size_t bytes_transferr
 
         start_write(); // send reply
         start_read();  // read next
-    } else if (ec != asio::error::operation_aborted) {
+    } else if (ec.value() != boost::asio::error::operation_aborted) {
         connection_manager.stop(shared_from_this());
     }
 }

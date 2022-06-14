@@ -1,7 +1,8 @@
 target_sources(brewblox PRIVATE
-  src/hal_delay_stub.cpp
-  src/hal_i2c_stub.cpp
-  src/TimerInterrupts_stub.cpp
+  src/hal_delay.cpp
+  src/hal_i2c.cpp
+  src/hal_network.cpp
+  src/TimerInterrupts.cpp
   src/virtualScreen.cpp
 )
 

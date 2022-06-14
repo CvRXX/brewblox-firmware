@@ -16,7 +16,7 @@ ObjectContainer& getObjects()
 
 ObjectStorage& getStorage()
 {
-    static FileObjectStorage objectStore{"/blocks/"};
+    static FileObjectStorage objectStore{"./"};
     return objectStore;
 }
 
@@ -41,7 +41,7 @@ std::shared_ptr<Object> scan()
 std::string handshakeMessage()
 {
     auto& version = versionCsv();
-    auto& id = deviceIdString();
+    auto& id = getDeviceId();
     auto hexResetReason = cbox::d2h(resetReason());
     auto hexResetReasonData = cbox::d2h(resetReasonData());
 

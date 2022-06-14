@@ -1,7 +1,7 @@
 #include "network/cbox_tcp_connection.hpp"
 
 CboxTcpConnection::CboxTcpConnection(
-    asio::ip::tcp::socket socket_,
+    boost::asio::ip::tcp::socket socket_,
     CboxConnectionManager& connection_manager_)
     : CboxConnection(connection_manager_)
     , socket(std::move(socket_))
@@ -14,9 +14,9 @@ void CboxTcpConnection::stop()
     socket.close();
 }
 
-void CboxTcpConnection::async_read_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self)
+void CboxTcpConnection::async_read_impl(boost::asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self)
 {
-    asio::async_read_until(
+    boost::asio::async_read_until(
         socket,
         buffer_in,
         '\n',
@@ -25,9 +25,9 @@ void CboxTcpConnection::async_read_impl(asio::streambuf& buffer_out, std::shared
         });
 }
 
-void CboxTcpConnection::async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self)
+void CboxTcpConnection::async_write_impl(boost::asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self)
 {
-    asio::async_write(
+    boost::asio::async_write(
         socket,
         buffer_out,
         [self{std::move(self)}](std::error_code ec, std::size_t bytes_transferred) {
