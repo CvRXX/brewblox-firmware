@@ -13,7 +13,7 @@ INCLUDE_DIRS += $(ROOT_DIR)/lib/blox_hal/inc
 CPPSRC += $(wildcard $(ROOT_DIR)/platform/stub/*.cpp)
 
 # set cnl as system includes to suppress warnings
-CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/include
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/cnl/include
 
 # catch2
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/device-os/third_party/catch2/catch2/single_include/catch2

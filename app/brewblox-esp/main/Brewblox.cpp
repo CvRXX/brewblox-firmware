@@ -12,21 +12,10 @@
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>
 
-void setupSystemBlocks()
-{
-    auto& objects = cbox::getObjects();
-
-    objects.setObjectsStartId(cbox::systemStartId);
-    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(get_device_id)), 2);
-    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 3);
-    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
-    objects.setObjectsStartId(cbox::userStartId);
-}
-
 // platform specific implementation for prototype in brewblox.hpp
 // returns actual bytes written
 // must be called after wifi init to have valid mac address
-size_t get_device_id(uint8_t* dest, size_t max_len)
+size_t readDeviceId(uint8_t* dest, size_t max_len)
 {
     uint8_t mac[6];
     if (esp_wifi_get_mac(WIFI_IF_STA, mac) == ESP_OK && max_len >= 6) {
@@ -39,7 +28,7 @@ size_t get_device_id(uint8_t* dest, size_t max_len)
 std::string deviceIdStringInit()
 {
     uint8_t id[12];
-    auto len = get_device_id(id, 12);
+    auto len = readDeviceId(id, 12);
     std::string hex;
     hex.reserve(len);
     for (uint8_t i = 0; i < len; i++) {
@@ -74,4 +63,15 @@ int resetReason()
 int resetReasonData()
 {
     return 0; // todo
+}
+
+void setupSystemBlocks()
+{
+    auto& objects = cbox::getObjects();
+
+    objects.setObjectsStartId(cbox::systemStartId);
+    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(readDeviceId)), 2);
+    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 3);
+    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    objects.setObjectsStartId(cbox::userStartId);
 }

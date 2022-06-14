@@ -4,10 +4,10 @@ here_files = $(patsubst $(SOURCE_PATH)/%,%,$(wildcard $(SOURCE_PATH)/$1/$2))
 
 ifeq ($(PLATFORM_ID),3)
 # cnl as system includes to suppress warnings
-CPPFLAGS += -isystem $(SOURCE_PATH)/external_libs/cnl/include
+CPPFLAGS += -isystem $(SOURCE_PATH)/external_libs/cnl/cnl/include
 else
 # arm compiler automatically includes system headers as external c, use normal include
-CPPFLAGS += -I $(SOURCE_PATH)/external_libs/cnl/include
+CPPFLAGS += -I $(SOURCE_PATH)/external_libs/cnl/cnl/include
 endif
 
 # add lib/blocks
