@@ -87,5 +87,3 @@ protected:
     CboxConnectionManager& connection_manager;
     bool writing = false;
 };
-
-using CboxConnectionPtr = std::shared_ptr<CboxConnection>;

@@ -4,6 +4,8 @@
 #include "cbox/Box.hpp"
 #include "cbox/Serialization.hpp"
 
+static constexpr duration_millis_t PRE_RESET_FLUSH_DELAY = 100;
+
 enum Separator : char {
     NONE = 0,
     CHUNK = ',',
@@ -22,9 +24,8 @@ cbox::CboxError respond(ResponseWriter& out, const cbox::Payload& payload)
 
     if (writeOk) {
         return cbox::CboxError::OK;
-    } else {
-        return cbox::CboxError::NETWORK_WRITE_ERROR;
     }
+    return cbox::CboxError::NETWORK_WRITE_ERROR;
 }
 
 void finalize(ResponseWriter& out, uint32_t msgId, cbox::CboxError status)
@@ -85,7 +86,7 @@ void handleCommand(ResponseWriter& out, const std::string& message)
         break;
     case cbox::Opcode::REBOOT:
         finalize(out, request.msgId, cbox::CboxError::OK);
-        ticks.delayMillis(100);
+        ticks.delayMillis(PRE_RESET_FLUSH_DELAY);
         // esp_restart();
         return; // already finalized
     case cbox::Opcode::CLEAR_BLOCKS:
@@ -96,7 +97,7 @@ void handleCommand(ResponseWriter& out, const std::string& message)
         break;
     case cbox::Opcode::FACTORY_RESET:
         finalize(out, request.msgId, cbox::CboxError::OK);
-        ticks.delayMillis(100);
+        ticks.delayMillis(PRE_RESET_FLUSH_DELAY);
         cbox::unloadBlocks();
         cbox::getStorage().clear();
         // esp_wifi_disconnect();

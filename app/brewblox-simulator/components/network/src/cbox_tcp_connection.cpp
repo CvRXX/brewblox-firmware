@@ -18,7 +18,7 @@ void CboxTcpConnection::async_read_impl(boost::asio::streambuf& buffer_out, std:
 {
     boost::asio::async_read_until(
         socket,
-        buffer_in,
+        bufferIn(),
         '\n',
         [self{std::move(self)}](std::error_code ec, std::size_t bytes_transferred) {
             self->finish_read(ec, bytes_transferred);
@@ -29,7 +29,7 @@ void CboxTcpConnection::async_write_impl(boost::asio::streambuf& buffer_out, std
 {
     boost::asio::async_write(
         socket,
-        buffer_out,
+        bufferOut(),
         [self{std::move(self)}](std::error_code ec, std::size_t bytes_transferred) {
             self->finish_write(ec, bytes_transferred);
         });

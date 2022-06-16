@@ -18,8 +18,13 @@
 #include <boost/program_options.hpp>
 #include <thread>
 
+static constexpr uint16_t WEBSOCKET_PORT = 7377;
+static constexpr uint16_t CBOX_PORT = 8332;
+static constexpr uint32_t TICK_INTERVAL = 10;
+
+// declared as extern by virtualTouchScreen.hpp
+// TODO(Carlos): refactor
 std::shared_ptr<listener> webSocketServer;
-net::io_context ioc{1};
 
 int main(int argc, char* argv[])
 {
@@ -39,7 +44,9 @@ int main(int argc, char* argv[])
 
     setDeviceId(argmap["device_id"].as<std::string>());
 
-    webSocketServer = std::make_shared<listener>(ioc, ip::tcp::endpoint{net::ip::make_address("0.0.0.0"), 7377});
+    net::io_context ioc{1};
+
+    webSocketServer = std::make_shared<listener>(ioc, ip::tcp::endpoint{net::ip::make_address("0.0.0.0"), WEBSOCKET_PORT});
     webSocketServer->run();
 
     setupSystemBlocks();
@@ -52,33 +59,34 @@ int main(int argc, char* argv[])
     }
 
     static auto timeSetter = RecurringTask(
-        ioc, chrono::milliseconds(20),
+        ioc, chrono::milliseconds(TICK_INTERVAL),
         RecurringTask::IntervalType::FROM_EXPIRY,
         []() {
-            auto tickMinutes = chrono::system_clock::now().time_since_epoch() / chrono::minutes(1);
-            auto minutes = tickMinutes % (60);
+            // TODO(Carlos): implement
+            // auto tickMinutes = chrono::system_clock::now().time_since_epoch() / chrono::minutes(1);
+            // auto minutes = tickMinutes % (60);
 
-            auto tickHours = chrono::system_clock::now().time_since_epoch() / chrono::hours(1);
-            auto hours = tickHours % (24) + 2;
-            //    gui.bar.setTime(hours, minutes);
+            // auto tickHours = chrono::system_clock::now().time_since_epoch() / chrono::hours(1);
+            // auto hours = tickHours % (24) + 2;
+            // gui.bar.setTime(hours, minutes);
         });
 
     static auto graphicsLooper = RecurringTask(
-        ioc, chrono::milliseconds(10),
+        ioc, chrono::milliseconds(TICK_INTERVAL),
         RecurringTask::IntervalType::FROM_EXECUTION,
         []() {
             screen::update();
         });
 
     static auto displayTick = RecurringTask(
-        ioc, chrono::milliseconds(10),
+        ioc, chrono::milliseconds(TICK_INTERVAL),
         RecurringTask::IntervalType::FROM_EXPIRY,
         []() {
-            screen::tick(10);
+            screen::tick(TICK_INTERVAL);
         });
 
     static auto updater = RecurringTask(
-        ioc, chrono::milliseconds(10),
+        ioc, chrono::milliseconds(TICK_INTERVAL),
         RecurringTask::IntervalType::FROM_EXECUTION,
         []() {
             static const auto start = chrono::steady_clock::now().time_since_epoch() / chrono::milliseconds(1);
@@ -88,7 +96,7 @@ int main(int argc, char* argv[])
             return true;
         });
 
-    CboxServer cboxServer(ioc, 8332);
+    CboxServer cboxServer(ioc, CBOX_PORT);
 
     timeSetter.start();
     graphicsLooper.start();

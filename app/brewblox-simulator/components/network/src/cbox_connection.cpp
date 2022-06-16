@@ -3,21 +3,22 @@
 #include "cbox/Application.hpp"
 #include "network/cbox_connection_manager.hpp"
 
-CboxConnection::CboxConnection(
-    CboxConnectionManager& connection_manager_)
-    : buffer_in(32768)
-    , buffer_out(32768)
-    , connection_manager(connection_manager_)
+static constexpr size_t BUFFER_SIZE = 32768;
+
+CboxConnection::CboxConnection(CboxConnectionManager& connectionManager_)
+    : _bufferIn(BUFFER_SIZE)
+    , _bufferOut(BUFFER_SIZE)
+    , _connectionManager(connectionManager_)
 {
 }
 
 void CboxConnection::start()
 {
     auto message = cbox::handshakeMessage();
-    buffer_out.sputc('<');
-    buffer_out.sputn(message.c_str(), message.size());
-    buffer_out.sputc('>');
-    buffer_out.pubsync();
+    _bufferOut.sputc('<');
+    _bufferOut.sputn(message.c_str(), static_cast<std::streamsize>(message.size()));
+    _bufferOut.sputc('>');
+    _bufferOut.pubsync();
     start_read();
 }
 
@@ -27,24 +28,24 @@ void CboxConnection::stop()
 
 void CboxConnection::start_read()
 {
-    async_read_impl(buffer_in, shared_from_this());
+    async_read_impl(_bufferIn, shared_from_this());
 };
 
 void CboxConnection::start_write()
 {
-    if (!writing && buffer_out.size() > 0) {
-        writing = true;
-        async_write_impl(buffer_out, shared_from_this());
+    if (!_writing && _bufferOut.size() > 0) {
+        _writing = true;
+        async_write_impl(_bufferOut, shared_from_this());
     }
 }
 
 void CboxConnection::finish_write(std::error_code ec, std::size_t bytes_transferred)
 {
     if (!ec) {
-        writing = false;
+        _writing = false;
         start_write(); // write more in case data if not already writing
     } else if (ec.value() != boost::asio::error::operation_aborted) {
-        connection_manager.stop(shared_from_this());
+        _connectionManager.stop(shared_from_this());
     }
 }
 
@@ -52,13 +53,13 @@ void CboxConnection::finish_read(std::error_code ec, std::size_t bytes_transferr
 {
     if (!ec) {
         std::string message(bytes_transferred, 0);
-        buffer_in.sgetn(message.data(), bytes_transferred);
-        auto out = BufferResponseWriter(buffer_out);
+        _bufferIn.sgetn(message.data(), static_cast<std::streamsize>(bytes_transferred));
+        auto out = BufferResponseWriter(_bufferOut);
         handleCommand(out, message);
 
         start_write(); // send reply
         start_read();  // read next
     } else if (ec.value() != boost::asio::error::operation_aborted) {
-        connection_manager.stop(shared_from_this());
+        _connectionManager.stop(shared_from_this());
     }
 }

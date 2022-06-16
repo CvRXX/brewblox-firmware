@@ -9,21 +9,21 @@ private:
     boost::asio::streambuf& buf;
 
 public:
-    BufferResponseWriter(boost::asio::streambuf& buf_)
+    explicit BufferResponseWriter(boost::asio::streambuf& buf_)
         : buf(buf_)
     {
     }
 
     BufferResponseWriter(const BufferResponseWriter&) = delete;
     BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
-    BufferResponseWriter(BufferResponseWriter&&) = default;
-    BufferResponseWriter& operator=(BufferResponseWriter&&) = default;
-    ~BufferResponseWriter() = default;
+    BufferResponseWriter(BufferResponseWriter&&) = delete;
+    BufferResponseWriter& operator=(BufferResponseWriter&&) = delete;
+    ~BufferResponseWriter() override = default;
 
     bool write(const std::string& message) final
     {
         if (buf.size() + message.size() <= buf.max_size()) {
-            buf.sputn(message.c_str(), message.size());
+            buf.sputn(message.c_str(), static_cast<std::streamsize>(message.size()));
             return true;
         }
         return false;
@@ -42,7 +42,7 @@ public:
     {
         if (buf.size() + message.size() + 2 <= buf.max_size()) {
             buf.sputc('<');
-            buf.sputn(message.c_str(), message.size());
+            buf.sputn(message.c_str(), static_cast<std::streamsize>(message.size()));
             buf.sputc('>');
             return true;
         }
@@ -58,8 +58,14 @@ public:
 class CboxConnectionManager;
 
 class CboxConnection : public std::enable_shared_from_this<CboxConnection> {
+private:
+    boost::asio::streambuf _bufferIn;
+    boost::asio::streambuf _bufferOut;
+    CboxConnectionManager& _connectionManager;
+    bool _writing = false;
+
 public:
-    explicit CboxConnection(CboxConnectionManager& connection_manager_);
+    explicit CboxConnection(CboxConnectionManager& connectionManager_);
 
     CboxConnection(const CboxConnection&) = delete;
     CboxConnection& operator=(const CboxConnection&) = delete;
@@ -82,10 +88,13 @@ protected:
     void handle_read(std::error_code ec, std::size_t bytes_transferred);
     void handle_write(std::error_code ec, std::size_t bytes_transferred);
 
-    boost::asio::streambuf buffer_in;
-    boost::asio::streambuf buffer_out;
-    CboxConnectionManager& connection_manager;
-    bool writing = false;
-};
+    auto& bufferIn()
+    {
+        return _bufferIn;
+    }
 
-using CboxConnectionPtr = std::shared_ptr<CboxConnection>;
+    auto& bufferOut()
+    {
+        return _bufferOut;
+    }
+};

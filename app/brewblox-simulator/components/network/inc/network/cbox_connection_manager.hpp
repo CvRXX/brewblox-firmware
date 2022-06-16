@@ -14,16 +14,12 @@ public:
     CboxConnectionManager& operator=(CboxConnectionManager&&) = default;
     ~CboxConnectionManager() = default;
 
-    /// Add the specified connection to the manager and start it.
-    void start(CboxConnectionPtr c);
+    void start(const std::shared_ptr<CboxConnection>& c);
 
-    /// Stop the specified connection.
-    void stop(CboxConnectionPtr c);
+    void stop(const std::shared_ptr<CboxConnection>& c);
 
-    /// Stop all connections.
     void stop_all();
 
 private:
-    /// The managed connections.
-    std::set<CboxConnectionPtr> connections;
+    std::set<std::shared_ptr<CboxConnection>> connections;
 };
