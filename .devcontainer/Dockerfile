@@ -20,7 +20,6 @@ RUN : \
         ca-certificates \
         ccache \
         check \
-        cmake \
         dfu-util \
         flex \
         g++-10 \
@@ -60,13 +59,23 @@ RUN : \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 20 \
     && npm install -g \
         lv_font_conv \
-        diff-so-fancy \ 
+        diff-so-fancy \
     && python3 -m pip install --upgrade \
         autopep8 \
         pip \
         pyserial \
         pyusb \
         virtualenv \
+    && :
+
+# The CMake version in apt is significantly outdated
+# Get binary dist from vendor
+ARG CMAKE_VERSION=3.23.2
+
+RUN : \
+    && curl -sSL -o /tmp/cmake-installer.sh \
+        https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.sh \
+    && sh /tmp/cmake-installer.sh --skip-license --prefix=/usr/local/ \
     && :
 
 # Set udev rules so we can flash Particle devices
@@ -140,10 +149,13 @@ RUN : \
     && :
 
 # Give the user the required permissions for using USB devices
+# Sets ownership of IDF dir to user to prevent git ownership errors
 ARG USERNAME=vscode
 RUN : \
     && usermod -aG dialout $USERNAME \
     && usermod -aG plugdev $USERNAME \
+    && chown $USERNAME $IDF_PATH \
+    && chown $USERNAME $IDF_PATH/components/openthread/openthread \
     && :
 
 ARG SHFMT_VERSION=v3.4.2

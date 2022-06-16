@@ -26,6 +26,7 @@
     "letmaik.git-tree-compare",
     "foxundermoon.shell-format",
     "GitHub.vscode-pull-request-github",
+    "twxs.cmake"
   ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

@@ -7,8 +7,11 @@ class ResponseWriter {
 public:
     ResponseWriter() = default;
     virtual ~ResponseWriter() = default;
+
     ResponseWriter(const ResponseWriter&) = delete;
     ResponseWriter& operator=(const ResponseWriter&) = delete;
+    ResponseWriter(ResponseWriter&&) = delete;
+    ResponseWriter& operator=(ResponseWriter&&) = delete;
 
     virtual void commit() = 0;
 

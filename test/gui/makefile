@@ -10,7 +10,7 @@ INCLUDE_DIRS += $(ROOT_DIR)/lib/guis
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include/
 
 
-INCLUDE_DIRS += $(ROOT_DIR)/external_libs/lvgl_wrapper/lvgl/src
+INCLUDE_DIRS += $(ROOT_DIR)/external_libs/lvgl/lvgl/src
 
 # Recursive wildcard function
 rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
@@ -20,9 +20,9 @@ rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2
 # $2 the pattern to match, e.g. *.cpp
 target_files = $(patsubst $(ROOT_DIR)/%,%,$(call rwildcard,$(ROOT_DIR)/$1,$2))
 
-CSRC += $(call target_files,external_libs/lvgl_wrapper/lvgl/src,*.c)
+CSRC += $(call target_files,external_libs/lvgl/lvgl/src,*.c)
 
-# CSRC += $(wildcard $(ROOT_DIR)/external_libs/lvgl_wrapper/lvgl/src/*.c)
+# CSRC += $(wildcard $(ROOT_DIR)/external_libs/lvgl/lvgl/src/*.c)
 CFLAGS += -DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE
 
 

@@ -124,28 +124,15 @@ BuzzerClass& getBuzzer()
     return buzzer;
 }
 
-void setupSystemBlocks()
+size_t readDeviceId(uint8_t* dest, size_t max_len)
 {
-    auto& objects = cbox::getObjects();
-    objects.setObjectsStartId(cbox::systemStartId);
-
-    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(HAL_device_ID)), 2);
-    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
-    objects.add(std::shared_ptr<cbox::Object>(new OneWireBusBlock(getOneWire(), powerCyclePheripheral5V)), 4);
-#if defined(SPARK)
-    objects.add(std::shared_ptr<cbox::Object>(new WiFiSettingsBlock()), 5);
-    objects.add(std::shared_ptr<cbox::Object>(new TouchSettingsBlock()), 6);
-#endif
-    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
-    objects.add(std::shared_ptr<cbox::Object>(new PinsBlock()), 19);
-
-    objects.setObjectsStartId(cbox::userStartId);
+    return HAL_device_ID(dest, max_len);
 }
 
 std::string deviceIdStringInit()
 {
     uint8_t id[12];
-    auto len = get_device_id(id, 12);
+    auto len = readDeviceId(id, 12);
     std::string hex;
     hex.reserve(len);
     for (uint8_t i = 0; i < len; i++) {
@@ -164,11 +151,6 @@ const std::string& deviceIdString()
         hexId = deviceIdStringInit();
     }
     return hexId;
-}
-
-unsigned get_device_id(uint8_t* dest, unsigned max_len)
-{
-    return HAL_device_ID(dest, max_len);
 }
 
 const std::string& versionCsv()
@@ -194,4 +176,23 @@ int resetReasonData()
     return System.resetReasonData();
 #endif
 }
+
+void setupSystemBlocks()
+{
+    auto& objects = cbox::getObjects();
+    objects.setObjectsStartId(cbox::systemStartId);
+
+    objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(readDeviceId)), 2);
+    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
+    objects.add(std::shared_ptr<cbox::Object>(new OneWireBusBlock(getOneWire(), powerCyclePheripheral5V)), 4);
+#if defined(SPARK)
+    objects.add(std::shared_ptr<cbox::Object>(new WiFiSettingsBlock()), 5);
+    objects.add(std::shared_ptr<cbox::Object>(new TouchSettingsBlock()), 6);
+#endif
+    objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    objects.add(std::shared_ptr<cbox::Object>(new PinsBlock()), 19);
+
+    objects.setObjectsStartId(cbox::userStartId);
+}
+
 } // end namespace platform::particle

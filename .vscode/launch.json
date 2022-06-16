@@ -29,6 +29,29 @@
       "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
     },
     {
+      "name": "Debug simulator",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceRoot}/app/brewblox-simulator/build/brewblox",
+      "args": [
+        "--device_id",
+        "123456789012345678901234"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceRoot}/app/brewblox-simulator/build",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "miDebuggerArgs": "-x ${workspaceRoot}/tools/gcc-pretty.gdbinit"
+    },
+    {
       "name": "Debug test blocks",
       "type": "cppdbg",
       "request": "launch",

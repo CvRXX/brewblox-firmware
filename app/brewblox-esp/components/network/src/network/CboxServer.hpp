@@ -1,27 +1,16 @@
 #pragma once
 #include "CboxConnectionManager.hpp"
-#include "CboxStdioConnection.hpp"
 #include "CboxTcpConnection.hpp"
 #include "esp_log.h"
 
-class CboxServer {
+class CboxServer final {
 public:
     explicit CboxServer(asio::io_context& io_context_,
                         const uint16_t& port_)
         : io_context(io_context_)
-        // signals_(io_context_),
         , acceptor(io_context)
         , connection_manager{}
     {
-        // Register to handle the signals that indicate when the server should exit.
-        // It is safe to register for the same signal multiple times in a program,
-        // provided all registration for the specified signal is made through Asio.
-        //   signals_.add(SIGINT);
-        //   signals_.add(SIGTERM);
-        // #if defined(SIGQUIT)
-        //   signals_.add(SIGQUIT);
-        // #endif // defined(SIGQUIT)
-
         do_await_stop();
 
         asio::ip::tcp::endpoint endpoint(asio::ip::address_v4::any(), port_);
@@ -35,15 +24,9 @@ public:
 
     CboxServer(const CboxServer&) = delete;
     CboxServer& operator=(const CboxServer&) = delete;
-
+    CboxServer(CboxServer&&) = delete;
+    CboxServer& operator=(CboxServer&&) = delete;
     ~CboxServer() = default;
-
-    void attach_stdio()
-    {
-        connection_manager.start(
-            std::make_shared<CboxStdioConnection>(io_context,
-                                                  connection_manager));
-    }
 
     void do_accept()
     {
@@ -67,16 +50,11 @@ public:
 
     void do_await_stop()
     {
-        // signals_.async_wait(
-        //     [this](std::error_code /*ec*/, int /*signo*/) {
-        //         // The server is stopped by cancelling all outstanding asynchronous
-        //         // operations. Once all operations have finished the io_context::run()
-        //         // call will exit.
-        //     });
         acceptor.close();
         connection_manager.stop_all();
     }
 
+private:
     asio::io_context& io_context;
     asio::ip::tcp::acceptor acceptor;
     CboxConnectionManager connection_manager;

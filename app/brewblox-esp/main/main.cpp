@@ -65,18 +65,10 @@ void mount_blocks_spiff()
 // static heap_trace_record_t trace_record[MEMORY_DEBUG_RECORDS]; // This buffer must be in internal RAM
 
 extern "C" {
-#ifdef ESP_PLATFORM
 void app_main();
 }
-#else
-int main(int /*argc*/, char** /*argv*/);
-#endif
 
-#ifdef ESP_PLATFORM
 void app_main()
-#else
-int main(int /*argc*/, char** /*argv*/)
-#endif
 {
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
 
@@ -145,8 +137,4 @@ int main(int /*argc*/, char** /*argv*/)
     network::connect();
     mdns::start();
     io.run();
-
-#ifndef ESP_PLATFORM
-    return 0;
-#endif
 }

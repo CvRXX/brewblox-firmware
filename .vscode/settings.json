@@ -35,7 +35,8 @@
     "cstring": "cpp",
     "ctime": "cpp",
     "*.ipp": "cpp",
-    "*.inc": "c"
+    "*.inc": "c",
+    "**/CMakeLists.txt": "cmake"
   },
   "C_Cpp.formatting": "clangFormat",
   "C_Cpp.configurationWarnings": "Disabled",
@@ -54,7 +55,7 @@
     "**/external_libs/cnl": true,
     "**/external_libs/device-os": true,
     "**/external_libs/expected": true,
-    "**/external_libs/lvgl_wrapper": true,
+    "**/external_libs/lvgl": true,
     "**/external_libs/nanopb": true,
     "**/platform/particle/eGUI": true,
     "**/platform/particle/WebSockets": true,
@@ -71,6 +72,7 @@
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
   },
   "cmake.configureOnOpen": false,
+  "cmake.cmakePath": "/usr/local/bin/cmake",
   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
   "C_Cpp.codeAnalysis.clangTidy.headerFilter": ".hpp",
   "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
@@ -82,12 +84,16 @@
     "hicpp-*",
     "performance-*",
     "readability-*",
-    // "google-explicit-constructor",
+    "google-explicit-constructor",
   ],
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "cppcoreguidelines-pro-bounds-constant-array-index",
     "cppcoreguidelines-pro-bounds-array-to-pointer-decay",
+    "cppcoreguidelines-pro-type-reinterpret-cast",
     "modernize-use-trailing-return-type",
+    "bugprone-easily-swappable-parameters",
+    "readability-identifier-length",
+    "bugprone-exception-escape"
   ],
   "C_Cpp.codeAnalysis.exclude": {
     "**/external_libs": true,
@@ -96,8 +102,7 @@
     "**/platform/particle/d4d_display": true
   },
   "C_Cpp.codeAnalysis.clangTidy.args": [
-    "-Wno-pragma-once-outside-header", // false positives before build
-    "bugprone-easily-swappable-parameters"
+    "--extra-arg=-Wno-pragma-once-outside-header"
   ],
   "testMate.cpp.test.advancedExecutables": [
     {

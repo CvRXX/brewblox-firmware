@@ -60,6 +60,20 @@
       "problemMatcher": "$gcc"
     },
     {
+      "label": "Build Simulator",
+      "command": "script/build.sh",
+      "args": [
+        "sim"
+      ],
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
       "label": "Test blocks",
       "command": "script/test.sh",
       "args": [
@@ -88,7 +102,7 @@
       "problemMatcher": "$gcc"
     },
     {
-      "label": "Test guis",
+      "label": "Test gui",
       "command": "script/test.sh",
       "args": [
         "gui"
@@ -123,7 +137,7 @@
         "Test blocks",
         "Test cbox",
         "Test control",
-        "Test guis",
+        "Test gui",
       ]
     },
     {

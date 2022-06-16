@@ -4,7 +4,7 @@
 #include "EspBox.hpp"
 #include <asio.hpp>
 
-class BufferResponseWriter : public ResponseWriter {
+class BufferResponseWriter final : public ResponseWriter {
 private:
     asio::streambuf& buf;
 
@@ -13,9 +13,12 @@ public:
         : buf(buf_)
     {
     }
-    virtual ~BufferResponseWriter() = default;
+
     BufferResponseWriter(const BufferResponseWriter&) = delete;
     BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
+    BufferResponseWriter(BufferResponseWriter&&) = delete;
+    BufferResponseWriter& operator=(BufferResponseWriter&&) = delete;
+    ~BufferResponseWriter() = default;
 
     bool write(const std::string& message) final
     {
@@ -56,11 +59,12 @@ class CboxConnectionManager;
 
 class CboxConnection : public std::enable_shared_from_this<CboxConnection> {
 public:
+    explicit CboxConnection(CboxConnectionManager& connection_manager_);
+
     CboxConnection(const CboxConnection&) = delete;
     CboxConnection& operator=(const CboxConnection&) = delete;
-
-    explicit CboxConnection(
-        CboxConnectionManager& connection_manager_);
+    CboxConnection(CboxConnection&&) = default;
+    CboxConnection& operator=(CboxConnection&&) = default;
     virtual ~CboxConnection() = default;
 
     virtual void start();
@@ -83,5 +87,3 @@ protected:
     CboxConnectionManager& connection_manager;
     bool writing = false;
 };
-
-using CboxConnectionPtr = std::shared_ptr<CboxConnection>;

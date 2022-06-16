@@ -61,7 +61,7 @@ CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/src/gcc
 CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/src/photon
 CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/src/newhal
 CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/wiring/inc
-CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/include
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/cnl/include
 
 CPPSRC += external_libs/device-os/hal/src/gcc/gpio_hal.cpp
 CPPSRC += external_libs/device-os/hal/src/gcc/eeprom_hal.cpp
