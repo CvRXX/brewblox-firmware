@@ -13,7 +13,7 @@
 std::string deviceIdString;
 std::vector<uint8_t> deviceIdVector;
 
-const std::string& getDeviceId()
+std::string_view getDeviceId()
 {
     return deviceIdString;
 }
@@ -41,9 +41,9 @@ size_t rawDeviceId(uint8_t* dest, size_t max_len)
     return max_len;
 }
 
-const std::string& versionCsv()
+std::string_view versionCsv()
 {
-    static const std::string version = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_NAME;
+    static constexpr char version[] = GIT_VERSION "," COMPILED_PROTO_VERSION "," GIT_DATE "," COMPILED_PROTO_DATE "," stringify(SYSTEM_VERSION_STRING) "," PLATFORM_NAME;
     return version;
 }
 

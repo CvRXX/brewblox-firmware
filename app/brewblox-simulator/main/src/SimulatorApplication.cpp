@@ -40,8 +40,8 @@ std::shared_ptr<Object> scan()
 
 std::string handshakeMessage()
 {
-    auto& version = versionCsv();
-    auto& id = getDeviceId();
+    auto version = versionCsv();
+    auto id = getDeviceId();
     auto hexResetReason = cbox::d2h(resetReason());
     auto hexResetReasonData = cbox::d2h(resetReasonData());
 
