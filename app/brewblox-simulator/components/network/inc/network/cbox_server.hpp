@@ -3,7 +3,7 @@
 #include "network/cbox_connection_manager.hpp"
 #include "network/cbox_tcp_connection.hpp"
 
-class CboxServer {
+class CboxServer final {
 public:
     explicit CboxServer(boost::asio::io_context& io_context_,
                         const uint16_t& port_)
@@ -24,6 +24,9 @@ public:
 
     CboxServer(const CboxServer&) = delete;
     CboxServer& operator=(const CboxServer&) = delete;
+
+    CboxServer(CboxServer&&) = default;
+    CboxServer& operator=(CboxServer&&) = default;
 
     ~CboxServer() = default;
 

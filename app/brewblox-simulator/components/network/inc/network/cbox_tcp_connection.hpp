@@ -5,12 +5,10 @@
 #include "network/cbox_connection.hpp"
 #include <boost/asio.hpp>
 
-class CboxTcpConnection : public CboxConnection {
+class CboxTcpConnection final : public CboxConnection {
 public:
-    explicit CboxTcpConnection(
-        boost::asio::ip::tcp::socket socket_,
-        CboxConnectionManager& connection_manager_);
-    virtual ~CboxTcpConnection() = default;
+    explicit CboxTcpConnection(boost::asio::ip::tcp::socket socket_,
+                               CboxConnectionManager& connection_manager_);
 
     // virtual void start();
     virtual void stop() override;

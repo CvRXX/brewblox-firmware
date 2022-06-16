@@ -3,7 +3,7 @@
 #include "CboxTcpConnection.hpp"
 #include "esp_log.h"
 
-class CboxServer {
+class CboxServer final {
 public:
     explicit CboxServer(asio::io_context& io_context_,
                         const uint16_t& port_)
@@ -34,6 +34,9 @@ public:
 
     CboxServer(const CboxServer&) = delete;
     CboxServer& operator=(const CboxServer&) = delete;
+
+    CboxServer(CboxServer&&) = delete;
+    CboxServer& operator=(CboxServer&&) = delete;
 
     ~CboxServer() = default;
 

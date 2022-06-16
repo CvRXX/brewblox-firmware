@@ -4,7 +4,7 @@
 #include "EspBox.hpp"
 #include <asio.hpp>
 
-class BufferResponseWriter : public ResponseWriter {
+class BufferResponseWriter final : public ResponseWriter {
 private:
     asio::streambuf& buf;
 
@@ -13,9 +13,14 @@ public:
         : buf(buf_)
     {
     }
-    virtual ~BufferResponseWriter() = default;
+
     BufferResponseWriter(const BufferResponseWriter&) = delete;
     BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
+
+    BufferResponseWriter(BufferResponseWriter&&) = default;
+    BufferResponseWriter& operator=(BufferResponseWriter&&) = default;
+
+    ~BufferResponseWriter() = default;
 
     bool write(const std::string& message) final
     {

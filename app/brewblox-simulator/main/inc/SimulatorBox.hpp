@@ -5,11 +5,6 @@
 
 class ResponseWriter {
 public:
-    ResponseWriter() = default;
-    virtual ~ResponseWriter() = default;
-    ResponseWriter(const ResponseWriter&) = delete;
-    ResponseWriter& operator=(const ResponseWriter&) = delete;
-
     virtual void commit() = 0;
 
     virtual bool write(const std::string& message) = 0;

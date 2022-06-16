@@ -40,10 +40,13 @@ enum Separator : char {
 
 class ResponseWriter {
 public:
-    ResponseWriter() = default;
-    virtual ~ResponseWriter() = default;
     ResponseWriter(const ResponseWriter&) = delete;
     ResponseWriter& operator=(const ResponseWriter&) = delete;
+
+    ResponseWriter(ResponseWriter&&) = default;
+    ResponseWriter& operator=(ResponseWriter&&) = default;
+
+    virtual ~ResponseWriter() = default;
 
     virtual ConnectionKind kind() const = 0;
 
@@ -66,10 +69,13 @@ public:
 
 class Connection : public ResponseWriter {
 public:
-    Connection() = default;
-    virtual ~Connection() = default;
     Connection(const Connection&) = delete;
     Connection& operator=(const Connection&) = delete;
+
+    Connection(Connection&&) = default;
+    Connection& operator=(Connection&&) = default;
+
+    virtual ~Connection() = default;
 
     virtual std::optional<std::string> readMessage() = 0;
     virtual bool isConnected() = 0;
