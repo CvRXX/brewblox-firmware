@@ -40,6 +40,8 @@ enum Separator : char {
 
 class ResponseWriter {
 public:
+    ResponseWriter() = default;
+
     ResponseWriter(const ResponseWriter&) = delete;
     ResponseWriter& operator=(const ResponseWriter&) = delete;
 
@@ -69,6 +71,8 @@ public:
 
 class Connection : public ResponseWriter {
 public:
+    Connection() = default;
+
     Connection(const Connection&) = delete;
     Connection& operator=(const Connection&) = delete;
 
@@ -84,9 +88,6 @@ public:
 
 class ConnectionSource {
 public:
-    ConnectionSource() = default;
-    virtual ~ConnectionSource() = default;
-
     virtual std::unique_ptr<Connection> newConnection() = 0;
 
     virtual void start() = 0;

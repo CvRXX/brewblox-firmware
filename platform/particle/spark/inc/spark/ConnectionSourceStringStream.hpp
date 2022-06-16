@@ -36,7 +36,8 @@ private:
     std::shared_ptr<std::stringstream> out;
 
 public:
-    StringStreamConnection(std::shared_ptr<std::stringstream> _in, std::shared_ptr<std::stringstream> _out)
+    StringStreamConnection(std::shared_ptr<std::stringstream> _in,
+                           std::shared_ptr<std::stringstream> _out)
         : in(_in)
         , out(_out)
     {
