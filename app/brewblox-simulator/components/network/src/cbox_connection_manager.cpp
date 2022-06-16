@@ -1,9 +1,5 @@
 #include "network/cbox_connection_manager.hpp"
 
-CboxConnectionManager::CboxConnectionManager()
-{
-}
-
 void CboxConnectionManager::start(CboxConnectionPtr c)
 {
     connections.insert(c);

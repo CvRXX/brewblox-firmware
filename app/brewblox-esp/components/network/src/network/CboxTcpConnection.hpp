@@ -9,11 +9,10 @@ public:
     explicit CboxTcpConnection(asio::ip::tcp::socket socket_,
                                CboxConnectionManager& connection_manager_);
 
-    // virtual void start();
-    virtual void stop() override;
+    void stop() override;
 
-    virtual void async_read_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
-    virtual void async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
+    void async_read_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
+    void async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
 
 private:
     asio::ip::tcp::socket socket;

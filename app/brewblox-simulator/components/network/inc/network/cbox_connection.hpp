@@ -16,10 +16,8 @@ public:
 
     BufferResponseWriter(const BufferResponseWriter&) = delete;
     BufferResponseWriter& operator=(const BufferResponseWriter&) = delete;
-
     BufferResponseWriter(BufferResponseWriter&&) = default;
     BufferResponseWriter& operator=(BufferResponseWriter&&) = default;
-
     ~BufferResponseWriter() = default;
 
     bool write(const std::string& message) final
@@ -65,10 +63,8 @@ public:
 
     CboxConnection(const CboxConnection&) = delete;
     CboxConnection& operator=(const CboxConnection&) = delete;
-
-    CboxConnection(CboxConnection&&) = default;
-    CboxConnection& operator=(CboxConnection&&) = default;
-
+    CboxConnection(CboxConnection&&) = delete;
+    CboxConnection& operator=(CboxConnection&&) = delete;
     virtual ~CboxConnection() = default;
 
     virtual void start();

@@ -1,10 +1,4 @@
-
-
 #include "CboxConnectionManager.hpp"
-
-CboxConnectionManager::CboxConnectionManager()
-{
-}
 
 void CboxConnectionManager::start(CboxConnectionPtr c)
 {

@@ -24,10 +24,8 @@ public:
 
     CboxServer(const CboxServer&) = delete;
     CboxServer& operator=(const CboxServer&) = delete;
-
     CboxServer(CboxServer&&) = default;
     CboxServer& operator=(CboxServer&&) = default;
-
     ~CboxServer() = default;
 
     void do_accept()
@@ -56,6 +54,7 @@ public:
         connection_manager.stop_all();
     }
 
+private:
     boost::asio::io_context& io_context;
     boost::asio::ip::tcp::acceptor acceptor;
     CboxConnectionManager connection_manager;

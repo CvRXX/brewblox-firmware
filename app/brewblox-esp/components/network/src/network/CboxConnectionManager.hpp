@@ -15,13 +15,14 @@
 
 /// Manages open connections so that they may be cleanly stopped when the server
 /// needs to shut down.
-class CboxConnectionManager {
+class CboxConnectionManager final {
 public:
+    CboxConnectionManager() = default;
     CboxConnectionManager(const CboxConnectionManager&) = delete;
     CboxConnectionManager& operator=(const CboxConnectionManager&) = delete;
-
-    /// Construct a connection manager.
-    CboxConnectionManager();
+    CboxConnectionManager(CboxConnectionManager&&) = default;
+    CboxConnectionManager& operator=(CboxConnectionManager&&) = default;
+    ~CboxConnectionManager() = default;
 
     /// Add the specified connection to the manager and start it.
     void start(CboxConnectionPtr c);
