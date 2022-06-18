@@ -9,11 +9,13 @@
 
 
 
-const pb_field_t command_Payload_fields[5] = {
+const pb_field_t command_Payload_fields[7] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, command_Payload, blockId, blockId, 0),
     PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, command_Payload, blockType, blockId, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, command_Payload, subtype, blockType, 0),
     PB_FIELD(  4, STRING  , SINGULAR, CALLBACK, OTHER, command_Payload, content, subtype, 0),
+    PB_FIELD(  5, UINT32  , REPEATED, CALLBACK, OTHER, command_Payload, mask, content, 0),
+    PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, command_Payload, maskMode, mask, 0),
     PB_LAST_FIELD
 };
 
@@ -30,6 +32,7 @@ const pb_field_t command_Response_fields[4] = {
     PB_FIELD(  3, MESSAGE , REPEATED, CALLBACK, OTHER, command_Response, payload, error, &command_Payload_fields),
     PB_LAST_FIELD
 };
+
 
 
 

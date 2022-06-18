@@ -151,6 +151,28 @@ inline bool ErrorCode_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<ErrorCode>(
     ErrorCode_descriptor(), name, value);
 }
+enum MaskMode {
+  ANY = 0,
+  INCLUSIVE = 1,
+  EXCLUSIVE = 2,
+  MaskMode_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  MaskMode_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool MaskMode_IsValid(int value);
+const MaskMode MaskMode_MIN = ANY;
+const MaskMode MaskMode_MAX = EXCLUSIVE;
+const int MaskMode_ARRAYSIZE = MaskMode_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* MaskMode_descriptor();
+inline const ::std::string& MaskMode_Name(MaskMode value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    MaskMode_descriptor(), value);
+}
+inline bool MaskMode_Parse(
+    const ::std::string& name, MaskMode* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<MaskMode>(
+    MaskMode_descriptor(), name, value);
+}
 // ===================================================================
 
 class Payload : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:command.Payload) */ {
@@ -240,6 +262,18 @@ class Payload : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
+  // repeated uint32 mask = 5 [(.nanopb) = {
+  int mask_size() const;
+  void clear_mask();
+  static const int kMaskFieldNumber = 5;
+  ::google::protobuf::uint32 mask(int index) const;
+  void set_mask(int index, ::google::protobuf::uint32 value);
+  void add_mask(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      mask() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_mask();
+
   // string content = 4;
   void clear_content();
   static const int kContentFieldNumber = 4;
@@ -272,14 +306,23 @@ class Payload : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint32 subtype() const;
   void set_subtype(::google::protobuf::uint32 value);
 
+  // .command.MaskMode maskMode = 6;
+  void clear_maskmode();
+  static const int kMaskModeFieldNumber = 6;
+  ::command::MaskMode maskmode() const;
+  void set_maskmode(::command::MaskMode value);
+
   // @@protoc_insertion_point(class_scope:command.Payload)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > mask_;
+  mutable int _mask_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr content_;
   ::google::protobuf::uint32 blockid_;
   int blocktype_;
   ::google::protobuf::uint32 subtype_;
+  int maskmode_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_command_5ftest_2eproto::TableStruct;
 };
@@ -635,6 +678,50 @@ inline void Payload::set_allocated_content(::std::string* content) {
   // @@protoc_insertion_point(field_set_allocated:command.Payload.content)
 }
 
+// repeated uint32 mask = 5 [(.nanopb) = {
+inline int Payload::mask_size() const {
+  return mask_.size();
+}
+inline void Payload::clear_mask() {
+  mask_.Clear();
+}
+inline ::google::protobuf::uint32 Payload::mask(int index) const {
+  // @@protoc_insertion_point(field_get:command.Payload.mask)
+  return mask_.Get(index);
+}
+inline void Payload::set_mask(int index, ::google::protobuf::uint32 value) {
+  mask_.Set(index, value);
+  // @@protoc_insertion_point(field_set:command.Payload.mask)
+}
+inline void Payload::add_mask(::google::protobuf::uint32 value) {
+  mask_.Add(value);
+  // @@protoc_insertion_point(field_add:command.Payload.mask)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+Payload::mask() const {
+  // @@protoc_insertion_point(field_list:command.Payload.mask)
+  return mask_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+Payload::mutable_mask() {
+  // @@protoc_insertion_point(field_mutable_list:command.Payload.mask)
+  return &mask_;
+}
+
+// .command.MaskMode maskMode = 6;
+inline void Payload::clear_maskmode() {
+  maskmode_ = 0;
+}
+inline ::command::MaskMode Payload::maskmode() const {
+  // @@protoc_insertion_point(field_get:command.Payload.maskMode)
+  return static_cast< ::command::MaskMode >(maskmode_);
+}
+inline void Payload::set_maskmode(::command::MaskMode value) {
+  
+  maskmode_ = value;
+  // @@protoc_insertion_point(field_set:command.Payload.maskMode)
+}
+
 // -------------------------------------------------------------------
 
 // Request
@@ -807,6 +894,11 @@ template <> struct is_proto_enum< ::command::ErrorCode> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::command::ErrorCode>() {
   return ::command::ErrorCode_descriptor();
+}
+template <> struct is_proto_enum< ::command::MaskMode> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::command::MaskMode>() {
+  return ::command::MaskMode_descriptor();
 }
 
 }  // namespace protobuf

@@ -18,9 +18,12 @@
  */
 
 #include "blocks/TempSensorMockBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
+#include "pb_decode.h"
+#include "pb_encode.h"
 #include "proto/TempSensorMock.pb.h"
 
-bool TempSensorMockBlock::streamFluctuationsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+bool TempSensorMockBlock::encodeFluctuations(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
 {
     const std::vector<Fluctuation>* flucts = reinterpret_cast<std::vector<Fluctuation>*>(*arg);
     for (const auto& f : *flucts) {
@@ -37,7 +40,7 @@ bool TempSensorMockBlock::streamFluctuationsOut(pb_ostream_t* stream, const pb_f
     return true;
 }
 
-bool TempSensorMockBlock::streamFluctuationsIn(pb_istream_t* stream, const pb_field_t*, void** arg)
+bool TempSensorMockBlock::decodeFluctuations(pb_istream_t* stream, const pb_field_t*, void** arg)
 {
     std::vector<Fluctuation>* newFlucts = reinterpret_cast<std::vector<Fluctuation>*>(*arg);
 
@@ -58,42 +61,34 @@ size_t TempSensorMockBlock::protoSize() const
            + 6 // value
            + 3 // connected
            + 6 // setting
-           + 4 // strippedFields
         ;
-}
-
-void TempSensorMockBlock::writeMessage(blox_TempSensorMock_Block& message) const
-{
-    FieldTags stripped;
-
-    message.fluctuations.funcs.encode = &streamFluctuationsOut;
-    message.fluctuations.arg = const_cast<std::vector<Fluctuation>*>(&sensor.fluctuations());
-
-    if (sensor.valid()) {
-        message.value = cnl::unwrap((sensor.value()));
-    } else {
-        stripped.add(blox_TempSensorMock_Block_value_tag);
-    }
-
-    message.setting = cnl::unwrap((sensor.setting()));
-    message.connected = sensor.connected();
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 }
 
 cbox::CboxError
 TempSensorMockBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
-    writeMessage(message);
+    message.fluctuations.funcs.encode = &encodeFluctuations;
+    message.fluctuations.arg = const_cast<std::vector<Fluctuation>*>(&sensor.fluctuations());
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TempSensorMock_Block_fields,
-                           protoSize());
+    message.setting = cnl::unwrap((sensor.setting()));
+    message.connected = sensor.connected();
+
+    if (sensor.valid()) {
+        message.value = cnl::unwrap((sensor.value()));
+    } else {
+        excluded.push_back(blox_TempSensorMock_Block_value_tag);
+    }
+
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TempSensorMock_Block_fields,
+                     protoSize())
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -101,16 +96,18 @@ TempSensorMockBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
 
-    writeMessage(message);
-    message.value = 0; // value does not need persisting
+    message.fluctuations.funcs.encode = &encodeFluctuations;
+    message.fluctuations.arg = const_cast<std::vector<Fluctuation>*>(&sensor.fluctuations());
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TempSensorMock_Block_fields,
-                           protoSize());
+    message.setting = cnl::unwrap((sensor.setting()));
+    message.connected = sensor.connected();
+
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TempSensorMock_Block_fields,
+                     protoSize())
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -118,18 +115,24 @@ TempSensorMockBlock::write(const cbox::Payload& payload)
 {
     blox_TempSensorMock_Block message = blox_TempSensorMock_Block_init_zero;
     std::vector<Fluctuation> newFlucts;
-    message.fluctuations.funcs.decode = &streamFluctuationsIn;
+    message.fluctuations.funcs.decode = &decodeFluctuations;
     message.fluctuations.arg = &newFlucts;
 
-    auto res = payloadToMessage(payload, &message, blox_TempSensorMock_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        sensor.fluctuations(std::move(newFlucts));
-        sensor.setting(cnl::wrap<temp_t>(message.setting));
-        sensor.connected(message.connected);
+    if (parser.fillMessage(&message, blox_TempSensorMock_Block_fields)) {
+        if (parser.hasField(blox_TempSensorMock_Block_fluctuations_tag)) {
+            sensor.fluctuations(std::move(newFlucts));
+        }
+        if (parser.hasField(blox_TempSensorMock_Block_setting_tag)) {
+            sensor.setting(cnl::wrap<temp_t>(message.setting));
+        }
+        if (parser.hasField(blox_TempSensorMock_Block_connected_tag)) {
+            sensor.connected(message.connected);
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t TempSensorMockBlock::updateHandler(const cbox::update_t& now)

@@ -90,7 +90,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorMock::Block, connected_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorMock::Block, setting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorMock::Block, fluctuations_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorMock::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::TempSensorMock::Fluctuation)},
@@ -127,16 +126,15 @@ void AddDescriptorsImpl() {
       "empSensorMock\032\023brewblox_test.proto\032\021nano"
       "pb_test.proto\"^\n\013Fluctuation\022+\n\tamplitud"
       "e\030\001 \001(\021B\030\212\265\030\0020\001\212\265\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \022\"\n\006per"
-      "iod\030\002 \001(\rB\022\212\265\030\002\010\003\212\265\030\003\020\350\007\222\?\0028 \"\354\001\n\005Block\022"
+      "iod\030\002 \001(\rB\022\212\265\030\002\010\003\212\265\030\003\020\350\007\222\?\0028 \"\302\001\n\005Block\022"
       "-\n\005value\030\001 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030\002("
       "\001\222\?\0028 \022\031\n\tconnected\030\003 \001(\010B\006\212\265\030\0020\001\022#\n\007set"
       "ting\030\004 \001(\021B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022;\n\014fluctu"
       "ations\030\005 \003(\0132%.blox_test.TempSensorMock."
-      "Fluctuation\022(\n\016strippedFields\030c \003(\rB\020\212\265\030"
-      "\002(\001\222\?\0028\020\222\?\002\020\001:\r\212\265\030\003\030\255\002\212\265\030\002H\002b\006proto3"
+      "Fluctuation:\r\212\265\030\003\030\255\002\212\265\030\002H\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 436);
+      descriptor, 394);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TempSensorMock_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -431,7 +429,6 @@ const int Block::kValueFieldNumber;
 const int Block::kConnectedFieldNumber;
 const int Block::kSettingFieldNumber;
 const int Block::kFluctuationsFieldNumber;
-const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -444,8 +441,7 @@ Block::Block()
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      fluctuations_(from.fluctuations_),
-      strippedfields_(from.strippedfields_) {
+      fluctuations_(from.fluctuations_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&value_, &from.value_,
     static_cast<size_t>(reinterpret_cast<char*>(&setting_) -
@@ -488,7 +484,6 @@ void Block::Clear() {
   (void) cached_has_bits;
 
   fluctuations_.Clear();
-  strippedfields_.Clear();
   ::memset(&value_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&setting_) -
       reinterpret_cast<char*>(&value_)) + sizeof(setting_));
@@ -501,7 +496,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.TempSensorMock.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -559,25 +554,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -628,17 +604,6 @@ void Block::SerializeWithCachedSizes(
       output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -676,19 +641,6 @@ void Block::SerializeWithCachedSizes(
         5, this->fluctuations(static_cast<int>(i)), deterministic, target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -715,22 +667,6 @@ size_t Block::ByteSizeLong() const {
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           this->fluctuations(static_cast<int>(i)));
     }
-  }
-
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      UInt32Size(this->strippedfields_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
   }
 
   // sint32 value = 1 [(.nanopb) = {
@@ -780,7 +716,6 @@ void Block::MergeFrom(const Block& from) {
   (void) cached_has_bits;
 
   fluctuations_.MergeFrom(from.fluctuations_);
-  strippedfields_.MergeFrom(from.strippedfields_);
   if (from.value() != 0) {
     set_value(from.value());
   }
@@ -817,7 +752,6 @@ void Block::Swap(Block* other) {
 void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&fluctuations_)->InternalSwap(CastToBase(&other->fluctuations_));
-  strippedfields_.InternalSwap(&other->strippedfields_);
   swap(value_, other->value_);
   swap(connected_, other->connected_);
   swap(setting_, other->setting_);

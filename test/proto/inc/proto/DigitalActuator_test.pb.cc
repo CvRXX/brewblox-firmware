@@ -65,7 +65,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, invert_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, constrainedby_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, desiredstate_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::DigitalActuator::Block)},
@@ -99,19 +98,17 @@ void AddDescriptorsImpl() {
       "\n\032DigitalActuator_test.proto\022\031blox_test."
       "DigitalActuator\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\032\026Constraints_test.proto\032"
-      "\022IoArray_test.proto\"\314\002\n\005Block\022#\n\010hwDevic"
+      "\022IoArray_test.proto\"\242\002\n\005Block\022#\n\010hwDevic"
       "e\030\001 \001(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 "
       "\001(\rB\005\222\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.Io"
       "Array.DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006inve"
       "rt\030\004 \001(\010\022@\n\rconstrainedBy\030\005 \001(\0132).blox_t"
       "est.Constraints.DigitalConstraints\022=\n\014de"
       "siredState\030\006 \001(\0162\037.blox_test.IoArray.Dig"
-      "italStateB\006\212\265\030\0020\001\022(\n\016strippedFields\030c \003("
-      "\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\001:\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006prot"
-      "o3"
+      "italStateB\006\212\265\030\0020\001:\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 482);
+      descriptor, 440);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DigitalActuator_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -153,7 +150,6 @@ const int Block::kStateFieldNumber;
 const int Block::kInvertFieldNumber;
 const int Block::kConstrainedByFieldNumber;
 const int Block::kDesiredStateFieldNumber;
-const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -165,8 +161,7 @@ Block::Block()
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      strippedfields_(from.strippedfields_) {
+      _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_constrainedby()) {
     constrainedby_ = new ::blox_test::Constraints::DigitalConstraints(*from.constrainedby_);
@@ -214,7 +209,6 @@ void Block::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  strippedfields_.Clear();
   if (GetArenaNoVirtual() == NULL && constrainedby_ != NULL) {
     delete constrainedby_;
   }
@@ -231,7 +225,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.DigitalActuator.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -319,25 +313,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -397,17 +372,6 @@ void Block::SerializeWithCachedSizes(
       6, this->desiredstate(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -456,19 +420,6 @@ void Block::SerializeWithCachedSizes(
       6, this->desiredstate(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -486,22 +437,6 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      UInt32Size(this->strippedfields_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
   // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
   if (this->has_constrainedby()) {
     total_size += 1 +
@@ -567,7 +502,6 @@ void Block::MergeFrom(const Block& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_constrainedby()) {
     mutable_constrainedby()->::blox_test::Constraints::DigitalConstraints::MergeFrom(from.constrainedby());
   }
@@ -612,7 +546,6 @@ void Block::Swap(Block* other) {
 }
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  strippedfields_.InternalSwap(&other->strippedfields_);
   swap(constrainedby_, other->constrainedby_);
   swap(hwdevice_, other->hwdevice_);
   swap(channel_, other->channel_);

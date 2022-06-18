@@ -1,4 +1,5 @@
 #include "blocks/ActuatorLogicBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 
 blox_ActuatorLogic_Result
 DigitalCompare::eval() const
@@ -99,13 +100,12 @@ cbox::CboxError ActuatorLogicBlock::read(const cbox::PayloadCallback& callback) 
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, true);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorLogic_Block_fields,
-                           blox_ActuatorLogic_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorLogic_Block_fields,
+                     blox_ActuatorLogic_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -114,37 +114,44 @@ ActuatorLogicBlock::readStored(const cbox::PayloadCallback& callback) const
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
     writeMessage(message, false);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorLogic_Block_fields,
-                           blox_ActuatorLogic_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorLogic_Block_fields,
+                     blox_ActuatorLogic_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorLogic_Block message = blox_ActuatorLogic_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_ActuatorLogic_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        target.setId(message.targetId);
-        enabler.set(message.enabled);
-        digitals.clear();
-        analogs.clear();
-
-        for (pb_size_t i = 0; i < message.digital_count; i++) {
-            digitals.emplace_back(message.digital[i]);
+    if (parser.fillMessage(&message, blox_ActuatorLogic_Block_fields)) {
+        if (parser.hasField(blox_ActuatorLogic_Block_targetId_tag)) {
+            target.setId(message.targetId);
         }
-        for (pb_size_t i = 0; i < message.analog_count; i++) {
-            analogs.emplace_back(message.analog[i]);
+        if (parser.hasField(blox_ActuatorLogic_Block_enabled_tag)) {
+            enabler.set(message.enabled);
         }
-
-        expression = std::string(message.expression);
+        if (parser.hasField(blox_ActuatorLogic_Block_digital_tag)) {
+            digitals.clear();
+            for (pb_size_t i = 0; i < message.digital_count; i++) {
+                digitals.emplace_back(message.digital[i]);
+            }
+        }
+        if (parser.hasField(blox_ActuatorLogic_Block_analog_tag)) {
+            analogs.clear();
+            for (pb_size_t i = 0; i < message.analog_count; i++) {
+                analogs.emplace_back(message.analog[i]);
+            }
+        }
+        if (parser.hasField(blox_ActuatorLogic_Block_expression_tag)) {
+            expression = std::string(message.expression);
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

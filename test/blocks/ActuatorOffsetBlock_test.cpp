@@ -162,13 +162,14 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
             auto readMsg = blox_test::ActuatorOffset::Block();
             payloadToMessage(readCmd, readMsg);
 
+            REQUIRE(readCmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+            REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{7, 6});
+
             CHECK(readMsg.ShortDebugString() ==
                   "targetId: 101 "
                   "referenceId: 103 "
                   "enabled: true "
-                  "desiredSetting: 49152 "
-                  "strippedFields: 7 "
-                  "strippedFields: 6");
+                  "desiredSetting: 49152");
         }
     }
 }

@@ -91,7 +91,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[3];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -103,6 +103,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::command::Payload, blocktype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::command::Payload, subtype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::command::Payload, content_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::command::Payload, mask_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::command::Payload, maskmode_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::command::Request, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -122,8 +124,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::command::Payload)},
-  { 9, -1, sizeof(::command::Request)},
-  { 17, -1, sizeof(::command::Response)},
+  { 11, -1, sizeof(::command::Request)},
+  { 19, -1, sizeof(::command::Response)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -154,44 +156,46 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022command_test.proto\022\007command\032\023brewblox_"
-      "test.proto\032\021nanopb_test.proto\"r\n\007Payload"
-      "\022\026\n\007blockId\030\001 \001(\rB\005\222\?\0028\020\022&\n\tblockType\030\002 "
-      "\001(\0162\023.brewblox.BlockType\022\026\n\007subtype\030\003 \001("
-      "\rB\005\222\?\0028\020\022\017\n\007content\030\004 \001(\t\"\\\n\007Request\022\r\n\005"
-      "msgId\030\001 \001(\r\022\037\n\006opcode\030\002 \001(\0162\017.command.Op"
-      "code\022!\n\007payload\030\003 \001(\0132\020.command.Payload\""
-      "_\n\010Response\022\r\n\005msgId\030\001 \001(\r\022!\n\005error\030\002 \001("
-      "\0162\022.command.ErrorCode\022!\n\007payload\030\003 \003(\0132\020"
-      ".command.Payload*\212\002\n\006Opcode\022\010\n\004NONE\020\000\022\013\n"
-      "\007VERSION\020\001\022\016\n\nBLOCK_READ\020\n\022\022\n\016BLOCK_READ"
-      "_ALL\020\013\022\017\n\013BLOCK_WRITE\020\014\022\020\n\014BLOCK_CREATE\020"
-      "\r\022\020\n\014BLOCK_DELETE\020\016\022\022\n\016BLOCK_DISCOVER\020\017\022"
-      "\020\n\014STORAGE_READ\020\024\022\024\n\020STORAGE_READ_ALL\020\025\022"
-      "\n\n\006REBOOT\020\036\022\020\n\014CLEAR_BLOCKS\020\037\022\016\n\nCLEAR_W"
-      "IFI\020 \022\021\n\rFACTORY_RESET\020!\022\023\n\017FIRMWARE_UPD"
-      "ATE\020(*\355\005\n\tErrorCode\022\006\n\002OK\020\000\022\021\n\rUNKNOWN_E"
-      "RROR\020\001\022\022\n\016INVALID_OPCODE\020\002\022\025\n\021INSUFFICIE"
-      "NT_HEAP\020\004\022\030\n\024INSUFFICIENT_STORAGE\020\005\022\021\n\rN"
-      "ETWORK_ERROR\020\n\022\026\n\022NETWORK_READ_ERROR\020\013\022\032"
-      "\n\026NETWORK_DECODING_ERROR\020\014\022\027\n\023NETWORK_WR"
-      "ITE_ERROR\020\r\022\032\n\026NETWORK_ENCODING_ERROR\020\016\022"
-      "\021\n\rSTORAGE_ERROR\020\024\022\026\n\022STORAGE_READ_ERROR"
-      "\020\025\022\032\n\026STORAGE_DECODING_ERROR\020\026\022\025\n\021STORAG"
-      "E_CRC_ERROR\020\027\022\027\n\023STORAGE_WRITE_ERROR\020\030\022\032"
-      "\n\026STORAGE_ENCODING_ERROR\020\031\022\026\n\022BLOCK_NOT_"
-      "WRITABLE\020\036\022\026\n\022BLOCK_NOT_READABLE\020\037\022\027\n\023BL"
-      "OCK_NOT_CREATABLE\020 \022\027\n\023BLOCK_NOT_DELETAB"
-      "LE\020!\022\021\n\rINVALID_BLOCK\020(\022\024\n\020INVALID_BLOCK"
-      "_ID\020)\022\026\n\022INVALID_BLOCK_TYPE\020*\022\031\n\025INVALID"
-      "_BLOCK_SUBTYPE\020+\022\031\n\025INVALID_BLOCK_CONTEN"
-      "T\020,\022\030\n\024INVALID_STORED_BLOCK\0202\022\033\n\027INVALID"
-      "_STORED_BLOCK_ID\0203\022\035\n\031INVALID_STORED_BLO"
-      "CK_TYPE\0204\022 \n\034INVALID_STORED_BLOCK_SUBTYP"
-      "E\0205\022 \n\034INVALID_STORED_BLOCK_CONTENT\0206b\006p"
-      "roto3"
+      "test.proto\032\021nanopb_test.proto\"\254\001\n\007Payloa"
+      "d\022\026\n\007blockId\030\001 \001(\rB\005\222\?\0028\020\022&\n\tblockType\030\002"
+      " \001(\0162\023.brewblox.BlockType\022\026\n\007subtype\030\003 \001"
+      "(\rB\005\222\?\0028\020\022\017\n\007content\030\004 \001(\t\022\023\n\004mask\030\005 \003(\r"
+      "B\005\222\?\0028\020\022#\n\010maskMode\030\006 \001(\0162\021.command.Mask"
+      "Mode\"\\\n\007Request\022\r\n\005msgId\030\001 \001(\r\022\037\n\006opcode"
+      "\030\002 \001(\0162\017.command.Opcode\022!\n\007payload\030\003 \001(\013"
+      "2\020.command.Payload\"_\n\010Response\022\r\n\005msgId\030"
+      "\001 \001(\r\022!\n\005error\030\002 \001(\0162\022.command.ErrorCode"
+      "\022!\n\007payload\030\003 \003(\0132\020.command.Payload*\212\002\n\006"
+      "Opcode\022\010\n\004NONE\020\000\022\013\n\007VERSION\020\001\022\016\n\nBLOCK_R"
+      "EAD\020\n\022\022\n\016BLOCK_READ_ALL\020\013\022\017\n\013BLOCK_WRITE"
+      "\020\014\022\020\n\014BLOCK_CREATE\020\r\022\020\n\014BLOCK_DELETE\020\016\022\022"
+      "\n\016BLOCK_DISCOVER\020\017\022\020\n\014STORAGE_READ\020\024\022\024\n\020"
+      "STORAGE_READ_ALL\020\025\022\n\n\006REBOOT\020\036\022\020\n\014CLEAR_"
+      "BLOCKS\020\037\022\016\n\nCLEAR_WIFI\020 \022\021\n\rFACTORY_RESE"
+      "T\020!\022\023\n\017FIRMWARE_UPDATE\020(*\355\005\n\tErrorCode\022\006"
+      "\n\002OK\020\000\022\021\n\rUNKNOWN_ERROR\020\001\022\022\n\016INVALID_OPC"
+      "ODE\020\002\022\025\n\021INSUFFICIENT_HEAP\020\004\022\030\n\024INSUFFIC"
+      "IENT_STORAGE\020\005\022\021\n\rNETWORK_ERROR\020\n\022\026\n\022NET"
+      "WORK_READ_ERROR\020\013\022\032\n\026NETWORK_DECODING_ER"
+      "ROR\020\014\022\027\n\023NETWORK_WRITE_ERROR\020\r\022\032\n\026NETWOR"
+      "K_ENCODING_ERROR\020\016\022\021\n\rSTORAGE_ERROR\020\024\022\026\n"
+      "\022STORAGE_READ_ERROR\020\025\022\032\n\026STORAGE_DECODIN"
+      "G_ERROR\020\026\022\025\n\021STORAGE_CRC_ERROR\020\027\022\027\n\023STOR"
+      "AGE_WRITE_ERROR\020\030\022\032\n\026STORAGE_ENCODING_ER"
+      "ROR\020\031\022\026\n\022BLOCK_NOT_WRITABLE\020\036\022\026\n\022BLOCK_N"
+      "OT_READABLE\020\037\022\027\n\023BLOCK_NOT_CREATABLE\020 \022\027"
+      "\n\023BLOCK_NOT_DELETABLE\020!\022\021\n\rINVALID_BLOCK"
+      "\020(\022\024\n\020INVALID_BLOCK_ID\020)\022\026\n\022INVALID_BLOC"
+      "K_TYPE\020*\022\031\n\025INVALID_BLOCK_SUBTYPE\020+\022\031\n\025I"
+      "NVALID_BLOCK_CONTENT\020,\022\030\n\024INVALID_STORED"
+      "_BLOCK\0202\022\033\n\027INVALID_STORED_BLOCK_ID\0203\022\035\n"
+      "\031INVALID_STORED_BLOCK_TYPE\0204\022 \n\034INVALID_"
+      "STORED_BLOCK_SUBTYPE\0205\022 \n\034INVALID_STORED"
+      "_BLOCK_CONTENT\0206*1\n\010MaskMode\022\007\n\003ANY\020\000\022\r\n"
+      "\tINCLUSIVE\020\001\022\r\n\tEXCLUSIVE\020\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1405);
+      descriptor, 1515);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "command_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -279,6 +283,21 @@ bool ErrorCode_IsValid(int value) {
   }
 }
 
+const ::google::protobuf::EnumDescriptor* MaskMode_descriptor() {
+  protobuf_command_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_command_5ftest_2eproto::file_level_enum_descriptors[2];
+}
+bool MaskMode_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
@@ -289,6 +308,8 @@ const int Payload::kBlockIdFieldNumber;
 const int Payload::kBlockTypeFieldNumber;
 const int Payload::kSubtypeFieldNumber;
 const int Payload::kContentFieldNumber;
+const int Payload::kMaskFieldNumber;
+const int Payload::kMaskModeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Payload::Payload()
@@ -300,23 +321,24 @@ Payload::Payload()
 }
 Payload::Payload(const Payload& from)
   : ::google::protobuf::Message(),
-      _internal_metadata_(NULL) {
+      _internal_metadata_(NULL),
+      mask_(from.mask_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.content().size() > 0) {
     content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
   }
   ::memcpy(&blockid_, &from.blockid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&subtype_) -
-    reinterpret_cast<char*>(&blockid_)) + sizeof(subtype_));
+    static_cast<size_t>(reinterpret_cast<char*>(&maskmode_) -
+    reinterpret_cast<char*>(&blockid_)) + sizeof(maskmode_));
   // @@protoc_insertion_point(copy_constructor:command.Payload)
 }
 
 void Payload::SharedCtor() {
   content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&blockid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&subtype_) -
-      reinterpret_cast<char*>(&blockid_)) + sizeof(subtype_));
+      reinterpret_cast<char*>(&maskmode_) -
+      reinterpret_cast<char*>(&blockid_)) + sizeof(maskmode_));
 }
 
 Payload::~Payload() {
@@ -348,10 +370,11 @@ void Payload::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  mask_.Clear();
   content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&blockid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&subtype_) -
-      reinterpret_cast<char*>(&blockid_)) + sizeof(subtype_));
+      reinterpret_cast<char*>(&maskmode_) -
+      reinterpret_cast<char*>(&blockid_)) + sizeof(maskmode_));
   _internal_metadata_.Clear();
 }
 
@@ -424,6 +447,40 @@ bool Payload::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated uint32 mask = 5 [(.nanopb) = {
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_mask())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 1, 42u, input, this->mutable_mask())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .command.MaskMode maskMode = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_maskmode(static_cast< ::command::MaskMode >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -476,6 +533,23 @@ void Payload::SerializeWithCachedSizes(
       4, this->content(), output);
   }
 
+  // repeated uint32 mask = 5 [(.nanopb) = {
+  if (this->mask_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(5, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
+        _mask_cached_byte_size_));
+  }
+  for (int i = 0, n = this->mask_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->mask(i), output);
+  }
+
+  // .command.MaskMode maskMode = 6;
+  if (this->maskmode() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      6, this->maskmode(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -517,6 +591,25 @@ void Payload::SerializeWithCachedSizes(
         4, this->content(), target);
   }
 
+  // repeated uint32 mask = 5 [(.nanopb) = {
+  if (this->mask_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      5,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+        static_cast< ::google::protobuf::int32>(
+            _mask_cached_byte_size_), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteUInt32NoTagToArray(this->mask_, target);
+  }
+
+  // .command.MaskMode maskMode = 6;
+  if (this->maskmode() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      6, this->maskmode(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -534,6 +627,22 @@ size_t Payload::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // repeated uint32 mask = 5 [(.nanopb) = {
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      UInt32Size(this->mask_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+            static_cast< ::google::protobuf::int32>(data_size));
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _mask_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
   // string content = 4;
   if (this->content().size() > 0) {
     total_size += 1 +
@@ -559,6 +668,12 @@ size_t Payload::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->subtype());
+  }
+
+  // .command.MaskMode maskMode = 6;
+  if (this->maskmode() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->maskmode());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -588,6 +703,7 @@ void Payload::MergeFrom(const Payload& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  mask_.MergeFrom(from.mask_);
   if (from.content().size() > 0) {
 
     content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
@@ -600,6 +716,9 @@ void Payload::MergeFrom(const Payload& from) {
   }
   if (from.subtype() != 0) {
     set_subtype(from.subtype());
+  }
+  if (from.maskmode() != 0) {
+    set_maskmode(from.maskmode());
   }
 }
 
@@ -627,11 +746,13 @@ void Payload::Swap(Payload* other) {
 }
 void Payload::InternalSwap(Payload* other) {
   using std::swap;
+  mask_.InternalSwap(&other->mask_);
   content_.Swap(&other->content_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(blockid_, other->blockid_);
   swap(blocktype_, other->blocktype_);
   swap(subtype_, other->subtype_);
+  swap(maskmode_, other->maskmode_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

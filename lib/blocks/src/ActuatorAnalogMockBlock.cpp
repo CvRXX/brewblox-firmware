@@ -1,23 +1,23 @@
 #include "blocks/ActuatorAnalogMockBlock.hpp"
 #include "blocks/ConstraintsProto.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "proto/ActuatorAnalogMock.pb.h"
 
 cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     if (constrained.valueValid()) {
         message.value = cnl::unwrap(constrained.value());
     } else {
-        stripped.add(blox_ActuatorAnalogMock_Block_value_tag);
+        excluded.push_back(blox_ActuatorAnalogMock_Block_value_tag);
     }
     if (constrained.settingValid()) {
         message.setting = cnl::unwrap(constrained.setting());
     } else {
-        stripped.add(blox_ActuatorAnalogMock_Block_setting_tag);
+        excluded.push_back(blox_ActuatorAnalogMock_Block_setting_tag);
     };
 
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
@@ -28,13 +28,13 @@ cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callb
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorAnalogMock_Block_fields,
-                           blox_ActuatorAnalogMock_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorAnalogMock_Block_fields,
+                     blox_ActuatorAnalogMock_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError ActuatorAnalogMockBlock::readStored(const cbox::PayloadCallback& callback) const
@@ -49,30 +49,41 @@ cbox::CboxError ActuatorAnalogMockBlock::readStored(const cbox::PayloadCallback&
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorAnalogMock_Block_fields,
-                           blox_ActuatorAnalogMock_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorAnalogMock_Block_fields,
+                     blox_ActuatorAnalogMock_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError ActuatorAnalogMockBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_ActuatorAnalogMock_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        actuator.minSetting(cnl::wrap<ActuatorAnalog::value_t>(message.minSetting));
-        actuator.maxSetting(cnl::wrap<ActuatorAnalog::value_t>(message.maxSetting));
-        actuator.minValue(cnl::wrap<ActuatorAnalog::value_t>(message.minValue));
-        actuator.maxValue(cnl::wrap<ActuatorAnalog::value_t>(message.maxValue));
-        setAnalogConstraints(message.constrainedBy, constrained);
-        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+    if (parser.fillMessage(&message, blox_ActuatorAnalogMock_Block_fields)) {
+        if (parser.hasField(blox_ActuatorAnalogMock_Block_minSetting_tag)) {
+            actuator.minSetting(cnl::wrap<ActuatorAnalog::value_t>(message.minSetting));
+        }
+        if (parser.hasField(blox_ActuatorAnalogMock_Block_maxSetting_tag)) {
+            actuator.maxSetting(cnl::wrap<ActuatorAnalog::value_t>(message.maxSetting));
+        }
+        if (parser.hasField(blox_ActuatorAnalogMock_Block_minValue_tag)) {
+            actuator.minValue(cnl::wrap<ActuatorAnalog::value_t>(message.minValue));
+        }
+        if (parser.hasField(blox_ActuatorAnalogMock_Block_maxValue_tag)) {
+            actuator.maxValue(cnl::wrap<ActuatorAnalog::value_t>(message.maxValue));
+        }
+        if (parser.hasField(blox_ActuatorAnalogMock_Block_constrainedBy_tag)) {
+            setAnalogConstraints(message.constrainedBy, constrained);
+        }
+        if (parser.hasField(blox_ActuatorAnalogMock_Block_desiredSetting_tag)) {
+            constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 void* ActuatorAnalogMockBlock::implements(cbox::obj_type_t iface)

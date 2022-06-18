@@ -17,19 +17,12 @@
  * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "intellisense.hpp"
+
 #include "blocks/SysInfoBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/proto_version.h"
 #include <cstring>
-
-#ifndef GIT_VERSION
-#error GIT_VERSION not set
-#endif
-
-// Intellisense fails to consider the quotes around the defined value
-#ifdef __INTELLISENSE__
-#define GIT_VERSION ""
-#define GIT_DATE ""
-#endif
 
 cbox::CboxError
 SysInfoBlock::read(const cbox::PayloadCallback& callback) const
@@ -48,13 +41,12 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
 
     command = Command::NONE;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_SysInfo_Block_fields,
-                           blox_SysInfo_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_SysInfo_Block_fields,
+                     blox_SysInfo_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -67,11 +59,13 @@ cbox::CboxError
 SysInfoBlock::write(const cbox::Payload& payload)
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_SysInfo_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        command = Command(message.command);
+    if (parser.fillMessage(&message, blox_SysInfo_Block_fields)) {
+        if (parser.hasField(blox_SysInfo_Block_command_tag)) {
+            command = Command(message.command);
+        }
     }
 
-    return res;
+    return parser.status();
 }

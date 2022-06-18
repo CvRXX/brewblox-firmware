@@ -153,18 +153,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  int strippedfields_size() const;
-  void clear_strippedfields();
-  static const int kStrippedFieldsFieldNumber = 99;
-  ::google::protobuf::uint32 strippedfields(int index) const;
-  void set_strippedfields(int index, ::google::protobuf::uint32 value);
-  void add_strippedfields(::google::protobuf::uint32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-      strippedfields() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-      mutable_strippedfields();
-
   // .blox_test.Constraints.DigitalConstraints constrainedBy = 5;
   bool has_constrainedby() const;
   void clear_constrainedby();
@@ -211,8 +199,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
-  mutable int _strippedfields_cached_byte_size_;
   ::blox_test::Constraints::DigitalConstraints* constrainedby_;
   ::google::protobuf::uint32 hwdevice_;
   ::google::protobuf::uint32 channel_;
@@ -349,36 +335,6 @@ inline void Block::set_desiredstate(::blox_test::IoArray::DigitalState value) {
   
   desiredstate_ = value;
   // @@protoc_insertion_point(field_set:blox_test.DigitalActuator.Block.desiredState)
-}
-
-// repeated uint32 strippedFields = 99 [(.nanopb) = {
-inline int Block::strippedfields_size() const {
-  return strippedfields_.size();
-}
-inline void Block::clear_strippedfields() {
-  strippedfields_.Clear();
-}
-inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox_test.DigitalActuator.Block.strippedFields)
-  return strippedfields_.Get(index);
-}
-inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
-  strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox_test.DigitalActuator.Block.strippedFields)
-}
-inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
-  strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox_test.DigitalActuator.Block.strippedFields)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox_test.DigitalActuator.Block.strippedFields)
-  return strippedfields_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox_test.DigitalActuator.Block.strippedFields)
-  return &strippedfields_;
 }
 
 #ifdef __GNUC__

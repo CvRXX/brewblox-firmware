@@ -18,6 +18,7 @@
  */
 
 #include "blocks/DS2408Block.hpp"
+#include "cbox/PayloadConversion.hpp"
 
 cbox::CboxError
 DS2408Block::read(const cbox::PayloadCallback& callback) const
@@ -44,13 +45,12 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
         message.channels[1].id = blox_DS2408_ChannelId_DS2408_VALVE_B;
     }
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_DS2408_Block_fields,
-                           blox_DS2408_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_DS2408_Block_fields,
+                     blox_DS2408_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -62,30 +62,35 @@ DS2408Block::readStored(const cbox::PayloadCallback& callback) const
     message.address = uint64_t(device.address());
     message.connectMode = connectMode;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_DS2408_Block_fields,
-                           blox_DS2408_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_DS2408_Block_fields,
+                     blox_DS2408_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 DS2408Block::write(const cbox::Payload& payload)
 {
     blox_DS2408_Block message = blox_DS2408_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_DS2408_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        if (message.oneWireBusId) {
-            busPtr().setId(message.oneWireBusId);
+    if (parser.fillMessage(&message, blox_DS2408_Block_fields)) {
+        if (parser.hasField(blox_DS2408_Block_oneWireBusId_tag)) {
+            if (message.oneWireBusId) {
+                busPtr().setId(message.oneWireBusId);
+            }
         }
-        device.address(OneWireAddress(message.address));
-        connectMode = message.connectMode;
+        if (parser.hasField(blox_DS2408_Block_address_tag)) {
+            device.address(OneWireAddress(message.address));
+        }
+        if (parser.hasField(blox_DS2408_Block_connectMode_tag)) {
+            connectMode = message.connectMode;
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

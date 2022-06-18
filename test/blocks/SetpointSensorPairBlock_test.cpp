@@ -106,15 +106,16 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             payloadToMessage(cmd, message);
 
+            REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{6, 11});
+
             CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
                   "setting: 86016 "
                   "settingEnabled: true "
                   "storedSetting: 86016 "
                   "filter: FILTER_3m "
-                  "filterThreshold: 2048 "
-                  "strippedFields: 6 "
-                  "strippedFields: 11");
+                  "filterThreshold: 2048");
         }
     }
 
