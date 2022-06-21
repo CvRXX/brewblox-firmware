@@ -18,9 +18,9 @@
  */
 
 #include "blocks/PidBlock.hpp"
-#include "blocks/FieldTags.hpp"
 #include "cbox/Application.hpp"
 #include "cbox/Cache.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "control/ProcessValue.hpp"
 #include "proto/Pid.pb.h"
 
@@ -28,17 +28,12 @@ struct __attribute__((packed)) PidCacheLayout {
     int32_t i{0};
 };
 
-static constexpr uint16_t cacheInterval{5000};
-
-PidBlock::PidBlock()
-    : pid(input, output)
-{
-}
+static constexpr uint16_t CACHE_INTERVAL{5000};
 
 cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     message.inputId = input.getId();
     message.outputId = output.getId();
@@ -47,33 +42,33 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
         if (ptr->valueValid()) {
             message.inputValue = cnl::unwrap(ptr->value());
         } else {
-            stripped.add(blox_Pid_Block_inputValue_tag);
+            excluded.push_back(blox_Pid_Block_inputValue_tag);
         }
         if (ptr->settingValid()) {
             message.inputSetting = cnl::unwrap(ptr->setting());
         } else {
-            stripped.add(blox_Pid_Block_inputSetting_tag);
+            excluded.push_back(blox_Pid_Block_inputSetting_tag);
         }
     } else {
-        stripped.add(blox_Pid_Block_inputSetting_tag);
-        stripped.add(blox_Pid_Block_inputValue_tag);
+        excluded.push_back(blox_Pid_Block_inputSetting_tag);
+        excluded.push_back(blox_Pid_Block_inputValue_tag);
     }
 
     if (auto ptr = output.lock()) {
         if (ptr->valueValid()) {
             message.outputValue = cnl::unwrap(ptr->value());
         } else {
-            stripped.add(blox_Pid_Block_outputValue_tag);
+            excluded.push_back(blox_Pid_Block_outputValue_tag);
         }
         if (ptr->settingValid()) {
             message.outputSetting = cnl::unwrap(ptr->setting());
         } else {
-            stripped.add(blox_Pid_Block_outputSetting_tag);
+            excluded.push_back(blox_Pid_Block_outputSetting_tag);
         }
 
     } else {
-        stripped.add(blox_Pid_Block_outputSetting_tag);
-        stripped.add(blox_Pid_Block_outputValue_tag);
+        excluded.push_back(blox_Pid_Block_outputSetting_tag);
+        excluded.push_back(blox_Pid_Block_outputValue_tag);
     }
     if (pid.active()) {
         message.drivenOutputId = message.outputId;
@@ -95,15 +90,13 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     message.boilModeActive = pid.boilModeActive();
     message.derivativeFilter = blox_SetpointSensorPair_FilterChoice(pid.derivativeFilterNr());
 
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 4);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Pid_Block_fields,
-                           blox_Pid_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Pid_Block_fields,
+                     blox_Pid_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -120,36 +113,52 @@ PidBlock::readStored(const cbox::PayloadCallback& callback) const
     message.boilPointAdjust = cnl::unwrap(pid.boilPointAdjust());
     message.boilMinOutput = cnl::unwrap(pid.boilMinOutput());
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Pid_Block_fields,
-                           blox_Pid_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Pid_Block_fields,
+                     blox_Pid_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError PidBlock::write(const cbox::Payload& payload)
 {
     blox_Pid_Block message = blox_Pid_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_Pid_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        pid.enabler.set(message.enabled);
-        input.setId(message.inputId);
-        output.setId(message.outputId);
-        pid.kp(cnl::wrap<Pid::in_t>(message.kp));
-        pid.ti(message.ti);
-        pid.td(message.td);
-        if (message.integralReset != 0) {
+    if (parser.fillMessage(&message, blox_Pid_Block_fields)) {
+        if (parser.hasField(blox_Pid_Block_enabled_tag)) {
+            pid.enabler.set(message.enabled);
+        }
+        if (parser.hasField(blox_Pid_Block_inputId_tag)) {
+            input.setId(message.inputId);
+        }
+        if (parser.hasField(blox_Pid_Block_outputId_tag)) {
+            output.setId(message.outputId);
+        }
+        if (parser.hasField(blox_Pid_Block_kp_tag)) {
+            pid.kp(cnl::wrap<Pid::in_t>(message.kp));
+        }
+        if (parser.hasField(blox_Pid_Block_ti_tag)) {
+            pid.ti(message.ti);
+        }
+        if (parser.hasField(blox_Pid_Block_td_tag)) {
+            pid.td(message.td);
+        }
+        if (parser.hasField(blox_Pid_Block_boilPointAdjust_tag)) {
+            pid.boilPointAdjust(cnl::wrap<Pid::in_t>(message.boilPointAdjust));
+        }
+        if (parser.hasField(blox_Pid_Block_boilMinOutput_tag)) {
+            pid.boilMinOutput(cnl::wrap<Pid::out_t>(message.boilMinOutput));
+        }
+        if (parser.hasField(blox_Pid_Block_integralReset_tag)
+            && message.integralReset != 0) {
             pid.setIntegral(cnl::wrap<Pid::out_t>(message.integralReset));
         }
-        pid.boilPointAdjust(cnl::wrap<Pid::in_t>(message.boilPointAdjust));
-        pid.boilMinOutput(cnl::wrap<Pid::out_t>(message.boilMinOutput));
         pid.update(); // force an update that bypasses the update interval
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::CboxError
@@ -184,7 +193,7 @@ PidBlock::updateHandler(const cbox::update_t& now)
         }
     }
 
-    if (now < lastCacheTime || now - lastCacheTime > cacheInterval) {
+    if (now < lastCacheTime || now - lastCacheTime > CACHE_INTERVAL) {
         lastCacheTime = now; // Do not retry on cache failure
         PidCacheLayout cached = {.i = cnl::unwrap(pid.i())};
         cbox::saveToCache(objectId(), staticTypeId(), cached);

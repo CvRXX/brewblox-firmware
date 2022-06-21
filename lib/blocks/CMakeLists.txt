@@ -6,7 +6,6 @@ set(blocks_srcs
   src/ActuatorOffsetBlock.cpp
   src/ActuatorPwmBlock.cpp
   src/BalancerBlock.cpp
-  src/Block.cpp
   src/BlockFactory.cpp
   src/BlockInterfaces.cpp
   src/DigitalActuatorBlock.cpp

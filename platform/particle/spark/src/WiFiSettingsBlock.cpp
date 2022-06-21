@@ -18,6 +18,7 @@
  */
 
 #include "spark/WiFiSettingsBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/WiFiSettings.pb.h"
 #include "spark/Connectivity.hpp"
 
@@ -31,32 +32,37 @@ cbox::CboxError WiFiSettingsBlock::read(const cbox::PayloadCallback& callback) c
     printWifiSSID(message.ssid, sizeof(message.ssid));
     message.signal = wifiSignal();
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_WiFiSettings_Block_fields,
-                           blox_WiFiSettings_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_WiFiSettings_Block_fields,
+                     blox_WiFiSettings_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError WiFiSettingsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return callWithMessage(callback, objectId(), staticTypeId(), 0);
+    return cbox::PayloadBuilder(*this)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError WiFiSettingsBlock::write(const cbox::Payload& payload)
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_WiFiSettings_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        if (message.password[0] != 0) {
-            // new wifi credentials received
-            setWifiCredentials(message.ssid, message.password, message.security, message.cipher);
+    if (parser.fillMessage(&message, blox_WiFiSettings_Block_fields)) {
+        if (parser.hasField(blox_WiFiSettings_Block_password_tag)) {
+            // all or nothing
+            // we don't support patching only the password or ssid
+            if (message.password[0] != 0) {
+                setWifiCredentials(message.ssid, message.password, message.security, message.cipher);
+            }
         }
     }
 
-    return res;
+    return parser.status();
 }
+
 } // end namespace platform::particle

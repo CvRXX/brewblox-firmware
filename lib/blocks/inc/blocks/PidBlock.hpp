@@ -36,8 +36,10 @@ private:
     cbox::update_t lastCacheTime{0};
 
 public:
-    PidBlock();
-    ~PidBlock() = default;
+    PidBlock()
+        : pid(input, output)
+    {
+    }
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;

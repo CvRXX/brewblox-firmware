@@ -78,7 +78,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, boilminoutput_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, boilmodeactive_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, derivativefilter_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Pid::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::Pid::Block)},
@@ -111,7 +110,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016Pid_test.proto\022\rblox_test.Pid\032\023brewblo"
       "x_test.proto\032\021nanopb_test.proto\032\035Setpoin"
-      "tSensorPair_test.proto\"\371\007\n\005Block\022\034\n\007inpu"
+      "tSensorPair_test.proto\"\317\007\n\005Block\022\034\n\007inpu"
       "tId\030\001 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\022\035\n\010outputId\030\002 \001(\r"
       "B\013\212\265\030\002\030\005\222\?\0028\020\0222\n\ninputValue\030\005 \001(\021B\036\212\265\030\0020"
       "\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\0224\n\014inputSettin"
@@ -135,12 +134,11 @@ void AddDescriptorsImpl() {
       "MinOutput\030\031 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022$\n\016boilMod"
       "eActive\030\032 \001(\010B\014\212\265\030\0020\001\212\265\030\002(\001\022L\n\020derivativ"
       "eFilter\030\033 \001(\0162*.blox_test.SetpointSensor"
-      "Pair.FilterChoiceB\006\212\265\030\002(\001\022(\n\016strippedFie"
-      "lds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\004:\r\212\265\030\003\030\260\002\212\265\030\002"
-      "H\017b\006proto3"
+      "Pair.FilterChoiceB\006\212\265\030\002(\001:\r\212\265\030\003\030\260\002\212\265\030\002H\017"
+      "b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1130);
+      descriptor, 1088);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Pid_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -190,7 +188,6 @@ const int Block::kBoilPointAdjustFieldNumber;
 const int Block::kBoilMinOutputFieldNumber;
 const int Block::kBoilModeActiveFieldNumber;
 const int Block::kDerivativeFilterFieldNumber;
-const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -202,19 +199,18 @@ Block::Block()
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      strippedfields_(from.strippedfields_) {
+      _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&inputid_, &from.inputid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&derivativefilter_) -
-    reinterpret_cast<char*>(&inputid_)) + sizeof(derivativefilter_));
+    static_cast<size_t>(reinterpret_cast<char*>(&boilminoutput_) -
+    reinterpret_cast<char*>(&inputid_)) + sizeof(boilminoutput_));
   // @@protoc_insertion_point(copy_constructor:blox_test.Pid.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&inputid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&derivativefilter_) -
-      reinterpret_cast<char*>(&inputid_)) + sizeof(derivativefilter_));
+      reinterpret_cast<char*>(&boilminoutput_) -
+      reinterpret_cast<char*>(&inputid_)) + sizeof(boilminoutput_));
 }
 
 Block::~Block() {
@@ -245,10 +241,9 @@ void Block::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  strippedfields_.Clear();
   ::memset(&inputid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&derivativefilter_) -
-      reinterpret_cast<char*>(&inputid_)) + sizeof(derivativefilter_));
+      reinterpret_cast<char*>(&boilminoutput_) -
+      reinterpret_cast<char*>(&inputid_)) + sizeof(boilminoutput_));
   _internal_metadata_.Clear();
 }
 
@@ -585,25 +580,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -746,17 +722,6 @@ void Block::SerializeWithCachedSizes(
       27, this->derivativefilter(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -887,19 +852,6 @@ void Block::SerializeWithCachedSizes(
       27, this->derivativefilter(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -917,22 +869,6 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      UInt32Size(this->strippedfields_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
   // uint32 inputId = 1 [(.nanopb) = {
   if (this->inputid() != 0) {
     total_size += 1 +
@@ -1067,6 +1003,12 @@ size_t Block::ByteSizeLong() const {
         this->integralreset());
   }
 
+  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
+  if (this->derivativefilter() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->derivativefilter());
+  }
+
   // sint32 boilPointAdjust = 24 [(.nanopb) = {
   if (this->boilpointadjust() != 0) {
     total_size += 2 +
@@ -1079,12 +1021,6 @@ size_t Block::ByteSizeLong() const {
     total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->boilminoutput());
-  }
-
-  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
-  if (this->derivativefilter() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->derivativefilter());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1114,7 +1050,6 @@ void Block::MergeFrom(const Block& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  strippedfields_.MergeFrom(from.strippedfields_);
   if (from.inputid() != 0) {
     set_inputid(from.inputid());
   }
@@ -1175,14 +1110,14 @@ void Block::MergeFrom(const Block& from) {
   if (from.integralreset() != 0) {
     set_integralreset(from.integralreset());
   }
+  if (from.derivativefilter() != 0) {
+    set_derivativefilter(from.derivativefilter());
+  }
   if (from.boilpointadjust() != 0) {
     set_boilpointadjust(from.boilpointadjust());
   }
   if (from.boilminoutput() != 0) {
     set_boilminoutput(from.boilminoutput());
-  }
-  if (from.derivativefilter() != 0) {
-    set_derivativefilter(from.derivativefilter());
   }
 }
 
@@ -1210,7 +1145,6 @@ void Block::Swap(Block* other) {
 }
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  strippedfields_.InternalSwap(&other->strippedfields_);
   swap(inputid_, other->inputid_);
   swap(outputid_, other->outputid_);
   swap(inputvalue_, other->inputvalue_);
@@ -1231,9 +1165,9 @@ void Block::InternalSwap(Block* other) {
   swap(derivative_, other->derivative_);
   swap(drivenoutputid_, other->drivenoutputid_);
   swap(integralreset_, other->integralreset_);
+  swap(derivativefilter_, other->derivativefilter_);
   swap(boilpointadjust_, other->boilpointadjust_);
   swap(boilminoutput_, other->boilminoutput_);
-  swap(derivativefilter_, other->derivativefilter_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

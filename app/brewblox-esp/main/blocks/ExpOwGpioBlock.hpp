@@ -46,7 +46,7 @@ public:
     void* implements(cbox::obj_type_t iface) override;
 
 private:
-    void writeMessage(blox_OneWireGpioModule_Block& message, bool includeNotPersisted) const;
+    cbox::CboxError handleRead(const cbox::PayloadCallback& callback, bool includeNotPersisted) const;
 
     typedef struct {
         uint8_t id;

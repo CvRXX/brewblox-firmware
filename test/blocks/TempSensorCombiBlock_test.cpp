@@ -230,11 +230,13 @@ SCENARIO("A TempSensorCombi block")
             CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             payloadToMessage(cmd, message);
 
+            REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{1});
+
             CHECK(message.ShortDebugString() ==
                   "sensors: 101 "
                   "sensors: 102 "
-                  "sensors: 103 "
-                  "strippedFields: 1");
+                  "sensors: 103");
         }
     }
 }

@@ -277,18 +277,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   const ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation >&
       fluctuations() const;
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  int strippedfields_size() const;
-  void clear_strippedfields();
-  static const int kStrippedFieldsFieldNumber = 99;
-  ::google::protobuf::uint32 strippedfields(int index) const;
-  void set_strippedfields(int index, ::google::protobuf::uint32 value);
-  void add_strippedfields(::google::protobuf::uint32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-      strippedfields() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-      mutable_strippedfields();
-
   // sint32 value = 1 [(.nanopb) = {
   void clear_value();
   static const int kValueFieldNumber = 1;
@@ -312,8 +300,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::Fluctuation > fluctuations_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
-  mutable int _strippedfields_cached_byte_size_;
   ::google::protobuf::int32 value_;
   bool connected_;
   ::google::protobuf::int32 setting_;
@@ -433,36 +419,6 @@ inline const ::google::protobuf::RepeatedPtrField< ::blox_test::TempSensorMock::
 Block::fluctuations() const {
   // @@protoc_insertion_point(field_list:blox_test.TempSensorMock.Block.fluctuations)
   return fluctuations_;
-}
-
-// repeated uint32 strippedFields = 99 [(.nanopb) = {
-inline int Block::strippedfields_size() const {
-  return strippedfields_.size();
-}
-inline void Block::clear_strippedfields() {
-  strippedfields_.Clear();
-}
-inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox_test.TempSensorMock.Block.strippedFields)
-  return strippedfields_.Get(index);
-}
-inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
-  strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox_test.TempSensorMock.Block.strippedFields)
-}
-inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
-  strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox_test.TempSensorMock.Block.strippedFields)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox_test.TempSensorMock.Block.strippedFields)
-  return strippedfields_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox_test.TempSensorMock.Block.strippedFields)
-  return &strippedfields_;
 }
 
 #ifdef __GNUC__

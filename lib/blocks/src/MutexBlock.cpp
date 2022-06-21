@@ -18,6 +18,7 @@
  */
 
 #include "blocks/MutexBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/Mutex.pb.h"
 
 cbox::CboxError
@@ -27,13 +28,12 @@ MutexBlock::read(const cbox::PayloadCallback& callback) const
     message.differentActuatorWait = m_mutex.holdAfterTurnOff();
     message.waitRemaining = m_mutex.timeRemaining();
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Mutex_Block_fields,
-                           blox_Mutex_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Mutex_Block_fields,
+                     blox_Mutex_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -46,13 +46,15 @@ cbox::CboxError
 MutexBlock::write(const cbox::Payload& payload)
 {
     blox_Mutex_Block message = blox_Mutex_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_Mutex_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        m_mutex.holdAfterTurnOff(message.differentActuatorWait);
+    if (parser.fillMessage(&message, blox_Mutex_Block_fields)) {
+        if (parser.hasField(blox_Mutex_Block_differentActuatorWait_tag)) {
+            m_mutex.holdAfterTurnOff(message.differentActuatorWait);
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 void* MutexBlock::implements(cbox::obj_type_t iface)

@@ -21,6 +21,7 @@
 
 #include "blocks/Block.hpp"
 #include "cbox/Cache.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "control/Ticks.hpp"
 #include "proto/Ticks.pb.h"
 
@@ -43,7 +44,6 @@ public:
         : ticks(_ticks)
     {
     }
-    ~TicksBlock() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override
     {
@@ -57,13 +57,12 @@ public:
         message.avgDisplayTask = ticks.taskTime(2);
         message.avgSystemTask = ticks.taskTime(3);
 
-        return callWithMessage(callback,
-                               objectId(),
-                               staticTypeId(),
-                               0,
-                               &message,
-                               blox_Ticks_Block_fields,
-                               blox_Ticks_Block_size);
+        return cbox::PayloadBuilder(*this)
+            .withContent(&message,
+                         blox_Ticks_Block_fields,
+                         blox_Ticks_Block_size)
+            .respond(callback)
+            .status();
     }
 
     cbox::CboxError readStored(const cbox::PayloadCallback&) const override
@@ -74,16 +73,18 @@ public:
     cbox::CboxError write(const cbox::Payload& payload) override
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
-        auto res = payloadToMessage(payload, &message, blox_Ticks_Block_fields);
+        auto parser = cbox::PayloadParser(payload);
 
-        if (res == cbox::CboxError::OK) {
-            // Only accept UTC time from block write if we don't already have a value
-            if (ticks.utc() < minValidUtc && message.secondsSinceEpoch > minValidUtc) {
-                ticks.setUtc(message.secondsSinceEpoch);
+        if (parser.fillMessage(&message, blox_Ticks_Block_fields)) {
+            if (parser.hasField(blox_Ticks_Block_secondsSinceEpoch_tag)) {
+                // Only accept UTC time from block write if we don't already have a value
+                if (ticks.utc() < minValidUtc && message.secondsSinceEpoch > minValidUtc) {
+                    ticks.setUtc(message.secondsSinceEpoch);
+                }
             }
         }
 
-        return res;
+        return parser.status();
     }
 
     cbox::CboxError

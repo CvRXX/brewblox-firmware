@@ -19,7 +19,7 @@
 
 #include "blocks/SetpointProfileBlock.hpp"
 #include "AppTicks.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "pb_decode.h"
 #include "pb_encode.h"
 #include "proto/SetpointProfile.pb.h"
@@ -60,7 +60,7 @@ cbox::CboxError
 SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_SetpointProfile_Block message = blox_SetpointProfile_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     message.points.funcs.encode = &encodePoints;
     message.points.arg = const_cast<std::vector<SetpointProfile::Point>*>(&profile.points());
@@ -78,13 +78,13 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
                        + 6 // start
         ;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_SetpointProfile_Block_fields,
-                           blockSize);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_SetpointProfile_Block_fields,
+                     blockSize)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -101,16 +101,24 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
     message.points.funcs.decode = &decodePoints;
     message.points.arg = &newPoints;
 
-    auto res = payloadToMessage(payload, &message, blox_SetpointProfile_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        profile.points(std::move(newPoints));
-        profile.enabler.set(message.enabled);
-        profile.startTime(message.start);
-        target.setId(message.targetId);
+    if (parser.fillMessage(&message, blox_SetpointProfile_Block_fields)) {
+        if (parser.hasField(blox_SetpointProfile_Block_points_tag)) {
+            profile.points(std::move(newPoints));
+        }
+        if (parser.hasField(blox_SetpointProfile_Block_enabled_tag)) {
+            profile.enabler.set(message.enabled);
+        }
+        if (parser.hasField(blox_SetpointProfile_Block_start_tag)) {
+            profile.startTime(message.start);
+        }
+        if (parser.hasField(blox_SetpointProfile_Block_targetId_tag)) {
+            target.setId(message.targetId);
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

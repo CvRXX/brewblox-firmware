@@ -18,18 +18,18 @@
  */
 
 #include "blocks/DisplaySettingsBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/DisplaySettings.pb.h"
 
 cbox::CboxError
 DisplaySettingsBlock::read(const cbox::PayloadCallback& callback) const
 {
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &m_settings,
-                           blox_DisplaySettings_Block_fields,
-                           blox_DisplaySettings_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&m_settings,
+                     blox_DisplaySettings_Block_fields,
+                     blox_DisplaySettings_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -42,14 +42,28 @@ cbox::CboxError
 DisplaySettingsBlock::write(const cbox::Payload& payload)
 {
     blox_DisplaySettings_Block message = blox_DisplaySettings_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_DisplaySettings_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        m_settings = message;
+    if (parser.fillMessage(&message, blox_DisplaySettings_Block_fields)) {
+        if (parser.hasField(blox_DisplaySettings_Block_widgets_tag)) {
+            std::copy(std::begin(message.widgets), std::end(message.widgets), std::begin(m_settings.widgets));
+        }
+        if (parser.hasField(blox_DisplaySettings_Block_name_tag)) {
+            std::copy(std::begin(message.name), std::end(message.name), std::begin(m_settings.name));
+        }
+        if (parser.hasField(blox_DisplaySettings_Block_tempUnit_tag)) {
+            m_settings.tempUnit = message.tempUnit;
+        }
+        if (parser.hasField(blox_DisplaySettings_Block_brightness_tag)) {
+            m_settings.brightness = message.brightness;
+        }
+        if (parser.hasField(blox_DisplaySettings_Block_timeZone_tag)) {
+            std::copy(std::begin(message.timeZone), std::end(message.timeZone), std::begin(m_settings.timeZone));
+        }
         m_newSettingsReceived = true;
     }
 
-    return res;
+    return parser.status();
 }
 
 // use global static settings, because we only have one display

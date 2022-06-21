@@ -90,7 +90,7 @@ void handleCommand(ResponseWriter& out, const std::string& message)
         // esp_restart();
         return; // already finalized
     case cbox::Opcode::CLEAR_BLOCKS:
-        status = cbox::clearBlocks();
+        status = cbox::clearBlocks(callback);
         break;
     case cbox::Opcode::CLEAR_WIFI:
         status = cbox::CboxError::OK; // TODO(Bob)

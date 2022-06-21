@@ -18,77 +18,77 @@
  */
 
 #include "blocks/TempSensorCombiBlock.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 
-void TempSensorCombiBlock::writeMessage(blox_TempSensorCombi_Block& message, bool includeReadOnly) const
+void TempSensorCombiBlock::encodeStoredMessage(blox_TempSensorCombi_Block& message) const
 {
-    FieldTags stripped;
-
     message.sensors_count = inputs.size();
     message.combineFunc = blox_TempSensorCombi_SensorCombiFunc(sensor.func);
     for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
         message.sensors[i] = inputs[i].getId();
     }
-
-    if (includeReadOnly) {
-        if (sensor.valid()) {
-            message.value = cnl::unwrap((sensor.value()));
-        } else {
-            stripped.add(blox_TempSensorCombi_Block_value_tag);
-        }
-    }
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
 }
 
 cbox::CboxError
 TempSensorCombiBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
-    writeMessage(message, true);
+    std::vector<cbox::obj_field_tag_t> excluded;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TempSensorCombi_Block_fields,
-                           blox_TempSensorCombi_Block_size);
+    encodeStoredMessage(message);
+
+    if (sensor.valid()) {
+        message.value = cnl::unwrap((sensor.value()));
+    } else {
+        excluded.push_back(blox_TempSensorCombi_Block_value_tag);
+    }
+
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TempSensorCombi_Block_fields,
+                     blox_TempSensorCombi_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 TempSensorCombiBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
-    writeMessage(message, false);
+    encodeStoredMessage(message);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TempSensorCombi_Block_fields,
-                           blox_TempSensorCombi_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TempSensorCombi_Block_fields,
+                     blox_TempSensorCombi_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 TempSensorCombiBlock::write(const cbox::Payload& payload)
 {
     blox_TempSensorCombi_Block message = blox_TempSensorCombi_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_TempSensorCombi_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);
-        sensor.inputs.clear();
-        sensor.inputs.reserve(message.sensors_count);
-        inputs.clear();
-        inputs.reserve(message.sensors_count);
-        for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
-            auto& input = inputs.emplace_back(message.sensors[i]);
-            sensor.inputs.emplace_back(input);
+    if (parser.fillMessage(&message, blox_TempSensorCombi_Block_fields)) {
+        if (parser.hasField(blox_TempSensorCombi_Block_combineFunc_tag)) {
+            sensor.func = TempSensorCombi::CombineFunc(message.combineFunc);
+        }
+        if (parser.hasField(blox_TempSensorCombi_Block_sensors_tag)) {
+            sensor.inputs.clear();
+            sensor.inputs.reserve(message.sensors_count);
+            inputs.clear();
+            inputs.reserve(message.sensors_count);
+            for (uint8_t i = 0; i < message.sensors_count && i < 8; i++) {
+                auto& input = inputs.emplace_back(message.sensors[i]);
+                sensor.inputs.emplace_back(input);
+            }
         }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t TempSensorCombiBlock::updateHandler(const cbox::update_t& now)

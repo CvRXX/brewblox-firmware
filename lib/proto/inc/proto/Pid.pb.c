@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_Pid_Block_fields[25] = {
+const pb_field_t blox_Pid_Block_fields[24] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Pid_Block, inputId, inputId, 0),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, outputId, inputId, 0),
     PB_FIELD(  5, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, inputValue, outputId, 0),
@@ -33,7 +33,6 @@ const pb_field_t blox_Pid_Block_fields[25] = {
     PB_FIELD( 25, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, boilMinOutput, boilPointAdjust, 0),
     PB_FIELD( 26, BOOL    , SINGULAR, STATIC  , OTHER, blox_Pid_Block, boilModeActive, boilMinOutput, 0),
     PB_FIELD( 27, UENUM   , SINGULAR, STATIC  , OTHER, blox_Pid_Block, derivativeFilter, boilModeActive, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_Pid_Block, strippedFields, derivativeFilter, 0),
     PB_LAST_FIELD
 };
 

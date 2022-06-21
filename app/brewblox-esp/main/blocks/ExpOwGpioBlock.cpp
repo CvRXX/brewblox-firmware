@@ -18,9 +18,12 @@
  */
 
 #include "./ExpOwGpioBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 
-void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule_Block& message, bool includeNotPersisted) const
+cbox::CboxError ExpOwGpioBlock::handleRead(const cbox::PayloadCallback& callback, bool includeNotPersisted) const
 {
+    blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
+
     message.modulePosition = drivers.modulePosition();
     message.channels_count = 0;
     message.useExternalPower = drivers.externalPowerEnabled();
@@ -55,68 +58,62 @@ void ExpOwGpioBlock::writeMessage(blox_OneWireGpioModule_Block& message, bool in
         message.overCurrent = drivers.overCurrent();
         message.openLoad = drivers.openLoad();
     }
+
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_OneWireGpioModule_Block_fields,
+                     blox_OneWireGpioModule_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError ExpOwGpioBlock::read(const cbox::PayloadCallback& callback) const
 {
-    blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
-    writeMessage(message, true);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_OneWireGpioModule_Block_fields,
-                           blox_OneWireGpioModule_Block_size);
+    return handleRead(callback, true);
 }
 
 cbox::CboxError ExpOwGpioBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
-    writeMessage(message, false);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_OneWireGpioModule_Block_fields,
-                           blox_OneWireGpioModule_Block_size);
+    return handleRead(callback, false);
 }
 
 cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 {
     blox_OneWireGpioModule_Block message = blox_OneWireGpioModule_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_OneWireGpioModule_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        drivers.modulePosition(message.modulePosition);
-        drivers.externalPowerEnabled(message.useExternalPower);
-
-        // first dedode to new array, so deleted channels are overwritten with an unused channel
-        std::array<ExpOwGpio::FlexChannel, 8> newChannels{};
-        channelNames.clear();
-
-        // copy variable length array from proto to positions
-        for (uint8_t c = 0; c < message.channels_count && c < 8; c++) {
-            if (message.channels[c].id > 0 && message.channels[c].id <= 8) {
-                uint8_t idx = message.channels[c].id - 1;
-                newChannels[idx] = ExpOwGpio::FlexChannel(
-                    message.channels[c].deviceType,
-                    message.channels[c].width,
-                    message.channels[c].pinsMask);
-            }
-            channelNames.push_back({message.channels[c].id, std::string(message.channels[c].name)});
+    if (parser.fillMessage(&message, blox_OneWireGpioModule_Block_fields)) {
+        if (parser.hasField(blox_OneWireGpioModule_Block_modulePosition_tag)) {
+            drivers.modulePosition(message.modulePosition);
         }
+        if (parser.hasField(blox_OneWireGpioModule_Block_useExternalPower_tag)) {
+            drivers.externalPowerEnabled(message.useExternalPower);
+        }
+        if (parser.hasField(blox_OneWireGpioModule_Block_channels_tag)) {
+            // first dedode to new array, so deleted channels are overwritten with an unused channel
+            std::array<ExpOwGpio::FlexChannel, 8> newChannels{};
+            channelNames.clear();
 
-        // copy to drivers, resulting zeroing omitted channels
-        for (uint8_t i = 0; i < 8; i++) {
-            drivers.setupChannel(i + 1, newChannels[i]);
+            // copy variable length array from proto to positions
+            for (uint8_t c = 0; c < message.channels_count && c < 8; c++) {
+                if (message.channels[c].id > 0 && message.channels[c].id <= 8) {
+                    uint8_t idx = message.channels[c].id - 1;
+                    newChannels[idx] = ExpOwGpio::FlexChannel(
+                        message.channels[c].deviceType,
+                        message.channels[c].width,
+                        message.channels[c].pinsMask);
+                }
+                channelNames.push_back({message.channels[c].id, std::string(message.channels[c].name)});
+            }
+
+            // copy to drivers, resulting zeroing omitted channels
+            for (uint8_t i = 0; i < 8; i++) {
+                drivers.setupChannel(i + 1, newChannels[i]);
+            }
         }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

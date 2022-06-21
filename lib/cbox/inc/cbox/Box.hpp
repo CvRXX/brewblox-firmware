@@ -33,7 +33,7 @@ CboxError readAllBlocks(const PayloadCallback& callback);
 CboxError deleteBlock(const Payload& request);
 CboxError readStoredBlock(const Payload& request, const PayloadCallback& callback);
 CboxError readAllStoredBlocks(const PayloadCallback& callback);
-CboxError clearBlocks();
+CboxError clearBlocks(const PayloadCallback& callback);
 CboxError discoverBlocks(const PayloadCallback& callback);
 CboxError discoverBlocks();
 
