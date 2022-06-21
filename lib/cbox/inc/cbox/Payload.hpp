@@ -14,7 +14,7 @@ using obj_field_tag_t = uint16_t;
 
 enum class MaskMode : uint8_t {
     /// All fields (including defaults) are valid.
-    ANY = 0,
+    NO_MASK = 0,
 
     /// Only fields where the tag is in `mask` are valid.
     INCLUSIVE = 1,
@@ -55,7 +55,7 @@ public:
         , blockType(blockType_)
         , subtype(subtype_)
         , content{}
-        , maskMode(MaskMode::ANY)
+        , maskMode(MaskMode::NO_MASK)
         , mask{}
     {
     }

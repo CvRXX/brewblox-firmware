@@ -74,11 +74,11 @@ typedef enum _command_ErrorCode {
 #define _command_ErrorCode_ARRAYSIZE ((command_ErrorCode)(command_ErrorCode_INVALID_STORED_BLOCK_CONTENT+1))
 
 typedef enum _command_MaskMode {
-    command_MaskMode_ANY = 0,
+    command_MaskMode_NO_MASK = 0,
     command_MaskMode_INCLUSIVE = 1,
     command_MaskMode_EXCLUSIVE = 2
 } command_MaskMode;
-#define _command_MaskMode_MIN command_MaskMode_ANY
+#define _command_MaskMode_MIN command_MaskMode_NO_MASK
 #define _command_MaskMode_MAX command_MaskMode_EXCLUSIVE
 #define _command_MaskMode_ARRAYSIZE ((command_MaskMode)(command_MaskMode_EXCLUSIVE+1))
 

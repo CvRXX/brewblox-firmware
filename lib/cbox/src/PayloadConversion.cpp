@@ -24,7 +24,7 @@ bool PayloadParser::hasField(cbox::obj_field_tag_t tag) const
     auto& mask = _payload.mask;
 
     // No need to check the mask
-    if (mode == MaskMode::ANY) {
+    if (mode == MaskMode::NO_MASK) {
         return true;
     }
 

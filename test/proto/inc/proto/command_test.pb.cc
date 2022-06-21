@@ -191,11 +191,11 @@ void AddDescriptorsImpl() {
       "_BLOCK\0202\022\033\n\027INVALID_STORED_BLOCK_ID\0203\022\035\n"
       "\031INVALID_STORED_BLOCK_TYPE\0204\022 \n\034INVALID_"
       "STORED_BLOCK_SUBTYPE\0205\022 \n\034INVALID_STORED"
-      "_BLOCK_CONTENT\0206*1\n\010MaskMode\022\007\n\003ANY\020\000\022\r\n"
-      "\tINCLUSIVE\020\001\022\r\n\tEXCLUSIVE\020\002b\006proto3"
+      "_BLOCK_CONTENT\0206*5\n\010MaskMode\022\013\n\007NO_MASK\020"
+      "\000\022\r\n\tINCLUSIVE\020\001\022\r\n\tEXCLUSIVE\020\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1515);
+      descriptor, 1519);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "command_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

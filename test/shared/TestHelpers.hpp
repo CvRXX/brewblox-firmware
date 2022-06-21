@@ -47,7 +47,7 @@ public:
         : request(blockId_,
                   blockType_,
                   0,
-                  MaskMode::ANY,
+                  MaskMode::NO_MASK,
                   std::move(content_),
                   {})
     {

@@ -152,14 +152,14 @@ inline bool ErrorCode_Parse(
     ErrorCode_descriptor(), name, value);
 }
 enum MaskMode {
-  ANY = 0,
+  NO_MASK = 0,
   INCLUSIVE = 1,
   EXCLUSIVE = 2,
   MaskMode_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MaskMode_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool MaskMode_IsValid(int value);
-const MaskMode MaskMode_MIN = ANY;
+const MaskMode MaskMode_MIN = NO_MASK;
 const MaskMode MaskMode_MAX = EXCLUSIVE;
 const int MaskMode_ARRAYSIZE = MaskMode_MAX + 1;
 

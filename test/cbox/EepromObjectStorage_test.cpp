@@ -134,7 +134,7 @@ SCENARIO("Storing and retrieving blocks with EEPROM storage")
             return storage.saveObject(Payload(id,
                                               stored.blockType,
                                               0,
-                                              cbox::MaskMode::ANY,
+                                              cbox::MaskMode::NO_MASK,
                                               std::move(contentCopy),
                                               {}));
         });
