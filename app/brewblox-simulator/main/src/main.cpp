@@ -3,6 +3,7 @@
 #include "blox_hal/hal_network.hpp"
 #include "cbox/Box.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
+#include "dynamic_gui/util/2x3grid.hpp"
 #include "dynamic_gui/util/test_screen.hpp"
 #include "gui.hpp"
 #include "lvgl.h"
@@ -53,10 +54,6 @@ int main(int argc, char* argv[])
 
     using screen = Gui<VirtualScreen, VirtualTouchScreen, gui::dynamic_interface::DynamicGui>;
     screen::init();
-    auto testScreen = gui::dynamic_interface::testScreen();
-    if (testScreen) {
-        screen::interface->setNewScreen(std::move(*testScreen));
-    }
 
     static auto timeSetter = RecurringTask(
         ioc, chrono::milliseconds(TICK_INTERVAL),
@@ -96,6 +93,16 @@ int main(int argc, char* argv[])
             return true;
         });
 
+    static auto configupdate = RecurringTask(
+        ioc, chrono::seconds(10),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            auto testScreen = gui::dynamic_interface::grid();
+            if (testScreen) {
+                screen::interface->setNewScreen(std::move(*testScreen));
+            }
+        });
+
     CboxServer cboxServer(ioc, CBOX_PORT);
 
     timeSetter.start();
@@ -103,9 +110,11 @@ int main(int argc, char* argv[])
     displayTick.start();
     cbox::loadBlocksFromStorage();
     updater.start();
+    configupdate.start();
 
     cbox::discoverBlocks();
     network::connect();
     // mdns::start();
+
     ioc.run();
 }

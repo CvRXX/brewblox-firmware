@@ -5,6 +5,7 @@
 #include "elements/layout/vertical_split.hpp"
 #include "elements/widgets/empty_widget.hpp"
 #include "elements/widgets/numeric_value_widget.hpp"
+#include "elements/widgets/temperature_widget.hpp"
 #include "elements/widgets/widget.hpp"
 #include "proto/Screen.pb.h"
 #include "tl/expected.hpp"
@@ -107,6 +108,12 @@ namespace detail {
 
             else if (content->which_content == screen_ContentNode_colorWidget_tag) {
                 std::unique_ptr<Widget> widget{new ColorWidget(content->content.colorWidget)};
+                std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+                buffer.push_back({std::move(newElement), nodeToAdd.parent});
+            }
+
+            else if (content->which_content == screen_ContentNode_temperatureWidget_tag) {
+                std::unique_ptr<Widget> widget{new TemperatureWidget(content->content.temperatureWidget)};
                 std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
                 buffer.push_back({std::move(newElement), nodeToAdd.parent});
             }

@@ -4,6 +4,8 @@
 #define PB_SCREEN_SCREEN_PB_H_INCLUDED
 #include <pb.h>
 
+#include "brewblox.pb.h"
+
 /* @@protoc_insertion_point(includes) */
 #if PB_PROTO_HEADER_VERSION != 30
 #error Regenerate this file with the current version of nanopb generator.
@@ -57,12 +59,28 @@ typedef struct _screen_NumericValueWidget {
 /* @@protoc_insertion_point(struct:screen_NumericValueWidget) */
 } screen_NumericValueWidget;
 
+typedef struct _screen_SetpointSensorPairWidget {
+    screen_Color color;
+    char label[41];
+    uint16_t setpointSensorPair;
+/* @@protoc_insertion_point(struct:screen_SetpointSensorPairWidget) */
+} screen_SetpointSensorPairWidget;
+
+typedef struct _screen_TemperatureWidget {
+    screen_Color color;
+    char label[41];
+    uint16_t tempSensor;
+/* @@protoc_insertion_point(struct:screen_TemperatureWidget) */
+} screen_TemperatureWidget;
+
 typedef struct _screen_ContentNode {
     uint8_t layoutNodeId;
     pb_size_t which_content;
     union {
         screen_NumericValueWidget numericValueWidget;
         screen_ColorWidget colorWidget;
+        screen_TemperatureWidget temperatureWidget;
+        screen_SetpointSensorPairWidget setpointSensorPairWidget;
     } content;
 /* @@protoc_insertion_point(struct:screen_ContentNode) */
 } screen_ContentNode;
@@ -73,12 +91,16 @@ typedef struct _screen_ContentNode {
 #define screen_LayoutNode_init_default           {0, 0, _screen_LayoutNode_Type_MIN, 0}
 #define screen_Color_init_default                {0, 0, 0}
 #define screen_NumericValueWidget_init_default   {screen_Color_init_default, 0, ""}
+#define screen_TemperatureWidget_init_default    {screen_Color_init_default, "", 0}
+#define screen_SetpointSensorPairWidget_init_default {screen_Color_init_default, "", 0}
 #define screen_ColorWidget_init_default          {screen_Color_init_default}
 #define screen_ContentNode_init_default          {0, 0, {screen_NumericValueWidget_init_default}}
 #define screen_Config_init_default               {{{NULL}, NULL}, {{NULL}, NULL}}
 #define screen_LayoutNode_init_zero              {0, 0, _screen_LayoutNode_Type_MIN, 0}
 #define screen_Color_init_zero                   {0, 0, 0}
 #define screen_NumericValueWidget_init_zero      {screen_Color_init_zero, 0, ""}
+#define screen_TemperatureWidget_init_zero       {screen_Color_init_zero, "", 0}
+#define screen_SetpointSensorPairWidget_init_zero {screen_Color_init_zero, "", 0}
 #define screen_ColorWidget_init_zero             {screen_Color_init_zero}
 #define screen_ContentNode_init_zero             {0, 0, {screen_NumericValueWidget_init_zero}}
 #define screen_Config_init_zero                  {{{NULL}, NULL}, {{NULL}, NULL}}
@@ -97,22 +119,34 @@ typedef struct _screen_ContentNode {
 #define screen_NumericValueWidget_color_tag      1
 #define screen_NumericValueWidget_value_tag      2
 #define screen_NumericValueWidget_label_tag      3
+#define screen_SetpointSensorPairWidget_color_tag 1
+#define screen_SetpointSensorPairWidget_label_tag 2
+#define screen_SetpointSensorPairWidget_setpointSensorPair_tag 3
+#define screen_TemperatureWidget_color_tag       1
+#define screen_TemperatureWidget_label_tag       2
+#define screen_TemperatureWidget_tempSensor_tag  3
 #define screen_ContentNode_numericValueWidget_tag 2
 #define screen_ContentNode_colorWidget_tag       3
+#define screen_ContentNode_temperatureWidget_tag 4
+#define screen_ContentNode_setpointSensorPairWidget_tag 5
 #define screen_ContentNode_layoutNodeId_tag      1
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t screen_LayoutNode_fields[5];
 extern const pb_field_t screen_Color_fields[4];
 extern const pb_field_t screen_NumericValueWidget_fields[4];
+extern const pb_field_t screen_TemperatureWidget_fields[4];
+extern const pb_field_t screen_SetpointSensorPairWidget_fields[4];
 extern const pb_field_t screen_ColorWidget_fields[2];
-extern const pb_field_t screen_ContentNode_fields[4];
+extern const pb_field_t screen_ContentNode_fields[6];
 extern const pb_field_t screen_Config_fields[3];
 
 /* Maximum encoded size of messages (where known) */
 #define screen_LayoutNode_size                   20
 #define screen_Color_size                        18
 #define screen_NumericValueWidget_size           69
+#define screen_TemperatureWidget_size            69
+#define screen_SetpointSensorPairWidget_size     69
 #define screen_ColorWidget_size                  20
 #define screen_ContentNode_size                  77
 /* screen_Config_size depends on runtime parameters */

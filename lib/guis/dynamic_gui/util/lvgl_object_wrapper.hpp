@@ -25,7 +25,9 @@
 struct LvglDeleter {
     void operator()(lv_obj_t* lvglObject)
     {
-        lv_obj_del(lvglObject);
+        if (lvglObject) {
+            lv_obj_del(lvglObject);
+        }
     }
 };
 

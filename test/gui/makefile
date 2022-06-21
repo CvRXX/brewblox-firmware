@@ -6,11 +6,38 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 # lib/gui
 INCLUDE_DIRS += $(ROOT_DIR)/lib/guis
 
-
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include/
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/cnl/include
 
+INCLUDE_DIRS += $(ROOT_DIR)/lib/cbox/inc
+CPPSRC += $(wildcard $(ROOT_DIR)/lib/cbox/src/*.cpp)
+
+INCLUDE_DIRS += $(ROOT_DIR)/lib/control/inc
+CPPSRC += $(wildcard $(ROOT_DIR)/lib/control/src/*.cpp)
+
+INCLUDE_DIRS += $(ROOT_DIR)/lib/blox_hal/inc
+CPPSRC += $(wildcard $(ROOT_DIR)/platform/stub/*.cpp)
+
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += test/shared/AppLogger.cpp
+
+INCLUDE_DIRS += $(ROOT_DIR)/test/cbox
+CPPSRC += test/cbox/TestApplication.cpp
 
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/lvgl/lvgl/src
+
+
+# test/shared
+# only add the files we need
+INCLUDE_DIRS += $(ROOT_DIR)/test/shared
+CPPSRC += test/shared/TestHelpers.cpp
+CPPSRC += test/shared/TestObjects.cpp
+
+
+# platform/particle/spark (add as needed)
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/spark/inc
+CPPSRC += platform/particle/spark/src/ConnectionPool.cpp
+
 
 # Recursive wildcard function
 rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))

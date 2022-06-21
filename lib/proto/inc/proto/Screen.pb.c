@@ -31,15 +31,31 @@ const pb_field_t screen_NumericValueWidget_fields[4] = {
     PB_LAST_FIELD
 };
 
+const pb_field_t screen_TemperatureWidget_fields[4] = {
+    PB_FIELD(  1, MESSAGE , SINGULAR, STATIC  , FIRST, screen_TemperatureWidget, color, color, &screen_Color_fields),
+    PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, screen_TemperatureWidget, label, color, 0),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, screen_TemperatureWidget, tempSensor, label, 0),
+    PB_LAST_FIELD
+};
+
+const pb_field_t screen_SetpointSensorPairWidget_fields[4] = {
+    PB_FIELD(  1, MESSAGE , SINGULAR, STATIC  , FIRST, screen_SetpointSensorPairWidget, color, color, &screen_Color_fields),
+    PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, screen_SetpointSensorPairWidget, label, color, 0),
+    PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, screen_SetpointSensorPairWidget, setpointSensorPair, label, 0),
+    PB_LAST_FIELD
+};
+
 const pb_field_t screen_ColorWidget_fields[2] = {
     PB_FIELD(  1, MESSAGE , SINGULAR, STATIC  , FIRST, screen_ColorWidget, color, color, &screen_Color_fields),
     PB_LAST_FIELD
 };
 
-const pb_field_t screen_ContentNode_fields[4] = {
+const pb_field_t screen_ContentNode_fields[6] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, screen_ContentNode, layoutNodeId, layoutNodeId, 0),
     PB_ONEOF_FIELD(content,   2, MESSAGE , ONEOF, STATIC  , OTHER, screen_ContentNode, numericValueWidget, layoutNodeId, &screen_NumericValueWidget_fields),
     PB_ONEOF_FIELD(content,   3, MESSAGE , ONEOF, STATIC  , UNION, screen_ContentNode, colorWidget, layoutNodeId, &screen_ColorWidget_fields),
+    PB_ONEOF_FIELD(content,   4, MESSAGE , ONEOF, STATIC  , UNION, screen_ContentNode, temperatureWidget, layoutNodeId, &screen_TemperatureWidget_fields),
+    PB_ONEOF_FIELD(content,   5, MESSAGE , ONEOF, STATIC  , UNION, screen_ContentNode, setpointSensorPairWidget, layoutNodeId, &screen_SetpointSensorPairWidget_fields),
     PB_LAST_FIELD
 };
 
@@ -60,7 +76,7 @@ const pb_field_t screen_Config_fields[3] = {
  * numbers or field sizes that are larger than what can fit in 8 or 16 bit
  * field descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(screen_NumericValueWidget, color) < 65536 && pb_membersize(screen_ColorWidget, color) < 65536 && pb_membersize(screen_ContentNode, content.numericValueWidget) < 65536 && pb_membersize(screen_ContentNode, content.colorWidget) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_screen_LayoutNode_screen_Color_screen_NumericValueWidget_screen_ColorWidget_screen_ContentNode_screen_Config)
+PB_STATIC_ASSERT((pb_membersize(screen_NumericValueWidget, color) < 65536 && pb_membersize(screen_TemperatureWidget, color) < 65536 && pb_membersize(screen_SetpointSensorPairWidget, color) < 65536 && pb_membersize(screen_ColorWidget, color) < 65536 && pb_membersize(screen_ContentNode, content.numericValueWidget) < 65536 && pb_membersize(screen_ContentNode, content.colorWidget) < 65536 && pb_membersize(screen_ContentNode, content.temperatureWidget) < 65536 && pb_membersize(screen_ContentNode, content.setpointSensorPairWidget) < 65536), YOU_MUST_DEFINE_PB_FIELD_32BIT_FOR_MESSAGES_screen_LayoutNode_screen_Color_screen_NumericValueWidget_screen_TemperatureWidget_screen_SetpointSensorPairWidget_screen_ColorWidget_screen_ContentNode_screen_Config)
 #endif
 
 #if !defined(PB_FIELD_16BIT) && !defined(PB_FIELD_32BIT)
@@ -71,7 +87,7 @@ PB_STATIC_ASSERT((pb_membersize(screen_NumericValueWidget, color) < 65536 && pb_
  * numbers or field sizes that are larger than what can fit in the default
  * 8 bit descriptors.
  */
-PB_STATIC_ASSERT((pb_membersize(screen_NumericValueWidget, color) < 256 && pb_membersize(screen_ColorWidget, color) < 256 && pb_membersize(screen_ContentNode, content.numericValueWidget) < 256 && pb_membersize(screen_ContentNode, content.colorWidget) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_screen_LayoutNode_screen_Color_screen_NumericValueWidget_screen_ColorWidget_screen_ContentNode_screen_Config)
+PB_STATIC_ASSERT((pb_membersize(screen_NumericValueWidget, color) < 256 && pb_membersize(screen_TemperatureWidget, color) < 256 && pb_membersize(screen_SetpointSensorPairWidget, color) < 256 && pb_membersize(screen_ColorWidget, color) < 256 && pb_membersize(screen_ContentNode, content.numericValueWidget) < 256 && pb_membersize(screen_ContentNode, content.colorWidget) < 256 && pb_membersize(screen_ContentNode, content.temperatureWidget) < 256 && pb_membersize(screen_ContentNode, content.setpointSensorPairWidget) < 256), YOU_MUST_DEFINE_PB_FIELD_16BIT_FOR_MESSAGES_screen_LayoutNode_screen_Color_screen_NumericValueWidget_screen_TemperatureWidget_screen_SetpointSensorPairWidget_screen_ColorWidget_screen_ContentNode_screen_Config)
 #endif
 
 

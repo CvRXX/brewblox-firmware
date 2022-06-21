@@ -32,6 +32,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "nanopb_test.pb.h"
+#include "brewblox_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto 
 
@@ -40,7 +41,7 @@ namespace protobuf_Screen_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[6];
+  static const ::google::protobuf::internal::ParseTable schema[8];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -66,6 +67,12 @@ extern LayoutNodeDefaultTypeInternal _LayoutNode_default_instance_;
 class NumericValueWidget;
 class NumericValueWidgetDefaultTypeInternal;
 extern NumericValueWidgetDefaultTypeInternal _NumericValueWidget_default_instance_;
+class SetpointSensorPairWidget;
+class SetpointSensorPairWidgetDefaultTypeInternal;
+extern SetpointSensorPairWidgetDefaultTypeInternal _SetpointSensorPairWidget_default_instance_;
+class TemperatureWidget;
+class TemperatureWidgetDefaultTypeInternal;
+extern TemperatureWidgetDefaultTypeInternal _TemperatureWidget_default_instance_;
 }  // namespace screen
 namespace google {
 namespace protobuf {
@@ -75,6 +82,8 @@ template<> ::screen::Config* Arena::CreateMaybeMessage<::screen::Config>(Arena*)
 template<> ::screen::ContentNode* Arena::CreateMaybeMessage<::screen::ContentNode>(Arena*);
 template<> ::screen::LayoutNode* Arena::CreateMaybeMessage<::screen::LayoutNode>(Arena*);
 template<> ::screen::NumericValueWidget* Arena::CreateMaybeMessage<::screen::NumericValueWidget>(Arena*);
+template<> ::screen::SetpointSensorPairWidget* Arena::CreateMaybeMessage<::screen::SetpointSensorPairWidget>(Arena*);
+template<> ::screen::TemperatureWidget* Arena::CreateMaybeMessage<::screen::TemperatureWidget>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace screen {
@@ -503,6 +512,268 @@ class NumericValueWidget : public ::google::protobuf::Message /* @@protoc_insert
 };
 // -------------------------------------------------------------------
 
+class TemperatureWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.TemperatureWidget) */ {
+ public:
+  TemperatureWidget();
+  virtual ~TemperatureWidget();
+
+  TemperatureWidget(const TemperatureWidget& from);
+
+  inline TemperatureWidget& operator=(const TemperatureWidget& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  TemperatureWidget(TemperatureWidget&& from) noexcept
+    : TemperatureWidget() {
+    *this = ::std::move(from);
+  }
+
+  inline TemperatureWidget& operator=(TemperatureWidget&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TemperatureWidget& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TemperatureWidget* internal_default_instance() {
+    return reinterpret_cast<const TemperatureWidget*>(
+               &_TemperatureWidget_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(TemperatureWidget* other);
+  friend void swap(TemperatureWidget& a, TemperatureWidget& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TemperatureWidget* New() const final {
+    return CreateMaybeMessage<TemperatureWidget>(NULL);
+  }
+
+  TemperatureWidget* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<TemperatureWidget>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const TemperatureWidget& from);
+  void MergeFrom(const TemperatureWidget& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TemperatureWidget* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string label = 2 [(.nanopb) = {
+  void clear_label();
+  static const int kLabelFieldNumber = 2;
+  const ::std::string& label() const;
+  void set_label(const ::std::string& value);
+  #if LANG_CXX11
+  void set_label(::std::string&& value);
+  #endif
+  void set_label(const char* value);
+  void set_label(const char* value, size_t size);
+  ::std::string* mutable_label();
+  ::std::string* release_label();
+  void set_allocated_label(::std::string* label);
+
+  // .screen.Color color = 1;
+  bool has_color() const;
+  void clear_color();
+  static const int kColorFieldNumber = 1;
+  private:
+  const ::screen::Color& _internal_color() const;
+  public:
+  const ::screen::Color& color() const;
+  ::screen::Color* release_color();
+  ::screen::Color* mutable_color();
+  void set_allocated_color(::screen::Color* color);
+
+  // uint32 tempSensor = 3 [(.nanopb) = {
+  void clear_tempsensor();
+  static const int kTempSensorFieldNumber = 3;
+  ::google::protobuf::uint32 tempsensor() const;
+  void set_tempsensor(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:screen.TemperatureWidget)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr label_;
+  ::screen::Color* color_;
+  ::google::protobuf::uint32 tempsensor_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_Screen_5ftest_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class SetpointSensorPairWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.SetpointSensorPairWidget) */ {
+ public:
+  SetpointSensorPairWidget();
+  virtual ~SetpointSensorPairWidget();
+
+  SetpointSensorPairWidget(const SetpointSensorPairWidget& from);
+
+  inline SetpointSensorPairWidget& operator=(const SetpointSensorPairWidget& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  SetpointSensorPairWidget(SetpointSensorPairWidget&& from) noexcept
+    : SetpointSensorPairWidget() {
+    *this = ::std::move(from);
+  }
+
+  inline SetpointSensorPairWidget& operator=(SetpointSensorPairWidget&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const SetpointSensorPairWidget& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SetpointSensorPairWidget* internal_default_instance() {
+    return reinterpret_cast<const SetpointSensorPairWidget*>(
+               &_SetpointSensorPairWidget_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(SetpointSensorPairWidget* other);
+  friend void swap(SetpointSensorPairWidget& a, SetpointSensorPairWidget& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SetpointSensorPairWidget* New() const final {
+    return CreateMaybeMessage<SetpointSensorPairWidget>(NULL);
+  }
+
+  SetpointSensorPairWidget* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<SetpointSensorPairWidget>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const SetpointSensorPairWidget& from);
+  void MergeFrom(const SetpointSensorPairWidget& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SetpointSensorPairWidget* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string label = 2 [(.nanopb) = {
+  void clear_label();
+  static const int kLabelFieldNumber = 2;
+  const ::std::string& label() const;
+  void set_label(const ::std::string& value);
+  #if LANG_CXX11
+  void set_label(::std::string&& value);
+  #endif
+  void set_label(const char* value);
+  void set_label(const char* value, size_t size);
+  ::std::string* mutable_label();
+  ::std::string* release_label();
+  void set_allocated_label(::std::string* label);
+
+  // .screen.Color color = 1;
+  bool has_color() const;
+  void clear_color();
+  static const int kColorFieldNumber = 1;
+  private:
+  const ::screen::Color& _internal_color() const;
+  public:
+  const ::screen::Color& color() const;
+  ::screen::Color* release_color();
+  ::screen::Color* mutable_color();
+  void set_allocated_color(::screen::Color* color);
+
+  // uint32 setpointSensorPair = 3 [(.nanopb) = {
+  void clear_setpointsensorpair();
+  static const int kSetpointSensorPairFieldNumber = 3;
+  ::google::protobuf::uint32 setpointsensorpair() const;
+  void set_setpointsensorpair(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:screen.SetpointSensorPairWidget)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr label_;
+  ::screen::Color* color_;
+  ::google::protobuf::uint32 setpointsensorpair_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_Screen_5ftest_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.ColorWidget) */ {
  public:
   ColorWidget();
@@ -538,7 +809,7 @@ class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ColorWidget_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   void Swap(ColorWidget* other);
   friend void swap(ColorWidget& a, ColorWidget& b) {
@@ -644,6 +915,8 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   enum ContentCase {
     kNumericValueWidget = 2,
     kColorWidget = 3,
+    kTemperatureWidget = 4,
+    kSetpointSensorPairWidget = 5,
     CONTENT_NOT_SET = 0,
   };
 
@@ -653,7 +926,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ContentNode_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   void Swap(ContentNode* other);
   friend void swap(ContentNode& a, ContentNode& b) {
@@ -735,12 +1008,38 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::screen::ColorWidget* mutable_colorwidget();
   void set_allocated_colorwidget(::screen::ColorWidget* colorwidget);
 
+  // .screen.TemperatureWidget temperatureWidget = 4;
+  bool has_temperaturewidget() const;
+  void clear_temperaturewidget();
+  static const int kTemperatureWidgetFieldNumber = 4;
+  private:
+  const ::screen::TemperatureWidget& _internal_temperaturewidget() const;
+  public:
+  const ::screen::TemperatureWidget& temperaturewidget() const;
+  ::screen::TemperatureWidget* release_temperaturewidget();
+  ::screen::TemperatureWidget* mutable_temperaturewidget();
+  void set_allocated_temperaturewidget(::screen::TemperatureWidget* temperaturewidget);
+
+  // .screen.SetpointSensorPairWidget setpointSensorPairWidget = 5;
+  bool has_setpointsensorpairwidget() const;
+  void clear_setpointsensorpairwidget();
+  static const int kSetpointSensorPairWidgetFieldNumber = 5;
+  private:
+  const ::screen::SetpointSensorPairWidget& _internal_setpointsensorpairwidget() const;
+  public:
+  const ::screen::SetpointSensorPairWidget& setpointsensorpairwidget() const;
+  ::screen::SetpointSensorPairWidget* release_setpointsensorpairwidget();
+  ::screen::SetpointSensorPairWidget* mutable_setpointsensorpairwidget();
+  void set_allocated_setpointsensorpairwidget(::screen::SetpointSensorPairWidget* setpointsensorpairwidget);
+
   void clear_content();
   ContentCase content_case() const;
   // @@protoc_insertion_point(class_scope:screen.ContentNode)
  private:
   void set_has_numericvaluewidget();
   void set_has_colorwidget();
+  void set_has_temperaturewidget();
+  void set_has_setpointsensorpairwidget();
 
   inline bool has_content() const;
   inline void clear_has_content();
@@ -751,6 +1050,8 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
     ContentUnion() {}
     ::screen::NumericValueWidget* numericvaluewidget_;
     ::screen::ColorWidget* colorwidget_;
+    ::screen::TemperatureWidget* temperaturewidget_;
+    ::screen::SetpointSensorPairWidget* setpointsensorpairwidget_;
   } content_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -794,7 +1095,7 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Config_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   void Swap(Config* other);
   friend void swap(Config& a, Config& b) {
@@ -1119,6 +1420,256 @@ inline void NumericValueWidget::set_allocated_label(::std::string* label) {
 
 // -------------------------------------------------------------------
 
+// TemperatureWidget
+
+// .screen.Color color = 1;
+inline bool TemperatureWidget::has_color() const {
+  return this != internal_default_instance() && color_ != NULL;
+}
+inline void TemperatureWidget::clear_color() {
+  if (GetArenaNoVirtual() == NULL && color_ != NULL) {
+    delete color_;
+  }
+  color_ = NULL;
+}
+inline const ::screen::Color& TemperatureWidget::_internal_color() const {
+  return *color_;
+}
+inline const ::screen::Color& TemperatureWidget::color() const {
+  const ::screen::Color* p = color_;
+  // @@protoc_insertion_point(field_get:screen.TemperatureWidget.color)
+  return p != NULL ? *p : *reinterpret_cast<const ::screen::Color*>(
+      &::screen::_Color_default_instance_);
+}
+inline ::screen::Color* TemperatureWidget::release_color() {
+  // @@protoc_insertion_point(field_release:screen.TemperatureWidget.color)
+  
+  ::screen::Color* temp = color_;
+  color_ = NULL;
+  return temp;
+}
+inline ::screen::Color* TemperatureWidget::mutable_color() {
+  
+  if (color_ == NULL) {
+    auto* p = CreateMaybeMessage<::screen::Color>(GetArenaNoVirtual());
+    color_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:screen.TemperatureWidget.color)
+  return color_;
+}
+inline void TemperatureWidget::set_allocated_color(::screen::Color* color) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete color_;
+  }
+  if (color) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      color = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, color, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  color_ = color;
+  // @@protoc_insertion_point(field_set_allocated:screen.TemperatureWidget.color)
+}
+
+// string label = 2 [(.nanopb) = {
+inline void TemperatureWidget::clear_label() {
+  label_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& TemperatureWidget::label() const {
+  // @@protoc_insertion_point(field_get:screen.TemperatureWidget.label)
+  return label_.GetNoArena();
+}
+inline void TemperatureWidget::set_label(const ::std::string& value) {
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.TemperatureWidget.label)
+}
+#if LANG_CXX11
+inline void TemperatureWidget::set_label(::std::string&& value) {
+  
+  label_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.TemperatureWidget.label)
+}
+#endif
+inline void TemperatureWidget::set_label(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.TemperatureWidget.label)
+}
+inline void TemperatureWidget::set_label(const char* value, size_t size) {
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.TemperatureWidget.label)
+}
+inline ::std::string* TemperatureWidget::mutable_label() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.TemperatureWidget.label)
+  return label_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* TemperatureWidget::release_label() {
+  // @@protoc_insertion_point(field_release:screen.TemperatureWidget.label)
+  
+  return label_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void TemperatureWidget::set_allocated_label(::std::string* label) {
+  if (label != NULL) {
+    
+  } else {
+    
+  }
+  label_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), label);
+  // @@protoc_insertion_point(field_set_allocated:screen.TemperatureWidget.label)
+}
+
+// uint32 tempSensor = 3 [(.nanopb) = {
+inline void TemperatureWidget::clear_tempsensor() {
+  tempsensor_ = 0u;
+}
+inline ::google::protobuf::uint32 TemperatureWidget::tempsensor() const {
+  // @@protoc_insertion_point(field_get:screen.TemperatureWidget.tempSensor)
+  return tempsensor_;
+}
+inline void TemperatureWidget::set_tempsensor(::google::protobuf::uint32 value) {
+  
+  tempsensor_ = value;
+  // @@protoc_insertion_point(field_set:screen.TemperatureWidget.tempSensor)
+}
+
+// -------------------------------------------------------------------
+
+// SetpointSensorPairWidget
+
+// .screen.Color color = 1;
+inline bool SetpointSensorPairWidget::has_color() const {
+  return this != internal_default_instance() && color_ != NULL;
+}
+inline void SetpointSensorPairWidget::clear_color() {
+  if (GetArenaNoVirtual() == NULL && color_ != NULL) {
+    delete color_;
+  }
+  color_ = NULL;
+}
+inline const ::screen::Color& SetpointSensorPairWidget::_internal_color() const {
+  return *color_;
+}
+inline const ::screen::Color& SetpointSensorPairWidget::color() const {
+  const ::screen::Color* p = color_;
+  // @@protoc_insertion_point(field_get:screen.SetpointSensorPairWidget.color)
+  return p != NULL ? *p : *reinterpret_cast<const ::screen::Color*>(
+      &::screen::_Color_default_instance_);
+}
+inline ::screen::Color* SetpointSensorPairWidget::release_color() {
+  // @@protoc_insertion_point(field_release:screen.SetpointSensorPairWidget.color)
+  
+  ::screen::Color* temp = color_;
+  color_ = NULL;
+  return temp;
+}
+inline ::screen::Color* SetpointSensorPairWidget::mutable_color() {
+  
+  if (color_ == NULL) {
+    auto* p = CreateMaybeMessage<::screen::Color>(GetArenaNoVirtual());
+    color_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:screen.SetpointSensorPairWidget.color)
+  return color_;
+}
+inline void SetpointSensorPairWidget::set_allocated_color(::screen::Color* color) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete color_;
+  }
+  if (color) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      color = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, color, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  color_ = color;
+  // @@protoc_insertion_point(field_set_allocated:screen.SetpointSensorPairWidget.color)
+}
+
+// string label = 2 [(.nanopb) = {
+inline void SetpointSensorPairWidget::clear_label() {
+  label_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& SetpointSensorPairWidget::label() const {
+  // @@protoc_insertion_point(field_get:screen.SetpointSensorPairWidget.label)
+  return label_.GetNoArena();
+}
+inline void SetpointSensorPairWidget::set_label(const ::std::string& value) {
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.SetpointSensorPairWidget.label)
+}
+#if LANG_CXX11
+inline void SetpointSensorPairWidget::set_label(::std::string&& value) {
+  
+  label_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.SetpointSensorPairWidget.label)
+}
+#endif
+inline void SetpointSensorPairWidget::set_label(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.SetpointSensorPairWidget.label)
+}
+inline void SetpointSensorPairWidget::set_label(const char* value, size_t size) {
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.SetpointSensorPairWidget.label)
+}
+inline ::std::string* SetpointSensorPairWidget::mutable_label() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.SetpointSensorPairWidget.label)
+  return label_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* SetpointSensorPairWidget::release_label() {
+  // @@protoc_insertion_point(field_release:screen.SetpointSensorPairWidget.label)
+  
+  return label_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void SetpointSensorPairWidget::set_allocated_label(::std::string* label) {
+  if (label != NULL) {
+    
+  } else {
+    
+  }
+  label_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), label);
+  // @@protoc_insertion_point(field_set_allocated:screen.SetpointSensorPairWidget.label)
+}
+
+// uint32 setpointSensorPair = 3 [(.nanopb) = {
+inline void SetpointSensorPairWidget::clear_setpointsensorpair() {
+  setpointsensorpair_ = 0u;
+}
+inline ::google::protobuf::uint32 SetpointSensorPairWidget::setpointsensorpair() const {
+  // @@protoc_insertion_point(field_get:screen.SetpointSensorPairWidget.setpointSensorPair)
+  return setpointsensorpair_;
+}
+inline void SetpointSensorPairWidget::set_setpointsensorpair(::google::protobuf::uint32 value) {
+  
+  setpointsensorpair_ = value;
+  // @@protoc_insertion_point(field_set:screen.SetpointSensorPairWidget.setpointSensorPair)
+}
+
+// -------------------------------------------------------------------
+
 // ColorWidget
 
 // .screen.Color color = 1;
@@ -1281,6 +1832,94 @@ inline ::screen::ColorWidget* ContentNode::mutable_colorwidget() {
   return content_.colorwidget_;
 }
 
+// .screen.TemperatureWidget temperatureWidget = 4;
+inline bool ContentNode::has_temperaturewidget() const {
+  return content_case() == kTemperatureWidget;
+}
+inline void ContentNode::set_has_temperaturewidget() {
+  _oneof_case_[0] = kTemperatureWidget;
+}
+inline void ContentNode::clear_temperaturewidget() {
+  if (has_temperaturewidget()) {
+    delete content_.temperaturewidget_;
+    clear_has_content();
+  }
+}
+inline const ::screen::TemperatureWidget& ContentNode::_internal_temperaturewidget() const {
+  return *content_.temperaturewidget_;
+}
+inline ::screen::TemperatureWidget* ContentNode::release_temperaturewidget() {
+  // @@protoc_insertion_point(field_release:screen.ContentNode.temperatureWidget)
+  if (has_temperaturewidget()) {
+    clear_has_content();
+      ::screen::TemperatureWidget* temp = content_.temperaturewidget_;
+    content_.temperaturewidget_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::screen::TemperatureWidget& ContentNode::temperaturewidget() const {
+  // @@protoc_insertion_point(field_get:screen.ContentNode.temperatureWidget)
+  return has_temperaturewidget()
+      ? *content_.temperaturewidget_
+      : *reinterpret_cast< ::screen::TemperatureWidget*>(&::screen::_TemperatureWidget_default_instance_);
+}
+inline ::screen::TemperatureWidget* ContentNode::mutable_temperaturewidget() {
+  if (!has_temperaturewidget()) {
+    clear_content();
+    set_has_temperaturewidget();
+    content_.temperaturewidget_ = CreateMaybeMessage< ::screen::TemperatureWidget >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:screen.ContentNode.temperatureWidget)
+  return content_.temperaturewidget_;
+}
+
+// .screen.SetpointSensorPairWidget setpointSensorPairWidget = 5;
+inline bool ContentNode::has_setpointsensorpairwidget() const {
+  return content_case() == kSetpointSensorPairWidget;
+}
+inline void ContentNode::set_has_setpointsensorpairwidget() {
+  _oneof_case_[0] = kSetpointSensorPairWidget;
+}
+inline void ContentNode::clear_setpointsensorpairwidget() {
+  if (has_setpointsensorpairwidget()) {
+    delete content_.setpointsensorpairwidget_;
+    clear_has_content();
+  }
+}
+inline const ::screen::SetpointSensorPairWidget& ContentNode::_internal_setpointsensorpairwidget() const {
+  return *content_.setpointsensorpairwidget_;
+}
+inline ::screen::SetpointSensorPairWidget* ContentNode::release_setpointsensorpairwidget() {
+  // @@protoc_insertion_point(field_release:screen.ContentNode.setpointSensorPairWidget)
+  if (has_setpointsensorpairwidget()) {
+    clear_has_content();
+      ::screen::SetpointSensorPairWidget* temp = content_.setpointsensorpairwidget_;
+    content_.setpointsensorpairwidget_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::screen::SetpointSensorPairWidget& ContentNode::setpointsensorpairwidget() const {
+  // @@protoc_insertion_point(field_get:screen.ContentNode.setpointSensorPairWidget)
+  return has_setpointsensorpairwidget()
+      ? *content_.setpointsensorpairwidget_
+      : *reinterpret_cast< ::screen::SetpointSensorPairWidget*>(&::screen::_SetpointSensorPairWidget_default_instance_);
+}
+inline ::screen::SetpointSensorPairWidget* ContentNode::mutable_setpointsensorpairwidget() {
+  if (!has_setpointsensorpairwidget()) {
+    clear_content();
+    set_has_setpointsensorpairwidget();
+    content_.setpointsensorpairwidget_ = CreateMaybeMessage< ::screen::SetpointSensorPairWidget >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:screen.ContentNode.setpointSensorPairWidget)
+  return content_.setpointsensorpairwidget_;
+}
+
 inline bool ContentNode::has_content() const {
   return content_case() != CONTENT_NOT_SET;
 }
@@ -1357,6 +1996,10 @@ Config::contentnodes() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
