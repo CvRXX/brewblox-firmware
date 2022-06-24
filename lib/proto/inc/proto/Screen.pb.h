@@ -16,6 +16,14 @@ extern "C" {
 #endif
 
 /* Enum definitions */
+typedef enum _screen_TemperatureUnit {
+    screen_TemperatureUnit_TEMP_CELSIUS = 0,
+    screen_TemperatureUnit_TEMP_FAHRENHEIT = 1
+} screen_TemperatureUnit;
+#define _screen_TemperatureUnit_MIN screen_TemperatureUnit_TEMP_CELSIUS
+#define _screen_TemperatureUnit_MAX screen_TemperatureUnit_TEMP_FAHRENHEIT
+#define _screen_TemperatureUnit_ARRAYSIZE ((screen_TemperatureUnit)(screen_TemperatureUnit_TEMP_FAHRENHEIT+1))
+
 typedef enum _screen_LayoutNode_Type {
     screen_LayoutNode_Type_Row = 0,
     screen_LayoutNode_Type_Column = 1,
@@ -26,11 +34,15 @@ typedef enum _screen_LayoutNode_Type {
 #define _screen_LayoutNode_Type_ARRAYSIZE ((screen_LayoutNode_Type)(screen_LayoutNode_Type_Content+1))
 
 /* Struct definitions */
-typedef struct _screen_Config {
+typedef struct _screen_Block {
     pb_callback_t layoutNodes;
     pb_callback_t contentNodes;
-/* @@protoc_insertion_point(struct:screen_Config) */
-} screen_Config;
+    char name[40];
+    screen_TemperatureUnit tempUnit;
+    uint8_t brightness;
+    char timeZone[32];
+/* @@protoc_insertion_point(struct:screen_Block) */
+} screen_Block;
 
 typedef struct _screen_Color {
     uint8_t r;
@@ -95,7 +107,7 @@ typedef struct _screen_ContentNode {
 #define screen_SetpointSensorPairWidget_init_default {screen_Color_init_default, "", 0}
 #define screen_ColorWidget_init_default          {screen_Color_init_default}
 #define screen_ContentNode_init_default          {0, 0, {screen_NumericValueWidget_init_default}}
-#define screen_Config_init_default               {{{NULL}, NULL}, {{NULL}, NULL}}
+#define screen_Block_init_default                {{{NULL}, NULL}, {{NULL}, NULL}, "", _screen_TemperatureUnit_MIN, 0, ""}
 #define screen_LayoutNode_init_zero              {0, 0, _screen_LayoutNode_Type_MIN, 0}
 #define screen_Color_init_zero                   {0, 0, 0}
 #define screen_NumericValueWidget_init_zero      {screen_Color_init_zero, 0, ""}
@@ -103,11 +115,15 @@ typedef struct _screen_ContentNode {
 #define screen_SetpointSensorPairWidget_init_zero {screen_Color_init_zero, "", 0}
 #define screen_ColorWidget_init_zero             {screen_Color_init_zero}
 #define screen_ContentNode_init_zero             {0, 0, {screen_NumericValueWidget_init_zero}}
-#define screen_Config_init_zero                  {{{NULL}, NULL}, {{NULL}, NULL}}
+#define screen_Block_init_zero                   {{{NULL}, NULL}, {{NULL}, NULL}, "", _screen_TemperatureUnit_MIN, 0, ""}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define screen_Config_layoutNodes_tag            1
-#define screen_Config_contentNodes_tag           2
+#define screen_Block_layoutNodes_tag             1
+#define screen_Block_contentNodes_tag            2
+#define screen_Block_name_tag                    3
+#define screen_Block_tempUnit_tag                4
+#define screen_Block_brightness_tag              5
+#define screen_Block_timeZone_tag                6
 #define screen_Color_r_tag                       1
 #define screen_Color_g_tag                       2
 #define screen_Color_b_tag                       3
@@ -139,7 +155,7 @@ extern const pb_field_t screen_TemperatureWidget_fields[4];
 extern const pb_field_t screen_SetpointSensorPairWidget_fields[4];
 extern const pb_field_t screen_ColorWidget_fields[2];
 extern const pb_field_t screen_ContentNode_fields[6];
-extern const pb_field_t screen_Config_fields[3];
+extern const pb_field_t screen_Block_fields[7];
 
 /* Maximum encoded size of messages (where known) */
 #define screen_LayoutNode_size                   20
@@ -149,7 +165,7 @@ extern const pb_field_t screen_Config_fields[3];
 #define screen_SetpointSensorPairWidget_size     69
 #define screen_ColorWidget_size                  20
 #define screen_ContentNode_size                  77
-/* screen_Config_size depends on runtime parameters */
+/* screen_Block_size depends on runtime parameters */
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

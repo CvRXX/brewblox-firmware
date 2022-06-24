@@ -1,10 +1,9 @@
 #include "RecurringTask.hpp"
 #include "SimulatorSystem.hpp"
+#include "blocks/ScreenConfig.hpp"
 #include "blox_hal/hal_network.hpp"
 #include "cbox/Box.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
-#include "dynamic_gui/util/2x3grid.hpp"
-#include "dynamic_gui/util/test_screen.hpp"
 #include "gui.hpp"
 #include "lvgl.h"
 #include "network/cbox_server.hpp"
@@ -97,9 +96,14 @@ int main(int argc, char* argv[])
         ioc, chrono::seconds(10),
         RecurringTask::IntervalType::FROM_EXECUTION,
         []() {
-            auto testScreen = gui::dynamic_interface::grid();
-            if (testScreen) {
-                screen::interface->setNewScreen(std::move(*testScreen));
+            if (ScreenConfig::newSettingsReceived()) {
+                auto& settings = ScreenConfig::settings();
+                auto layoutNodes = settings.layoutNodes;
+                auto contentNodes = settings.contentNodes;
+                auto screen = gui::dynamic_interface::decodeNodes(std::move(layoutNodes), std::move(contentNodes));
+                if (screen) {
+                    screen::interface->setNewScreen(std::move(*screen));
+                }
             }
         });
 

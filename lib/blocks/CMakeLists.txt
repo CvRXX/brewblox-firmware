@@ -19,6 +19,7 @@ set(blocks_srcs
   src/OneWireBusBlock.cpp
   src/OneWireScanningFactory.cpp
   src/PidBlock.cpp
+  src/ScreenConfig.cpp
   src/SequenceBlock.cpp
   src/SetpointProfileBlock.cpp
   src/SetpointSensorPairBlock.cpp

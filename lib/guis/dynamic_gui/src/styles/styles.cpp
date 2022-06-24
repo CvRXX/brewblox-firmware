@@ -1,4 +1,4 @@
-#include "styles.hpp"
+#include "dynamic_gui/styles/styles.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 namespace gui::dynamic_interface {
 

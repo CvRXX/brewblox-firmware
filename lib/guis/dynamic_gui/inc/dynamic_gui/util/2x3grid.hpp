@@ -1,13 +1,12 @@
-#include "blocks/DisplaySettingsBlock.hpp"
-#include "dynamic_gui/decode.hpp"
-#include "dynamic_gui/elements/widgets/temperature_widget.hpp"
+#pragma once
+#include "blocks/ScreenConfig.hpp"
 
 namespace gui::dynamic_interface {
 
 tl::expected<Screen, DecodeError> grid()
 {
 
-    auto& settings = DisplaySettingsBlock::settings();
+    // auto& settings = ScreenConfig::settings();
 
     std::vector<screen_LayoutNode> layoutNodes;
     layoutNodes.push_back({0, 1, screen_LayoutNode_Type_Row, 1});
@@ -23,21 +22,22 @@ tl::expected<Screen, DecodeError> grid()
 
     std::vector<screen_ContentNode> contentNodes;
 
-    for (auto& widget : settings.widgets) {
-        if (widget.pos != 0) {
-            if (widget.which_WidgetType == blox_DisplaySettings_Widget_tempSensor_tag) {
-                auto temperatureWidget = screen_TemperatureWidget{screen_Color{widget.color[0], widget.color[1], widget.color[2]}, "test", widget.WidgetType.tempSensor};
-                strcpy(temperatureWidget.label, widget.name);
-                screen_ContentNode node = screen_ContentNode_init_default;
-                node.layoutNodeId = 7 - widget.pos + 3;
-                node.which_content = screen_ContentNode_temperatureWidget_tag;
-                node.content.temperatureWidget = temperatureWidget;
-                contentNodes.push_back(node);
-            }
-        }
-    }
+    // for (auto& widget : settings.widgets) {
+    //     if (widget.pos != 0) {
+    //         if (widget.which_WidgetType == blox_DisplaySettings_Widget_tempSensor_tag) {
+    //             auto temperatureWidget = screen_TemperatureWidget{screen_Color{widget.color[0], widget.color[1], widget.color[2]}, "test", widget.WidgetType.tempSensor};
+    //             strcpy(temperatureWidget.label, widget.name);
+    //             screen_ContentNode node = screen_ContentNode_init_default;
+    //             node.layoutNodeId = 7 - widget.pos + 3;
+    //             node.which_content = screen_ContentNode_temperatureWidget_tag;
+    //             node.content.temperatureWidget = temperatureWidget;
+    //             contentNodes.push_back(node);
+    //         }
+    //     }
+    // }
 
     return decodeNodes(std::move(layoutNodes), std::move(contentNodes));
+    // return DecodeError::pbError;
 }
 }
 

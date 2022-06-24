@@ -22,6 +22,7 @@
 #include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "lvgl.h"
 #include "proto/Screen.pb.h"
+#include <memory>
 #include <type_traits>
 
 namespace gui::dynamic_interface {

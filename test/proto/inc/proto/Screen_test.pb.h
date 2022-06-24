@@ -49,15 +49,15 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_Screen_5ftest_2eproto
 namespace screen {
+class Block;
+class BlockDefaultTypeInternal;
+extern BlockDefaultTypeInternal _Block_default_instance_;
 class Color;
 class ColorDefaultTypeInternal;
 extern ColorDefaultTypeInternal _Color_default_instance_;
 class ColorWidget;
 class ColorWidgetDefaultTypeInternal;
 extern ColorWidgetDefaultTypeInternal _ColorWidget_default_instance_;
-class Config;
-class ConfigDefaultTypeInternal;
-extern ConfigDefaultTypeInternal _Config_default_instance_;
 class ContentNode;
 class ContentNodeDefaultTypeInternal;
 extern ContentNodeDefaultTypeInternal _ContentNode_default_instance_;
@@ -76,9 +76,9 @@ extern TemperatureWidgetDefaultTypeInternal _TemperatureWidget_default_instance_
 }  // namespace screen
 namespace google {
 namespace protobuf {
+template<> ::screen::Block* Arena::CreateMaybeMessage<::screen::Block>(Arena*);
 template<> ::screen::Color* Arena::CreateMaybeMessage<::screen::Color>(Arena*);
 template<> ::screen::ColorWidget* Arena::CreateMaybeMessage<::screen::ColorWidget>(Arena*);
-template<> ::screen::Config* Arena::CreateMaybeMessage<::screen::Config>(Arena*);
 template<> ::screen::ContentNode* Arena::CreateMaybeMessage<::screen::ContentNode>(Arena*);
 template<> ::screen::LayoutNode* Arena::CreateMaybeMessage<::screen::LayoutNode>(Arena*);
 template<> ::screen::NumericValueWidget* Arena::CreateMaybeMessage<::screen::NumericValueWidget>(Arena*);
@@ -109,6 +109,27 @@ inline bool LayoutNode_Type_Parse(
     const ::std::string& name, LayoutNode_Type* value) {
   return ::google::protobuf::internal::ParseNamedEnum<LayoutNode_Type>(
     LayoutNode_Type_descriptor(), name, value);
+}
+enum TemperatureUnit {
+  TEMP_CELSIUS = 0,
+  TEMP_FAHRENHEIT = 1,
+  TemperatureUnit_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  TemperatureUnit_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool TemperatureUnit_IsValid(int value);
+const TemperatureUnit TemperatureUnit_MIN = TEMP_CELSIUS;
+const TemperatureUnit TemperatureUnit_MAX = TEMP_FAHRENHEIT;
+const int TemperatureUnit_ARRAYSIZE = TemperatureUnit_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* TemperatureUnit_descriptor();
+inline const ::std::string& TemperatureUnit_Name(TemperatureUnit value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    TemperatureUnit_descriptor(), value);
+}
+inline bool TemperatureUnit_Parse(
+    const ::std::string& name, TemperatureUnit* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TemperatureUnit>(
+    TemperatureUnit_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -1060,24 +1081,24 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.Config) */ {
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.Block) */ {
  public:
-  Config();
-  virtual ~Config();
+  Block();
+  virtual ~Block();
 
-  Config(const Config& from);
+  Block(const Block& from);
 
-  inline Config& operator=(const Config& from) {
+  inline Block& operator=(const Block& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  Config(Config&& from) noexcept
-    : Config() {
+  Block(Block&& from) noexcept
+    : Block() {
     *this = ::std::move(from);
   }
 
-  inline Config& operator=(Config&& from) noexcept {
+  inline Block& operator=(Block&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1087,34 +1108,34 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Config& default_instance();
+  static const Block& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Config* internal_default_instance() {
-    return reinterpret_cast<const Config*>(
-               &_Config_default_instance_);
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     7;
 
-  void Swap(Config* other);
-  friend void swap(Config& a, Config& b) {
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Config* New() const final {
-    return CreateMaybeMessage<Config>(NULL);
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
   }
 
-  Config* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Config>(arena);
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Config& from);
-  void MergeFrom(const Config& from);
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -1131,7 +1152,7 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Config* other);
+  void InternalSwap(Block* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1171,12 +1192,56 @@ class Config : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   const ::google::protobuf::RepeatedPtrField< ::screen::ContentNode >&
       contentnodes() const;
 
-  // @@protoc_insertion_point(class_scope:screen.Config)
+  // string name = 3 [(.nanopb) = {
+  void clear_name();
+  static const int kNameFieldNumber = 3;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
+  // string timeZone = 6 [(.nanopb) = {
+  void clear_timezone();
+  static const int kTimeZoneFieldNumber = 6;
+  const ::std::string& timezone() const;
+  void set_timezone(const ::std::string& value);
+  #if LANG_CXX11
+  void set_timezone(::std::string&& value);
+  #endif
+  void set_timezone(const char* value);
+  void set_timezone(const char* value, size_t size);
+  ::std::string* mutable_timezone();
+  ::std::string* release_timezone();
+  void set_allocated_timezone(::std::string* timezone);
+
+  // .screen.TemperatureUnit tempUnit = 4;
+  void clear_tempunit();
+  static const int kTempUnitFieldNumber = 4;
+  ::screen::TemperatureUnit tempunit() const;
+  void set_tempunit(::screen::TemperatureUnit value);
+
+  // uint32 brightness = 5 [(.nanopb) = {
+  void clear_brightness();
+  static const int kBrightnessFieldNumber = 5;
+  ::google::protobuf::uint32 brightness() const;
+  void set_brightness(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:screen.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode > layoutnodes_;
   ::google::protobuf::RepeatedPtrField< ::screen::ContentNode > contentnodes_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::internal::ArenaStringPtr timezone_;
+  int tempunit_;
+  ::google::protobuf::uint32 brightness_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Screen_5ftest_2eproto::TableStruct;
 };
@@ -1931,66 +1996,200 @@ inline ContentNode::ContentCase ContentNode::content_case() const {
 }
 // -------------------------------------------------------------------
 
-// Config
+// Block
 
 // repeated .screen.LayoutNode layoutNodes = 1;
-inline int Config::layoutnodes_size() const {
+inline int Block::layoutnodes_size() const {
   return layoutnodes_.size();
 }
-inline void Config::clear_layoutnodes() {
+inline void Block::clear_layoutnodes() {
   layoutnodes_.Clear();
 }
-inline ::screen::LayoutNode* Config::mutable_layoutnodes(int index) {
-  // @@protoc_insertion_point(field_mutable:screen.Config.layoutNodes)
+inline ::screen::LayoutNode* Block::mutable_layoutnodes(int index) {
+  // @@protoc_insertion_point(field_mutable:screen.Block.layoutNodes)
   return layoutnodes_.Mutable(index);
 }
 inline ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode >*
-Config::mutable_layoutnodes() {
-  // @@protoc_insertion_point(field_mutable_list:screen.Config.layoutNodes)
+Block::mutable_layoutnodes() {
+  // @@protoc_insertion_point(field_mutable_list:screen.Block.layoutNodes)
   return &layoutnodes_;
 }
-inline const ::screen::LayoutNode& Config::layoutnodes(int index) const {
-  // @@protoc_insertion_point(field_get:screen.Config.layoutNodes)
+inline const ::screen::LayoutNode& Block::layoutnodes(int index) const {
+  // @@protoc_insertion_point(field_get:screen.Block.layoutNodes)
   return layoutnodes_.Get(index);
 }
-inline ::screen::LayoutNode* Config::add_layoutnodes() {
-  // @@protoc_insertion_point(field_add:screen.Config.layoutNodes)
+inline ::screen::LayoutNode* Block::add_layoutnodes() {
+  // @@protoc_insertion_point(field_add:screen.Block.layoutNodes)
   return layoutnodes_.Add();
 }
 inline const ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode >&
-Config::layoutnodes() const {
-  // @@protoc_insertion_point(field_list:screen.Config.layoutNodes)
+Block::layoutnodes() const {
+  // @@protoc_insertion_point(field_list:screen.Block.layoutNodes)
   return layoutnodes_;
 }
 
 // repeated .screen.ContentNode contentNodes = 2;
-inline int Config::contentnodes_size() const {
+inline int Block::contentnodes_size() const {
   return contentnodes_.size();
 }
-inline void Config::clear_contentnodes() {
+inline void Block::clear_contentnodes() {
   contentnodes_.Clear();
 }
-inline ::screen::ContentNode* Config::mutable_contentnodes(int index) {
-  // @@protoc_insertion_point(field_mutable:screen.Config.contentNodes)
+inline ::screen::ContentNode* Block::mutable_contentnodes(int index) {
+  // @@protoc_insertion_point(field_mutable:screen.Block.contentNodes)
   return contentnodes_.Mutable(index);
 }
 inline ::google::protobuf::RepeatedPtrField< ::screen::ContentNode >*
-Config::mutable_contentnodes() {
-  // @@protoc_insertion_point(field_mutable_list:screen.Config.contentNodes)
+Block::mutable_contentnodes() {
+  // @@protoc_insertion_point(field_mutable_list:screen.Block.contentNodes)
   return &contentnodes_;
 }
-inline const ::screen::ContentNode& Config::contentnodes(int index) const {
-  // @@protoc_insertion_point(field_get:screen.Config.contentNodes)
+inline const ::screen::ContentNode& Block::contentnodes(int index) const {
+  // @@protoc_insertion_point(field_get:screen.Block.contentNodes)
   return contentnodes_.Get(index);
 }
-inline ::screen::ContentNode* Config::add_contentnodes() {
-  // @@protoc_insertion_point(field_add:screen.Config.contentNodes)
+inline ::screen::ContentNode* Block::add_contentnodes() {
+  // @@protoc_insertion_point(field_add:screen.Block.contentNodes)
   return contentnodes_.Add();
 }
 inline const ::google::protobuf::RepeatedPtrField< ::screen::ContentNode >&
-Config::contentnodes() const {
-  // @@protoc_insertion_point(field_list:screen.Config.contentNodes)
+Block::contentnodes() const {
+  // @@protoc_insertion_point(field_list:screen.Block.contentNodes)
   return contentnodes_;
+}
+
+// string name = 3 [(.nanopb) = {
+inline void Block::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Block::name() const {
+  // @@protoc_insertion_point(field_get:screen.Block.name)
+  return name_.GetNoArena();
+}
+inline void Block::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.Block.name)
+}
+#if LANG_CXX11
+inline void Block::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.Block.name)
+}
+#endif
+inline void Block::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.Block.name)
+}
+inline void Block::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.Block.name)
+}
+inline ::std::string* Block::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.Block.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Block::release_name() {
+  // @@protoc_insertion_point(field_release:screen.Block.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Block::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:screen.Block.name)
+}
+
+// .screen.TemperatureUnit tempUnit = 4;
+inline void Block::clear_tempunit() {
+  tempunit_ = 0;
+}
+inline ::screen::TemperatureUnit Block::tempunit() const {
+  // @@protoc_insertion_point(field_get:screen.Block.tempUnit)
+  return static_cast< ::screen::TemperatureUnit >(tempunit_);
+}
+inline void Block::set_tempunit(::screen::TemperatureUnit value) {
+  
+  tempunit_ = value;
+  // @@protoc_insertion_point(field_set:screen.Block.tempUnit)
+}
+
+// uint32 brightness = 5 [(.nanopb) = {
+inline void Block::clear_brightness() {
+  brightness_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::brightness() const {
+  // @@protoc_insertion_point(field_get:screen.Block.brightness)
+  return brightness_;
+}
+inline void Block::set_brightness(::google::protobuf::uint32 value) {
+  
+  brightness_ = value;
+  // @@protoc_insertion_point(field_set:screen.Block.brightness)
+}
+
+// string timeZone = 6 [(.nanopb) = {
+inline void Block::clear_timezone() {
+  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Block::timezone() const {
+  // @@protoc_insertion_point(field_get:screen.Block.timeZone)
+  return timezone_.GetNoArena();
+}
+inline void Block::set_timezone(const ::std::string& value) {
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.Block.timeZone)
+}
+#if LANG_CXX11
+inline void Block::set_timezone(::std::string&& value) {
+  
+  timezone_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.Block.timeZone)
+}
+#endif
+inline void Block::set_timezone(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.Block.timeZone)
+}
+inline void Block::set_timezone(const char* value, size_t size) {
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.Block.timeZone)
+}
+inline ::std::string* Block::mutable_timezone() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.Block.timeZone)
+  return timezone_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Block::release_timezone() {
+  // @@protoc_insertion_point(field_release:screen.Block.timeZone)
+  
+  return timezone_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Block::set_allocated_timezone(::std::string* timezone) {
+  if (timezone != NULL) {
+    
+  } else {
+    
+  }
+  timezone_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), timezone);
+  // @@protoc_insertion_point(field_set_allocated:screen.Block.timeZone)
 }
 
 #ifdef __GNUC__
@@ -2022,6 +2221,11 @@ template <> struct is_proto_enum< ::screen::LayoutNode_Type> : ::std::true_type 
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::screen::LayoutNode_Type>() {
   return ::screen::LayoutNode_Type_descriptor();
+}
+template <> struct is_proto_enum< ::screen::TemperatureUnit> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::screen::TemperatureUnit>() {
+  return ::screen::TemperatureUnit_descriptor();
 }
 
 }  // namespace protobuf
