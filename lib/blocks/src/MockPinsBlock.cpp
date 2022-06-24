@@ -18,6 +18,7 @@
  */
 
 #include "blocks/MockPinsBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/MockPins.pb.h"
 
 cbox::CboxError
@@ -36,20 +37,21 @@ MockPinsBlock::read(const cbox::PayloadCallback& callback) const
     message.channels[6].id = 7;
     message.channels[7].id = 8;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_MockPins_Block_fields,
-                           blox_MockPins_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_MockPins_Block_fields,
+                     blox_MockPins_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 MockPinsBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     // We have no persisted data
-    return callWithMessage(callback, objectId(), staticTypeId(), 0);
+    return cbox::PayloadBuilder(*this)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError

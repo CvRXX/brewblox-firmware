@@ -44,7 +44,12 @@ public:
     TestCommand(obj_id_t blockId_,
                 obj_type_t blockType_,
                 std::initializer_list<uint8_t>&& content_ = {})
-        : request(blockId_, blockType_, 0, std::move(content_))
+        : request(blockId_,
+                  blockType_,
+                  0,
+                  MaskMode::NO_MASK,
+                  std::move(content_),
+                  {})
     {
         initCallback();
     }
@@ -56,7 +61,9 @@ public:
                 Payload(payload.blockId,
                         payload.blockType,
                         payload.subtype,
-                        std::vector<uint8_t>(payload.content)));
+                        payload.maskMode,
+                        std::vector<uint8_t>(payload.content),
+                        std::vector<obj_field_tag_t>(payload.mask)));
             return CboxError::OK;
         };
     }

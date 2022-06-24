@@ -1,5 +1,6 @@
 #include "blocks/BalancerBlock.hpp"
 #include "blocks/ConstraintsProto.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "pb_encode.h"
 #include "proto/Balancer.pb.h"
 
@@ -27,24 +28,27 @@ BalancerBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_Balancer_Block message = blox_Balancer_Block_init_zero;
 
+    // Include bytes for field tags
+    size_t blockSize = (blox_Balancer_BalancedActuator_size + 2) * balancer.clients().size();
+
     message.clients.funcs.encode = streamBalancedActuators;
     message.clients.arg = const_cast<Balancer_t*>(&balancer); // arg is not const in message, but it is in callback
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Balancer_Block_fields,
-                           // Include bytes for field tags
-                           (blox_Balancer_BalancedActuator_size + 2) * balancer.clients().size());
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Balancer_Block_fields,
+                     blockSize)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 BalancerBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     // no settings to persist
-    return callWithMessage(callback, objectId(), staticTypeId(), 0);
+    return cbox::PayloadBuilder(*this)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError

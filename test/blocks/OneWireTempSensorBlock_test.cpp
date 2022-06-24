@@ -58,11 +58,13 @@ SCENARIO("A TempSensorOneWireBlock")
             CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             payloadToMessage(cmd, message);
 
+            REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{1});
+
             CHECK(message.ShortDebugString() ==
                   "offset: 2048 "
                   "address: 9084060688381448488 "
-                  "oneWireBusId: 4 "
-                  "strippedFields: 1");
+                  "oneWireBusId: 4");
 
             cbox::update(1000);
 

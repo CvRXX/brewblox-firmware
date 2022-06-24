@@ -18,11 +18,12 @@
  */
 
 #include "blocks/ScreenConfig.hpp"
+#include "cbox/PayloadConversion.hpp"
 
 cbox::CboxError
 ScreenConfig::read(const cbox::PayloadCallback& callback) const
 {
-    const size_t size = screen_ContentNode_size * 10 + screen_LayoutNode_size * 10 + 100;
+    const size_t size = screen_ContentNode_size * decodedScreenConfig.contentNodes.size() + screen_LayoutNode_size * decodedScreenConfig.layoutNodes.size() + 150;
 
     decodedScreenConfig.settings.layoutNodes.funcs.encode = gui::dynamic_interface::detail::layoutNodeEncoder;
     decodedScreenConfig.settings.layoutNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.layoutNodes));
@@ -30,13 +31,12 @@ ScreenConfig::read(const cbox::PayloadCallback& callback) const
     decodedScreenConfig.settings.contentNodes.funcs.encode = gui::dynamic_interface::detail::contentNodeEncoder;
     decodedScreenConfig.settings.contentNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.contentNodes));
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &decodedScreenConfig.settings,
-                           screen_Block_fields,
-                           size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&decodedScreenConfig.settings,
+                     screen_Block_fields,
+                     size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -56,14 +56,14 @@ ScreenConfig::write(const cbox::Payload& payload)
     message.layoutNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.layoutNodes));
     message.contentNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.contentNodes));
 
-    auto res = payloadToMessage(payload, &message, screen_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
+    if (parser.fillMessage(&message, screen_Block_fields)) {
         decodedScreenConfig.settings = message;
         m_newSettingsReceived = true;
     }
 
-    return res;
+    return parser.status();
 }
 
 // use global static settings, because we only have one display

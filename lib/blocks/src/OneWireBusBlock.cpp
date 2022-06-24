@@ -18,6 +18,7 @@
  */
 
 #include "blocks/OneWireBusBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "control/OneWire.hpp"
 #include "control/OneWireAddress.hpp"
 #include "pb_encode.h"
@@ -84,13 +85,12 @@ OneWireBusBlock::read(const cbox::PayloadCallback& callback) const
     command.opcode = NO_OP;
     command.data = 0;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_OneWireBus_Block_fields,
-                           100); // TODO(Bob): pick sensible value
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_OneWireBus_Block_fields,
+                     100) // TODO(Bob): pick sensible value
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -113,13 +113,15 @@ cbox::CboxError
 OneWireBusBlock::write(const cbox::Payload& payload)
 {
     blox_OneWireBus_Block message = blox_OneWireBus_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_OneWireBus_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        command = message.command;
+    if (parser.fillMessage(&message, blox_OneWireBus_Block_fields)) {
+        if (parser.hasField(blox_OneWireBus_Block_command_tag)) {
+            command = message.command;
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 void* OneWireBusBlock::implements(cbox::obj_type_t iface)

@@ -1,22 +1,3 @@
-/*
- * Copyright 2014-2015 Matthew McGowan.
- * Copyright 2018 Brewblox / Elco Jacobs
- * This file is part of Brewblox.
- *
- * Controlbox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Brewblox. If not, see <http://www.gnu.org/licenses/>.
- */
-
 #pragma once
 
 #include "cbox/CboxError.hpp"
@@ -29,35 +10,55 @@ namespace cbox {
 using obj_type_t = uint16_t;
 using obj_id_t = uint16_t;
 using obj_subtype_t = uint16_t;
+using obj_field_tag_t = uint16_t;
 
-class Payload {
+enum class MaskMode : uint8_t {
+    /// All fields (including defaults) are valid.
+    NO_MASK = 0,
+
+    /// Only fields where the tag is in `mask` are valid.
+    INCLUSIVE = 1,
+
+    /// Only fields where the tag is not in `mask` are valid.
+    EXCLUSIVE = 2,
+};
+
+class Payload final {
 public:
     const obj_id_t blockId;
     const obj_type_t blockType;
     const obj_subtype_t subtype;
     std::vector<uint8_t> content;
 
-    Payload(obj_id_t _blockId,
-            obj_type_t _blockType,
-            obj_subtype_t _subtype,
-            std::vector<uint8_t>&& _content)
-        : blockId(_blockId)
-        , blockType(_blockType)
-        , subtype(_subtype)
-        , content(std::move(_content))
+    MaskMode maskMode;
+    std::vector<obj_field_tag_t> mask;
+
+    Payload(obj_id_t blockId_,
+            obj_type_t blockType_,
+            obj_subtype_t subtype_,
+            MaskMode maskMode_,
+            std::vector<uint8_t>&& content_,
+            std::vector<obj_field_tag_t>&& mask_)
+        : blockId(blockId_)
+        , blockType(blockType_)
+        , subtype(subtype_)
+        , content(std::move(content_))
+        , maskMode(maskMode_)
+        , mask(std::move(mask_))
     {
     }
 
-    Payload(obj_id_t _blockId,
-            obj_type_t _blockType,
-            obj_subtype_t _subtype)
-        : blockId(_blockId)
-        , blockType(_blockType)
-        , subtype(_subtype)
+    Payload(obj_id_t blockId_,
+            obj_type_t blockType_,
+            obj_subtype_t subtype_)
+        : blockId(blockId_)
+        , blockType(blockType_)
+        , subtype(subtype_)
+        , content{}
+        , maskMode(MaskMode::NO_MASK)
+        , mask{}
     {
     }
-
-    virtual ~Payload() = default;
 };
 
 using PayloadCallback = std::function<CboxError(const Payload&)>;

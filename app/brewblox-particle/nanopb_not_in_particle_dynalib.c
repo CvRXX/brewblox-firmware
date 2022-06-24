@@ -19,6 +19,8 @@ bool buf_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count);
 bool pb_decode_fixed64(pb_istream_t* stream, void* dest);
 bool pb_encode_fixed64(pb_ostream_t* stream, const void* value);
 
+bool pb_decode_varint32_eof(pb_istream_t* stream, uint32_t* dest, bool* eof);
+
 bool pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count);
 // bool
 //#pb_field_iter_begin(pb_field_iter_t* iter, const pb_field_t* fields, void* dest_struct);
@@ -83,6 +85,81 @@ bool pb_encode_fixed64(pb_ostream_t* stream, const void* value)
     bytes[6] = (pb_byte_t)((val >> 48) & 0xFF);
     bytes[7] = (pb_byte_t)((val >> 56) & 0xFF);
     return pb_write(stream, bytes, 8);
+}
+
+/* Read a single byte from input stream. buf may not be NULL.
+ * This is an optimization for the varint decoding. */
+bool pb_readbyte(pb_istream_t* stream, pb_byte_t* buf)
+{
+    if (stream->bytes_left == 0)
+        PB_RETURN_ERROR(stream, "end-of-stream");
+
+#ifndef PB_BUFFER_ONLY
+    if (!stream->callback(stream, buf, 1))
+        PB_RETURN_ERROR(stream, "io error");
+#else
+    *buf = *(const pb_byte_t*)stream->state;
+    stream->state = (pb_byte_t*)stream->state + 1;
+#endif
+
+    stream->bytes_left--;
+
+    return true;
+}
+
+bool pb_decode_varint32_eof(pb_istream_t* stream, uint32_t* dest, bool* eof)
+{
+    pb_byte_t byte;
+    uint32_t result;
+
+    if (!pb_readbyte(stream, &byte)) {
+        if (stream->bytes_left == 0) {
+            if (eof) {
+                *eof = true;
+            }
+        }
+
+        return false;
+    }
+
+    if ((byte & 0x80) == 0) {
+        /* Quick case, 1 byte value */
+        result = byte;
+    } else {
+        /* Multibyte case */
+        uint_fast8_t bitpos = 7;
+        result = byte & 0x7F;
+
+        do {
+            if (!pb_readbyte(stream, &byte))
+                return false;
+
+            if (bitpos >= 32) {
+                /* Note: The varint could have trailing 0x80 bytes, or 0xFF for negative. */
+                uint8_t sign_extension = (bitpos < 63) ? 0xFF : 0x01;
+
+                if ((byte & 0x7F) != 0x00 && ((result >> 31) == 0 || byte != sign_extension)) {
+                    PB_RETURN_ERROR(stream, "varint overflow");
+                }
+            } else {
+                result |= (uint32_t)(byte & 0x7F) << bitpos;
+            }
+            bitpos = (uint_fast8_t)(bitpos + 7);
+        } while (byte & 0x80);
+
+        if (bitpos == 35 && (byte & 0x70) != 0) {
+            /* The last byte was at bitpos=28, so only bottom 4 bits fit. */
+            PB_RETURN_ERROR(stream, "varint overflow");
+        }
+    }
+
+    *dest = result;
+    return true;
+}
+
+bool pb_decode_varint32(pb_istream_t* stream, uint32_t* dest)
+{
+    return pb_decode_varint32_eof(stream, dest, NULL);
 }
 
 bool pb_write(pb_ostream_t* stream, const pb_byte_t* buf, size_t count)

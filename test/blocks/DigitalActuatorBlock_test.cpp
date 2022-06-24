@@ -158,12 +158,14 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
                 payloadToMessage(cmd, message);
 
+                REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+                REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{3});
+
                 // in simulation, the hw device will not work and therefore the state will be unknown
                 CHECK(message.ShortDebugString() ==
                       "hwDevice: 102 "
                       "channel: 1 "
-                      "desiredState: STATE_ACTIVE "
-                      "strippedFields: 3");
+                      "desiredState: STATE_ACTIVE");
             }
         }
     }

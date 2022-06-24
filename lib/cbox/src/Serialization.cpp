@@ -10,7 +10,7 @@ bool decodePayloadContent(pb_istream_t* stream, const pb_field_t* field, void** 
 {
     auto payloadContent = static_cast<std::vector<uint8_t>*>(*arg);
     auto b64Content = std::string(stream->bytes_left, 0);
-    if (!pb_read(stream, (uint8_t*)b64Content.data(), b64Content.size())) {
+    if (!pb_read(stream, reinterpret_cast<uint8_t*>(b64Content.data()), b64Content.size())) {
         return false;
     }
     auto protoContent = b64_decode(b64Content);
@@ -25,8 +25,35 @@ bool encodePayloadContent(pb_ostream_t* stream, const pb_field_t* field, void* c
     if (!pb_encode_tag_for_field(stream, field)) {
         return false;
     }
-    if (!pb_encode_string(stream, (uint8_t*)b64Content.data(), b64Content.size())) {
+    if (!pb_encode_string(stream, reinterpret_cast<uint8_t*>(b64Content.data()), b64Content.size())) {
         return false;
+    }
+    return true;
+}
+
+bool decodePayloadMask(pb_istream_t* stream, const pb_field_t* field, void** arg)
+{
+    auto payloadMask = static_cast<std::vector<obj_field_tag_t>*>(*arg);
+    uint32_t tag = 0;
+    while (stream->bytes_left) {
+        if (!pb_decode_varint32(stream, &tag)) {
+            return false;
+        }
+        payloadMask->push_back(tag);
+    }
+    return true;
+}
+
+bool encodePayloadMask(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+{
+    auto payload = static_cast<const Payload*>(*arg);
+    for (auto tag : payload->mask) {
+        if (!pb_encode_tag_for_field(stream, field)) {
+            return false;
+        }
+        if (!pb_encode_varint(stream, tag)) {
+            return false;
+        }
     }
     return true;
 }
@@ -39,8 +66,12 @@ bool encodePayload(pb_ostream_t* stream, const pb_field_t* field, void* const* a
     submsg.blockId = payload->blockId;
     submsg.blockType = brewblox_BlockType(payload->blockType);
     submsg.subtype = payload->subtype;
+
     submsg.content.funcs.encode = &encodePayloadContent;
     submsg.content.arg = *arg;
+
+    submsg.mask.funcs.encode = &encodePayloadMask;
+    submsg.mask.arg = *arg;
 
     if (!pb_encode_tag_for_field(stream, field)) {
         return false;
@@ -60,10 +91,14 @@ CboxExpected<Request> parseRequest(const std::string& b64Bytes)
     }
 
     command_Request message = command_Request_init_zero;
-    std::vector<uint8_t> payloadBytes;
 
+    std::vector<uint8_t> payloadBytes;
     message.payload.content.funcs.decode = &decodePayloadContent;
     message.payload.content.arg = &payloadBytes;
+
+    std::vector<obj_field_tag_t> payloadMask;
+    message.payload.mask.funcs.decode = &decodePayloadMask;
+    message.payload.mask.arg = &payloadMask;
 
     {
         auto protoBytes = b64_decode(b64Bytes);
@@ -76,10 +111,12 @@ CboxExpected<Request> parseRequest(const std::string& b64Bytes)
     auto payload = Payload(message.payload.blockId,
                            message.payload.blockType,
                            message.payload.subtype,
-                           std::move(payloadBytes));
+                           static_cast<MaskMode>(message.payload.maskMode),
+                           std::move(payloadBytes),
+                           std::move(payloadMask));
 
     auto request = Request(message.msgId,
-                           (Opcode)message.opcode,
+                           static_cast<Opcode>(message.opcode),
                            std::move(payload));
 
     return request;

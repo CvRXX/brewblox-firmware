@@ -33,7 +33,6 @@ private:
 
 public:
     TempSensorCombiBlock() = default;
-    ~TempSensorCombiBlock() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
@@ -47,5 +46,5 @@ public:
     }
 
 private:
-    void writeMessage(blox_TempSensorCombi_Block& message, bool includeReadOnly) const;
+    void encodeStoredMessage(blox_TempSensorCombi_Block& message) const;
 };

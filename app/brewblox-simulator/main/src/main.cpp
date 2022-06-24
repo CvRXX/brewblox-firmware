@@ -73,6 +73,12 @@ int main(int argc, char* argv[])
         []() {
             screen::update();
         });
+    static auto widgetUpdater = RecurringTask(
+        ioc, chrono::seconds(1),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            screen::updateWidgets();
+        });
 
     static auto displayTick = RecurringTask(
         ioc, chrono::milliseconds(TICK_INTERVAL),
@@ -115,6 +121,7 @@ int main(int argc, char* argv[])
     cbox::loadBlocksFromStorage();
     updater.start();
     configupdate.start();
+    widgetUpdater.start();
 
     cbox::discoverBlocks();
     network::connect();

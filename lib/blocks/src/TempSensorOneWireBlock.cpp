@@ -18,7 +18,7 @@
  */
 
 #include "blocks/TempSensorOneWireBlock.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/TempSensorOneWire.pb.h"
 
 TempSensorOneWireBlock::TempSensorOneWireBlock()
@@ -43,27 +43,25 @@ cbox::CboxError
 TempSensorOneWireBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     if (sensor.valid()) {
         message.value = cnl::unwrap((sensor.value()));
     } else {
-        stripped.add(blox_TempSensorOneWire_Block_value_tag);
+        excluded.push_back(blox_TempSensorOneWire_Block_value_tag);
     }
 
     message.oneWireBusId = getBusId();
     message.address = uint64_t(sensor.address());
     message.offset = cnl::unwrap(sensor.getCalibration());
 
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TempSensorOneWire_Block_fields,
-                           blox_TempSensorOneWire_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TempSensorOneWire_Block_fields,
+                     blox_TempSensorOneWire_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -75,30 +73,35 @@ TempSensorOneWireBlock::readStored(const cbox::PayloadCallback& callback) const
     message.address = uint64_t(sensor.address());
     message.offset = cnl::unwrap(sensor.getCalibration());
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TempSensorOneWire_Block_fields,
-                           blox_TempSensorOneWire_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TempSensorOneWire_Block_fields,
+                     blox_TempSensorOneWire_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 TempSensorOneWireBlock::write(const cbox::Payload& payload)
 {
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_TempSensorOneWire_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        if (message.oneWireBusId) {
-            busPtr().setId(message.oneWireBusId);
+    if (parser.fillMessage(&message, blox_TempSensorOneWire_Block_fields)) {
+        if (parser.hasField(blox_TempSensorOneWire_Block_oneWireBusId_tag)) {
+            if (message.oneWireBusId) {
+                busPtr().setId(message.oneWireBusId);
+            }
         }
-        sensor.address(OneWireAddress(message.address));
-        sensor.setCalibration(cnl::wrap<temp_t>(message.offset));
+        if (parser.hasField(blox_TempSensorOneWire_Block_address_tag)) {
+            sensor.address(OneWireAddress(message.address));
+        }
+        if (parser.hasField(blox_TempSensorOneWire_Block_offset_tag)) {
+            sensor.setCalibration(cnl::wrap<temp_t>(message.offset));
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t TempSensorOneWireBlock::updateHandler(const cbox::update_t& now)
