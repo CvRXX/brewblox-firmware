@@ -20,6 +20,7 @@
 #if PLATFORM_ID == 6
 
 #include "spark/Spark2PinsBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "pinmap_defines.h"
 #include "proto/Spark2Pins.pb.h"
 #include "spark/Board.hpp"
@@ -76,13 +77,12 @@ cbox::CboxError Spark2PinsBlock::read(const cbox::PayloadCallback& callback) con
     }
     message.hardware = hw;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Spark2Pins_Block_fields,
-                           blox_Spark2Pins_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Spark2Pins_Block_fields,
+                     blox_Spark2Pins_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError Spark2PinsBlock::readStored(const cbox::PayloadCallback& callback) const
@@ -91,26 +91,26 @@ cbox::CboxError Spark2PinsBlock::readStored(const cbox::PayloadCallback& callbac
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Spark2Pins_Block_fields,
-                           blox_Spark2Pins_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Spark2Pins_Block_fields,
+                     blox_Spark2Pins_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError Spark2PinsBlock::write(const cbox::Payload& payload)
 {
     blox_Spark2Pins_Block message = blox_Spark2Pins_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_Spark2Pins_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        // io pins are not writable through this block. They are configured by creating Digital Actuators
-        digitalWriteFast(PIN_ALARM, message.soundAlarm);
+    if (parser.fillMessage(&message, blox_Spark2Pins_Block_fields)) {
+        if (parser.hasField(blox_Spark2Pins_Block_soundAlarm_tag)) {
+            digitalWriteFast(PIN_ALARM, message.soundAlarm);
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 void* Spark2PinsBlock::implements(cbox::obj_type_t iface)

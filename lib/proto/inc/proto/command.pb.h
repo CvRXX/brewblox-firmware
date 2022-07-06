@@ -73,12 +73,23 @@ typedef enum _command_ErrorCode {
 #define _command_ErrorCode_MAX command_ErrorCode_INVALID_STORED_BLOCK_CONTENT
 #define _command_ErrorCode_ARRAYSIZE ((command_ErrorCode)(command_ErrorCode_INVALID_STORED_BLOCK_CONTENT+1))
 
+typedef enum _command_MaskMode {
+    command_MaskMode_NO_MASK = 0,
+    command_MaskMode_INCLUSIVE = 1,
+    command_MaskMode_EXCLUSIVE = 2
+} command_MaskMode;
+#define _command_MaskMode_MIN command_MaskMode_NO_MASK
+#define _command_MaskMode_MAX command_MaskMode_EXCLUSIVE
+#define _command_MaskMode_ARRAYSIZE ((command_MaskMode)(command_MaskMode_EXCLUSIVE+1))
+
 /* Struct definitions */
 typedef struct _command_Payload {
     uint16_t blockId;
     brewblox_BlockType blockType;
     uint16_t subtype;
     pb_callback_t content;
+    pb_callback_t mask;
+    command_MaskMode maskMode;
 /* @@protoc_insertion_point(struct:command_Payload) */
 } command_Payload;
 
@@ -99,10 +110,10 @@ typedef struct _command_Request {
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define command_Payload_init_default             {0, _brewblox_BlockType_MIN, 0, {{NULL}, NULL}}
+#define command_Payload_init_default             {0, _brewblox_BlockType_MIN, 0, {{NULL}, NULL}, {{NULL}, NULL}, _command_MaskMode_MIN}
 #define command_Request_init_default             {0, _command_Opcode_MIN, command_Payload_init_default}
 #define command_Response_init_default            {0, _command_ErrorCode_MIN, {{NULL}, NULL}}
-#define command_Payload_init_zero                {0, _brewblox_BlockType_MIN, 0, {{NULL}, NULL}}
+#define command_Payload_init_zero                {0, _brewblox_BlockType_MIN, 0, {{NULL}, NULL}, {{NULL}, NULL}, _command_MaskMode_MIN}
 #define command_Request_init_zero                {0, _command_Opcode_MIN, command_Payload_init_zero}
 #define command_Response_init_zero               {0, _command_ErrorCode_MIN, {{NULL}, NULL}}
 
@@ -111,6 +122,8 @@ typedef struct _command_Request {
 #define command_Payload_blockType_tag            2
 #define command_Payload_subtype_tag              3
 #define command_Payload_content_tag              4
+#define command_Payload_mask_tag                 5
+#define command_Payload_maskMode_tag             6
 #define command_Response_msgId_tag               1
 #define command_Response_error_tag               2
 #define command_Response_payload_tag             3
@@ -119,7 +132,7 @@ typedef struct _command_Request {
 #define command_Request_payload_tag              3
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t command_Payload_fields[5];
+extern const pb_field_t command_Payload_fields[7];
 extern const pb_field_t command_Request_fields[4];
 extern const pb_field_t command_Response_fields[4];
 

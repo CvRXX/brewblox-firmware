@@ -49,7 +49,9 @@ SCENARIO("Storing and retrieving blocks with file storage")
             return storage.saveObject(Payload(id,
                                               stored.blockType,
                                               0,
-                                              std::move(contentCopy)));
+                                              cbox::MaskMode::NO_MASK,
+                                              std::move(contentCopy),
+                                              {}));
         });
     };
 

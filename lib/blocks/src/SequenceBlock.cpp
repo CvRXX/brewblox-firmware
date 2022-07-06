@@ -4,6 +4,7 @@
 #include "blocks/SetpointProfileBlock.hpp"
 #include "cbox/Application.hpp"
 #include "cbox/Cache.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "control/ActuatorDigitalBase.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/SetpointSensorPair.hpp"
@@ -71,13 +72,12 @@ SequenceBlock::read(const cbox::PayloadCallback& callback) const
                        + 3 // error
         ;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Sequence_Block_fields,
-                           blockSize);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Sequence_Block_fields,
+                     blockSize)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -102,13 +102,12 @@ SequenceBlock::readStored(const cbox::PayloadCallback& callback) const
                        + 6 // disabledDuration
         ;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_Sequence_Block_fields,
-                           blockSize);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_Sequence_Block_fields,
+                     blockSize)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -119,29 +118,48 @@ SequenceBlock::write(const cbox::Payload& payload)
     message.instructions.funcs.decode = &decodeInstructions;
     message.instructions.arg = &newInstructions;
 
-    auto res = payloadToMessage(payload, &message, blox_Sequence_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        enabler.set(message.enabled);
-        bool sameOpcodes = _instructions.size() > _state.activeInstruction
-                           && std::equal(_instructions.begin(),
-                                         _instructions.begin() + std::min(size_t(_state.activeInstruction), _instructions.size()), newInstructions.begin(),
-                                         [](const blox_Sequence_Instruction& lhs, const blox_Sequence_Instruction& rhs) {
-                                             return lhs.which_instruction_oneof == rhs.which_instruction_oneof;
-                                         });
-        _instructions.swap(newInstructions);
+    if (parser.fillMessage(&message, blox_Sequence_Block_fields)) {
+        if (parser.hasField(blox_Sequence_Block_enabled_tag)) {
+            enabler.set(message.enabled);
+        }
 
-        if (message.overrideState) {
-            transition({
-                .activeInstruction = message.activeInstruction,
-                .activeInstructionStartedAt = message.activeInstructionStartedAt,
-                .disabledAt = message.disabledAt,
-                .disabledDuration = message.disabledDuration,
-            });
-        } else if (sameOpcodes) {
+        bool hasInstructions = parser.hasField(blox_Sequence_Block_instructions_tag);
+        bool hasOverrideState = parser.hasField(blox_Sequence_Block_overrideState_tag);
+        bool sameOpcodes = false;
+
+        if (hasInstructions) {
+            sameOpcodes = _instructions.size() > _state.activeInstruction
+                          && std::equal(_instructions.begin(),
+                                        _instructions.begin() + std::min(size_t(_state.activeInstruction), _instructions.size()), newInstructions.begin(),
+                                        [](const blox_Sequence_Instruction& lhs, const blox_Sequence_Instruction& rhs) {
+                                            return lhs.which_instruction_oneof == rhs.which_instruction_oneof;
+                                        });
+            _instructions.swap(newInstructions);
+        }
+
+        if (hasOverrideState && message.overrideState) {
+            auto newState = SequenceState(_state);
+
+            if (parser.hasField(blox_Sequence_Block_activeInstruction_tag)) {
+                newState.activeInstruction = message.activeInstruction;
+            }
+            if (parser.hasField(blox_Sequence_Block_activeInstructionStartedAt_tag)) {
+                newState.activeInstructionStartedAt = message.activeInstructionStartedAt;
+            }
+            if (parser.hasField(blox_Sequence_Block_disabledAt_tag)) {
+                newState.disabledAt = message.disabledAt;
+            }
+            if (parser.hasField(blox_Sequence_Block_disabledDuration_tag)) {
+                newState.disabledDuration = message.disabledDuration;
+            }
+
+            transition(std::move(newState));
+        } else if (hasInstructions && sameOpcodes) {
             // Reload active state in case arguments changed
             transition(std::move(_state));
-        } else {
+        } else if (hasInstructions) {
             reset();
         }
 
@@ -149,7 +167,7 @@ SequenceBlock::write(const cbox::Payload& payload)
         _state.stored = true;
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::CboxError

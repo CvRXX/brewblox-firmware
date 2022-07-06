@@ -7,6 +7,7 @@ set(cbox_srcs
   src/ObjectBase.cpp
   src/ObjectContainer.cpp
   src/ObjectFactory.cpp
+  src/PayloadConversion.cpp
   src/Serialization.cpp
 )
 

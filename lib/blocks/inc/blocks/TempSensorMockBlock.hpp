@@ -1,7 +1,6 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "blocks/FieldTags.hpp"
 #include "control/TempSensorMock.hpp"
 #include "proto/TempSensorMock.pb.h"
 
@@ -12,14 +11,12 @@ private:
     using Fluctuation = TempSensorMock::Fluctuation;
 
 protected:
-    static bool streamFluctuationsOut(pb_ostream_t* stream, const pb_field_t* field, void* const* arg);
-    static bool streamFluctuationsIn(pb_istream_t* stream, const pb_field_t*, void** arg);
-    void writeMessage(blox_TempSensorMock_Block& message) const;
+    static bool encodeFluctuations(pb_ostream_t* stream, const pb_field_t* field, void* const* arg);
+    static bool decodeFluctuations(pb_istream_t* stream, const pb_field_t*, void** arg);
     size_t protoSize() const;
 
 public:
     TempSensorMockBlock() = default;
-    ~TempSensorMockBlock() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;

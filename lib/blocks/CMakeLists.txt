@@ -6,7 +6,6 @@ set(blocks_srcs
   src/ActuatorOffsetBlock.cpp
   src/ActuatorPwmBlock.cpp
   src/BalancerBlock.cpp
-  src/Block.cpp
   src/BlockFactory.cpp
   src/BlockInterfaces.cpp
   src/DigitalActuatorBlock.cpp
@@ -19,6 +18,7 @@ set(blocks_srcs
   src/OneWireBusBlock.cpp
   src/OneWireScanningFactory.cpp
   src/PidBlock.cpp
+  src/ScreenConfig.cpp
   src/SequenceBlock.cpp
   src/SetpointProfileBlock.cpp
   src/SetpointSensorPairBlock.cpp

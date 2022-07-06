@@ -50,9 +50,13 @@ public:
      */
     static void update()
     {
-        interface->update();
         auto displayLock = std::lock_guard(*LvglScreen<Display>::display);
         lv_task_handler();
+    }
+
+    static void updateWidgets()
+    {
+        interface->update();
     }
 
     /**

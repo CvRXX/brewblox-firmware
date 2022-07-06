@@ -9,14 +9,13 @@
 
 
 
-const pb_field_t blox_MotorValve_Block_fields[8] = {
+const pb_field_t blox_MotorValve_Block_fields[7] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_MotorValve_Block, hwDevice, hwDevice, 0),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, startChannel, hwDevice, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, state, startChannel, 0),
     PB_FIELD(  5, MESSAGE , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, constrainedBy, state, &blox_Constraints_DigitalConstraints_fields),
     PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, valveState, constrainedBy, 0),
     PB_FIELD(  7, UENUM   , SINGULAR, STATIC  , OTHER, blox_MotorValve_Block, desiredState, valveState, 0),
-    PB_FIELD( 99, UINT32  , REPEATED, STATIC  , OTHER, blox_MotorValve_Block, strippedFields, desiredState, 0),
     PB_LAST_FIELD
 };
 

@@ -3,6 +3,7 @@
 #include "AppTicks.hpp"
 #include "SimulatorSystem.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
+#include "blocks/ScreenConfig.hpp"
 #include "blocks/SysInfoBlock.hpp"
 #include "blocks/TicksBlock.hpp"
 #include "blocks/stringify.hpp"
@@ -65,5 +66,6 @@ void setupSystemBlocks()
     objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(rawDeviceId)), 2);
     objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
     objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    objects.add(std::shared_ptr<cbox::Object>(new ScreenConfig()), 8);
     objects.setObjectsStartId(cbox::userStartId);
 }

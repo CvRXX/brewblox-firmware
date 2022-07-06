@@ -1,5 +1,7 @@
 #pragma once
+#include "decode.hpp"
 #include "elements/layout/screen.hpp"
+#include "encode.hpp"
 #include "proto/Screen.pb.h"
 #include "styles/styles.hpp"
 #include <array>

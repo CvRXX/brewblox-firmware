@@ -1,13 +1,13 @@
 #include "blocks/ActuatorOffsetBlock.hpp"
 #include "blocks/ConstraintsProto.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/ActuatorOffset.pb.h"
 #include "proto/Constraints.pb.h"
 
 cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     message.targetId = target.getId();
     message.referenceId = reference.getId();
@@ -17,7 +17,7 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     if (constrained.valueValid()) {
         message.value = cnl::unwrap(constrained.value());
     } else {
-        stripped.add(blox_ActuatorOffset_Block_value_tag);
+        excluded.push_back(blox_ActuatorOffset_Block_value_tag);
     }
     if (constrained.settingValid()) {
         message.setting = cnl::unwrap(constrained.setting());
@@ -25,21 +25,19 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
             message.drivenTargetId = message.targetId;
         }
     } else {
-        stripped.add(blox_ActuatorOffset_Block_setting_tag);
+        excluded.push_back(blox_ActuatorOffset_Block_setting_tag);
     };
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorOffset_Block_fields,
-                           blox_ActuatorOffset_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorOffset_Block_fields,
+                     blox_ActuatorOffset_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& callback) const
@@ -53,30 +51,41 @@ cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& cal
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorOffset_Block_fields,
-                           blox_ActuatorOffset_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorOffset_Block_fields,
+                     blox_ActuatorOffset_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorOffset_Block message = blox_ActuatorOffset_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_ActuatorOffset_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        target.setId(message.targetId);
-        reference.setId(message.referenceId);
-        offset.enabled(message.enabled);
-        offset.selectedReference(ActuatorOffset::ReferenceKind(message.referenceSettingOrValue));
-        setAnalogConstraints(message.constrainedBy, constrained);
-        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+    if (parser.fillMessage(&message, blox_ActuatorOffset_Block_fields)) {
+        if (parser.hasField(blox_ActuatorOffset_Block_targetId_tag)) {
+            target.setId(message.targetId);
+        }
+        if (parser.hasField(blox_ActuatorOffset_Block_referenceId_tag)) {
+            reference.setId(message.referenceId);
+        }
+        if (parser.hasField(blox_ActuatorOffset_Block_enabled_tag)) {
+            offset.enabled(message.enabled);
+        }
+        if (parser.hasField(blox_ActuatorOffset_Block_referenceSettingOrValue_tag)) {
+            offset.selectedReference(ActuatorOffset::ReferenceKind(message.referenceSettingOrValue));
+        }
+        if (parser.hasField(blox_ActuatorOffset_Block_constrainedBy_tag)) {
+            setAnalogConstraints(message.constrainedBy, constrained);
+        }
+        if (parser.hasField(blox_ActuatorOffset_Block_desiredSetting_tag)) {
+            constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

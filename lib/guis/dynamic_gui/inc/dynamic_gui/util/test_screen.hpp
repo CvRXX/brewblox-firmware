@@ -1,3 +1,4 @@
+#pragma once
 #include "dynamic_gui/decode.hpp"
 
 namespace gui::dynamic_interface {

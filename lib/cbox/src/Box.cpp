@@ -165,13 +165,13 @@ CboxError readAllStoredBlocks(const PayloadCallback& callback)
     return getStorage().loadAllObjects(callback);
 }
 
-CboxError clearBlocks()
+CboxError clearBlocks(const PayloadCallback& callback)
 {
     // remove user objects from storage
-    auto cit = getObjects().usercbegin();
-    while (cit != getObjects().cend()) {
-        auto id = (*cit)->objectId();
-        cit++;
+    for (auto cit = getObjects().usercbegin(); cit < getObjects().cend(); cit++) {
+        auto& obj = *cit;
+        auto id = obj->objectId();
+        obj->read(callback); // do not early terminate on read error
         getStorage().disposeObject(id);
         getCacheStorage().disposeObject(id);
     }

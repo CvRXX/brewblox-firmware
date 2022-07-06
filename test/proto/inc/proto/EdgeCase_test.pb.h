@@ -514,18 +514,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedField< float >*
       mutable_listvalues();
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  int strippedfields_size() const;
-  void clear_strippedfields();
-  static const int kStrippedFieldsFieldNumber = 99;
-  ::google::protobuf::uint32 strippedfields(int index) const;
-  void set_strippedfields(int index, ::google::protobuf::uint32 value);
-  void add_strippedfields(::google::protobuf::uint32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-      strippedfields() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-      mutable_strippedfields();
-
   // .blox_test.EdgeCase.Settings settings = 1;
   bool has_settings() const;
   void clear_settings();
@@ -587,8 +575,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedPtrField< ::blox_test::EdgeCase::NestedLink > additionallinks_;
   ::google::protobuf::RepeatedField< float > listvalues_;
   mutable int _listvalues_cached_byte_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > strippedfields_;
-  mutable int _strippedfields_cached_byte_size_;
   ::blox_test::EdgeCase::Settings* settings_;
   ::blox_test::EdgeCase::State* state_;
   ::google::protobuf::uint32 link_;
@@ -1031,36 +1017,6 @@ inline void Block::set_drivendevice(::google::protobuf::uint32 value) {
   
   drivendevice_ = value;
   // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.drivenDevice)
-}
-
-// repeated uint32 strippedFields = 99 [(.nanopb) = {
-inline int Block::strippedfields_size() const {
-  return strippedfields_.size();
-}
-inline void Block::clear_strippedfields() {
-  strippedfields_.Clear();
-}
-inline ::google::protobuf::uint32 Block::strippedfields(int index) const {
-  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.strippedFields)
-  return strippedfields_.Get(index);
-}
-inline void Block::set_strippedfields(int index, ::google::protobuf::uint32 value) {
-  strippedfields_.Set(index, value);
-  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.strippedFields)
-}
-inline void Block::add_strippedfields(::google::protobuf::uint32 value) {
-  strippedfields_.Add(value);
-  // @@protoc_insertion_point(field_add:blox_test.EdgeCase.Block.strippedFields)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-Block::strippedfields() const {
-  // @@protoc_insertion_point(field_list:blox_test.EdgeCase.Block.strippedFields)
-  return strippedfields_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-Block::mutable_strippedfields() {
-  // @@protoc_insertion_point(field_mutable_list:blox_test.EdgeCase.Block.strippedFields)
-  return &strippedfields_;
 }
 
 // -------------------------------------------------------------------

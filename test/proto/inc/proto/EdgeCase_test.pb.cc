@@ -172,7 +172,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, logged_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, unlogged_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, drivendevice_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, strippedfields_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::SubCase, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -185,7 +184,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 7, -1, sizeof(::blox_test::EdgeCase::State)},
   { 14, -1, sizeof(::blox_test::EdgeCase::NestedLink)},
   { 20, -1, sizeof(::blox_test::EdgeCase::Block)},
-  { 35, -1, sizeof(::blox_test::EdgeCase::SubCase)},
+  { 34, -1, sizeof(::blox_test::EdgeCase::SubCase)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -223,7 +222,7 @@ void AddDescriptorsImpl() {
       "\n\006offset\030\002 \001(\021B\r\212\265\030\002\010\006\212\265\030\003\020\200\002\"@\n\005State\022\034"
       "\n\005value\030\001 \001(\021B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\031\n\tconnecte"
       "d\030\002 \001(\010B\006\212\265\030\002(\001\"(\n\nNestedLink\022\032\n\nconnect"
-      "ion\030\001 \001(\rB\006\212\265\030\002\030\002\"\360\002\n\005Block\022.\n\010settings\030"
+      "ion\030\001 \001(\rB\006\212\265\030\002\030\002\"\306\002\n\005Block\022.\n\010settings\030"
       "\001 \001(\0132\034.blox_test.EdgeCase.Settings\022(\n\005s"
       "tate\030\002 \001(\0132\031.blox_test.EdgeCase.State\022\024\n"
       "\004link\030\003 \001(\rB\006\212\265\030\002\030\005\0227\n\017additionalLinks\030\004"
@@ -231,12 +230,11 @@ void AddDescriptorsImpl() {
       "listValues\030\005 \003(\002B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\035\n\006delta"
       "V\030\006 \001(\rB\r\212\265\030\002\010\007\212\265\030\003\020\200\002\022\026\n\006logged\030\007 \001(\rB\006"
       "\212\265\030\0020\001\022\020\n\010unLogged\030\010 \001(\r\022(\n\014drivenDevice"
-      "\030\t \001(\rB\022\212\265\030\003\030\273\002\212\265\030\002@\001\222\?\0028\020\022(\n\016strippedFi"
-      "elds\030c \003(\rB\020\212\265\030\002(\001\222\?\0028\020\222\?\002\020\002\"#\n\007SubCase\022"
-      "\020\n\010subvalue\030\001 \001(\r:\006\212\265\030\002X\001b\006proto3"
+      "\030\t \001(\rB\022\212\265\030\003\030\273\002\212\265\030\002@\001\222\?\0028\020\"#\n\007SubCase\022\020\n"
+      "\010subvalue\030\001 \001(\r:\006\212\265\030\002X\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 673);
+      descriptor, 631);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "EdgeCase_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -1024,7 +1022,6 @@ const int Block::kDeltaVFieldNumber;
 const int Block::kLoggedFieldNumber;
 const int Block::kUnLoggedFieldNumber;
 const int Block::kDrivenDeviceFieldNumber;
-const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -1038,8 +1035,7 @@ Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       additionallinks_(from.additionallinks_),
-      listvalues_(from.listvalues_),
-      strippedfields_(from.strippedfields_) {
+      listvalues_(from.listvalues_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_settings()) {
     settings_ = new ::blox_test::EdgeCase::Settings(*from.settings_);
@@ -1095,7 +1091,6 @@ void Block::Clear() {
 
   additionallinks_.Clear();
   listvalues_.Clear();
-  strippedfields_.Clear();
   if (GetArenaNoVirtual() == NULL && settings_ != NULL) {
     delete settings_;
   }
@@ -1116,7 +1111,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.EdgeCase.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -1245,25 +1240,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1345,17 +1321,6 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->drivendevice(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1430,19 +1395,6 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->drivendevice(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -1483,22 +1435,6 @@ size_t Block::ByteSizeLong() const {
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
     _listvalues_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      UInt32Size(this->strippedfields_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -1581,7 +1517,6 @@ void Block::MergeFrom(const Block& from) {
 
   additionallinks_.MergeFrom(from.additionallinks_);
   listvalues_.MergeFrom(from.listvalues_);
-  strippedfields_.MergeFrom(from.strippedfields_);
   if (from.has_settings()) {
     mutable_settings()->::blox_test::EdgeCase::Settings::MergeFrom(from.settings());
   }
@@ -1631,7 +1566,6 @@ void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&additionallinks_)->InternalSwap(CastToBase(&other->additionallinks_));
   listvalues_.InternalSwap(&other->listvalues_);
-  strippedfields_.InternalSwap(&other->strippedfields_);
   swap(settings_, other->settings_);
   swap(state_, other->state_);
   swap(link_, other->link_);

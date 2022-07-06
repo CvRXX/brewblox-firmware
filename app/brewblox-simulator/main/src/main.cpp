@@ -1,9 +1,9 @@
 #include "RecurringTask.hpp"
 #include "SimulatorSystem.hpp"
+#include "blocks/ScreenConfig.hpp"
 #include "blox_hal/hal_network.hpp"
 #include "cbox/Box.hpp"
 #include "dynamic_gui/dynamicGui.hpp"
-#include "dynamic_gui/util/test_screen.hpp"
 #include "gui.hpp"
 #include "lvgl.h"
 #include "network/cbox_server.hpp"
@@ -53,10 +53,6 @@ int main(int argc, char* argv[])
 
     using screen = Gui<VirtualScreen, VirtualTouchScreen, gui::dynamic_interface::DynamicGui>;
     screen::init();
-    auto testScreen = gui::dynamic_interface::testScreen();
-    if (testScreen) {
-        screen::interface->setNewScreen(std::move(*testScreen));
-    }
 
     static auto timeSetter = RecurringTask(
         ioc, chrono::milliseconds(TICK_INTERVAL),
@@ -77,6 +73,12 @@ int main(int argc, char* argv[])
         []() {
             screen::update();
         });
+    static auto widgetUpdater = RecurringTask(
+        ioc, chrono::seconds(1),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            screen::updateWidgets();
+        });
 
     static auto displayTick = RecurringTask(
         ioc, chrono::milliseconds(TICK_INTERVAL),
@@ -96,6 +98,21 @@ int main(int argc, char* argv[])
             return true;
         });
 
+    static auto configupdate = RecurringTask(
+        ioc, chrono::seconds(10),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            if (ScreenConfig::newSettingsReceived()) {
+                auto& settings = ScreenConfig::settings();
+                auto layoutNodes = settings.layoutNodes;
+                auto contentNodes = settings.contentNodes;
+                auto screen = gui::dynamic_interface::decodeNodes(std::move(layoutNodes), std::move(contentNodes));
+                if (screen) {
+                    screen::interface->setNewScreen(std::move(*screen));
+                }
+            }
+        });
+
     CboxServer cboxServer(ioc, CBOX_PORT);
 
     timeSetter.start();
@@ -103,9 +120,12 @@ int main(int argc, char* argv[])
     displayTick.start();
     cbox::loadBlocksFromStorage();
     updater.start();
+    configupdate.start();
+    widgetUpdater.start();
 
     cbox::discoverBlocks();
     network::connect();
     // mdns::start();
+
     ioc.run();
 }

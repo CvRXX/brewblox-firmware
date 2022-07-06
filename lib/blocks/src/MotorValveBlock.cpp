@@ -19,7 +19,7 @@
 
 #include "blocks/MotorValveBlock.hpp"
 #include "blocks/ConstraintsProto.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 
 void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message) const
 {
@@ -33,32 +33,30 @@ cbox::CboxError
 MotorValveBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     addPersistedStateToMessage(message);
 
     auto state = valve.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
-        stripped.add(blox_MotorValve_Block_state_tag);
+        excluded.push_back(blox_MotorValve_Block_state_tag);
     } else {
         message.state = blox_IoArray_DigitalState(valve.state());
     }
     auto valveState = valve.valveState();
     if (valveState == MotorValve::ValveState::Unknown) {
-        stripped.add(blox_MotorValve_Block_valveState_tag);
+        excluded.push_back(blox_MotorValve_Block_valveState_tag);
     } else {
         message.valveState = blox_MotorValve_ValveState(valve.valveState());
     }
 
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_MotorValve_Block_fields,
-                           blox_MotorValve_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_MotorValve_Block_fields,
+                     blox_MotorValve_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -67,32 +65,39 @@ MotorValveBlock::readStored(const cbox::PayloadCallback& callback) const
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     addPersistedStateToMessage(message);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_MotorValve_Block_fields,
-                           blox_MotorValve_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_MotorValve_Block_fields,
+                     blox_MotorValve_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 MotorValveBlock::write(const cbox::Payload& payload)
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_MotorValve_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        if (hwDevice.getId() != message.hwDevice) {
-            valve.startChannel(0); // unregister at old hwDevice
-            hwDevice.setId(message.hwDevice);
+    if (parser.fillMessage(&message, blox_MotorValve_Block_fields)) {
+        if (parser.hasField(blox_MotorValve_Block_hwDevice_tag)) {
+            if (hwDevice.getId() != message.hwDevice) {
+                valve.startChannel(0); // unregister at old hwDevice
+                hwDevice.setId(message.hwDevice);
+            }
         }
-        valve.startChannel(message.startChannel);
-        setDigitalConstraints(message.constrainedBy, constrained);
-        constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
+        if (parser.hasField(blox_MotorValve_Block_startChannel_tag)) {
+            valve.startChannel(message.startChannel);
+        }
+        if (parser.hasField(blox_MotorValve_Block_constrainedBy_tag)) {
+            setDigitalConstraints(message.constrainedBy, constrained);
+        }
+        if (parser.hasField(blox_MotorValve_Block_desiredState_tag)) {
+            constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

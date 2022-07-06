@@ -21,6 +21,7 @@
 
 #include "lvgl.h"
 #include "proto/Screen.pb.h"
+#include <vector>
 
 namespace gui::dynamic_interface {
 

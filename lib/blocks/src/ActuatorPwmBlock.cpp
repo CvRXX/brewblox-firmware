@@ -1,6 +1,6 @@
 #include "blocks/ActuatorPwmBlock.hpp"
 #include "blocks/ConstraintsProto.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "proto/ActuatorPwm.pb.h"
 #include "proto/Constraints.pb.h"
 
@@ -8,7 +8,7 @@ cbox::CboxError
 ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     message.actuatorId = actuator.getId();
 
@@ -19,7 +19,7 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
     if (constrained.valueValid()) {
         message.value = cnl::unwrap(constrained.value());
     } else {
-        stripped.add(blox_ActuatorPwm_Block_value_tag);
+        excluded.push_back(blox_ActuatorPwm_Block_value_tag);
     }
     if (constrained.settingValid()) {
         message.setting = cnl::unwrap(constrained.setting());
@@ -27,19 +27,18 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
             message.drivenActuatorId = message.actuatorId;
         }
     } else {
-        stripped.add(blox_ActuatorPwm_Block_setting_tag);
+        excluded.push_back(blox_ActuatorPwm_Block_setting_tag);
     };
 
     getAnalogConstraints(message.constrainedBy, constrained);
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 2);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorPwm_Block_fields,
-                           blox_ActuatorPwm_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorPwm_Block_fields,
+                     blox_ActuatorPwm_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -53,30 +52,39 @@ ActuatorPwmBlock::readStored(const cbox::PayloadCallback& callback) const
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     getAnalogConstraints(message.constrainedBy, constrained);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_ActuatorPwm_Block_fields,
-                           blox_ActuatorPwm_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_ActuatorPwm_Block_fields,
+                     blox_ActuatorPwm_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 ActuatorPwmBlock::write(const cbox::Payload& payload)
 {
     blox_ActuatorPwm_Block message = blox_ActuatorPwm_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_ActuatorPwm_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        actuator.setId(message.actuatorId);
-        pwm.period(message.period);
-        setAnalogConstraints(message.constrainedBy, constrained);
-        constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
-        pwm.enabler.set(message.enabled);
+    if (parser.fillMessage(&message, blox_ActuatorPwm_Block_fields)) {
+        if (parser.hasField(blox_ActuatorPwm_Block_actuatorId_tag)) {
+            actuator.setId(message.actuatorId);
+        }
+        if (parser.hasField(blox_ActuatorPwm_Block_period_tag)) {
+            pwm.period(message.period);
+        }
+        if (parser.hasField(blox_ActuatorPwm_Block_constrainedBy_tag)) {
+            setAnalogConstraints(message.constrainedBy, constrained);
+        }
+        if (parser.hasField(blox_ActuatorPwm_Block_setting_tag)) {
+            constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
+        }
+        if (parser.hasField(blox_ActuatorPwm_Block_enabled_tag)) {
+            pwm.enabler.set(message.enabled);
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

@@ -18,6 +18,7 @@
  */
 
 #include "spark/TouchSettingsBlock.hpp"
+#include "cbox/PayloadConversion.hpp"
 #include "d4d_display/d4d.hpp"
 #include "proto/TouchSettings.pb.h"
 #include <cstring>
@@ -36,13 +37,12 @@ cbox::CboxError TouchSettingsBlock::read(const cbox::PayloadCallback& callback) 
     message.xBitsPerPixelX16 = calib.TouchScreenXBitsPerPixelx16;
     message.yBitsPerPixelX16 = calib.TouchScreenYBitsPerPixelx16;
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_TouchSettings_Block_fields,
-                           blox_TouchSettings_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_TouchSettings_Block_fields,
+                     blox_TouchSettings_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError TouchSettingsBlock::readStored(const cbox::PayloadCallback& callback) const
@@ -53,20 +53,29 @@ cbox::CboxError TouchSettingsBlock::readStored(const cbox::PayloadCallback& call
 cbox::CboxError TouchSettingsBlock::write(const cbox::Payload& payload)
 {
     blox_TouchSettings_Block message = blox_TouchSettings_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_TouchSettings_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        auto calib = D4D_GetTouchScreenCalibration();
-        if (message.calibrated == blox_TouchSettings_Calibrated_CALIBRATED_NEW || calib.ScreenCalibrated == 0) {
+    if (parser.fillMessage(&message, blox_TouchSettings_Block_fields)) {
+        if (parser.hasField(blox_TouchSettings_Block_calibrated_tag)
+            && message.calibrated == blox_TouchSettings_Calibrated_CALIBRATED_NEW) {
+            auto calib = D4D_GetTouchScreenCalibration();
             calib.ScreenCalibrated = 1;
-            calib.TouchScreenXoffset = message.xOffset;
-            calib.TouchScreenYoffset = message.yOffset;
-            calib.TouchScreenXBitsPerPixelx16 = message.xBitsPerPixelX16;
-            calib.TouchScreenYBitsPerPixelx16 = message.yBitsPerPixelX16;
+            if (parser.hasField(blox_TouchSettings_Block_xOffset_tag)) {
+                calib.TouchScreenXoffset = message.xOffset;
+            }
+            if (parser.hasField(blox_TouchSettings_Block_yOffset_tag)) {
+                calib.TouchScreenYoffset = message.yOffset;
+            }
+            if (parser.hasField(blox_TouchSettings_Block_xBitsPerPixelX16_tag)) {
+                calib.TouchScreenXBitsPerPixelx16 = message.xBitsPerPixelX16;
+            }
+            if (parser.hasField(blox_TouchSettings_Block_yBitsPerPixelX16_tag)) {
+                calib.TouchScreenYBitsPerPixelx16 = message.yBitsPerPixelX16;
+            }
             D4D_TCH_SetCalibration(calib);
         }
     }
 
-    return res;
+    return parser.status();
 }
 } // end namespace platform::particle

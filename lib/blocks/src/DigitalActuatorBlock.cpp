@@ -1,6 +1,6 @@
 #include "blocks/DigitalActuatorBlock.hpp"
 #include "blocks/ConstraintsProto.hpp"
-#include "blocks/FieldTags.hpp"
+#include "cbox/PayloadConversion.hpp"
 
 void DigitalActuatorBlock::addPersistedStateToMessage(blox_DigitalActuator_Block& message) const
 {
@@ -16,25 +16,23 @@ cbox::CboxError
 DigitalActuatorBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
-    FieldTags stripped;
+    std::vector<cbox::obj_field_tag_t> excluded;
 
     addPersistedStateToMessage(message);
     auto state = actuator.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
-        stripped.add(blox_DigitalActuator_Block_state_tag);
+        excluded.push_back(blox_DigitalActuator_Block_state_tag);
     } else {
         message.state = blox_IoArray_DigitalState(actuator.state());
     }
 
-    stripped.copyToMessage(message.strippedFields, message.strippedFields_count, 1);
-
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_DigitalActuator_Block_fields,
-                           blox_DigitalActuator_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_DigitalActuator_Block_fields,
+                     blox_DigitalActuator_Block_size)
+        .withMask(cbox::MaskMode::EXCLUSIVE, std::move(excluded))
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -44,33 +42,42 @@ DigitalActuatorBlock::readStored(const cbox::PayloadCallback& callback) const
 
     addPersistedStateToMessage(message);
 
-    return callWithMessage(callback,
-                           objectId(),
-                           staticTypeId(),
-                           0,
-                           &message,
-                           blox_DigitalActuator_Block_fields,
-                           blox_DigitalActuator_Block_size);
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_DigitalActuator_Block_fields,
+                     blox_DigitalActuator_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
 DigitalActuatorBlock::write(const cbox::Payload& payload)
 {
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
-    auto res = payloadToMessage(payload, &message, blox_DigitalActuator_Block_fields);
+    auto parser = cbox::PayloadParser(payload);
 
-    if (res == cbox::CboxError::OK) {
-        if (hwDevice.getId() != message.hwDevice) {
-            actuator.channel(0); // unregister at old hwDevice
-            hwDevice.setId(message.hwDevice);
+    if (parser.fillMessage(&message, blox_DigitalActuator_Block_fields)) {
+        if (parser.hasField(blox_DigitalActuator_Block_hwDevice_tag)) {
+            if (hwDevice.getId() != message.hwDevice) {
+                actuator.channel(0); // unregister at old hwDevice
+                hwDevice.setId(message.hwDevice);
+            }
         }
-        actuator.channel(message.channel);
-        actuator.invert(message.invert);
-        setDigitalConstraints(message.constrainedBy, constrained);
-        constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
+        if (parser.hasField(blox_DigitalActuator_Block_channel_tag)) {
+            actuator.channel(message.channel);
+        }
+        if (parser.hasField(blox_DigitalActuator_Block_invert_tag)) {
+            actuator.invert(message.invert);
+        }
+        if (parser.hasField(blox_DigitalActuator_Block_constrainedBy_tag)) {
+            setDigitalConstraints(message.constrainedBy, constrained);
+        }
+        if (parser.hasField(blox_DigitalActuator_Block_desiredState_tag)) {
+            constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
+        }
     }
 
-    return res;
+    return parser.status();
 }
 
 cbox::update_t

@@ -65,7 +65,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filterthreshold_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, valueunfiltered_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, resetfilter_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, strippedfields_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::SetpointSensorPair::Block)},
@@ -98,7 +97,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\035SetpointSensorPair_test.proto\022\034blox_te"
       "st.SetpointSensorPair\032\023brewblox_test.pro"
-      "to\032\021nanopb_test.proto\"\313\003\n\005Block\022\035\n\010senso"
+      "to\032\021nanopb_test.proto\"\241\003\n\005Block\022\035\n\010senso"
       "rId\030\002 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022/\n\007setting\030\005 \001(\021B"
       "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005value"
       "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\026"
@@ -108,15 +107,14 @@ void AddDescriptorsImpl() {
       "ilterChoice\022+\n\017filterThreshold\030\n \001(\021B\022\212\265"
       "\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001("
       "\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013res"
-      "etFilter\030\014 \001(\010\022(\n\016strippedFields\030c \003(\rB\020"
-      "\212\265\030\002(\001\222\?\0028\020\222\?\002\020\003:\031\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030"
-      "\002H\017*~\n\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\n"
-      "FILTER_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_9"
-      "0s\020\003\022\r\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nF"
-      "ILTER_30m\020\006b\006proto3"
+      "etFilter\030\014 \001(\010:\031\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030\002H"
+      "\017*~\n\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFI"
+      "LTER_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s"
+      "\020\003\022\r\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFIL"
+      "TER_30m\020\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 699);
+      descriptor, 657);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointSensorPair_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -170,7 +168,6 @@ const int Block::kFilterFieldNumber;
 const int Block::kFilterThresholdFieldNumber;
 const int Block::kValueUnfilteredFieldNumber;
 const int Block::kResetFilterFieldNumber;
-const int Block::kStrippedFieldsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -182,8 +179,7 @@ Block::Block()
 }
 Block::Block(const Block& from)
   : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      strippedfields_(from.strippedfields_) {
+      _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&sensorid_, &from.sensorid_,
     static_cast<size_t>(reinterpret_cast<char*>(&valueunfiltered_) -
@@ -225,7 +221,6 @@ void Block::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  strippedfields_.Clear();
   ::memset(&sensorid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&valueunfiltered_) -
       reinterpret_cast<char*>(&sensorid_)) + sizeof(valueunfiltered_));
@@ -238,7 +233,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.SetpointSensorPair.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -369,25 +364,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated uint32 strippedFields = 99 [(.nanopb) = {
-      case 99: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 794 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_strippedfields())));
-        } else if (
-            static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 792 & 0xFF */)) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 2, 794u, input, this->mutable_strippedfields())));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -460,17 +436,6 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->resetfilter(), output);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(99, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
-    output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _strippedfields_cached_byte_size_));
-  }
-  for (int i = 0, n = this->strippedfields_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
-      this->strippedfields(i), output);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -531,19 +496,6 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->resetfilter(), target);
   }
 
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  if (this->strippedfields_size() > 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      99,
-      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
-      target);
-    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
-        static_cast< ::google::protobuf::int32>(
-            _strippedfields_cached_byte_size_), target);
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32NoTagToArray(this->strippedfields_, target);
-  }
-
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -561,22 +513,6 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated uint32 strippedFields = 99 [(.nanopb) = {
-  {
-    size_t data_size = ::google::protobuf::internal::WireFormatLite::
-      UInt32Size(this->strippedfields_);
-    if (data_size > 0) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-            static_cast< ::google::protobuf::int32>(data_size));
-    }
-    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
-    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _strippedfields_cached_byte_size_ = cached_size;
-    GOOGLE_SAFE_CONCURRENT_WRITES_END();
-    total_size += data_size;
-  }
-
   // uint32 sensorId = 2 [(.nanopb) = {
   if (this->sensorid() != 0) {
     total_size += 1 +
@@ -662,7 +598,6 @@ void Block::MergeFrom(const Block& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  strippedfields_.MergeFrom(from.strippedfields_);
   if (from.sensorid() != 0) {
     set_sensorid(from.sensorid());
   }
@@ -716,7 +651,6 @@ void Block::Swap(Block* other) {
 }
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  strippedfields_.InternalSwap(&other->strippedfields_);
   swap(sensorid_, other->sensorid_);
   swap(setting_, other->setting_);
   swap(value_, other->value_);

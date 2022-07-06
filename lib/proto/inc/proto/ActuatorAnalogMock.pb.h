@@ -27,16 +27,14 @@ typedef struct _blox_ActuatorAnalogMock_Block {
     int32_t maxValue;
     blox_Constraints_AnalogConstraints constrainedBy;
     int32_t desiredSetting;
-    pb_size_t strippedFields_count;
-    uint16_t strippedFields[2];
 /* @@protoc_insertion_point(struct:blox_ActuatorAnalogMock_Block) */
 } blox_ActuatorAnalogMock_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_ActuatorAnalogMock_Block_init_default {0, 0, 0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, 0, {0, 0}}
-#define blox_ActuatorAnalogMock_Block_init_zero  {0, 0, 0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, 0, {0, 0}}
+#define blox_ActuatorAnalogMock_Block_init_default {0, 0, 0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0}
+#define blox_ActuatorAnalogMock_Block_init_zero  {0, 0, 0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_ActuatorAnalogMock_Block_setting_tag 1
@@ -47,13 +45,12 @@ typedef struct _blox_ActuatorAnalogMock_Block {
 #define blox_ActuatorAnalogMock_Block_maxValue_tag 7
 #define blox_ActuatorAnalogMock_Block_constrainedBy_tag 8
 #define blox_ActuatorAnalogMock_Block_desiredSetting_tag 9
-#define blox_ActuatorAnalogMock_Block_strippedFields_tag 99
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_ActuatorAnalogMock_Block_fields[10];
+extern const pb_field_t blox_ActuatorAnalogMock_Block_fields[9];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_ActuatorAnalogMock_Block_size       259
+#define blox_ActuatorAnalogMock_Block_size       245
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

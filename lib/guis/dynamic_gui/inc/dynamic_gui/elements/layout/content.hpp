@@ -22,6 +22,7 @@
 #include "dynamic_gui/elements/layout/layout_node.hpp"
 #include "dynamic_gui/elements/widgets/widget.hpp"
 #include "proto/Screen.pb.h"
+#include <memory>
 
 namespace gui::dynamic_interface {
 
@@ -33,37 +34,23 @@ public:
     /**
      * Constructs a content node.
      */
-    Content(uint16_t weight, uint8_t layOutNodeId, std::unique_ptr<Widget> widget)
-        : weight(weight)
-        , layOutNodeId(layOutNodeId)
-        , widget(std::move(widget))
-    {
-    }
+    Content(uint16_t weight, uint8_t layOutNodeId, std::unique_ptr<Widget> widget);
 
     // Calls update on it's widget.
-    void update() override final
-    {
-        widget->update();
-    }
+    void update() override final;
 
     /**
      * Returns the weight of the contentnode.
      * Weights are used for deciding the ratio in which nodes are displayed.
      */
-    uint16_t getWeight() const override final
-    {
-        return weight;
-    }
+    uint16_t getWeight() const override final;
+
     /**
      * Serializes the content node and it's widget.
      * @param layoutNodes This class will be serialized into this vector.
      * @param contentNodes The child of this class will be serialized into this vector.
      */
-    void serialize(std::vector<screen_LayoutNode>& layoutNodes, std::vector<screen_ContentNode>& contentNodes, uint8_t parentId) override final
-    {
-        layoutNodes.push_back({parentId, layOutNodeId, screen_LayoutNode_Type_Content, weight});
-        widget->serialize(contentNodes, layOutNodeId);
-    }
+    void serialize(std::vector<screen_LayoutNode>& layoutNodes, std::vector<screen_ContentNode>& contentNodes, uint8_t parentId) override final;
 
     /**
      * Calls draw on the widget forwarding the parameters.
@@ -71,10 +58,7 @@ public:
      * @param width the width of the available space in the placeholder.
      * @param height the height of the available space in the placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
-    {
-        widget->draw(placeholder, width, height);
-    }
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final;
 
 private:
     const uint16_t weight;
