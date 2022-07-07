@@ -1,0 +1,63 @@
+@startuml
+@startjson
+{
+    "id": "ScreenConfig",
+    "nid": 8,
+    "type": "ScreenConfig",
+    "serviceId": "simulator",
+    "data": {
+      "layoutNodes": [
+{
+"parent": 0,
+"nodeId": 1,
+"type": "Column",
+"weight": 1
+},
+{
+"parent": 1,
+"nodeId": 2,
+"type": "Row",
+"weight": 1
+},
+{
+"parent": 1,
+"nodeId": 3,
+"type": "Content",
+"weight": 2
+},
+{
+"parent": 2,
+"nodeId": 4,
+"type": "Content",
+"weight": 1
+},
+{
+"parent": 2,
+"nodeId": 5,
+"type": "Content",
+"weight": 1
+}
+],
+      "contentNodes": [
+{
+"layoutNodeId": 3,
+"temperatureWidget": {"color": {"r": 0, "g": 255, "b": 255},"label": "carlos", "tempSensor":100}
+},
+{
+"layoutNodeId": 4,
+"temperatureWidget": {"color": {"r": 255, "g": 255, "b": 255},"label": "HET WERKT", "tempSensor":100}
+},
+{
+"layoutNodeId": 5,
+"temperatureWidget": {"color": {"r": 255, "g": 255, "b": 255},"label": "HET WERKT", "tempSensor":100}
+}
+],
+      "name": "",
+      "tempUnit": "TEMP_CELSIUS",
+      "brightness": 1,
+      "timeZone": ""
+    }
+  }
+@endjson
+
+@enduml
