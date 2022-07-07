@@ -1,0 +1,32 @@
+@startuml
+object Screen {
+id = 0
+}
+object HorizontalSplit {
+id = 1
+weight = 1
+}
+object VerticalSplit {
+id = 2
+weight = 1
+}
+object content1 {
+id = 3
+weight = 1
+}
+object content2 {
+id = 4
+weight = 1
+}
+object content3 {
+id = 5
+weight = 2
+}
+
+
+Screen  --> HorizontalSplit
+HorizontalSplit --> VerticalSplit
+HorizontalSplit --> content1
+VerticalSplit --> content2
+VerticalSplit --> content3
+@enduml
