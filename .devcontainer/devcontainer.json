@@ -5,15 +5,15 @@
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
-      "USERNAME": "vscode",
+      "USERNAME": "vscode"
     }
   },
   "containerEnv": {
-    "MAKE_ARGS": "-j",
+    "MAKE_ARGS": "-j"
   },
   // Set *default* container specific settings.json values on container create.
   "settings": {
-    "shellformat.path": "/usr/local/bin/shfmt",
+    "shellformat.path": "/usr/local/bin/shfmt"
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
@@ -35,13 +35,14 @@
     "source=/etc/localtime,target=/etc/localtime,type=bind,readonly", // mount localtime
     "source=/dev,target=/dev,type=bind,readonly", // Required for recognizing new USB devices
     "source=${localWorkspaceFolder}/.devcontainer/.bash_aliases,target=/home/vscode/.bash_aliases,type=bind",
+    "source=brewblox-firmware-extensions,target=/root/.vscode-server/extensions,type=volume"
   ],
   "runArgs": [
     "--rm",
     "--cap-add=SYS_PTRACE", // required for attaching a C++ debugger
     "--security-opt",
     "seccomp=unconfined",
-    "--privileged",
+    "--privileged"
   ],
   // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode",

@@ -23,10 +23,10 @@
 
 class TempSensor {
 public:
-    TempSensor() = default;
-    virtual ~TempSensor() = default;
+    [[nodiscard]] virtual bool valid() const = 0;
 
-    virtual bool valid() const = 0;
+    [[nodiscard]] virtual temp_t value() const = 0;
 
-    virtual temp_t value() const = 0;
+protected:
+    ~TempSensor() = default;
 };
