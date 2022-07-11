@@ -1,7 +1,13 @@
 #include "blocks/TempSensorExternalBlock.hpp"
 #include "AppTicks.hpp"
+#include "cbox/Cache.hpp"
 #include "cbox/PayloadConversion.hpp"
 #include "proto/TempSensorExternal.pb.h"
+
+struct __attribute__((packed)) TempSensorExternalCacheLayout {
+    int32_t setting{0};
+    utc_seconds_t lastUpdated{0};
+};
 
 blox_TempSensorExternal_Block TempSensorExternalBlock::baseMessage() const
 {
@@ -71,9 +77,26 @@ TempSensorExternalBlock::write(const cbox::Payload& payload)
                 _lastUpdated = utc;
             }
         }
+
+        TempSensorExternalCacheLayout cached = {
+            .setting = cnl::unwrap(_setting),
+            .lastUpdated = _lastUpdated,
+        };
+        cbox::saveToCache(objectId(), staticTypeId(), cached);
     }
 
     return parser.status();
+}
+
+cbox::CboxError
+TempSensorExternalBlock::loadFromCache()
+{
+    if (auto loaded = cbox::loadFromCache<TempSensorExternalCacheLayout>(objectId(), staticTypeId())) {
+        auto cached = loaded.value();
+        _setting = cnl::wrap<temp_t>(cached.setting);
+        _lastUpdated = cached.lastUpdated;
+    }
+    return cbox::CboxError::OK;
 }
 
 cbox::update_t TempSensorExternalBlock::updateHandler(const cbox::update_t& now)
