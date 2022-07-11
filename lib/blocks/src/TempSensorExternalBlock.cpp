@@ -82,6 +82,19 @@ TempSensorExternalBlock::write(const cbox::Payload& payload)
             _enabler.set(message.enabled);
         }
         if (parser.hasField(blox_TempSensorExternal_Block_timeout_tag)) {
+            if (message.timeout > MIN_VALID_UTC) {
+                /**
+                 * If timeout > UTC and UTC > MIN_VALID_UTC,
+                 * The validity check in updateHandler() will wrap around.
+                 * This would cause a false result if users try and use uint32_t(-1)
+                 * as "infinite" timeout.
+                 *
+                 * 0 already serves as infinite timeout, and MIN_VALID_UTC is 31.5 years.
+                 * Restricting timeout to a range of 1s-31.5y is an acceptable tradeoff
+                 * to prevent the footgun configuration value.
+                 */
+                return cbox::CboxError::INVALID_BLOCK_CONTENT;
+            }
             _timeout = message.timeout;
         }
         if (hasLastUpdated || hasSetting) {
@@ -105,9 +118,7 @@ cbox::update_t TempSensorExternalBlock::updateHandler(const cbox::update_t& now)
 {
     auto utc = ticks.utc();
     _settingValid = _timeout == 0
-                    || (utc > MIN_VALID_UTC
-                        && utc > _timeout // We're ok not supporting 50+ years timeout values
-                        && utc - _timeout < _lastUpdated);
+                    || (utc > MIN_VALID_UTC && utc - _timeout < _lastUpdated);
     return next_update_1s(now);
 }
 

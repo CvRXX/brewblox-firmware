@@ -202,4 +202,34 @@ SCENARIO("A TempSensorExternal block")
               "lastUpdated: 1000000900 "
               "setting: 122880");
     }
+
+    WHEN("timeout is 0, the timeout check is skipped")
+    {
+        test::resetTime(MIN_VALID_UTC + 1000, 0);
+
+        auto cmd = cbox::TestCommand(sensorId, TempSensorExternalBlock::staticTypeId());
+        auto request = blox_test::TempSensorExternal::Block();
+        auto response = blox_test::TempSensorExternal::Block();
+
+        request.set_setting(cnl::unwrap(temp_t(30.0)));
+        request.set_lastupdated(MIN_VALID_UTC + 1);
+        request.set_timeout(0);
+
+        messageToPayload(cmd,
+                         request,
+                         {
+                             blox_test::TempSensorExternal::Block::kSettingFieldNumber,
+                             blox_test::TempSensorExternal::Block::kLastUpdatedFieldNumber,
+                             blox_test::TempSensorExternal::Block::kTimeoutFieldNumber,
+                         });
+
+        CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, response);
+
+        CHECK(response.ShortDebugString() ==
+              "enabled: true "
+              "lastUpdated: 1000000001 "
+              "setting: 122880 "
+              "value: 122880");
+    }
 }
