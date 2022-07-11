@@ -171,3 +171,11 @@ RUN : \
     && pip install --upgrade pyclang \
     && idf_tools.py install xtensa-clang \
     && :
+
+RUN : \
+    && mkdir -p /home/$USERNAME/.vscode-server/extensions \
+        /home/$USERNAME/.vscode-server-insiders/extensions \
+    && chown -R $USERNAME \
+        /home/$USERNAME/.vscode-server \
+        /home/$USERNAME/.vscode-server-insiders \
+    && :

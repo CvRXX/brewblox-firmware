@@ -80,6 +80,10 @@ void messageToPayload(cbox::Payload& payload, ::google::protobuf::Message& messa
 
 void messageToPayload(cbox::TestCommand& cmd, ::google::protobuf::Message& message);
 
+void messageToPayload(cbox::TestCommand& cmd,
+                      ::google::protobuf::Message& message,
+                      std::vector<cbox::obj_field_tag_t>&& includedMask);
+
 void payloadToMessage(cbox::Payload& payload, ::google::protobuf::Message& message);
 
 void payloadToMessage(cbox::TestCommand& cmd, ::google::protobuf::Message& message);

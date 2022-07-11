@@ -28,6 +28,15 @@ void messageToPayload(cbox::TestCommand& cmd, ::google::protobuf::Message& messa
     message.SerializeToArray(cmd.request.content.data(), len);
 }
 
+void messageToPayload(cbox::TestCommand& cmd,
+                      ::google::protobuf::Message& message,
+                      std::vector<cbox::obj_field_tag_t>&& includedMask)
+{
+    messageToPayload(cmd, message);
+    cmd.request.maskMode = cbox::MaskMode::INCLUSIVE;
+    cmd.request.mask.swap(includedMask);
+}
+
 void payloadToMessage(cbox::Payload& payload, ::google::protobuf::Message& message)
 {
     message.ParseFromArray(payload.content.data(), payload.content.size());
