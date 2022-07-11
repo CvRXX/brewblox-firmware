@@ -14,6 +14,8 @@ private:
     utc_seconds_t _lastUpdated = 0;
     bool _settingValid = false;
 
+    blox_TempSensorExternal_Block baseMessage() const;
+
 public:
     TempSensorExternalBlock() = default;
 

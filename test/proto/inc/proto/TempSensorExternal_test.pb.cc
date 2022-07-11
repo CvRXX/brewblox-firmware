@@ -57,8 +57,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorExternal::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorExternal::Block, timeout_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorExternal::Block, lastupdated_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorExternal::Block, setting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorExternal::Block, lastupdated_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::TempSensorExternal::Block, value_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -92,15 +92,15 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\035TempSensorExternal_test.proto\022\034blox_te"
       "st.TempSensorExternal\032\023brewblox_test.pro"
-      "to\032\021nanopb_test.proto\"\307\001\n\005Block\022\017\n\007enabl"
-      "ed\030\001 \001(\010\022\034\n\007timeout\030\002 \001(\rB\013\212\265\030\002\010\003\222\?\0028 \022 "
-      "\n\013lastUpdated\030\003 \001(\rB\013\212\265\030\0020\001\222\?\0028 \022)\n\007sett"
-      "ing\030\004 \001(\021B\030\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022-\n\005v"
-      "alue\030\005 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030\002(\001\222\?\002"
-      "8 :\023\212\265\030\003\030\310\002\212\265\030\002H\002\212\265\030\002H\017b\006proto3"
+      "to\032\021nanopb_test.proto\"\315\001\n\005Block\022\017\n\007enabl"
+      "ed\030\001 \001(\010\022\034\n\007timeout\030\002 \001(\rB\013\212\265\030\002\010\003\222\?\0028 \022)"
+      "\n\007setting\030\003 \001(\021B\030\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028"
+      " \022&\n\013lastUpdated\030\004 \001(\rB\021\212\265\030\0020\001\212\265\030\002(\001\222\?\0028"
+      " \022-\n\005value\030\005 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030"
+      "\002(\001\222\?\0028 :\023\212\265\030\003\030\310\002\212\265\030\002H\002\212\265\030\002H\017b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 311);
+      descriptor, 317);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TempSensorExternal_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -128,8 +128,8 @@ void Block::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Block::kEnabledFieldNumber;
 const int Block::kTimeoutFieldNumber;
-const int Block::kLastUpdatedFieldNumber;
 const int Block::kSettingFieldNumber;
+const int Block::kLastUpdatedFieldNumber;
 const int Block::kValueFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -228,28 +228,28 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 lastUpdated = 3 [(.nanopb) = {
+      // sint32 setting = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &lastupdated_)));
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &setting_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // sint32 setting = 4 [(.nanopb) = {
+      // uint32 lastUpdated = 4 [(.nanopb) = {
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
-                 input, &setting_)));
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &lastupdated_)));
         } else {
           goto handle_unusual;
         }
@@ -306,14 +306,14 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->timeout(), output);
   }
 
-  // uint32 lastUpdated = 3 [(.nanopb) = {
-  if (this->lastupdated() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->lastupdated(), output);
+  // sint32 setting = 3 [(.nanopb) = {
+  if (this->setting() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(3, this->setting(), output);
   }
 
-  // sint32 setting = 4 [(.nanopb) = {
-  if (this->setting() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteSInt32(4, this->setting(), output);
+  // uint32 lastUpdated = 4 [(.nanopb) = {
+  if (this->lastupdated() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->lastupdated(), output);
   }
 
   // sint32 value = 5 [(.nanopb) = {
@@ -345,14 +345,14 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->timeout(), target);
   }
 
-  // uint32 lastUpdated = 3 [(.nanopb) = {
-  if (this->lastupdated() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->lastupdated(), target);
+  // sint32 setting = 3 [(.nanopb) = {
+  if (this->setting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(3, this->setting(), target);
   }
 
-  // sint32 setting = 4 [(.nanopb) = {
-  if (this->setting() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(4, this->setting(), target);
+  // uint32 lastUpdated = 4 [(.nanopb) = {
+  if (this->lastupdated() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->lastupdated(), target);
   }
 
   // sint32 value = 5 [(.nanopb) = {
@@ -389,18 +389,18 @@ size_t Block::ByteSizeLong() const {
         this->timeout());
   }
 
-  // uint32 lastUpdated = 3 [(.nanopb) = {
-  if (this->lastupdated() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->lastupdated());
-  }
-
-  // sint32 setting = 4 [(.nanopb) = {
+  // sint32 setting = 3 [(.nanopb) = {
   if (this->setting() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::SInt32Size(
         this->setting());
+  }
+
+  // uint32 lastUpdated = 4 [(.nanopb) = {
+  if (this->lastupdated() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->lastupdated());
   }
 
   // sint32 value = 5 [(.nanopb) = {
@@ -443,11 +443,11 @@ void Block::MergeFrom(const Block& from) {
   if (from.timeout() != 0) {
     set_timeout(from.timeout());
   }
-  if (from.lastupdated() != 0) {
-    set_lastupdated(from.lastupdated());
-  }
   if (from.setting() != 0) {
     set_setting(from.setting());
+  }
+  if (from.lastupdated() != 0) {
+    set_lastupdated(from.lastupdated());
   }
   if (from.value() != 0) {
     set_value(from.value());
@@ -480,8 +480,8 @@ void Block::InternalSwap(Block* other) {
   using std::swap;
   swap(enabled_, other->enabled_);
   swap(timeout_, other->timeout_);
-  swap(lastupdated_, other->lastupdated_);
   swap(setting_, other->setting_);
+  swap(lastupdated_, other->lastupdated_);
   swap(value_, other->value_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }

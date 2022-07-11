@@ -163,17 +163,17 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 timeout() const;
   void set_timeout(::google::protobuf::uint32 value);
 
-  // uint32 lastUpdated = 3 [(.nanopb) = {
-  void clear_lastupdated();
-  static const int kLastUpdatedFieldNumber = 3;
-  ::google::protobuf::uint32 lastupdated() const;
-  void set_lastupdated(::google::protobuf::uint32 value);
-
-  // sint32 setting = 4 [(.nanopb) = {
+  // sint32 setting = 3 [(.nanopb) = {
   void clear_setting();
-  static const int kSettingFieldNumber = 4;
+  static const int kSettingFieldNumber = 3;
   ::google::protobuf::int32 setting() const;
   void set_setting(::google::protobuf::int32 value);
+
+  // uint32 lastUpdated = 4 [(.nanopb) = {
+  void clear_lastupdated();
+  static const int kLastUpdatedFieldNumber = 4;
+  ::google::protobuf::uint32 lastupdated() const;
+  void set_lastupdated(::google::protobuf::uint32 value);
 
   // sint32 value = 5 [(.nanopb) = {
   void clear_value();
@@ -187,8 +187,8 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool enabled_;
   ::google::protobuf::uint32 timeout_;
-  ::google::protobuf::uint32 lastupdated_;
   ::google::protobuf::int32 setting_;
+  ::google::protobuf::uint32 lastupdated_;
   ::google::protobuf::int32 value_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_TempSensorExternal_5ftest_2eproto::TableStruct;
@@ -232,21 +232,7 @@ inline void Block::set_timeout(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.TempSensorExternal.Block.timeout)
 }
 
-// uint32 lastUpdated = 3 [(.nanopb) = {
-inline void Block::clear_lastupdated() {
-  lastupdated_ = 0u;
-}
-inline ::google::protobuf::uint32 Block::lastupdated() const {
-  // @@protoc_insertion_point(field_get:blox_test.TempSensorExternal.Block.lastUpdated)
-  return lastupdated_;
-}
-inline void Block::set_lastupdated(::google::protobuf::uint32 value) {
-  
-  lastupdated_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.TempSensorExternal.Block.lastUpdated)
-}
-
-// sint32 setting = 4 [(.nanopb) = {
+// sint32 setting = 3 [(.nanopb) = {
 inline void Block::clear_setting() {
   setting_ = 0;
 }
@@ -258,6 +244,20 @@ inline void Block::set_setting(::google::protobuf::int32 value) {
   
   setting_ = value;
   // @@protoc_insertion_point(field_set:blox_test.TempSensorExternal.Block.setting)
+}
+
+// uint32 lastUpdated = 4 [(.nanopb) = {
+inline void Block::clear_lastupdated() {
+  lastupdated_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::lastupdated() const {
+  // @@protoc_insertion_point(field_get:blox_test.TempSensorExternal.Block.lastUpdated)
+  return lastupdated_;
+}
+inline void Block::set_lastupdated(::google::protobuf::uint32 value) {
+  
+  lastupdated_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.TempSensorExternal.Block.lastUpdated)
 }
 
 // sint32 value = 5 [(.nanopb) = {

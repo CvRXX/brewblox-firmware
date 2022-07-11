@@ -32,6 +32,7 @@ set(proto_srcs
   inc/proto/IoArray.pb.c
   inc/proto/Sequence.pb.c
   inc/proto/Spark3Pins.pb.c
+  inc/proto/TempSensorExternal.pb.c
 )
 
 if(ESP_PLATFORM)

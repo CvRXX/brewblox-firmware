@@ -19,8 +19,8 @@ extern "C" {
 typedef struct _blox_TempSensorExternal_Block {
     bool enabled;
     uint32_t timeout;
-    uint32_t lastUpdated;
     int32_t setting;
+    uint32_t lastUpdated;
     int32_t value;
 /* @@protoc_insertion_point(struct:blox_TempSensorExternal_Block) */
 } blox_TempSensorExternal_Block;
@@ -34,8 +34,8 @@ typedef struct _blox_TempSensorExternal_Block {
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_TempSensorExternal_Block_enabled_tag 1
 #define blox_TempSensorExternal_Block_timeout_tag 2
-#define blox_TempSensorExternal_Block_lastUpdated_tag 3
-#define blox_TempSensorExternal_Block_setting_tag 4
+#define blox_TempSensorExternal_Block_setting_tag 3
+#define blox_TempSensorExternal_Block_lastUpdated_tag 4
 #define blox_TempSensorExternal_Block_value_tag  5
 
 /* Struct field encoding specification for nanopb */
