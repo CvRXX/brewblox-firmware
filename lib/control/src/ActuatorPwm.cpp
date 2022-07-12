@@ -75,9 +75,10 @@ void ActuatorPwm::period(const duration_millis_t& p)
 {
     m_period = p;
     if (auto actPtr = m_target.lock()) {
-        if (p < 1000 && !actPtr->supportsFastIo()) {
-            m_period = 1000;
-        }
+        // todo: handle 100Hz PWM
+        // if (p < 1000 && !actPtr->supportsFastIo()) {
+        //     m_period = 1000;
+        // }
     }
 #if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
     manageTimerTask();

@@ -35,17 +35,6 @@ public:
         Reverse = 3,
     };
 
-    static inline State invertState(State s)
-    {
-        if (s == State::Active) {
-            return State::Inactive;
-        }
-        if (s == State::Inactive) {
-            return State::Active;
-        }
-        return State::Unknown;
-    }
-
 public:
     ActuatorDigitalBase() = default;
 
@@ -56,6 +45,15 @@ public:
     virtual void state(const State& v) = 0;
 
     virtual State state() const = 0;
-
-    virtual bool supportsFastIo() const = 0;
 };
+
+inline ActuatorDigitalBase::State invertState(ActuatorDigitalBase::State s)
+{
+    if (s == ActuatorDigitalBase::State::Active) {
+        return ActuatorDigitalBase::State::Inactive;
+    }
+    if (s == ActuatorDigitalBase::State::Inactive) {
+        return ActuatorDigitalBase::State::Active;
+    }
+    return ActuatorDigitalBase::State::Unknown;
+}

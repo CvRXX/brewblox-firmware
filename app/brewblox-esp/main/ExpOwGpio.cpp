@@ -1,4 +1,5 @@
 #include "ExpOwGpio.hpp"
+#include "esp_log.h"
 
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
@@ -82,12 +83,17 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
 
 void ExpOwGpio::init_driver()
 {
+    ESP_LOGI("EXPOWGPIO", "Initializing DRV8908");
     // set overvoltage threshold to 33V and clear all faults
     writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
     // disable OLD detect on all pins
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
     // disable shutdown on OLD globally (keep bridges operating when OLD is detected)
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
+    // enable PWM mode for all half bridges, 100Hz
+    writeDrvRegister(DRV8908::RegAddr::PWM_FREQ_CTRL_1, 0b01010101);
+    writeDrvRegister(DRV8908::RegAddr::PWM_FREQ_CTRL_2, 0b01010101);
+    writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_1, 0xFF);
 }
 
 bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
@@ -176,13 +182,18 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
     case ChannelConfig::UNKNOWN:
         break;
     case ChannelConfig::DRIVING_ON:
+        flexChannels[idx].pwm_target = 250;
+        [[fallthrough]];
     case ChannelConfig::DRIVING_PWM:
         drive_bits.bits.all = when_active_mask.bits.all;
         break;
     case ChannelConfig::DRIVING_OFF:
-        drive_bits.bits.all = when_inactive_mask.bits.all;
+        flexChannels[idx].pwm_target = 0;
+        drive_bits.bits.all = when_active_mask.bits.all;
         break;
     case ChannelConfig::DRIVING_REVERSE:
+        flexChannels[idx].pwm_target = 0;
+        [[fallthrough]];
     case ChannelConfig::DRIVING_PWM_REVERSE:
         drive_bits.bits.all = ~when_inactive_mask.bits.all;
         break;
@@ -197,7 +208,22 @@ bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
         drive_bits.bits.all = 0x0000;
         break;
     }
+    // from the datasheet:
+    // The PWM generators are disabled to ensure that all the half-bridges are turned-on at same time to avoid
+    // false OCP conditions for supporting higher current operation.The false OCP condition can arise due to
+    // the minimum time required for the SPI delay to switch on various half-bridges available in different registers.
+    // This can cause higher current (OCP condition) in one of the paralleled half-bridge while other half-bridge turning ON
+    // is delayed to the SPI register write delay and the propagation delay. Therefore, this sequence includes disabling
+    // the PWM generators initially,then enabling half-bridges and followed by enabling the PWM generators to avoid such issue.
+
+    // writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, 0x1 << idx);
     op_ctrl_desired.apply(flexChannels[idx].pins_mask, drive_bits);
+    if (op_ctrl_status.bits.all != op_ctrl_desired.bits.all) {
+        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
+        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
+    }
+    // writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, 0x00);
+
     update();
 
     return true;
@@ -266,16 +292,25 @@ void ExpOwGpio::update(bool forceRefresh)
 
     auto drv_status = status();
 
-    bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
+    bool updateNeeded = false; // op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
     bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
+
+    // todo implement slew rate
+    for (uint8_t i = 0; i < flexChannels.size(); i++) {
+        auto& c = flexChannels[i];
+        if (c.pwm_target > c.pwm_duty) {
+            ++c.pwm_duty;
+            writeDrvRegister(DRV8908::RegAddr(uint8_t(DRV8908::RegAddr::PWM_DUTY_CTRL_1) + i), c.pwm_duty);
+        } else if (c.pwm_target < c.pwm_duty) {
+            --c.pwm_duty;
+            writeDrvRegister(DRV8908::RegAddr(uint8_t(DRV8908::RegAddr::PWM_DUTY_CTRL_1) + i), c.pwm_duty);
+        }
+    }
 
     if (forceRefresh || updateNeeded || initNeeded) {
         if (initNeeded) {
             init_driver();
         }
-
-        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
-        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
 
         drv_status = status(); // use latest status returned during read of registers
 
@@ -443,6 +478,9 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
             writeChannelImpl(channel, ChannelConfig::DRIVING_OFF);
         }
     }
+
+    write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
+    op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
 }
 
 const FlexChannel& ExpOwGpio::getChannel(uint8_t channel) const

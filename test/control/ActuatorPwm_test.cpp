@@ -1373,6 +1373,7 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
     }
 }
 
+#if 0
 SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
 {
     auto now = ticks_millis_t(0);
@@ -1443,3 +1444,4 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
         logger::clear();
     }
 }
+#endif

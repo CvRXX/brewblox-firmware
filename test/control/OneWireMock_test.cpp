@@ -20,12 +20,14 @@
 #include <catch.hpp>
 
 #include "TestControlPtr.hpp"
+#include "control/ActuatorDigital.hpp"
 #include "control/DS18B20.hpp"
 #include "control/DS18B20Mock.hpp"
 #include "control/DS2408.hpp"
 #include "control/DS2408Mock.hpp"
 #include "control/DS2413.hpp"
 #include "control/DS2413Mock.hpp"
+#include "control/InputDigital.hpp"
 #include "control/MotorValve.hpp"
 #include "control/OneWireMockDevice.hpp"
 #include "control/OneWireMockDriver.hpp"
@@ -251,67 +253,70 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
         THEN("A DS2413 class can use it as output")
         {
-            DS2413 ds1(ow, addr3);
+            using State = ActuatorDigitalBase::State;
 
-            ActuatorDigitalBase::State result;
-            ds1.update();
-            CHECK(ds1.connected() == true);
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            auto ds1 = std::make_shared<DS2413>(ow, addr3);
+            auto ds1Ptr = TestControlPtr<IoArray>(ds1);
+            ds1->update();
 
-            // note that for IoArray DRIVING_ON means OUTPUT and ACTIVE
-            // It is actually an open drain pull down on in the DS2413
-            // Should we rename this?
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_ON));
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Active);
+            CHECK(ds1->connected() == true);
+            ActuatorDigital act1(ds1Ptr, 1);
+            ActuatorDigital act2(ds1Ptr, 2);
 
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            CHECK(act1.state() == State::Inactive);
+            CHECK(act2.state() == State::Inactive);
+            CHECK(ds1->readChannel(1).value() == 0);
+            CHECK(ds1->readChannel(2).value() == 0);
 
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::DRIVING_OFF));
-            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::DRIVING_ON));
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            act1.state(State::Active);
+            CHECK(act1.state() == State::Active);
+            CHECK(ds1->readChannel(1).value() == 1);
+            CHECK(ds1->readChannel(2).value() == 0);
 
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Active);
+            act2.state(State::Active);
+            CHECK(act2.state() == State::Active);
+            CHECK(ds1->readChannel(1).value() == 1);
+            CHECK(ds1->readChannel(2).value() == 1);
+
+            act1.state(State::Inactive);
+            CHECK(act1.state() == State::Inactive);
+            CHECK(ds1->readChannel(1).value() == 0);
+            CHECK(ds1->readChannel(2).value() == 1);
+
+            act2.state(State::Inactive);
+            CHECK(act2.state() == State::Inactive);
+            CHECK(ds1->readChannel(1).value() == 0);
+            CHECK(ds1->readChannel(2).value() == 0);
         }
 
         THEN("A DS2413 class can use it as input")
         {
-            DS2413 ds1(ow, addr3);
-            ds1.update();
+            using State = InputDigital::State;
+            auto ds1 = std::make_shared<DS2413>(ow, addr3);
+            auto ds1Ptr = TestControlPtr<IoArray>(ds1);
+            InputDigital in1(ds1Ptr, 1);
+            InputDigital in2(ds1Ptr, 2);
 
-            ActuatorDigitalBase::State result;
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            ds1->update();
+            CHECK(in1.state() == State::Inactive);
+            CHECK(in2.state() == State::Inactive);
 
             ds1mock->setExternalPullDownA(true);
+            ds1->update();
 
-            ds1.update();
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Active);
-
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
+            CHECK(in1.state() == State::Active);
+            CHECK(in2.state() == State::Inactive);
 
             ds1mock->setExternalPullDownA(false);
             ds1mock->setExternalPullDownB(true);
 
-            ds1.update();
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Active);
+            ds1->update();
+            auto v1 = ds1->readChannel(1);
+            CHECK(v1.has_value());
+            CHECK(v1.value() == 0);
+            auto v2 = ds1->readChannel(2);
+            CHECK(v2.has_value());
+            CHECK(v2.value() == 1);
         }
     }
 
@@ -332,87 +337,54 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             addr = ow.ptr->search();
             CHECK(addr == addr4);
         }
-
-        THEN("A DS2408 class can use it as output driver")
-        {
-            DS2408 ds1(ow, addr4);
-
-            ActuatorDigitalBase::State result;
-            ds1.update();
-            CHECK(ds1.connected() == true);
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-
-            for (uint8_t chan = 1; chan <= 8; chan++) {
-                // set one channel as active, others as inactive
-                for (uint8_t i = 1; i <= 8; i++) {
-                    auto config = i == chan ? IoArray::ChannelConfig::DRIVING_ON : IoArray::ChannelConfig::DRIVING_OFF;
-                    CHECK(ds1.writeChannelConfig(i, config));
-                }
-                ds1.update();
-
-                for (uint8_t i = 1; i <= 8; i++) {
-                    CHECK(ds1.senseChannel(i, result));
-                    if (i == chan) {
-                        CHECK(result == ActuatorDigitalBase::State::Active);
-                    } else {
-                        CHECK(result == ActuatorDigitalBase::State::Inactive);
-                    }
-                }
-            }
-        }
-
         THEN("A DS2408 class can use it as input on some pins and output on others")
         {
-            DS2408 ds1(ow, addr4);
+            using State = InputDigital::State;
+            auto ds2 = std::make_shared<DS2408>(ow, addr4);
+            auto ds2Ptr = TestControlPtr<IoArray>(ds2);
 
-            ActuatorDigitalBase::State result;
-            ds1.update();
-            CHECK(ds1.connected() == true);
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive);
-            // channels start at 1
-            CHECK(ds1.writeChannelConfig(1, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(2, IoArray::ChannelConfig::DRIVING_ON));
-            CHECK(ds1.writeChannelConfig(3, IoArray::ChannelConfig::DRIVING_OFF));
-            CHECK(ds1.writeChannelConfig(4, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(5, IoArray::ChannelConfig::INPUT));
-            CHECK(ds1.writeChannelConfig(6, IoArray::ChannelConfig::DRIVING_OFF));
-            CHECK(ds1.writeChannelConfig(7, IoArray::ChannelConfig::DRIVING_ON));
-            CHECK(ds1.writeChannelConfig(8, IoArray::ChannelConfig::INPUT));
+            InputDigital in1(ds2Ptr, 1);
+            InputDigital in2(ds2Ptr, 2);
+            ActuatorDigital act3(ds2Ptr, 3);
+            ActuatorDigital act4(ds2Ptr, 4);
+            InputDigital in5(ds2Ptr, 5);
+            InputDigital in6(ds2Ptr, 6);
+            ActuatorDigital act7(ds2Ptr, 7);
+            ActuatorDigital act8(ds2Ptr, 8);
 
-            // bit index starts at 0
+            ds2->update();
+            CHECK(ds2->connected() == true);
+            CHECK(in1.state() == State::Inactive);
+            CHECK(in2.state() == State::Inactive);
+            CHECK(act3.state() == State::Inactive);
+            CHECK(act4.state() == State::Inactive);
+            CHECK(in5.state() == State::Inactive);
+            CHECK(in6.state() == State::Inactive);
+            CHECK(act7.state() == State::Inactive);
+            CHECK(act8.state() == State::Inactive);
+
+            // bit index in mock starts at 0
             ds2408mock->setExternalPullDown(0, false);
-            ds2408mock->setExternalPullDown(3, true);
-
+            ds2408mock->setExternalPullDown(1, true);
             ds2408mock->setExternalPullDown(4, true);
-            ds2408mock->setExternalPullDown(7, false);
+            ds2408mock->setExternalPullDown(5, false);
 
-            ds1.update();
+            act3.state(State::Active);
+            act4.state(State::Inactive);
+            act7.state(State::Inactive);
+            act8.state(State::Active);
 
-            CHECK(ds1.senseChannel(1, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // no external pulldown
-            CHECK(ds1.senseChannel(2, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // internal latch enabled
-            CHECK(ds1.senseChannel(3, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // internal latch disabled
-            CHECK(ds1.senseChannel(4, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // external pulldown
-            CHECK(ds1.senseChannel(5, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // external pulldown
-            CHECK(ds1.senseChannel(6, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // internal latch disabled
-            CHECK(ds1.senseChannel(7, result));
-            CHECK(result == ActuatorDigitalBase::State::Active); // internal latch enabled
-            CHECK(ds1.senseChannel(8, result));
-            CHECK(result == ActuatorDigitalBase::State::Inactive); // no external pulldown
+            ds2->update();
+            CHECK(in1.state() == State::Inactive);
+            CHECK(in2.state() == State::Active);
+            CHECK(act3.state() == State::Active);
+            CHECK(act4.state() == State::Inactive);
+            CHECK(in5.state() == State::Active);
+            CHECK(in6.state() == State::Inactive);
+            CHECK(act7.state() == State::Inactive);
+            CHECK(act8.state() == State::Active);
         }
     }
-
     WHEN("3x DS18B20, DS2413, and DS2408 are connected")
     {
         auto addrSensor1 = OneWireAddress(0x7E11'1111'1111'1128);

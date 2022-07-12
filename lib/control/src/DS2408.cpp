@@ -87,24 +87,24 @@ bool DS2408::update()
     return success;
 }
 
-bool DS2408::senseChannelImpl(uint8_t channel, State& result) const
+IoArray::ChannelValue DS2408::readChannelImpl(uint8_t channel) const
 {
 
     // to reduce onewire communication, we assume the last read value in update() is correct
     // only in update(), actual onewire communication will take place to get the latest state
-    if (connected() && validChannel(channel)) {
+    // channel validity has already been checked in base class
+    if (connected()) {
         uint8_t mask = uint8_t{0x01} << (channel - 1);
-        bool pinState = (pins & mask) > 0;
-        result = pinState ? State::Inactive : State::Active;
-        return true;
+
+        // A 0 means the pin is pulled down, which is the active state
+        return (pins & mask) > 0 ? IoArray::ChannelValue{0} : IoArray::ChannelValue{1};
     }
-    result = State::Unknown;
-    return false;
+    return IoArray::ChannelValue{};
 }
 
-bool DS2408::writeChannelImpl(uint8_t channel, ChannelConfig config)
+IoArray::ChannelValue DS2408::writeChannelImpl(uint8_t channel, IoArray::ChannelValue val)
 {
-    bool latchEnabled = config == ChannelConfig::DRIVING_ON;
+    bool latchEnabled = val.has_value() && *val > 0;
     uint8_t mask = uint8_t{0x01} << (channel - 1);
 
     if (latchEnabled) {
@@ -112,13 +112,20 @@ bool DS2408::writeChannelImpl(uint8_t channel, ChannelConfig config)
     } else {
         desiredLatches |= mask;
     }
-    if (!connected()) {
-        return false;
-    }
     if (writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
         // they will reconnect in the normal update tick, which should happen every second
-        return update();
+        update();
     }
-    return true;
+    return readChannelImpl(channel);
+}
+
+bool DS2408::setChannelTypeImpl(uint8_t channel, ChannelType chanType)
+{
+    if (chanType == ChannelType::OUTPUT_DIGITAL || chanType == ChannelType::INPUT_DIGITAL) {
+        // disable latch. For inputs it stays disabled. For outputs it can be toggled later.
+        writeChannelImpl(channel, 0);
+        return true;
+    }
+    return false;
 }

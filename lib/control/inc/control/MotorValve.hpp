@@ -99,10 +99,4 @@ public:
     }
 
     void claimChannel();
-
-    virtual bool
-    supportsFastIo() const final
-    {
-        return false;
-    }
 };

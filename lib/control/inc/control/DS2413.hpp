@@ -66,15 +66,12 @@ public:
     bool update();
     bool writeNeeded();
 
-    // generic ArrayIO interface
-    bool senseChannelImpl(uint8_t channel, State& result) const final;
+    // generic ArrayIo interface
+    virtual ChannelValue readChannelImpl(uint8_t channel) const override final;
 
-    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
+    virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue val) override final;
 
-    bool supportsFastIo() const final
-    {
-        return false;
-    }
+    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType chanType) override final;
 
 private:
     bool processStatus(uint8_t data);
