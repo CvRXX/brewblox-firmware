@@ -34,8 +34,7 @@ void ActuatorDigital::state(const State& v)
             if (m_invert) {
                 newState = invertState(v);
             }
-            IoArray::ChannelValue val = newState == State::Active ? 1 : 0;
-            devPtr->writeChannel(m_channel, val);
+            devPtr->writeChannel(m_channel, IoValue::Digital{newState == State::Active});
         }
     }
 }
@@ -45,8 +44,9 @@ State ActuatorDigital::state() const
     if (channelReady()) {
         if (auto devPtr = m_target.lock()) {
             State result = State::Unknown;
-            if (auto v = devPtr->readChannel(m_channel)) {
-                result = *v > 0 ? State::Active : State::Inactive;
+            auto val = devPtr->readChannel(m_channel);
+            if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+                result = v->state();
                 if (m_invert) {
                     result = invertState(result); // todo: handle pwm transitions for inversion
                 }
@@ -63,9 +63,7 @@ void ActuatorDigital::claimChannel()
     if (auto devPtr = m_target.lock()) {
         if (m_channel != 0) {
             // release old channel
-            if (!devPtr->setChannelType(m_channel, IoArray::ChannelType::UNUSED, IoArray::ChannelType::UNKNOWN)) {
-                return;
-            }
+            devPtr->writeChannel(m_channel, IoValue::Setup::Type::UNUSED);
         }
 
         if (m_desiredChannel == 0) {
@@ -73,7 +71,8 @@ void ActuatorDigital::claimChannel()
             return;
         }
         // claim new channel
-        if (devPtr->setChannelType(m_desiredChannel, IoArray::ChannelType::OUTPUT_DIGITAL, IoArray::ChannelType::UNUSED)) {
+        auto result = devPtr->writeChannel(m_desiredChannel, IoValue::Setup::Type::OUTPUT_DIGITAL);
+        if (std::holds_alternative<IoValue::Digital>(result)) {
             m_channel = m_desiredChannel;
         }
     }

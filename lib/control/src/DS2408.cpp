@@ -32,6 +32,7 @@ static constexpr uint8_t ADDRESS_UPPER = 0x00;
 static constexpr uint8_t ADDRESS_PIO_STATE_LOWER = 0x88;
 static constexpr uint8_t ADDRESS_LATCH_STATE_LOWER = 0x89;
 
+#if 0
 bool DS2408::writeNeeded() const
 {
     return !connected() || desiredLatches != latches;
@@ -87,7 +88,7 @@ bool DS2408::update()
     return success;
 }
 
-IoArray::ChannelValue DS2408::readChannelImpl(uint8_t channel) const
+IoArray::IoValue::variant DS2408::readChannelImpl(uint8_t channel) const
 {
 
     // to reduce onewire communication, we assume the last read value in update() is correct
@@ -97,12 +98,12 @@ IoArray::ChannelValue DS2408::readChannelImpl(uint8_t channel) const
         uint8_t mask = uint8_t{0x01} << (channel - 1);
 
         // A 0 means the pin is pulled down, which is the active state
-        return (pins & mask) > 0 ? IoArray::ChannelValue{0} : IoArray::ChannelValue{1};
+        return (pins & mask) > 0 ? IoArray::IoValue::variant{0} : IoArray::IoValue::variant{1};
     }
-    return IoArray::ChannelValue{};
+    return IoArray::IoValue::variant{};
 }
 
-IoArray::ChannelValue DS2408::writeChannelImpl(uint8_t channel, IoArray::ChannelValue val)
+IoArray::IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoArray::IoValue::variant val)
 {
     bool latchEnabled = val.has_value() && *val > 0;
     uint8_t mask = uint8_t{0x01} << (channel - 1);
@@ -129,3 +130,4 @@ bool DS2408::setChannelTypeImpl(uint8_t channel, ChannelType chanType)
     }
     return false;
 }
+#endif

@@ -23,6 +23,7 @@
 #include <functional>
 #include <memory>
 
+#if 0
 using State = InputDigital::State;
 
 State InputDigital::state() const
@@ -63,3 +64,4 @@ void InputDigital::claimChannel()
         }
     }
 }
+#endif

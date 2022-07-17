@@ -233,6 +233,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         }
     }
 
+#if 0
     WHEN("A mock DS2413 is attached")
     {
         auto addr3 = makeValidAddress(0x002222334455663A);
@@ -454,4 +455,5 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             CHECK(addr == OneWireAddress(0));
         }
     }
+#endif
 }

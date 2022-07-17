@@ -175,12 +175,9 @@ public:
         friend class ExpOwGpio;
     };
 
-    bool senseChannelImpl(uint8_t channel, State& result) const final;
-    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
-    bool supportsFastIo() const final
-    {
-        return false;
-    }
+    virtual IoValue::variant readChannelImpl(uint8_t channel) const final;
+    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) final;
+    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType type) final;
 
     void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;

@@ -37,71 +37,63 @@ public:
 
     virtual ~MockIoArray() = default;
 
-    virtual ChannelValue readChannelImpl(uint8_t channel) const override final
+    virtual IoValue::variant readChannelImpl(uint8_t channel) const override final
     {
         // valid channel check already performed in base class
-        if (isConnected && ((getMask(channel) & errorState) == 0)) {
-            switch (getChannelType(channel)) {
-            case ChannelType::OUTPUT_DIGITAL:
-            case ChannelType::INPUT_DIGITAL:
-                return pinStates & getMask(channel);
-            case ChannelType::OUTPUT_PWM:
-                // Return result of last write
-                return channels[channel - 1].actual;
-            case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
-            case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
-            case ChannelType::UNKNOWN:
-            case ChannelType::UNUSED:
-                return ChannelValue{}; // not supported
-            }
+        if (!isConnected) {
+            return IoValue::Error::DISCONNECTED;
         }
-        return ChannelValue{};
+        auto mask = getMask(channel);
+
+        if ((mask & errorState) != 0) {
+            return IoValue::Error::IO_ERROR;
+        }
+
+        const auto setting = desired(channel);
+        if (std::holds_alternative<IoValue::Digital>(setting)) {
+            return IoValue::Digital(pinStates & mask);
+        } else if (std::holds_alternative<IoValue::PWM>(setting)) {
+            // just return desired value
+            return setting;
+        }
+        return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue val) override final
+    virtual IoValue::variant
+    writeChannelImpl(uint8_t channel, IoValue::variant val) override final
     {
         // valid channel check already performed in base class
-        if (isConnected && val.has_value()) {
-            uint8_t mask = getMask(channel);
-            switch (getChannelType(channel)) {
-            case ChannelType::OUTPUT_DIGITAL:
-                if (*val > 0) {
-                    pinStates |= mask;
-                    return 1;
-                }
+        if (!isConnected) {
+            return IoValue::Error::DISCONNECTED;
+        }
+        uint8_t mask = getMask(channel);
+
+        if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+            if (v->state() == IoValue::State::Active) {
+                pinStates |= mask;
+                return *v;
+            } else if (v->state() == IoValue::State::Inactive) {
                 pinStates &= ~mask;
-                return 0;
-            case ChannelType::OUTPUT_PWM:
-                // just return val to indicate that pwm was successfully set
-                return val;
-            case ChannelType::INPUT_DIGITAL:
-            case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
-            case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
-            case ChannelType::UNKNOWN:
-            case ChannelType::UNUSED:
-                return ChannelValue{}; // write not supported
+                return *v;
+            } else {
+                return IoValue::Error::UNSUPPORTED_VALUE;
+            }
+        } else if (std::holds_alternative<IoValue::PWM>(val)) {
+            // just return val to indicate that pwm was successfully set
+            return val;
+        } else if (auto* v = std::get_if<IoValue::Setup>(&val)) {
+            if (v->type == IoValue::Setup::Type::OUTPUT_DIGITAL) {
+                pinStates &= ~mask;
+                return IoValue::Digital(State::Inactive);
+            }
+            if (v->type == IoValue::Setup::Type::OUTPUT_DIGITAL) {
+                pinStates &= ~mask;
+                return IoValue::PWM{0};
+            } else {
+                return IoValue::Error::UNSUPPORTED_SETUP;
             }
         }
-        return ChannelValue{};
-    }
-
-    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType chanType) override final
-    {
-        switch (chanType) {
-        case ChannelType::OUTPUT_DIGITAL:
-        case ChannelType::OUTPUT_PWM:
-            pinModes |= getMask(channel);
-            return true;
-        case ChannelType::INPUT_DIGITAL:
-            pinModes &= getMask(channel);
-            return true;
-        case ChannelType::OUTPUT_DIGITAL_BIDIRECTIONAL:
-        case ChannelType::OUTPUT_PWM_BIDIRECTIONAL:
-        case ChannelType::UNKNOWN:
-        case ChannelType::UNUSED:
-            return false;
-        }
-        return false;
+        return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
     void connected(bool v)

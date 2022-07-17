@@ -21,6 +21,7 @@
 #include "control/DS2413.hpp"
 #include "control/OneWire.hpp"
 
+#if 0
 bool DS2413::update()
 {
     bool success = false;
@@ -77,7 +78,7 @@ uint8_t bitMask(uint8_t channel)
     return 0x00;
 }
 
-IoArray::ChannelValue DS2413::writeChannelImpl(uint8_t channel, IoArray::ChannelValue val)
+IoArray::IoValue::variant DS2413::writeChannelImpl(uint8_t channel, IoArray::IoValue::variant val)
 {
     bool latchEnabled = val.has_value() && *val > 0;
 
@@ -94,18 +95,18 @@ IoArray::ChannelValue DS2413::writeChannelImpl(uint8_t channel, IoArray::Channel
     return readChannelImpl(channel);
 }
 
-IoArray::ChannelValue DS2413::readChannelImpl(uint8_t channel) const
+IoArray::IoValue::variant DS2413::readChannelImpl(uint8_t channel) const
 {
     if (connected()) {
         // to reduce onewire communication, we assume the last read value in update() is correct
         // only in update(), actual onewire communication will take place to get the latest state
         if (channel == 1) {
-            return (actualState & 0b0001) == 0 ? ChannelValue{1} : ChannelValue{0};
+            return (actualState & 0b0001) == 0 ? IoValue::variant{1} : IoValue::variant{0};
         } else if (channel == 2) {
-            return (actualState & 0b0100) == 0 ? ChannelValue{1} : ChannelValue{0};
+            return (actualState & 0b0100) == 0 ? IoValue::variant{1} : IoValue::variant{0};
         }
     }
-    return ChannelValue{};
+    return IoValue::variant{};
 }
 
 bool DS2413::setChannelTypeImpl(uint8_t channel, ChannelType chanType)
@@ -128,3 +129,4 @@ bool DS2413::processStatus(uint8_t data)
     }
     return false;
 }
+#endif

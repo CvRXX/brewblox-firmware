@@ -67,9 +67,9 @@ public:
     bool writeNeeded() const;
 
     // generic ArrayIo interface
-    virtual ChannelValue readChannelImpl(uint8_t channel) const override final;
+    virtual IoValue::variant readChannelImpl(uint8_t channel) const override final;
 
-    virtual ChannelValue writeChannelImpl(uint8_t channel, ChannelValue val) override final;
+    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant desired) override final;
 
-    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType chanType) override final;
+    // virtual bool setChannelTypeImpl(uint8_t channel, ChannelType chanType) override final;
 };
