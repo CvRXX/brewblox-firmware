@@ -35,16 +35,17 @@ public:
         Reverse = 3,
     };
 
-public:
-    ActuatorDigitalBase() = default;
-
-protected:
-    virtual ~ActuatorDigitalBase() = default;
-
-public:
     virtual void state(const State& v) = 0;
 
-    virtual State state() const = 0;
+    [[nodiscard]] virtual State state() const = 0;
+
+protected:
+    ~ActuatorDigitalBase() = default;
+    ActuatorDigitalBase() = default;
+    ActuatorDigitalBase(const ActuatorDigitalBase&) = default;
+    ActuatorDigitalBase(ActuatorDigitalBase&&) noexcept = default;
+    ActuatorDigitalBase& operator=(const ActuatorDigitalBase&) = default;
+    ActuatorDigitalBase& operator=(ActuatorDigitalBase&&) noexcept = default;
 };
 
 inline ActuatorDigitalBase::State invertState(ActuatorDigitalBase::State s)

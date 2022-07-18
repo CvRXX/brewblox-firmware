@@ -86,6 +86,7 @@
     "readability-*",
     "google-explicit-constructor",
   ],
+  "C_Cpp.codeAnalysis.runAutomatically": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "cppcoreguidelines-pro-bounds-constant-array-index",
     "cppcoreguidelines-pro-bounds-array-to-pointer-decay",
@@ -124,4 +125,5 @@
       },
     }
   ],
+  "editor.formatOnSave": true,
 }

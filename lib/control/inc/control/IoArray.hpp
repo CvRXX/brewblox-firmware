@@ -21,7 +21,7 @@
 
 #include "control/ActuatorAnalog.hpp"
 #include "control/ActuatorDigitalBase.hpp"
-#include <inttypes.h>
+#include <cinttypes>
 #include <optional>
 #include <variant>
 #include <vector>
@@ -39,24 +39,21 @@ enum class Error : uint8_t {
     DISCONNECTED,
 };
 
-class Setup {
-public:
-    enum class Type : uint8_t {
-        UNUSED = 0,
-        OUTPUT_DIGITAL = 1,
-        OUTPUT_PWM = 2,
-        OUTPUT_DIGITAL_BIDIRECTIONAL = 3,
-        OUTPUT_PWM_BIDIRECTIONAL = 4,
-        INPUT_DIGITAL = 10,
-        UNKNOWN = 255,
-    };
+namespace Setup {
+    struct Unused {};
+    struct OutputDigital {};
+    struct OutputPwm {};
+    struct OutputDigitalBidir {};
+    struct OutputPwmBidir {};
+    struct InputDigital {};
 
-    Setup(Type t)
-        : type(t)
-    {
-    }
-    Type type;
-};
+    using variant = std::variant<Unused,
+                                 OutputDigital,
+                                 OutputPwm,
+                                 OutputDigitalBidir,
+                                 OutputPwmBidir,
+                                 InputDigital>;
+}; // end snamespace IoValue::Setup
 
 struct Transition {
     uint16_t current = 0;
@@ -67,14 +64,21 @@ class Base {
 private:
     std::optional<Transition> _transition;
 
-public:
-    Base(std::optional<Transition> t = {})
+protected:
+    ~Base() = default;
+
+    explicit Base(std::optional<Transition> t = {})
         : _transition{t}
     {
     }
 
-    virtual State state() const = 0;
-    std::optional<Transition> transition() const
+    Base(const Base&) = default;
+    Base(Base&&) = default;
+    Base& operator=(const Base&) = default;
+    Base& operator=(Base&&) = default;
+
+public:
+    [[nodiscard]] std::optional<Transition> transition() const
     {
         return _transition;
     }
@@ -85,16 +89,21 @@ private:
     State _state;
 
 public:
-    Digital(State s)
+    explicit Digital(State s)
         : _state(s)
     {
     }
-    Digital(bool s)
-        : _state{State(s)}
+    explicit Digital(bool s)
+        : _state{State{s}}
     {
     }
+    virtual ~Digital() = default;
+    Digital(const Digital&) = default;
+    Digital(Digital&&) = default;
+    Digital& operator=(const Digital&) = default;
+    Digital& operator=(Digital&&) = default;
 
-    State state() const override
+    [[nodiscard]] State state() const
     {
         return _state;
     }
@@ -108,31 +117,42 @@ private:
     duty_t _duty = 0;
 
 public:
-    PWM(duty_t d)
+    explicit PWM(duty_t d)
         : _duty{d}
     {
     }
+    virtual ~PWM() = default;
+    PWM(const PWM&) = default;
+    PWM(PWM&&) = default;
+    PWM& operator=(const PWM&) = default;
+    PWM& operator=(PWM&&) = default;
 
-    State state() const override
+    [[nodiscard]] State state() const
     {
         if (_duty > 0) {
             return State::Active;
-        } else if (_duty < 0) {
+        }
+        if (_duty < 0) {
             return State::Reverse;
         }
         return State::Inactive;
     }
 };
 
-class DigitalBidir : public Digital {
+class DigitalBidir final : public Digital {
     using Digital::Digital;
 };
 
-class PWMBidir : public PWM {
+class PWMBidir final : public PWM {
     using PWM::PWM;
 };
 
-using variant = std::variant<Error, Setup, Digital, PWM, DigitalBidir, PWMBidir>;
+using variant = std::variant<Error,
+                             Setup::variant,
+                             Digital,
+                             PWM,
+                             DigitalBidir,
+                             PWMBidir>;
 };
 
 /*
@@ -141,13 +161,15 @@ using variant = std::variant<Error, Setup, Digital, PWM, DigitalBidir, PWMBidir>
 class IoArray {
 public:
     using State = ActuatorDigitalBase::State;
-    IoArray(uint8_t size)
+    explicit IoArray(uint8_t size)
         : channels(size)
     {
     }
 
     IoArray(const IoArray&) = delete;
     IoArray& operator=(const IoArray&) = delete;
+    IoArray(IoArray&&) = default;
+    IoArray& operator=(IoArray&&) = default;
 
     virtual ~IoArray() = default;
 
@@ -180,9 +202,9 @@ public:
         auto& chan = channels[channel - 1];
 
         // for setup values handle claiming/releasing the channel
-        if (auto* v = std::get_if<IoValue::Setup>(&val)) {
+        if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
             // check if new value is a channel release
-            if (v->type == IoValue::Setup::Type::UNUSED) {
+            if (std::holds_alternative<IoValue::Setup::Unused>(*v)) {
                 defaultConfig(channel);
             } else {
                 // only allow setup on unused channels

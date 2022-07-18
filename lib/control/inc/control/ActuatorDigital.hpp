@@ -46,7 +46,9 @@ public:
     }
 
     ActuatorDigital(const ActuatorDigital&) = delete;
+    ActuatorDigital(ActuatorDigital&&) = default;
     ActuatorDigital& operator=(const ActuatorDigital&) = delete;
+    ActuatorDigital& operator=(ActuatorDigital&&) = delete;
 
     virtual ~ActuatorDigital()
     {
@@ -55,9 +57,9 @@ public:
 
     void state(const State& v) final;
 
-    State state() const final;
+    [[nodiscard]] State state() const final;
 
-    bool invert() const
+    [[nodiscard]] bool invert() const
     {
         return m_invert;
     }
@@ -69,14 +71,14 @@ public:
         state(active);
     }
 
-    uint8_t channel() const
+    [[nodiscard]] uint8_t channel() const
     {
         return m_desiredChannel;
     }
 
     void claimChannel();
 
-    bool channelReady() const
+    [[nodiscard]] bool channelReady() const
     {
         return m_desiredChannel == m_channel;
     }

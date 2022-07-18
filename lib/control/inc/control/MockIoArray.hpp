@@ -81,12 +81,12 @@ public:
         } else if (std::holds_alternative<IoValue::PWM>(val)) {
             // just return val to indicate that pwm was successfully set
             return val;
-        } else if (auto* v = std::get_if<IoValue::Setup>(&val)) {
-            if (v->type == IoValue::Setup::Type::OUTPUT_DIGITAL) {
+        } else if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
+            if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
                 pinStates &= ~mask;
                 return IoValue::Digital(State::Inactive);
             }
-            if (v->type == IoValue::Setup::Type::OUTPUT_DIGITAL) {
+            if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
                 pinStates &= ~mask;
                 return IoValue::PWM{0};
             } else {
