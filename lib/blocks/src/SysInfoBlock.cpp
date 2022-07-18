@@ -20,6 +20,7 @@
 #include "intellisense.hpp"
 
 #include "blocks/SysInfoBlock.hpp"
+#include "blox_hal/hal_network.hpp"
 #include "cbox/PayloadConversion.hpp"
 #include "proto/proto_version.h"
 #include <cstring>
@@ -36,6 +37,7 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
     strncpy(message.protocolVersion, COMPILED_PROTO_VERSION, 12);
     strncpy(message.releaseDate, GIT_DATE, 12);
     strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
+    message.ip = network::ip4();
 
     message.platform = blox_SysInfo_Platform(PLATFORM_ID);
 

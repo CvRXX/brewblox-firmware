@@ -22,6 +22,7 @@
 #include "AppTicks.hpp"
 #include "blocks/stringify.hpp"
 #include "blox_hal/hal_delay.hpp"
+#include "blox_hal/hal_network.hpp"
 #include "control/TicksTypes.hpp"
 #include "deviceid_hal.h"
 #include "mdns/MDNS.h"
@@ -230,3 +231,46 @@ void wifiInit()
 }
 
 } // end namespace platform::particle
+
+namespace network {
+
+Mode mode()
+{
+    return Mode::WIFI;
+}
+
+uint32_t ip4()
+{
+    return platform::particle::localIp;
+}
+
+bool isConnected()
+{
+    return platform::particle::wifiConnected();
+}
+
+int8_t wifiStrength()
+{
+    return platform::particle::wifiSignal();
+}
+
+State state()
+{
+    if (platform::particle::wifiConnected()) {
+        return State::CONNECTED;
+    }
+    if (platform::particle::currentSsid[0] == 0) {
+        return State::OFF;
+    }
+    return State::NOT_FOUND;
+}
+
+void connect() {}
+
+void disconnect() {}
+
+void provision() {}
+
+void clearProvision() {}
+
+} // end namespace network
