@@ -35,7 +35,7 @@ SCENARIO("SysInfo Block")
 
     std::string replyWithoutTrace = std::string("deviceId: \"999999999999\"")
                                     + " version: \"" + version + "\" platform: PLATFORM_GCC protocolVersion: \"" + protocolVersion
-                                    + "\" releaseDate: \"" + releaseDate + "\" protocolDate: \"" + protocolDate + "\"";
+                                    + "\" releaseDate: \"" + releaseDate + "\" protocolDate: \"" + protocolDate + "\" ip: 2130706433";
 
     auto sysInfoId = cbox::obj_id_t(2);
 

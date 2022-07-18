@@ -46,15 +46,14 @@ typedef struct _blox_WiFiSettings_Block {
     blox_WiFiSettings_Security security;
     blox_WiFiSettings_Cipher cipher;
     int8_t signal;
-    char ip[16];
 /* @@protoc_insertion_point(struct:blox_WiFiSettings_Block) */
 } blox_WiFiSettings_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_WiFiSettings_Block_init_default     {"", "", _blox_WiFiSettings_Security_MIN, _blox_WiFiSettings_Cipher_MIN, 0, ""}
-#define blox_WiFiSettings_Block_init_zero        {"", "", _blox_WiFiSettings_Security_MIN, _blox_WiFiSettings_Cipher_MIN, 0, ""}
+#define blox_WiFiSettings_Block_init_default     {"", "", _blox_WiFiSettings_Security_MIN, _blox_WiFiSettings_Cipher_MIN, 0}
+#define blox_WiFiSettings_Block_init_zero        {"", "", _blox_WiFiSettings_Security_MIN, _blox_WiFiSettings_Cipher_MIN, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_WiFiSettings_Block_ssid_tag         1
@@ -62,13 +61,12 @@ typedef struct _blox_WiFiSettings_Block {
 #define blox_WiFiSettings_Block_security_tag     3
 #define blox_WiFiSettings_Block_cipher_tag       4
 #define blox_WiFiSettings_Block_signal_tag       5
-#define blox_WiFiSettings_Block_ip_tag           6
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_WiFiSettings_Block_fields[7];
+extern const pb_field_t blox_WiFiSettings_Block_fields[6];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_WiFiSettings_Block_size             135
+#define blox_WiFiSettings_Block_size             117
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

@@ -172,6 +172,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, logged_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, unlogged_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, drivendevice_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::Block, ip_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::EdgeCase::SubCase, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -184,7 +185,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 7, -1, sizeof(::blox_test::EdgeCase::State)},
   { 14, -1, sizeof(::blox_test::EdgeCase::NestedLink)},
   { 20, -1, sizeof(::blox_test::EdgeCase::Block)},
-  { 34, -1, sizeof(::blox_test::EdgeCase::SubCase)},
+  { 35, -1, sizeof(::blox_test::EdgeCase::SubCase)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -222,7 +223,7 @@ void AddDescriptorsImpl() {
       "\n\006offset\030\002 \001(\021B\r\212\265\030\002\010\006\212\265\030\003\020\200\002\"@\n\005State\022\034"
       "\n\005value\030\001 \001(\021B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\031\n\tconnecte"
       "d\030\002 \001(\010B\006\212\265\030\002(\001\"(\n\nNestedLink\022\032\n\nconnect"
-      "ion\030\001 \001(\rB\006\212\265\030\002\030\002\"\306\002\n\005Block\022.\n\010settings\030"
+      "ion\030\001 \001(\rB\006\212\265\030\002\030\002\"\337\002\n\005Block\022.\n\010settings\030"
       "\001 \001(\0132\034.blox_test.EdgeCase.Settings\022(\n\005s"
       "tate\030\002 \001(\0132\031.blox_test.EdgeCase.State\022\024\n"
       "\004link\030\003 \001(\rB\006\212\265\030\002\030\005\0227\n\017additionalLinks\030\004"
@@ -230,11 +231,12 @@ void AddDescriptorsImpl() {
       "listValues\030\005 \003(\002B\r\212\265\030\002\010\001\212\265\030\003\020\200\002\022\035\n\006delta"
       "V\030\006 \001(\rB\r\212\265\030\002\010\007\212\265\030\003\020\200\002\022\026\n\006logged\030\007 \001(\rB\006"
       "\212\265\030\0020\001\022\020\n\010unLogged\030\010 \001(\r\022(\n\014drivenDevice"
-      "\030\t \001(\rB\022\212\265\030\003\030\273\002\212\265\030\002@\001\222\?\0028\020\"#\n\007SubCase\022\020\n"
-      "\010subvalue\030\001 \001(\r:\006\212\265\030\002X\001b\006proto3"
+      "\030\t \001(\rB\022\212\265\030\003\030\273\002\212\265\030\002@\001\222\?\0028\020\022\027\n\002ip\030\n \001(\rB\013"
+      "\212\265\030\002`\001\222\?\0028 \"#\n\007SubCase\022\020\n\010subvalue\030\001 \001(\r"
+      ":\006\212\265\030\002X\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 631);
+      descriptor, 656);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "EdgeCase_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -1022,6 +1024,7 @@ const int Block::kDeltaVFieldNumber;
 const int Block::kLoggedFieldNumber;
 const int Block::kUnLoggedFieldNumber;
 const int Block::kDrivenDeviceFieldNumber;
+const int Block::kIpFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -1048,15 +1051,15 @@ Block::Block(const Block& from)
     state_ = NULL;
   }
   ::memcpy(&link_, &from.link_,
-    static_cast<size_t>(reinterpret_cast<char*>(&drivendevice_) -
-    reinterpret_cast<char*>(&link_)) + sizeof(drivendevice_));
+    static_cast<size_t>(reinterpret_cast<char*>(&ip_) -
+    reinterpret_cast<char*>(&link_)) + sizeof(ip_));
   // @@protoc_insertion_point(copy_constructor:blox_test.EdgeCase.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&settings_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&drivendevice_) -
-      reinterpret_cast<char*>(&settings_)) + sizeof(drivendevice_));
+      reinterpret_cast<char*>(&ip_) -
+      reinterpret_cast<char*>(&settings_)) + sizeof(ip_));
 }
 
 Block::~Block() {
@@ -1100,8 +1103,8 @@ void Block::Clear() {
   }
   state_ = NULL;
   ::memset(&link_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&drivendevice_) -
-      reinterpret_cast<char*>(&link_)) + sizeof(drivendevice_));
+      reinterpret_cast<char*>(&ip_) -
+      reinterpret_cast<char*>(&link_)) + sizeof(ip_));
   _internal_metadata_.Clear();
 }
 
@@ -1240,6 +1243,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 ip = 10 [(.nanopb) = {
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &ip_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1321,6 +1338,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->drivendevice(), output);
   }
 
+  // uint32 ip = 10 [(.nanopb) = {
+  if (this->ip() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->ip(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1393,6 +1415,11 @@ void Block::SerializeWithCachedSizes(
   // uint32 drivenDevice = 9 [(.nanopb) = {
   if (this->drivendevice() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->drivendevice(), target);
+  }
+
+  // uint32 ip = 10 [(.nanopb) = {
+  if (this->ip() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->ip(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1488,6 +1515,13 @@ size_t Block::ByteSizeLong() const {
         this->drivendevice());
   }
 
+  // uint32 ip = 10 [(.nanopb) = {
+  if (this->ip() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->ip());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -1538,6 +1572,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.drivendevice() != 0) {
     set_drivendevice(from.drivendevice());
   }
+  if (from.ip() != 0) {
+    set_ip(from.ip());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1573,6 +1610,7 @@ void Block::InternalSwap(Block* other) {
   swap(logged_, other->logged_);
   swap(unlogged_, other->unlogged_);
   swap(drivendevice_, other->drivendevice_);
+  swap(ip_, other->ip_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

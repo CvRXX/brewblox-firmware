@@ -90,6 +90,7 @@ typedef struct _blox_SysInfo_Block {
     char protocolVersion[12];
     char releaseDate[12];
     char protocolDate[12];
+    uint32_t ip;
     blox_SysInfo_Command command;
     pb_size_t trace_count;
     blox_SysInfo_Trace trace[10];
@@ -100,9 +101,9 @@ typedef struct _blox_SysInfo_Block {
 
 /* Initializer values for message structs */
 #define blox_SysInfo_Trace_init_default          {_blox_SysInfo_Trace_Action_MIN, 0, 0}
-#define blox_SysInfo_Block_init_default          {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", _blox_SysInfo_Command_MIN, 0, {blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default}}
+#define blox_SysInfo_Block_init_default          {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", 0, _blox_SysInfo_Command_MIN, 0, {blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default, blox_SysInfo_Trace_init_default}}
 #define blox_SysInfo_Trace_init_zero             {_blox_SysInfo_Trace_Action_MIN, 0, 0}
-#define blox_SysInfo_Block_init_zero             {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", _blox_SysInfo_Command_MIN, 0, {blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero}}
+#define blox_SysInfo_Block_init_zero             {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", 0, _blox_SysInfo_Command_MIN, 0, {blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero, blox_SysInfo_Trace_init_zero}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_SysInfo_Trace_action_tag            1
@@ -114,16 +115,17 @@ typedef struct _blox_SysInfo_Block {
 #define blox_SysInfo_Block_protocolVersion_tag   7
 #define blox_SysInfo_Block_releaseDate_tag       8
 #define blox_SysInfo_Block_protocolDate_tag      9
-#define blox_SysInfo_Block_command_tag           10
-#define blox_SysInfo_Block_trace_tag             11
+#define blox_SysInfo_Block_ip_tag                10
+#define blox_SysInfo_Block_command_tag           100
+#define blox_SysInfo_Block_trace_tag             101
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_SysInfo_Trace_fields[4];
-extern const pb_field_t blox_SysInfo_Block_fields[9];
+extern const pb_field_t blox_SysInfo_Block_fields[10];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_SysInfo_Trace_size                  14
-#define blox_SysInfo_Block_size                  234
+#define blox_SysInfo_Block_size                  251
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID
