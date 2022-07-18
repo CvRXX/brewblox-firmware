@@ -456,10 +456,10 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
+  // repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
   int trace_size() const;
   void clear_trace();
-  static const int kTraceFieldNumber = 11;
+  static const int kTraceFieldNumber = 101;
   ::blox_test::SysInfo::Trace* mutable_trace(int index);
   ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >*
       mutable_trace();
@@ -544,9 +544,15 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::SysInfo::Platform platform() const;
   void set_platform(::blox_test::SysInfo::Platform value);
 
-  // .blox_test.SysInfo.Command command = 10;
+  // uint32 ip = 10 [(.nanopb) = {
+  void clear_ip();
+  static const int kIpFieldNumber = 10;
+  ::google::protobuf::uint32 ip() const;
+  void set_ip(::google::protobuf::uint32 value);
+
+  // .blox_test.SysInfo.Command command = 100;
   void clear_command();
-  static const int kCommandFieldNumber = 10;
+  static const int kCommandFieldNumber = 100;
   ::blox_test::SysInfo::Command command() const;
   void set_command(::blox_test::SysInfo::Command value);
 
@@ -561,6 +567,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::internal::ArenaStringPtr releasedate_;
   ::google::protobuf::internal::ArenaStringPtr protocoldate_;
   int platform_;
+  ::google::protobuf::uint32 ip_;
   int command_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SysInfo_5ftest_2eproto::TableStruct;
@@ -901,7 +908,21 @@ inline void Block::set_allocated_protocoldate(::std::string* protocoldate) {
   // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.protocolDate)
 }
 
-// .blox_test.SysInfo.Command command = 10;
+// uint32 ip = 10 [(.nanopb) = {
+inline void Block::clear_ip() {
+  ip_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::ip() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.ip)
+  return ip_;
+}
+inline void Block::set_ip(::google::protobuf::uint32 value) {
+  
+  ip_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.ip)
+}
+
+// .blox_test.SysInfo.Command command = 100;
 inline void Block::clear_command() {
   command_ = 0;
 }
@@ -915,7 +936,7 @@ inline void Block::set_command(::blox_test::SysInfo::Command value) {
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.command)
 }
 
-// repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
+// repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
 inline int Block::trace_size() const {
   return trace_.size();
 }
