@@ -86,7 +86,7 @@ public:
                 pinStates &= ~mask;
                 return IoValue::Digital(State::Inactive);
             }
-            if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
+            if (std::holds_alternative<IoValue::Setup::OutputPwm>(*v)) {
                 pinStates &= ~mask;
                 return IoValue::PWM{0};
             } else {

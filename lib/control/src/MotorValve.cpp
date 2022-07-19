@@ -19,8 +19,6 @@
 
 #include "control/MotorValve.hpp"
 
-#if 0 // todo
-
 void MotorValve::state(const State& v)
 {
     auto oldState = m_desiredValveState;
@@ -55,14 +53,14 @@ void MotorValve::applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr)
     // ACTIVE HIGH means latch pull down enabled, so the input to the H-bridge is inverted.
     // We keep the motor enabled just in case. The valve itself has an internal shutoff.
     if (v == ValveState::Opening || v == ValveState::Open) {
-        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::DRIVING_OFF);
-        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::DRIVING_ON);
+        devPtr->writeChannel(m_startChannel + chanOpeningHigh, IoValue::Digital{State::Inactive});
+        devPtr->writeChannel(m_startChannel + chanClosingHigh, IoValue::Digital{State::Active});
     } else if (v == ValveState::Closing || v == ValveState::Closed) {
-        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::DRIVING_ON);
-        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::DRIVING_OFF);
+        devPtr->writeChannel(m_startChannel + chanOpeningHigh, IoValue::Digital{State::Active});
+        devPtr->writeChannel(m_startChannel + chanClosingHigh, IoValue::Digital{State::Inactive});
     } else {
-        devPtr->writeChannelConfig(m_startChannel + chanOpeningHigh, DS2408::ChannelConfig::DRIVING_ON);
-        devPtr->writeChannelConfig(m_startChannel + chanClosingHigh, DS2408::ChannelConfig::DRIVING_ON);
+        devPtr->writeChannel(m_startChannel + chanOpeningHigh, IoValue::Digital{State::Active});
+        devPtr->writeChannel(m_startChannel + chanClosingHigh, IoValue::Digital{State::Active});
     }
 }
 
@@ -73,37 +71,32 @@ MotorValve::getValveState(const std::shared_ptr<DS2408>& devPtr) const
         return ValveState::Unknown;
     }
 
-    State isClosedPin = State::Unknown;
-    devPtr->senseChannel(m_startChannel + chanIsClosed, isClosedPin);
-    State isOpenPin = State::Unknown;
-    devPtr->senseChannel(m_startChannel + chanIsOpen, isOpenPin);
+    auto isClosedPin = devPtr->readChannel(m_startChannel + chanIsClosed);
+    auto isOpenPin = devPtr->readChannel(m_startChannel + chanIsOpen);
 
-    using Config = DS2408::ChannelConfig;
-    Config openChan = Config::UNKNOWN;
-    devPtr->readChannelConfig(m_startChannel + chanOpeningHigh, openChan);
-    Config closeChan = Config::UNKNOWN;
-    devPtr->readChannelConfig(m_startChannel + chanClosingHigh, closeChan);
+    auto openChan = devPtr->readChannel(m_startChannel + chanOpeningHigh);
+    auto closeChan = devPtr->readChannel(m_startChannel + chanClosingHigh);
 
     ValveState vs = ValveState::Unknown;
 
     // Note: signal to H-bridge is inverted because active high enables a pull down latch
-    if (openChan == Config::DRIVING_OFF && closeChan == Config::DRIVING_ON) {
+    if (openChan == IoValue::Digital{State::Inactive} && closeChan == IoValue::Digital{State::Active}) {
         vs = ValveState::Opening;
-    } else if (openChan == Config::DRIVING_ON && closeChan == Config::DRIVING_OFF) {
+    } else if (openChan == IoValue::Digital{State::Active} && closeChan == IoValue::Digital{State::Inactive}) {
         vs = ValveState::Closing;
-    } else if (openChan == Config::DRIVING_ON && closeChan == Config::DRIVING_ON) {
+    } else if (openChan == IoValue::Digital{State::Active} && closeChan == IoValue::Digital{State::Active}) {
         vs = ValveState::HalfOpenIdle;
     } else {
         return ValveState::InitIdle; // return immediately to get out of init state
     }
 
-    if (isOpenPin == State::Active) {
+    if (isOpenPin == IoValue::Digital{State::Active}) {
         if (vs != ValveState::Closing) {
             vs = ValveState::Open;
         }
     }
 
-    if (isClosedPin == State::Active) {
+    if (isClosedPin == IoValue::Digital{State::Active}) {
         if (vs != ValveState::Opening) {
             vs = ValveState::Closed;
         }
@@ -142,20 +135,21 @@ void MotorValve::claimChannel()
     if (auto devPtr = m_target.lock()) {
         if (m_startChannel != 0) {
             for (uint8_t i = 0; i < 4; ++i) {
-                devPtr->releaseChannel(m_startChannel + i);
+                // release previous channels
+                devPtr->writeChannel(m_startChannel + i, IoValue::Setup::Unused{});
             }
             m_startChannel = 0;
         }
         if (m_desiredChannel == 1 || m_desiredChannel == 5) { // only 2 valid options
-            bool success = devPtr->claimChannel(m_desiredChannel + chanIsClosed, IoArray::ChannelConfig::INPUT);
-            success = devPtr->claimChannel(m_desiredChannel + chanIsOpen, IoArray::ChannelConfig::INPUT) && success;
-            success = devPtr->claimChannel(m_desiredChannel + chanOpeningHigh, IoArray::ChannelConfig::DRIVING_ON) && success;
-            success = devPtr->claimChannel(m_desiredChannel + chanClosingHigh, IoArray::ChannelConfig::DRIVING_ON) && success;
+            bool success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanIsClosed, IoValue::Setup::InputDigital{}));
+            success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanIsOpen, IoValue::Setup::InputDigital{})) && success;
+            success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanOpeningHigh, IoValue::Setup::OutputDigital{})) && success;
+            success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanClosingHigh, IoValue::Setup::OutputDigital{})) && success;
             if (success) {
                 m_startChannel = m_desiredChannel;
             } else {
                 for (uint8_t i = 0; i < 4; ++i) {
-                    devPtr->releaseChannel(m_desiredChannel + i); // cancel all channels again
+                    devPtr->writeChannel(m_desiredChannel + i, IoValue::Setup::Unused{}); // cancel all channels again
                 }
             }
         } else {
@@ -163,5 +157,3 @@ void MotorValve::claimChannel()
         }
     }
 }
-
-#endif

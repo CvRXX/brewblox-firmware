@@ -153,6 +153,14 @@ using variant = std::variant<Error,
                              PWM,
                              DigitalBidir,
                              PWMBidir>;
+
+inline bool operator==(const variant& v, const Digital& t)
+{
+    if (auto* val = std::get_if<Digital>(&v)) {
+        return val->state() == t.state();
+    };
+    return false;
+}
 };
 
 /*

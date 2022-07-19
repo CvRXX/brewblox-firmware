@@ -233,7 +233,6 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         }
     }
 
-#if 0
     WHEN("A mock DS2413 is attached")
     {
         auto addr3 = makeValidAddress(0x002222334455663A);
@@ -266,28 +265,28 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
             CHECK(act1.state() == State::Inactive);
             CHECK(act2.state() == State::Inactive);
-            CHECK(ds1->readChannel(1).value() == 0);
-            CHECK(ds1->readChannel(2).value() == 0);
+            CHECK(ds1->readChannel(1) == IoValue::Digital{State::Inactive});
+            CHECK(ds1->readChannel(2) == IoValue::Digital{State::Inactive});
 
             act1.state(State::Active);
             CHECK(act1.state() == State::Active);
-            CHECK(ds1->readChannel(1).value() == 1);
-            CHECK(ds1->readChannel(2).value() == 0);
+            CHECK(ds1->readChannel(1) == IoValue::Digital{State::Active});
+            CHECK(ds1->readChannel(2) == IoValue::Digital{State::Inactive});
 
             act2.state(State::Active);
             CHECK(act2.state() == State::Active);
-            CHECK(ds1->readChannel(1).value() == 1);
-            CHECK(ds1->readChannel(2).value() == 1);
+            CHECK(ds1->readChannel(1) == IoValue::Digital{State::Active});
+            CHECK(ds1->readChannel(2) == IoValue::Digital{State::Active});
 
             act1.state(State::Inactive);
             CHECK(act1.state() == State::Inactive);
-            CHECK(ds1->readChannel(1).value() == 0);
-            CHECK(ds1->readChannel(2).value() == 1);
+            CHECK(ds1->readChannel(1) == IoValue::Digital{State::Inactive});
+            CHECK(ds1->readChannel(2) == IoValue::Digital{State::Active});
 
             act2.state(State::Inactive);
             CHECK(act2.state() == State::Inactive);
-            CHECK(ds1->readChannel(1).value() == 0);
-            CHECK(ds1->readChannel(2).value() == 0);
+            CHECK(ds1->readChannel(1) == IoValue::Digital{State::Inactive});
+            CHECK(ds1->readChannel(2) == IoValue::Digital{State::Inactive});
         }
 
         THEN("A DS2413 class can use it as input")
@@ -313,11 +312,9 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
             ds1->update();
             auto v1 = ds1->readChannel(1);
-            CHECK(v1.has_value());
-            CHECK(v1.value() == 0);
+            CHECK(v1 == IoValue::Digital{State::Inactive});
             auto v2 = ds1->readChannel(2);
-            CHECK(v2.has_value());
-            CHECK(v2.value() == 1);
+            CHECK(v2 == IoValue::Digital{State::Active});
         }
     }
 
@@ -338,6 +335,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             addr = ow.ptr->search();
             CHECK(addr == addr4);
         }
+
         THEN("A DS2408 class can use it as input on some pins and output on others")
         {
             using State = InputDigital::State;
@@ -386,6 +384,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             CHECK(act8.state() == State::Active);
         }
     }
+
     WHEN("3x DS18B20, DS2413, and DS2408 are connected")
     {
         auto addrSensor1 = OneWireAddress(0x7E11'1111'1111'1128);
@@ -455,5 +454,4 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             CHECK(addr == OneWireAddress(0));
         }
     }
-#endif
 }

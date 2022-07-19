@@ -23,24 +23,18 @@
 #include <functional>
 #include <memory>
 
-#if 0
 using State = InputDigital::State;
 
 State InputDigital::state() const
 {
     if (channelReady()) {
         if (auto devPtr = m_target.lock()) {
-            State result = State::Unknown;
-            if (auto v = devPtr->readChannel(m_channel)) {
-                result = *v > 0 ? State::Active : State::Inactive;
-                if (m_invert) {
-                    result = invertState(result);
-                }
-                return result;
+            auto ioValue = devPtr->readChannel(m_channel);
+            if (auto v = std::get_if<IoValue::Digital>(&ioValue)) {
+                return m_invert ? invertState(v->state()) : v->state();
             }
         }
     }
-
     return State::Unknown;
 }
 
@@ -49,9 +43,7 @@ void InputDigital::claimChannel()
     if (auto devPtr = m_target.lock()) {
         if (m_channel != 0) {
             // release old channel
-            if (!devPtr->setChannelType(m_channel, IoArray::ChannelType::UNUSED, IoArray::ChannelType::UNKNOWN)) {
-                return;
-            }
+            devPtr->writeChannel(m_channel, IoValue::Setup::Unused{});
         }
 
         if (m_desiredChannel == 0) {
@@ -59,9 +51,9 @@ void InputDigital::claimChannel()
             return;
         }
         // claim new channel
-        if (devPtr->setChannelType(m_desiredChannel, IoArray::ChannelType::INPUT_DIGITAL, IoArray::ChannelType::UNUSED)) {
+        auto result = devPtr->writeChannel(m_desiredChannel, IoValue::Setup::InputDigital{});
+        if (std::holds_alternative<IoValue::Digital>(result)) {
             m_channel = m_desiredChannel;
         }
     }
 }
-#endif

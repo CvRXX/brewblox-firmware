@@ -32,7 +32,11 @@ static constexpr uint8_t ADDRESS_UPPER = 0x00;
 static constexpr uint8_t ADDRESS_PIO_STATE_LOWER = 0x88;
 static constexpr uint8_t ADDRESS_LATCH_STATE_LOWER = 0x89;
 
-#if 0
+constexpr uint8_t bitMask(uint8_t channel)
+{
+    return uint8_t{0x01} << (channel - 1);
+}
+
 bool DS2408::writeNeeded() const
 {
     return !connected() || desiredLatches != latches;
@@ -88,31 +92,51 @@ bool DS2408::update()
     return success;
 }
 
-IoArray::IoValue::variant DS2408::readChannelImpl(uint8_t channel) const
+IoValue::variant DS2408::readChannelImpl(uint8_t channel) const
 {
 
     // to reduce onewire communication, we assume the last read value in update() is correct
     // only in update(), actual onewire communication will take place to get the latest state
     // channel validity has already been checked in base class
     if (connected()) {
-        uint8_t mask = uint8_t{0x01} << (channel - 1);
-
         // A 0 means the pin is pulled down, which is the active state
-        return (pins & mask) > 0 ? IoArray::IoValue::variant{0} : IoArray::IoValue::variant{1};
+        return (pins & bitMask(channel)) > 0 ? IoValue::Digital{State::Inactive} : IoValue::Digital{State::Active};
     }
-    return IoArray::IoValue::variant{};
+    return IoValue::Error::DISCONNECTED;
 }
 
-IoArray::IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoArray::IoValue::variant val)
+IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoValue::variant val)
 {
-    bool latchEnabled = val.has_value() && *val > 0;
-    uint8_t mask = uint8_t{0x01} << (channel - 1);
+    auto mask = bitMask(channel);
 
-    if (latchEnabled) {
-        desiredLatches &= ~mask;
-    } else {
-        desiredLatches |= mask;
+    if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
+            desiredLatches |= mask; // disable latch
+            return IoValue::Digital(State::Inactive);
+        }
+        if (std::holds_alternative<IoValue::Setup::InputDigital>(*v)) {
+            desiredLatches |= mask; // disable latch
+            return IoValue::Digital(State::Inactive);
+        }
+        if (std::holds_alternative<IoValue::Setup::Unused>(*v)) {
+            desiredLatches |= bitMask(channel); // disable latch
+            return IoValue::Error::NOT_CONFIGURED;
+        }
+        return IoValue::Error::UNSUPPORTED_SETUP;
     }
+
+    if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        if (v->state() == IoValue::State::Active) {
+            desiredLatches &= ~mask; // enable latch
+        } else if (v->state() == IoValue::State::Inactive) {
+            desiredLatches |= mask; // disable latch
+        } else {
+            return IoValue::Error::UNSUPPORTED_VALUE;
+        }
+    } else {
+        return IoValue::Error::UNSUPPORTED_VALUE;
+    }
+
     if (writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
         // they will reconnect in the normal update tick, which should happen every second
@@ -120,14 +144,3 @@ IoArray::IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoArray::IoV
     }
     return readChannelImpl(channel);
 }
-
-bool DS2408::setChannelTypeImpl(uint8_t channel, ChannelType chanType)
-{
-    if (chanType == ChannelType::OUTPUT_DIGITAL || chanType == ChannelType::INPUT_DIGITAL) {
-        // disable latch. For inputs it stays disabled. For outputs it can be toggled later.
-        writeChannelImpl(channel, 0);
-        return true;
-    }
-    return false;
-}
-#endif
