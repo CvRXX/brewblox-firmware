@@ -155,11 +155,7 @@ public:
         }
 
         blox_OneWireGpioModule_GpioDeviceType deviceType = blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE;
-        ChannelConfig config = ChannelConfig::UNUSED;
         uint8_t width;
-        uint8_t pwm_duty = 0;
-        uint8_t pwm_target = 0;
-        uint16_t soft_start = 250;
 
         uint8_t pins() const
         {
@@ -168,7 +164,6 @@ public:
             // return only 1 bit per pin
             return converted.up();
         }
-        void apply(ChannelConfig& config, ChanBitsInternal& op_ctrl);
 
     private:
         ChanBitsInternal pins_mask; // pins controlled by this channel
@@ -176,8 +171,7 @@ public:
     };
 
     virtual IoValue::variant readChannelImpl(uint8_t channel) const final;
-    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) final;
-    virtual bool setChannelTypeImpl(uint8_t channel, ChannelType type) final;
+    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
 
     void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;

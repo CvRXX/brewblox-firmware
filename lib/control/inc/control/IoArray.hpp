@@ -37,21 +37,20 @@ enum class Error : uint8_t {
     CHANNEL_IN_USE,
     IO_ERROR,
     DISCONNECTED,
+    CHANNEL_TYPE_NOT_SET,
+    CHANNEL_PINS_NOT_SET,
+    NOT_IMPLEMENTED,
 };
 
 namespace Setup {
     struct Unused {};
     struct OutputDigital {};
     struct OutputPwm {};
-    struct OutputDigitalBidir {};
-    struct OutputPwmBidir {};
     struct InputDigital {};
 
     using variant = std::variant<Unused,
                                  OutputDigital,
                                  OutputPwm,
-                                 OutputDigitalBidir,
-                                 OutputPwmBidir,
                                  InputDigital>;
 }; // end snamespace IoValue::Setup
 
@@ -118,22 +117,17 @@ public:
         }
         return State::Inactive;
     }
-};
 
-class DigitalBidir final : public Digital {
-    using Digital::Digital;
-};
-
-class PWMBidir final : public PWM {
-    using PWM::PWM;
+    [[nodiscard]] duty_t duty() const
+    {
+        return _duty;
+    }
 };
 
 using variant = std::variant<Error,
                              Setup::variant,
                              Digital,
-                             PWM,
-                             DigitalBidir,
-                             PWMBidir>;
+                             PWM>;
 
 inline bool operator==(const variant& v, const Digital& t)
 {
