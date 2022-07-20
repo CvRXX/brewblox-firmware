@@ -26,15 +26,17 @@
 
 using State = ActuatorDigitalBase::State;
 
-void ActuatorDigital::state(const State& v)
+void ActuatorDigital::state(State v)
 {
     if (channelReady()) {
         if (auto devPtr = m_target.lock()) {
-            auto newState = v;
-            if (m_invert) {
-                newState = invertState(v);
+            if (v != State::Active) {
+                v = State::Inactive;
             }
-            devPtr->writeChannel(m_channel, IoValue::Digital{newState == State::Active});
+            if (m_invert) {
+                v = invertState(v);
+            }
+            devPtr->writeChannel(m_channel, IoValue::Digital{v});
         }
     }
 }

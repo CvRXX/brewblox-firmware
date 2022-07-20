@@ -51,7 +51,7 @@ public:
 
         const auto setting = desired(channel);
         if (std::holds_alternative<IoValue::Digital>(setting)) {
-            return IoValue::Digital(pinStates & mask);
+            return IoValue::Digital(pinStates & mask ? State::Active : State::Inactive);
         } else if (std::holds_alternative<IoValue::PWM>(setting)) {
             // just return desired value
             return setting;

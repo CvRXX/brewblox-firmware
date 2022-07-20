@@ -68,7 +68,7 @@ public:
         startChannel(0); // release channels before destruction
     }
 
-    void state(const State& v) final;
+    void state(State v) final;
     State state() const final;
 
     ValveState valveState() const

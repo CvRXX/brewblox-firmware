@@ -24,52 +24,81 @@
 namespace platform::particle {
 
 // generic ArrayIO interface
-bool SparkIoBase::senseChannelImpl(uint8_t channel, State& result) const
+IoValue::variant SparkIoBase::readChannelImpl(uint8_t channel) const
 {
     auto pin = channelToPin(channel);
-    if (pin != static_cast<decltype(pin)>(-1)) {
-        result = pinReadFast(pin) != 0 ? State::Active : State::Inactive;
-        return true;
+    if (pin == static_cast<decltype(pin)>(-1)) {
+        return IoValue::Error::INVALID_CHANNEL;
     }
-    return false;
+    return pinReadFast(pin) != 0 ? IoValue::Digital{State::Active} : IoValue::Digital{State::Inactive};
 }
 
-bool SparkIoBase::writeChannelImpl(uint8_t channel, ChannelConfig config)
+// prevent inlining of hal function to save code size
+void pinMode(pin_t pin, PinMode setMode)
+{
+    HAL_Pin_Mode(pin, setMode);
+}
+
+IoValue::variant SparkIoBase::writeChannelImpl(uint8_t channel, IoValue::variant val)
 {
     auto pin = channelToPin(channel);
-    if (pin != static_cast<decltype(pin)>(-1)) {
-#ifdef PIN_V3_TOP1_DIR
-        if (pin == PIN_V3_TOP1) {
-            bool isOutput = (config == ChannelConfig::DRIVING_ON || config == ChannelConfig::DRIVING_OFF);
-            HAL_Pin_Mode(PIN_V3_TOP1_DIR, OUTPUT);
-            digitalWriteFast(PIN_V3_TOP1_DIR, isOutput);
-        }
-#endif
-#ifdef PIN_V3_TOP2_DIR
-        if (pin == PIN_V3_TOP2) {
-            bool isOutput = (config == ChannelConfig::DRIVING_ON || config == ChannelConfig::DRIVING_OFF);
-            HAL_Pin_Mode(PIN_V3_TOP2_DIR, OUTPUT);
-            digitalWriteFast(PIN_V3_TOP2_DIR, isOutput);
-        }
-#endif
-        switch (config) {
-        case ChannelConfig::DRIVING_ON:
-            HAL_Pin_Mode(pin, OUTPUT);
-            digitalWriteFast(pin, true);
-            break;
-        case ChannelConfig::DRIVING_OFF:
-            HAL_Pin_Mode(pin, OUTPUT);
-            digitalWriteFast(pin, false);
-            break;
-        case ChannelConfig::INPUT:
-        case ChannelConfig::UNUSED:
-        case ChannelConfig::UNKNOWN:
-            HAL_Pin_Mode(pin, INPUT_PULLDOWN);
-            break;
-        }
-        return true;
+    if (pin == static_cast<decltype(pin)>(-1)) {
+        return IoValue::Error::INVALID_CHANNEL;
     }
-    return false;
+
+    if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        auto state = v->state();
+        if (state == IoValue::State::Active) {
+            pinSetFast(pin);
+            return IoValue::Digital{state};
+        } else if (state == IoValue::State::Inactive) {
+            pinResetFast(pin);
+            return IoValue::Digital{state};
+        }
+        return IoValue::Error::UNSUPPORTED_VALUE;
+    }
+
+    if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
+#if defined(PIN_V3_TOP1_DIR)
+            if (pin == PIN_V3_TOP1) {
+                // will also set pin mode, smaller code size than HAL_Pin_Mode and pinSetFast due to inlining
+                HAL_GPIO_Write(PIN_V3_TOP1_DIR, HIGH);
+            }
+#endif
+#if defined(PIN_V3_TOP2_DIR)
+            if (pin == PIN_V3_TOP2) {
+                HAL_GPIO_Write(PIN_V3_TOP2_DIR, HIGH);
+            }
+#endif
+            HAL_GPIO_Write(pin, LOW);
+            return IoValue::Digital(State::Inactive);
+        }
+        if (std::holds_alternative<IoValue::Setup::InputDigital>(*v)) {
+            // support inputs on top 1 and top 2 of spark 3
+#if defined(PIN_V3_TOP1_DIR)
+            if (pin == PIN_V3_TOP1) {
+                HAL_GPIO_Write(PIN_V3_TOP1_DIR, LOW);
+                pinMode(pin, INPUT_PULLDOWN);
+                return IoValue::Digital(State::Inactive);
+            }
+#endif
+#if defined(PIN_V3_TOP2_DIR)
+            if (pin == PIN_V3_TOP2) {
+                HAL_GPIO_Write(PIN_V3_TOP2_DIR, LOW);
+                pinMode(pin, INPUT_PULLDOWN);
+                return IoValue::Digital(State::Inactive);
+            }
+#endif
+            return IoValue::Error::UNSUPPORTED_SETUP;
+        }
+        if (std::holds_alternative<IoValue::Setup::Unused>(*v)) {
+            pinMode(pin, INPUT_PULLDOWN);
+            return IoValue::Error::NOT_CONFIGURED;
+        }
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+    return IoValue::Error::UNSUPPORTED_VALUE;
 }
 
 } // end namespace platform::particle

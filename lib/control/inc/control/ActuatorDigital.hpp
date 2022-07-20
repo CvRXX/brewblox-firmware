@@ -55,7 +55,7 @@ public:
         channel(0); // release channel before destruction
     }
 
-    void state(const State& v) final;
+    void state(State v) final;
 
     [[nodiscard]] State state() const final;
 

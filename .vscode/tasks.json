@@ -18,6 +18,21 @@
       "problemMatcher": "$gcc"
     },
     {
+      "label": "Build P1 monolithic",
+      "command": "script/build.sh",
+      "args": [
+        "p1",
+        "MODULAR=n"
+      ],
+      "group": "build",
+      "presentation": {
+        "panel": "shared",
+        "focus": true,
+        "clear": false
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
       "label": "Build Photon",
       "command": "script/build.sh",
       "args": [

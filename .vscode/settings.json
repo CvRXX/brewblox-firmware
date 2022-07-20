@@ -68,8 +68,8 @@
   },
   "remote.localPortHost": "allInterfaces",
   "disasexpl.associations": {
-    "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
-    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
+    "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m-lto/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
+    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m-lto/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
   },
   "cmake.configureOnOpen": false,
   "cmake.cmakePath": "/usr/local/bin/cmake",

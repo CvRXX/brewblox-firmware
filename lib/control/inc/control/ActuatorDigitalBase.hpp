@@ -35,7 +35,7 @@ public:
         Reverse = 3,
     };
 
-    virtual void state(const State& v) = 0;
+    virtual void state(State v) = 0;
 
     [[nodiscard]] virtual State state() const = 0;
 

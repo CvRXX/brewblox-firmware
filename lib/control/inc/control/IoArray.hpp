@@ -55,36 +55,31 @@ namespace Setup {
                                  InputDigital>;
 }; // end snamespace IoValue::Setup
 
-struct Transition {
-    uint16_t current = 0;
-    uint16_t target = 0;
-};
+// struct Transition {
+//     uint16_t current = 0;
+//     uint16_t target = 0;
+// };
 
-class Base {
-private:
-    std::optional<Transition> _transition;
+// class Base {
+// private:
+//     std::optional<Transition> _transition;
 
-protected:
-    ~Base() = default;
+// protected:
+//     ~Base() = default;
 
-    explicit Base(std::optional<Transition> t = {})
-        : _transition{t}
-    {
-    }
+//     explicit Base(std::optional<Transition> t = {})
+//         : _transition{t}
+//     {
+//     }
 
-    Base(const Base&) = default;
-    Base(Base&&) = default;
-    Base& operator=(const Base&) = default;
-    Base& operator=(Base&&) = default;
+// public:
+//     [[nodiscard]] std::optional<Transition> transition() const
+//     {
+//         return _transition;
+//     }
+// };
 
-public:
-    [[nodiscard]] std::optional<Transition> transition() const
-    {
-        return _transition;
-    }
-};
-
-class Digital : public Base {
+class Digital {
 private:
     State _state;
 
@@ -93,15 +88,6 @@ public:
         : _state(s)
     {
     }
-    explicit Digital(bool s)
-        : _state{State{s}}
-    {
-    }
-    virtual ~Digital() = default;
-    Digital(const Digital&) = default;
-    Digital(Digital&&) = default;
-    Digital& operator=(const Digital&) = default;
-    Digital& operator=(Digital&&) = default;
 
     [[nodiscard]] State state() const
     {
@@ -109,7 +95,7 @@ public:
     }
 };
 
-class PWM : public Base {
+class PWM {
 public:
     using duty_t = ActuatorAnalog::value_t;
 
@@ -121,11 +107,6 @@ public:
         : _duty{d}
     {
     }
-    virtual ~PWM() = default;
-    PWM(const PWM&) = default;
-    PWM(PWM&&) = default;
-    PWM& operator=(const PWM&) = default;
-    PWM& operator=(PWM&&) = default;
 
     [[nodiscard]] State state() const
     {
@@ -170,7 +151,7 @@ class IoArray {
 public:
     using State = ActuatorDigitalBase::State;
     explicit IoArray(uint8_t size)
-        : channels(size)
+        : channels{size}
     {
     }
 
@@ -181,24 +162,10 @@ public:
 
     virtual ~IoArray() = default;
 
-    bool validChannel(uint8_t channel) const
+    [[nodiscard]] bool validChannel(uint8_t channel) const
     {
         // first channel is 1, because 0 is used as 'unconfigured'
         return channel > 0 && channel <= size();
-    }
-
-    // writes default value of type to channel
-    void defaultConfig(uint8_t channel)
-    {
-        if (std::holds_alternative<IoValue::Digital>(channels[channel].desired)) {
-            writeChannelImpl(channel, IoValue::Digital(State::Inactive));
-        } else if (std::holds_alternative<IoValue::DigitalBidir>(channels[channel].desired)) {
-            writeChannelImpl(channel, IoValue::Digital(State::Inactive));
-        } else if (std::holds_alternative<IoValue::DigitalBidir>(channels[channel].desired)) {
-            writeChannelImpl(channel, IoValue::PWM(0));
-        } else if (std::holds_alternative<IoValue::DigitalBidir>(channels[channel].desired)) {
-            writeChannelImpl(channel, IoValue::PWMBidir(0));
-        }
     }
 
     // returns written value or error
@@ -211,10 +178,8 @@ public:
 
         // for setup values handle claiming/releasing the channel
         if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
-            // check if new value is a channel release
-            if (std::holds_alternative<IoValue::Setup::Unused>(*v)) {
-                defaultConfig(channel);
-            } else {
+            // if new value is not a channel release, check if channel is in use
+            if (!std::holds_alternative<IoValue::Setup::Unused>(*v)) {
                 // only allow setup on unused channels
                 if (auto* current = std::get_if<IoValue::Error>(&chan.desired)) {
                     if (*current != IoValue::Error::NOT_CONFIGURED) {
@@ -236,7 +201,7 @@ public:
         return result;
     }
 
-    IoValue::variant readChannel(uint8_t channel) const
+    [[nodiscard]] IoValue::variant readChannel(uint8_t channel) const
     {
         if (!validChannel(channel)) {
             return IoValue::Error::INVALID_CHANNEL;
@@ -244,16 +209,16 @@ public:
         return readChannelImpl(channel);
     }
 
-    uint8_t size() const
+    [[nodiscard]] size_t size() const
     {
         return channels.size();
     }
 
 protected:
-    virtual IoValue::variant readChannelImpl(uint8_t channel) const = 0;
-    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
+    [[nodiscard]] virtual IoValue::variant readChannelImpl(uint8_t channel) const = 0;
+    [[nodiscard]] virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
 
-    IoValue::variant desired(uint8_t channel) const
+    [[nodiscard]] IoValue::variant desired(uint8_t channel) const
     {
         if (!validChannel(channel)) {
             return IoValue::Error::INVALID_CHANNEL;
@@ -267,5 +232,5 @@ private:
         IoValue::variant actual = IoValue::Error::NOT_CONFIGURED;
     };
 
-    mutable std::vector<Channel> channels;
+    std::vector<Channel> channels;
 };

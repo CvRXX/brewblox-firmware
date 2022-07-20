@@ -19,7 +19,7 @@
 
 #include "control/MotorValve.hpp"
 
-void MotorValve::state(const State& v)
+void MotorValve::state(State v)
 {
     auto oldState = m_desiredValveState;
     if (v == State::Active) {
