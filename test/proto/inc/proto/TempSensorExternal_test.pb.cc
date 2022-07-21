@@ -92,15 +92,16 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\035TempSensorExternal_test.proto\022\034blox_te"
       "st.TempSensorExternal\032\023brewblox_test.pro"
-      "to\032\021nanopb_test.proto\"\315\001\n\005Block\022\017\n\007enabl"
+      "to\032\021nanopb_test.proto\"\323\001\n\005Block\022\017\n\007enabl"
       "ed\030\001 \001(\010\022\034\n\007timeout\030\002 \001(\rB\013\212\265\030\002\010\003\222\?\0028 \022)"
       "\n\007setting\030\003 \001(\021B\030\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028"
-      " \022&\n\013lastUpdated\030\004 \001(\rB\021\212\265\030\0020\001\212\265\030\002(\001\222\?\0028"
-      " \022-\n\005value\030\005 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \212\265\030"
-      "\002(\001\222\?\0028 :\023\212\265\030\003\030\310\002\212\265\030\002H\002\212\265\030\002H\017b\006proto3"
+      " \022,\n\013lastUpdated\030\004 \001(\rB\027\212\265\030\0020\001\212\265\030\002X\001\212\265\030\002"
+      "(\001\222\?\0028 \022-\n\005value\030\005 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003"
+      "\020\200 \212\265\030\002(\001\222\?\0028 :\023\212\265\030\003\030\310\002\212\265\030\002H\002\212\265\030\002H\017b\006pro"
+      "to3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 317);
+      descriptor, 323);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "TempSensorExternal_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
