@@ -128,7 +128,7 @@ void AddDescriptorsImpl() {
       "\n\032SetpointProfile_test.proto\022\031blox_test."
       "SetpointProfile\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\"b\n\005Point\022\031\n\004time\030\001 \001(\rB\013"
-      "\212\265\030\002\010\001\222\?\0028 \022)\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001"
+      "\212\265\030\002\010\003\222\?\0028 \022)\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001"
       "\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneof\"\307\001\n\005"
       "Block\0220\n\006points\030\001 \003(\0132 .blox_test.Setpoi"
       "ntProfile.Point\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targ"
