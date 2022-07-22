@@ -67,10 +67,10 @@ State state()
 uint32_t ip4()
 {
     if (ethernet::state() == network::State::CONNECTED) {
-        return ethernet::ip4().addr;
+        return esp_netif_htonl(ethernet::ip4().addr);
     }
     if (wifi::state() == network::State::CONNECTED) {
-        return wifi::ip4().addr;
+        return esp_netif_htonl(wifi::ip4().addr);
     }
     return 0;
 }
