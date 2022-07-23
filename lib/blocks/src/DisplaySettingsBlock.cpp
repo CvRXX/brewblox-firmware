@@ -46,7 +46,14 @@ DisplaySettingsBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_DisplaySettings_Block_fields)) {
         if (parser.hasField(blox_DisplaySettings_Block_widgets_tag)) {
-            std::copy(std::begin(message.widgets), std::end(message.widgets), std::begin(m_settings.widgets));
+            for (auto i = 0; i < message.widgets_count; i++) {
+                blox_DisplaySettings_Widget widget = message.widgets[i];
+                m_settings.widgets[i] = widget;
+            }
+            for (auto i = message.widgets_count; i < 6; i++) {
+                blox_DisplaySettings_Widget widget = blox_DisplaySettings_Widget_init_zero;
+                m_settings.widgets[i] = widget;
+            }
         }
         if (parser.hasField(blox_DisplaySettings_Block_name_tag)) {
             std::copy(std::begin(message.name), std::end(message.name), std::begin(m_settings.name));
