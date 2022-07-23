@@ -46,6 +46,7 @@ DisplaySettingsBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_DisplaySettings_Block_fields)) {
         if (parser.hasField(blox_DisplaySettings_Block_widgets_tag)) {
+            m_settings.widgets_count = message.widgets_count;
             for (auto i = 0; i < message.widgets_count; i++) {
                 blox_DisplaySettings_Widget widget = message.widgets[i];
                 m_settings.widgets[i] = widget;
