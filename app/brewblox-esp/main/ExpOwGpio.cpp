@@ -84,10 +84,15 @@ void ExpOwGpio::init_driver()
 {
     // set overvoltage threshold to 33V and clear all faults
     writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
+
     // disable OLD detect on all pins
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
+
     // disable shutdown on OLD globally (keep bridges operating when OLD is detected)
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
+
+    // use 2.5 V/us slew rate for lower emissions
+    writeDrvRegister(DRV8908::RegAddr::SR_CTRL_1, 0xFF);
 
     //  // enable PWM mode for all half bridges, 100Hz
     // writeDrvRegister(DRV8908::RegAddr::PWM_FREQ_CTRL_1, 0b01010101);
@@ -169,12 +174,13 @@ IoValue::variant ExpOwGpio::writeChannelImpl(uint8_t channel, IoValue::variant v
         return IoValue::Error::INVALID_CHANNEL;
     }
 
-    uint8_t idx = channel - 1;
+    auto& chan = flexChannels[channel - 1];
 
     ChanBitsInternal drive_bits;
 
     if (auto* v = std::get_if<IoValue::Digital>(&val)) {
         if (v->state() == IoValue::State::Active) {
+            writeDrvRegister(DRV8908::RegAddr::SR_CTRL_2, 0x0F);
             drive_bits.bits.all = when_active_mask.bits.all;
         } else if (v->state() == IoValue::State::Inactive) {
             drive_bits.bits.all = when_inactive_mask.bits.all;
@@ -189,40 +195,41 @@ IoValue::variant ExpOwGpio::writeChannelImpl(uint8_t channel, IoValue::variant v
         } else {
             drive_bits.bits.all = ~when_active_mask.bits.all;
         }
-    } else if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
-        if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
-            drive_bits.bits.all = when_inactive_mask.bits.all;
-            val = IoValue::Digital{State::Inactive};
-        } else if (std::holds_alternative<IoValue::Setup::OutputPwm>(*v)) {
-            drive_bits.bits.all = when_active_mask.bits.all;
-            val = IoValue::PWM{0};
-        } else if (std::holds_alternative<IoValue::Setup::InputDigital>(*v)) {
-            drive_bits.bits.all = 0x0000;
-            val = IoValue::Digital{State::Inactive};
-        } else {
-            return IoValue::Error::UNSUPPORTED_SETUP;
-        }
     }
-    op_ctrl_desired.apply(flexChannels[idx].pins_mask, drive_bits);
 
-    // from the datasheet:
-    // The PWM generators are disabled to ensure that all the half-bridges are turned-on at same time to avoid
-    // false OCP conditions for supporting higher current operation.The false OCP condition can arise due to
-    // the minimum time required for the SPI delay to switch on various half-bridges available in different registers.
-    // This can cause higher current (OCP condition) in one of the paralleled half-bridge while other half-bridge turning ON
-    // is delayed to the SPI register write delay and the propagation delay. Therefore, this sequence includes disabling
-    // the PWM generators initially,then enabling half-bridges and followed by enabling the PWM generators to avoid such issue.
-
-    // writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, 0x1 << idx);
-
-    // if (op_ctrl_status.bits.all != op_ctrl_desired.bits.all) {
-    //     write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
-    //     op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
-    // }
-    // writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, 0x00);
+    op_ctrl_desired.apply(chan.pins_mask, drive_bits);
     update();
 
     return val;
+}
+
+IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup)
+{
+    if (!channel || channel > 8) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    auto& chan = flexChannels[channel - 1];
+
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+        writeChannelImpl(channel, IoValue::Digital{State::Inactive});
+        return IoValue::Setup::OutputDigital{
+            .softTransitions = IoValue::Setup::SoftTransitions::OFF};
+    }
+    if (auto* v = std::get_if<IoValue::Setup::OutputPwm>(&setup)) {
+        writeChannelImpl(channel, IoValue::PWM{0});
+        // TODO configure driver
+        // chan.freq = setup->frequency;
+        // chan.soft = setup->soft;
+        return IoValue::Setup::OutputPwm{
+            .softTransitions = IoValue::Setup::SoftTransitions::OFF};
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
+        ChanBitsInternal bits{};
+        op_ctrl_desired.apply(chan.pins_mask, bits);
+        return IoValue::Setup::InputDigital{};
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
 }
 
 // writes 2 consecutive registers
@@ -288,17 +295,46 @@ void ExpOwGpio::update(bool forceRefresh)
 
     auto drv_status = status();
 
-    bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
+    bool ctrlChanged = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
     bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
 
-    if (forceRefresh || updateNeeded || initNeeded) {
+    if (forceRefresh || ctrlChanged || initNeeded) {
         if (initNeeded) {
             init_driver();
         }
 
-        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
-        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
+        // for (uint8_t i = 0; i < flexChannels.size(); ++i) {
+        //     auto desired = desired(i + 1);
+        // }
 
+        // from the datasheet:
+        // The PWM generators are disabled to ensure that all the half-bridges are turned-on at same time to avoid
+        // false OCP conditions for supporting higher current operation.The false OCP condition can arise due to
+        // the minimum time required for the SPI delay to switch on various half-bridges available in different registers.
+        // This can cause higher current (OCP condition) in one of the paralleled half-bridge while other half-bridge turning ON
+        // is delayed to the SPI register write delay and the propagation delay. Therefore, this sequence includes disabling
+        // the PWM generators initially,then enabling half-bridges and followed by enabling the PWM generators to avoid such issue.
+
+        uint8_t changedPins = 0;
+        uint8_t pwmChannels = 0;
+        for (uint8_t i = 0; i < flexChannels.size(); ++i) {
+            uint8_t bit = uint8_t(uint8_t{0x1} << i);
+            auto& chan = flexChannels[i];
+            if (chan.freq != IoValue::Setup::Frequency::FREQ_NONE) {
+                pwmChannels |= bit;
+                if (chan.pins_mask.bits.all ^ op_ctrl_desired.bits.all) {
+                    changedPins |= bit;
+                }
+            }
+        }
+        if (changedPins) {
+            writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, (~pwmChannels) | changedPins);
+        }
+        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
+        if (changedPins) {
+            writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, ~pwmChannels);
+        }
+        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
         drv_status = status(); // use latest status returned during read of registers
 
         if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {

@@ -156,6 +156,9 @@ public:
 
         blox_OneWireGpioModule_GpioDeviceType deviceType = blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE;
         uint8_t width;
+        IoValue::PWM::duty_t duty = 0;
+        IoValue::Setup::Frequency freq = IoValue::Setup::Frequency::FREQ_NONE;
+        IoValue::Setup::SoftTransitions soft = IoValue::Setup::SoftTransitions::OFF;
 
         uint8_t pins() const
         {
@@ -172,6 +175,7 @@ public:
 
     virtual IoValue::variant readChannelImpl(uint8_t channel) const final;
     virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
+    virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant val) final;
 
     void setupChannel(uint8_t channel, FlexChannel c);
     const FlexChannel& getChannel(uint8_t channel) const;
