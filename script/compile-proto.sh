@@ -10,7 +10,7 @@ handle_error() {
 trap handle_error ERR
 
 # Paths must be absolute
-EXT_PROTO_DIR="$(readlink -f external_libs/brewblox-proto)"
+EXT_PROTO_DIR="$(readlink -f external_libs/brewblox-proto/proto)"
 
 LIB_PROTO_DIR="$(readlink -f lib/proto)"
 LIB_OUT_DIR="${LIB_PROTO_DIR}/inc/proto"
