@@ -89,6 +89,7 @@ public:
             // Periodic retry to claim channel in case target didn't exist
             // at earlier tries
             claimChannel();
+            state(State::Inactive);
         }
     }
 

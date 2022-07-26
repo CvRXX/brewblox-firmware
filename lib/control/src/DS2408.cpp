@@ -92,6 +92,25 @@ bool DS2408::update()
     return success;
 }
 
+IoValue::Setup::variant DS2408::setupChannelImpl(uint8_t channel, IoValue::Setup::variant val)
+{
+    auto mask = bitMask(channel);
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(val)) {
+        desiredLatches |= mask; // disable latch
+        return IoValue::Setup::OutputDigital{
+            .softTransitions = IoValue::Setup::SoftTransitions::NOT_SUPPORTED};
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(val)) {
+        desiredLatches |= mask; // disable latch
+        return IoValue::Setup::InputDigital{};
+    }
+    if (std::holds_alternative<IoValue::Setup::Unused>(val)) {
+        desiredLatches |= bitMask(channel); // disable latch
+        return IoValue::Setup::Unused{};
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
+}
+
 IoValue::variant DS2408::readChannelImpl(uint8_t channel) const
 {
 
@@ -108,22 +127,6 @@ IoValue::variant DS2408::readChannelImpl(uint8_t channel) const
 IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoValue::variant val)
 {
     auto mask = bitMask(channel);
-
-    if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
-        if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
-            desiredLatches |= mask; // disable latch
-            return IoValue::Digital(State::Inactive);
-        }
-        if (std::holds_alternative<IoValue::Setup::InputDigital>(*v)) {
-            desiredLatches |= mask; // disable latch
-            return IoValue::Digital(State::Inactive);
-        }
-        if (std::holds_alternative<IoValue::Setup::Unused>(*v)) {
-            desiredLatches |= bitMask(channel); // disable latch
-            return IoValue::Error::NOT_CONFIGURED;
-        }
-        return IoValue::Error::UNSUPPORTED_SETUP;
-    }
 
     if (auto* v = std::get_if<IoValue::Digital>(&val)) {
         if (v->state() == IoValue::State::Active) {

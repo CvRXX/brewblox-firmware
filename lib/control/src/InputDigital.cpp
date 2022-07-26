@@ -43,7 +43,7 @@ void InputDigital::claimChannel()
     if (auto devPtr = m_target.lock()) {
         if (m_channel != 0) {
             // release old channel
-            devPtr->writeChannel(m_channel, IoValue::Setup::Unused{});
+            devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
         }
 
         if (m_desiredChannel == 0) {
@@ -51,8 +51,8 @@ void InputDigital::claimChannel()
             return;
         }
         // claim new channel
-        auto result = devPtr->writeChannel(m_desiredChannel, IoValue::Setup::InputDigital{});
-        if (std::holds_alternative<IoValue::Digital>(result)) {
+        auto result = devPtr->setupChannel(m_desiredChannel, IoValue::Setup::InputDigital{});
+        if (std::holds_alternative<IoValue::Setup::InputDigital>(result)) {
             m_channel = m_desiredChannel;
         }
     }

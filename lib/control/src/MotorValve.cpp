@@ -136,20 +136,20 @@ void MotorValve::claimChannel()
         if (m_startChannel != 0) {
             for (uint8_t i = 0; i < 4; ++i) {
                 // release previous channels
-                devPtr->writeChannel(m_startChannel + i, IoValue::Setup::Unused{});
+                devPtr->setupChannel(m_startChannel + i, IoValue::Setup::Unused{});
             }
             m_startChannel = 0;
         }
         if (m_desiredChannel == 1 || m_desiredChannel == 5) { // only 2 valid options
-            bool success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanIsClosed, IoValue::Setup::InputDigital{}));
-            success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanIsOpen, IoValue::Setup::InputDigital{})) && success;
-            success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanOpeningHigh, IoValue::Setup::OutputDigital{})) && success;
-            success = std::holds_alternative<IoValue::Digital>(devPtr->writeChannel(m_desiredChannel + chanClosingHigh, IoValue::Setup::OutputDigital{})) && success;
+            bool success = std::holds_alternative<IoValue::Setup::InputDigital>(devPtr->setupChannel(m_desiredChannel + chanIsClosed, IoValue::Setup::InputDigital{}));
+            success = std::holds_alternative<IoValue::Setup::InputDigital>(devPtr->setupChannel(m_desiredChannel + chanIsOpen, IoValue::Setup::InputDigital{})) && success;
+            success = std::holds_alternative<IoValue::Setup::OutputDigital>(devPtr->setupChannel(m_desiredChannel + chanOpeningHigh, IoValue::Setup::OutputDigital{})) && success;
+            success = std::holds_alternative<IoValue::Setup::OutputDigital>(devPtr->setupChannel(m_desiredChannel + chanClosingHigh, IoValue::Setup::OutputDigital{})) && success;
             if (success) {
                 m_startChannel = m_desiredChannel;
             } else {
                 for (uint8_t i = 0; i < 4; ++i) {
-                    devPtr->writeChannel(m_desiredChannel + i, IoValue::Setup::Unused{}); // cancel all channels again
+                    devPtr->setupChannel(m_desiredChannel + i, IoValue::Setup::Unused{}); // cancel all channels again
                 }
             }
         } else {

@@ -71,6 +71,8 @@ public:
 
     virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) override final;
 
+    virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override final;
+
 private:
     bool processStatus(uint8_t data);
 };

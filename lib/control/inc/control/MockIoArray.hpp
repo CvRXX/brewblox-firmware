@@ -81,19 +81,25 @@ public:
         } else if (std::holds_alternative<IoValue::PWM>(val)) {
             // just return val to indicate that pwm was successfully set
             return val;
-        } else if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
-            if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
-                pinStates &= ~mask;
-                return IoValue::Digital(State::Inactive);
-            }
-            if (std::holds_alternative<IoValue::Setup::OutputPwm>(*v)) {
-                pinStates &= ~mask;
-                return IoValue::PWM{0};
-            } else {
-                return IoValue::Error::UNSUPPORTED_SETUP;
-            }
         }
         return IoValue::Error::UNSUPPORTED_VALUE;
+    }
+
+    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant val) override final
+    {
+        uint8_t mask = getMask(channel);
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(val)) {
+            pinStates &= ~mask;
+            return IoValue::Setup::OutputDigital{
+                .softTransitions = IoValue::Setup::SoftTransitions::NOT_SUPPORTED};
+        }
+        if (std::holds_alternative<IoValue::Setup::OutputPwm>(val)) {
+            pinStates &= ~mask;
+            return IoValue::Setup::OutputPwm{
+                .softTransitions = IoValue::Setup::SoftTransitions::NOT_SUPPORTED};
+        } else {
+            return IoValue::Error::UNSUPPORTED_SETUP;
+        }
     }
 
     void connected(bool v)

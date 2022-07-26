@@ -43,12 +43,32 @@ enum class Error : uint8_t {
 };
 
 namespace Setup {
-    struct Unused {};
-    struct OutputDigital {};
-    struct OutputPwm {};
+    enum class Frequency : uint8_t {
+        FREQ_NONE,
+        FREQ_100HZ,
+        FREQ_200HZ,
+        FREQ_2000HZ,
+    };
+
+    enum SoftTransitions : uint8_t {
+        NOT_SUPPORTED,
+        OFF,
+        ON_250MS,
+    };
+
+    struct Unused {
+    };
+    struct OutputDigital {
+        SoftTransitions softTransitions = SoftTransitions::OFF;
+    };
+    struct OutputPwm {
+        Frequency frequency = Frequency::FREQ_NONE;
+        SoftTransitions softTransitions = SoftTransitions::OFF;
+    };
     struct InputDigital {};
 
     using variant = std::variant<Unused,
+                                 Error,
                                  OutputDigital,
                                  OutputPwm,
                                  InputDigital>;
@@ -125,7 +145,6 @@ public:
 };
 
 using variant = std::variant<Error,
-                             Setup::variant,
                              Digital,
                              PWM>;
 
@@ -163,6 +182,23 @@ public:
     }
 
     // returns written value or error
+    IoValue::Setup::variant setupChannel(uint8_t channel, IoValue::Setup::variant setup)
+    {
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        auto& chan = channels[channel - 1];
+        // allow setup if the new value is a release of if the channel is not in use
+        if (std::holds_alternative<IoValue::Setup::Unused>(setup)
+            || std::holds_alternative<IoValue::Setup::Unused>(chan.setupDesired)) {
+            chan.setupDesired = setup;
+            chan.setup = setupChannelImpl(channel, setup);
+            return chan.setup;
+        }
+        return IoValue::Error::CHANNEL_IN_USE;
+    }
+
+    // returns written value or error
     IoValue::variant writeChannel(uint8_t channel, IoValue::variant val)
     {
         if (!validChannel(channel)) {
@@ -170,21 +206,6 @@ public:
         }
         auto& chan = channels[channel - 1];
 
-        // for setup values handle claiming/releasing the channel
-        if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
-            // if new value is not a channel release, check if channel is in use
-            if (!std::holds_alternative<IoValue::Setup::Unused>(*v)) {
-                // only allow setup on unused channels
-                if (auto* current = std::get_if<IoValue::Error>(&chan.desired)) {
-                    if (*current != IoValue::Error::NOT_CONFIGURED) {
-                        return IoValue::Error::CHANNEL_IN_USE;
-                    }
-                }
-            }
-        } else if (val.index() != chan.desired.index()) {
-            // only allow to write values of the same type
-            return IoValue::Error::UNSUPPORTED_VALUE;
-        }
         auto result = writeChannelImpl(channel, val);
         if (std::holds_alternative<IoValue::Error>(result)) {
             chan.actual = result;
@@ -211,6 +232,7 @@ public:
 protected:
     [[nodiscard]] virtual IoValue::variant readChannelImpl(uint8_t channel) const = 0;
     [[nodiscard]] virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
+    [[nodiscard]] virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant value) = 0;
 
     [[nodiscard]] IoValue::variant desired(uint8_t channel) const
     {
@@ -224,6 +246,10 @@ private:
     struct Channel {
         IoValue::variant desired = IoValue::Error::NOT_CONFIGURED;
         IoValue::variant actual = IoValue::Error::NOT_CONFIGURED;
+        IoValue::Setup::variant setup = IoValue::Setup::Unused{};
+        IoValue::Setup::variant setupDesired = IoValue::Setup::Unused{};
+        IoValue::PWM::duty_t duty_current = 0;
+        IoValue::PWM::duty_t duty_target = 0;
     };
 
     std::vector<Channel> channels;
