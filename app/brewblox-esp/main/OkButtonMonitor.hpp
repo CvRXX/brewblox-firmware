@@ -35,8 +35,8 @@ public:
     {
         auto now = asio::chrono::steady_clock::now();
         lowToHigh = now;
-        highToLow = now;
-        lastBeep = now;
+        highToLow = now - asio::chrono::milliseconds(1);
+        lastBeep = now - asio::chrono::milliseconds(1);
     }
 
     void start()
