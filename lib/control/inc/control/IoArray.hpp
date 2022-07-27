@@ -59,11 +59,9 @@ namespace Setup {
     struct Unused {
     };
     struct OutputDigital {
-        SoftTransitions softTransitions = SoftTransitions::OFF;
     };
     struct OutputPwm {
         Frequency frequency = Frequency::FREQ_NONE;
-        SoftTransitions softTransitions = SoftTransitions::OFF;
     };
     struct InputDigital {};
 
@@ -73,30 +71,6 @@ namespace Setup {
                                  OutputPwm,
                                  InputDigital>;
 }; // end snamespace IoValue::Setup
-
-// struct Transition {
-//     uint16_t current = 0;
-//     uint16_t target = 0;
-// };
-
-// class Base {
-// private:
-//     std::optional<Transition> _transition;
-
-// protected:
-//     ~Base() = default;
-
-//     explicit Base(std::optional<Transition> t = {})
-//         : _transition{t}
-//     {
-//     }
-
-// public:
-//     [[nodiscard]] std::optional<Transition> transition() const
-//     {
-//         return _transition;
-//     }
-// };
 
 class Digital {
 private:

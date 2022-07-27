@@ -123,8 +123,7 @@ IoValue::Setup::variant DS2413::setupChannelImpl(uint8_t channel, IoValue::Setup
     auto mask = bitMask(channel);
     if (std::holds_alternative<IoValue::Setup::OutputDigital>(val)) {
         desiredState |= mask; // disable latch
-        return IoValue::Setup::OutputDigital{
-            .softTransitions = IoValue::Setup::SoftTransitions::NOT_SUPPORTED};
+        return IoValue::Setup::OutputDigital{};
     }
     if (std::holds_alternative<IoValue::Setup::InputDigital>(val)) {
         desiredState |= mask; // disable latch

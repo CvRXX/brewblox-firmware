@@ -19,10 +19,6 @@
  */
 
 #include "control/ActuatorDigital.hpp"
-#include "control/ActuatorDigitalBase.hpp"
-#include "control/IoArray.hpp"
-#include <functional>
-#include <memory>
 
 using State = ActuatorDigitalBase::State;
 
@@ -50,7 +46,7 @@ State ActuatorDigital::state() const
             if (auto* v = std::get_if<IoValue::Digital>(&val)) {
                 result = v->state();
                 if (m_invert) {
-                    result = invertState(result); // todo: handle pwm transitions for inversion
+                    result = invertState(result);
                 }
                 return result;
             }

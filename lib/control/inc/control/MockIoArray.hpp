@@ -85,18 +85,16 @@ public:
         return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant val) override final
+    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override final
     {
         uint8_t mask = getMask(channel);
-        if (std::holds_alternative<IoValue::Setup::OutputDigital>(val)) {
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
             pinStates &= ~mask;
-            return IoValue::Setup::OutputDigital{
-                .softTransitions = IoValue::Setup::SoftTransitions::NOT_SUPPORTED};
+            return setup;
         }
-        if (std::holds_alternative<IoValue::Setup::OutputPwm>(val)) {
+        if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
             pinStates &= ~mask;
-            return IoValue::Setup::OutputPwm{
-                .softTransitions = IoValue::Setup::SoftTransitions::NOT_SUPPORTED};
+            return setup;
         } else {
             return IoValue::Error::UNSUPPORTED_SETUP;
         }

@@ -23,31 +23,36 @@
 #include "control/ActuatorDigitalBase.hpp"
 #include "control/ControlPtr.hpp"
 #include "control/IoArray.hpp"
+#include "control/TicksTypes.hpp"
 
 /*
  * A digital actuator that toggles a channel of an ArrayIo object.
  *
  */
-class ActuatorDigital : public ActuatorDigitalBase {
+class ActuatorDigitalSoft : public ActuatorDigitalBase {
 private:
     ControlPtr<IoArray>& m_target;
     bool m_invert = false;
     uint8_t m_channel = 0;
     uint8_t m_desiredChannel = 0;
+    duration_millis_t m_transitionTime = 0;
+    IoValue::PWM::duty_t m_duty = 0;
+    State m_desired = State::Inactive;
+    State m_actual = State::Unknown;
 
 public:
-    explicit ActuatorDigital(ControlPtr<IoArray>& target, uint8_t chan)
+    explicit ActuatorDigitalSoft(ControlPtr<IoArray>& target, uint8_t chan)
         : m_target(target)
     {
         channel(chan);
     }
 
-    ActuatorDigital(const ActuatorDigital&) = delete;
-    ActuatorDigital(ActuatorDigital&&) = default;
-    ActuatorDigital& operator=(const ActuatorDigital&) = delete;
-    ActuatorDigital& operator=(ActuatorDigital&&) = delete;
+    ActuatorDigitalSoft(const ActuatorDigitalSoft&) = delete;
+    ActuatorDigitalSoft(ActuatorDigitalSoft&&) = default;
+    ActuatorDigitalSoft& operator=(const ActuatorDigitalSoft&) = delete;
+    ActuatorDigitalSoft& operator=(ActuatorDigitalSoft&&) = delete;
 
-    virtual ~ActuatorDigital()
+    virtual ~ActuatorDigitalSoft()
     {
         channel(0); // release channel before destruction
     }
@@ -73,26 +78,28 @@ public:
         return m_desiredChannel;
     }
 
-    void claimChannel();
+    bool claimChannel();
 
     [[nodiscard]] bool channelReady() const
     {
         return m_desiredChannel == m_channel;
     }
 
-    void update()
-    {
-        if (!channelReady()) {
-            // Periodic retry to claim channel in case target didn't exist
-            // at earlier tries
-            claimChannel();
-            state(State::Inactive);
-        }
-    }
+    ticks_millis_t update(ticks_millis_t now);
 
     void channel(uint8_t newChannel)
     {
         m_desiredChannel = newChannel;
-        update();
+        update(0);
     }
+
+    void transitionTime(duration_millis_t arg)
+    {
+        m_transitionTime = arg;
+    };
+
+    [[nodiscard]] auto transitionTime()
+    {
+        return m_transitionTime;
+    };
 };
