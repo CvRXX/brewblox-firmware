@@ -32,7 +32,7 @@ void ActuatorDigitalSoft::state(State v)
     }
 
     m_desired = v;
-    update(0);
+    update(m_lastUpdateTime);
 }
 
 State ActuatorDigitalSoft::state() const
@@ -51,13 +51,31 @@ ticks_millis_t ActuatorDigitalSoft::update(ticks_millis_t now)
 
     if (auto devPtr = m_target.lock()) {
         auto duty = m_duty;
-        if (m_desired == State::Active) {
-            duty = std::min(decltype(duty){duty + 10}, decltype(duty){100});
-        } else if (m_desired == State::Inactive) {
-            duty = std::max(decltype(duty){duty - 10}, decltype(duty){0});
-        }
+        if (m_transitionDuration) {
+            // change max 25% in case update interval was long
+            auto elapsed = std::min(now - m_lastUpdateTime, m_transitionDuration / 4);
+            duty_t increment = (duty_t{25} * elapsed) / (m_transitionDuration / 4);
 
-        auto result = devPtr->writeChannel(m_desiredChannel, IoValue::PWM{duty});
+            if (m_desired == State::Active) {
+                // use duty of at least 1% when active
+                duty += increment;
+                if (duty <= duty_t{0}) {
+                    duty = duty_t{1};
+                }
+                if (duty > duty_t{100}) {
+                    duty = 100;
+                }
+            } else {
+                duty -= increment;
+                if (duty < duty_t{0}) {
+                    duty = duty_t{0};
+                }
+            }
+        } else {
+            duty = m_desired == State::Active ? duty_t{100} : duty_t{0};
+        }
+        m_lastUpdateTime = now;
+        auto result = devPtr->writeChannel(m_channel, IoValue::PWM{duty});
         if (const auto* pVal = std::get_if<IoValue::PWM>(&result)) {
             m_duty = pVal->duty();
             m_actual = m_duty != 0 ? State::Active : State::Inactive;
@@ -66,6 +84,7 @@ ticks_millis_t ActuatorDigitalSoft::update(ticks_millis_t now)
     }
 
     m_actual = State::Unknown;
+
     return now + 1000;
 }
 

@@ -68,4 +68,70 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
             CHECK(mock.state() == State::Inactive);
         }
     }
+
+    WHEN("A transition time of 250 ms is used")
+    {
+        mock.update(100);
+        mock.transitionTime(200);
+        THEN("The target PWM channel goes from 0 to 100 over 250 ms")
+        {
+            mock.state(State::Active);
+            CHECK(mock.state() == State::Active);
+
+            auto getDuty = [&]() {
+                auto channelValue = io.ptr->readChannel(1);
+                auto pVal = std::get_if<IoValue::PWM>(&channelValue);
+                REQUIRE(pVal);
+                return pVal->duty();
+            };
+
+            THEN("duty is 1 after state change")
+            {
+                CHECK(getDuty() == 1);
+            }
+            AND_THEN("duty increases gradually with regular updates")
+            {
+                mock.update(110);
+                CHECK(getDuty() == 6);
+
+                mock.update(120);
+                CHECK(getDuty() == 11);
+            }
+            AND_THEN("duty increases by 25% when update interval is too slow")
+            {
+                mock.update(201);
+                CHECK(getDuty() == 26);
+
+                mock.update(301);
+                CHECK(getDuty() == 51);
+
+                mock.update(401);
+                CHECK(getDuty() == 76);
+
+                mock.update(501);
+                CHECK(getDuty() == 100);
+
+                AND_WHEN("The actuator is set to inactive, the duty slowy decreases")
+                {
+                    mock.state(State::Inactive);
+                    mock.update(511);
+                    CHECK(getDuty() == 95);
+
+                    mock.update(611);
+                    CHECK(getDuty() == 70);
+
+                    mock.update(711);
+                    CHECK(getDuty() == 45);
+                    mock.update(811);
+                    CHECK(getDuty() == 20);
+
+                    mock.update(812);
+                    CHECK(getDuty() == 19.5);
+
+                    mock.update(911);
+                    CHECK(getDuty() == 0);
+                }
+            }
+        }
+    }
 }

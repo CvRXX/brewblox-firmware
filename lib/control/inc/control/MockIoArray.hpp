@@ -20,13 +20,14 @@
 #pragma once
 
 #include "control/IoArray.hpp"
+#include <array>
 
 class MockIoArray : public IoArray {
 public:
     uint8_t pinStates = 0;  // 1 = high, 0 is low
-    uint8_t pinModes = 0;   // 1 = ouput, 0 is input
     uint8_t errorState = 0; // error for specific channel
     bool isConnected = true;
+    std::array<IoValue::PWM::duty_t, 8> pwmSettings = {0};
 
     MockIoArray()
         : IoArray(8)
@@ -53,8 +54,7 @@ public:
         if (std::holds_alternative<IoValue::Digital>(setting)) {
             return IoValue::Digital(pinStates & mask ? State::Active : State::Inactive);
         } else if (std::holds_alternative<IoValue::PWM>(setting)) {
-            // just return desired value
-            return setting;
+            return IoValue::PWM{pwmSettings[channel - 1]};
         }
         return IoValue::Error::UNSUPPORTED_VALUE;
     }
@@ -68,7 +68,7 @@ public:
         }
         uint8_t mask = getMask(channel);
 
-        if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        if (const auto* v = std::get_if<IoValue::Digital>(&val)) {
             if (v->state() == IoValue::State::Active) {
                 pinStates |= mask;
                 return *v;
@@ -78,8 +78,8 @@ public:
             } else {
                 return IoValue::Error::UNSUPPORTED_VALUE;
             }
-        } else if (std::holds_alternative<IoValue::PWM>(val)) {
-            // just return val to indicate that pwm was successfully set
+        } else if (const auto* v = std::get_if<IoValue::PWM>(&val)) {
+            pwmSettings[channel - 1] = v->duty();
             return val;
         }
         return IoValue::Error::UNSUPPORTED_VALUE;

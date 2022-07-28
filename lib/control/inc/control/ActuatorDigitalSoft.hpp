@@ -30,13 +30,17 @@
  *
  */
 class ActuatorDigitalSoft : public ActuatorDigitalBase {
+public:
+    using duty_t = IoValue::PWM::duty_t;
+
 private:
     ControlPtr<IoArray>& m_target;
     bool m_invert = false;
     uint8_t m_channel = 0;
     uint8_t m_desiredChannel = 0;
-    duration_millis_t m_transitionTime = 0;
-    IoValue::PWM::duty_t m_duty = 0;
+    duration_millis_t m_transitionDuration = 0;
+    ticks_millis_t m_lastUpdateTime = 0;
+    duty_t m_duty = 0;
     State m_desired = State::Inactive;
     State m_actual = State::Unknown;
 
@@ -95,11 +99,15 @@ public:
 
     void transitionTime(duration_millis_t arg)
     {
-        m_transitionTime = arg;
+        if (arg >= 100) {
+            m_transitionDuration = arg;
+        } else {
+            m_transitionDuration = 0;
+        }
     };
 
     [[nodiscard]] auto transitionTime()
     {
-        return m_transitionTime;
+        return m_transitionDuration;
     };
 };
