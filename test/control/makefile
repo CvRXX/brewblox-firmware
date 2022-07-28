@@ -27,6 +27,7 @@ CPPSRC += $(ROOT_DIR)/test/control/runner.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorAnalogConstrained_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorAnalogMock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigital_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigitalSoft_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigitalChangeLogged_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigitalConstrained_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorOffset_test.cpp

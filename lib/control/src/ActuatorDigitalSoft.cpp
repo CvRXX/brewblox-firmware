@@ -32,7 +32,7 @@ void ActuatorDigitalSoft::state(State v)
     }
 
     m_desired = v;
-    // update(0);
+    update(0);
 }
 
 State ActuatorDigitalSoft::state() const
