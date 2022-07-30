@@ -127,17 +127,18 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\032SetpointProfile_test.proto\022\031blox_test."
       "SetpointProfile\032\023brewblox_test.proto\032\021na"
-      "nopb_test.proto\"U\n\005Point\022\014\n\004time\030\001 \001(\r\022)"
-      "\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 H"
-      "\000B\023\n\021temperature_oneof\"\272\001\n\005Block\0220\n\006poin"
-      "ts\030\001 \003(\0132 .blox_test.SetpointProfile.Poi"
-      "nt\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targetId\030\004 \001(\rB\014\212"
-      "\265\030\003\030\257\002\222\?\0028\020\0220\n\016drivenTargetId\030\005 \001(\rB\030\212\265\030"
-      "\003\030\257\002\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\r\n\005start\030\006 \001(\r:\r\212\265"
-      "\030\003\030\267\002\212\265\030\002H\017b\006proto3"
+      "nopb_test.proto\"b\n\005Point\022\031\n\004time\030\001 \001(\rB\013"
+      "\212\265\030\002\010\003\222\?\0028 \022)\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001"
+      "\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneof\"\307\001\n\005"
+      "Block\0220\n\006points\030\001 \003(\0132 .blox_test.Setpoi"
+      "ntProfile.Point\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targ"
+      "etId\030\004 \001(\rB\014\212\265\030\003\030\257\002\222\?\0028\020\0220\n\016drivenTarget"
+      "Id\030\005 \001(\rB\030\212\265\030\003\030\257\002\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\032\n\005st"
+      "art\030\006 \001(\rB\013\212\265\030\002X\001\222\?\0028 :\r\212\265\030\003\030\267\002\212\265\030\002H\017b\006p"
+      "roto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 379);
+      descriptor, 405);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointProfile_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -259,7 +260,7 @@ bool Point::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 time = 1;
+      // uint32 time = 1 [(.nanopb) = {
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
@@ -314,7 +315,7 @@ void Point::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 time = 1;
+  // uint32 time = 1 [(.nanopb) = {
   if (this->time() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->time(), output);
   }
@@ -338,7 +339,7 @@ void Point::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 time = 1;
+  // uint32 time = 1 [(.nanopb) = {
   if (this->time() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->time(), target);
   }
@@ -365,7 +366,7 @@ size_t Point::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint32 time = 1;
+  // uint32 time = 1 [(.nanopb) = {
   if (this->time() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -596,7 +597,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 start = 6;
+      // uint32 start = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
@@ -660,7 +661,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->driventargetid(), output);
   }
 
-  // uint32 start = 6;
+  // uint32 start = 6 [(.nanopb) = {
   if (this->start() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->start(), output);
   }
@@ -702,7 +703,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->driventargetid(), target);
   }
 
-  // uint32 start = 6;
+  // uint32 start = 6 [(.nanopb) = {
   if (this->start() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->start(), target);
   }
@@ -754,7 +755,7 @@ size_t Block::ByteSizeLong() const {
         this->driventargetid());
   }
 
-  // uint32 start = 6;
+  // uint32 start = 6 [(.nanopb) = {
   if (this->start() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(

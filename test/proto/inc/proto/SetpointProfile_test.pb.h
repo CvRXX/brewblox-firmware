@@ -160,7 +160,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // uint32 time = 1;
+  // uint32 time = 1 [(.nanopb) = {
   void clear_time();
   static const int kTimeFieldNumber = 1;
   ::google::protobuf::uint32 time() const;
@@ -314,7 +314,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 driventargetid() const;
   void set_driventargetid(::google::protobuf::uint32 value);
 
-  // uint32 start = 6;
+  // uint32 start = 6 [(.nanopb) = {
   void clear_start();
   static const int kStartFieldNumber = 6;
   ::google::protobuf::uint32 start() const;
@@ -343,7 +343,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 #endif  // __GNUC__
 // Point
 
-// uint32 time = 1;
+// uint32 time = 1 [(.nanopb) = {
 inline void Point::clear_time() {
   time_ = 0u;
 }
@@ -471,7 +471,7 @@ inline void Block::set_driventargetid(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SetpointProfile.Block.drivenTargetId)
 }
 
-// uint32 start = 6;
+// uint32 start = 6 [(.nanopb) = {
 inline void Block::clear_start() {
   start_ = 0u;
 }

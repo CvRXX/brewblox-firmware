@@ -41,7 +41,7 @@ namespace platform::particle {
 constexpr uint16_t webPort = PLATFORM_ID == PLATFORM_GCC ? 8380 : 80;
 static TCPServer httpserver(webPort); // Serve a simple page with instructions
 // these values are only set on initial connect to avoid thread unsafe calls into the wifi stack
-uint32_t localIp = 0;
+uint32_t localIp = 0; // big endian
 int8_t wifiSignalRssi = 2;
 char currentSsid[32] = "";
 
@@ -241,7 +241,13 @@ Mode mode()
 
 uint32_t ip4()
 {
-    return platform::particle::localIp;
+    // localIp is stored big endian
+    // we want to return little endian
+    uint32_t x = platform::particle::localIp;
+    return ((x & 0x000000ffUL) << 24)
+           | ((x & 0x0000ff00UL) << 8)
+           | ((x & 0x00ff0000UL) >> 8)
+           | ((x & 0xff000000UL) >> 24);
 }
 
 bool isConnected()

@@ -92,17 +92,18 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\020Ticks_test.proto\022\017blox_test.Ticks\032\023bre"
-      "wblox_test.proto\032\021nanopb_test.proto\"\216\002\n\005"
+      "wblox_test.proto\032\021nanopb_test.proto\"\224\002\n\005"
       "Block\022$\n\017millisSinceBoot\030\001 \001(\rB\013\212\265\030\002(\001\222\?"
-      "\0028 \022 \n\021secondsSinceEpoch\030\002 \001(\rB\005\222\?\0028 \022/\n"
-      "\024avgCommunicationTask\030\003 \001(\rB\021\212\265\030\002(\001\212\265\030\002\020"
-      " \222\?\0028 \022.\n\023avgBlocksUpdateTask\030\004 \001(\rB\021\212\265\030"
-      "\002(\001\212\265\030\002\020 \222\?\0028 \022)\n\016avgDisplayTask\030\005 \001(\rB\021"
-      "\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022(\n\ravgSystemTask\030\006 \001(\r"
-      "B\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 :\007\212\265\030\003\030\201\002b\006proto3"
+      "\0028 \022&\n\021secondsSinceEpoch\030\002 \001(\rB\013\222\?\0028 \212\265\030"
+      "\002X\001\022/\n\024avgCommunicationTask\030\003 \001(\rB\021\212\265\030\002("
+      "\001\212\265\030\002\020 \222\?\0028 \022.\n\023avgBlocksUpdateTask\030\004 \001("
+      "\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022)\n\016avgDisplayTask\030\005"
+      " \001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022(\n\ravgSystemTask"
+      "\030\006 \001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 :\007\212\265\030\003\030\201\002b\006prot"
+      "o3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 356);
+      descriptor, 362);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Ticks_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
