@@ -21,59 +21,54 @@
 
 void TempSensorCombi::update()
 {
-    m_value = 0;
-    m_valid = false;
     switch (func) {
     case CombineFunc::AVG: {
         auto sum = safe_elastic_fixed_point<18, 12>{0};
         uint16_t count = 0;
         for (auto& ref : inputs) {
             if (auto sens = ref.get().lock()) {
-                if (sens->valid()) {
+                if (auto v = sens->value()) {
                     ++count;
-                    sum += sens->value();
+                    sum += *v;
                 }
             }
         }
         if (count > 0) {
-            m_valid = true;
             m_value = sum / count;
         } else {
-            m_valid = false;
+            m_value = std::nullopt;
         }
         return;
     }
     case CombineFunc::MIN: {
+        m_value = std::nullopt;
         for (auto& ref : inputs) {
             if (auto sens = ref.get().lock()) {
-                if (sens->valid()) {
-                    if (m_valid) {
-                        auto v = sens->value();
-                        if (v < m_value) {
+                if (auto v = sens->value()) {
+                    if (m_value) {
+                        if (*v < *m_value) {
                             m_value = v;
                         }
                     } else {
-                        m_value = sens->value();
+                        m_value = v;
                     }
-                    m_valid = true;
                 }
             }
         }
         return;
     }
     case CombineFunc::MAX: {
+        m_value = std::nullopt;
         for (auto& ref : inputs) {
             if (auto sens = ref.get().lock()) {
-                if (sens->valid()) {
-                    if (m_valid) {
-                        auto v = sens->value();
-                        if (v > m_value) {
+                if (auto v = sens->value()) {
+                    if (m_value) {
+                        if (*v > *m_value) {
                             m_value = v;
                         }
                     } else {
-                        m_value = sens->value();
+                        m_value = v;
                     }
-                    m_valid = true;
                 }
             }
         }

@@ -17,29 +17,17 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "control/ActuatorDigitalSoft.hpp"
+#include "control/FastPwm.hpp"
 #include <algorithm>
 
-using State = ActuatorDigitalBase::State;
+#if 0
+using duty_t = FastPwm::duty_t;
 
-void ActuatorDigitalSoft::state(State v)
-{
-    if (v != State::Active) {
-        v = State::Inactive;
-    }
-    if (m_invert) {
-        v = invertState(v);
-    }
-
-    m_desired = v;
-    update(m_lastUpdateTime);
-}
-
-ticks_millis_t ActuatorDigitalSoft::update(ticks_millis_t now)
+ticks_millis_t FastPwm::update(ticks_millis_t now)
 {
     if (!channelReady()) {
         if (!claimChannel()) {
-            m_actual = State::Unknown;
+            m_actualDuty = 0;
             return now + 1000;
         }
     }
@@ -83,7 +71,7 @@ ticks_millis_t ActuatorDigitalSoft::update(ticks_millis_t now)
     return now + 1000;
 }
 
-bool ActuatorDigitalSoft::claimChannel()
+bool FastPwm::claimChannel()
 {
     if (auto devPtr = m_target.lock()) {
         if (m_channel != 0) {
@@ -95,9 +83,17 @@ bool ActuatorDigitalSoft::claimChannel()
             m_channel = 0;
             return true;
         }
-        // claim new channel
-        auto result = devPtr->setupChannel(m_desiredChannel, IoValue::Setup::OutputPwm{
-                                                                 .frequency = IoValue::Setup::Frequency::FREQ_200HZ});
+        auto channelFlags = devPtr->getChannelCapabilities(m_desiredChannel);
+        auto setup = IoValue::Setup::OutputPwm{};
+        if (channelFlags.flags.pwm2000Hz) {
+            setup.frequency = IoValue::Setup::Frequency::FREQ_2000HZ;
+        } else if (channelFlags.flags.pwm100Hz) { // currently no devices that support 200hz but don't support 2khz
+            setup.frequency = IoValue::Setup::Frequency::FREQ_100HZ;
+        } else {
+            return false;
+        }
+
+        auto result = devPtr->setupChannel(m_desiredChannel, std::move(setup));
         if (std::holds_alternative<IoValue::Setup::OutputPwm>(result)) {
             m_channel = m_desiredChannel;
             return true;
@@ -105,3 +101,4 @@ bool ActuatorDigitalSoft::claimChannel()
     }
     return false;
 }
+#endif

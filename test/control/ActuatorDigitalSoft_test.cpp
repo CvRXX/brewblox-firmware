@@ -134,4 +134,26 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
             }
         }
     }
+
+    WHEN("Channel capability flags are checked")
+    {
+
+        THEN("The correct flags are set")
+        {
+            auto capabilities = io.ptr->getChannelCapabilities(1);
+            CHECK(capabilities.flags.digitalOutput);
+            CHECK(capabilities.flags.pwm100Hz);
+            CHECK(!capabilities.flags.pwm200Hz);
+            CHECK(!capabilities.flags.pwm2000Hz);
+            CHECK(!capabilities.flags.bidirectional);
+            CHECK(!capabilities.flags.digitalInput);
+        };
+
+        THEN("Multiple flags can be checked at once")
+        {
+            CHECK(io.ptr->channelSupports(1, {.flags{.digitalOutput = 1}}));
+            CHECK(io.ptr->channelSupports(1, {.flags{.digitalOutput = 1, .pwm100Hz = 1}}));
+            CHECK(!io.ptr->channelSupports(1, {.flags{.digitalOutput = 1, .pwm200Hz = 1}}));
+        };
+    }
 }

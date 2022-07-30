@@ -39,19 +39,13 @@ public:
     CombineFunc func = CombineFunc::AVG;
 
 private:
-    temp_t m_value = temp_t{0};
-    bool m_valid = false;
+    std::optional<temp_t> m_value = std::nullopt;
 
 public:
     TempSensorCombi() = default;
     virtual ~TempSensorCombi() = default;
 
-    bool valid() const final
-    {
-        return m_valid;
-    }
-
-    temp_t value() const final
+    std::optional<temp_t> value() const final
     {
         return m_value;
     }

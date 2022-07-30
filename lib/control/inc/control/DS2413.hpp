@@ -73,6 +73,13 @@ public:
 
     virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override final;
 
+    virtual IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const override final
+    {
+        return ChannelCapabilities{.flags{
+            .digitalOutput = 1,
+        }};
+    }
+
 private:
     bool processStatus(uint8_t data);
 };

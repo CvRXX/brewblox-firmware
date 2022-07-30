@@ -33,6 +33,7 @@ CPPSRC += $(ROOT_DIR)/test/control/ActuatorDigitalConstrained_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorOffset_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ActuatorPwm_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/ADS124S08_test.cpp
+CPPSRC += $(ROOT_DIR)/test/control/FastPwm_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/FilterChain_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/FixedPoint_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/FpFilterChain_test.cpp
@@ -50,7 +51,7 @@ CPPSRC += $(ROOT_DIR)/test/control/TempSensorCombi_test.cpp
 CPPSRC += $(ROOT_DIR)/test/control/TempSensorMock_test.cpp
 
 
-CFLAGS += -DPLATFORM_ID=3
+CFLAGS += -DPLATFORM_ID=3 -Wfatal-errors
 
 # include boost
 CPPFLAGS += -isystem $(BOOST_ROOT)

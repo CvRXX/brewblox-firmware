@@ -33,18 +33,15 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
         {
             combined.update();
             combined.func = TempSensorCombi::CombineFunc::AVG;
-            CHECK(combined.valid() == false);
-            CHECK(combined.value() == temp_t(0));
+            CHECK(combined.value().has_value() == false);
 
             combined.update();
             combined.func = TempSensorCombi::CombineFunc::MIN;
-            CHECK(combined.valid() == false);
-            CHECK(combined.value() == temp_t(0));
+            CHECK(combined.value().has_value() == false);
 
             combined.update();
             combined.func = TempSensorCombi::CombineFunc::MAX;
-            CHECK(combined.valid() == false);
-            CHECK(combined.value() == temp_t(0));
+            CHECK(combined.value().has_value() == false);
         }
     }
 
@@ -70,7 +67,6 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
         {
             combined.func = TempSensorCombi::CombineFunc::AVG;
             combined.update();
-            CHECK(combined.valid() == true);
             CHECK(combined.value() == temp_t(21.5));
         }
 
@@ -78,7 +74,6 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
         {
             combined.func = TempSensorCombi::CombineFunc::MIN;
             combined.update();
-            CHECK(combined.valid() == true);
             CHECK(combined.value() == temp_t(18));
         }
 
@@ -86,7 +81,6 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
         {
             combined.func = TempSensorCombi::CombineFunc::MAX;
             combined.update();
-            CHECK(combined.valid() == true);
             CHECK(combined.value() == temp_t(26));
         }
 
@@ -99,7 +93,6 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
             {
                 combined.func = TempSensorCombi::CombineFunc::AVG;
                 combined.update();
-                CHECK(combined.valid() == true);
                 CHECK(combined.value() == temp_t(21));
             }
 
@@ -107,7 +100,6 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
             {
                 combined.func = TempSensorCombi::CombineFunc::MIN;
                 combined.update();
-                CHECK(combined.valid() == true);
                 CHECK(combined.value() == temp_t(20));
             }
 
@@ -115,7 +107,6 @@ SCENARIO("TempSensorCombiTest", "[TempSensorCombi]")
             {
                 combined.func = TempSensorCombi::CombineFunc::MAX;
                 combined.update();
-                CHECK(combined.valid() == true);
                 CHECK(combined.value() == temp_t(22));
             }
         }

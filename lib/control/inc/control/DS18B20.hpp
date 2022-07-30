@@ -79,13 +79,8 @@ public:
 
     static constexpr uint8_t familyCode{0x28};
 
-    bool valid() const final
-    {
-        return connected();
-    }
-
-    temp_t value() const final; // return cached value
-    void update();              // read from hardware sensor
+    std::optional<temp_t> value() const final; // return cached value
+    void update();                             // read from hardware sensor
 
     void setCalibration(temp_t const& calib)
     {

@@ -115,6 +115,14 @@ public:
         }
     }
 
+    virtual IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const override final
+    {
+        return ChannelCapabilities{.flags{
+            .digitalOutput = 1,
+            .pwm100Hz = 1,
+        }};
+    }
+
 private:
     uint8_t static getMask(uint8_t channel)
     {

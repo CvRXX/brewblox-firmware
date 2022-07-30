@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 BrewPi B.V.
+ * Copyright 2022 BrewPi B.V.
  *
  * This file is part of the BrewBlox Control Library.
  *
@@ -17,24 +17,20 @@
  * along with BrewPi.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <catch.hpp>
 
-#include "control/FixedPoint.hpp"
+#include "TestControlPtr.hpp"
+#include "control/FastPwm.hpp"
+#include "control/MockIoArray.hpp"
 
-/*
- * A process value has a setting and an current value
- */
-template <typename T>
-class ProcessValue {
+#if 0
+SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
+{
+    auto io = TestControlPtr<IoArray>(new MockIoArray());
+    FastPwm mock(io, 1);
 
-public:
-    ProcessValue() = default;
-    virtual ~ProcessValue() = default;
-
-    // set the setting for the process value
-    virtual void setting(std::optional<T> setting) = 0;
-    // get the setting for the process value
-    virtual std::optional<T> setting() const = 0;
-    // read the actual value of the process value
-    virtual std::optional<T> value() const = 0;
-};
+    WHEN("FastPWM is newly constructed")
+    {
+    }
+}
+#endif

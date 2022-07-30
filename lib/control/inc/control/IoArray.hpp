@@ -137,6 +137,7 @@ inline bool operator==(const variant& v, const Digital& t)
 class IoArray {
 public:
     using State = ActuatorDigitalBase::State;
+
     explicit IoArray(uint8_t size)
         : channels{size}
     {
@@ -203,6 +204,26 @@ public:
         return channels.size();
     }
 
+    typedef union {
+        struct Bits {
+            uint16_t digitalOutput : 1;
+            uint16_t pwm100Hz : 1;
+            uint16_t pwm200Hz : 1;
+            uint16_t pwm2000Hz : 1;
+            uint16_t bidirectional : 1;
+            uint16_t digitalInput : 1;
+        } flags;
+        uint16_t all;
+    } ChannelCapabilities;
+    static_assert(sizeof(ChannelCapabilities) == 2);
+
+    [[nodiscard]] virtual ChannelCapabilities getChannelCapabilities(uint8_t channel) const = 0;
+    [[nodiscard]] bool channelSupports(uint8_t channel, ChannelCapabilities requested) const
+    {
+        auto fromChannel = getChannelCapabilities(channel);
+        return (fromChannel.all | requested.all) == fromChannel.all;
+    }
+
 protected:
     [[nodiscard]] virtual IoValue::variant readChannelImpl(uint8_t channel) const = 0;
     [[nodiscard]] virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
@@ -222,8 +243,6 @@ private:
         IoValue::variant actual = IoValue::Error::NOT_CONFIGURED;
         IoValue::Setup::variant setup = IoValue::Setup::Unused{};
         IoValue::Setup::variant setupDesired = IoValue::Setup::Unused{};
-        IoValue::PWM::duty_t duty_current = 0;
-        IoValue::PWM::duty_t duty_target = 0;
     };
 
     std::vector<Channel> channels;

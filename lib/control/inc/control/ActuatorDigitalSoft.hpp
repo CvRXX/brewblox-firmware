@@ -63,7 +63,10 @@ public:
 
     void state(State v) final;
 
-    [[nodiscard]] State state() const final;
+    [[nodiscard]] State state() const override final
+    {
+        return m_actual;
+    }
 
     [[nodiscard]] bool invert() const
     {
@@ -82,6 +85,12 @@ public:
         return m_desiredChannel;
     }
 
+    void channel(uint8_t newChannel)
+    {
+        m_desiredChannel = newChannel;
+        update(0);
+    }
+
     bool claimChannel();
 
     [[nodiscard]] bool channelReady() const
@@ -90,12 +99,6 @@ public:
     }
 
     ticks_millis_t update(ticks_millis_t now);
-
-    void channel(uint8_t newChannel)
-    {
-        m_desiredChannel = newChannel;
-        update(0);
-    }
 
     void transitionTime(duration_millis_t arg)
     {

@@ -37,10 +37,11 @@ public:
     using derivative_t = safe_elastic_fixed_point<1, 23>;
 
 private:
-    temp_t m_setting = 20;
+    std::optional<temp_t> m_setting = std::nullopt;
     ControlPtr<TempSensor>& m_sensor;
     FpFilterChain<temp_t> m_filter;
     uint8_t m_sensorFailureCount = 255; // force a reset on init
+    static constexpr auto m_failureThreshold = uint8_t{10};
     uint8_t m_filterNr = 1;
 
 public:
@@ -60,54 +61,33 @@ public:
 
     virtual ~SetpointSensorPair() = default;
 
-    void setting(temp_t const& setting) final
+    void setting(std::optional<temp_t> setting) final
     {
         m_setting = setting;
     }
 
-    temp_t setting() const final
+    std::optional<temp_t> setting() const final
     {
         return m_setting;
     }
 
-    temp_t value() const final
+    std::optional<temp_t> value() const final
     {
-        if (m_filterNr == 0) {
-            return m_filter.readLastInput();
+        if (m_sensorFailureCount <= m_failureThreshold) {
+            if (m_filterNr == 0) {
+                return m_filter.readLastInput();
+            }
+            return m_filter.read(m_filterNr - 1);
         }
-        return m_filter.read(m_filterNr - 1);
+        return std::nullopt;
     }
 
-    temp_t valueUnfiltered() const
+    std::optional<temp_t> valueUnfiltered() const
     {
         if (auto sPtr = m_sensor.lock()) {
             return sPtr->value();
-        } else {
-            return 0;
         }
-    }
-
-    bool valueValid() const final
-    {
-        return m_sensorFailureCount <= 10;
-    }
-
-    bool sensorValid() const
-    {
-        if (auto sens = m_sensor.lock()) {
-            return sens->valid();
-        }
-        return false;
-    }
-
-    bool settingValid() const final
-    {
-        return enabler.get();
-    }
-
-    void settingValid(bool v) final
-    {
-        enabler.set(v);
+        return std::nullopt;
     }
 
     auto filterChoice() const
@@ -135,12 +115,11 @@ public:
 
     void update()
     {
-        if (sensorValid()) {
-            auto val = valueUnfiltered();
-            if (!valueValid()) {
-                m_filter.reset(val);
+        if (auto val = valueUnfiltered()) {
+            if (m_sensorFailureCount > m_failureThreshold) {
+                m_filter.reset(*val);
             }
-            m_filter.add(val);
+            m_filter.add(*val);
             m_sensorFailureCount = 0;
         } else {
             if (m_sensorFailureCount < 255) {
@@ -149,13 +128,21 @@ public:
         }
     }
 
-    auto error()
+    std::optional<temp_t> error()
     {
-        return setting() - value();
+        if (auto s = setting()) {
+            if (auto v = value()) {
+                return *s - *v;
+            }
+        };
+        return std::nullopt;
     }
 
-    auto readDerivative(uint8_t filterNr)
+    derivative_t readDerivative(uint8_t filterNr)
     {
+        if (m_sensorFailureCount > m_failureThreshold) {
+            return 0;
+        }
         if (filterNr < 1) {
             filterNr = 1;
         }
@@ -174,8 +161,8 @@ public:
 
     void resetFilter()
     {
-        if (sensorValid()) {
-            m_filter.reset(valueUnfiltered());
+        if (auto val = valueUnfiltered()) {
+            m_filter.reset(*val);
             m_sensorFailureCount = 0;
         }
     }

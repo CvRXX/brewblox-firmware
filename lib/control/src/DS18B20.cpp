@@ -102,10 +102,10 @@ void DS18B20::startConversion()
     }
 }
 
-temp_t DS18B20::value() const
+std::optional<temp_t> DS18B20::value() const
 {
     if (!connected()) {
-        return 0;
+        return std::nullopt;
     }
 
     return m_cachedValue;

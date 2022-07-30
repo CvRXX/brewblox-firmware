@@ -127,9 +127,9 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         {
             DS18B20 sensor(ow, addr1);
             sensor.update();
-            CHECK(sensor.valid() == false); // a reset will be detected, triggering a re-init
+            CHECK(sensor.value().has_value() == false); // a reset will be detected, triggering a re-init
             sensor.update();
-            CHECK(sensor.valid() == true);
+            CHECK(sensor.value().has_value() == true);
             CHECK(sensor.value() == 20.0);
 
             mockSensor->setTemperature(temp_t{21.0});
@@ -152,16 +152,16 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
 
             THEN("It reads as invalid")
             {
-                CHECK(sensor.valid() == false);
+                CHECK(sensor.value().has_value() == false);
             }
 
             THEN("When it comes back, the first value is invalid and the second is valid (reset detection)")
             {
                 mockSensor->setConnected(true);
                 sensor.update();
-                CHECK(sensor.valid() == false);
+                CHECK(sensor.value().has_value() == false);
                 sensor.update();
-                CHECK(sensor.valid() == true);
+                CHECK(sensor.value().has_value() == true);
             }
         }
 
@@ -177,7 +177,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
                 // 9 scratchpad bytes are read, 81 bits
                 mockSensor->flipReadBits({13});
                 sensor.update();
-                CHECK(sensor.valid() == true);
+                CHECK(sensor.value().has_value() == true);
                 CHECK(sensor.value() == 21.0);
             }
 
@@ -185,8 +185,7 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             {
                 mockSensor->flipReadBits({13, 81 + 13});
                 sensor.update();
-                CHECK(sensor.valid() == false);
-                CHECK(sensor.value() == 0.0);
+                CHECK(sensor.value().has_value() == false);
             }
         }
 
@@ -217,8 +216,6 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             sensor2.update();
             sensor1.update();
             sensor2.update();
-            CHECK(sensor1.valid() == true);
-            CHECK(sensor2.valid() == true);
             CHECK(sensor1.value() == 20.0);
             CHECK(sensor2.value() == 20.0);
 

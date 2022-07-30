@@ -27,12 +27,11 @@
 SCENARIO("TempSensorMockTest", "[mocktest]")
 {
 
-    WHEN("A mock sensor is initialized without providing an initial value, it reads as invalid and 0")
+    WHEN("A mock sensor is initialized without providing an initial value, it reads as invalid")
     {
         TempSensorMock mock;
 
-        CHECK(mock.value() == temp_t(0));
-        CHECK(mock.valid() == false);
+        CHECK(mock.value().has_value() == false);
     }
 
     WHEN("A mock sensor is initialized with an initial value, it reads as valid and that value")
@@ -40,7 +39,6 @@ SCENARIO("TempSensorMockTest", "[mocktest]")
         TempSensorMock mock(20.0);
 
         CHECK(mock.value() == temp_t(20.0));
-        CHECK(mock.valid() == true);
     }
 
     WHEN("A mock sensor is disconnected, valid() returns false")
@@ -48,13 +46,12 @@ SCENARIO("TempSensorMockTest", "[mocktest]")
         TempSensorMock mock(20.0);
         mock.connected(false);
 
-        CHECK(mock.valid() == false);
+        CHECK(mock.value().has_value() == false);
 
         AND_WHEN("It is reconnected, valid() returns true and it reads as the set value again")
         {
             mock.connected(true);
 
-            CHECK(mock.valid() == true);
             CHECK(mock.value() == temp_t(20.0));
         }
     }
@@ -68,7 +65,7 @@ SCENARIO("TempSensorMockTest", "[mocktest]")
             auto min = temp_t{20};
             auto max = temp_t{20};
             mock.update(0);
-            auto previous = mock.value();
+            auto previous = mock.value().value_or(0);
             auto maxDiff = temp_t{0.0};
             auto zero_cross_time1 = ticks_millis_t{0};
             auto zero_cross_time2 = ticks_millis_t{0};
@@ -77,7 +74,7 @@ SCENARIO("TempSensorMockTest", "[mocktest]")
             ticks_millis_t now = 0;
             while (now < period * 2) {
                 auto nextUpdate = mock.update(now);
-                auto val = mock.value();
+                auto val = mock.value().value_or(0);
                 min = std::min(min, val);
                 max = std::max(max, val);
                 maxDiff = std::max(maxDiff, temp_t(cnl::abs(val - previous)));
@@ -153,7 +150,7 @@ SCENARIO("TempSensorMockTest", "[mocktest]")
                 mock1.update(now);
                 mock2.update(now);
                 now = mock3.update(now);
-                CHECK(mock3.value() == mock1.value() + mock2.value() - temp_t{20.0});
+                CHECK(mock3.value().value() == mock1.value().value() + mock2.value().value() - temp_t{20.0});
             }
         }
     }

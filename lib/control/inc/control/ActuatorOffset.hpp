@@ -38,10 +38,9 @@ public:
 private:
     ControlPtr<SetpointSensorPair>& m_target;
     ControlPtr<SetpointSensorPair>& m_reference;
-    value_t m_setting = 0;
-    value_t m_value = 0;
-    bool m_settingValid = false;
-    bool m_valueValid = false;
+    std::optional<value_t> m_desiredSetting;
+    std::optional<value_t> m_value;
+    std::optional<value_t> m_targetSetting;
     // separate flag for manually disabling the offset actuator
     bool m_enabled = true;
 
@@ -60,48 +59,32 @@ public:
 
     virtual ~ActuatorOffset() = default;
 
-    void setting(value_t const& val) final
+    void setting(std::optional<value_t> val) final
     {
-        m_setting = val;
+        m_desiredSetting = val;
         update();
     }
 
-    value_t setting() const final
+    std::optional<value_t> setting() const final
     {
-        return m_setting;
+        if (m_enabled) {
+            return m_desiredSetting;
+        }
+        return std::nullopt;
     }
 
     // value() returns the actually achieved offset
     // By returning the actually achieved value, instead of the difference between the setpoints,
     // a PID can read back the actual actuator value and perform integrator anti-windup
-    value_t value() const final
+    std::optional<value_t> value() const final
     {
         return m_value;
-    }
-
-    bool valueValid() const final
-    {
-        return m_valueValid;
-    }
-
-    bool settingValid() const final
-    {
-        return m_settingValid;
-    }
-
-    void settingValid(bool v) final
-    {
-        if (m_enabled) {
-
-            if (auto targetPtr = m_target.lock()) {
-                targetPtr->settingValid(v);
-            }
-        }
     }
 
     void selectedReference(const ReferenceKind& sel)
     {
         m_selectedReference = sel;
+        update();
     }
 
     ReferenceKind selectedReference() const
@@ -111,40 +94,35 @@ public:
 
     void update()
     {
-        m_valueValid = false;
-        m_value = 0;
-        bool newTargetSettingValid = false;
-        auto newTargetSetting = value_t(0);
+        // scenarios:
+        // ref valid, setting valid -> write actuator
+        // ref invalid, setting valid -> write invalid to actuator the first time
+        // ref valid, setting invalid -> write invalid to actuator the first time
+        // ref invalid, setting invalid -> write invalid to actuator the first time
 
+        std::optional<value_t> newTargetSetting = std::nullopt;
         if (auto targetPtr = m_target.lock()) {
             if (auto refPtr = m_reference.lock()) {
-                if (m_selectedReference == ReferenceKind::SETTING) {
-                    if (refPtr->settingValid()) {
-                        newTargetSetting = refPtr->setting() + m_setting;
-                        newTargetSettingValid = true;
-                        if (targetPtr->valueValid()) {
-                            m_value = targetPtr->value() - refPtr->setting();
-                            m_valueValid = true;
+                if (auto ref = m_selectedReference == ReferenceKind::SETTING ? refPtr->setting() : refPtr->value()) {
+                    if (m_enabled) {
+                        if (auto set = setting()) {
+                            newTargetSetting = *ref + *set;
                         }
+                    }
+                    if (auto val = targetPtr->value()) {
+                        m_value = *val - *ref;
+                    } else {
+                        m_value = std::nullopt;
                     }
                 } else {
-                    if (refPtr->valueValid()) {
-                        newTargetSetting = refPtr->value() + m_setting;
-                        newTargetSettingValid = true;
-                        if (targetPtr->valueValid()) {
-                            m_value = targetPtr->value() - refPtr->value();
-                            m_valueValid = true;
-                        }
-                    }
+                    m_value = std::nullopt;
                 }
             }
-            if (newTargetSettingValid && m_enabled) {
-                targetPtr->settingValid(true); // try to make target valid
+            // if old setting was valid or new setting is valid, apply to actuator
+            // this ensures invalid is only applied once
+            if (m_targetSetting || newTargetSetting) {
                 targetPtr->setting(newTargetSetting);
-                m_settingValid = true;
-            } else if (m_settingValid) {
-                targetPtr->settingValid(false); // invalidate target once
-                m_settingValid = false;
+                m_targetSetting = newTargetSetting;
             }
         }
     }
@@ -156,6 +134,10 @@ public:
 
     void enabled(bool v)
     {
+        auto changed = m_enabled != v;
         m_enabled = v;
+        if (changed) {
+            update();
+        }
     }
 };

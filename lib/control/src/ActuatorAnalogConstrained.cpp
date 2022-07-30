@@ -37,8 +37,7 @@ void ActuatorAnalogConstrained::removeAllConstraints()
     constraints.clear();
 }
 
-value_t
-ActuatorAnalogConstrained::constrain(const value_t& val)
+value_t ActuatorAnalogConstrained::constrain(const value_t& val)
 {
     // keep track of which constraints limit the setting in a bitfield
     m_limiting = 0x00;
@@ -58,26 +57,30 @@ ActuatorAnalogConstrained::constrain(const value_t& val)
     return result;
 }
 
-void ActuatorAnalogConstrained::setting(const value_t& val)
+void ActuatorAnalogConstrained::setting(std::optional<value_t> val)
 {
-    // first set actuator to requested value to check whether it constrains the setting itself
-    actuator.setting(val);
-    m_desiredSetting = actuator.setting();
-
+    m_desiredSetting = val;
     // then set it to the constrained value
-    if (actuator.settingValid()) {
-        actuator.setting(constrain(m_desiredSetting));
+    if (m_desiredSetting) {
+        // first set actuator to requested value to check whether it constrains the setting itself
+        actuator.setting(val);
+        m_setting = actuator.setting();
+        if (m_setting) {
+            actuator.setting(constrain(*m_setting));
+            m_setting = actuator.setting();
+        }
     } else {
         constrain(0);
+        m_setting = std::nullopt;
     }
 }
 
-void ActuatorAnalogConstrained::settingValid(bool v)
-{
-    auto old = actuator.settingValid();
-    actuator.settingValid(v);
-    if (old != actuator.settingValid()) {
-        // update constraints state in case setting valid has changed the limits inside the actuator itself
-        constrain(actuator.setting());
-    }
-}
+// void ActuatorAnalogConstrained::settingValid(bool v)
+// {
+//     auto old = actuator.settingValid();
+//     actuator.settingValid(v);
+//     if (old != actuator.settingValid()) {
+//         // update constraints state in case setting valid has changed the limits inside the actuator itself
+//         constrain(actuator.setting());
+//     }
+// }

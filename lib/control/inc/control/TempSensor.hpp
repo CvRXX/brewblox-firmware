@@ -20,12 +20,11 @@
 #pragma once
 
 #include "control/Temperature.hpp"
+#include <optional>
 
 class TempSensor {
 public:
-    [[nodiscard]] virtual bool valid() const = 0;
-
-    [[nodiscard]] virtual temp_t value() const = 0;
+    [[nodiscard]] virtual std::optional<temp_t> value() const = 0;
 
 protected:
     ~TempSensor() = default;
