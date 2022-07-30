@@ -76,8 +76,8 @@ TempSensorMockBlock::read(const cbox::PayloadCallback& callback) const
     message.setting = cnl::unwrap((sensor.setting()));
     message.connected = sensor.connected();
 
-    if (sensor.valid()) {
-        message.value = cnl::unwrap((sensor.value()));
+    if (auto val = sensor.value()) {
+        message.value = cnl::unwrap((*val));
     } else {
         excluded.push_back(blox_TempSensorMock_Block_value_tag);
     }

@@ -38,6 +38,14 @@ public:
     // generic ArrayIO interface
     IoValue::variant readChannelImpl(uint8_t channel) const final;
     IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
+    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) final;
+    IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const final
+    {
+        return ChannelCapabilities{.flags{
+            .digitalOutput = 1,
+            .pwm100Hz = 1,
+        }};
+    }
 };
 
 } // end namespace platform::particle

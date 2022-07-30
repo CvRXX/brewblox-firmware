@@ -36,25 +36,29 @@ AnalogCompare::eval() const
     if (auto pvPtr = m_lookup.lock()) {
         switch (m_op) {
         case blox_ActuatorLogic_AnalogOperator_OP_VALUE_LE:
-            if (!pvPtr->valueValid()) {
+            if (auto val = pvPtr->value()) {
+                return blox_ActuatorLogic_Result(*val <= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->value() <= m_rhs);
         case blox_ActuatorLogic_AnalogOperator_OP_VALUE_GE:
-            if (!pvPtr->valueValid()) {
+            if (auto val = pvPtr->value()) {
+                return blox_ActuatorLogic_Result(*val >= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->value() >= m_rhs);
         case blox_ActuatorLogic_AnalogOperator_OP_SETTING_LE:
-            if (!pvPtr->settingValid()) {
+            if (auto val = pvPtr->setting()) {
+                return blox_ActuatorLogic_Result(*val <= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->setting() <= m_rhs);
         case blox_ActuatorLogic_AnalogOperator_OP_SETTING_GE:
-            if (!pvPtr->settingValid()) {
+            if (auto val = pvPtr->setting()) {
+                return blox_ActuatorLogic_Result(pvPtr->setting() >= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->setting() >= m_rhs);
         }
         return blox_ActuatorLogic_Result_RESULT_INVALID_ANALOG_OP;
     }

@@ -14,20 +14,25 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     message.referenceSettingOrValue = blox_ActuatorOffset_ReferenceKind(offset.selectedReference());
     message.enabled = offset.enabled();
 
-    if (constrained.valueValid()) {
-        message.value = cnl::unwrap(constrained.value());
+    if (auto val = constrained.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_ActuatorOffset_Block_value_tag);
     }
-    if (constrained.settingValid()) {
-        message.setting = cnl::unwrap(constrained.setting());
-        if (offset.enabled()) {
+    if (auto val = constrained.setting()) {
+        message.setting = cnl::unwrap(*val);
+        if (message.enabled) {
             message.drivenTargetId = message.targetId;
         }
     } else {
         excluded.push_back(blox_ActuatorOffset_Block_setting_tag);
     };
-    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
+
+    if (auto val = constrained.desiredSetting()) {
+        message.desiredSetting = cnl::unwrap(*val);
+    } else {
+        excluded.push_back(blox_ActuatorOffset_Block_desiredSetting_tag);
+    }
 
     getAnalogConstraints(message.constrainedBy, constrained);
 
@@ -48,7 +53,8 @@ cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& cal
     message.referenceId = reference.getId();
     message.referenceSettingOrValue = _blox_ActuatorOffset_ReferenceKind(offset.selectedReference());
     message.enabled = offset.enabled();
-    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
+    // default setting to 0 if it is invalid no not have to store excluded field in eeprom
+    message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
     getAnalogConstraints(message.constrainedBy, constrained);
 
     return cbox::PayloadBuilder(*this)

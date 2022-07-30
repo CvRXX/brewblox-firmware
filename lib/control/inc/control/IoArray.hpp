@@ -163,7 +163,7 @@ public:
             return IoValue::Error::INVALID_CHANNEL;
         }
         auto& chan = channels[channel - 1];
-        // allow setup if the new value is a release of if the channel is not in use
+        // allow setup if the new value is a release or if the channel is not in use
         if (std::holds_alternative<IoValue::Setup::Unused>(setup)
             || std::holds_alternative<IoValue::Setup::Unused>(chan.setupDesired)) {
             chan.setupDesired = setup;

@@ -26,13 +26,11 @@ public:
     cbox::update_t updateHandler(const cbox::update_t& now) override;
     void* implements(cbox::obj_type_t iface) override;
 
-    [[nodiscard]] bool valid() const override
+    [[nodiscard]] std::optional<temp_t> value() const override
     {
-        return _settingValid && _enabler.get();
-    }
-
-    [[nodiscard]] temp_t value() const override
-    {
-        return _setting;
+        if (_settingValid && _enabler.get()) {
+            return _setting;
+        }
+        return std::nullopt;
     }
 };

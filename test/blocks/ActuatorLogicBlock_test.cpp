@@ -84,7 +84,7 @@ SCENARIO("ActuatorLogicBlock")
         auto message = blox_test::SetpointSensorPair::Block();
 
         message.set_sensorid(id - 10);
-        message.set_settingenabled(true);
+        message.set_enabled(true);
         message.set_storedsetting(cnl::unwrap(setting));
         message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
         message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));

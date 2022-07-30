@@ -62,7 +62,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
 
         setpointMessage.set_sensorid(sensorId);
         setpointMessage.set_storedsetting(cnl::unwrap(temp_t(21)));
-        setpointMessage.set_settingenabled(true);
+        setpointMessage.set_enabled(true);
         setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_15s);
         setpointMessage.set_filterthreshold(cnl::unwrap(temp_t(1)));
 
@@ -168,7 +168,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     {
         auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
 
-        setpointMessage.set_settingenabled(false);
+        setpointMessage.set_enabled(false);
         CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
         cbox::update(now + 2000);
@@ -184,8 +184,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         {
             auto actuatorLookup = cbox::CboxPtr<ActuatorAnalogMockBlock>(actuatorId);
             auto act = actuatorLookup.lock();
-            CHECK(act->get().setting() == 0);
-            CHECK(act->get().settingValid() == false);
+            CHECK(act->get().setting().has_value() == false);
         }
     }
 
@@ -206,7 +205,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         {
             auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
 
-            setpointMessage.set_settingenabled(true);
+            setpointMessage.set_enabled(true);
             setpointMessage.set_storedsetting(cnl::unwrap(Pid::in_t(99.5)));
             setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
 

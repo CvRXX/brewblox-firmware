@@ -27,8 +27,8 @@ TempSensorExternalBlock::read(const cbox::PayloadCallback& callback) const
     auto message = baseMessage();
     std::vector<cbox::obj_field_tag_t> excluded;
 
-    if (valid()) {
-        message.value = cnl::unwrap(_setting);
+    if (auto val = value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_TempSensorExternal_Block_value_tag);
     }

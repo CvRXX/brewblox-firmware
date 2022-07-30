@@ -88,19 +88,17 @@ public:
     IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override final
     {
         uint8_t mask = getMask(channel);
-        if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)
+            || std::holds_alternative<IoValue::Setup::OutputPwm>(setup)
+            || std::holds_alternative<IoValue::Setup::Unused>(setup)) {
             pinStates &= ~mask;
             return setup;
         }
-        if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
-            pinStates &= ~mask;
-            return setup;
-        } else {
-            return IoValue::Error::UNSUPPORTED_SETUP;
-        }
+        return IoValue::Error::UNSUPPORTED_SETUP;
     }
 
-    void connected(bool v)
+    void
+    connected(bool v)
     {
         isConnected = v;
     }

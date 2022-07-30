@@ -37,8 +37,8 @@ TempSensorCombiBlock::read(const cbox::PayloadCallback& callback) const
 
     encodeStoredMessage(message);
 
-    if (sensor.valid()) {
-        message.value = cnl::unwrap((sensor.value()));
+    if (auto val = sensor.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_TempSensorCombi_Block_value_tag);
     }

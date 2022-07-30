@@ -33,15 +33,15 @@ void SetpointSensorWidget::update(const WidgetSettings& settings)
         setConnected();
 
         char icons[3] = {0};
-        if (setpoint->valueValid()) {
-            setValue(temp_to_string(setpoint->value(), 1, settings.tempUnit));
+        if (auto val = setpoint->value()) {
+            setValue(temp_to_string(*val, 1, settings.tempUnit));
             icons[0] = '\x29';
         } else {
             setValue("");
             icons[0] = '\x2B';
         }
-        if (setpoint->settingValid()) {
-            setSetting(temp_to_string(setpoint->setting(), 1, settings.tempUnit));
+        if (auto val = setpoint->setting()) {
+            setSetting(temp_to_string(*val, 1, settings.tempUnit));
             icons[1] = '\x2A';
         } else {
             setSetting("");

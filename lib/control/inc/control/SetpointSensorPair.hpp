@@ -51,7 +51,12 @@ public:
         ControlPtr<TempSensor>& _sensor)
         : m_sensor(_sensor)
         , m_filter(1)
-        , enabler(false)
+        , enabler(false, [this](bool arg) {
+            if (!arg && this->enabler.get()) {
+                this->setting(std::nullopt);
+            }
+            return arg;
+        })
     {
         update();
     }

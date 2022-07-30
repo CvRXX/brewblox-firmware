@@ -27,21 +27,22 @@ SetpointSensorPairBlock::read(const cbox::PayloadCallback& callback) const
     blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
     std::vector<cbox::obj_field_tag_t> excluded;
 
+    message.enabled = pair.enabler.get();
     message.sensorId = sensor.getId();
-    message.settingEnabled = pair.settingValid();
-    message.storedSetting = cnl::unwrap(pair.setting());
-    if (pair.valueValid()) {
-        message.value = cnl::unwrap(pair.value());
+    message.storedSetting = cnl::unwrap(pair.setting().value_or(0));
+    if (auto val = pair.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_SetpointSensorPair_Block_value_tag);
     }
-    if (pair.settingValid()) {
-        message.setting = cnl::unwrap(pair.setting());
+    message.enabled = pair.enabler.get();
+    if (auto val = pair.setting()) {
+        message.setting = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_SetpointSensorPair_Block_setting_tag);
     }
-    if (pair.sensorValid()) {
-        message.valueUnfiltered = cnl::unwrap(pair.valueUnfiltered());
+    if (auto val = pair.valueUnfiltered()) {
+        message.valueUnfiltered = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_SetpointSensorPair_Block_valueUnfiltered_tag);
     }
@@ -64,8 +65,13 @@ SetpointSensorPairBlock::readStored(const cbox::PayloadCallback& callback) const
     blox_SetpointSensorPair_Block message = blox_SetpointSensorPair_Block_init_zero;
 
     message.sensorId = sensor.getId();
-    message.storedSetting = cnl::unwrap(pair.setting());
-    message.settingEnabled = pair.settingValid();
+    message.enabled = pair.enabler.get();
+    if (auto val = pair.setting()) {
+        message.storedSetting = cnl::unwrap(*val);
+    } else {
+        message.storedSetting = 0;
+        message.enabled = false;
+    }
     message.filter = blox_SetpointSensorPair_FilterChoice(pair.filterChoice());
     message.filterThreshold = cnl::unwrap(pair.filterThreshold());
 
@@ -89,9 +95,6 @@ SetpointSensorPairBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_SetpointSensorPair_Block_storedSetting_tag)) {
             pair.setting(cnl::wrap<temp_t>(message.storedSetting));
         }
-        if (parser.hasField(blox_SetpointSensorPair_Block_settingEnabled_tag)) {
-            pair.settingValid(message.settingEnabled);
-        }
         if (parser.hasField(blox_SetpointSensorPair_Block_filter_tag)) {
             pair.filterChoice(uint8_t(message.filter));
         }
@@ -106,6 +109,9 @@ SetpointSensorPairBlock::write(const cbox::Payload& payload)
                 sensor.setId(message.sensorId);
                 filterResetRequired = true;
             }
+        }
+        if (parser.hasField(blox_SetpointSensorPair_Block_enabled_tag)) {
+            pair.enabler.set(message.enabled);
         }
 
         if (filterResetRequired) {

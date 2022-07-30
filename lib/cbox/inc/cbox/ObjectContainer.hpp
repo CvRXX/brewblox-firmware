@@ -39,7 +39,10 @@ public:
     using CIterator = decltype(contained)::const_iterator;
 
     ObjectContainer() = default;
-    virtual ~ObjectContainer() = default;
+    virtual ~ObjectContainer()
+    {
+        clearAll(); // prevents object lookup during container destruction destruction
+    };
 
 private:
     std::pair<Iterator, Iterator> findPosition(obj_id_t id);

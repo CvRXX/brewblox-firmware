@@ -34,7 +34,7 @@ typedef struct _blox_SetpointSensorPair_Block {
     uint16_t sensorId;
     int32_t setting;
     int32_t value;
-    bool settingEnabled;
+    bool enabled;
     int32_t storedSetting;
     blox_SetpointSensorPair_FilterChoice filter;
     int32_t filterThreshold;
@@ -53,7 +53,7 @@ typedef struct _blox_SetpointSensorPair_Block {
 #define blox_SetpointSensorPair_Block_sensorId_tag 2
 #define blox_SetpointSensorPair_Block_setting_tag 5
 #define blox_SetpointSensorPair_Block_value_tag  6
-#define blox_SetpointSensorPair_Block_settingEnabled_tag 7
+#define blox_SetpointSensorPair_Block_enabled_tag 7
 #define blox_SetpointSensorPair_Block_storedSetting_tag 8
 #define blox_SetpointSensorPair_Block_filter_tag 9
 #define blox_SetpointSensorPair_Block_filterThreshold_tag 10

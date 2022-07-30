@@ -72,7 +72,7 @@ SCENARIO("A SetpointProfile block")
 
             message.set_sensorid(sensorId);
             message.set_storedsetting(cnl::unwrap(temp_t(99)));
-            message.set_settingenabled(true);
+            message.set_enabled(true);
 
             messageToPayload(cmd, message);
             CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
@@ -117,7 +117,6 @@ SCENARIO("A SetpointProfile block")
             THEN("It does not change the setpoint")
             {
                 CHECK(pairPtr->get().setting() == temp_t(99));
-                CHECK(pairPtr->get().settingValid() == true);
             }
         }
 
@@ -128,7 +127,7 @@ SCENARIO("A SetpointProfile block")
 
             THEN("The setpoint is valid")
             {
-                CHECK(pairPtr->get().settingValid() == true);
+                CHECK(pairPtr->get().setting().has_value() == true);
             }
             AND_THEN("The setting is correctly interpolated")
             {

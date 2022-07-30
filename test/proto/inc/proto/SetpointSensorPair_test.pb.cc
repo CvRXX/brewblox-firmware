@@ -59,7 +59,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, sensorid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, setting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, settingenabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, storedsetting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filter_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointSensorPair::Block, filterthreshold_),
@@ -97,24 +97,24 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\035SetpointSensorPair_test.proto\022\034blox_te"
       "st.SetpointSensorPair\032\023brewblox_test.pro"
-      "to\032\021nanopb_test.proto\"\241\003\n\005Block\022\035\n\010senso"
+      "to\032\021nanopb_test.proto\"\232\003\n\005Block\022\035\n\010senso"
       "rId\030\002 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022/\n\007setting\030\005 \001(\021B"
       "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005value"
-      "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\026"
-      "\n\016settingEnabled\030\007 \001(\010\022/\n\rstoredSetting\030"
-      "\010 \001(\021B\030\212\265\030\0020\000\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022:\n\006filte"
-      "r\030\t \001(\0162*.blox_test.SetpointSensorPair.F"
-      "ilterChoice\022+\n\017filterThreshold\030\n \001(\021B\022\212\265"
-      "\030\002\010\006\212\265\030\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001("
-      "\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013res"
-      "etFilter\030\014 \001(\010:\031\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030\002H"
-      "\017*~\n\014FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFI"
-      "LTER_15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s"
-      "\020\003\022\r\n\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFIL"
-      "TER_30m\020\006b\006proto3"
+      "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\017"
+      "\n\007enabled\030\007 \001(\010\022/\n\rstoredSetting\030\010 \001(\021B\030"
+      "\212\265\030\0020\000\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \022:\n\006filter\030\t \001(\016"
+      "2*.blox_test.SetpointSensorPair.FilterCh"
+      "oice\022+\n\017filterThreshold\030\n \001(\021B\022\212\265\030\002\010\006\212\265\030"
+      "\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001(\021B\036\212\265\030\002"
+      "0\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013resetFilte"
+      "r\030\014 \001(\010:\031\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030\002H\017*~\n\014Fi"
+      "lterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFILTER_15"
+      "s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s\020\003\022\r\n\tF"
+      "ILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFILTER_30m"
+      "\020\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 657);
+      descriptor, 650);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointSensorPair_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -162,7 +162,7 @@ void Block::InitAsDefaultInstance() {
 const int Block::kSensorIdFieldNumber;
 const int Block::kSettingFieldNumber;
 const int Block::kValueFieldNumber;
-const int Block::kSettingEnabledFieldNumber;
+const int Block::kEnabledFieldNumber;
 const int Block::kStoredSettingFieldNumber;
 const int Block::kFilterFieldNumber;
 const int Block::kFilterThresholdFieldNumber;
@@ -279,14 +279,14 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool settingEnabled = 7;
+      // bool enabled = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &settingenabled_)));
+                 input, &enabled_)));
         } else {
           goto handle_unusual;
         }
@@ -405,9 +405,9 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->value(), output);
   }
 
-  // bool settingEnabled = 7;
-  if (this->settingenabled() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->settingenabled(), output);
+  // bool enabled = 7;
+  if (this->enabled() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->enabled(), output);
   }
 
   // sint32 storedSetting = 8 [(.nanopb) = {
@@ -465,9 +465,9 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->value(), target);
   }
 
-  // bool settingEnabled = 7;
-  if (this->settingenabled() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->settingenabled(), target);
+  // bool enabled = 7;
+  if (this->enabled() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->enabled(), target);
   }
 
   // sint32 storedSetting = 8 [(.nanopb) = {
@@ -547,8 +547,8 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->filter());
   }
 
-  // bool settingEnabled = 7;
-  if (this->settingenabled() != 0) {
+  // bool enabled = 7;
+  if (this->enabled() != 0) {
     total_size += 1 + 1;
   }
 
@@ -613,8 +613,8 @@ void Block::MergeFrom(const Block& from) {
   if (from.filter() != 0) {
     set_filter(from.filter());
   }
-  if (from.settingenabled() != 0) {
-    set_settingenabled(from.settingenabled());
+  if (from.enabled() != 0) {
+    set_enabled(from.enabled());
   }
   if (from.resetfilter() != 0) {
     set_resetfilter(from.resetfilter());
@@ -656,7 +656,7 @@ void Block::InternalSwap(Block* other) {
   swap(value_, other->value_);
   swap(storedsetting_, other->storedsetting_);
   swap(filter_, other->filter_);
-  swap(settingenabled_, other->settingenabled_);
+  swap(enabled_, other->enabled_);
   swap(resetfilter_, other->resetfilter_);
   swap(filterthreshold_, other->filterthreshold_);
   swap(valueunfiltered_, other->valueunfiltered_);

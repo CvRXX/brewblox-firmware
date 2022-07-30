@@ -208,11 +208,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::SetpointSensorPair::FilterChoice filter() const;
   void set_filter(::blox_test::SetpointSensorPair::FilterChoice value);
 
-  // bool settingEnabled = 7;
-  void clear_settingenabled();
-  static const int kSettingEnabledFieldNumber = 7;
-  bool settingenabled() const;
-  void set_settingenabled(bool value);
+  // bool enabled = 7;
+  void clear_enabled();
+  static const int kEnabledFieldNumber = 7;
+  bool enabled() const;
+  void set_enabled(bool value);
 
   // bool resetFilter = 12;
   void clear_resetfilter();
@@ -241,7 +241,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 value_;
   ::google::protobuf::int32 storedsetting_;
   int filter_;
-  bool settingenabled_;
+  bool enabled_;
   bool resetfilter_;
   ::google::protobuf::int32 filterthreshold_;
   ::google::protobuf::int32 valueunfiltered_;
@@ -301,18 +301,18 @@ inline void Block::set_value(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.value)
 }
 
-// bool settingEnabled = 7;
-inline void Block::clear_settingenabled() {
-  settingenabled_ = false;
+// bool enabled = 7;
+inline void Block::clear_enabled() {
+  enabled_ = false;
 }
-inline bool Block::settingenabled() const {
-  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.settingEnabled)
-  return settingenabled_;
+inline bool Block::enabled() const {
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.enabled)
+  return enabled_;
 }
-inline void Block::set_settingenabled(bool value) {
+inline void Block::set_enabled(bool value) {
   
-  settingenabled_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.settingEnabled)
+  enabled_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.enabled)
 }
 
 // sint32 storedSetting = 8 [(.nanopb) = {

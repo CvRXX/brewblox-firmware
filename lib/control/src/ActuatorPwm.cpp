@@ -118,7 +118,7 @@ void ActuatorPwm::timerTask()
         auto actPtr = m_target.lock();
         if (m_dutyTime != 0 && actPtr) {
             if (actPtr->state() == State::Active) {
-                m_dutyAchieved = maxDuty(); // was never low
+                m_dutyAchieved = maxDuty; // was never low
             } else {
                 actPtr->setStateUnlogged(State::Active);
             }

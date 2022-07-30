@@ -57,48 +57,50 @@ IoValue::variant SparkIoBase::writeChannelImpl(uint8_t channel, IoValue::variant
         }
         return IoValue::Error::UNSUPPORTED_VALUE;
     }
-
-    if (auto* v = std::get_if<IoValue::Setup::variant>(&val)) {
-        if (std::holds_alternative<IoValue::Setup::OutputDigital>(*v)) {
-#if defined(PIN_V3_TOP1_DIR)
-            if (pin == PIN_V3_TOP1) {
-                // will also set pin mode, smaller code size than HAL_Pin_Mode and pinSetFast due to inlining
-                HAL_GPIO_Write(PIN_V3_TOP1_DIR, HIGH);
-            }
-#endif
-#if defined(PIN_V3_TOP2_DIR)
-            if (pin == PIN_V3_TOP2) {
-                HAL_GPIO_Write(PIN_V3_TOP2_DIR, HIGH);
-            }
-#endif
-            HAL_GPIO_Write(pin, LOW);
-            return IoValue::Digital(State::Inactive);
-        }
-        if (std::holds_alternative<IoValue::Setup::InputDigital>(*v)) {
-            // support inputs on top 1 and top 2 of spark 3
-#if defined(PIN_V3_TOP1_DIR)
-            if (pin == PIN_V3_TOP1) {
-                HAL_GPIO_Write(PIN_V3_TOP1_DIR, LOW);
-                pinMode(pin, INPUT_PULLDOWN);
-                return IoValue::Digital(State::Inactive);
-            }
-#endif
-#if defined(PIN_V3_TOP2_DIR)
-            if (pin == PIN_V3_TOP2) {
-                HAL_GPIO_Write(PIN_V3_TOP2_DIR, LOW);
-                pinMode(pin, INPUT_PULLDOWN);
-                return IoValue::Digital(State::Inactive);
-            }
-#endif
-            return IoValue::Error::UNSUPPORTED_SETUP;
-        }
-        if (std::holds_alternative<IoValue::Setup::Unused>(*v)) {
-            pinMode(pin, INPUT_PULLDOWN);
-            return IoValue::Error::NOT_CONFIGURED;
-        }
-        return IoValue::Error::UNSUPPORTED_SETUP;
-    }
     return IoValue::Error::UNSUPPORTED_VALUE;
 }
 
+IoValue::Setup::variant SparkIoBase::setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup)
+{
+    auto pin = channelToPin(channel);
+    if (pin == static_cast<decltype(pin)>(-1)) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+#if defined(PIN_V3_TOP1_DIR)
+        if (pin == PIN_V3_TOP1) {
+            // will also set pin mode, smaller code size than HAL_Pin_Mode and pinSetFast due to inlining
+            HAL_GPIO_Write(PIN_V3_TOP1_DIR, LOW);
+        }
+#endif
+#if defined(PIN_V3_TOP2_DIR)
+        if (pin == PIN_V3_TOP2) {
+            HAL_GPIO_Write(PIN_V3_TOP2_DIR, LOW);
+        }
+#endif
+        HAL_GPIO_Write(pin, LOW);
+        return setup;
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
+        // support inputs on top 1 and top 2 of spark 3
+#if defined(PIN_V3_TOP1_DIR)
+        if (pin == PIN_V3_TOP1) {
+            pinMode(pin, INPUT_PULLDOWN);
+            return setup;
+        }
+#endif
+#if defined(PIN_V3_TOP2_DIR)
+        if (pin == PIN_V3_TOP2) {
+            pinMode(pin, INPUT_PULLDOWN);
+            return setup;
+        }
+#endif
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+    if (std::holds_alternative<IoValue::Setup::Unused>(setup)) {
+        pinMode(pin, INPUT_PULLDOWN);
+        return setup;
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
+}
 } // end namespace platform::particle
