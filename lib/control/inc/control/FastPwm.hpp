@@ -29,7 +29,6 @@
 #include <memory>
 #include <optional>
 
-#if 0
 /**
     FastPWM directly drives a PWM capable IO channel, bypassing DigitalActuator, so without support for digital constraints
  */
@@ -44,50 +43,42 @@ private:
     bool m_invert = false;
     uint8_t m_channel = 0;
     uint8_t m_desiredChannel = 0;
-    duty_t m_desiredDuty = 0;
-    duty_t m_actualDuty = 0;
+    std::optional<value_t> m_desiredDuty = 0;
+    std::optional<value_t> m_actualDuty = 0;
+    duration_millis_t m_transitionDuration = 0;
+    ticks_millis_t m_lastUpdateTime = 0;
 
     static constexpr auto maxDuty = duty_t{100};
+    static constexpr auto maxIncrease = duty_t{25};
+    static constexpr auto minDuty = duty_t{0};
 
 public:
     // separate flag for manually disabling the pwm actuator
     Enabler enabler;
 
-    explicit FastPwm(ControlPtr<IoArray>& target, uint8_t chan)
-        : m_target(target)
-    {
-        channel(chan);
-    }
+    explicit FastPwm(ControlPtr<IoArray>& target, uint8_t chan);
 
     FastPwm(const FastPwm&) = delete;
     FastPwm& operator=(const FastPwm&) = delete;
 
-    virtual ~FastPwm()
+    ~FastPwm() final
     {
         channel(0); // release channel before destruction
     }
 
-    [[nodiscard]] value_t value() const final
+    [[nodiscard]] std::optional<value_t> value() const final
     {
-        return m_actualDuty.value_or(0);
+        return m_actualDuty;
     }
 
-    [[nodiscard]] value_t setting() const final
+    [[nodiscard]] std::optional<value_t> setting() const final
     {
-        m_desiredDuty.value_or(0);
+        return m_desiredDuty;
     }
 
-    void setting(const value_t& val) final;
+    void setting(std::optional<value_t> val) final;
 
     [[nodiscard]] duration_millis_t period() const;
-
-    void period(const duration_millis_t& p);
-
-    [[nodiscard]] bool valueValid() const final;
-
-    [[nodiscard]] bool settingValid() const final;
-
-    void settingValid(bool v) final;
 
     ticks_millis_t update(ticks_millis_t now);
 
@@ -121,5 +112,18 @@ public:
             update(0);
         }
     }
+
+    void transitionTime(duration_millis_t arg)
+    {
+        if (arg >= 100) {
+            m_transitionDuration = arg;
+        } else {
+            m_transitionDuration = 0;
+        }
+    };
+
+    [[nodiscard]] auto transitionTime()
+    {
+        return m_transitionDuration;
+    };
 };
-#endif

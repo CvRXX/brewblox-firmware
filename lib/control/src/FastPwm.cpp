@@ -20,11 +20,41 @@
 #include "control/FastPwm.hpp"
 #include <algorithm>
 
-#if 0
 using duty_t = FastPwm::duty_t;
+
+FastPwm::FastPwm(ControlPtr<IoArray>& target, uint8_t chan)
+    : m_target(target)
+    , enabler(true, [this](bool arg) {
+        if (!arg && this->enabler.get()) {
+            this->setting(std::nullopt);
+        }
+        return arg;
+    })
+{
+    channel(chan);
+}
+
+void FastPwm::setting(std::optional<value_t> val)
+{
+    if (!val) {
+        if (m_desiredDuty) {
+            // set to zero once if the setting is cleared
+            if (auto devPtr = m_target.lock()) {
+                devPtr->writeChannel(m_channel, IoValue::PWM{0});
+            }
+        }
+        m_desiredDuty = std::nullopt;
+    } else {
+        m_desiredDuty = std::clamp(*val, minDuty, maxDuty);
+    }
+}
 
 ticks_millis_t FastPwm::update(ticks_millis_t now)
 {
+    if (!m_desiredDuty) {
+        return now + 1000;
+    }
+
     if (!channelReady()) {
         if (!claimChannel()) {
             m_actualDuty = 0;
@@ -33,40 +63,28 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
     }
 
     if (auto devPtr = m_target.lock()) {
-        auto duty = m_duty;
+        auto duty = m_actualDuty.value_or(0);
         if (m_transitionDuration) {
             // change max 25% in case update interval was long
             auto elapsed = std::min(now - m_lastUpdateTime, m_transitionDuration / 4);
-            duty_t increment = (duty_t{25} * elapsed) / (m_transitionDuration / 4);
-
-            if (m_desired == State::Active) {
-                // use duty of at least 1% when active
-                duty += increment;
-                if (duty <= duty_t{0}) {
-                    duty = duty_t{1};
-                }
-                if (duty > duty_t{100}) {
-                    duty = 100;
-                }
+            duty_t increment = (maxIncrease * elapsed) / (m_transitionDuration / 4);
+            if (duty < *m_desiredDuty) {
+                duty = std::min(duty_t{duty + increment}, *m_desiredDuty);
             } else {
-                duty -= increment;
-                if (duty < duty_t{0}) {
-                    duty = duty_t{0};
-                }
+                duty = std::max(duty_t{duty - increment}, *m_desiredDuty);
             }
         } else {
-            duty = m_desired == State::Active ? duty_t{100} : duty_t{0};
+            duty = *m_desiredDuty;
         }
         m_lastUpdateTime = now;
         auto result = devPtr->writeChannel(m_channel, IoValue::PWM{duty});
         if (const auto* pVal = std::get_if<IoValue::PWM>(&result)) {
-            m_duty = pVal->duty();
-            m_actual = m_duty != 0 ? State::Active : State::Inactive;
-            return now + 25;
+            m_actualDuty = pVal->duty();
+            return now + std::max(duration_millis_t{10}, m_transitionDuration / 16); // use 16 steps, but at least 10 ms
         }
     }
 
-    m_actual = State::Unknown;
+    m_actualDuty = std::nullopt;
 
     return now + 1000;
 }
@@ -101,4 +119,3 @@ bool FastPwm::claimChannel()
     }
     return false;
 }
-#endif
