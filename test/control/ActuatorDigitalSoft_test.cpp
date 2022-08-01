@@ -38,12 +38,6 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
             CHECK(mock.state() == State::Inactive);
         }
 
-        THEN("The channel is ready")
-        {
-
-            CHECK(mock.channelReady() == true);
-        }
-
         THEN("It can be toggled between active and inactive")
         {
             mock.state(State::Active);
@@ -85,28 +79,31 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
                 return pVal->duty();
             };
 
-            THEN("duty is 1 after state change")
+            auto bit = 1.0 / 4096;
+            THEN("duty is 1 bit above zero after state change")
             {
-                CHECK(getDuty() == 1);
+                CHECK(getDuty() == bit);
             }
+
             AND_THEN("duty increases gradually with regular updates")
             {
                 mock.update(110);
-                CHECK(getDuty() == 6);
+                CHECK(getDuty() == bit + 5);
 
                 mock.update(120);
-                CHECK(getDuty() == 11);
+                CHECK(getDuty() == bit + 10);
             }
+
             AND_THEN("duty increases by 25% when update interval is too slow")
             {
                 mock.update(201);
-                CHECK(getDuty() == 26);
+                CHECK(getDuty() == bit + 25);
 
                 mock.update(301);
-                CHECK(getDuty() == 51);
+                CHECK(getDuty() == bit + 50);
 
                 mock.update(401);
-                CHECK(getDuty() == 76);
+                CHECK(getDuty() == bit + 75);
 
                 mock.update(501);
                 CHECK(getDuty() == 100);
@@ -115,18 +112,18 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
                 {
                     mock.state(State::Inactive);
                     mock.update(511);
-                    CHECK(getDuty() == 95);
+                    CHECK(getDuty() == 95 - bit);
 
                     mock.update(611);
-                    CHECK(getDuty() == 70);
+                    CHECK(getDuty() == 70 - bit);
 
                     mock.update(711);
-                    CHECK(getDuty() == 45);
+                    CHECK(getDuty() == 45 - bit);
                     mock.update(811);
-                    CHECK(getDuty() == 20);
+                    CHECK(getDuty() == 20 - bit);
 
                     mock.update(812);
-                    CHECK(getDuty() == 19.5);
+                    CHECK(getDuty() == 19.5 - bit);
 
                     mock.update(911);
                     CHECK(getDuty() == 0);

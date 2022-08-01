@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "FastPwm.hpp"
 #include "control/ActuatorDigitalBase.hpp"
 #include "control/ControlPtr.hpp"
 #include "control/IoArray.hpp"
@@ -34,21 +35,14 @@ public:
     using duty_t = IoValue::PWM::duty_t;
 
 private:
-    ControlPtr<IoArray>& m_target;
-    bool m_invert = false;
-    uint8_t m_channel = 0;
-    uint8_t m_desiredChannel = 0;
-    duration_millis_t m_transitionDuration = 0;
-    ticks_millis_t m_lastUpdateTime = 0;
-    duty_t m_duty = 0;
+    FastPwm pwm;
     State m_desired = State::Inactive;
     State m_actual = State::Unknown;
 
 public:
     explicit ActuatorDigitalSoft(ControlPtr<IoArray>& target, uint8_t chan)
-        : m_target(target)
+        : pwm(target, chan)
     {
-        channel(chan);
     }
 
     ActuatorDigitalSoft(const ActuatorDigitalSoft&) = delete;
@@ -56,61 +50,70 @@ public:
     ActuatorDigitalSoft& operator=(const ActuatorDigitalSoft&) = delete;
     ActuatorDigitalSoft& operator=(ActuatorDigitalSoft&&) = delete;
 
-    virtual ~ActuatorDigitalSoft()
-    {
-        channel(0); // release channel before destruction
-    }
+    virtual ~ActuatorDigitalSoft() = default;
 
-    void state(State v) final;
+    void state(State v) final
+    {
+        if (v == State::Active) {
+            m_desired = State::Active;
+            pwm.setting(100);
+        } else {
+            m_desired = State::Inactive;
+            pwm.setting(0);
+        }
+        if (auto v = pwm.value()) {
+            if (v == FastPwm::minDuty || v == FastPwm::maxDuty) {
+                // do one immediate update if the actuator was at 0 or max to ensure the state will be active
+                pwm.update();
+            }
+        }
+    }
 
     [[nodiscard]] State state() const override final
     {
-        return m_actual;
+        if (auto v = pwm.value()) {
+            return (*v != 0) ? State::Active : State::Inactive;
+        }
+        return State::Unknown;
     }
 
     [[nodiscard]] bool invert() const
     {
-        return m_invert;
+        return pwm.invert();
     }
 
     void invert(bool inv)
     {
-        auto active = state();
-        m_invert = inv;
-        state(active);
+        pwm.invert(inv);
     }
 
     [[nodiscard]] uint8_t channel() const
     {
-        return m_desiredChannel;
+        return pwm.channel();
     }
 
     void channel(uint8_t newChannel)
     {
-        m_desiredChannel = newChannel;
-        update(0);
+        pwm.channel(newChannel);
+        update();
     }
 
-    bool claimChannel();
-
-    [[nodiscard]] bool channelReady() const
+    ticks_millis_t update(ticks_millis_t now)
     {
-        return m_desiredChannel == m_channel;
+        return pwm.update(now);
     }
-
-    ticks_millis_t update(ticks_millis_t now);
+    ticks_millis_t update()
+    {
+        return pwm.update();
+    }
 
     void transitionTime(duration_millis_t arg)
     {
-        if (arg >= 100) {
-            m_transitionDuration = arg;
-        } else {
-            m_transitionDuration = 0;
-        }
+        pwm.transitionTime(arg);
     };
 
     [[nodiscard]] auto transitionTime()
     {
-        return m_transitionDuration;
+        return pwm.transitionTime();
     };
 };

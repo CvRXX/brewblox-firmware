@@ -67,7 +67,9 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
         if (m_transitionDuration) {
             // change max 25% in case update interval was long
             auto elapsed = std::min(now - m_lastUpdateTime, m_transitionDuration / 4);
-            duty_t increment = (maxIncrease * elapsed) / (m_transitionDuration / 4);
+            // use 1 bit as minimum increment
+            duty_t increment = std::max(duty_t{(maxIncrease * elapsed) / (m_transitionDuration / 4)},
+                                        cnl::numeric_limits<duty_t>::min());
             if (duty < *m_desiredDuty) {
                 duty = std::min(duty_t{duty + increment}, *m_desiredDuty);
             } else {

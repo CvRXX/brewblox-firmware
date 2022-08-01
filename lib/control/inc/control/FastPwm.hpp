@@ -48,11 +48,10 @@ private:
     duration_millis_t m_transitionDuration = 0;
     ticks_millis_t m_lastUpdateTime = 0;
 
+public:
     static constexpr auto maxDuty = duty_t{100};
     static constexpr auto maxIncrease = duty_t{25};
     static constexpr auto minDuty = duty_t{0};
-
-public:
     // separate flag for manually disabling the pwm actuator
     Enabler enabler;
 
@@ -81,6 +80,11 @@ public:
     [[nodiscard]] duration_millis_t period() const;
 
     ticks_millis_t update(ticks_millis_t now);
+
+    ticks_millis_t update()
+    {
+        return update(m_lastUpdateTime);
+    }
 
     [[nodiscard]] uint8_t channel() const
     {
