@@ -156,9 +156,6 @@ public:
 
         blox_OneWireGpioModule_GpioDeviceType deviceType = blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE;
         uint8_t width;
-        IoValue::PWM::duty_t duty = 0;
-        IoValue::Setup::Frequency freq = IoValue::Setup::Frequency::FREQ_NONE;
-        IoValue::Setup::SoftTransitions soft = IoValue::Setup::SoftTransitions::OFF;
 
         uint8_t pins() const
         {
@@ -170,6 +167,8 @@ public:
 
     private:
         ChanBitsInternal pins_mask; // pins controlled by this channel
+        uint8_t desiredDuty = 0;
+        uint8_t appliedDuty = 0;
         friend class ExpOwGpio;
     };
 
@@ -311,6 +310,15 @@ private:
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
+    uint16_t pwm_freq = 0;
+    uint8_t pwm_map_1_desired = 0;
+    uint8_t pwm_map_1_applied = 0;
+    uint8_t pwm_map_2_desired = 0;
+    uint8_t pwm_map_2_applied = 0;
+    uint8_t pwm_map_3_desired = 0;
+    uint8_t pwm_map_3_applied = 0;
+    uint8_t pwm_map_4_desired = 0;
+    uint8_t pwm_map_4_applied = 0;
     bool externalPower = false;
     bool connected = false;
 

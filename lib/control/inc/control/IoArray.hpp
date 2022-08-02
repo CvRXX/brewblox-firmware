@@ -173,6 +173,15 @@ public:
         return IoValue::Error::CHANNEL_IN_USE;
     }
 
+    void reapplySetup(uint8_t channel)
+    {
+        if (!validChannel(channel)) {
+            return;
+        }
+        auto& chan = channels[channel - 1];
+        chan.setup = setupChannelImpl(channel, chan.setupDesired);
+    }
+
     // returns written value or error
     IoValue::variant writeChannel(uint8_t channel, IoValue::variant val)
     {
