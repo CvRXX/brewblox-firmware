@@ -2,9 +2,8 @@
 # shellcheck source=./_init.sh
 source "$(git rev-parse --show-toplevel)/script/_init.sh"
 
-FW_DATE="${1:-}"    # Example: 2022-03-28
-FW_VERSION="${2:-}" # Example: b3c5a50f
-DUMP_INPUT="${3:-}" # Local file, or termbin URL
+FW_IDENTIFIER="${1:-}" # Examples: '2022-03-28-b3c5a50f', 'edge', 'feature-experimental'
+DUMP_INPUT="${2:-}"    # Local file, or termbin URL
 
 mkdir -p ./dump
 rm -rf ./dump/*
@@ -16,6 +15,21 @@ if [[ "${DUMP_INPUT}" =~ ^http.+ ]]; then
 else
     cp "${DUMP_INPUT}" ./coredump.b64
 fi
+
+if [[ "${FW_IDENTIFIER}" =~ ^\d{4}-\d{2}-\d{2}-\w{8}$ ]]; then
+    echo "Using CLI firmware identifier..."
+    FW_DATE=${FW_IDENTIFIER:0:10}
+    FW_VERSION=${FW_IDENTIFIER:11:8}
+else
+    echo "Downloading firmware.ini file..."
+    curl -sSLO \
+        "https://brewblox.blob.core.windows.net/firmware/${FW_IDENTIFIER}/firmware.ini"
+    FW_DATE=$(awk -F "=" '/firmware_date/ {print $2}' firmware.ini)
+    FW_VERSION=$(awk -F "=" '/firmware_version/ {print $2}' firmware.ini)
+fi
+
+echo "[Firmware date = ${FW_DATE}]"
+echo "[Firmware version = ${FW_VERSION}]"
 
 echo "Downloading .elf file..."
 curl -sSLO \

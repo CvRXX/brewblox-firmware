@@ -159,7 +159,9 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 payloadToMessage(cmd, message);
 
                 REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
-                REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{3});
+                REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{
+                            blox_test::DigitalActuator::Block::kStateFieldNumber,
+                        });
 
                 // in simulation, the hw device will not work and therefore the state will be unknown
                 CHECK(message.ShortDebugString() ==

@@ -231,7 +231,9 @@ SCENARIO("A TempSensorCombi block")
             payloadToMessage(cmd, message);
 
             REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
-            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{1});
+            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{
+                        blox_test::TempSensorCombi::Block::kValueFieldNumber,
+                    });
 
             CHECK(message.ShortDebugString() ==
                   "sensors: 101 "

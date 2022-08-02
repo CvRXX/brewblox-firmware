@@ -28,7 +28,6 @@ cbox::CboxError WiFiSettingsBlock::read(const cbox::PayloadCallback& callback) c
 {
     blox_WiFiSettings_Block message = blox_WiFiSettings_Block_init_zero;
 
-    printWiFiIp(message.ip);
     printWifiSSID(message.ssid, sizeof(message.ssid));
     message.signal = wifiSignal();
 

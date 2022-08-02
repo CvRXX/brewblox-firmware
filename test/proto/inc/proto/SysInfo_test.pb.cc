@@ -94,6 +94,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, protocolversion_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, releasedate_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, protocoldate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, ip_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, command_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, trace_),
 };
@@ -149,23 +150,24 @@ void AddDescriptorsImpl() {
       "TART\020h\022\020\n\014MDNS_PROCESS\020i\022\016\n\nHTTP_START\020j"
       "\022\r\n\tHTTP_STOP\020k\022\021\n\rHTTP_RESPONSE\020l\022\020\n\014WI"
       "FI_CONNECT\020m\022\033\n\027FIRMWARE_UPDATE_STARTED\020"
-      "n\"\330\002\n\005Block\022#\n\010deviceId\030\001 \001(\014B\021\212\265\030\002(\001\222\?\002"
+      "n\"\367\002\n\005Block\022#\n\010deviceId\030\001 \001(\014B\021\212\265\030\002(\001\222\?\002"
       "\010\014\212\265\030\0028\001\022\034\n\007version\030\002 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\0225"
       "\n\010platform\030\003 \001(\0162\033.blox_test.SysInfo.Pla"
       "tformB\006\212\265\030\002(\001\022$\n\017protocolVersion\030\007 \001(\tB\013"
       "\212\265\030\002(\001\222\?\002\010\014\022 \n\013releaseDate\030\010 \001(\tB\013\212\265\030\002(\001"
       "\222\?\002\010\014\022!\n\014protocolDate\030\t \001(\tB\013\212\265\030\002(\001\222\?\002\010\014"
-      "\022+\n\007command\030\n \001(\0162\032.blox_test.SysInfo.Co"
-      "mmand\0224\n\005trace\030\013 \003(\0132\030.blox_test.SysInfo"
-      ".TraceB\013\212\265\030\002(\001\222\?\002\020\n:\007\212\265\030\003\030\200\002*X\n\010Platform"
-      "\022\024\n\020PLATFORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003"
-      "\022\023\n\017PLATFORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010*l"
-      "\n\007Command\022\020\n\014SYS_CMD_NONE\020\000\022\026\n\022SYS_CMD_T"
-      "RACE_READ\020\001\022\030\n\024SYS_CMD_TRACE_RESUME\020\002\022\035\n"
-      "\031SYS_CMD_TRACE_READ_RESUME\020\003b\006proto3"
+      "\022\035\n\002ip\030\n \001(\rB\021\212\265\030\002(\001\212\265\030\002`\001\222\?\0028 \022+\n\007comma"
+      "nd\030d \001(\0162\032.blox_test.SysInfo.Command\0224\n\005"
+      "trace\030e \003(\0132\030.blox_test.SysInfo.TraceB\013\212"
+      "\265\030\002(\001\222\?\002\020\n:\007\212\265\030\003\030\200\002*X\n\010Platform\022\024\n\020PLATF"
+      "ORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023\n\017PLATF"
+      "ORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010*l\n\007Command"
+      "\022\020\n\014SYS_CMD_NONE\020\000\022\026\n\022SYS_CMD_TRACE_READ"
+      "\020\001\022\030\n\024SYS_CMD_TRACE_RESUME\020\002\022\035\n\031SYS_CMD_"
+      "TRACE_READ_RESUME\020\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1396);
+      descriptor, 1427);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SysInfo_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -613,6 +615,7 @@ const int Block::kPlatformFieldNumber;
 const int Block::kProtocolVersionFieldNumber;
 const int Block::kReleaseDateFieldNumber;
 const int Block::kProtocolDateFieldNumber;
+const int Block::kIpFieldNumber;
 const int Block::kCommandFieldNumber;
 const int Block::kTraceFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -717,7 +720,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.SysInfo.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -812,10 +815,24 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.SysInfo.Command command = 10;
+      // uint32 ip = 10 [(.nanopb) = {
       case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &ip_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .blox_test.SysInfo.Command command = 100;
+      case 100: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 800 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -827,10 +844,10 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
-      case 11: {
+      // repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
+      case 101: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(42u /* 810 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                 input, add_trace()));
         } else {
@@ -917,17 +934,22 @@ void Block::SerializeWithCachedSizes(
       9, this->protocoldate(), output);
   }
 
-  // .blox_test.SysInfo.Command command = 10;
-  if (this->command() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      10, this->command(), output);
+  // uint32 ip = 10 [(.nanopb) = {
+  if (this->ip() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->ip(), output);
   }
 
-  // repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
+  // .blox_test.SysInfo.Command command = 100;
+  if (this->command() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      100, this->command(), output);
+  }
+
+  // repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->trace_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      11,
+      101,
       this->trace(static_cast<int>(i)),
       output);
   }
@@ -1003,18 +1025,23 @@ void Block::SerializeWithCachedSizes(
         9, this->protocoldate(), target);
   }
 
-  // .blox_test.SysInfo.Command command = 10;
-  if (this->command() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      10, this->command(), target);
+  // uint32 ip = 10 [(.nanopb) = {
+  if (this->ip() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->ip(), target);
   }
 
-  // repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
+  // .blox_test.SysInfo.Command command = 100;
+  if (this->command() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      100, this->command(), target);
+  }
+
+  // repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->trace_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        11, this->trace(static_cast<int>(i)), deterministic, target);
+        101, this->trace(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1034,10 +1061,10 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .blox_test.SysInfo.Trace trace = 11 [(.nanopb) = {
+  // repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
   {
     unsigned int count = static_cast<unsigned int>(this->trace_size());
-    total_size += 1UL * count;
+    total_size += 2UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -1086,9 +1113,16 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->platform());
   }
 
-  // .blox_test.SysInfo.Command command = 10;
-  if (this->command() != 0) {
+  // uint32 ip = 10 [(.nanopb) = {
+  if (this->ip() != 0) {
     total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->ip());
+  }
+
+  // .blox_test.SysInfo.Command command = 100;
+  if (this->command() != 0) {
+    total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->command());
   }
 
@@ -1143,6 +1177,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.platform() != 0) {
     set_platform(from.platform());
   }
+  if (from.ip() != 0) {
+    set_ip(from.ip());
+  }
   if (from.command() != 0) {
     set_command(from.command());
   }
@@ -1184,6 +1221,7 @@ void Block::InternalSwap(Block* other) {
   protocoldate_.Swap(&other->protocoldate_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(platform_, other->platform_);
+  swap(ip_, other->ip_);
   swap(command_, other->command_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }

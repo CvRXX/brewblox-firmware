@@ -163,7 +163,10 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
             payloadToMessage(readCmd, readMsg);
 
             REQUIRE(readCmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
-            REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{7, 6});
+            REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{
+                        blox_test::ActuatorOffset::Block::kValueFieldNumber,
+                        blox_test::ActuatorOffset::Block::kSettingFieldNumber,
+                    });
 
             CHECK(readMsg.ShortDebugString() ==
                   "targetId: 101 "

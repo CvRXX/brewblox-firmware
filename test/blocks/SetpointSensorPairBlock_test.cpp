@@ -107,7 +107,10 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             payloadToMessage(cmd, message);
 
             REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
-            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{6, 11});
+            REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{
+                        blox_test::SetpointSensorPair::Block::kValueFieldNumber,
+                        blox_test::SetpointSensorPair::Block::kValueUnfilteredFieldNumber,
+                    });
 
             CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "

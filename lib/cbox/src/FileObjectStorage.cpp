@@ -129,6 +129,17 @@ CboxError FileObjectStorage::saveObject(const Payload& payload)
         return CboxError::INVALID_BLOCK_ID;
     }
 
+    bool sameAsStored = false;
+    loadObject(payload.blockId, [&payload, &sameAsStored](const Payload& stored) {
+        sameAsStored = stored.blockType == payload.blockType
+                       && stored.content == payload.content;
+        return CboxError::OK;
+    });
+
+    if (sameAsStored) {
+        return CboxError::OK;
+    }
+
     // Used to be groups, now a reserved byte to remain backwards compatible
     uint8_t flags{0};
 

@@ -568,6 +568,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 drivendevice() const;
   void set_drivendevice(::google::protobuf::uint32 value);
 
+  // uint32 ip = 10 [(.nanopb) = {
+  void clear_ip();
+  static const int kIpFieldNumber = 10;
+  ::google::protobuf::uint32 ip() const;
+  void set_ip(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.EdgeCase.Block)
  private:
 
@@ -582,6 +588,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 logged_;
   ::google::protobuf::uint32 unlogged_;
   ::google::protobuf::uint32 drivendevice_;
+  ::google::protobuf::uint32 ip_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_EdgeCase_5ftest_2eproto::TableStruct;
 };
@@ -1017,6 +1024,20 @@ inline void Block::set_drivendevice(::google::protobuf::uint32 value) {
   
   drivendevice_ = value;
   // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.drivenDevice)
+}
+
+// uint32 ip = 10 [(.nanopb) = {
+inline void Block::clear_ip() {
+  ip_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::ip() const {
+  // @@protoc_insertion_point(field_get:blox_test.EdgeCase.Block.ip)
+  return ip_;
+}
+inline void Block::set_ip(::google::protobuf::uint32 value) {
+  
+  ip_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.EdgeCase.Block.ip)
 }
 
 // -------------------------------------------------------------------

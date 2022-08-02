@@ -24,6 +24,7 @@ set(blocks_srcs
   src/SetpointSensorPairBlock.cpp
   src/SysInfoBlock.cpp
   src/TempSensorCombiBlock.cpp
+  src/TempSensorExternalBlock.cpp
   src/TempSensorMockBlock.cpp
   src/TempSensorOneWireBlock.cpp
 )

@@ -143,13 +143,21 @@ enum BlockType {
   TempSensorCombi = 324,
   OneWireGpioModule = 325,
   Sequence = 326,
+<<<<<<< HEAD
   ScreenConfig = 327,
+=======
+  TempSensorExternal = 328,
+>>>>>>> brewblox/develop
   BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool BlockType_IsValid(int value);
 const BlockType BlockType_MIN = Invalid;
+<<<<<<< HEAD
 const BlockType BlockType_MAX = ScreenConfig;
+=======
+const BlockType BlockType_MAX = TempSensorExternal;
+>>>>>>> brewblox/develop
 const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BlockType_descriptor();
@@ -439,6 +447,12 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool datetime() const;
   void set_datetime(bool value);
 
+  // bool ipv4address = 12;
+  void clear_ipv4address();
+  static const int kIpv4AddressFieldNumber = 12;
+  bool ipv4address() const;
+  void set_ipv4address(bool value);
+
   // @@protoc_insertion_point(class_scope:brewblox.FieldOpts)
  private:
 
@@ -454,6 +468,7 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool ignored_;
   bool bitfield_;
   bool datetime_;
+  bool ipv4address_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_brewblox_5ftest_2eproto::TableStruct;
 };
@@ -690,6 +705,20 @@ inline void FieldOpts::set_datetime(bool value) {
   
   datetime_ = value;
   // @@protoc_insertion_point(field_set:brewblox.FieldOpts.datetime)
+}
+
+// bool ipv4address = 12;
+inline void FieldOpts::clear_ipv4address() {
+  ipv4address_ = false;
+}
+inline bool FieldOpts::ipv4address() const {
+  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.ipv4address)
+  return ipv4address_;
+}
+inline void FieldOpts::set_ipv4address(bool value) {
+  
+  ipv4address_ = value;
+  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.ipv4address)
 }
 
 #ifdef __GNUC__

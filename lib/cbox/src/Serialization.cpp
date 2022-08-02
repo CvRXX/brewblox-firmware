@@ -66,6 +66,7 @@ bool encodePayload(pb_ostream_t* stream, const pb_field_t* field, void* const* a
     submsg.blockId = payload->blockId;
     submsg.blockType = brewblox_BlockType(payload->blockType);
     submsg.subtype = payload->subtype;
+    submsg.maskMode = command_MaskMode(payload->maskMode);
 
     submsg.content.funcs.encode = &encodePayloadContent;
     submsg.content.arg = *arg;

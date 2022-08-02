@@ -84,6 +84,7 @@ CPPSRC += $(ROOT_DIR)/test/blocks/ActuatorPwmBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/AutoDiscover_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/BalancerAndMutexBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/DigitalActuatorBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/DisplaySettingsBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireBusBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireTempSensorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/PidBlock_test.cpp
@@ -92,6 +93,7 @@ CPPSRC += $(ROOT_DIR)/test/blocks/SetpointProfileBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SetpointSensorPairBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/SysInfoBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/TempSensorCombiBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/TempSensorExternalBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/TempSensorMockBlock_test.cpp
 
 

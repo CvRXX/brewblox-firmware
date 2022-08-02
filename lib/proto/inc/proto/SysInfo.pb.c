@@ -16,15 +16,16 @@ const pb_field_t blox_SysInfo_Trace_fields[4] = {
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_SysInfo_Block_fields[9] = {
+const pb_field_t blox_SysInfo_Block_fields[10] = {
     PB_FIELD(  1, BYTES   , SINGULAR, STATIC  , FIRST, blox_SysInfo_Block, deviceId, deviceId, 0),
     PB_FIELD(  2, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, version, deviceId, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, platform, version, 0),
     PB_FIELD(  7, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, protocolVersion, platform, 0),
     PB_FIELD(  8, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, releaseDate, protocolVersion, 0),
     PB_FIELD(  9, STRING  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, protocolDate, releaseDate, 0),
-    PB_FIELD( 10, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, command, protocolDate, 0),
-    PB_FIELD( 11, MESSAGE , REPEATED, STATIC  , OTHER, blox_SysInfo_Block, trace, command, &blox_SysInfo_Trace_fields),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, ip, protocolDate, 0),
+    PB_FIELD(100, UENUM   , SINGULAR, STATIC  , OTHER, blox_SysInfo_Block, command, ip, 0),
+    PB_FIELD(101, MESSAGE , REPEATED, STATIC  , OTHER, blox_SysInfo_Block, trace, command, &blox_SysInfo_Trace_fields),
     PB_LAST_FIELD
 };
 

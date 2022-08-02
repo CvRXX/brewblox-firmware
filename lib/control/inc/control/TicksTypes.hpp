@@ -27,3 +27,5 @@ using duration_seconds_t = uint32_t;
 using ticks_millis_t = uint32_t;
 using ticks_micros_t = uint32_t;
 using utc_seconds_t = uint32_t;
+
+static constexpr utc_seconds_t MIN_VALID_UTC = 1'000'000'000; // mid-2001

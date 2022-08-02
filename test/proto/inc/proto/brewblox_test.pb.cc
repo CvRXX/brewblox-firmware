@@ -97,6 +97,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, ignored_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, bitfield_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, datetime_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::brewblox::FieldOpts, ipv4address_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::brewblox::MessageOpts)},
@@ -134,12 +135,13 @@ void AddDescriptorsImpl() {
       "roto\"|\n\013MessageOpts\022$\n\007objtype\030\003 \001(\0162\023.b"
       "rewblox.BlockType\022(\n\004impl\030\t \003(\0162\023.brewbl"
       "ox.BlockTypeB\005\222\?\002\020\005\022\026\n\007subtype\030\013 \001(\rB\005\222\?"
-      "\0028\020:\005\222\?\0020\001\"\357\001\n\tFieldOpts\022 \n\004unit\030\001 \001(\0162\022"
+      "\0028\020:\005\222\?\0020\001\"\204\002\n\tFieldOpts\022 \n\004unit\030\001 \001(\0162\022"
       ".brewblox.UnitType\022\r\n\005scale\030\002 \001(\r\022$\n\007obj"
       "type\030\003 \001(\0162\023.brewblox.BlockType\022\r\n\005hexed"
       "\030\004 \001(\010\022\020\n\010readonly\030\005 \001(\010\022\016\n\006logged\030\006 \001(\010"
       "\022\016\n\006hexstr\030\007 \001(\010\022\016\n\006driven\030\010 \001(\010\022\017\n\007igno"
       "red\030\t \001(\010\022\020\n\010bitfield\030\n \001(\010\022\020\n\010datetime\030"
+<<<<<<< HEAD
       "\013 \001(\010:\005\222\?\0020\001*\214\002\n\010UnitType\022\n\n\006NotSet\020\000\022\013\n"
       "\007Celsius\020\001\022\022\n\016InverseCelsius\020\002\022\n\n\006Second"
       "\020\003\022\n\n\006Minute\020\004\022\010\n\004Hour\020\005\022\020\n\014DeltaCelsius"
@@ -179,6 +181,47 @@ void AddDescriptorsImpl() {
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
       descriptor, 1850);
+=======
+      "\013 \001(\010\022\023\n\013ipv4address\030\014 \001(\010:\005\222\?\0020\001*\214\002\n\010Un"
+      "itType\022\n\n\006NotSet\020\000\022\013\n\007Celsius\020\001\022\022\n\016Inver"
+      "seCelsius\020\002\022\n\n\006Second\020\003\022\n\n\006Minute\020\004\022\010\n\004H"
+      "our\020\005\022\020\n\014DeltaCelsius\020\006\022\031\n\025DeltaCelsiusP"
+      "erSecond\020\007\022\031\n\025DeltaCelsiusPerMinute\020\010\022\027\n"
+      "\023DeltaCelsiusPerHour\020\t\022\032\n\026DeltaCelsiusMu"
+      "ltSecond\020\n\022\032\n\026DeltaCelsiusMultMinute\020\013\022\030"
+      "\n\024DeltaCelsiusMultHour\020\014*\310\007\n\tBlockType\022\013"
+      "\n\007Invalid\020\000\022\031\n\025ProcessValueInterface\020\001\022\027"
+      "\n\023TempSensorInterface\020\002\022\037\n\033SetpointSenso"
+      "rPairInterface\020\004\022\033\n\027ActuatorAnalogInterf"
+      "ace\020\005\022\034\n\030ActuatorDigitalInterface\020\006\022\025\n\021B"
+      "alancerInterface\020\007\022\022\n\016MutexInterface\020\010\022\032"
+      "\n\026OneWireDeviceInterface\020\t\022\024\n\020IoArrayInt"
+      "erface\020\n\022\023\n\017DS2408Interface\020\013\022\027\n\023OneWire"
+      "BusInterface\020\014\022\025\n\021IoModuleInterface\020\r\022\037\n"
+      "\033OneWireDeviceBlockInterface\020\016\022\024\n\020Enable"
+      "rInterface\020\017\022\010\n\003Any\020\377\001\022\014\n\007SysInfo\020\200\002\022\n\n\005"
+      "Ticks\020\201\002\022\017\n\nOneWireBus\020\202\002\022\016\n\tBoardPins\020\203"
+      "\002\022\023\n\016TempSensorMock\020\255\002\022\026\n\021TempSensorOneW"
+      "ire\020\256\002\022\027\n\022SetpointSensorPair\020\257\002\022\010\n\003Pid\020\260"
+      "\002\022\027\n\022ActuatorAnalogMock\020\261\002\022\020\n\013ActuatorPi"
+      "n\020\262\002\022\020\n\013ActuatorPwm\020\263\002\022\023\n\016ActuatorOffset"
+      "\020\264\002\022\r\n\010Balancer\020\265\002\022\n\n\005Mutex\020\266\002\022\024\n\017Setpoi"
+      "ntProfile\020\267\002\022\021\n\014WiFiSettings\020\270\002\022\022\n\rTouch"
+      "Settings\020\271\002\022\024\n\017DisplaySettings\020\272\002\022\013\n\006DS2"
+      "413\020\273\002\022\024\n\017ActuatorOneWire\020\274\002\022\013\n\006DS2408\020\275"
+      "\002\022\024\n\017DigitalActuator\020\276\002\022\017\n\nSpark3Pins\020\277\002"
+      "\022\017\n\nSpark2Pins\020\300\002\022\017\n\nMotorValve\020\301\002\022\022\n\rAc"
+      "tuatorLogic\020\302\002\022\r\n\010MockPins\020\303\002\022\024\n\017TempSen"
+      "sorCombi\020\304\002\022\026\n\021OneWireGpioModule\020\305\002\022\r\n\010S"
+      "equence\020\306\002\022\027\n\022TempSensorExternal\020\310\002:J\n\005f"
+      "ield\022\035.google.protobuf.FieldOptions\030\321\206\003 "
+      "\001(\0132\023.brewblox.FieldOptsB\005\222\?\002\030\003:L\n\003msg\022\037"
+      ".google.protobuf.MessageOptions\030\321\206\003 \001(\0132"
+      "\025.brewblox.MessageOptsB\005\222\?\002\030\003b\006proto3"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 1877);
+>>>>>>> brewblox/develop
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "brewblox_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -274,7 +317,11 @@ bool BlockType_IsValid(int value) {
     case 324:
     case 325:
     case 326:
+<<<<<<< HEAD
     case 327:
+=======
+    case 328:
+>>>>>>> brewblox/develop
       return true;
     default:
       return false;
@@ -644,6 +691,7 @@ const int FieldOpts::kDrivenFieldNumber;
 const int FieldOpts::kIgnoredFieldNumber;
 const int FieldOpts::kBitfieldFieldNumber;
 const int FieldOpts::kDatetimeFieldNumber;
+const int FieldOpts::kIpv4AddressFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FieldOpts::FieldOpts()
@@ -658,15 +706,15 @@ FieldOpts::FieldOpts(const FieldOpts& from)
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&unit_, &from.unit_,
-    static_cast<size_t>(reinterpret_cast<char*>(&datetime_) -
-    reinterpret_cast<char*>(&unit_)) + sizeof(datetime_));
+    static_cast<size_t>(reinterpret_cast<char*>(&ipv4address_) -
+    reinterpret_cast<char*>(&unit_)) + sizeof(ipv4address_));
   // @@protoc_insertion_point(copy_constructor:brewblox.FieldOpts)
 }
 
 void FieldOpts::SharedCtor() {
   ::memset(&unit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&datetime_) -
-      reinterpret_cast<char*>(&unit_)) + sizeof(datetime_));
+      reinterpret_cast<char*>(&ipv4address_) -
+      reinterpret_cast<char*>(&unit_)) + sizeof(ipv4address_));
 }
 
 FieldOpts::~FieldOpts() {
@@ -698,8 +746,8 @@ void FieldOpts::Clear() {
   (void) cached_has_bits;
 
   ::memset(&unit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&datetime_) -
-      reinterpret_cast<char*>(&unit_)) + sizeof(datetime_));
+      reinterpret_cast<char*>(&ipv4address_) -
+      reinterpret_cast<char*>(&unit_)) + sizeof(ipv4address_));
   _internal_metadata_.Clear();
 }
 
@@ -869,6 +917,20 @@ bool FieldOpts::MergePartialFromCodedStream(
         break;
       }
 
+      // bool ipv4address = 12;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &ipv4address_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -952,6 +1014,11 @@ void FieldOpts::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(11, this->datetime(), output);
   }
 
+  // bool ipv4address = 12;
+  if (this->ipv4address() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->ipv4address(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1021,6 +1088,11 @@ void FieldOpts::SerializeWithCachedSizes(
   // bool datetime = 11;
   if (this->datetime() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(11, this->datetime(), target);
+  }
+
+  // bool ipv4address = 12;
+  if (this->ipv4address() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->ipv4address(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1099,6 +1171,11 @@ size_t FieldOpts::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // bool ipv4address = 12;
+  if (this->ipv4address() != 0) {
+    total_size += 1 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -1159,6 +1236,9 @@ void FieldOpts::MergeFrom(const FieldOpts& from) {
   if (from.datetime() != 0) {
     set_datetime(from.datetime());
   }
+  if (from.ipv4address() != 0) {
+    set_ipv4address(from.ipv4address());
+  }
 }
 
 void FieldOpts::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1196,6 +1276,7 @@ void FieldOpts::InternalSwap(FieldOpts* other) {
   swap(ignored_, other->ignored_);
   swap(bitfield_, other->bitfield_);
   swap(datetime_, other->datetime_);
+  swap(ipv4address_, other->ipv4address_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

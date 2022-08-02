@@ -2,6 +2,7 @@
 
 #include "AppTicks.hpp"
 #include "TestHelpers.hpp"
+#include "TestTimeHelpers.hpp"
 #include "blocks/ActuatorPwmBlock.hpp"
 #include "blocks/DigitalActuatorBlock.hpp"
 #include "blocks/SequenceBlock.hpp"
@@ -19,27 +20,14 @@
 #include "proto/TempSensorMock_test.pb.h"
 #include "spark/Brewblox.hpp"
 
-void resetTime(utc_seconds_t utc, ticks_millis_t now)
-{
-    auto& ticksImpl = ticks.ticksImpl();
-    ticksImpl.reset(now);
-    ticksImpl.setUtc(utc);
-};
-
-void update(ticks_millis_t now)
-{
-    ticks.ticksImpl().reset(now);
-    cbox::update(now);
-}
-
 SCENARIO("A Sequence block with basic targets")
 {
     cbox::getStorage().clear();
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(0, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(0, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto sensorId = cbox::obj_id_t(100);
     auto setpointId = cbox::obj_id_t(101);
@@ -129,17 +117,17 @@ SCENARIO("A Sequence block with basic targets")
 
     WHEN("System time is not yet set, the Sequence will do nothing")
     {
-        resetTime(0, 0);
-        update(0);
+        test::resetTime(0, 0);
+        test::update(0);
 
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_ERROR);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE);
         CHECK(sequence->state().activeInstruction == 0);
 
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
         // Time is set, sequence is active
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_NONE);
         CHECK(sequence->state().activeInstruction == 1);
@@ -148,12 +136,12 @@ SCENARIO("A Sequence block with basic targets")
 
     WHEN("An instruction finishes, there is no delay for the next update")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().activeInstruction == 1);
 
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_NONE);
         CHECK(sequence->state().activeInstruction == 2);
@@ -162,15 +150,15 @@ SCENARIO("A Sequence block with basic targets")
 
     WHEN("An instruction is still waiting, there is a delay")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 1);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_NONE);
@@ -181,39 +169,39 @@ SCENARIO("A Sequence block with basic targets")
         CHECK(setpoint->get().value() == temp_t(20));
 
         // nothing yet
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
 
         // updated again, and the condition is active
-        update(2000);
+        test::update(2000);
         CHECK(setpoint->get().value() == temp_t(30.5));
         CHECK(sequence->state().activeInstruction == 3);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
         // updated again, and the WAIT_TEMPERATURE_ABOVE passes immediately
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().activeInstruction == 4);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
         // this was the last instruction
         // next update is immediately, and will set end status
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().activeInstruction == 4);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_END);
     }
 
     WHEN("A Sequence is written with the same instructions, it retains its state")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 1);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
 
@@ -223,22 +211,22 @@ SCENARIO("A Sequence block with basic targets")
             CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         }
 
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
     }
 
     WHEN("A Sequence is written with different instructions, it resets its state")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 1);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
 
@@ -261,15 +249,15 @@ SCENARIO("A Sequence block with basic targets")
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_END);
     }
 
     WHEN("A Sequence is written with overrideState enabled, current position is reset")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
-        update(1000);
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
+        test::update(1000);
 
         CHECK(sequence->state().activeInstruction == 1);
         {
@@ -292,17 +280,17 @@ SCENARIO("A Sequence block with basic targets")
 
     WHEN("A change is made, it is not stored immediately")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
-        update(3000);
+        test::update(3000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().stored == false);
@@ -316,24 +304,24 @@ SCENARIO("A Sequence block with basic targets")
 
     WHEN("A change is made, it is stored after spending 60s on the same instruction")
     {
-        resetTime(2'000'000'000, 0); // 2033/05/18
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
 
-        update(1'000);
+        test::update(1'000);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().stored == false);
 
-        update(2'000);
+        test::update(2'000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().stored == false);
 
-        update(3'000);
+        test::update(3'000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().stored == false);
 
-        update(63'000);
+        test::update(63'000);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().stored == true);
@@ -351,8 +339,8 @@ SCENARIO("A Sequence block with a RESTART instruction")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto pinsId = cbox::obj_id_t(19);
     auto digitalId = cbox::obj_id_t(100);
@@ -420,22 +408,22 @@ SCENARIO("A Sequence block with a RESTART instruction")
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
-        update(0);
+        test::update(0);
         CHECK(sequence->state().activeInstruction == 0);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_RESTART);
 
         // There's an enforced 1s after restarting
-        update(0);
+        test::update(0);
         CHECK(sequence->state().activeInstruction == 0);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_RESTART);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
 
         // jump to a RESTART instruction
         sequence->reset(3);
-        update(1100);
+        test::update(1100);
         CHECK(sequence->state().activeInstruction == 0);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_RESTART);
     }
@@ -446,8 +434,8 @@ SCENARIO("A Sequence block with invalid targets")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto targetId = cbox::obj_id_t(100);
     auto sequenceId = cbox::obj_id_t(101);
@@ -477,7 +465,7 @@ SCENARIO("A Sequence block with invalid targets")
 
     WHEN("Target does not exist")
     {
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_ERROR);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_INVALID_TARGET);
         CHECK(sequence->state().activeInstruction == 0);
@@ -498,7 +486,7 @@ SCENARIO("A Sequence block with invalid targets")
         }
 
         // Note: we can't yet distinguish between INVALID_TARGET and INVALID_TARGET_TYPE
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_ERROR);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_INVALID_TARGET);
         CHECK(sequence->state().activeInstruction == 0);
@@ -525,14 +513,14 @@ SCENARIO("A Sequence block with invalid targets")
         auto setpoint = setpointLookup.lock();
         REQUIRE(setpoint);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_ERROR);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
         CHECK(sequence->state().activeInstruction == 0);
 
         // Setpoint is enabled, but does not have a sensor
         setpoint->get().enabler.set(true);
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_ERROR);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_INACTIVE_TARGET);
         CHECK(sequence->state().activeInstruction == 0);
@@ -545,8 +533,8 @@ SCENARIO("A Sequence block with time-related instructions")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(0, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(0, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto sequenceId = cbox::obj_id_t(100);
 
@@ -605,35 +593,35 @@ SCENARIO("A Sequence block with time-related instructions")
         CHECK(sequence->state().error == blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE);
         CHECK(sequence->state().activeInstruction == 0);
 
-        update(2'000);
+        test::update(2'000);
 
         CHECK(sequence->state().error == blox_Sequence_SequenceError_SYSTEM_TIME_NOT_AVAILABLE);
         CHECK(sequence->state().activeInstruction == 0);
 
-        resetTime(2'000'000'000, 0); // 2033/05/18
-        update(5'000);               // instruction starts now, not when written
+        test::resetTime(2'000'000'000, 0); // 2033/05/18
+        test::update(5'000);               // instruction starts now, not when written
 
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
         CHECK(sequence->state().activeInstructionStartedAt == 2'000'000'005);
 
-        update(13'000); // should not yet be done
+        test::update(13'000); // should not yet be done
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
-        update(15'000);
+        test::update(15'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 1);
 
         sequence->enabler.set(false);
-        update(15'000);
+        test::update(15'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_PAUSED);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().activeInstructionStartedAt == 2'000'000'015);
         CHECK(sequence->state().disabledAt == 2'000'000'015);
 
         sequence->enabler.set(true);
-        update(115'000); // disabled time should not count towards the wait
+        test::update(115'000); // disabled time should not count towards the wait
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 1);
         CHECK(sequence->state().activeInstructionStartedAt == 2'000'000'015);
@@ -641,37 +629,37 @@ SCENARIO("A Sequence block with time-related instructions")
         CHECK(sequence->state().disabledDuration == 100);
 
         // Still waiting
-        update(214'000);
+        test::update(214'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 1);
 
         // Now we're done (115'000 -> 215'000)
-        update(215'000);
+        test::update(215'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(sequence->state().disabledAt == 0);
         CHECK(sequence->state().disabledDuration == 0);
 
         // The WAIT_DURATION has 0 length. Continue immediately.
-        update(215'000);
+        test::update(215'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 3);
 
         // The WAIT_UNTIL time is in the past. Continue immediately.
-        update(215'000);
+        test::update(215'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 4);
 
         // Disabled duration does not impact WAIT_UNTIL end.
         sequence->enabler.set(false);
-        update(215'000);
+        test::update(215'000);
         sequence->enabler.set(true);
-        update(315000);
+        test::update(315000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 4);
         CHECK(sequence->state().disabledDuration == 100);
 
-        update(1'000'000);
+        test::update(1'000'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 5);
     }
@@ -683,8 +671,8 @@ SCENARIO("A Sequence with a sensor target")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0); // 2033/05/18
-    update(0);                   // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0); // 2033/05/18
+    test::update(0);                   // resets lastUpdateTime
 
     auto sensorId = cbox::obj_id_t(100);
     auto sequenceId = cbox::obj_id_t(101);
@@ -771,46 +759,46 @@ SCENARIO("A Sequence with a sensor target")
         // below 10
         sensor->get().setting(temp_t(9.5));
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 1);
 
-        update(1000);
+        test::update(1000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 1);
 
         // above 30
         sensor->get().setting(temp_t(30.5));
 
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 2);
 
-        update(2000);
+        test::update(2000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 2);
 
         // between 0-1
         sensor->get().setting(temp_t(0));
 
-        update(3000);
+        test::update(3000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 3);
 
         // not between 0-1
-        update(3000);
+        test::update(3000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 3);
 
         sensor->get().setting(temp_t(2));
-        update(4000);
+        test::update(4000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 4);
 
         // not between 0-1, or inactive
         sensor->get().setting(temp_t(0));
         sensor->get().connected(false);
-        update(4000);
+        test::update(4000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 5);
     }
@@ -822,8 +810,8 @@ SCENARIO("A Sequence with Actuator targets")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto pinsId = cbox::obj_id_t(19);
     auto digitalId = cbox::obj_id_t(100);
@@ -910,7 +898,7 @@ SCENARIO("A Sequence with Actuator targets")
 
         CHECK(digital->getConstrained().desiredState() == ActuatorDigital::State::Active);
 
-        update(1000);
+        test::update(1000);
         CHECK(digital->getConstrained().state() == ActuatorDigital::State::Active);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 2);
@@ -923,8 +911,8 @@ SCENARIO("A Sequence with a SetpointProfile target")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto sensorId = cbox::obj_id_t(100);
     auto setpointId = cbox::obj_id_t(101);
@@ -1022,37 +1010,37 @@ SCENARIO("A Sequence with a SetpointProfile target")
 
     WHEN("Starting and waiting for a Setpoint Profile")
     {
-        update(1'000);
+        test::update(1'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
-        update(19'000);
+        test::update(19'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence->state().activeInstruction == 0);
 
-        update(20'000);
+        test::update(20'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 1);
 
-        update(20'000);
+        test::update(20'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 2);
         CHECK(profile->get().startTime() == 2'000'000'020);
 
         // Stay in error mode while profile is disabled
         profile->get().enabler.set(false);
-        update(21'000);
+        test::update(21'000);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
         CHECK(sequence->state().activeInstruction == 2);
 
         // Still in error mode, even if profile is technically done
-        update(40'000);
+        test::update(40'000);
         CHECK(sequence->state().error == blox_Sequence_SequenceError_DISABLED_TARGET);
         CHECK(sequence->state().activeInstruction == 2);
 
         // As soon as profile is enabled, instruction is done
         profile->get().enabler.set(true);
-        update(41'000);
+        test::update(41'000);
         CHECK(sequence->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence->state().activeInstruction == 3);
     }
@@ -1064,8 +1052,8 @@ SCENARIO("A Sequence with a Sequence target")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto sequenceId1 = cbox::obj_id_t(100);
     auto sequenceId2 = cbox::obj_id_t(101);
@@ -1132,7 +1120,7 @@ SCENARIO("A Sequence with a Sequence target")
         CHECK(sequence2->state().activeInstruction == 0);
 
         // Duration wait done
-        update(10'000);
+        test::update(10'000);
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence1->state().activeInstruction == 1);
 
@@ -1142,7 +1130,7 @@ SCENARIO("A Sequence with a Sequence target")
 
         // Sequence 1 is now in END status
         // Sequence 2 finishes its wait
-        update(11'000);
+        test::update(11'000);
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_END);
         CHECK(sequence1->state().activeInstruction == 1);
 
@@ -1152,7 +1140,7 @@ SCENARIO("A Sequence with a Sequence target")
         // Sequence 1 has been reset, but it was updated first.
         // It will re-evaluate its state next update.
         // Sequence 2 completed its START instruction
-        update(12'000);
+        test::update(12'000);
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
         CHECK(sequence1->state().activeInstruction == 0);
 
@@ -1161,7 +1149,7 @@ SCENARIO("A Sequence with a Sequence target")
 
         // Sequence 1 is waiting again
         // Sequence 2 is now in END status
-        update(13'000);
+        test::update(13'000);
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_WAIT);
         CHECK(sequence1->state().activeInstruction == 0);
 
@@ -1176,8 +1164,8 @@ SCENARIO("Mutually starting Sequences")
     cbox::getObjects().clearAll();
     platform::particle::setupSystemBlocks();
 
-    resetTime(2'000'000'000, 0);
-    update(0); // resets lastUpdateTime
+    test::resetTime(2'000'000'000, 0);
+    test::update(0); // resets lastUpdateTime
 
     auto sequenceId1 = cbox::obj_id_t(100);
     auto sequenceId2 = cbox::obj_id_t(101);
@@ -1231,7 +1219,7 @@ SCENARIO("Mutually starting Sequences")
         sequence1->enabler.set(true);
         sequence2->enabler.set(true);
 
-        update(1000);
+        test::update(1000);
 
         // Sequence 1 hasn't reloaded its active instruction yet
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
@@ -1241,7 +1229,7 @@ SCENARIO("Mutually starting Sequences")
         CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence2->state().activeInstruction == 1);
 
-        update(1100);
+        test::update(1100);
 
         // Sequence 1 started Sequence 2
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);
@@ -1251,7 +1239,7 @@ SCENARIO("Mutually starting Sequences")
         CHECK(sequence2->state().status == blox_Sequence_SequenceStatus_NEXT);
         CHECK(sequence2->state().activeInstruction == 1);
 
-        update(1200);
+        test::update(1200);
 
         // Sequence 1 started Sequence 2
         CHECK(sequence1->state().status == blox_Sequence_SequenceStatus_UNKNOWN);

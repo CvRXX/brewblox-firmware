@@ -22,6 +22,7 @@
 #include "AppTicks.hpp"
 #include "blocks/stringify.hpp"
 #include "blox_hal/hal_delay.hpp"
+#include "blox_hal/hal_network.hpp"
 #include "control/TicksTypes.hpp"
 #include "deviceid_hal.h"
 #include "mdns/MDNS.h"
@@ -40,7 +41,7 @@ namespace platform::particle {
 constexpr uint16_t webPort = PLATFORM_ID == PLATFORM_GCC ? 8380 : 80;
 static TCPServer httpserver(webPort); // Serve a simple page with instructions
 // these values are only set on initial connect to avoid thread unsafe calls into the wifi stack
-uint32_t localIp = 0;
+uint32_t localIp = 0; // big endian
 int8_t wifiSignalRssi = 2;
 char currentSsid[32] = "";
 
@@ -230,3 +231,52 @@ void wifiInit()
 }
 
 } // end namespace platform::particle
+
+namespace network {
+
+Mode mode()
+{
+    return Mode::WIFI;
+}
+
+uint32_t ip4()
+{
+    // localIp is stored big endian
+    // we want to return little endian
+    uint32_t x = platform::particle::localIp;
+    return ((x & 0x000000ffUL) << 24)
+           | ((x & 0x0000ff00UL) << 8)
+           | ((x & 0x00ff0000UL) >> 8)
+           | ((x & 0xff000000UL) >> 24);
+}
+
+bool isConnected()
+{
+    return platform::particle::wifiConnected();
+}
+
+int8_t wifiStrength()
+{
+    return platform::particle::wifiSignal();
+}
+
+State state()
+{
+    if (platform::particle::wifiConnected()) {
+        return State::CONNECTED;
+    }
+    if (platform::particle::currentSsid[0] == 0) {
+        return State::OFF;
+    }
+    return State::NOT_FOUND;
+}
+
+void connect() {}
+
+void disconnect() {}
+
+void provision() {}
+
+void clearProvision() {}
+
+} // end namespace network

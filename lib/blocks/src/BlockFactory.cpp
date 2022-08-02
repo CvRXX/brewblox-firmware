@@ -15,6 +15,7 @@
 #include "blocks/SetpointProfileBlock.hpp"
 #include "blocks/SetpointSensorPairBlock.hpp"
 #include "blocks/TempSensorCombiBlock.hpp"
+#include "blocks/TempSensorExternalBlock.hpp"
 #include "blocks/TempSensorMockBlock.hpp"
 #include "blocks/TempSensorOneWireBlock.hpp"
 
@@ -36,6 +37,7 @@ static const cbox::ObjectFactory blocksFactory({
     cbox::makeFactoryEntry<ActuatorLogicBlock>(),
     cbox::makeFactoryEntry<MockPinsBlock>(),
     cbox::makeFactoryEntry<TempSensorCombiBlock>(),
+    cbox::makeFactoryEntry<TempSensorExternalBlock>(),
     cbox::makeFactoryEntry<SequenceBlock>(),
 });
 
