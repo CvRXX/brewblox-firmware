@@ -29,7 +29,7 @@ cbox::CboxError ExpOwGpioBlock::handleRead(const cbox::PayloadCallback& callback
     message.useExternalPower = drivers.externalPowerEnabled();
 
     for (uint8_t i = 1; i <= 8; i++) {
-        auto& c = drivers.getChannel(i);
+        auto& c = drivers.getFlexChannel(i);
         if (c.deviceType != blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE) {
             message.channels[message.channels_count].id = i;
             message.channels[message.channels_count].deviceType = c.deviceType;
@@ -108,7 +108,7 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 
             // copy to drivers, resulting zeroing omitted channels
             for (uint8_t i = 0; i < 8; i++) {
-                drivers.setupChannel(i + 1, newChannels[i]);
+                drivers.setupFlexChannel(i + 1, newChannels[i]);
             }
         }
     }

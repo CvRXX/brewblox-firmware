@@ -115,10 +115,10 @@ public:
 
     virtual IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const override final
     {
-        return ChannelCapabilities{.flags{
-            .digitalOutput = 1,
-            .pwm100Hz = 1,
-        }};
+        auto caps = ChannelCapabilities{.all = 0};
+        caps.flags.digitalOutput = 1;
+        caps.flags.pwm100Hz = 1;
+        return caps;
     }
 
 private:

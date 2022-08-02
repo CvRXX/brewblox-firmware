@@ -213,21 +213,19 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
 
     if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
         writeChannelImpl(channel, IoValue::Digital{State::Inactive});
-        return IoValue::Setup::OutputDigital{
-            .softTransitions = IoValue::Setup::SoftTransitions::OFF};
+        return setup;
     }
     if (auto* v = std::get_if<IoValue::Setup::OutputPwm>(&setup)) {
         writeChannelImpl(channel, IoValue::PWM{0});
         // TODO configure driver
         // chan.freq = setup->frequency;
         // chan.soft = setup->soft;
-        return IoValue::Setup::OutputPwm{
-            .softTransitions = IoValue::Setup::SoftTransitions::OFF};
+        return setup;
     }
     if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
         ChanBitsInternal bits{};
         op_ctrl_desired.apply(chan.pins_mask, bits);
-        return IoValue::Setup::InputDigital{};
+        return setup;
     }
     return IoValue::Error::UNSUPPORTED_SETUP;
 }
@@ -303,10 +301,6 @@ void ExpOwGpio::update(bool forceRefresh)
             init_driver();
         }
 
-        // for (uint8_t i = 0; i < flexChannels.size(); ++i) {
-        //     auto desired = desired(i + 1);
-        // }
-
         // from the datasheet:
         // The PWM generators are disabled to ensure that all the half-bridges are turned-on at same time to avoid
         // false OCP conditions for supporting higher current operation.The false OCP condition can arise due to
@@ -362,7 +356,7 @@ void ExpOwGpio::update(bool forceRefresh)
     }
 }
 
-void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
+void ExpOwGpio::setupFlexChannel(uint8_t channel, FlexChannel c)
 {
     if (!channel || channel > 8) {
         return;
@@ -503,11 +497,38 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
     }
 }
 
-const FlexChannel& ExpOwGpio::getChannel(uint8_t channel) const
+const FlexChannel& ExpOwGpio::getFlexChannel(uint8_t channel) const
 {
     static FlexChannel invalid{};
     if (!channel || channel > 8) {
         return invalid;
     }
     return flexChannels[channel - 1];
+}
+
+IoArray::ChannelCapabilities ExpOwGpio::getChannelCapabilities(uint8_t channel) const
+{
+    auto chan = getFlexChannel(channel);
+    auto capabilities = ChannelCapabilities{};
+
+    if (chan.deviceType >= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P
+        && chan.deviceType <= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE) {
+        capabilities.flags.digitalOutput = 1;
+        capabilities.flags.pwm100Hz = 1;
+        capabilities.flags.pwm200Hz = 1;
+        capabilities.flags.pwm2000Hz = 1;
+    }
+
+    if ((chan.deviceType >= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P
+         && chan.deviceType <= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP)
+        || chan.deviceType == blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT
+        || chan.deviceType == blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT) {
+        capabilities.flags.digitalInput = 1;
+    }
+
+    if (chan.deviceType == blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL) {
+        capabilities.flags.bidirectional = 1;
+    }
+
+    return capabilities;
 }

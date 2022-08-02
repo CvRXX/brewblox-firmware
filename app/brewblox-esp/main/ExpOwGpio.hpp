@@ -177,8 +177,8 @@ public:
     virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
     virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant val) final;
 
-    void setupChannel(uint8_t channel, FlexChannel c);
-    const FlexChannel& getChannel(uint8_t channel) const;
+    void setupFlexChannel(uint8_t channel, FlexChannel c);
+    const FlexChannel& getFlexChannel(uint8_t channel) const;
 
     void update(bool forceRefresh = false);
 
@@ -265,6 +265,8 @@ public:
     {
         return externalPower;
     }
+
+    IoArray::ChannelCapabilities getChannelCapabilities(uint8_t channel) const;
 
 private:
     bool assert_cs()
