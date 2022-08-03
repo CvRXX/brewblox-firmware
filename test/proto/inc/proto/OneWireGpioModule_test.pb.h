@@ -33,6 +33,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
+#include "IoArray_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_OneWireGpioModule_5ftest_2eproto 
 
@@ -262,6 +263,12 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 width() const;
   void set_width(::google::protobuf::uint32 value);
 
+  // uint32 capabilities = 6 [(.nanopb) = {
+  void clear_capabilities();
+  static const int kCapabilitiesFieldNumber = 6;
+  ::google::protobuf::uint32 capabilities() const;
+  void set_capabilities(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.OneWireGpioModule.GpioModuleChannel)
  private:
 
@@ -271,6 +278,7 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   int devicetype_;
   ::google::protobuf::uint32 pinsmask_;
   ::google::protobuf::uint32 width_;
+  ::google::protobuf::uint32 capabilities_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireGpioModule_5ftest_2eproto::TableStruct;
 };
@@ -599,6 +607,20 @@ inline void GpioModuleChannel::set_allocated_name(::std::string* name) {
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
   // @@protoc_insertion_point(field_set_allocated:blox_test.OneWireGpioModule.GpioModuleChannel.name)
+}
+
+// uint32 capabilities = 6 [(.nanopb) = {
+inline void GpioModuleChannel::clear_capabilities() {
+  capabilities_ = 0u;
+}
+inline ::google::protobuf::uint32 GpioModuleChannel::capabilities() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.capabilities)
+  return capabilities_;
+}
+inline void GpioModuleChannel::set_capabilities(::google::protobuf::uint32 value) {
+  
+  capabilities_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.capabilities)
 }
 
 // -------------------------------------------------------------------

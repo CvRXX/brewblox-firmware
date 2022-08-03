@@ -56,6 +56,7 @@ cbox::CboxError Spark2PinsBlock::read(const cbox::PayloadCallback& callback) con
         message.channels[1].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM1;
         message.channels[2].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM2;
         message.channels[3].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM3;
+        message.channels[3].capabilities = getChannelCapabilities(4).all;
         message.channels_count = 4;
     } else {
         message.channels[0].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM1;
@@ -63,6 +64,9 @@ cbox::CboxError Spark2PinsBlock::read(const cbox::PayloadCallback& callback) con
         message.channels[2].id = blox_Spark2Pins_ChannelId_SPARK2_CHAN_BOTTOM3;
         message.channels_count = 3;
     }
+    message.channels[0].capabilities = getChannelCapabilities(1).all;
+    message.channels[1].capabilities = getChannelCapabilities(2).all;
+    message.channels[2].capabilities = getChannelCapabilities(3).all;
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);
 

@@ -32,6 +32,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "nanopb_test.pb.h"
+#include "brewblox_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_IoArray_5ftest_2eproto 
 
@@ -87,6 +88,56 @@ inline bool DigitalState_Parse(
     const ::std::string& name, DigitalState* value) {
   return ::google::protobuf::internal::ParseNamedEnum<DigitalState>(
     DigitalState_descriptor(), name, value);
+}
+enum SoftTransitions {
+  ST_OFF = 0,
+  ST_FAST = 1,
+  ST_MEDIUM = 2,
+  ST_SLOW = 3,
+  ST_CUSTOM = 4,
+  SoftTransitions_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  SoftTransitions_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool SoftTransitions_IsValid(int value);
+const SoftTransitions SoftTransitions_MIN = ST_OFF;
+const SoftTransitions SoftTransitions_MAX = ST_CUSTOM;
+const int SoftTransitions_ARRAYSIZE = SoftTransitions_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* SoftTransitions_descriptor();
+inline const ::std::string& SoftTransitions_Name(SoftTransitions value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    SoftTransitions_descriptor(), value);
+}
+inline bool SoftTransitions_Parse(
+    const ::std::string& name, SoftTransitions* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<SoftTransitions>(
+    SoftTransitions_descriptor(), name, value);
+}
+enum ChannelCapabilities {
+  CHAN_SUPPORTS_NONE = 0,
+  CHAN_SUPPORTS_DIGITAL_OUTPUT = 1,
+  CHAN_SUPPORTS_PWM_100HZ = 2,
+  CHAN_SUPPORTS_PWM_200HZ = 4,
+  CHAN_SUPPORTS_PWM_2000HZ = 8,
+  CHAN_SUPPORTS_BIDIRECTIONAL = 16,
+  CHAN_SUPPORTS_DIGITAL_INPUT = 32,
+  ChannelCapabilities_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ChannelCapabilities_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ChannelCapabilities_IsValid(int value);
+const ChannelCapabilities ChannelCapabilities_MIN = CHAN_SUPPORTS_NONE;
+const ChannelCapabilities ChannelCapabilities_MAX = CHAN_SUPPORTS_DIGITAL_INPUT;
+const int ChannelCapabilities_ARRAYSIZE = ChannelCapabilities_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ChannelCapabilities_descriptor();
+inline const ::std::string& ChannelCapabilities_Name(ChannelCapabilities value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ChannelCapabilities_descriptor(), value);
+}
+inline bool ChannelCapabilities_Parse(
+    const ::std::string& name, ChannelCapabilities* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ChannelCapabilities>(
+    ChannelCapabilities_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -183,11 +234,18 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
+  // uint32 capabilities = 2 [(.nanopb) = {
+  void clear_capabilities();
+  static const int kCapabilitiesFieldNumber = 2;
+  ::google::protobuf::uint32 capabilities() const;
+  void set_capabilities(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.IoArray.IoChannel)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 id_;
+  ::google::protobuf::uint32 capabilities_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_IoArray_5ftest_2eproto::TableStruct;
 };
@@ -216,6 +274,20 @@ inline void IoChannel::set_id(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.IoArray.IoChannel.id)
 }
 
+// uint32 capabilities = 2 [(.nanopb) = {
+inline void IoChannel::clear_capabilities() {
+  capabilities_ = 0u;
+}
+inline ::google::protobuf::uint32 IoChannel::capabilities() const {
+  // @@protoc_insertion_point(field_get:blox_test.IoArray.IoChannel.capabilities)
+  return capabilities_;
+}
+inline void IoChannel::set_capabilities(::google::protobuf::uint32 value) {
+  
+  capabilities_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.IoArray.IoChannel.capabilities)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -232,6 +304,16 @@ template <> struct is_proto_enum< ::blox_test::IoArray::DigitalState> : ::std::t
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::DigitalState>() {
   return ::blox_test::IoArray::DigitalState_descriptor();
+}
+template <> struct is_proto_enum< ::blox_test::IoArray::SoftTransitions> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::SoftTransitions>() {
+  return ::blox_test::IoArray::SoftTransitions_descriptor();
+}
+template <> struct is_proto_enum< ::blox_test::IoArray::ChannelCapabilities> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::ChannelCapabilities>() {
+  return ::blox_test::IoArray::ChannelCapabilities_descriptor();
 }
 
 }  // namespace protobuf

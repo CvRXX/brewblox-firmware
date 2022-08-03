@@ -24,6 +24,8 @@
 #include "control/ControlPtr.hpp"
 #include "control/IoArray.hpp"
 
+class ActuatorDigitalSoft;
+
 /*
  * A digital actuator that toggles a channel of an ArrayIo object.
  *
@@ -41,6 +43,9 @@ public:
     {
         channel(chan);
     }
+
+    // converting constructor that removes soft start capabilities
+    explicit ActuatorDigital(ActuatorDigitalSoft&& old);
 
     ActuatorDigital(const ActuatorDigital&) = delete;
     ActuatorDigital(ActuatorDigital&&) = default;

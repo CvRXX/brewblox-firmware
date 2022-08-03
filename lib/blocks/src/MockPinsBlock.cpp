@@ -28,14 +28,10 @@ MockPinsBlock::read(const cbox::PayloadCallback& callback) const
 
     // looks a bit silly, but this way it is implemented the same as the Spark2 and Spark3 blocks
     message.channels_count = 8;
-    message.channels[0].id = 1;
-    message.channels[1].id = 2;
-    message.channels[2].id = 3;
-    message.channels[3].id = 4;
-    message.channels[4].id = 5;
-    message.channels[5].id = 6;
-    message.channels[6].id = 7;
-    message.channels[7].id = 8;
+    for (uint8_t i = 0; i < 8; ++i) {
+        message.channels[i].id = i + 1;
+        message.channels[i].capabilities = mocks.getChannelCapabilities(i + 1).all;
+    }
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,

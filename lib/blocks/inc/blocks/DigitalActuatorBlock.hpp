@@ -4,19 +4,85 @@
 #include "cbox/CboxPtr.hpp"
 #include "control/ActuatorDigital.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
+#include "control/ActuatorDigitalSoft.hpp"
 #include "proto/DigitalActuator.pb.h"
+#include <optional>
+#include <variant>
+
+class ActuatorDigitalProxy : public ActuatorDigitalBase {
+public:
+    ActuatorDigitalProxy()
+        : hwDevice{}
+    {
+    }
+
+    void state(State v) final
+    {
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            pAct->state(v);
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            pAct->state(v);
+        }
+    }
+
+    [[nodiscard]] State state() const final
+    {
+
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            return pAct->state();
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            return pAct->state();
+        }
+        return State::Unknown;
+    }
+
+    void swapImplementation()
+    {
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            auto channel = pAct->channel();
+            act.emplace<ActuatorDigitalSoft>(hwDevice, channel);
+
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            auto channel = pAct->channel();
+            act.emplace<ActuatorDigital>(hwDevice, channel);
+        }
+    }
+
+    // returns a time if supported by the hwDevice and channel
+    std::optional<duration_millis_t> transitionDuration() const
+    {
+        if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            return pAct->transitionTime();
+        } else if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            {
+                if (auto dev = hwDevice.lock()) {
+                    IoArray::ChannelCapabilities requested{.all = 0};
+                    requested.flags.pwm100Hz = 1;
+                    if (dev->channelSupports(pAct->channel(), requested)) {
+                        return 0;
+                    }
+                }
+            }
+        }
+        return std::nullopt;
+    }
+
+    cbox::CboxPtr<IoArray> hwDevice;
+
+    std::variant<ActuatorDigital, ActuatorDigitalSoft> act = ActuatorDigital(hwDevice, 0);
+};
 
 class DigitalActuatorBlock final : public Block<brewblox_BlockType_DigitalActuator> {
 private:
-    cbox::CboxPtr<IoArray> hwDevice;
-    ActuatorDigital actuator;
+    ActuatorDigitalProxy actuator;
     ActuatorDigitalConstrained constrained;
+    blox_IoArray_SoftTransitions softTransitions = blox_IoArray_SoftTransitions_ST_OFF;
+    duration_millis_t transitionDurationSetting = 0;
 
 public:
     DigitalActuatorBlock()
-        : hwDevice()
-        , actuator(hwDevice, 0)
-        , constrained(actuator)
+        : actuator{}
+        , constrained{actuator}
     {
     }
     ~DigitalActuatorBlock() = default;

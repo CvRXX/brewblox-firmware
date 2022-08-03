@@ -39,13 +39,27 @@ public:
 
     [[nodiscard]] virtual State state() const = 0;
 
+    virtual ~ActuatorDigitalBase() = default;
+
+    [[nodiscard]] bool invert() const
+    {
+        return m_invert;
+    }
+
+    void invert(bool inv)
+    {
+        auto active = state();
+        m_invert = inv;
+        state(active);
+    }
+
 protected:
-    ~ActuatorDigitalBase() = default;
     ActuatorDigitalBase() = default;
     ActuatorDigitalBase(const ActuatorDigitalBase&) = default;
     ActuatorDigitalBase(ActuatorDigitalBase&&) noexcept = default;
     ActuatorDigitalBase& operator=(const ActuatorDigitalBase&) = default;
     ActuatorDigitalBase& operator=(ActuatorDigitalBase&&) noexcept = default;
+    bool m_invert = false;
 };
 
 inline ActuatorDigitalBase::State invertState(ActuatorDigitalBase::State s)

@@ -50,12 +50,6 @@ namespace Setup {
         FREQ_2000HZ,
     };
 
-    enum SoftTransitions : uint8_t {
-        NOT_SUPPORTED,
-        OFF,
-        ON_250MS,
-    };
-
     struct Unused {
     };
     struct OutputDigital {

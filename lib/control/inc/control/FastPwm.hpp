@@ -52,6 +52,7 @@ public:
     static constexpr auto maxDuty = duty_t{100};
     static constexpr auto maxIncrease = duty_t{25};
     static constexpr auto minDuty = duty_t{0};
+
     // separate flag for manually disabling the pwm actuator
     Enabler enabler;
 
@@ -119,14 +120,10 @@ public:
 
     void transitionTime(duration_millis_t arg)
     {
-        if (arg >= 100) {
-            m_transitionDuration = arg;
-        } else {
-            m_transitionDuration = 0;
-        }
+        m_transitionDuration = arg;
     };
 
-    [[nodiscard]] auto transitionTime()
+    [[nodiscard]] auto transitionTime() const
     {
         return m_transitionDuration;
     };

@@ -48,7 +48,7 @@ public:
     ActuatorDigitalSoft(const ActuatorDigitalSoft&) = delete;
     ActuatorDigitalSoft(ActuatorDigitalSoft&&) = default;
     ActuatorDigitalSoft& operator=(const ActuatorDigitalSoft&) = delete;
-    ActuatorDigitalSoft& operator=(ActuatorDigitalSoft&&) = delete;
+    ActuatorDigitalSoft& operator=(ActuatorDigitalSoft&&) = default;
 
     virtual ~ActuatorDigitalSoft() = default;
 
@@ -112,7 +112,7 @@ public:
         pwm.transitionTime(arg);
     };
 
-    [[nodiscard]] auto transitionTime()
+    [[nodiscard]] auto transitionTime() const
     {
         return pwm.transitionTime();
     };

@@ -9,6 +9,7 @@ set(control_srcs
   src/DS2408.cpp
   src/DS2413.cpp
   src/DS248x.cpp
+  src/FastPwm.cpp
   src/FilterChain.cpp
   src/FixedPoint.cpp
   src/IirFilter.cpp

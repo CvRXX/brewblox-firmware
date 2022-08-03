@@ -71,6 +71,7 @@
     "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m-lto/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
     "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m-lto/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
   },
+  "disasexpl.useBinaryParsing": true,
   "cmake.configureOnOpen": false,
   "cmake.cmakePath": "/usr/local/bin/cmake",
   "C_Cpp.codeAnalysis.clangTidy.enabled": false,

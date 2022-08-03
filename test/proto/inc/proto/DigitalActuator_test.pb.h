@@ -195,6 +195,24 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::IoArray::DigitalState desiredstate() const;
   void set_desiredstate(::blox_test::IoArray::DigitalState value);
 
+  // .blox_test.IoArray.SoftTransitions softTransitions = 7;
+  void clear_softtransitions();
+  static const int kSoftTransitionsFieldNumber = 7;
+  ::blox_test::IoArray::SoftTransitions softtransitions() const;
+  void set_softtransitions(::blox_test::IoArray::SoftTransitions value);
+
+  // uint32 transitionDurationSetting = 8 [(.brewblox.field) = {
+  void clear_transitiondurationsetting();
+  static const int kTransitionDurationSettingFieldNumber = 8;
+  ::google::protobuf::uint32 transitiondurationsetting() const;
+  void set_transitiondurationsetting(::google::protobuf::uint32 value);
+
+  // uint32 transitionDuration = 9 [(.brewblox.field) = {
+  void clear_transitionduration();
+  static const int kTransitionDurationFieldNumber = 9;
+  ::google::protobuf::uint32 transitionduration() const;
+  void set_transitionduration(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.DigitalActuator.Block)
  private:
 
@@ -205,6 +223,9 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   int state_;
   bool invert_;
   int desiredstate_;
+  int softtransitions_;
+  ::google::protobuf::uint32 transitiondurationsetting_;
+  ::google::protobuf::uint32 transitionduration_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_DigitalActuator_5ftest_2eproto::TableStruct;
 };
@@ -335,6 +356,48 @@ inline void Block::set_desiredstate(::blox_test::IoArray::DigitalState value) {
   
   desiredstate_ = value;
   // @@protoc_insertion_point(field_set:blox_test.DigitalActuator.Block.desiredState)
+}
+
+// .blox_test.IoArray.SoftTransitions softTransitions = 7;
+inline void Block::clear_softtransitions() {
+  softtransitions_ = 0;
+}
+inline ::blox_test::IoArray::SoftTransitions Block::softtransitions() const {
+  // @@protoc_insertion_point(field_get:blox_test.DigitalActuator.Block.softTransitions)
+  return static_cast< ::blox_test::IoArray::SoftTransitions >(softtransitions_);
+}
+inline void Block::set_softtransitions(::blox_test::IoArray::SoftTransitions value) {
+  
+  softtransitions_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DigitalActuator.Block.softTransitions)
+}
+
+// uint32 transitionDurationSetting = 8 [(.brewblox.field) = {
+inline void Block::clear_transitiondurationsetting() {
+  transitiondurationsetting_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::transitiondurationsetting() const {
+  // @@protoc_insertion_point(field_get:blox_test.DigitalActuator.Block.transitionDurationSetting)
+  return transitiondurationsetting_;
+}
+inline void Block::set_transitiondurationsetting(::google::protobuf::uint32 value) {
+  
+  transitiondurationsetting_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DigitalActuator.Block.transitionDurationSetting)
+}
+
+// uint32 transitionDuration = 9 [(.brewblox.field) = {
+inline void Block::clear_transitionduration() {
+  transitionduration_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::transitionduration() const {
+  // @@protoc_insertion_point(field_get:blox_test.DigitalActuator.Block.transitionDuration)
+  return transitionduration_;
+}
+inline void Block::set_transitionduration(::google::protobuf::uint32 value) {
+  
+  transitionduration_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DigitalActuator.Block.transitionDuration)
 }
 
 #ifdef __GNUC__

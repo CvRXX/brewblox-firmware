@@ -65,6 +65,9 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, invert_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, constrainedby_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, desiredstate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, softtransitions_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, transitiondurationsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, transitionduration_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::DigitalActuator::Block)},
@@ -98,17 +101,21 @@ void AddDescriptorsImpl() {
       "\n\032DigitalActuator_test.proto\022\031blox_test."
       "DigitalActuator\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\032\026Constraints_test.proto\032"
-      "\022IoArray_test.proto\"\242\002\n\005Block\022#\n\010hwDevic"
+      "\022IoArray_test.proto\"\302\003\n\005Block\022#\n\010hwDevic"
       "e\030\001 \001(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 "
       "\001(\rB\005\222\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.Io"
       "Array.DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006inve"
       "rt\030\004 \001(\010\022@\n\rconstrainedBy\030\005 \001(\0132).blox_t"
       "est.Constraints.DigitalConstraints\022=\n\014de"
       "siredState\030\006 \001(\0162\037.blox_test.IoArray.Dig"
-      "italStateB\006\212\265\030\0020\001:\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006proto3"
+      "italStateB\006\212\265\030\0020\001\022;\n\017softTransitions\030\007 \001"
+      "(\0162\".blox_test.IoArray.SoftTransitions\0220"
+      "\n\031transitionDurationSetting\030\010 \001(\rB\r\212\265\030\002\010"
+      "\003\212\265\030\003\020\350\007\022/\n\022transitionDuration\030\t \001(\rB\023\212\265"
+      "\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001:\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 440);
+      descriptor, 600);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DigitalActuator_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -150,6 +157,9 @@ const int Block::kStateFieldNumber;
 const int Block::kInvertFieldNumber;
 const int Block::kConstrainedByFieldNumber;
 const int Block::kDesiredStateFieldNumber;
+const int Block::kSoftTransitionsFieldNumber;
+const int Block::kTransitionDurationSettingFieldNumber;
+const int Block::kTransitionDurationFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -169,15 +179,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
-    static_cast<size_t>(reinterpret_cast<char*>(&desiredstate_) -
-    reinterpret_cast<char*>(&hwdevice_)) + sizeof(desiredstate_));
+    static_cast<size_t>(reinterpret_cast<char*>(&transitionduration_) -
+    reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitionduration_));
   // @@protoc_insertion_point(copy_constructor:blox_test.DigitalActuator.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredstate_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredstate_));
+      reinterpret_cast<char*>(&transitionduration_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(transitionduration_));
 }
 
 Block::~Block() {
@@ -214,8 +224,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&hwdevice_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredstate_) -
-      reinterpret_cast<char*>(&hwdevice_)) + sizeof(desiredstate_));
+      reinterpret_cast<char*>(&transitionduration_) -
+      reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitionduration_));
   _internal_metadata_.Clear();
 }
 
@@ -313,6 +323,49 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // .blox_test.IoArray.SoftTransitions softTransitions = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_softtransitions(static_cast< ::blox_test::IoArray::SoftTransitions >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 transitionDurationSetting = 8 [(.brewblox.field) = {
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &transitiondurationsetting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 transitionDuration = 9 [(.brewblox.field) = {
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &transitionduration_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -372,6 +425,22 @@ void Block::SerializeWithCachedSizes(
       6, this->desiredstate(), output);
   }
 
+  // .blox_test.IoArray.SoftTransitions softTransitions = 7;
+  if (this->softtransitions() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      7, this->softtransitions(), output);
+  }
+
+  // uint32 transitionDurationSetting = 8 [(.brewblox.field) = {
+  if (this->transitiondurationsetting() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->transitiondurationsetting(), output);
+  }
+
+  // uint32 transitionDuration = 9 [(.brewblox.field) = {
+  if (this->transitionduration() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->transitionduration(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -418,6 +487,22 @@ void Block::SerializeWithCachedSizes(
   if (this->desiredstate() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       6, this->desiredstate(), target);
+  }
+
+  // .blox_test.IoArray.SoftTransitions softTransitions = 7;
+  if (this->softtransitions() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      7, this->softtransitions(), target);
+  }
+
+  // uint32 transitionDurationSetting = 8 [(.brewblox.field) = {
+  if (this->transitiondurationsetting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->transitiondurationsetting(), target);
+  }
+
+  // uint32 transitionDuration = 9 [(.brewblox.field) = {
+  if (this->transitionduration() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->transitionduration(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -475,6 +560,26 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->desiredstate());
   }
 
+  // .blox_test.IoArray.SoftTransitions softTransitions = 7;
+  if (this->softtransitions() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->softtransitions());
+  }
+
+  // uint32 transitionDurationSetting = 8 [(.brewblox.field) = {
+  if (this->transitiondurationsetting() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->transitiondurationsetting());
+  }
+
+  // uint32 transitionDuration = 9 [(.brewblox.field) = {
+  if (this->transitionduration() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->transitionduration());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -520,6 +625,15 @@ void Block::MergeFrom(const Block& from) {
   if (from.desiredstate() != 0) {
     set_desiredstate(from.desiredstate());
   }
+  if (from.softtransitions() != 0) {
+    set_softtransitions(from.softtransitions());
+  }
+  if (from.transitiondurationsetting() != 0) {
+    set_transitiondurationsetting(from.transitiondurationsetting());
+  }
+  if (from.transitionduration() != 0) {
+    set_transitionduration(from.transitionduration());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -552,6 +666,9 @@ void Block::InternalSwap(Block* other) {
   swap(state_, other->state_);
   swap(invert_, other->invert_);
   swap(desiredstate_, other->desiredstate_);
+  swap(softtransitions_, other->softtransitions_);
+  swap(transitiondurationsetting_, other->transitiondurationsetting_);
+  swap(transitionduration_, other->transitionduration_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

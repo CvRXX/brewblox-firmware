@@ -9,10 +9,13 @@
 
 
 
-const pb_field_t blox_IoArray_IoChannel_fields[2] = {
+const pb_field_t blox_IoArray_IoChannel_fields[3] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_IoArray_IoChannel, id, id, 0),
+    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_IoArray_IoChannel, capabilities, id, 0),
     PB_LAST_FIELD
 };
+
+
 
 
 

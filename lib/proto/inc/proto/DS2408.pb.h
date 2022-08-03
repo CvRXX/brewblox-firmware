@@ -72,7 +72,7 @@ typedef struct _blox_DS2408_Block {
 extern const pb_field_t blox_DS2408_Block_fields[6];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_DS2408_Block_size                   83
+#define blox_DS2408_Block_size                   131
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

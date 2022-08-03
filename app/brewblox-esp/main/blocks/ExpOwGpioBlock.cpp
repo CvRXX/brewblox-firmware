@@ -35,14 +35,17 @@ cbox::CboxError ExpOwGpioBlock::handleRead(const cbox::PayloadCallback& callback
             message.channels[message.channels_count].deviceType = c.deviceType;
             message.channels[message.channels_count].width = c.width;
             message.channels[message.channels_count].pinsMask = c.pins();
-            for (auto& entry : channelNames) {
-                if (entry.id == i) {
-                    entry.name.copy(message.channels[message.channels_count].name, sizeof(message.channels[message.channels_count].name));
-                    break;
-                }
+            if (includeNotPersisted) {
+                message.channels[message.channels_count].capabilities = drivers.getChannelCapabilities(i).all;
             }
-            ++message.channels_count;
+            auto entry = std::find_if(channelNames.begin(), channelNames.end(), [i](const ChannelNameEntry& e) {
+                return e.id == i;
+            });
+            if (entry != channelNames.end()) {
+                entry->name.copy(message.channels[message.channels_count].name, sizeof(message.channels[message.channels_count].name));
+            }
         }
+        ++message.channels_count;
     }
 
     if (includeNotPersisted) {
