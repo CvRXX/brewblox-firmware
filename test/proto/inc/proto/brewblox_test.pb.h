@@ -143,21 +143,14 @@ enum BlockType {
   TempSensorCombi = 324,
   OneWireGpioModule = 325,
   Sequence = 326,
-<<<<<<< HEAD
   ScreenConfig = 327,
-=======
   TempSensorExternal = 328,
->>>>>>> brewblox/develop
   BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool BlockType_IsValid(int value);
 const BlockType BlockType_MIN = Invalid;
-<<<<<<< HEAD
-const BlockType BlockType_MAX = ScreenConfig;
-=======
 const BlockType BlockType_MAX = TempSensorExternal;
->>>>>>> brewblox/develop
 const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BlockType_descriptor();

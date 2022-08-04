@@ -80,19 +80,12 @@ typedef enum _brewblox_BlockType {
     brewblox_BlockType_TempSensorCombi = 324,
     brewblox_BlockType_OneWireGpioModule = 325,
     brewblox_BlockType_Sequence = 326,
-<<<<<<< HEAD
-    brewblox_BlockType_ScreenConfig = 327
-} brewblox_BlockType;
-#define _brewblox_BlockType_MIN brewblox_BlockType_Invalid
-#define _brewblox_BlockType_MAX brewblox_BlockType_ScreenConfig
-#define _brewblox_BlockType_ARRAYSIZE ((brewblox_BlockType)(brewblox_BlockType_ScreenConfig+1))
-=======
+    brewblox_BlockType_ScreenConfig = 327,
     brewblox_BlockType_TempSensorExternal = 328
 } brewblox_BlockType;
 #define _brewblox_BlockType_MIN brewblox_BlockType_Invalid
 #define _brewblox_BlockType_MAX brewblox_BlockType_TempSensorExternal
 #define _brewblox_BlockType_ARRAYSIZE ((brewblox_BlockType)(brewblox_BlockType_TempSensorExternal+1))
->>>>>>> brewblox/develop
 
 #ifdef __cplusplus
 } /* extern "C" */
