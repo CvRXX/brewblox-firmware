@@ -114,7 +114,7 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
             profile.startTime(message.start);
         }
         if (parser.hasField(blox_SetpointProfile_Block_targetId_tag)) {
-            target.setId(message.targetId);
+            target.setId(message.targetId, objectId());
         }
     }
 
@@ -124,6 +124,10 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 cbox::update_t
 SetpointProfileBlock::updateHandler(cbox::update_t now)
 {
+    if (!profile.isDriving()) {
+        target.unlock();
+    }
+
     auto time = ticks.utc();
     profile.update(time);
     return next_update_1s(now);

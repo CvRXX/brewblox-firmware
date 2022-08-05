@@ -108,9 +108,12 @@ SCENARIO("A SetpointProfile block")
         auto pairPtr = pairLookup.lock();
         auto profileLookup = cbox::CboxPtr<SetpointProfileBlock>(102);
         auto profilePtr = profileLookup.lock();
+        auto claimLookup = cbox::CboxPtr<cbox::Claimable>(101);
+        auto claimPtr = claimLookup.lock();
 
         REQUIRE(profilePtr);
         REQUIRE(pairPtr);
+        REQUIRE(claimPtr);
 
         WHEN("The box has not received the current time (in seconds since epoch")
         {
@@ -118,12 +121,39 @@ SCENARIO("A SetpointProfile block")
             {
                 CHECK(pairPtr->get().setting() == temp_t(99));
             }
+
+            THEN("It does not claim the target setpoint")
+            {
+                CHECK(claimPtr->claimedBy() == 0);
+            }
         }
 
         WHEN("The box has received the current time (in seconds since epoch")
         {
             ticks.setUtc(20'000);
             update(25000); // system is running for 25 seconds, so seconds since epoch should be 20'015 now
+
+            THEN("It claims the target setpoint")
+            {
+                CHECK(claimPtr->claimedBy() == 102);
+                AND_THEN("Another claiming cbox ptr cannot get write access to the setpoint")
+                {
+                    auto secondLookup = cbox::CboxPtr<SetpointSensorPairBlock>(101);
+                    auto secondClaimer = cbox::CboxClaimingPtr<SetpointSensorPairBlock>(secondLookup);
+                    CHECK(secondClaimer.lock() == nullptr);
+
+                    AND_WHEN("The profile is disabled")
+                    {
+                        profilePtr->get().enabler.set(false);
+                        update(10'1000);
+                        THEN("It no longer claims the setpoint, and the second claimer can get write access")
+                        {
+                            CHECK(claimPtr->claimedBy() == 0);
+                            CHECK(secondClaimer.lock() != nullptr);
+                        }
+                    }
+                }
+            }
 
             THEN("The setpoint is valid")
             {

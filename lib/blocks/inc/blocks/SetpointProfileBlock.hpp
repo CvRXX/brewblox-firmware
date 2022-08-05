@@ -21,18 +21,20 @@
 
 #include "blocks/Block.hpp"
 #include "blocks/TicksBlock.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/SetpointProfile.hpp"
 #include "control/SetpointSensorPair.hpp"
 
 class SetpointProfileBlock final : public Block<brewblox_BlockType_SetpointProfile> {
 private:
-    cbox::CboxPtr<SetpointSensorPair> target;
+    cbox::CboxPtr<SetpointSensorPair> myTarget;
+    cbox::CboxClaimingPtr<SetpointSensorPair> target;
     SetpointProfile profile;
 
 public:
     SetpointProfileBlock()
-        : profile(target)
+        : target(myTarget)
+        , profile(target)
     {
     }
     ~SetpointProfileBlock() = default;
