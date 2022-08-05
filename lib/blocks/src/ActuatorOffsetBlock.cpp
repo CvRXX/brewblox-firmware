@@ -12,7 +12,7 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     message.targetId = target.getId();
     message.referenceId = reference.getId();
     message.referenceSettingOrValue = blox_ActuatorOffset_ReferenceKind(offset.selectedReference());
-    message.enabled = offset.enabled();
+    message.enabled = offset.enabler.get();
 
     if (auto val = constrained.value()) {
         message.value = cnl::unwrap(*val);
@@ -52,7 +52,7 @@ cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& cal
     message.targetId = target.getId();
     message.referenceId = reference.getId();
     message.referenceSettingOrValue = _blox_ActuatorOffset_ReferenceKind(offset.selectedReference());
-    message.enabled = offset.enabled();
+    message.enabled = offset.enabler.get();
     // default setting to 0 if it is invalid no not have to store excluded field in eeprom
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
     getAnalogConstraints(message.constrainedBy, constrained);
@@ -72,13 +72,13 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_ActuatorOffset_Block_fields)) {
         if (parser.hasField(blox_ActuatorOffset_Block_targetId_tag)) {
-            target.setId(message.targetId);
+            target.setId(message.targetId, objectId());
         }
         if (parser.hasField(blox_ActuatorOffset_Block_referenceId_tag)) {
             reference.setId(message.referenceId);
         }
         if (parser.hasField(blox_ActuatorOffset_Block_enabled_tag)) {
-            offset.enabled(message.enabled);
+            offset.enabler.set(message.enabled);
         }
         if (parser.hasField(blox_ActuatorOffset_Block_referenceSettingOrValue_tag)) {
             offset.selectedReference(ActuatorOffset::ReferenceKind(message.referenceSettingOrValue));
@@ -97,6 +97,9 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 cbox::update_t
 ActuatorOffsetBlock::updateHandler(cbox::update_t now)
 {
+    if (!offset.enabler.get()) {
+        target.unlock();
+    }
     offset.update();
     constrained.update();
     return now + 1000;

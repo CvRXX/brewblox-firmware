@@ -41,17 +41,23 @@ private:
     std::optional<value_t> m_desiredSetting;
     std::optional<value_t> m_value;
     std::optional<value_t> m_targetSetting;
-    // separate flag for manually disabling the offset actuator
-    bool m_enabled = true;
 
     ReferenceKind m_selectedReference = ReferenceKind::SETTING;
 
 public:
+    Enabler enabler;
+
     explicit ActuatorOffset(
         ControlPtr<SetpointSensorPair>& target,    // process value to manipulate
         ControlPtr<SetpointSensorPair>& reference) // process value to offset from
         : m_target(target)
         , m_reference(reference)
+        , enabler(true, [this](bool arg) {
+            if (arg != this->enabler.get()) {
+                this->update();
+            }
+            return arg;
+        })
     {
     }
     ActuatorOffset(const ActuatorOffset&) = delete;
@@ -67,7 +73,7 @@ public:
 
     std::optional<value_t> setting() const final
     {
-        if (m_enabled) {
+        if (enabler.get()) {
             return m_desiredSetting;
         }
         return std::nullopt;
@@ -104,7 +110,7 @@ public:
         if (auto targetPtr = m_target.lock()) {
             if (auto refPtr = m_reference.lock()) {
                 if (auto ref = m_selectedReference == ReferenceKind::SETTING ? refPtr->setting() : refPtr->value()) {
-                    if (m_enabled) {
+                    if (enabler.get()) {
                         if (auto set = setting()) {
                             newTargetSetting = *ref + *set;
                         }
@@ -124,20 +130,6 @@ public:
                 targetPtr->setting(newTargetSetting);
                 m_targetSetting = newTargetSetting;
             }
-        }
-    }
-
-    bool enabled() const
-    {
-        return m_enabled;
-    }
-
-    void enabled(bool v)
-    {
-        auto changed = m_enabled != v;
-        m_enabled = v;
-        if (changed) {
-            update();
         }
     }
 };

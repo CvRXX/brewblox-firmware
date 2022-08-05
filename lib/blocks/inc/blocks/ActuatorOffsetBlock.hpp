@@ -1,20 +1,22 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorOffset.hpp"
 
 class ActuatorOffsetBlock final : public Block<brewblox_BlockType_ActuatorOffset> {
 private:
-    cbox::CboxPtr<SetpointSensorPair> target;
+    cbox::CboxPtr<SetpointSensorPair> myTarget;
+    cbox::CboxClaimingPtr<SetpointSensorPair> target;
     cbox::CboxPtr<SetpointSensorPair> reference;
     ActuatorOffset offset;
     ActuatorAnalogConstrained constrained;
 
 public:
     ActuatorOffsetBlock()
-        : offset(target, reference)
+        : target(myTarget)
+        , offset(target, reference)
         , constrained(offset)
     {
     }

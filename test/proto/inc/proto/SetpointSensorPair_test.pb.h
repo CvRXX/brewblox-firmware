@@ -232,6 +232,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 valueunfiltered() const;
   void set_valueunfiltered(::google::protobuf::int32 value);
 
+  // uint32 claimedBy = 13 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 13;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.SetpointSensorPair.Block)
  private:
 
@@ -245,6 +251,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool resetfilter_;
   ::google::protobuf::int32 filterthreshold_;
   ::google::protobuf::int32 valueunfiltered_;
+  ::google::protobuf::uint32 claimedby_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SetpointSensorPair_5ftest_2eproto::TableStruct;
 };
@@ -383,6 +390,20 @@ inline void Block::set_resetfilter(bool value) {
   
   resetfilter_ = value;
   // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.resetFilter)
+}
+
+// uint32 claimedBy = 13 [(.nanopb) = {
+inline void Block::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.claimedBy)
+  return claimedby_;
+}
+inline void Block::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.claimedBy)
 }
 
 #ifdef __GNUC__

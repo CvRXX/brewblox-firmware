@@ -49,6 +49,7 @@ SetpointSensorPairBlock::read(const cbox::PayloadCallback& callback) const
 
     message.filter = blox_SetpointSensorPair_FilterChoice(pair.filterChoice());
     message.filterThreshold = cnl::unwrap(pair.filterThreshold());
+    message.claimedBy = claim.claimedBy();
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -141,6 +142,9 @@ void* SetpointSensorPairBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        return &claim;
     }
     if (iface == cbox::interfaceId<ProcessValue<temp_t>>()) {
         // return the member that implements the interface in this case

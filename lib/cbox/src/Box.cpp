@@ -47,22 +47,18 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
         return makeResult.error();
     }
 
-    // Write desired settings to the newly created block
-    status = makeResult.value()->write(request);
-    if (status != CboxError::OK) {
-        return status;
-    }
-
     auto block = makeResult.value();
-
-    // Add created block to the container
+    // Add created block to the container first, so it gets an ID
     status = getObjects().add(block, request.blockId);
-    if (status != CboxError::OK) {
-        return status;
-    }
 
-    // Save block settings to storage
-    status = block->readStored(getStorage().saveObjectCallback);
+    if (status == CboxError::OK) {
+        // Write desired settings to the newly created block
+        status = makeResult.value()->write(request);
+        if (status == CboxError::OK) {
+            // Save block settings to storage
+            status = block->readStored(getStorage().saveObjectCallback);
+        }
+    }
 
     if (status != CboxError::OK) {
         getObjects().remove(block->objectId());

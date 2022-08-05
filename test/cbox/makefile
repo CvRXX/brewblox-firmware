@@ -32,7 +32,6 @@ CPPSRC += platform/particle/spark/src/ConnectionPool.cpp
 # only add the files we need
 INCLUDE_DIRS += $(ROOT_DIR)/test/shared
 CPPSRC += test/shared/TestHelpers.cpp
-CPPSRC += test/shared/TestObjects.cpp
 CPPSRC += test/shared/AppLogger.cpp
 
 # test/cbox
@@ -48,6 +47,7 @@ CPPSRC += $(ROOT_DIR)/test/cbox/EepromObjectStorage_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/FileObjectStorage_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/ObjectContainer_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/ObjectFactory_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/TestObjectInterfaceIds.cpp
 
 # include google protobuf dependencies
 CPPFLAGS += $(shell pkg-config --cflags protobuf)

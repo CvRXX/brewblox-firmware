@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Elco Jacobs / Brewblox
+ * Copyright 2022 BrewPi B.V.
  *
  * This file is part of Brewblox.
  *

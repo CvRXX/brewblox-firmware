@@ -124,7 +124,8 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
               "enabled: true "
               "storedSetting: 131072 "
               "filterThreshold: 20480 "
-              "valueUnfiltered: 86016"); // setting 32, value 21 (setpoint adjusted to 20 + 12)
+              "valueUnfiltered: 86016 "
+              "claimedBy: 104"); // setting 32, value 21 (setpoint adjusted to 20 + 12)
     }
 
     // Read reference pair
