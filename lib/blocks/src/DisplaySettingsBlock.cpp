@@ -59,15 +59,6 @@ DisplaySettingsBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_DisplaySettings_Block_name_tag)) {
             std::copy(std::begin(message.name), std::end(message.name), std::begin(m_settings.name));
         }
-        if (parser.hasField(blox_DisplaySettings_Block_tempUnit_tag)) {
-            m_settings.tempUnit = message.tempUnit;
-        }
-        if (parser.hasField(blox_DisplaySettings_Block_brightness_tag)) {
-            m_settings.brightness = message.brightness;
-        }
-        if (parser.hasField(blox_DisplaySettings_Block_timeZone_tag)) {
-            std::copy(std::begin(message.timeZone), std::end(message.timeZone), std::begin(m_settings.timeZone));
-        }
         m_newSettingsReceived = true;
     }
 

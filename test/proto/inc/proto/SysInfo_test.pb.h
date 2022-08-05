@@ -41,7 +41,7 @@ namespace protobuf_SysInfo_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[2];
+  static const ::google::protobuf::internal::ParseTable schema[1];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -53,71 +53,16 @@ namespace SysInfo {
 class Block;
 class BlockDefaultTypeInternal;
 extern BlockDefaultTypeInternal _Block_default_instance_;
-class Trace;
-class TraceDefaultTypeInternal;
-extern TraceDefaultTypeInternal _Trace_default_instance_;
 }  // namespace SysInfo
 }  // namespace blox_test
 namespace google {
 namespace protobuf {
 template<> ::blox_test::SysInfo::Block* Arena::CreateMaybeMessage<::blox_test::SysInfo::Block>(Arena*);
-template<> ::blox_test::SysInfo::Trace* Arena::CreateMaybeMessage<::blox_test::SysInfo::Trace>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace blox_test {
 namespace SysInfo {
 
-enum Trace_Action {
-  Trace_Action_NONE = 0,
-  Trace_Action_READ_OBJECT = 1,
-  Trace_Action_WRITE_OBJECT = 2,
-  Trace_Action_CREATE_OBJECT = 3,
-  Trace_Action_DELETE_OBJECT = 4,
-  Trace_Action_LIST_ACTIVE_OBJECTS = 5,
-  Trace_Action_READ_STORED_OBJECT = 6,
-  Trace_Action_LIST_STORED_OBJECTS = 7,
-  Trace_Action_CLEAR_OBJECTS = 8,
-  Trace_Action_REBOOT = 9,
-  Trace_Action_FACTORY_RESET = 10,
-  Trace_Action_LIST_COMPATIBLE_OBJECTS = 11,
-  Trace_Action_DISCOVER_NEW_OBJECTS = 12,
-  Trace_Action_CONSTRUCT_OBJECT = 20,
-  Trace_Action_DESTRUCT_OBJECT = 21,
-  Trace_Action_STREAM_FROM_OBJECT = 22,
-  Trace_Action_STREAM_TO_OBJECT = 23,
-  Trace_Action_UPDATE_OBJECT = 24,
-  Trace_Action_PERSIST_OBJECT = 25,
-  Trace_Action_LOAD_STORED_OBJECT = 26,
-  Trace_Action_UPDATE_OBJECTS = 27,
-  Trace_Action_UPDATE_CONNECTIONS = 28,
-  Trace_Action_UPDATE_DISPLAY = 101,
-  Trace_Action_SYSTEM_TASKS = 102,
-  Trace_Action_MANAGE_CONNECTIVITY = 103,
-  Trace_Action_MDNS_START = 104,
-  Trace_Action_MDNS_PROCESS = 105,
-  Trace_Action_HTTP_START = 106,
-  Trace_Action_HTTP_STOP = 107,
-  Trace_Action_HTTP_RESPONSE = 108,
-  Trace_Action_WIFI_CONNECT = 109,
-  Trace_Action_FIRMWARE_UPDATE_STARTED = 110,
-  Trace_Action_Trace_Action_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Trace_Action_Trace_Action_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool Trace_Action_IsValid(int value);
-const Trace_Action Trace_Action_Action_MIN = Trace_Action_NONE;
-const Trace_Action Trace_Action_Action_MAX = Trace_Action_FIRMWARE_UPDATE_STARTED;
-const int Trace_Action_Action_ARRAYSIZE = Trace_Action_Action_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* Trace_Action_descriptor();
-inline const ::std::string& Trace_Action_Name(Trace_Action value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Trace_Action_descriptor(), value);
-}
-inline bool Trace_Action_Parse(
-    const ::std::string& name, Trace_Action* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Trace_Action>(
-    Trace_Action_descriptor(), name, value);
-}
 enum Platform {
   PLATFORM_UNKNOWN = 0,
   PLATFORM_GCC = 3,
@@ -141,233 +86,28 @@ inline bool Platform_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<Platform>(
     Platform_descriptor(), name, value);
 }
-enum Command {
-  SYS_CMD_NONE = 0,
-  SYS_CMD_TRACE_READ = 1,
-  SYS_CMD_TRACE_RESUME = 2,
-  SYS_CMD_TRACE_READ_RESUME = 3,
-  Command_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Command_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum TemperatureUnit {
+  TEMP_CELSIUS = 0,
+  TEMP_FAHRENHEIT = 1,
+  TemperatureUnit_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  TemperatureUnit_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Command_IsValid(int value);
-const Command Command_MIN = SYS_CMD_NONE;
-const Command Command_MAX = SYS_CMD_TRACE_READ_RESUME;
-const int Command_ARRAYSIZE = Command_MAX + 1;
+bool TemperatureUnit_IsValid(int value);
+const TemperatureUnit TemperatureUnit_MIN = TEMP_CELSIUS;
+const TemperatureUnit TemperatureUnit_MAX = TEMP_FAHRENHEIT;
+const int TemperatureUnit_ARRAYSIZE = TemperatureUnit_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Command_descriptor();
-inline const ::std::string& Command_Name(Command value) {
+const ::google::protobuf::EnumDescriptor* TemperatureUnit_descriptor();
+inline const ::std::string& TemperatureUnit_Name(TemperatureUnit value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Command_descriptor(), value);
+    TemperatureUnit_descriptor(), value);
 }
-inline bool Command_Parse(
-    const ::std::string& name, Command* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Command>(
-    Command_descriptor(), name, value);
+inline bool TemperatureUnit_Parse(
+    const ::std::string& name, TemperatureUnit* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TemperatureUnit>(
+    TemperatureUnit_descriptor(), name, value);
 }
 // ===================================================================
-
-class Trace : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.SysInfo.Trace) */ {
- public:
-  Trace();
-  virtual ~Trace();
-
-  Trace(const Trace& from);
-
-  inline Trace& operator=(const Trace& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  Trace(Trace&& from) noexcept
-    : Trace() {
-    *this = ::std::move(from);
-  }
-
-  inline Trace& operator=(Trace&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Trace& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Trace* internal_default_instance() {
-    return reinterpret_cast<const Trace*>(
-               &_Trace_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  void Swap(Trace* other);
-  friend void swap(Trace& a, Trace& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Trace* New() const final {
-    return CreateMaybeMessage<Trace>(NULL);
-  }
-
-  Trace* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Trace>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Trace& from);
-  void MergeFrom(const Trace& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Trace* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  typedef Trace_Action Action;
-  static const Action NONE =
-    Trace_Action_NONE;
-  static const Action READ_OBJECT =
-    Trace_Action_READ_OBJECT;
-  static const Action WRITE_OBJECT =
-    Trace_Action_WRITE_OBJECT;
-  static const Action CREATE_OBJECT =
-    Trace_Action_CREATE_OBJECT;
-  static const Action DELETE_OBJECT =
-    Trace_Action_DELETE_OBJECT;
-  static const Action LIST_ACTIVE_OBJECTS =
-    Trace_Action_LIST_ACTIVE_OBJECTS;
-  static const Action READ_STORED_OBJECT =
-    Trace_Action_READ_STORED_OBJECT;
-  static const Action LIST_STORED_OBJECTS =
-    Trace_Action_LIST_STORED_OBJECTS;
-  static const Action CLEAR_OBJECTS =
-    Trace_Action_CLEAR_OBJECTS;
-  static const Action REBOOT =
-    Trace_Action_REBOOT;
-  static const Action FACTORY_RESET =
-    Trace_Action_FACTORY_RESET;
-  static const Action LIST_COMPATIBLE_OBJECTS =
-    Trace_Action_LIST_COMPATIBLE_OBJECTS;
-  static const Action DISCOVER_NEW_OBJECTS =
-    Trace_Action_DISCOVER_NEW_OBJECTS;
-  static const Action CONSTRUCT_OBJECT =
-    Trace_Action_CONSTRUCT_OBJECT;
-  static const Action DESTRUCT_OBJECT =
-    Trace_Action_DESTRUCT_OBJECT;
-  static const Action STREAM_FROM_OBJECT =
-    Trace_Action_STREAM_FROM_OBJECT;
-  static const Action STREAM_TO_OBJECT =
-    Trace_Action_STREAM_TO_OBJECT;
-  static const Action UPDATE_OBJECT =
-    Trace_Action_UPDATE_OBJECT;
-  static const Action PERSIST_OBJECT =
-    Trace_Action_PERSIST_OBJECT;
-  static const Action LOAD_STORED_OBJECT =
-    Trace_Action_LOAD_STORED_OBJECT;
-  static const Action UPDATE_OBJECTS =
-    Trace_Action_UPDATE_OBJECTS;
-  static const Action UPDATE_CONNECTIONS =
-    Trace_Action_UPDATE_CONNECTIONS;
-  static const Action UPDATE_DISPLAY =
-    Trace_Action_UPDATE_DISPLAY;
-  static const Action SYSTEM_TASKS =
-    Trace_Action_SYSTEM_TASKS;
-  static const Action MANAGE_CONNECTIVITY =
-    Trace_Action_MANAGE_CONNECTIVITY;
-  static const Action MDNS_START =
-    Trace_Action_MDNS_START;
-  static const Action MDNS_PROCESS =
-    Trace_Action_MDNS_PROCESS;
-  static const Action HTTP_START =
-    Trace_Action_HTTP_START;
-  static const Action HTTP_STOP =
-    Trace_Action_HTTP_STOP;
-  static const Action HTTP_RESPONSE =
-    Trace_Action_HTTP_RESPONSE;
-  static const Action WIFI_CONNECT =
-    Trace_Action_WIFI_CONNECT;
-  static const Action FIRMWARE_UPDATE_STARTED =
-    Trace_Action_FIRMWARE_UPDATE_STARTED;
-  static inline bool Action_IsValid(int value) {
-    return Trace_Action_IsValid(value);
-  }
-  static const Action Action_MIN =
-    Trace_Action_Action_MIN;
-  static const Action Action_MAX =
-    Trace_Action_Action_MAX;
-  static const int Action_ARRAYSIZE =
-    Trace_Action_Action_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  Action_descriptor() {
-    return Trace_Action_descriptor();
-  }
-  static inline const ::std::string& Action_Name(Action value) {
-    return Trace_Action_Name(value);
-  }
-  static inline bool Action_Parse(const ::std::string& name,
-      Action* value) {
-    return Trace_Action_Parse(name, value);
-  }
-
-  // accessors -------------------------------------------------------
-
-  // .blox_test.SysInfo.Trace.Action action = 1;
-  void clear_action();
-  static const int kActionFieldNumber = 1;
-  ::blox_test::SysInfo::Trace_Action action() const;
-  void set_action(::blox_test::SysInfo::Trace_Action value);
-
-  // uint32 id = 2 [(.nanopb) = {
-  void clear_id();
-  static const int kIdFieldNumber = 2;
-  ::google::protobuf::uint32 id() const;
-  void set_id(::google::protobuf::uint32 value);
-
-  // uint32 type = 3 [(.nanopb) = {
-  void clear_type();
-  static const int kTypeFieldNumber = 3;
-  ::google::protobuf::uint32 type() const;
-  void set_type(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Trace)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  int action_;
-  ::google::protobuf::uint32 id_;
-  ::google::protobuf::uint32 type_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_SysInfo_5ftest_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
 
 class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.SysInfo.Block) */ {
  public:
@@ -404,7 +144,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
                &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   void Swap(Block* other);
   friend void swap(Block& a, Block& b) {
@@ -455,18 +195,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
-
-  // repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
-  int trace_size() const;
-  void clear_trace();
-  static const int kTraceFieldNumber = 101;
-  ::blox_test::SysInfo::Trace* mutable_trace(int index);
-  ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >*
-      mutable_trace();
-  const ::blox_test::SysInfo::Trace& trace(int index) const;
-  ::blox_test::SysInfo::Trace* add_trace();
-  const ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >&
-      trace() const;
 
   // bytes deviceId = 1 [(.nanopb) = {
   void clear_deviceid();
@@ -538,6 +266,20 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_protocoldate();
   void set_allocated_protocoldate(::std::string* protocoldate);
 
+  // string timeZone = 14 [(.nanopb) = {
+  void clear_timezone();
+  static const int kTimeZoneFieldNumber = 14;
+  const ::std::string& timezone() const;
+  void set_timezone(const ::std::string& value);
+  #if LANG_CXX11
+  void set_timezone(::std::string&& value);
+  #endif
+  void set_timezone(const char* value);
+  void set_timezone(const char* value, size_t size);
+  ::std::string* mutable_timezone();
+  ::std::string* release_timezone();
+  void set_allocated_timezone(::std::string* timezone);
+
   // .blox_test.SysInfo.Platform platform = 3 [(.brewblox.field) = {
   void clear_platform();
   static const int kPlatformFieldNumber = 3;
@@ -550,25 +292,53 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 ip() const;
   void set_ip(::google::protobuf::uint32 value);
 
-  // .blox_test.SysInfo.Command command = 100;
-  void clear_command();
-  static const int kCommandFieldNumber = 100;
-  ::blox_test::SysInfo::Command command() const;
-  void set_command(::blox_test::SysInfo::Command value);
+  // uint32 uptime = 11 [(.nanopb) = {
+  void clear_uptime();
+  static const int kUptimeFieldNumber = 11;
+  ::google::protobuf::uint32 uptime() const;
+  void set_uptime(::google::protobuf::uint32 value);
+
+  // uint32 updatesPerSecond = 12 [(.nanopb) = {
+  void clear_updatespersecond();
+  static const int kUpdatesPerSecondFieldNumber = 12;
+  ::google::protobuf::uint32 updatespersecond() const;
+  void set_updatespersecond(::google::protobuf::uint32 value);
+
+  // uint32 systemTime = 13 [(.nanopb) = {
+  void clear_systemtime();
+  static const int kSystemTimeFieldNumber = 13;
+  ::google::protobuf::uint32 systemtime() const;
+  void set_systemtime(::google::protobuf::uint32 value);
+
+  // .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
+  void clear_tempunit();
+  static const int kTempUnitFieldNumber = 15;
+  ::blox_test::SysInfo::TemperatureUnit tempunit() const;
+  void set_tempunit(::blox_test::SysInfo::TemperatureUnit value);
+
+  // uint32 displayBrightness = 16 [(.nanopb) = {
+  void clear_displaybrightness();
+  static const int kDisplayBrightnessFieldNumber = 16;
+  ::google::protobuf::uint32 displaybrightness() const;
+  void set_displaybrightness(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace > trace_;
   ::google::protobuf::internal::ArenaStringPtr deviceid_;
   ::google::protobuf::internal::ArenaStringPtr version_;
   ::google::protobuf::internal::ArenaStringPtr protocolversion_;
   ::google::protobuf::internal::ArenaStringPtr releasedate_;
   ::google::protobuf::internal::ArenaStringPtr protocoldate_;
+  ::google::protobuf::internal::ArenaStringPtr timezone_;
   int platform_;
   ::google::protobuf::uint32 ip_;
-  int command_;
+  ::google::protobuf::uint32 uptime_;
+  ::google::protobuf::uint32 updatespersecond_;
+  ::google::protobuf::uint32 systemtime_;
+  int tempunit_;
+  ::google::protobuf::uint32 displaybrightness_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SysInfo_5ftest_2eproto::TableStruct;
 };
@@ -581,52 +351,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Trace
-
-// .blox_test.SysInfo.Trace.Action action = 1;
-inline void Trace::clear_action() {
-  action_ = 0;
-}
-inline ::blox_test::SysInfo::Trace_Action Trace::action() const {
-  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Trace.action)
-  return static_cast< ::blox_test::SysInfo::Trace_Action >(action_);
-}
-inline void Trace::set_action(::blox_test::SysInfo::Trace_Action value) {
-  
-  action_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Trace.action)
-}
-
-// uint32 id = 2 [(.nanopb) = {
-inline void Trace::clear_id() {
-  id_ = 0u;
-}
-inline ::google::protobuf::uint32 Trace::id() const {
-  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Trace.id)
-  return id_;
-}
-inline void Trace::set_id(::google::protobuf::uint32 value) {
-  
-  id_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Trace.id)
-}
-
-// uint32 type = 3 [(.nanopb) = {
-inline void Trace::clear_type() {
-  type_ = 0u;
-}
-inline ::google::protobuf::uint32 Trace::type() const {
-  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Trace.type)
-  return type_;
-}
-inline void Trace::set_type(::google::protobuf::uint32 value) {
-  
-  type_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Trace.type)
-}
-
-// -------------------------------------------------------------------
-
 // Block
 
 // bytes deviceId = 1 [(.nanopb) = {
@@ -922,55 +646,132 @@ inline void Block::set_ip(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.ip)
 }
 
-// .blox_test.SysInfo.Command command = 100;
-inline void Block::clear_command() {
-  command_ = 0;
+// uint32 uptime = 11 [(.nanopb) = {
+inline void Block::clear_uptime() {
+  uptime_ = 0u;
 }
-inline ::blox_test::SysInfo::Command Block::command() const {
-  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.command)
-  return static_cast< ::blox_test::SysInfo::Command >(command_);
+inline ::google::protobuf::uint32 Block::uptime() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.uptime)
+  return uptime_;
 }
-inline void Block::set_command(::blox_test::SysInfo::Command value) {
+inline void Block::set_uptime(::google::protobuf::uint32 value) {
   
-  command_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.command)
+  uptime_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.uptime)
 }
 
-// repeated .blox_test.SysInfo.Trace trace = 101 [(.nanopb) = {
-inline int Block::trace_size() const {
-  return trace_.size();
+// uint32 updatesPerSecond = 12 [(.nanopb) = {
+inline void Block::clear_updatespersecond() {
+  updatespersecond_ = 0u;
 }
-inline void Block::clear_trace() {
-  trace_.Clear();
+inline ::google::protobuf::uint32 Block::updatespersecond() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.updatesPerSecond)
+  return updatespersecond_;
 }
-inline ::blox_test::SysInfo::Trace* Block::mutable_trace(int index) {
-  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.trace)
-  return trace_.Mutable(index);
+inline void Block::set_updatespersecond(::google::protobuf::uint32 value) {
+  
+  updatespersecond_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.updatesPerSecond)
 }
-inline ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >*
-Block::mutable_trace() {
-  // @@protoc_insertion_point(field_mutable_list:blox_test.SysInfo.Block.trace)
-  return &trace_;
+
+// uint32 systemTime = 13 [(.nanopb) = {
+inline void Block::clear_systemtime() {
+  systemtime_ = 0u;
 }
-inline const ::blox_test::SysInfo::Trace& Block::trace(int index) const {
-  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.trace)
-  return trace_.Get(index);
+inline ::google::protobuf::uint32 Block::systemtime() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.systemTime)
+  return systemtime_;
 }
-inline ::blox_test::SysInfo::Trace* Block::add_trace() {
-  // @@protoc_insertion_point(field_add:blox_test.SysInfo.Block.trace)
-  return trace_.Add();
+inline void Block::set_systemtime(::google::protobuf::uint32 value) {
+  
+  systemtime_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.systemTime)
 }
-inline const ::google::protobuf::RepeatedPtrField< ::blox_test::SysInfo::Trace >&
-Block::trace() const {
-  // @@protoc_insertion_point(field_list:blox_test.SysInfo.Block.trace)
-  return trace_;
+
+// string timeZone = 14 [(.nanopb) = {
+inline void Block::clear_timezone() {
+  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Block::timezone() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.timeZone)
+  return timezone_.GetNoArena();
+}
+inline void Block::set_timezone(const ::std::string& value) {
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.timeZone)
+}
+#if LANG_CXX11
+inline void Block::set_timezone(::std::string&& value) {
+  
+  timezone_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:blox_test.SysInfo.Block.timeZone)
+}
+#endif
+inline void Block::set_timezone(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:blox_test.SysInfo.Block.timeZone)
+}
+inline void Block::set_timezone(const char* value, size_t size) {
+  
+  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:blox_test.SysInfo.Block.timeZone)
+}
+inline ::std::string* Block::mutable_timezone() {
+  
+  // @@protoc_insertion_point(field_mutable:blox_test.SysInfo.Block.timeZone)
+  return timezone_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Block::release_timezone() {
+  // @@protoc_insertion_point(field_release:blox_test.SysInfo.Block.timeZone)
+  
+  return timezone_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Block::set_allocated_timezone(::std::string* timezone) {
+  if (timezone != NULL) {
+    
+  } else {
+    
+  }
+  timezone_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), timezone);
+  // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.timeZone)
+}
+
+// .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
+inline void Block::clear_tempunit() {
+  tempunit_ = 0;
+}
+inline ::blox_test::SysInfo::TemperatureUnit Block::tempunit() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.tempUnit)
+  return static_cast< ::blox_test::SysInfo::TemperatureUnit >(tempunit_);
+}
+inline void Block::set_tempunit(::blox_test::SysInfo::TemperatureUnit value) {
+  
+  tempunit_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.tempUnit)
+}
+
+// uint32 displayBrightness = 16 [(.nanopb) = {
+inline void Block::clear_displaybrightness() {
+  displaybrightness_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::displaybrightness() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.displayBrightness)
+  return displaybrightness_;
+}
+inline void Block::set_displaybrightness(::google::protobuf::uint32 value) {
+  
+  displaybrightness_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.displayBrightness)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -980,20 +781,15 @@ Block::trace() const {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::blox_test::SysInfo::Trace_Action> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::Trace_Action>() {
-  return ::blox_test::SysInfo::Trace_Action_descriptor();
-}
 template <> struct is_proto_enum< ::blox_test::SysInfo::Platform> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::Platform>() {
   return ::blox_test::SysInfo::Platform_descriptor();
 }
-template <> struct is_proto_enum< ::blox_test::SysInfo::Command> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::SysInfo::TemperatureUnit> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::Command>() {
-  return ::blox_test::SysInfo::Command_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::SysInfo::TemperatureUnit>() {
+  return ::blox_test::SysInfo::TemperatureUnit_descriptor();
 }
 
 }  // namespace protobuf

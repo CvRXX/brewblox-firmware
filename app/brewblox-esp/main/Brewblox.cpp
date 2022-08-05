@@ -4,11 +4,12 @@
 #include "Brewblox.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
 #include "blocks/SysInfoBlock.hpp"
-#include "blocks/TicksBlock.hpp"
 #include "blocks/stringify.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/Box.hpp"
 #include "cbox/Hex.hpp"
 #include "proto/proto_version.h"
+#include <cstring>
 #include <esp_wifi.h>
 #include <esp_wifi_types.h>
 
@@ -71,7 +72,6 @@ void setupSystemBlocks()
 
     objects.setObjectsStartId(cbox::systemStartId);
     objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(readDeviceId)), 2);
-    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<Ticks<TicksEsp>>(ticks)), 3);
     objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
     objects.setObjectsStartId(cbox::userStartId);
 }

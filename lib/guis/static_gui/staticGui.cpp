@@ -1,8 +1,9 @@
 #include "staticGui.hpp"
 #include "bar.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "blocks/SysInfoBlock.hpp"
 #include "cbox/Box.hpp"
+#include "cbox/CboxPtr.hpp"
 #include "drivers/Spark4.hpp"
 #include "lvgl.h"
 #include "static_gui/widgets.hpp"
@@ -92,20 +93,17 @@ std::unique_ptr<BaseWidget> StaticGui::makeWidget(uint8_t pos)
 
 void StaticGui::updateConfig()
 {
-    if (DisplaySettingsBlock::newSettingsReceived()) {
-        auto& settings = DisplaySettingsBlock::settings();
+    if (SysInfoBlock::newSettingsReceived()) {
+        auto& settings = SysInfoBlock::settings();
 
-        if (settings.tempUnit == blox_DisplaySettings_TemperatureUnit_TEMP_CELSIUS) {
-            BaseWidget::tempUnit = TempUnit::Celsius;
-        } else {
-            BaseWidget::tempUnit = TempUnit::Fahrenheit;
-        }
+        BaseWidget::tempUnit = settings.tempUnit;
+        spark4::display_brightness(settings.displayBrightness);
 
-        spark4::display_brightness(settings.brightness);
-
-        setenv("TZ", settings.timeZone, 1);
+        setenv("TZ", settings.timeZone.c_str(), 1);
         tzset();
+    }
 
+    if (DisplaySettingsBlock::newSettingsReceived()) {
         for (uint8_t pos = 0; pos < 6; pos++) {
             // find widget settings for position
             sensorWidgets[pos] = makeWidget(pos + 1);

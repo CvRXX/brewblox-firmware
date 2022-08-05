@@ -19,6 +19,7 @@
 
 #include "intellisense.hpp"
 
+#include "AppTicks.hpp"
 #include "blocks/SysInfoBlock.hpp"
 #include "blox_hal/hal_network.hpp"
 #include "cbox/PayloadConversion.hpp"
@@ -30,18 +31,30 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
+    auto uptime = ticks.millis();
     auto written = device_id_func(static_cast<uint8_t*>(&message.deviceId.bytes[0]), 12);
     message.deviceId.size = written;
 
     strncpy(message.version, GIT_VERSION, 12);
+    message.platform = blox_SysInfo_Platform(PLATFORM_ID);
+
     strncpy(message.protocolVersion, COMPILED_PROTO_VERSION, 12);
     strncpy(message.releaseDate, GIT_DATE, 12);
     strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
+
     message.ip = network::ip4();
+    message.uptime = uptime;
 
-    message.platform = blox_SysInfo_Platform(PLATFORM_ID);
+    if (_updateCounterStart > 0 && _updateCounterStart < uptime) {
+        // Scaled in proto
+        // Convert from updates/ms to updates/1000s
+        message.updatesPerSecond = uint32_t(1e6 * _updateCounter / (uptime - _updateCounterStart));
+    }
 
-    command = Command::NONE;
+    message.systemTime = ticks.utc();
+    strncpy(message.timeZone, _settings.timeZone.c_str(), _settings.timeZone.size());
+    message.tempUnit = blox_SysInfo_TemperatureUnit(_settings.tempUnit);
+    message.displayBrightness = _settings.displayBrightness;
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -52,9 +65,20 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
 }
 
 cbox::CboxError
-SysInfoBlock::readStored(const cbox::PayloadCallback&) const
+SysInfoBlock::readStored(const cbox::PayloadCallback& callback) const
 {
-    return cbox::CboxError::OK;
+    blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
+
+    strncpy(message.timeZone, _settings.timeZone.c_str(), _settings.timeZone.size());
+    message.tempUnit = blox_SysInfo_TemperatureUnit(_settings.tempUnit);
+    message.displayBrightness = _settings.displayBrightness;
+
+    return cbox::PayloadBuilder(*this)
+        .withContent(&message,
+                     blox_SysInfo_Block_fields,
+                     blox_SysInfo_Block_size)
+        .respond(callback)
+        .status();
 }
 
 cbox::CboxError
@@ -64,10 +88,40 @@ SysInfoBlock::write(const cbox::Payload& payload)
     auto parser = cbox::PayloadParser(payload);
 
     if (parser.fillMessage(&message, blox_SysInfo_Block_fields)) {
-        if (parser.hasField(blox_SysInfo_Block_command_tag)) {
-            command = Command(message.command);
+        if (parser.hasField(blox_SysInfo_Block_systemTime_tag)) {
+            // Only accept UTC time from block write if we don't already have a value
+            if (ticks.utc() < MIN_VALID_UTC && message.systemTime > MIN_VALID_UTC) {
+                ticks.setUtc(message.systemTime);
+            }
+        }
+        if (parser.hasField(blox_SysInfo_Block_timeZone_tag)) {
+            _newSettingsReceived = true;
+            _settings.timeZone = std::string(message.timeZone);
+        }
+        if (parser.hasField(blox_SysInfo_Block_tempUnit_tag)) {
+            _newSettingsReceived = true;
+            _settings.tempUnit = TempUnit(message.tempUnit);
+        }
+        if (parser.hasField(blox_SysInfo_Block_displayBrightness_tag)) {
+            _newSettingsReceived = true;
+            _settings.displayBrightness = message.displayBrightness;
         }
     }
 
     return parser.status();
 }
+
+cbox::update_t SysInfoBlock::updateHandler(const cbox::update_t& now)
+{
+    // Reset value periodically.
+    // This groups averages over time.
+    if (_updateCounterStart == 0 || _updateCounter > 1e5) {
+        _updateCounterStart = ticks.millis();
+        _updateCounter = 0;
+    }
+    _updateCounter++;
+    return now + 1;
+}
+
+SystemSettings SysInfoBlock::_settings = SystemSettings{};
+bool SysInfoBlock::_newSettingsReceived = false;

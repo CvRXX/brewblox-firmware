@@ -22,12 +22,10 @@
 #include "blocks/SetpointProfileBlock.hpp"
 #include "blocks/SetpointSensorPairBlock.hpp"
 #include "blocks/TempSensorMockBlock.hpp"
-#include "blocks/TicksBlock.hpp"
 #include "cbox/Box.hpp"
 #include "proto/SetpointProfile_test.pb.h"
 #include "proto/SetpointSensorPair_test.pb.h"
 #include "proto/TempSensorMock_test.pb.h"
-#include "proto/Ticks_test.pb.h"
 #include "spark/Brewblox.hpp"
 #include <catch.hpp>
 #include <sstream>
