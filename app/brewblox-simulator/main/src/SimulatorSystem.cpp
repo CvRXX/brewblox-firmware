@@ -4,7 +4,6 @@
 #include "SimulatorSystem.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
 #include "blocks/SysInfoBlock.hpp"
-#include "blocks/TicksBlock.hpp"
 #include "blocks/stringify.hpp"
 #include "cbox/Box.hpp"
 #include "cbox/Hex.hpp"
@@ -63,7 +62,6 @@ void setupSystemBlocks()
 
     objects.setObjectsStartId(cbox::systemStartId);
     objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(rawDeviceId)), 2);
-    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
     objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
     objects.setObjectsStartId(cbox::userStartId);
 }

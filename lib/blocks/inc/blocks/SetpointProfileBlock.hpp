@@ -20,7 +20,6 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "blocks/TicksBlock.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "control/SetpointProfile.hpp"
 #include "control/SetpointSensorPair.hpp"

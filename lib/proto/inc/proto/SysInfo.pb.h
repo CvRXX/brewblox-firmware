@@ -45,6 +45,7 @@ typedef struct _blox_SysInfo_Block {
     char protocolDate[12];
     uint32_t ip;
     uint32_t uptime;
+    uint32_t updatesPerSecond;
     uint32_t systemTime;
     char timeZone[32];
     blox_SysInfo_TemperatureUnit tempUnit;
@@ -55,8 +56,8 @@ typedef struct _blox_SysInfo_Block {
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_SysInfo_Block_init_default          {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", 0, 0, 0, "", _blox_SysInfo_TemperatureUnit_MIN, 0}
-#define blox_SysInfo_Block_init_zero             {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", 0, 0, 0, "", _blox_SysInfo_TemperatureUnit_MIN, 0}
+#define blox_SysInfo_Block_init_default          {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", 0, 0, 0, 0, "", _blox_SysInfo_TemperatureUnit_MIN, 0}
+#define blox_SysInfo_Block_init_zero             {{0, {0}}, "", _blox_SysInfo_Platform_MIN, "", "", "", 0, 0, 0, 0, "", _blox_SysInfo_TemperatureUnit_MIN, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_SysInfo_Block_deviceId_tag          1
@@ -67,16 +68,17 @@ typedef struct _blox_SysInfo_Block {
 #define blox_SysInfo_Block_protocolDate_tag      9
 #define blox_SysInfo_Block_ip_tag                10
 #define blox_SysInfo_Block_uptime_tag            11
-#define blox_SysInfo_Block_systemTime_tag        12
-#define blox_SysInfo_Block_timeZone_tag          13
-#define blox_SysInfo_Block_tempUnit_tag          14
-#define blox_SysInfo_Block_displayBrightness_tag 15
+#define blox_SysInfo_Block_updatesPerSecond_tag  12
+#define blox_SysInfo_Block_systemTime_tag        13
+#define blox_SysInfo_Block_timeZone_tag          14
+#define blox_SysInfo_Block_tempUnit_tag          15
+#define blox_SysInfo_Block_displayBrightness_tag 16
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_SysInfo_Block_fields[13];
+extern const pb_field_t blox_SysInfo_Block_fields[14];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_SysInfo_Block_size                  132
+#define blox_SysInfo_Block_size                  139
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

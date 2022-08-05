@@ -64,6 +64,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, protocoldate_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, ip_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, uptime_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, updatespersecond_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, systemtime_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, timezone_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, tempunit_),
@@ -100,25 +101,26 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022SysInfo_test.proto\022\021blox_test.SysInfo\032"
       "\023brewblox_test.proto\032\021nanopb_test.proto\""
-      "\320\003\n\005Block\022#\n\010deviceId\030\001 \001(\014B\021\212\265\030\002(\001\222\?\002\010\014"
+      "\212\004\n\005Block\022#\n\010deviceId\030\001 \001(\014B\021\212\265\030\002(\001\222\?\002\010\014"
       "\212\265\030\0028\001\022\034\n\007version\030\002 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\0225\n\010"
       "platform\030\003 \001(\0162\033.blox_test.SysInfo.Platf"
       "ormB\006\212\265\030\002(\001\022$\n\017protocolVersion\030\007 \001(\tB\013\212\265"
       "\030\002(\001\222\?\002\010\014\022 \n\013releaseDate\030\010 \001(\tB\013\212\265\030\002(\001\222\?"
       "\002\010\014\022!\n\014protocolDate\030\t \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\022\035"
-      "\n\002ip\030\n \001(\rB\021\212\265\030\002(\001\212\265\030\002`\001\222\?\0028 \022(\n\006uptime\030"
-      "\013 \001(\rB\030\212\265\030\002(\001\212\265\030\002\010\003\212\265\030\003\020\350\007\222\?\0028 \022\037\n\nsyste"
-      "mTime\030\014 \001(\rB\013\212\265\030\002X\001\222\?\0028 \022\027\n\010timeZone\030\r \001"
-      "(\tB\005\222\?\002\010 \0224\n\010tempUnit\030\016 \001(\0162\".blox_test."
-      "SysInfo.TemperatureUnit\022 \n\021displayBright"
-      "ness\030\017 \001(\rB\005\222\?\0028\010:\007\212\265\030\003\030\200\002*X\n\010Platform\022\024"
-      "\n\020PLATFORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023"
-      "\n\017PLATFORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010*8\n\017"
-      "TemperatureUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEM"
-      "P_FAHRENHEIT\020\001b\006proto3"
+      "\n\002ip\030\n \001(\rB\021\212\265\030\002(\001\212\265\030\002`\001\222\?\0028 \022.\n\006uptime\030"
+      "\013 \001(\rB\036\212\265\030\002(\001\212\265\030\0020\001\212\265\030\002\010\003\212\265\030\003\020\350\007\222\?\0028 \0222\n"
+      "\020updatesPerSecond\030\014 \001(\rB\030\212\265\030\002(\001\212\265\030\0020\001\212\265\030"
+      "\003\020\350\007\222\?\0028 \022\037\n\nsystemTime\030\r \001(\rB\013\212\265\030\002X\001\222\?\002"
+      "8 \022\027\n\010timeZone\030\016 \001(\tB\005\222\?\002\010 \0224\n\010tempUnit\030"
+      "\017 \001(\0162\".blox_test.SysInfo.TemperatureUni"
+      "t\022 \n\021displayBrightness\030\020 \001(\rB\005\222\?\0028\010:\007\212\265\030"
+      "\003\030\200\002*X\n\010Platform\022\024\n\020PLATFORM_UNKNOWN\020\000\022\020"
+      "\n\014PLATFORM_GCC\020\003\022\023\n\017PLATFORM_PHOTON\020\006\022\017\n"
+      "\013PLATFORM_P1\020\010*8\n\017TemperatureUnit\022\020\n\014TEM"
+      "P_CELSIUS\020\000\022\023\n\017TEMP_FAHRENHEIT\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 702);
+      descriptor, 760);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SysInfo_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -182,6 +184,7 @@ const int Block::kReleaseDateFieldNumber;
 const int Block::kProtocolDateFieldNumber;
 const int Block::kIpFieldNumber;
 const int Block::kUptimeFieldNumber;
+const int Block::kUpdatesPerSecondFieldNumber;
 const int Block::kSystemTimeFieldNumber;
 const int Block::kTimeZoneFieldNumber;
 const int Block::kTempUnitFieldNumber;
@@ -293,7 +296,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.SysInfo.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -416,10 +419,24 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 systemTime = 12 [(.nanopb) = {
+      // uint32 updatesPerSecond = 12 [(.nanopb) = {
       case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &updatespersecond_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 systemTime = 13 [(.nanopb) = {
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -430,10 +447,10 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // string timeZone = 13 [(.nanopb) = {
-      case 13: {
+      // string timeZone = 14 [(.nanopb) = {
+      case 14: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(106u /* 106 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_timezone()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -446,10 +463,10 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.SysInfo.TemperatureUnit tempUnit = 14;
-      case 14: {
+      // .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
+      case 15: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(112u /* 112 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(120u /* 120 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -461,10 +478,10 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 displayBrightness = 15 [(.nanopb) = {
-      case 15: {
+      // uint32 displayBrightness = 16 [(.nanopb) = {
+      case 16: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(120u /* 120 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(128u /* 128 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -563,30 +580,35 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->uptime(), output);
   }
 
-  // uint32 systemTime = 12 [(.nanopb) = {
-  if (this->systemtime() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->systemtime(), output);
+  // uint32 updatesPerSecond = 12 [(.nanopb) = {
+  if (this->updatespersecond() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->updatespersecond(), output);
   }
 
-  // string timeZone = 13 [(.nanopb) = {
+  // uint32 systemTime = 13 [(.nanopb) = {
+  if (this->systemtime() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->systemtime(), output);
+  }
+
+  // string timeZone = 14 [(.nanopb) = {
   if (this->timezone().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->timezone().data(), static_cast<int>(this->timezone().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "blox_test.SysInfo.Block.timeZone");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      13, this->timezone(), output);
+      14, this->timezone(), output);
   }
 
-  // .blox_test.SysInfo.TemperatureUnit tempUnit = 14;
+  // .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
   if (this->tempunit() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      14, this->tempunit(), output);
+      15, this->tempunit(), output);
   }
 
-  // uint32 displayBrightness = 15 [(.nanopb) = {
+  // uint32 displayBrightness = 16 [(.nanopb) = {
   if (this->displaybrightness() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(15, this->displaybrightness(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(16, this->displaybrightness(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -670,12 +692,17 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->uptime(), target);
   }
 
-  // uint32 systemTime = 12 [(.nanopb) = {
-  if (this->systemtime() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->systemtime(), target);
+  // uint32 updatesPerSecond = 12 [(.nanopb) = {
+  if (this->updatespersecond() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->updatespersecond(), target);
   }
 
-  // string timeZone = 13 [(.nanopb) = {
+  // uint32 systemTime = 13 [(.nanopb) = {
+  if (this->systemtime() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(13, this->systemtime(), target);
+  }
+
+  // string timeZone = 14 [(.nanopb) = {
   if (this->timezone().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->timezone().data(), static_cast<int>(this->timezone().length()),
@@ -683,18 +710,18 @@ void Block::SerializeWithCachedSizes(
       "blox_test.SysInfo.Block.timeZone");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        13, this->timezone(), target);
+        14, this->timezone(), target);
   }
 
-  // .blox_test.SysInfo.TemperatureUnit tempUnit = 14;
+  // .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
   if (this->tempunit() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      14, this->tempunit(), target);
+      15, this->tempunit(), target);
   }
 
-  // uint32 displayBrightness = 15 [(.nanopb) = {
+  // uint32 displayBrightness = 16 [(.nanopb) = {
   if (this->displaybrightness() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(15, this->displaybrightness(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(16, this->displaybrightness(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -749,7 +776,7 @@ size_t Block::ByteSizeLong() const {
         this->protocoldate());
   }
 
-  // string timeZone = 13 [(.nanopb) = {
+  // string timeZone = 14 [(.nanopb) = {
   if (this->timezone().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -776,22 +803,29 @@ size_t Block::ByteSizeLong() const {
         this->uptime());
   }
 
-  // uint32 systemTime = 12 [(.nanopb) = {
+  // uint32 updatesPerSecond = 12 [(.nanopb) = {
+  if (this->updatespersecond() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->updatespersecond());
+  }
+
+  // uint32 systemTime = 13 [(.nanopb) = {
   if (this->systemtime() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->systemtime());
   }
 
-  // .blox_test.SysInfo.TemperatureUnit tempUnit = 14;
+  // .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
   if (this->tempunit() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->tempunit());
   }
 
-  // uint32 displayBrightness = 15 [(.nanopb) = {
+  // uint32 displayBrightness = 16 [(.nanopb) = {
   if (this->displaybrightness() != 0) {
-    total_size += 1 +
+    total_size += 2 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->displaybrightness());
   }
@@ -856,6 +890,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.uptime() != 0) {
     set_uptime(from.uptime());
   }
+  if (from.updatespersecond() != 0) {
+    set_updatespersecond(from.updatespersecond());
+  }
   if (from.systemtime() != 0) {
     set_systemtime(from.systemtime());
   }
@@ -906,6 +943,7 @@ void Block::InternalSwap(Block* other) {
   swap(platform_, other->platform_);
   swap(ip_, other->ip_);
   swap(uptime_, other->uptime_);
+  swap(updatespersecond_, other->updatespersecond_);
   swap(systemtime_, other->systemtime_);
   swap(tempunit_, other->tempunit_);
   swap(displaybrightness_, other->displaybrightness_);

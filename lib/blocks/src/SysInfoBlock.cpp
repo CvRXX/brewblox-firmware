@@ -31,6 +31,7 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
+    auto uptime = ticks.millis();
     auto written = device_id_func(static_cast<uint8_t*>(&message.deviceId.bytes[0]), 12);
     message.deviceId.size = written;
 
@@ -42,9 +43,13 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
     strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
 
     message.ip = network::ip4();
-    message.uptime = ticks.millis();
-    message.systemTime = ticks.utc();
+    message.uptime = uptime;
 
+    if (_updateCounterStart > 0 && _updateCounterStart < uptime) {
+        message.updatesPerSecond = uint32_t(_updateCounter / (uptime - _updateCounterStart) * 1000);
+    }
+
+    message.systemTime = ticks.utc();
     strncpy(message.timeZone, _settings.timeZone.c_str(), _settings.timeZone.size());
     message.tempUnit = blox_SysInfo_TemperatureUnit(_settings.tempUnit);
     message.displayBrightness = _settings.displayBrightness;
@@ -102,6 +107,18 @@ SysInfoBlock::write(const cbox::Payload& payload)
     }
 
     return parser.status();
+}
+
+cbox::update_t SysInfoBlock::updateHandler(const cbox::update_t& now)
+{
+    // Reset value periodically.
+    // This groups averages over time.
+    if (_updateCounterStart == 0 || _updateCounter > 1e5) {
+        _updateCounterStart = ticks.millis();
+        _updateCounter = 0;
+    }
+    _updateCounter++;
+    return now + 1;
 }
 
 SystemSettings SysInfoBlock::_settings = SystemSettings{};

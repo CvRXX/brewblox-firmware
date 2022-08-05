@@ -21,6 +21,7 @@
 
 #include "blocks/Block.hpp"
 #include "control/Temperature.hpp"
+#include "control/TicksTypes.hpp"
 #include "proto/SysInfo.pb.h"
 
 struct SystemSettings {
@@ -35,6 +36,9 @@ private:
     static SystemSettings _settings;
     static bool _newSettingsReceived;
 
+    ticks_millis_t _updateCounterStart{0};
+    uint32_t _updateCounter{0};
+
 public:
     explicit SysInfoBlock(size_t (&device_id_func_)(uint8_t*, size_t len))
         : device_id_func(device_id_func_)
@@ -45,6 +49,7 @@ public:
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
+    cbox::update_t updateHandler(const cbox::update_t& now) override;
 
     size_t (&device_id_func)(uint8_t*, size_t len);
 

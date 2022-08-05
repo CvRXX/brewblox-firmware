@@ -266,9 +266,9 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_protocoldate();
   void set_allocated_protocoldate(::std::string* protocoldate);
 
-  // string timeZone = 13 [(.nanopb) = {
+  // string timeZone = 14 [(.nanopb) = {
   void clear_timezone();
-  static const int kTimeZoneFieldNumber = 13;
+  static const int kTimeZoneFieldNumber = 14;
   const ::std::string& timezone() const;
   void set_timezone(const ::std::string& value);
   #if LANG_CXX11
@@ -298,21 +298,27 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 uptime() const;
   void set_uptime(::google::protobuf::uint32 value);
 
-  // uint32 systemTime = 12 [(.nanopb) = {
+  // uint32 updatesPerSecond = 12 [(.nanopb) = {
+  void clear_updatespersecond();
+  static const int kUpdatesPerSecondFieldNumber = 12;
+  ::google::protobuf::uint32 updatespersecond() const;
+  void set_updatespersecond(::google::protobuf::uint32 value);
+
+  // uint32 systemTime = 13 [(.nanopb) = {
   void clear_systemtime();
-  static const int kSystemTimeFieldNumber = 12;
+  static const int kSystemTimeFieldNumber = 13;
   ::google::protobuf::uint32 systemtime() const;
   void set_systemtime(::google::protobuf::uint32 value);
 
-  // .blox_test.SysInfo.TemperatureUnit tempUnit = 14;
+  // .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
   void clear_tempunit();
-  static const int kTempUnitFieldNumber = 14;
+  static const int kTempUnitFieldNumber = 15;
   ::blox_test::SysInfo::TemperatureUnit tempunit() const;
   void set_tempunit(::blox_test::SysInfo::TemperatureUnit value);
 
-  // uint32 displayBrightness = 15 [(.nanopb) = {
+  // uint32 displayBrightness = 16 [(.nanopb) = {
   void clear_displaybrightness();
-  static const int kDisplayBrightnessFieldNumber = 15;
+  static const int kDisplayBrightnessFieldNumber = 16;
   ::google::protobuf::uint32 displaybrightness() const;
   void set_displaybrightness(::google::protobuf::uint32 value);
 
@@ -329,6 +335,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   int platform_;
   ::google::protobuf::uint32 ip_;
   ::google::protobuf::uint32 uptime_;
+  ::google::protobuf::uint32 updatespersecond_;
   ::google::protobuf::uint32 systemtime_;
   int tempunit_;
   ::google::protobuf::uint32 displaybrightness_;
@@ -653,7 +660,21 @@ inline void Block::set_uptime(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.uptime)
 }
 
-// uint32 systemTime = 12 [(.nanopb) = {
+// uint32 updatesPerSecond = 12 [(.nanopb) = {
+inline void Block::clear_updatespersecond() {
+  updatespersecond_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::updatespersecond() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.updatesPerSecond)
+  return updatespersecond_;
+}
+inline void Block::set_updatespersecond(::google::protobuf::uint32 value) {
+  
+  updatespersecond_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.updatesPerSecond)
+}
+
+// uint32 systemTime = 13 [(.nanopb) = {
 inline void Block::clear_systemtime() {
   systemtime_ = 0u;
 }
@@ -667,7 +688,7 @@ inline void Block::set_systemtime(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.systemTime)
 }
 
-// string timeZone = 13 [(.nanopb) = {
+// string timeZone = 14 [(.nanopb) = {
 inline void Block::clear_timezone() {
   timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -720,7 +741,7 @@ inline void Block::set_allocated_timezone(::std::string* timezone) {
   // @@protoc_insertion_point(field_set_allocated:blox_test.SysInfo.Block.timeZone)
 }
 
-// .blox_test.SysInfo.TemperatureUnit tempUnit = 14;
+// .blox_test.SysInfo.TemperatureUnit tempUnit = 15;
 inline void Block::clear_tempunit() {
   tempunit_ = 0;
 }
@@ -734,7 +755,7 @@ inline void Block::set_tempunit(::blox_test::SysInfo::TemperatureUnit value) {
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.tempUnit)
 }
 
-// uint32 displayBrightness = 15 [(.nanopb) = {
+// uint32 displayBrightness = 16 [(.nanopb) = {
 inline void Block::clear_displaybrightness() {
   displaybrightness_ = 0u;
 }

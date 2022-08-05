@@ -10,7 +10,6 @@ set(proto_srcs
   inc/proto/SetpointProfile.pb.c
   inc/proto/DS2413.pb.c
   inc/proto/TempSensorCombi.pb.c
-  inc/proto/Ticks.pb.c
   inc/proto/ActuatorAnalogMock.pb.c
   inc/proto/brewblox.pb.c
   inc/proto/DS2408.pb.c
