@@ -111,7 +111,7 @@ SysInfoBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
-cbox::update_t SysInfoBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t SysInfoBlock::updateHandler(cbox::update_t now)
 {
     // Reset value periodically.
     // This groups averages over time.
