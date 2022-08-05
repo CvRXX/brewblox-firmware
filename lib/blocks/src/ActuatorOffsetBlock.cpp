@@ -97,9 +97,6 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 cbox::update_t
 ActuatorOffsetBlock::updateHandler(cbox::update_t now)
 {
-    if (!offset.enabler.get()) {
-        target.unlock();
-    }
     offset.update();
     constrained.update();
     return now + 1000;

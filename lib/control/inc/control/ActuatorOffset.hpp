@@ -131,5 +131,8 @@ public:
                 m_targetSetting = newTargetSetting;
             }
         }
+        if (!enabler.get()) {
+            m_target.release();
+        }
     }
 };

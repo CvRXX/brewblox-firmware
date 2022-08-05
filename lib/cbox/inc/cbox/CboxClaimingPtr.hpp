@@ -37,9 +37,7 @@ public:
     }
     ~CboxClaimingPtr()
     {
-        if (auto ptr = _ptr.template lock_as<Claimable>()) {
-            ptr->unclaim(_claimerId);
-        }
+        release();
     }
 
     CboxClaimingPtr(const CboxClaimingPtr&) = delete;
@@ -75,10 +73,10 @@ public:
         return _ptr.lock();
     };
 
-    void unlock()
+    void release() override
     {
-        if (auto ptr = _ptr.template lock_as<Claimable>()) {
-            ptr->unclaim(_claimerId);
+        if (auto claimTarget = _ptr.template lock_as<Claimable>()) {
+            claimTarget->unclaim(_claimerId);
         }
     };
 

@@ -28,6 +28,7 @@ void SetpointProfile::update(const utc_seconds_t& time)
     };
 
     if (!isDriving()) {
+        m_target.release();
         return;
     }
 

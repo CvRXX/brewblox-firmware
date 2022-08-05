@@ -99,7 +99,7 @@ public:
     update_t updateHandler(update_t now) override
     {
         if (!_enabled) {
-            _claimingPtr.unlock();
+            _claimingPtr.release();
         } else if (auto targetPtr = _claimingPtr.lock()) {
             // writabe access
             targetPtr->value(_setTargetTo);

@@ -130,6 +130,9 @@ public:
     {
         return lock_as<T>();
     }
+
+    // no side-effects to undo
+    void release() override {}
 };
 
 } // end namespace cbox
