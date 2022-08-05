@@ -21,6 +21,7 @@
 
 #include "TestHelpers.hpp"
 #include "blocks/SysInfoBlock.hpp"
+#include "cbox/Application.hpp"
 #include "cbox/Box.hpp"
 #include "proto/SysInfo_test.pb.h"
 #include "proto/proto_version.h"
@@ -36,9 +37,13 @@ SCENARIO("SysInfo Block")
     std::string reply = std::string("deviceId: \"999999999999\"")
                         + " version: \"" + version + "\" platform: PLATFORM_GCC protocolVersion: \"" + protocolVersion
                         + "\" releaseDate: \"" + releaseDate + "\" protocolDate: \"" + protocolDate + "\" ip: 2130706433"
-                        + " uptime: 10000 displayBrightness: 255";
+                        + " uptime: 40000 updatesPerSecond: 20000 displayBrightness: 255";
 
     auto sysInfoId = cbox::obj_id_t(2);
+
+    for (cbox::update_t now = 0; now <= 40000; now += 50) {
+        cbox::getObjects().update(now);
+    }
 
     WHEN("The SysInfo block is read")
     {

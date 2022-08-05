@@ -36,8 +36,10 @@ private:
     static SystemSettings _settings;
     static bool _newSettingsReceived;
 
-    ticks_millis_t _updateCounterStart{0};
-    uint32_t _updateCounter{0};
+    cbox::update_t _updateCounterStart{0};
+    uint32_t _updateCounter = 0;
+    uint32_t _updateRate = 0;
+    cbox::update_t _lastUpdate = 0;
 
 public:
     explicit SysInfoBlock(size_t (&device_id_func_)(uint8_t*, size_t len))
