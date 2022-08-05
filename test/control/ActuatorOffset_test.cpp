@@ -182,7 +182,7 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         act->update();
         CHECK(act->setting() == 10.0); // difference between setpoints is 10
 
-        act->enabled(false);
+        act->enabler.set(false);
         act->update();
 
         THEN("The actuator setting is invalid")
@@ -212,7 +212,7 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
                 AND_WHEN("the offset actuator is enabled again")
                 {
                     target.ptr->setting(40);
-                    act->enabled(true);
+                    act->enabler.set(true);
                     act->update();
                     THEN("The actuator setting affects the target again")
                     {
