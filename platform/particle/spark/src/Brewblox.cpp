@@ -183,7 +183,6 @@ void setupSystemBlocks()
     objects.setObjectsStartId(cbox::systemStartId);
 
     objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(readDeviceId)), 2);
-    objects.add(std::shared_ptr<cbox::Object>(new TicksBlock<TicksClass>(ticks)), 3);
     objects.add(std::shared_ptr<cbox::Object>(new OneWireBusBlock(getOneWire(), powerCyclePheripheral5V)), 4);
 #if defined(SPARK)
     objects.add(std::shared_ptr<cbox::Object>(new WiFiSettingsBlock()), 5);

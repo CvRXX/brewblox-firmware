@@ -19,6 +19,7 @@
 
 #include "d4d_display/screens/WidgetsScreen.h"
 #include "blocks/DisplaySettingsBlock.hpp"
+#include "blocks/SysInfoBlock.hpp"
 #include "d4d_display/screens/ActuatorAnalogWidget.h"
 #include "d4d_display/screens/PidWidget.h"
 #include "d4d_display/screens/SetpointSensorWidget.h"
@@ -91,17 +92,19 @@ WidgetSettings WidgetsScreen::widgetSettings = {
 
 void WidgetsScreen::loadSettings()
 {
-    auto& settings = DisplaySettingsBlock::settings();
-    if (settings.name[0] != 0) {
-        D4D_SetText(&scrWidgets_title, settings.name);
+    auto& sysSettings = SysInfoBlock::settings();
+    auto& displaySettings = DisplaySettingsBlock::settings();
+
+    if (displaySettings.name[0] != 0) {
+        D4D_SetText(&scrWidgets_title, displaySettings.name);
     }
-    widgetSettings.tempUnit = TempUnit(settings.tempUnit);
+    widgetSettings.tempUnit = sysSettings.tempUnit;
 
     widgets.clear();
-    pb_size_t numWidgets = std::min(settings.widgets_count, pb_size_t(sizeof(settings.widgets) / sizeof(settings.widgets[0])));
+    pb_size_t numWidgets = std::min(displaySettings.widgets_count, pb_size_t(sizeof(displaySettings.widgets) / sizeof(displaySettings.widgets[0])));
     widgets.resize(numWidgets);
     for (pb_size_t i = 0; i < numWidgets; ++i) {
-        blox_DisplaySettings_Widget widgetDfn = settings.widgets[i];
+        blox_DisplaySettings_Widget widgetDfn = displaySettings.widgets[i];
         auto pos = widgetDfn.pos;
         if (pos == 0 || pos > 6) {
             continue; // invalid position on screen
@@ -129,8 +132,8 @@ void WidgetsScreen::loadSettings()
         }
     }
 
-    if (settings.brightness >= 20) {
-        platform::particle::displayBrightness(settings.brightness);
+    if (sysSettings.displayBrightness >= 20) {
+        platform::particle::displayBrightness(sysSettings.displayBrightness);
     }
 
     D4D_InvalidateScreen(&widgets_screen, D4D_TRUE);

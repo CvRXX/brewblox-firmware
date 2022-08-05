@@ -25,9 +25,6 @@
 // provides a protobuf interface to the read only system info
 class DisplaySettingsBlock final : public cbox::ObjectBase<brewblox_BlockType_DisplaySettings> {
 public:
-    DisplaySettingsBlock() = default;
-    ~DisplaySettingsBlock() = default;
-
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
