@@ -46,7 +46,8 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
     message.uptime = uptime;
 
     if (_updateCounterStart > 0 && _updateCounterStart < uptime) {
-        message.updatesPerSecond = uint32_t(_updateCounter / ((uptime - _updateCounterStart) / 1000));
+        // scaled in proto
+        message.updatesPerSecond = uint32_t(_updateCounter / (uptime - _updateCounterStart));
     }
 
     message.systemTime = ticks.utc();
