@@ -151,18 +151,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // uint32 millisSinceBoot = 1 [(.nanopb) = {
-  void clear_millissinceboot();
-  static const int kMillisSinceBootFieldNumber = 1;
-  ::google::protobuf::uint32 millissinceboot() const;
-  void set_millissinceboot(::google::protobuf::uint32 value);
-
-  // uint32 secondsSinceEpoch = 2 [(.nanopb) = {
-  void clear_secondssinceepoch();
-  static const int kSecondsSinceEpochFieldNumber = 2;
-  ::google::protobuf::uint32 secondssinceepoch() const;
-  void set_secondssinceepoch(::google::protobuf::uint32 value);
-
   // uint32 avgCommunicationTask = 3 [(.nanopb) = {
   void clear_avgcommunicationtask();
   static const int kAvgCommunicationTaskFieldNumber = 3;
@@ -191,8 +179,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 millissinceboot_;
-  ::google::protobuf::uint32 secondssinceepoch_;
   ::google::protobuf::uint32 avgcommunicationtask_;
   ::google::protobuf::uint32 avgblocksupdatetask_;
   ::google::protobuf::uint32 avgdisplaytask_;
@@ -210,34 +196,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
 // Block
-
-// uint32 millisSinceBoot = 1 [(.nanopb) = {
-inline void Block::clear_millissinceboot() {
-  millissinceboot_ = 0u;
-}
-inline ::google::protobuf::uint32 Block::millissinceboot() const {
-  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.millisSinceBoot)
-  return millissinceboot_;
-}
-inline void Block::set_millissinceboot(::google::protobuf::uint32 value) {
-  
-  millissinceboot_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.millisSinceBoot)
-}
-
-// uint32 secondsSinceEpoch = 2 [(.nanopb) = {
-inline void Block::clear_secondssinceepoch() {
-  secondssinceepoch_ = 0u;
-}
-inline ::google::protobuf::uint32 Block::secondssinceepoch() const {
-  // @@protoc_insertion_point(field_get:blox_test.Ticks.Block.secondsSinceEpoch)
-  return secondssinceepoch_;
-}
-inline void Block::set_secondssinceepoch(::google::protobuf::uint32 value) {
-  
-  secondssinceepoch_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Ticks.Block.secondsSinceEpoch)
-}
 
 // uint32 avgCommunicationTask = 3 [(.nanopb) = {
 inline void Block::clear_avgcommunicationtask() {

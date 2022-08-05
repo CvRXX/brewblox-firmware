@@ -55,8 +55,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Ticks::Block, millissinceboot_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Ticks::Block, secondssinceepoch_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Ticks::Block, avgcommunicationtask_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Ticks::Block, avgblocksupdatetask_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::Ticks::Block, avgdisplaytask_),
@@ -92,18 +90,16 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\020Ticks_test.proto\022\017blox_test.Ticks\032\023bre"
-      "wblox_test.proto\032\021nanopb_test.proto\"\224\002\n\005"
-      "Block\022$\n\017millisSinceBoot\030\001 \001(\rB\013\212\265\030\002(\001\222\?"
-      "\0028 \022&\n\021secondsSinceEpoch\030\002 \001(\rB\013\222\?\0028 \212\265\030"
-      "\002X\001\022/\n\024avgCommunicationTask\030\003 \001(\rB\021\212\265\030\002("
-      "\001\212\265\030\002\020 \222\?\0028 \022.\n\023avgBlocksUpdateTask\030\004 \001("
-      "\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022)\n\016avgDisplayTask\030\005"
-      " \001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022(\n\ravgSystemTask"
-      "\030\006 \001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 :\007\212\265\030\003\030\201\002b\006prot"
-      "o3"
+      "wblox_test.proto\032\021nanopb_test.proto\"\306\001\n\005"
+      "Block\022/\n\024avgCommunicationTask\030\003 \001(\rB\021\212\265\030"
+      "\002(\001\212\265\030\002\020 \222\?\0028 \022.\n\023avgBlocksUpdateTask\030\004 "
+      "\001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022)\n\016avgDisplayTask"
+      "\030\005 \001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 \022(\n\ravgSystemTa"
+      "sk\030\006 \001(\rB\021\212\265\030\002(\001\212\265\030\002\020 \222\?\0028 :\007\212\265\030\003\030\201\002b\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 362);
+      descriptor, 284);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Ticks_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -129,8 +125,6 @@ namespace Ticks {
 void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Block::kMillisSinceBootFieldNumber;
-const int Block::kSecondsSinceEpochFieldNumber;
 const int Block::kAvgCommunicationTaskFieldNumber;
 const int Block::kAvgBlocksUpdateTaskFieldNumber;
 const int Block::kAvgDisplayTaskFieldNumber;
@@ -148,16 +142,16 @@ Block::Block(const Block& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&millissinceboot_, &from.millissinceboot_,
+  ::memcpy(&avgcommunicationtask_, &from.avgcommunicationtask_,
     static_cast<size_t>(reinterpret_cast<char*>(&avgsystemtask_) -
-    reinterpret_cast<char*>(&millissinceboot_)) + sizeof(avgsystemtask_));
+    reinterpret_cast<char*>(&avgcommunicationtask_)) + sizeof(avgsystemtask_));
   // @@protoc_insertion_point(copy_constructor:blox_test.Ticks.Block)
 }
 
 void Block::SharedCtor() {
-  ::memset(&millissinceboot_, 0, static_cast<size_t>(
+  ::memset(&avgcommunicationtask_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&avgsystemtask_) -
-      reinterpret_cast<char*>(&millissinceboot_)) + sizeof(avgsystemtask_));
+      reinterpret_cast<char*>(&avgcommunicationtask_)) + sizeof(avgsystemtask_));
 }
 
 Block::~Block() {
@@ -188,9 +182,9 @@ void Block::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&millissinceboot_, 0, static_cast<size_t>(
+  ::memset(&avgcommunicationtask_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&avgsystemtask_) -
-      reinterpret_cast<char*>(&millissinceboot_)) + sizeof(avgsystemtask_));
+      reinterpret_cast<char*>(&avgcommunicationtask_)) + sizeof(avgsystemtask_));
   _internal_metadata_.Clear();
 }
 
@@ -204,34 +198,6 @@ bool Block::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint32 millisSinceBoot = 1 [(.nanopb) = {
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &millissinceboot_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint32 secondsSinceEpoch = 2 [(.nanopb) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &secondssinceepoch_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // uint32 avgCommunicationTask = 3 [(.nanopb) = {
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -314,16 +280,6 @@ void Block::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 millisSinceBoot = 1 [(.nanopb) = {
-  if (this->millissinceboot() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->millissinceboot(), output);
-  }
-
-  // uint32 secondsSinceEpoch = 2 [(.nanopb) = {
-  if (this->secondssinceepoch() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->secondssinceepoch(), output);
-  }
-
   // uint32 avgCommunicationTask = 3 [(.nanopb) = {
   if (this->avgcommunicationtask() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->avgcommunicationtask(), output);
@@ -357,16 +313,6 @@ void Block::SerializeWithCachedSizes(
   // @@protoc_insertion_point(serialize_to_array_start:blox_test.Ticks.Block)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
-
-  // uint32 millisSinceBoot = 1 [(.nanopb) = {
-  if (this->millissinceboot() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->millissinceboot(), target);
-  }
-
-  // uint32 secondsSinceEpoch = 2 [(.nanopb) = {
-  if (this->secondssinceepoch() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->secondssinceepoch(), target);
-  }
 
   // uint32 avgCommunicationTask = 3 [(.nanopb) = {
   if (this->avgcommunicationtask() != 0) {
@@ -405,20 +351,6 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint32 millisSinceBoot = 1 [(.nanopb) = {
-  if (this->millissinceboot() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->millissinceboot());
-  }
-
-  // uint32 secondsSinceEpoch = 2 [(.nanopb) = {
-  if (this->secondssinceepoch() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->secondssinceepoch());
-  }
-
   // uint32 avgCommunicationTask = 3 [(.nanopb) = {
   if (this->avgcommunicationtask() != 0) {
     total_size += 1 +
@@ -474,12 +406,6 @@ void Block::MergeFrom(const Block& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.millissinceboot() != 0) {
-    set_millissinceboot(from.millissinceboot());
-  }
-  if (from.secondssinceepoch() != 0) {
-    set_secondssinceepoch(from.secondssinceepoch());
-  }
   if (from.avgcommunicationtask() != 0) {
     set_avgcommunicationtask(from.avgcommunicationtask());
   }
@@ -518,8 +444,6 @@ void Block::Swap(Block* other) {
 }
 void Block::InternalSwap(Block* other) {
   using std::swap;
-  swap(millissinceboot_, other->millissinceboot_);
-  swap(secondssinceepoch_, other->secondssinceepoch_);
   swap(avgcommunicationtask_, other->avgcommunicationtask_);
   swap(avgblocksupdatetask_, other->avgblocksupdatetask_);
   swap(avgdisplaytask_, other->avgdisplaytask_);

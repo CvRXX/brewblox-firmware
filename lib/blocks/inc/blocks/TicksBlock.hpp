@@ -48,9 +48,6 @@ public:
     {
         blox_Ticks_Block message = blox_Ticks_Block_init_zero;
 
-        message.secondsSinceEpoch = ticks.utc();
-        message.millisSinceBoot = ticks.millis();
-
         message.avgCommunicationTask = ticks.taskTime(0);
         message.avgBlocksUpdateTask = ticks.taskTime(1);
         message.avgDisplayTask = ticks.taskTime(2);
@@ -71,19 +68,7 @@ public:
 
     cbox::CboxError write(const cbox::Payload& payload) override
     {
-        blox_Ticks_Block message = blox_Ticks_Block_init_zero;
-        auto parser = cbox::PayloadParser(payload);
-
-        if (parser.fillMessage(&message, blox_Ticks_Block_fields)) {
-            if (parser.hasField(blox_Ticks_Block_secondsSinceEpoch_tag)) {
-                // Only accept UTC time from block write if we don't already have a value
-                if (ticks.utc() < MIN_VALID_UTC && message.secondsSinceEpoch > MIN_VALID_UTC) {
-                    ticks.setUtc(message.secondsSinceEpoch);
-                }
-            }
-        }
-
-        return parser.status();
+        return cbox::CboxError::OK;
     }
 
     cbox::CboxError

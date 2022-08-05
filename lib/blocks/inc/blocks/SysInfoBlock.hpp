@@ -20,10 +20,21 @@
 #pragma once
 
 #include "blocks/Block.hpp"
+#include "control/Temperature.hpp"
 #include "proto/SysInfo.pb.h"
+
+struct SystemSettings {
+    std::string timeZone;
+    TempUnit tempUnit{TempUnit::Celsius};
+    uint8_t displayBrightness{255};
+};
 
 // provides a protobuf interface to the read only system info
 class SysInfoBlock final : public cbox::ObjectBase<brewblox_BlockType_SysInfo> {
+private:
+    static SystemSettings _settings;
+    static bool _newSettingsReceived;
+
 public:
     explicit SysInfoBlock(size_t (&device_id_func_)(uint8_t*, size_t len))
         : device_id_func(device_id_func_)
@@ -35,14 +46,16 @@ public:
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
 
-    enum class Command : uint8_t {
-        NONE = 0,
-        SYS_CMD_TRACE_READ = 1,
-        SYS_CMD_TRACE_RESUME = 2,
-        READ_AND_SYS_CMD_TRACE_RESUME = 3,
-    };
-
-    mutable Command command = Command::NONE;
-
     size_t (&device_id_func)(uint8_t*, size_t len);
+
+    static SystemSettings& settings()
+    {
+        _newSettingsReceived = false;
+        return _settings;
+    }
+
+    static bool newSettingsReceived()
+    {
+        return _newSettingsReceived;
+    }
 };

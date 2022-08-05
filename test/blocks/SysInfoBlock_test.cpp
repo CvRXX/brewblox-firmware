@@ -33,9 +33,10 @@ SCENARIO("SysInfo Block")
     std::string releaseDate = GIT_DATE;
     std::string protocolDate = COMPILED_PROTO_DATE;
 
-    std::string replyWithoutTrace = std::string("deviceId: \"999999999999\"")
-                                    + " version: \"" + version + "\" platform: PLATFORM_GCC protocolVersion: \"" + protocolVersion
-                                    + "\" releaseDate: \"" + releaseDate + "\" protocolDate: \"" + protocolDate + "\" ip: 2130706433";
+    std::string reply = std::string("deviceId: \"999999999999\"")
+                        + " version: \"" + version + "\" platform: PLATFORM_GCC protocolVersion: \"" + protocolVersion
+                        + "\" releaseDate: \"" + releaseDate + "\" protocolDate: \"" + protocolDate + "\" ip: 2130706433"
+                        + " uptime: 10000 displayBrightness: 255";
 
     auto sysInfoId = cbox::obj_id_t(2);
 
@@ -49,7 +50,7 @@ SCENARIO("SysInfo Block")
 
         THEN("The system info is serialized correctly")
         {
-            CHECK(message.ShortDebugString() == replyWithoutTrace);
+            CHECK(message.ShortDebugString() == reply);
         }
     }
 }
