@@ -92,7 +92,7 @@ ActuatorPwmBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorPwmBlock::updateHandler(const cbox::update_t& now)
+ActuatorPwmBlock::updateHandler(cbox::update_t now)
 {
     constrained.update();
     auto nextUpdate = pwm.update(now);

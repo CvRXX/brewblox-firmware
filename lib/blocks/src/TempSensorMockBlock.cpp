@@ -135,7 +135,7 @@ TempSensorMockBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
-cbox::update_t TempSensorMockBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t TempSensorMockBlock::updateHandler(cbox::update_t now)
 {
     return sensor.update(now);
 }

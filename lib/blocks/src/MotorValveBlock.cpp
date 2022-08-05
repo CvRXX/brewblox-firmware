@@ -101,7 +101,7 @@ MotorValveBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-MotorValveBlock::updateHandler(const cbox::update_t& now)
+MotorValveBlock::updateHandler(cbox::update_t now)
 {
     valve.update();
     return constrained.update(now);

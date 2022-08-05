@@ -96,7 +96,7 @@ public:
     }
 
     cbox::update_t
-    updateHandler(const cbox::update_t& now) override
+    updateHandler(cbox::update_t now) override
     {
         TicksCacheLayout cached = {
             .secondsSinceEpoch = ticks.utc() + (ticks.millis() / 1000)};

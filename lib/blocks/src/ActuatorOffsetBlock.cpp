@@ -95,7 +95,7 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorOffsetBlock::updateHandler(const cbox::update_t& now)
+ActuatorOffsetBlock::updateHandler(cbox::update_t now)
 {
     offset.update();
     constrained.update();

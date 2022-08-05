@@ -104,7 +104,7 @@ public:
      */
     void setting(std::optional<value_t>) final;
 
-    update_t update(const update_t& now);
+    update_t update(update_t now);
 
     //** Calculates whether the m_target should toggle and tries to toggle it if necessary
     /** Each update, the PWM actuator checks whether it should toggle to achieve the set duty cycle.
@@ -115,10 +115,10 @@ public:
      target is
      * a time limited actuator with a minimum on and/or off time.
      */
-    update_t slowPwmUpdate(const update_t& now);
+    update_t slowPwmUpdate(update_t now);
 
 #if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-    update_t fastUpdate(const update_t& now);
+    update_t fastUpdate(update_t now);
 
     /**
     When the period is less than 1000ms, switch to timer interrupt based tasks

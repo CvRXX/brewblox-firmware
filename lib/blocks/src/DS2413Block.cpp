@@ -79,7 +79,7 @@ DS2413Block::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DS2413Block::updateHandler(const cbox::update_t& now)
+DS2413Block::updateHandler(cbox::update_t now)
 {
     device.update();
     return next_update_1s(now);

@@ -99,7 +99,7 @@ TempSensorExternalBlock::loadFromCache()
     return cbox::CboxError::OK;
 }
 
-cbox::update_t TempSensorExternalBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t TempSensorExternalBlock::updateHandler(cbox::update_t now)
 {
     auto utc = ticks.utc();
     _settingValid = _timeout == 0

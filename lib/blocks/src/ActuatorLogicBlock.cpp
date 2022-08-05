@@ -159,7 +159,7 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorLogicBlock::updateHandler(const cbox::update_t& now)
+ActuatorLogicBlock::updateHandler(cbox::update_t now)
 {
     m_result = evaluate();
     if (enabler.get()) {

@@ -112,6 +112,7 @@ enum BlockType {
   IoModuleInterface = 13,
   OneWireDeviceBlockInterface = 14,
   EnablerInterface = 15,
+  ClaimableInterface = 16,
   Any = 255,
   SysInfo = 256,
   Ticks = 257,

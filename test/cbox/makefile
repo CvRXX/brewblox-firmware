@@ -42,6 +42,7 @@ CPPSRC += $(ROOT_DIR)/test/cbox/TestApplication.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/Base64_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/Box_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/CboxPtr_test.cpp
+CPPSRC += $(ROOT_DIR)/test/cbox/CboxClaimingPtr_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/Connection_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/EepromObjectStorage_test.cpp
 CPPSRC += $(ROOT_DIR)/test/cbox/FileObjectStorage_test.cpp
@@ -59,7 +60,7 @@ CFLAGS += -ffunction-sections -Wall
 CFLAGS += -Werror=deprecated-declarations
 
 # stop on first error
-CFLAGS += -Wfatal-errors
+# CFLAGS += -Wfatal-errors
 
 # Generate dependency files automatically.
 CFLAGS += -g -Og

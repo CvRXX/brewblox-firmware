@@ -94,7 +94,7 @@ DS2408Block::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DS2408Block::updateHandler(const cbox::update_t& now)
+DS2408Block::updateHandler(cbox::update_t now)
 {
     device.update();
     return next_update_1s(now);

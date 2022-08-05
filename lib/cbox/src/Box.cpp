@@ -261,13 +261,13 @@ void unloadBlocks()
     getObjects().clearAll();
 }
 
-void update(const update_t& now)
+void update(update_t now)
 {
     lastUpdateTime = now;
     getObjects().update(now);
 }
 
-void forcedUpdate(const update_t& now)
+void forcedUpdate(update_t now)
 {
     lastUpdateTime = now;
     getObjects().forcedUpdate(now);

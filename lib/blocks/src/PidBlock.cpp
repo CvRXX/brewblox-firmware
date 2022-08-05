@@ -171,7 +171,7 @@ PidBlock::loadFromCache()
 }
 
 cbox::update_t
-PidBlock::updateHandler(const cbox::update_t& now)
+PidBlock::updateHandler(cbox::update_t now)
 {
     bool doUpdate = false;
     auto nextUpdate = m_intervalHelper.update(now, doUpdate);

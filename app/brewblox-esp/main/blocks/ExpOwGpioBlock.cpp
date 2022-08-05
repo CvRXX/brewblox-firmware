@@ -120,7 +120,7 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ExpOwGpioBlock::updateHandler(const cbox::update_t& now)
+ExpOwGpioBlock::updateHandler(cbox::update_t now)
 {
     // Update is called any time a channel is set,
     // but only talks to the driver when the cached value doesn't match the desired value

@@ -103,7 +103,7 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DigitalActuatorBlock::updateHandler(const cbox::update_t& now)
+DigitalActuatorBlock::updateHandler(cbox::update_t now)
 {
     bool useSoft = transitionDurationSetting != 0 && actuator.transitionDuration().has_value();
     bool isSoft = std::holds_alternative<ActuatorDigitalSoft>(actuator.act);

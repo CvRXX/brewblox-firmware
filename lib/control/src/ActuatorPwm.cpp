@@ -138,7 +138,7 @@ void ActuatorPwm::timerTask()
 }
 
 ActuatorPwm::update_t
-ActuatorPwm::update(const update_t& now)
+ActuatorPwm::update(update_t now)
 {
     if (timerFuncId) {
         return now + 1000;
@@ -147,14 +147,14 @@ ActuatorPwm::update(const update_t& now)
 }
 #else
 ActuatorPwm::update_t
-ActuatorPwm::update(const update_t& now)
+ActuatorPwm::update(update_t now)
 {
     return slowPwmUpdate(now);
 }
 #endif
 
 ActuatorPwm::update_t
-ActuatorPwm::slowPwmUpdate(const update_t& now)
+ActuatorPwm::slowPwmUpdate(update_t now)
 {
     if (auto actPtr = m_target.lock()) {
         auto durations = actPtr->activeDurations(now);

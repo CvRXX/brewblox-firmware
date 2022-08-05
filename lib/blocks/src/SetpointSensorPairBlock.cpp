@@ -126,7 +126,7 @@ SetpointSensorPairBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-SetpointSensorPairBlock::updateHandler(const cbox::update_t& now)
+SetpointSensorPairBlock::updateHandler(cbox::update_t now)
 {
     bool doUpdate = false;
     auto nextUpdate = m_intervalHelper.update(now, doUpdate);

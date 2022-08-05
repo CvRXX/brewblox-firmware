@@ -567,7 +567,7 @@ void SequenceBlock::saveChanges(utc_seconds_t utc)
 }
 
 cbox::update_t
-SequenceBlock::updateHandler(const cbox::update_t& now)
+SequenceBlock::updateHandler(cbox::update_t now)
 {
     auto utc = ticks.utc();
 

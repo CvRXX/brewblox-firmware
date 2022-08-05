@@ -83,7 +83,7 @@ public:
     [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     [[nodiscard]] cbox::CboxError write(const cbox::Payload& payload) override;
-    [[nodiscard]] cbox::update_t updateHandler(const cbox::update_t& now) override;
+    [[nodiscard]] cbox::update_t updateHandler(cbox::update_t now) override;
     [[nodiscard]] void* implements(cbox::obj_type_t iface) override;
 
     blox_ActuatorLogic_Result evaluate();

@@ -46,7 +46,7 @@ SCENARIO("A SetpointProfile block")
         auto setpointId = cbox::obj_id_t(101);
         auto profileId = cbox::obj_id_t(102);
 
-        auto update = [](const cbox::update_t& now) {
+        auto update = [](cbox::update_t now) {
             ticks.ticksImpl().reset(now);
             cbox::update(now);
         };

@@ -104,7 +104,7 @@ TempSensorOneWireBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
-cbox::update_t TempSensorOneWireBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t TempSensorOneWireBlock::updateHandler(cbox::update_t now)
 {
     sensor.update();
     return next_update_1s(now);
