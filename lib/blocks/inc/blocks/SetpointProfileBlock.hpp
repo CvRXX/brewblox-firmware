@@ -27,14 +27,12 @@
 
 class SetpointProfileBlock final : public Block<brewblox_BlockType_SetpointProfile> {
 private:
-    cbox::CboxPtr<SetpointSensorPair> myTarget;
     cbox::CboxClaimingPtr<SetpointSensorPair> target;
     SetpointProfile profile;
 
 public:
     SetpointProfileBlock()
-        : target(myTarget)
-        , profile(target)
+        : profile(target)
     {
     }
     ~SetpointProfileBlock() = default;

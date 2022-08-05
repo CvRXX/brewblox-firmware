@@ -7,7 +7,6 @@
 
 class ActuatorOffsetBlock final : public Block<brewblox_BlockType_ActuatorOffset> {
 private:
-    cbox::CboxPtr<SetpointSensorPair> myTarget;
     cbox::CboxClaimingPtr<SetpointSensorPair> target;
     cbox::CboxPtr<SetpointSensorPair> reference;
     ActuatorOffset offset;
@@ -15,8 +14,7 @@ private:
 
 public:
     ActuatorOffsetBlock()
-        : target(myTarget)
-        , offset(target, reference)
+        : offset(target, reference)
         , constrained(offset)
     {
     }

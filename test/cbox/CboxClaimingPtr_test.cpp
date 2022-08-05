@@ -78,9 +78,6 @@ public:
 
 class IntAccesser final : public cbox::ObjectBase<1008> {
 private:
-    // Unprotected ptr can be used by class itself, but is not given to control objects
-    CboxPtr<ClaimableInt> _ptr;
-    // Claimingptr is given to other objects that need unique access
     CboxClaimingPtr<ClaimableInt> _claimingPtr;
     // To test that disabling an object can release the claim in an update
     bool _enabled = true;
@@ -90,9 +87,7 @@ private:
 
 public:
     IntAccesser(int s)
-        : _ptr{}
-        , _claimingPtr{_ptr}
-        , _setTargetTo(s)
+        : _setTargetTo(s)
     {
     }
 

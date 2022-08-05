@@ -138,8 +138,7 @@ SCENARIO("A SetpointProfile block")
                 CHECK(claimPtr->claimedBy() == 102);
                 AND_THEN("Another claiming cbox ptr cannot get write access to the setpoint")
                 {
-                    auto secondLookup = cbox::CboxPtr<SetpointSensorPairBlock>(101);
-                    auto secondClaimer = cbox::CboxClaimingPtr<SetpointSensorPairBlock>(secondLookup);
+                    auto secondClaimer = cbox::CboxClaimingPtr<SetpointSensorPairBlock>(101);
                     CHECK(secondClaimer.lock() == nullptr);
 
                     AND_WHEN("The profile is disabled")
