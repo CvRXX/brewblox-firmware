@@ -50,6 +50,10 @@ elif [[ "${PLATFORM}" =~ ^(photon|p1|gcc)$ ]]; then
         COMPILE_LTO=y \
         "$@"
 
+    if [[ "${PLATFORM}" != sim ]]; then
+        subtask bash script/check-no-float.sh
+    fi
+
 elif [[ "${PLATFORM}" == sim ]]; then
     BUILD_DIR=app/brewblox-simulator/build
 
