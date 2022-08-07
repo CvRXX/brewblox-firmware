@@ -34,7 +34,7 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
         excluded.push_back(blox_ActuatorPwm_Block_setting_tag);
     };
 
-    getAnalogConstraints(message.constrainedBy, constrained);
+    getAnalogConstraints(message.constrainedBy, constrained, true);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -55,6 +55,8 @@ ActuatorPwmBlock::readStored(const cbox::PayloadCallback& callback) const
     message.enabled = pwm.enabler.get();
     // default setting to 0 if it is invalid no not have to store excluded field in eeprom
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
+
+    getAnalogConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,

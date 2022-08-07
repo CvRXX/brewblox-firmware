@@ -17,8 +17,6 @@ void DigitalActuatorBlock::addPersistedStateToMessage(blox_DigitalActuator_Block
     message.desiredState = blox_IoArray_DigitalState(constrained.desiredState());
     message.transitionDurationSetting = transitionDurationSetting;
     message.softTransitions = softTransitions;
-
-    getDigitalConstraints(message.constrainedBy, constrained);
 }
 
 cbox::CboxError
@@ -28,6 +26,8 @@ DigitalActuatorBlock::read(const cbox::PayloadCallback& callback) const
     std::vector<cbox::obj_field_tag_t> excluded;
 
     addPersistedStateToMessage(message);
+    getDigitalConstraints(message.constrainedBy, constrained, true);
+
     auto state = actuator.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
         excluded.push_back(blox_DigitalActuator_Block_state_tag);
@@ -56,6 +56,7 @@ DigitalActuatorBlock::readStored(const cbox::PayloadCallback& callback) const
     blox_DigitalActuator_Block message = blox_DigitalActuator_Block_init_zero;
 
     addPersistedStateToMessage(message);
+    getDigitalConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,

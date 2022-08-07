@@ -30,7 +30,7 @@ cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callb
     message.minValue = cnl::unwrap(actuator.minValue());
     message.maxValue = cnl::unwrap(actuator.maxValue());
 
-    getAnalogConstraints(message.constrainedBy, constrained);
+    getAnalogConstraints(message.constrainedBy, constrained, true);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -52,7 +52,7 @@ cbox::CboxError ActuatorAnalogMockBlock::readStored(const cbox::PayloadCallback&
     message.minValue = cnl::unwrap(actuator.minValue());
     message.maxValue = cnl::unwrap(actuator.maxValue());
 
-    getAnalogConstraints(message.constrainedBy, constrained);
+    getAnalogConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,

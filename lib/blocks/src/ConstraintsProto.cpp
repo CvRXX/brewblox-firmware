@@ -79,7 +79,7 @@ void setAnalogConstraints(const blox_Constraints_AnalogConstraints& msg, Actuato
     }
 }
 
-void getAnalogConstraints(blox_Constraints_AnalogConstraints& msg, const ActuatorAnalogConstrained& act)
+void getAnalogConstraints(blox_Constraints_AnalogConstraints& msg, const ActuatorAnalogConstrained& act, bool includeNonPersisted)
 {
     auto& constraints = act.constraintsList();
     auto it = constraints.cbegin();
@@ -102,12 +102,16 @@ void getAnalogConstraints(blox_Constraints_AnalogConstraints& msg, const Actuato
         } break;
         case blox_Constraints_AnalogConstraint_balanced_tag: {
             auto obj = reinterpret_cast<CboxBalanced*>((*it).get());
-            msg.constraints[i].constraint.balanced.id = obj->requesterId();
             msg.constraints[i].constraint.balanced.balancerId = obj->balancerId();
-            msg.constraints[i].constraint.balanced.granted = cnl::unwrap(obj->granted());
+            if (includeNonPersisted) {
+                msg.constraints[i].constraint.balanced.id = obj->requesterId();
+                msg.constraints[i].constraint.balanced.granted = cnl::unwrap(obj->granted());
+            }
         } break;
         }
-        msg.constraints[i].limiting = act.limiting() & (uint8_t(1) << i);
+        if (includeNonPersisted) {
+            msg.constraints[i].limiting = act.limiting() & (uint8_t(1) << i);
+        }
         msg.constraints_count++;
     }
 }
@@ -232,7 +236,7 @@ void setDigitalConstraints(const blox_Constraints_DigitalConstraints& msg, Actua
     }
 }
 
-void getDigitalConstraints(blox_Constraints_DigitalConstraints& msg, const ActuatorDigitalConstrained& act)
+void getDigitalConstraints(blox_Constraints_DigitalConstraints& msg, const ActuatorDigitalConstrained& act, bool includeNonPersisted)
 {
     auto& constraints = act.constraintsList();
     auto it = constraints.cbegin();
@@ -258,7 +262,9 @@ void getDigitalConstraints(blox_Constraints_DigitalConstraints& msg, const Actua
             msg.constraints[i].constraint.mutexed.mutexId = obj->mutexId();
             msg.constraints[i].constraint.mutexed.extraHoldTime = obj->holdAfterTurnOff();
             msg.constraints[i].constraint.mutexed.hasCustomHoldTime = obj->useCustomHoldDuration();
-            msg.constraints[i].constraint.mutexed.hasLock = obj->hasLock();
+            if (includeNonPersisted) {
+                msg.constraints[i].constraint.mutexed.hasLock = obj->hasLock();
+            }
         } break;
         case blox_Constraints_DigitalConstraint_delayedOn_tag: {
             auto obj = reinterpret_cast<DelayedOn*>((*it).get());
@@ -269,7 +275,9 @@ void getDigitalConstraints(blox_Constraints_DigitalConstraints& msg, const Actua
             msg.constraints[i].constraint.delayedOff = obj->limit();
         } break;
         }
-        msg.constraints[i].remaining = (*it)->timeRemaining();
+        if (includeNonPersisted) {
+            msg.constraints[i].remaining = (*it)->timeRemaining();
+        }
         msg.constraints_count++;
     }
 }

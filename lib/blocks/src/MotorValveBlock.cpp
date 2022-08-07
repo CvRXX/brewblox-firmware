@@ -26,7 +26,6 @@ void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message)
     message.desiredState = blox_IoArray_DigitalState(constrained.desiredState());
     message.hwDevice = hwDevice.getId();
     message.startChannel = valve.startChannel();
-    getDigitalConstraints(message.constrainedBy, constrained);
 }
 
 cbox::CboxError
@@ -36,6 +35,7 @@ MotorValveBlock::read(const cbox::PayloadCallback& callback) const
     std::vector<cbox::obj_field_tag_t> excluded;
 
     addPersistedStateToMessage(message);
+    getDigitalConstraints(message.constrainedBy, constrained, true);
 
     auto state = valve.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
@@ -64,6 +64,7 @@ MotorValveBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     addPersistedStateToMessage(message);
+    getDigitalConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
