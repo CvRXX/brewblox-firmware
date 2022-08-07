@@ -50,7 +50,7 @@ elif [[ "${PLATFORM}" =~ ^(photon|p1|gcc)$ ]]; then
         COMPILE_LTO=y \
         "$@"
 
-    if [[ "${PLATFORM}" != sim ]]; then
+    if [[ "${PLATFORM}" != gcc ]]; then
         subtask bash script/check-no-float.sh
     fi
 

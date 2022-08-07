@@ -148,7 +148,7 @@ void AddDescriptorsImpl() {
       "erSecond\020\007\022\031\n\025DeltaCelsiusPerMinute\020\010\022\027\n"
       "\023DeltaCelsiusPerHour\020\t\022\032\n\026DeltaCelsiusMu"
       "ltSecond\020\n\022\032\n\026DeltaCelsiusMultMinute\020\013\022\030"
-      "\n\024DeltaCelsiusMultHour\020\014*\340\007\n\tBlockType\022\013"
+      "\n\024DeltaCelsiusMultHour\020\014*\356\007\n\tBlockType\022\013"
       "\n\007Invalid\020\000\022\031\n\025ProcessValueInterface\020\001\022\027"
       "\n\023TempSensorInterface\020\002\022\037\n\033SetpointSenso"
       "rPairInterface\020\004\022\033\n\027ActuatorAnalogInterf"
@@ -173,14 +173,14 @@ void AddDescriptorsImpl() {
       "\002\022\017\n\nMotorValve\020\301\002\022\022\n\rActuatorLogic\020\302\002\022\r"
       "\n\010MockPins\020\303\002\022\024\n\017TempSensorCombi\020\304\002\022\026\n\021O"
       "neWireGpioModule\020\305\002\022\r\n\010Sequence\020\306\002\022\027\n\022Te"
-      "mpSensorExternal\020\310\002:J\n\005field\022\035.google.pr"
-      "otobuf.FieldOptions\030\321\206\003 \001(\0132\023.brewblox.F"
-      "ieldOptsB\005\222\?\002\030\003:L\n\003msg\022\037.google.protobuf"
-      ".MessageOptions\030\321\206\003 \001(\0132\025.brewblox.Messa"
-      "geOptsB\005\222\?\002\030\003b\006proto3"
+      "mpSensorExternal\020\310\002\022\014\n\007FastPwm\020\311\002:J\n\005fie"
+      "ld\022\035.google.protobuf.FieldOptions\030\321\206\003 \001("
+      "\0132\023.brewblox.FieldOptsB\005\222\?\002\030\003:L\n\003msg\022\037.g"
+      "oogle.protobuf.MessageOptions\030\321\206\003 \001(\0132\025."
+      "brewblox.MessageOptsB\005\222\?\002\030\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1901);
+      descriptor, 1915);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "brewblox_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -278,6 +278,7 @@ bool BlockType_IsValid(int value) {
     case 325:
     case 326:
     case 328:
+    case 329:
       return true;
     default:
       return false;

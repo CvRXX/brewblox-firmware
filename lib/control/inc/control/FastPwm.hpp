@@ -47,6 +47,7 @@ private:
     std::optional<value_t> m_actualDuty = 0;
     duration_millis_t m_transitionDuration = 0;
     ticks_millis_t m_lastUpdateTime = 0;
+    IoValue::Setup::Frequency m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
 
 public:
     static constexpr auto maxDuty = duty_t{100};
@@ -126,5 +127,15 @@ public:
     [[nodiscard]] auto transitionTime() const
     {
         return m_transitionDuration;
+    };
+
+    IoValue::Setup::Frequency frequency() const
+    {
+        return m_frequency;
+    };
+
+    void frequency(IoValue::Setup::Frequency f)
+    {
+        m_frequency = f;
     };
 };

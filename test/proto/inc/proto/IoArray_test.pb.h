@@ -116,11 +116,12 @@ inline bool SoftTransitions_Parse(
 enum ChannelCapabilities {
   CHAN_SUPPORTS_NONE = 0,
   CHAN_SUPPORTS_DIGITAL_OUTPUT = 1,
-  CHAN_SUPPORTS_PWM_100HZ = 2,
-  CHAN_SUPPORTS_PWM_200HZ = 4,
-  CHAN_SUPPORTS_PWM_2000HZ = 8,
-  CHAN_SUPPORTS_BIDIRECTIONAL = 16,
-  CHAN_SUPPORTS_DIGITAL_INPUT = 32,
+  CHAN_SUPPORTS_PWM_80HZ = 2,
+  CHAN_SUPPORTS_PWM_100HZ = 4,
+  CHAN_SUPPORTS_PWM_200HZ = 8,
+  CHAN_SUPPORTS_PWM_2000HZ = 16,
+  CHAN_SUPPORTS_BIDIRECTIONAL = 32,
+  CHAN_SUPPORTS_DIGITAL_INPUT = 64,
   ChannelCapabilities_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   ChannelCapabilities_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
@@ -138,6 +139,29 @@ inline bool ChannelCapabilities_Parse(
     const ::std::string& name, ChannelCapabilities* value) {
   return ::google::protobuf::internal::ParseNamedEnum<ChannelCapabilities>(
     ChannelCapabilities_descriptor(), name, value);
+}
+enum PwmFrequency {
+  PWM_FREQ_80HZ = 0,
+  PWM_FREQ_100HZ = 1,
+  PWM_FREQ_200HZ = 2,
+  PWM_FREQ_2000HZ = 3,
+  PwmFrequency_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  PwmFrequency_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool PwmFrequency_IsValid(int value);
+const PwmFrequency PwmFrequency_MIN = PWM_FREQ_80HZ;
+const PwmFrequency PwmFrequency_MAX = PWM_FREQ_2000HZ;
+const int PwmFrequency_ARRAYSIZE = PwmFrequency_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PwmFrequency_descriptor();
+inline const ::std::string& PwmFrequency_Name(PwmFrequency value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PwmFrequency_descriptor(), value);
+}
+inline bool PwmFrequency_Parse(
+    const ::std::string& name, PwmFrequency* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PwmFrequency>(
+    PwmFrequency_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -314,6 +338,11 @@ template <> struct is_proto_enum< ::blox_test::IoArray::ChannelCapabilities> : :
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::ChannelCapabilities>() {
   return ::blox_test::IoArray::ChannelCapabilities_descriptor();
+}
+template <> struct is_proto_enum< ::blox_test::IoArray::PwmFrequency> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::PwmFrequency>() {
+  return ::blox_test::IoArray::PwmFrequency_descriptor();
 }
 
 }  // namespace protobuf

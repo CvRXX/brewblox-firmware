@@ -43,15 +43,26 @@ typedef enum _blox_IoArray_SoftTransitions {
 typedef enum _blox_IoArray_ChannelCapabilities {
     blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_NONE = 0,
     blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_DIGITAL_OUTPUT = 1,
-    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_100HZ = 2,
-    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_200HZ = 4,
-    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_2000HZ = 8,
-    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_BIDIRECTIONAL = 16,
-    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_DIGITAL_INPUT = 32
+    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_80HZ = 2,
+    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_100HZ = 4,
+    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_200HZ = 8,
+    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_PWM_2000HZ = 16,
+    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_BIDIRECTIONAL = 32,
+    blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_DIGITAL_INPUT = 64
 } blox_IoArray_ChannelCapabilities;
 #define _blox_IoArray_ChannelCapabilities_MIN blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_NONE
 #define _blox_IoArray_ChannelCapabilities_MAX blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_DIGITAL_INPUT
 #define _blox_IoArray_ChannelCapabilities_ARRAYSIZE ((blox_IoArray_ChannelCapabilities)(blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_DIGITAL_INPUT+1))
+
+typedef enum _blox_IoArray_PwmFrequency {
+    blox_IoArray_PwmFrequency_PWM_FREQ_80HZ = 0,
+    blox_IoArray_PwmFrequency_PWM_FREQ_100HZ = 1,
+    blox_IoArray_PwmFrequency_PWM_FREQ_200HZ = 2,
+    blox_IoArray_PwmFrequency_PWM_FREQ_2000HZ = 3
+} blox_IoArray_PwmFrequency;
+#define _blox_IoArray_PwmFrequency_MIN blox_IoArray_PwmFrequency_PWM_FREQ_80HZ
+#define _blox_IoArray_PwmFrequency_MAX blox_IoArray_PwmFrequency_PWM_FREQ_2000HZ
+#define _blox_IoArray_PwmFrequency_ARRAYSIZE ((blox_IoArray_PwmFrequency)(blox_IoArray_PwmFrequency_PWM_FREQ_2000HZ+1))
 
 /* Struct definitions */
 typedef struct _blox_IoArray_IoChannel {

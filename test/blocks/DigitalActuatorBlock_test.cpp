@@ -207,14 +207,14 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
             payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
-                  "channels { id: 1 capabilities: 3 } "
-                  "channels { id: 2 capabilities: 3 } "
-                  "channels { id: 3 capabilities: 3 } "
-                  "channels { id: 4 capabilities: 3 } "
-                  "channels { id: 5 capabilities: 3 } "
-                  "channels { id: 6 capabilities: 3 } "
-                  "channels { id: 7 capabilities: 3 } "
-                  "channels { id: 8 capabilities: 3 }");
+                  "channels { id: 1 capabilities: 5 } "
+                  "channels { id: 2 capabilities: 5 } "
+                  "channels { id: 3 capabilities: 5 } "
+                  "channels { id: 4 capabilities: 5 } "
+                  "channels { id: 5 capabilities: 5 } "
+                  "channels { id: 6 capabilities: 5 } "
+                  "channels { id: 7 capabilities: 5 } "
+                  "channels { id: 8 capabilities: 5 }");
         }
 
         AND_WHEN("A DigitalActuator block is created that uses one of the channels")
@@ -256,14 +256,14 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
 
                 // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind
                 CHECK(message.ShortDebugString() ==
-                      "channels { id: 1 capabilities: 3 } "
-                      "channels { id: 2 capabilities: 3 } "
-                      "channels { id: 3 capabilities: 3 } "
-                      "channels { id: 4 capabilities: 3 } "
-                      "channels { id: 5 capabilities: 3 } "
-                      "channels { id: 6 capabilities: 3 } "
-                      "channels { id: 7 capabilities: 3 } "
-                      "channels { id: 8 capabilities: 3 }");
+                      "channels { id: 1 capabilities: 5 } "
+                      "channels { id: 2 capabilities: 5 } "
+                      "channels { id: 3 capabilities: 5 } "
+                      "channels { id: 4 capabilities: 5 } "
+                      "channels { id: 5 capabilities: 5 } "
+                      "channels { id: 6 capabilities: 5 } "
+                      "channels { id: 7 capabilities: 5 } "
+                      "channels { id: 8 capabilities: 5 }");
             }
 
             AND_WHEN("When soft transitions are used")

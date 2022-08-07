@@ -109,9 +109,10 @@ bool FastPwm::claimChannel()
         auto channelFlags = devPtr->getChannelCapabilities(m_desiredChannel);
         auto setup = IoValue::Setup::OutputPwm{};
         if (channelFlags.flags.pwm2000Hz) {
-            setup.frequency = IoValue::Setup::Frequency::FREQ_2000HZ;
+            setup.frequency = m_frequency;
         } else if (channelFlags.flags.pwm100Hz) { // currently no devices that support 200hz but don't support 2khz
             setup.frequency = IoValue::Setup::Frequency::FREQ_100HZ;
+            m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
         } else {
             return false;
         }

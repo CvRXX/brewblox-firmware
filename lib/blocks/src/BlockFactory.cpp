@@ -7,6 +7,7 @@
 #include "blocks/DS2408Block.hpp"
 #include "blocks/DS2413Block.hpp"
 #include "blocks/DigitalActuatorBlock.hpp"
+#include "blocks/FastPwmBlock.hpp"
 #include "blocks/MockPinsBlock.hpp"
 #include "blocks/MotorValveBlock.hpp"
 #include "blocks/MutexBlock.hpp"
@@ -39,6 +40,7 @@ static const cbox::ObjectFactory blocksFactory({
     cbox::makeFactoryEntry<TempSensorCombiBlock>(),
     cbox::makeFactoryEntry<TempSensorExternalBlock>(),
     cbox::makeFactoryEntry<SequenceBlock>(),
+    cbox::makeFactoryEntry<FastPwmBlock>(),
 });
 
 cbox::CboxExpected<std::shared_ptr<cbox::Object>> makeBlock(cbox::obj_type_t t)

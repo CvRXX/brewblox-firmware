@@ -145,12 +145,13 @@ enum BlockType {
   OneWireGpioModule = 325,
   Sequence = 326,
   TempSensorExternal = 328,
+  FastPwm = 329,
   BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool BlockType_IsValid(int value);
 const BlockType BlockType_MIN = Invalid;
-const BlockType BlockType_MAX = TempSensorExternal;
+const BlockType BlockType_MAX = FastPwm;
 const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BlockType_descriptor();

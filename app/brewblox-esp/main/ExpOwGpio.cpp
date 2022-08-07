@@ -216,6 +216,9 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
     if (auto* v = std::get_if<IoValue::Setup::OutputPwm>(&setup)) {
         uint16_t freqBits = 0;
         switch (v->frequency) {
+        case IoValue::Setup::Frequency::FREQ_80HZ:
+            freqBits = 0b00;
+            break;
         case IoValue::Setup::Frequency::FREQ_100HZ:
             freqBits = 0b01;
             break;
@@ -225,8 +228,6 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
         case IoValue::Setup::Frequency::FREQ_2000HZ:
             freqBits = 0b11;
             break;
-        default:
-            return IoValue::Error::UNSUPPORTED_SETUP;
         }
 
         uint16_t mask = uint16_t{0b11} << idx;

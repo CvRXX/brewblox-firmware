@@ -44,7 +44,7 @@ enum class Error : uint8_t {
 
 namespace Setup {
     enum class Frequency : uint8_t {
-        FREQ_NONE,
+        FREQ_80HZ,
         FREQ_100HZ,
         FREQ_200HZ,
         FREQ_2000HZ,
@@ -55,7 +55,7 @@ namespace Setup {
     struct OutputDigital {
     };
     struct OutputPwm {
-        Frequency frequency = Frequency::FREQ_NONE;
+        Frequency frequency = Frequency::FREQ_100HZ;
     };
     struct InputDigital {};
 
@@ -210,6 +210,7 @@ public:
     typedef union {
         struct Bits {
             uint16_t digitalOutput : 1;
+            uint16_t pwm80Hz : 1;
             uint16_t pwm100Hz : 1;
             uint16_t pwm200Hz : 1;
             uint16_t pwm2000Hz : 1;
