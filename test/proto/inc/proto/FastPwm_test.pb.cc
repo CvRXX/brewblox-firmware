@@ -65,6 +65,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, frequency_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, setting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, value_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, constrainedby_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, enabled_),
 };
@@ -99,21 +100,22 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022FastPwm_test.proto\022\021blox_test.FastPwm\032"
       "\023brewblox_test.proto\032\021nanopb_test.proto\032"
-      "\026Constraints_test.proto\"\274\002\n\005Block\022#\n\010hwD"
+      "\026Constraints_test.proto\"\345\002\n\005Block\022#\n\010hwD"
       "evice\030\001 \001(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channe"
       "l\030\002 \001(\rB\005\222\?\0028\010\0222\n\tfrequency\030\003 \001(\0162\037.blox"
       "_test.FastPwm.PwmFrequency\022)\n\007setting\030\004 "
       "\001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022*\n\016desired"
-      "Setting\030\005 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022\?\n\rcon"
-      "strainedBy\030\006 \001(\0132(.blox_test.Constraints"
-      ".AnalogConstraints\022\017\n\007enabled\030\007 \001(\010:\031\212\265\030"
-      "\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017*]\n\014PwmFrequency\022\020"
-      "\n\014PWM_FREQ_OFF\020\000\022\022\n\016PWM_FREQ_100HZ\020\001\022\022\n\016"
-      "PWM_FREQ_200HZ\020\002\022\023\n\017PWM_FREQ_2000HZ\020\003b\006p"
-      "roto3"
+      "Setting\030\005 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005val"
+      "ue\030\006 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\?\n\rco"
+      "nstrainedBy\030\007 \001(\0132(.blox_test.Constraint"
+      "s.AnalogConstraints\022\017\n\007enabled\030\010 \001(\010:\031\212\265"
+      "\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017*]\n\014PwmFrequency\022"
+      "\020\n\014PWM_FREQ_OFF\020\000\022\022\n\016PWM_FREQ_100HZ\020\001\022\022\n"
+      "\016PWM_FREQ_200HZ\020\002\022\023\n\017PWM_FREQ_2000HZ\020\003b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 525);
+      descriptor, 566);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "FastPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -169,6 +171,7 @@ const int Block::kChannelFieldNumber;
 const int Block::kFrequencyFieldNumber;
 const int Block::kSettingFieldNumber;
 const int Block::kDesiredSettingFieldNumber;
+const int Block::kValueFieldNumber;
 const int Block::kConstrainedByFieldNumber;
 const int Block::kEnabledFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -321,10 +324,24 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
+      // sint32 value = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &value_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .blox_test.Constraints.AnalogConstraints constrainedBy = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_constrainedby()));
         } else {
@@ -333,10 +350,10 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool enabled = 7;
-      case 7: {
+      // bool enabled = 8;
+      case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
@@ -399,15 +416,20 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(5, this->desiredsetting(), output);
   }
 
-  // .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
-  if (this->has_constrainedby()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->_internal_constrainedby(), output);
+  // sint32 value = 6 [(.nanopb) = {
+  if (this->value() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->value(), output);
   }
 
-  // bool enabled = 7;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 7;
+  if (this->has_constrainedby()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      7, this->_internal_constrainedby(), output);
+  }
+
+  // bool enabled = 8;
   if (this->enabled() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->enabled(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->enabled(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -450,16 +472,21 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->desiredsetting(), target);
   }
 
-  // .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
+  // sint32 value = 6 [(.nanopb) = {
+  if (this->value() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->value(), target);
+  }
+
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 7;
   if (this->has_constrainedby()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        6, this->_internal_constrainedby(), deterministic, target);
+        7, this->_internal_constrainedby(), deterministic, target);
   }
 
-  // bool enabled = 7;
+  // bool enabled = 8;
   if (this->enabled() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->enabled(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->enabled(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -479,7 +506,7 @@ size_t Block::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 7;
   if (this->has_constrainedby()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -520,7 +547,14 @@ size_t Block::ByteSizeLong() const {
         this->desiredsetting());
   }
 
-  // bool enabled = 7;
+  // sint32 value = 6 [(.nanopb) = {
+  if (this->value() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->value());
+  }
+
+  // bool enabled = 8;
   if (this->enabled() != 0) {
     total_size += 1 + 1;
   }
@@ -570,6 +604,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.desiredsetting() != 0) {
     set_desiredsetting(from.desiredsetting());
   }
+  if (from.value() != 0) {
+    set_value(from.value());
+  }
   if (from.enabled() != 0) {
     set_enabled(from.enabled());
   }
@@ -605,6 +642,7 @@ void Block::InternalSwap(Block* other) {
   swap(frequency_, other->frequency_);
   swap(setting_, other->setting_);
   swap(desiredsetting_, other->desiredsetting_);
+  swap(value_, other->value_);
   swap(enabled_, other->enabled_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }

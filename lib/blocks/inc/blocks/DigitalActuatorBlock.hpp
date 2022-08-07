@@ -79,6 +79,28 @@ private:
     blox_IoArray_SoftTransitions softTransitions = blox_IoArray_SoftTransitions_ST_OFF;
     duration_millis_t transitionDurationSetting = 0;
 
+    duration_millis_t transitionDurationDesired()
+    {
+        switch (softTransitions) {
+        case blox_IoArray_SoftTransitions_ST_OFF:
+            return 0;
+            break;
+        case blox_IoArray_SoftTransitions_ST_FAST:
+            return 100;
+            break;
+        case blox_IoArray_SoftTransitions_ST_MEDIUM:
+            return 250;
+            break;
+        case blox_IoArray_SoftTransitions_ST_SLOW:
+            return 500;
+            break;
+        case blox_IoArray_SoftTransitions_ST_CUSTOM:
+            return transitionDurationSetting;
+            break;
+        }
+        return 0;
+    }
+
 public:
     DigitalActuatorBlock()
         : actuator{}

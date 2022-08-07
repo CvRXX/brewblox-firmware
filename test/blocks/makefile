@@ -1,7 +1,8 @@
 ## -*- Makefile -*-
 ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
-# include ../checkers.mk # sanitizer and gcov
+include ../coverage.mk
+# include ../sanitize.mk
 
 # lib/blocks
 INCLUDE_DIRS += $(ROOT_DIR)/lib/blocks/inc

@@ -36,34 +36,31 @@ FastPwm::FastPwm(ControlPtr<IoArray>& target, uint8_t chan)
 
 void FastPwm::setting(std::optional<value_t> val)
 {
-    if (!val) {
-        if (m_desiredDuty) {
+    if (val.has_value()) {
+        m_desiredDuty = std::clamp(*val, minDuty, maxDuty);
+    } else {
+        if (m_desiredDuty.has_value()) {
             // set to zero once if the setting is cleared
             if (auto devPtr = m_target.lock()) {
                 devPtr->writeChannel(m_channel, IoValue::PWM{0});
             }
+            m_desiredDuty = std::nullopt;
         }
-        m_desiredDuty = std::nullopt;
-    } else {
-        m_desiredDuty = std::clamp(*val, minDuty, maxDuty);
     }
 }
 
 ticks_millis_t FastPwm::update(ticks_millis_t now)
 {
-    if (!m_desiredDuty) {
-        return now + 1000;
-    }
-
     if (!channelReady()) {
         if (!claimChannel()) {
-            m_actualDuty = 0;
+            m_actualDuty = std::nullopt;
             return now + 1000;
         }
     }
 
     if (auto devPtr = m_target.lock()) {
         auto duty = m_actualDuty.value_or(0);
+        auto desired = m_desiredDuty.value_or(0);
         if (m_transitionDuration) {
             // change max 25% in case update interval was long
             auto elapsed = std::min(now - m_lastUpdateTime, m_transitionDuration / 4);
@@ -73,19 +70,21 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
             }
             // use 1 bit as minimum increment
             duty_t increment = cnl::wrap<duty_t>(increase);
-            if (duty < *m_desiredDuty) {
-                duty = std::min(duty_t{duty + increment}, *m_desiredDuty);
+            if (duty < desired) {
+                duty = std::min(duty_t{duty + increment}, desired);
             } else {
-                duty = std::max(duty_t{duty - increment}, *m_desiredDuty);
+                duty = std::max(duty_t{duty - increment}, desired);
             }
         } else {
-            duty = *m_desiredDuty;
+            duty = desired;
         }
         m_lastUpdateTime = now;
         auto result = devPtr->writeChannel(m_channel, IoValue::PWM{duty});
         if (const auto* pVal = std::get_if<IoValue::PWM>(&result)) {
             m_actualDuty = pVal->duty();
             return now + std::max(duration_millis_t{10}, m_transitionDuration / 16); // use 16 steps, but at least 10 ms
+        } else {
+            m_actualDuty = std::nullopt;
         }
     }
 

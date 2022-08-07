@@ -27,13 +27,6 @@
 #include <functional>
 #include <memory>
 
-#ifndef PLATFORM_GCC
-#define PLATFORM_GCC 3
-#endif
-#ifndef PLATFORM_ESP
-#define PLATFORM_ESP 100
-#endif
-
 /**
     ActuatorPWM drives a (change logged) digital actuator and makes it available as range actuator, by quickly turning it on and off repeatedly.
  */
@@ -53,11 +46,6 @@ private:
     static constexpr auto maxDuty = value_t{100};
 
     safe_elastic_fixed_point<2, 28> dutyFraction() const;
-
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-    uint8_t timerFuncId = 0;
-    duration_millis_t m_fastPwmElapsed = 0;
-#endif
 
 public:
     // separate flag for manually disabling the pwm actuator
@@ -104,8 +92,6 @@ public:
      */
     void setting(std::optional<value_t>) final;
 
-    update_t update(update_t now);
-
     //** Calculates whether the m_target should toggle and tries to toggle it if necessary
     /** Each update, the PWM actuator checks whether it should toggle to achieve the set duty cycle.
      * It checks wether the output pin toggled and updates it's internal counters to keep track of
@@ -115,18 +101,7 @@ public:
      target is
      * a time limited actuator with a minimum on and/or off time.
      */
-    update_t slowPwmUpdate(update_t now);
-
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-    update_t fastUpdate(update_t now);
-
-    /**
-    When the period is less than 1000ms, switch to timer interrupt based tasks
-    */
-    void timerTask();
-
-    void manageTimerTask();
-#endif
+    update_t update(update_t now);
 
     /** returns the PWM period
      * @return PWM period in milliseconds

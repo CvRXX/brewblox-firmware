@@ -24,28 +24,33 @@
 
 namespace platform::particle {
 
-class SparkIoBase : public IoArray {
-protected:
-    virtual pin_t channelToPin(uint8_t channel) const = 0;
+// class SparkIoBase : public IoArray {
+// protected:
+//     virtual pin_t channelToPin(uint8_t channel) const = 0;
 
-public:
-    SparkIoBase(uint8_t numPins)
-        : IoArray(numPins)
-    {
-    }
-    virtual ~SparkIoBase() = default;
+// public:
+//     SparkIoBase(uint8_t numPins)
+//         : IoArray(numPins)
+//     {
+//     }
+//     virtual ~SparkIoBase() = default;
 
-    // generic ArrayIO interface
-    IoValue::variant readChannelImpl(uint8_t channel) const final;
-    IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
-    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) final;
-    IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const final
-    {
-        return ChannelCapabilities{.flags{
-            .digitalOutput = 1,
-            .pwm100Hz = 1,
-        }};
-    }
+//     // generic ArrayIO interface
+//     IoValue::variant readChannelImpl(uint8_t channel) const final;
+//     IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
+//     IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) final;
+//     IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const final
+//     {
+//         return ChannelCapabilities{.flags{
+//             .digitalOutput = 1,
+//             .pwm100Hz = 1,
+//         }};
+//     }
+// };
+
+struct SparkChannel {
+    pin_t pin;
+    int8_t duty;
 };
 
 } // end namespace platform::particle

@@ -1,10 +1,6 @@
 #include "control/ActuatorPwm.hpp"
 #include <cstdint>
 
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-#include "control/TimerInterrupts.hpp"
-#endif
-
 using value_t = ActuatorPwm::value_t;
 
 ActuatorPwm::ActuatorPwm(
@@ -15,9 +11,6 @@ ActuatorPwm::ActuatorPwm(
         if (!arg && this->enabler.get()) {
             this->setting(std::nullopt);
         }
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-        manageTimerTask();
-#endif
         return arg;
     })
 {
@@ -66,95 +59,19 @@ ActuatorPwm::dutyFraction() const
     return safe_elastic_fixed_point<2, 28>{cnl::quotient(duty + rounder, maxDuty)};
 }
 
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-void ActuatorPwm::manageTimerTask()
-{
-    if (m_period < 1000 && enabler.get()) {
-        m_period = 100;
-        if (!timerFuncId) {
-            timerFuncId = TimerInterrupts::add([this]() { timerTask(); });
-        }
-    } else {
-        if (timerFuncId) {
-            TimerInterrupts::remove(timerFuncId);
-            timerFuncId = 0;
-            m_dutyAchieved = value_t{0};
-        }
-    }
-}
-#endif
-
 void ActuatorPwm::period(const duration_millis_t& p)
 {
     m_period = p;
-    if (auto actPtr = m_target.lock()) {
-        // todo: handle 100Hz PWM
-        // if (p < 1000 && !actPtr->supportsFastIo()) {
-        //     m_period = 1000;
-        // }
-    }
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-    manageTimerTask();
-#endif
 }
 
 duration_millis_t
 ActuatorPwm::period() const
 {
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-    if (m_period < 1000) {
-        return 10; // internally 100 is used for timer based pwm, but return 10ms, the actual period
-    }
-#endif
     return m_period;
 }
 
-#if PLATFORM_ID != PLATFORM_GCC && PLATFORM_ID != PLATFORM_ESP
-void ActuatorPwm::timerTask()
-{
-
-    // timer clock is 10 kHz, 100 steps at 100Hz
-    if (m_fastPwmElapsed == 0) {
-        auto actPtr = m_target.lock();
-        if (m_dutyTime != 0 && actPtr) {
-            if (actPtr->state() == State::Active) {
-                m_dutyAchieved = maxDuty; // was never low
-            } else {
-                actPtr->setStateUnlogged(State::Active);
-            }
-        } else {
-            m_dutyAchieved = value_t{0};
-        }
-        m_fastPwmElapsed = 0;
-    }
-    if (m_fastPwmElapsed == m_dutyTime) {
-        if (auto actPtr = m_target.lock()) {
-            actPtr->setStateUnlogged(State::Inactive);
-            m_dutyAchieved = m_dutySetting;
-        }
-    }
-
-    m_fastPwmElapsed = m_fastPwmElapsed >= 99 ? 0 : m_fastPwmElapsed + 1;
-}
-
 ActuatorPwm::update_t
 ActuatorPwm::update(update_t now)
-{
-    if (timerFuncId) {
-        return now + 1000;
-    }
-    return slowPwmUpdate(now);
-}
-#else
-ActuatorPwm::update_t
-ActuatorPwm::update(update_t now)
-{
-    return slowPwmUpdate(now);
-}
-#endif
-
-ActuatorPwm::update_t
-ActuatorPwm::slowPwmUpdate(update_t now)
 {
     if (auto actPtr = m_target.lock()) {
         auto durations = actPtr->activeDurations(now);

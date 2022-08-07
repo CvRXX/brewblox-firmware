@@ -9,14 +9,15 @@
 
 
 
-const pb_field_t blox_FastPwm_Block_fields[8] = {
+const pb_field_t blox_FastPwm_Block_fields[9] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_FastPwm_Block, hwDevice, hwDevice, 0),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, channel, hwDevice, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, frequency, channel, 0),
     PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, setting, frequency, 0),
     PB_FIELD(  5, SINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, desiredSetting, setting, 0),
-    PB_FIELD(  6, MESSAGE , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, constrainedBy, desiredSetting, &blox_Constraints_AnalogConstraints_fields),
-    PB_FIELD(  7, BOOL    , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, enabled, constrainedBy, 0),
+    PB_FIELD(  6, SINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, value, desiredSetting, 0),
+    PB_FIELD(  7, MESSAGE , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, constrainedBy, value, &blox_Constraints_AnalogConstraints_fields),
+    PB_FIELD(  8, BOOL    , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, enabled, constrainedBy, 0),
     PB_LAST_FIELD
 };
 

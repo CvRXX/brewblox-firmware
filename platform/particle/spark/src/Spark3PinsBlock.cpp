@@ -23,6 +23,8 @@
 #include "cbox/PayloadConversion.hpp"
 #include "proto/Spark3Pins.pb.h"
 #include "spark/Board.hpp"
+#include "spark/SparkIoBase.hpp"
+#include <array>
 
 #if PLATFORM_ID != 3
 #include "spark/BrewPiTouch.hpp"
@@ -31,24 +33,40 @@ extern platform::particle::BrewPiTouch touch;
 
 namespace platform::particle {
 
-pin_t Spark3PinsBlock::channelToPin(uint8_t channel) const
-{
-    auto pins = std::array<pin_t, numPins>{
+static std::array<SparkChannel, 5> spark3Channels{{
 #ifdef PIN_V3_TOP1
-        PIN_V3_TOP1,
+    {PIN_V3_TOP1, -1},
 #else
-        pin_t(-1),
+    {pin_t(-1), -1},
 #endif
-        PIN_V3_TOP2,
-        PIN_V3_TOP3,
-        PIN_V3_BOTTOM1,
-        PIN_V3_BOTTOM2,
-    };
+    {PIN_V3_TOP2, -1},
+    {PIN_V3_TOP3, -1},
+    {PIN_V3_BOTTOM1, -1},
+    {PIN_V3_BOTTOM2, -1},
+}};
 
-    if (validChannel(channel)) {
-        return pins[channel - 1];
+void Spark3PinsBlock::timerTask()
+{
+    // timer clock is 10 kHz, 100 steps at 100Hz
+    static uint8_t count = 0;
+    for (auto chan : spark3Channels) {
+        auto pin = chan.pin;
+        if (pin == -1) {
+            continue;
+        }
+        auto duty = chan.duty;
+        if (duty == -1) {
+            continue;
+        }
+        // uint8_t scaledDuty = (cnl::unwrap(pwmVal->duty()) * 100) / 4096;
+        if (count == 0 && duty > 0) {
+            pinSetFast(pin);
+        } else if (count == duty) {
+            pinResetFast(pin);
+        }
+
+        count = count >= 99 ? 0 : count + 1;
     }
-    return -1;
 }
 
 cbox::CboxError Spark3PinsBlock::read(const cbox::PayloadCallback& callback) const
@@ -146,6 +164,105 @@ void* Spark3PinsBlock::implements(cbox::obj_type_t iface)
         return ptr;
     }
     return nullptr;
+}
+
+IoValue::variant Spark3PinsBlock::writeChannelImpl(uint8_t channel, IoValue::variant val)
+{
+    if (channel > spark3Channels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    auto& chan = spark3Channels[channel - 1];
+
+    if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        chan.duty = -1; // disables pwm updates
+        auto state = v->state();
+        if (state == IoValue::State::Active) {
+            pinSetFast(chan.pin);
+            return IoValue::Digital{state};
+        } else if (state == IoValue::State::Inactive) {
+            pinResetFast(chan.pin);
+            return IoValue::Digital{state};
+        }
+    } else if (auto pwmVal = std::get_if<IoValue::PWM>(&val)) {
+        chan.duty = static_cast<int8_t>(pwmVal->duty());
+        return *pwmVal;
+    }
+    return IoValue::Error::UNSUPPORTED_VALUE;
+};
+
+// prevent inlining of hal function to save code size
+inline void setPinMode(pin_t pin, PinMode setMode)
+{
+    HAL_Pin_Mode(pin, setMode);
+}
+
+IoValue::Setup::variant Spark3PinsBlock::setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup)
+{
+    if (channel > spark3Channels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    auto& chan = spark3Channels[channel - 1];
+    if (chan.pin == pin_t{1}) {
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)
+        || std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
+#if defined(PIN_V3_TOP1_DIR)
+        if (chan.pin == PIN_V3_TOP1) {
+            // will also set pin mode, smaller code size than HAL_Pin_Mode and pinSetFast due to inlining
+            HAL_GPIO_Write(PIN_V3_TOP1_DIR, LOW);
+        }
+#endif
+#if defined(PIN_V3_TOP2_DIR)
+        if (chan.pin == PIN_V3_TOP2) {
+            HAL_GPIO_Write(PIN_V3_TOP2_DIR, LOW);
+        }
+#endif
+        HAL_GPIO_Write(chan.pin, LOW);
+        return setup;
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
+        // support inputs on top 1 and top 2 of spark 3
+#if defined(PIN_V3_TOP1_DIR)
+        if (chan.pin == PIN_V3_TOP1) {
+            setPinMode(chan.pin, INPUT_PULLDOWN);
+            return setup;
+        }
+#endif
+#if defined(PIN_V3_TOP2_DIR)
+        if (chan.pin == PIN_V3_TOP2) {
+            setPinMode(chan.pin, INPUT_PULLDOWN);
+            return setup;
+        }
+#endif
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+    if (std::holds_alternative<IoValue::Setup::Unused>(setup)) {
+        setPinMode(chan.pin, INPUT_PULLDOWN);
+        return setup;
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
+}
+
+// generic ArrayIO interface
+IoValue::variant Spark3PinsBlock::readChannelImpl(uint8_t channel) const
+{
+    if (channel > spark3Channels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    const auto setting = desired(channel);
+    auto& chan = spark3Channels[channel - 1];
+
+    if (std::holds_alternative<IoValue::Digital>(setting)) {
+        return pinReadFast(chan.pin) != 0 ? IoValue::Digital{State::Active} : IoValue::Digital{State::Inactive};
+    } else if (std::holds_alternative<IoValue::PWM>(setting)) {
+        return IoValue::PWM{chan.duty};
+    }
+    return IoValue::Error::UNSUPPORTED_VALUE;
 }
 
 } // end namespace platform::particle

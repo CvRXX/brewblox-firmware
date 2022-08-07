@@ -106,7 +106,7 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
 cbox::update_t
 DigitalActuatorBlock::updateHandler(cbox::update_t now)
 {
-    bool useSoft = transitionDurationSetting != 0 && actuator.transitionDuration().has_value();
+    bool useSoft = transitionDurationDesired() != 0 && actuator.transitionDuration().has_value();
     bool isSoft = std::holds_alternative<ActuatorDigitalSoft>(actuator.act);
 
     if (useSoft != isSoft) {
@@ -114,26 +114,11 @@ DigitalActuatorBlock::updateHandler(cbox::update_t now)
     }
 
     if (auto pAct = std::get_if<ActuatorDigital>(&actuator.act)) {
+        auto nextUpdate = constrained.update(now);
         pAct->update();
-        return constrained.update(now);
+        return nextUpdate;
     } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&actuator.act)) {
-        switch (softTransitions) {
-        case blox_IoArray_SoftTransitions_ST_OFF:
-            pAct->transitionTime(0);
-            break;
-        case blox_IoArray_SoftTransitions_ST_FAST:
-            pAct->transitionTime(100);
-            break;
-        case blox_IoArray_SoftTransitions_ST_MEDIUM:
-            pAct->transitionTime(250);
-            break;
-        case blox_IoArray_SoftTransitions_ST_SLOW:
-            pAct->transitionTime(500);
-            break;
-        case blox_IoArray_SoftTransitions_ST_CUSTOM:
-            pAct->transitionTime(transitionDurationSetting);
-            break;
-        }
+        pAct->transitionTime(transitionDurationDesired());
         return std::min(pAct->update(now), constrained.update(now));
     }
 

@@ -35,6 +35,7 @@ typedef struct _blox_FastPwm_Block {
     blox_FastPwm_PwmFrequency frequency;
     int32_t setting;
     int32_t desiredSetting;
+    int32_t value;
     blox_Constraints_AnalogConstraints constrainedBy;
     bool enabled;
 /* @@protoc_insertion_point(struct:blox_FastPwm_Block) */
@@ -43,8 +44,8 @@ typedef struct _blox_FastPwm_Block {
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_FastPwm_Block_init_default          {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0}
-#define blox_FastPwm_Block_init_zero             {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0}
+#define blox_FastPwm_Block_init_default          {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0}
+#define blox_FastPwm_Block_init_zero             {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_FastPwm_Block_hwDevice_tag          1
@@ -52,14 +53,15 @@ typedef struct _blox_FastPwm_Block {
 #define blox_FastPwm_Block_frequency_tag         3
 #define blox_FastPwm_Block_setting_tag           4
 #define blox_FastPwm_Block_desiredSetting_tag    5
-#define blox_FastPwm_Block_constrainedBy_tag     6
-#define blox_FastPwm_Block_enabled_tag           7
+#define blox_FastPwm_Block_value_tag             6
+#define blox_FastPwm_Block_constrainedBy_tag     7
+#define blox_FastPwm_Block_enabled_tag           8
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_FastPwm_Block_fields[8];
+extern const pb_field_t blox_FastPwm_Block_fields[9];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_FastPwm_Block_size                  231
+#define blox_FastPwm_Block_size                  237
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

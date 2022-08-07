@@ -176,10 +176,10 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
+  // .blox_test.Constraints.AnalogConstraints constrainedBy = 7;
   bool has_constrainedby() const;
   void clear_constrainedby();
-  static const int kConstrainedByFieldNumber = 6;
+  static const int kConstrainedByFieldNumber = 7;
   private:
   const ::blox_test::Constraints::AnalogConstraints& _internal_constrainedby() const;
   public:
@@ -218,9 +218,15 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 desiredsetting() const;
   void set_desiredsetting(::google::protobuf::int32 value);
 
-  // bool enabled = 7;
+  // sint32 value = 6 [(.nanopb) = {
+  void clear_value();
+  static const int kValueFieldNumber = 6;
+  ::google::protobuf::int32 value() const;
+  void set_value(::google::protobuf::int32 value);
+
+  // bool enabled = 8;
   void clear_enabled();
-  static const int kEnabledFieldNumber = 7;
+  static const int kEnabledFieldNumber = 8;
   bool enabled() const;
   void set_enabled(bool value);
 
@@ -234,6 +240,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   int frequency_;
   ::google::protobuf::int32 setting_;
   ::google::protobuf::int32 desiredsetting_;
+  ::google::protobuf::int32 value_;
   bool enabled_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_FastPwm_5ftest_2eproto::TableStruct;
@@ -319,7 +326,21 @@ inline void Block::set_desiredsetting(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.desiredSetting)
 }
 
-// .blox_test.Constraints.AnalogConstraints constrainedBy = 6;
+// sint32 value = 6 [(.nanopb) = {
+inline void Block::clear_value() {
+  value_ = 0;
+}
+inline ::google::protobuf::int32 Block::value() const {
+  // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.value)
+  return value_;
+}
+inline void Block::set_value(::google::protobuf::int32 value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.value)
+}
+
+// .blox_test.Constraints.AnalogConstraints constrainedBy = 7;
 inline bool Block::has_constrainedby() const {
   return this != internal_default_instance() && constrainedby_ != NULL;
 }
@@ -367,7 +388,7 @@ inline void Block::set_allocated_constrainedby(::blox_test::Constraints::AnalogC
   // @@protoc_insertion_point(field_set_allocated:blox_test.FastPwm.Block.constrainedBy)
 }
 
-// bool enabled = 7;
+// bool enabled = 8;
 inline void Block::clear_enabled() {
   enabled_ = false;
 }

@@ -40,6 +40,7 @@ SCENARIO("A FastPwm object can be created from protobuf data")
         auto message = blox_test::FastPwm::Block();
 
         message.set_hwdevice(sparkPinsId);
+        message.set_channel(1);
         message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(20)));
         message.set_frequency(blox_test::FastPwm::PwmFrequency::PWM_FREQ_100HZ);
         message.set_enabled(true);
@@ -63,9 +64,11 @@ SCENARIO("A FastPwm object can be created from protobuf data")
 
         CHECK(message.ShortDebugString() ==
               "hwDevice: 19 "
+              "channel: 1 "
               "frequency: PWM_FREQ_100HZ "
               "setting: 81920 "
               "desiredSetting: 81920 "
+              "value: 81920 "
               "constrainedBy { constraints { min: 40960 } } "
               "enabled: true");
     }
@@ -76,17 +79,23 @@ SCENARIO("A FastPwm object can be created from protobuf data")
         auto message = blox_test::FastPwm::Block();
         message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(5)));
 
-        messageToPayload(cmd, message, {blox_test::FastPwm::Block::kSettingFieldNumber});
+        messageToPayload(cmd, message, {blox_test::FastPwm::Block::kDesiredSettingFieldNumber});
         CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+
+        cbox::update(5000);
+        cbox::update(6000);
+        cbox::update(7000);
 
         payloadToMessage(cmd, message);
         THEN("The minimum value is used")
         {
             CHECK(message.ShortDebugString() ==
                   "hwDevice: 19 "
+                  "channel: 1 "
                   "frequency: PWM_FREQ_100HZ "
                   "setting: 40960 "
                   "desiredSetting: 20480 "
+                  "value: 40960 "
                   "constrainedBy { constraints { min: 40960 limiting: true } } "
                   "enabled: true");
         }

@@ -8,6 +8,7 @@ void FastPwmBlock::addPersistedStateToMessage(blox_FastPwm_Block& message) const
     message.hwDevice = io.getId();
     message.channel = pwm.channel();
     message.frequency = blox_FastPwm_PwmFrequency(pwm.frequency());
+    message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
     message.enabled = pwm.enabler.get();
 }
 
@@ -28,6 +29,11 @@ FastPwmBlock::read(const cbox::PayloadCallback& callback) const
         message.desiredSetting = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_FastPwm_Block_desiredSetting_tag);
+    }
+    if (auto val = constrained.value()) {
+        message.value = cnl::unwrap(*val);
+    } else {
+        excluded.push_back(blox_FastPwm_Block_value_tag);
     }
 
     getAnalogConstraints(message.constrainedBy, constrained, true);
@@ -76,7 +82,7 @@ FastPwmBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_FastPwm_Block_constrainedBy_tag)) {
             setAnalogConstraints(message.constrainedBy, constrained);
         }
-        if (parser.hasField(blox_FastPwm_Block_setting_tag)) {
+        if (parser.hasField(blox_FastPwm_Block_desiredSetting_tag)) {
             constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
         }
         if (parser.hasField(blox_FastPwm_Block_enabled_tag)) {
