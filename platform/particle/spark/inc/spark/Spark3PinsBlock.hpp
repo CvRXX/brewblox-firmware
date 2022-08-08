@@ -31,7 +31,9 @@ public:
         : IoArray(5)
     {
 #if PLATFORM_ID != 3
-        TimerInterrupts::add(timerTask);
+        if (!myInterrupt) {
+            myInterrupt = TimerInterrupts::add(timerTask);
+        }
 #endif
     }
     ~Spark3PinsBlock() = default;
@@ -55,6 +57,7 @@ public:
             .pwm100Hz = 1,
         }};
     }
+    static int16_t myInterrupt;
 };
 
 } // end namespace platform::particle

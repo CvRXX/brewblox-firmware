@@ -48,7 +48,7 @@ static std::array<SparkChannel, 5> spark3Channels{{
 void Spark3PinsBlock::timerTask()
 {
     // timer clock is 10 kHz, 100 steps at 100Hz
-    static uint8_t count = 0;
+    static int8_t count = 0;
     for (auto chan : spark3Channels) {
         auto pin = chan.pin;
         if (pin == -1) {
@@ -59,14 +59,15 @@ void Spark3PinsBlock::timerTask()
             continue;
         }
         // uint8_t scaledDuty = (cnl::unwrap(pwmVal->duty()) * 100) / 4096;
+
         if (count == 0 && duty > 0) {
             pinSetFast(pin);
-        } else if (count == duty) {
+        }
+        if (count == duty) {
             pinResetFast(pin);
         }
-
-        count = count >= 99 ? 0 : count + 1;
     }
+    count = count >= 99 ? 0 : count + 1;
 }
 
 cbox::CboxError Spark3PinsBlock::read(const cbox::PayloadCallback& callback) const
@@ -223,7 +224,7 @@ IoValue::Setup::variant Spark3PinsBlock::setupChannelImpl(uint8_t channel, IoVal
             HAL_GPIO_Write(PIN_V3_TOP2_DIR, LOW);
         }
 #endif
-        HAL_GPIO_Write(chan.pin, LOW);
+        setPinMode(chan.pin, OUTPUT);
         return setup;
     }
     if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
@@ -256,16 +257,18 @@ IoValue::variant Spark3PinsBlock::readChannelImpl(uint8_t channel) const
         return IoValue::Error::INVALID_CHANNEL;
     }
 
-    const auto setting = desired(channel);
+    const auto setup = channelSetup(channel);
     auto& chan = spark3Channels[channel - 1];
 
-    if (std::holds_alternative<IoValue::Digital>(setting)) {
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
         return pinReadFast(chan.pin) != 0 ? IoValue::Digital{State::Active} : IoValue::Digital{State::Inactive};
-    } else if (std::holds_alternative<IoValue::PWM>(setting)) {
+    } else if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
         return IoValue::PWM{chan.duty};
     }
     return IoValue::Error::UNSUPPORTED_VALUE;
 }
+
+int16_t Spark3PinsBlock::myInterrupt = 0;
 
 } // end namespace platform::particle
 

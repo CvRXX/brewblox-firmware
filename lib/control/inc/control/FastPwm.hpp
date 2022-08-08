@@ -53,6 +53,7 @@ private:
     uint8_t m_desiredChannel = 0;
     std::optional<value_t> m_desiredDuty = 0;
     std::optional<value_t> m_actualDuty = 0;
+    value_t m_transitionDuty = 0;
     ticks_millis_t m_lastUpdateTime = 0;
     IoValue::Setup::Frequency m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
     duration_millis_t m_transitionTime = 0;

@@ -36,17 +36,7 @@ public:
         return State::Unknown;
     }
 
-    void swapImplementation()
-    {
-        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
-            auto channel = pAct->channel();
-            act.emplace<ActuatorDigitalSoft>(hwDevice, channel);
-
-        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
-            auto channel = pAct->channel();
-            act.emplace<ActuatorDigital>(hwDevice, channel);
-        }
-    }
+    void swapImplementation();
 
     // returns a time if supported by the hwDevice and channel
     std::optional<duration_millis_t> transitionDuration() const

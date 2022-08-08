@@ -266,7 +266,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                       "channels { id: 8 capabilities: 5 }");
             }
 
-            AND_WHEN("When soft transitions are used")
+            AND_WHEN("When soft transitions are enabled")
             {
                 {
                     auto writeCmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
@@ -293,8 +293,8 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                         REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{});
 
                         CHECK(readMsg.ShortDebugString() ==
-                              "hwDevice: 100 channel: "
-                              "1 state: STATE_ACTIVE "
+                              "hwDevice: 100 channel: 1 "
+                              "state: STATE_ACTIVE "
                               "desiredState: STATE_ACTIVE "
                               "transitionDurationPreset: ST_FAST "
                               "transitionDurationSetting: 2000 "

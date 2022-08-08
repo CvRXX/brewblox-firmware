@@ -233,12 +233,20 @@ protected:
     [[nodiscard]] virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
     [[nodiscard]] virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant value) = 0;
 
-    [[nodiscard]] IoValue::variant desired(uint8_t channel) const
+    [[nodiscard]] IoValue::variant channelDesired(uint8_t channel) const
     {
         if (!validChannel(channel)) {
             return IoValue::Error::INVALID_CHANNEL;
         }
         return channels[channel - 1].desired;
+    }
+
+    [[nodiscard]] IoValue::Setup::variant channelSetup(uint8_t channel) const
+    {
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        return channels[channel - 1].setup;
     }
 
 private:

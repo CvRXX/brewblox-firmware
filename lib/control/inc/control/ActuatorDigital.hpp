@@ -44,9 +44,6 @@ public:
         channel(chan);
     }
 
-    // converting constructor that removes soft start capabilities
-    explicit ActuatorDigital(ActuatorDigitalSoft&& old);
-
     ActuatorDigital(const ActuatorDigital&) = delete;
     ActuatorDigital(ActuatorDigital&&) = default;
     ActuatorDigital& operator=(const ActuatorDigital&) = delete;

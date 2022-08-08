@@ -61,18 +61,17 @@ public:
             m_desired = State::Inactive;
             pwm.setting(0);
         }
-        if (auto v = pwm.value()) {
-            if (v == FastPwm::minDuty || v == FastPwm::maxDuty) {
-                // do one immediate update if the actuator was at 0 or max to ensure the state will be active
-                pwm.update();
-            }
+        auto current = pwm.value().value_or(FastPwm::minDuty);
+        if (current == FastPwm::minDuty || current == FastPwm::maxDuty) {
+            // do one immediate update if the actuator was at 0 or max to ensure the state will be active
+            pwm.update();
         }
     }
 
     [[nodiscard]] State state() const override final
     {
         if (auto v = pwm.value()) {
-            return (*v != 0) ? State::Active : State::Inactive;
+            return (*v > 0) ? State::Active : State::Inactive;
         }
         return State::Unknown;
     }

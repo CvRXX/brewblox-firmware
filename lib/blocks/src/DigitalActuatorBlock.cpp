@@ -103,6 +103,18 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
+void ActuatorDigitalProxy::swapImplementation()
+{
+    if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+        auto channel = pAct->channel();
+        act.emplace<ActuatorDigitalSoft>(hwDevice, channel);
+
+    } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+        auto channel = pAct->channel();
+        act.emplace<ActuatorDigital>(hwDevice, channel);
+    }
+}
+
 cbox::update_t
 DigitalActuatorBlock::updateHandler(cbox::update_t now)
 {
@@ -111,16 +123,20 @@ DigitalActuatorBlock::updateHandler(cbox::update_t now)
     bool isSoft = std::holds_alternative<ActuatorDigitalSoft>(actuator.act);
 
     if (useSoft != isSoft) {
+        auto state = actuator.state();
         actuator.swapImplementation();
+        actuator.state(state);
     }
 
+    auto nextUpdate = constrained.update(now);
+
     if (auto pAct = std::get_if<ActuatorDigital>(&actuator.act)) {
-        auto nextUpdate = constrained.update(now);
         pAct->update();
         return nextUpdate;
     } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&actuator.act)) {
         pAct->setTransitionTime(transitionTime);
-        return std::min(pAct->update(now), constrained.update(now));
+        auto nextUpdate2 = pAct->update(now);
+        return std::min(nextUpdate, nextUpdate2);
     }
 
     return now + 1000;

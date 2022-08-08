@@ -44,16 +44,16 @@ public:
         if (!isConnected) {
             return IoValue::Error::DISCONNECTED;
         }
-        auto mask = getMask(channel);
 
-        if ((mask & errorState) != 0) {
-            return IoValue::Error::IO_ERROR;
-        }
+        const auto setup = channelSetup(channel);
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+            auto mask = getMask(channel);
 
-        const auto setting = desired(channel);
-        if (std::holds_alternative<IoValue::Digital>(setting)) {
+            if ((mask & errorState) != 0) {
+                return IoValue::Error::IO_ERROR;
+            }
             return IoValue::Digital(pinStates & mask ? State::Active : State::Inactive);
-        } else if (std::holds_alternative<IoValue::PWM>(setting)) {
+        } else if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
             return IoValue::PWM{pwmSettings[channel - 1]};
         }
         return IoValue::Error::UNSUPPORTED_VALUE;
@@ -66,9 +66,9 @@ public:
         if (!isConnected) {
             return IoValue::Error::DISCONNECTED;
         }
-        uint8_t mask = getMask(channel);
 
         if (const auto* v = std::get_if<IoValue::Digital>(&val)) {
+        uint8_t mask = getMask(channel);
             if (v->state() == IoValue::State::Active) {
                 pinStates |= mask;
                 return *v;

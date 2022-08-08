@@ -29,8 +29,9 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
     using State = ActuatorDigitalBase::State;
     auto io = TestControlPtr<IoArray>(new MockIoArray());
     ActuatorDigitalSoft mock(io, 1);
+    mock.setTransitionTime(0);
 
-    WHEN("ActuatorDigitalSoft is newly constructed")
+    WHEN("ActuatorDigitalSoft is newly constructed and transition time is set to 0")
     {
         THEN("The state is set to Inactive")
         {
@@ -112,18 +113,18 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
                 {
                     mock.state(State::Inactive);
                     mock.update(511);
-                    CHECK(getDuty() == 95 - bit);
+                    CHECK(getDuty() == 95);
 
                     mock.update(611);
-                    CHECK(getDuty() == 70 - bit);
+                    CHECK(getDuty() == 70);
 
                     mock.update(711);
-                    CHECK(getDuty() == 45 - bit);
+                    CHECK(getDuty() == 45);
                     mock.update(811);
-                    CHECK(getDuty() == 20 - bit);
+                    CHECK(getDuty() == 20);
 
                     mock.update(812);
-                    CHECK(getDuty() == 19.5 - bit);
+                    CHECK(getDuty() == 19.5);
 
                     mock.update(911);
                     CHECK(getDuty() == 0);
