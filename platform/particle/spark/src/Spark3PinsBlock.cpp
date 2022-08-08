@@ -208,6 +208,8 @@ IoValue::Setup::variant Spark3PinsBlock::setupChannelImpl(uint8_t channel, IoVal
         return IoValue::Error::UNSUPPORTED_SETUP;
     }
 
+    chan.duty = std::holds_alternative<IoValue::Setup::OutputPwm>(setup) ? 0 : -1;
+
     if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)
         || std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
 #if defined(PIN_V3_TOP1_DIR)

@@ -11,8 +11,8 @@ private:
     cbox::CboxPtr<IoArray> io;
     FastPwm pwm;
     ActuatorAnalogConstrained constrained;
-
-    bool previousSettingValid = false;
+    blox_IoArray_TransitionDurationPreset transitionDurationPreset = blox_IoArray_TransitionDurationPreset_ST_OFF;
+    duration_millis_t transitionDurationSetting = 0;
 
 public:
     FastPwmBlock()

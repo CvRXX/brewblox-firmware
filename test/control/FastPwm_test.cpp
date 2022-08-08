@@ -77,7 +77,7 @@ SCENARIO("FastPwm test", "[FastPwm]")
     WHEN("A transition time of 250 ms is used")
     {
         pwm.update(100);
-        pwm.transitionTime(200);
+        pwm.setTransitionTime(200);
         THEN("The target PWM channel goes from 0 to 100 over 250 ms")
         {
             pwm.setting(100);

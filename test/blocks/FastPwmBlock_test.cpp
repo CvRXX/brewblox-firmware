@@ -100,4 +100,40 @@ SCENARIO("A FastPwm object can be created from protobuf data")
                   "enabled: true");
         }
     }
+
+    AND_WHEN("It is written with a soft transition preset")
+    {
+        auto cmd = cbox::TestCommand(pwmId, FastPwmBlock::staticTypeId());
+        auto message = blox_test::FastPwm::Block();
+        message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(5)));
+        message.set_transitiondurationsetting(2000);
+        message.set_transitiondurationpreset(blox_test::IoArray::TransitionDurationPreset::ST_MEDIUM);
+
+        messageToPayload(cmd, message,
+                         {blox_test::FastPwm::Block::kDesiredSettingFieldNumber,
+                          blox_test::FastPwm::Block::kTransitionDurationSettingFieldNumber,
+                          blox_test::FastPwm::Block::kTransitionDurationPresetFieldNumber});
+        CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+
+        cbox::update(5000);
+        cbox::update(6000);
+        cbox::update(7000);
+
+        payloadToMessage(cmd, message);
+        THEN("The preset is applied and a slow transition to the new desired setting is started")
+        {
+            CHECK(message.ShortDebugString() ==
+                  "hwDevice: 19 "
+                  "channel: 1 "
+                  "frequency: PWM_FREQ_100HZ "
+                  "setting: 40960 "
+                  "desiredSetting: 20480 "
+                  "value: 81919 "
+                  "constrainedBy { constraints { min: 40960 limiting: true } } "
+                  "enabled: true "
+                  "transitionDurationPreset: ST_MEDIUM "
+                  "transitionDurationSetting: 2000 "
+                  "transitionDurationValue: 250");
+        }
+    }
 }

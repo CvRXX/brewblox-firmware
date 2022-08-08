@@ -61,10 +61,11 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
     if (auto devPtr = m_target.lock()) {
         auto duty = m_actualDuty.value_or(0);
         auto desired = m_desiredDuty.value_or(0);
-        if (m_transitionDuration) {
+        auto transitionTime = getTransitionTime();
+        if (transitionTime) {
             // change max 25% in case update interval was long
-            auto elapsed = std::min(now - m_lastUpdateTime, m_transitionDuration / 4);
-            auto increase = (uint64_t{cnl::unwrap(duty_t{100})} * elapsed) / m_transitionDuration;
+            auto elapsed = std::min(now - m_lastUpdateTime, transitionTime / 4);
+            auto increase = (uint64_t{cnl::unwrap(duty_t{100})} * elapsed) / transitionTime;
             if (increase == 0) {
                 increase = 1;
             }
@@ -82,7 +83,7 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
         auto result = devPtr->writeChannel(m_channel, IoValue::PWM{duty});
         if (const auto* pVal = std::get_if<IoValue::PWM>(&result)) {
             m_actualDuty = pVal->duty();
-            return now + std::max(duration_millis_t{10}, m_transitionDuration / 16); // use 16 steps, but at least 10 ms
+            return now + std::max(duration_millis_t{10}, transitionTime / 16); // use 16 steps, but at least 10 ms
         } else {
             m_actualDuty = std::nullopt;
         }
@@ -123,4 +124,21 @@ bool FastPwm::claimChannel()
         }
     }
     return false;
+}
+
+duration_millis_t FastPwm::transitionTimeFromPreset(SoftTransitionsPreset preset, duration_millis_t custom)
+{
+    switch (preset) {
+    case ST_OFF:
+        return 0;
+    case ST_FAST:
+        return 100;
+    case ST_MEDIUM:
+        return 250;
+    case ST_SLOW:
+        return 500;
+    case ST_CUSTOM:
+        return custom;
+    }
+    return 0;
 }

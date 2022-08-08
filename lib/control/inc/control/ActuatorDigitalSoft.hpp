@@ -107,13 +107,13 @@ public:
         return pwm.update();
     }
 
-    void transitionTime(duration_millis_t arg)
+    void setTransitionTime(duration_millis_t time)
     {
-        pwm.transitionTime(arg);
+        pwm.setTransitionTime(time);
     };
 
-    [[nodiscard]] auto transitionTime() const
+    [[nodiscard]] auto getTransitionTime() const
     {
-        return pwm.transitionTime();
+        return pwm.getTransitionTime();
     };
 };

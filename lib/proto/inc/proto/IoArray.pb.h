@@ -29,16 +29,16 @@ typedef enum _blox_IoArray_DigitalState {
 #define _blox_IoArray_DigitalState_MAX blox_IoArray_DigitalState_Unknown
 #define _blox_IoArray_DigitalState_ARRAYSIZE ((blox_IoArray_DigitalState)(blox_IoArray_DigitalState_Unknown+1))
 
-typedef enum _blox_IoArray_SoftTransitions {
-    blox_IoArray_SoftTransitions_ST_OFF = 0,
-    blox_IoArray_SoftTransitions_ST_FAST = 1,
-    blox_IoArray_SoftTransitions_ST_MEDIUM = 2,
-    blox_IoArray_SoftTransitions_ST_SLOW = 3,
-    blox_IoArray_SoftTransitions_ST_CUSTOM = 4
-} blox_IoArray_SoftTransitions;
-#define _blox_IoArray_SoftTransitions_MIN blox_IoArray_SoftTransitions_ST_OFF
-#define _blox_IoArray_SoftTransitions_MAX blox_IoArray_SoftTransitions_ST_CUSTOM
-#define _blox_IoArray_SoftTransitions_ARRAYSIZE ((blox_IoArray_SoftTransitions)(blox_IoArray_SoftTransitions_ST_CUSTOM+1))
+typedef enum _blox_IoArray_TransitionDurationPreset {
+    blox_IoArray_TransitionDurationPreset_ST_OFF = 0,
+    blox_IoArray_TransitionDurationPreset_ST_FAST = 1,
+    blox_IoArray_TransitionDurationPreset_ST_MEDIUM = 2,
+    blox_IoArray_TransitionDurationPreset_ST_SLOW = 3,
+    blox_IoArray_TransitionDurationPreset_ST_CUSTOM = 4
+} blox_IoArray_TransitionDurationPreset;
+#define _blox_IoArray_TransitionDurationPreset_MIN blox_IoArray_TransitionDurationPreset_ST_OFF
+#define _blox_IoArray_TransitionDurationPreset_MAX blox_IoArray_TransitionDurationPreset_ST_CUSTOM
+#define _blox_IoArray_TransitionDurationPreset_ARRAYSIZE ((blox_IoArray_TransitionDurationPreset)(blox_IoArray_TransitionDurationPreset_ST_CUSTOM+1))
 
 typedef enum _blox_IoArray_ChannelCapabilities {
     blox_IoArray_ChannelCapabilities_CHAN_SUPPORTS_NONE = 0,

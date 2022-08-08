@@ -68,6 +68,9 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, value_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, constrainedby_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, enabled_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, transitiondurationpreset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, transitiondurationsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, transitiondurationvalue_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::FastPwm::Block)},
@@ -100,27 +103,33 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022FastPwm_test.proto\022\021blox_test.FastPwm\032"
       "\023brewblox_test.proto\032\021nanopb_test.proto\032"
-      "\026Constraints_test.proto\"\345\002\n\005Block\022#\n\010hwD"
-      "evice\030\001 \001(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channe"
-      "l\030\002 \001(\rB\005\222\?\0028\010\0222\n\tfrequency\030\003 \001(\0162\037.blox"
-      "_test.FastPwm.PwmFrequency\022)\n\007setting\030\004 "
-      "\001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022*\n\016desired"
-      "Setting\030\005 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005val"
-      "ue\030\006 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\?\n\rco"
-      "nstrainedBy\030\007 \001(\0132(.blox_test.Constraint"
-      "s.AnalogConstraints\022\017\n\007enabled\030\010 \001(\010:\031\212\265"
-      "\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017*]\n\014PwmFrequency\022"
-      "\020\n\014PWM_FREQ_OFF\020\000\022\022\n\016PWM_FREQ_100HZ\020\001\022\022\n"
-      "\016PWM_FREQ_200HZ\020\002\022\023\n\017PWM_FREQ_2000HZ\020\003b\006"
-      "proto3"
+      "\026Constraints_test.proto\032\022IoArray_test.pr"
+      "oto\"\234\004\n\005Block\022#\n\010hwDevice\030\001 \001(\rB\021\212\265\030\002\030\n\212"
+      "\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222\?\0028\010\0222\n\tfr"
+      "equency\030\003 \001(\0162\037.blox_test.FastPwm.PwmFre"
+      "quency\022)\n\007setting\030\004 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030"
+      "\003\020\200 \222\?\0028 \022*\n\016desiredSetting\030\005 \001(\021B\022\212\265\030\0020"
+      "\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\006 \001(\021B\030\212\265\030\0020\001\212\265\030\002"
+      "(\001\212\265\030\003\020\200 \222\?\0028 \022\?\n\rconstrainedBy\030\007 \001(\0132(."
+      "blox_test.Constraints.AnalogConstraints\022"
+      "\017\n\007enabled\030\010 \001(\010\022M\n\030transitionDurationPr"
+      "eset\030\t \001(\0162+.blox_test.IoArray.Transitio"
+      "nDurationPreset\0220\n\031transitionDurationSet"
+      "ting\030\n \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transitionD"
+      "urationValue\030\013 \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001:"
+      "\031\212\265\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017*]\n\014PwmFrequen"
+      "cy\022\020\n\014PWM_FREQ_OFF\020\000\022\022\n\016PWM_FREQ_100HZ\020\001"
+      "\022\022\n\016PWM_FREQ_200HZ\020\002\022\023\n\017PWM_FREQ_2000HZ\020"
+      "\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 566);
+      descriptor, 769);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "FastPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
   ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
   ::protobuf_Constraints_5ftest_2eproto::AddDescriptors();
+  ::protobuf_IoArray_5ftest_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -174,6 +183,9 @@ const int Block::kDesiredSettingFieldNumber;
 const int Block::kValueFieldNumber;
 const int Block::kConstrainedByFieldNumber;
 const int Block::kEnabledFieldNumber;
+const int Block::kTransitionDurationPresetFieldNumber;
+const int Block::kTransitionDurationSettingFieldNumber;
+const int Block::kTransitionDurationValueFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -193,15 +205,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
-    static_cast<size_t>(reinterpret_cast<char*>(&enabled_) -
-    reinterpret_cast<char*>(&hwdevice_)) + sizeof(enabled_));
+    static_cast<size_t>(reinterpret_cast<char*>(&transitiondurationvalue_) -
+    reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitiondurationvalue_));
   // @@protoc_insertion_point(copy_constructor:blox_test.FastPwm.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&enabled_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(enabled_));
+      reinterpret_cast<char*>(&transitiondurationvalue_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(transitiondurationvalue_));
 }
 
 Block::~Block() {
@@ -238,8 +250,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&hwdevice_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&enabled_) -
-      reinterpret_cast<char*>(&hwdevice_)) + sizeof(enabled_));
+      reinterpret_cast<char*>(&transitiondurationvalue_) -
+      reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitiondurationvalue_));
   _internal_metadata_.Clear();
 }
 
@@ -364,6 +376,49 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_transitiondurationpreset(static_cast< ::blox_test::IoArray::TransitionDurationPreset >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 transitionDurationSetting = 10 [(.brewblox.field) = {
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &transitiondurationsetting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 transitionDurationValue = 11 [(.brewblox.field) = {
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &transitiondurationvalue_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -432,6 +487,22 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->enabled(), output);
   }
 
+  // .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
+  if (this->transitiondurationpreset() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      9, this->transitiondurationpreset(), output);
+  }
+
+  // uint32 transitionDurationSetting = 10 [(.brewblox.field) = {
+  if (this->transitiondurationsetting() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->transitiondurationsetting(), output);
+  }
+
+  // uint32 transitionDurationValue = 11 [(.brewblox.field) = {
+  if (this->transitiondurationvalue() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->transitiondurationvalue(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -487,6 +558,22 @@ void Block::SerializeWithCachedSizes(
   // bool enabled = 8;
   if (this->enabled() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->enabled(), target);
+  }
+
+  // .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
+  if (this->transitiondurationpreset() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      9, this->transitiondurationpreset(), target);
+  }
+
+  // uint32 transitionDurationSetting = 10 [(.brewblox.field) = {
+  if (this->transitiondurationsetting() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->transitiondurationsetting(), target);
+  }
+
+  // uint32 transitionDurationValue = 11 [(.brewblox.field) = {
+  if (this->transitiondurationvalue() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->transitiondurationvalue(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -559,6 +646,26 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
+  if (this->transitiondurationpreset() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->transitiondurationpreset());
+  }
+
+  // uint32 transitionDurationSetting = 10 [(.brewblox.field) = {
+  if (this->transitiondurationsetting() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->transitiondurationsetting());
+  }
+
+  // uint32 transitionDurationValue = 11 [(.brewblox.field) = {
+  if (this->transitiondurationvalue() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->transitiondurationvalue());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -610,6 +717,15 @@ void Block::MergeFrom(const Block& from) {
   if (from.enabled() != 0) {
     set_enabled(from.enabled());
   }
+  if (from.transitiondurationpreset() != 0) {
+    set_transitiondurationpreset(from.transitiondurationpreset());
+  }
+  if (from.transitiondurationsetting() != 0) {
+    set_transitiondurationsetting(from.transitiondurationsetting());
+  }
+  if (from.transitiondurationvalue() != 0) {
+    set_transitiondurationvalue(from.transitiondurationvalue());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -644,6 +760,9 @@ void Block::InternalSwap(Block* other) {
   swap(desiredsetting_, other->desiredsetting_);
   swap(value_, other->value_);
   swap(enabled_, other->enabled_);
+  swap(transitiondurationpreset_, other->transitiondurationpreset_);
+  swap(transitiondurationsetting_, other->transitiondurationsetting_);
+  swap(transitiondurationvalue_, other->transitiondurationvalue_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

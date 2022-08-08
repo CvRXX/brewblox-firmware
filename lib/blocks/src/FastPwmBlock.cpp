@@ -10,6 +10,8 @@ void FastPwmBlock::addPersistedStateToMessage(blox_FastPwm_Block& message) const
     message.frequency = blox_FastPwm_PwmFrequency(pwm.frequency());
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
     message.enabled = pwm.enabler.get();
+    message.transitionDurationSetting = transitionDurationSetting;
+    message.transitionDurationPreset = transitionDurationPreset;
 }
 
 cbox::CboxError
@@ -35,6 +37,7 @@ FastPwmBlock::read(const cbox::PayloadCallback& callback) const
     } else {
         excluded.push_back(blox_FastPwm_Block_value_tag);
     }
+    message.transitionDurationValue = pwm.getTransitionTime();
 
     getAnalogConstraints(message.constrainedBy, constrained, true);
 
@@ -88,6 +91,14 @@ FastPwmBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_FastPwm_Block_enabled_tag)) {
             pwm.enabler.set(message.enabled);
         }
+        if (parser.hasField(blox_FastPwm_Block_transitionDurationPreset_tag)) {
+            transitionDurationPreset = message.transitionDurationPreset;
+        }
+        if (parser.hasField(blox_FastPwm_Block_transitionDurationSetting_tag)) {
+            transitionDurationSetting = message.transitionDurationSetting;
+        }
+        auto transitionTime = FastPwm::transitionTimeFromPreset(SoftTransitionsPreset{transitionDurationPreset}, transitionDurationSetting);
+        pwm.setTransitionTime(transitionTime);
     }
 
     return parser.status();

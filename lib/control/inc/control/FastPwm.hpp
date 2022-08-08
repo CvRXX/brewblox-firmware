@@ -29,6 +29,14 @@
 #include <memory>
 #include <optional>
 
+enum SoftTransitionsPreset : uint8_t {
+    ST_OFF = 0,
+    ST_FAST = 1,
+    ST_MEDIUM = 2,
+    ST_SLOW = 3,
+    ST_CUSTOM = 4,
+};
+
 /**
     FastPWM directly drives a PWM capable IO channel, bypassing DigitalActuator, so without support for digital constraints
  */
@@ -45,9 +53,9 @@ private:
     uint8_t m_desiredChannel = 0;
     std::optional<value_t> m_desiredDuty = 0;
     std::optional<value_t> m_actualDuty = 0;
-    duration_millis_t m_transitionDuration = 0;
     ticks_millis_t m_lastUpdateTime = 0;
     IoValue::Setup::Frequency m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
+    duration_millis_t m_transitionTime = 0;
 
 public:
     static constexpr auto maxDuty = duty_t{100};
@@ -119,15 +127,17 @@ public:
         }
     }
 
-    void transitionTime(duration_millis_t arg)
-    {
-        m_transitionDuration = arg;
-    };
+    static duration_millis_t transitionTimeFromPreset(SoftTransitionsPreset preset, duration_millis_t custom);
 
-    [[nodiscard]] auto transitionTime() const
+    void setTransitionTime(duration_millis_t time)
     {
-        return m_transitionDuration;
-    };
+        m_transitionTime = time;
+    }
+
+    duration_millis_t getTransitionTime() const
+    {
+        return m_transitionTime;
+    }
 
     IoValue::Setup::Frequency frequency() const
     {

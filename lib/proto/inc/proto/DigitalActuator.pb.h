@@ -27,17 +27,17 @@ typedef struct _blox_DigitalActuator_Block {
     bool invert;
     blox_Constraints_DigitalConstraints constrainedBy;
     blox_IoArray_DigitalState desiredState;
-    blox_IoArray_SoftTransitions softTransitions;
+    blox_IoArray_TransitionDurationPreset transitionDurationPreset;
     uint32_t transitionDurationSetting;
-    uint32_t transitionDuration;
+    uint32_t transitionDurationValue;
 /* @@protoc_insertion_point(struct:blox_DigitalActuator_Block) */
 } blox_DigitalActuator_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_DigitalActuator_Block_init_default  {0, 0, _blox_IoArray_DigitalState_MIN, 0, blox_Constraints_DigitalConstraints_init_default, _blox_IoArray_DigitalState_MIN, _blox_IoArray_SoftTransitions_MIN, 0, 0}
-#define blox_DigitalActuator_Block_init_zero     {0, 0, _blox_IoArray_DigitalState_MIN, 0, blox_Constraints_DigitalConstraints_init_zero, _blox_IoArray_DigitalState_MIN, _blox_IoArray_SoftTransitions_MIN, 0, 0}
+#define blox_DigitalActuator_Block_init_default  {0, 0, _blox_IoArray_DigitalState_MIN, 0, blox_Constraints_DigitalConstraints_init_default, _blox_IoArray_DigitalState_MIN, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0}
+#define blox_DigitalActuator_Block_init_zero     {0, 0, _blox_IoArray_DigitalState_MIN, 0, blox_Constraints_DigitalConstraints_init_zero, _blox_IoArray_DigitalState_MIN, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_DigitalActuator_Block_hwDevice_tag  1
@@ -46,9 +46,9 @@ typedef struct _blox_DigitalActuator_Block {
 #define blox_DigitalActuator_Block_invert_tag    4
 #define blox_DigitalActuator_Block_constrainedBy_tag 5
 #define blox_DigitalActuator_Block_desiredState_tag 6
-#define blox_DigitalActuator_Block_softTransitions_tag 7
+#define blox_DigitalActuator_Block_transitionDurationPreset_tag 7
 #define blox_DigitalActuator_Block_transitionDurationSetting_tag 8
-#define blox_DigitalActuator_Block_transitionDuration_tag 9
+#define blox_DigitalActuator_Block_transitionDurationValue_tag 9
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_DigitalActuator_Block_fields[10];

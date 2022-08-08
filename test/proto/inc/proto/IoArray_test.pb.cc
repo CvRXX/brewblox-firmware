@@ -95,21 +95,21 @@ void AddDescriptorsImpl() {
       "ate\022\022\n\016STATE_INACTIVE\020\000\022\020\n\014STATE_ACTIVE\020"
       "\001\022\021\n\rSTATE_UNKNOWN\020\002\022\021\n\rSTATE_REVERSE\020\003\022"
       "\014\n\010Inactive\020\000\022\n\n\006Active\020\001\022\013\n\007Unknown\020\002\032\002"
-      "\020\001*U\n\017SoftTransitions\022\n\n\006ST_OFF\020\000\022\013\n\007ST_"
-      "FAST\020\001\022\r\n\tST_MEDIUM\020\002\022\013\n\007ST_SLOW\020\003\022\r\n\tST"
-      "_CUSTOM\020\004*\205\002\n\023ChannelCapabilities\022\026\n\022CHA"
-      "N_SUPPORTS_NONE\020\000\022 \n\034CHAN_SUPPORTS_DIGIT"
-      "AL_OUTPUT\020\001\022\032\n\026CHAN_SUPPORTS_PWM_80HZ\020\002\022"
-      "\033\n\027CHAN_SUPPORTS_PWM_100HZ\020\004\022\033\n\027CHAN_SUP"
-      "PORTS_PWM_200HZ\020\010\022\034\n\030CHAN_SUPPORTS_PWM_2"
-      "000HZ\020\020\022\037\n\033CHAN_SUPPORTS_BIDIRECTIONAL\020 "
-      "\022\037\n\033CHAN_SUPPORTS_DIGITAL_INPUT\020@*^\n\014Pwm"
-      "Frequency\022\021\n\rPWM_FREQ_80HZ\020\000\022\022\n\016PWM_FREQ"
-      "_100HZ\020\001\022\022\n\016PWM_FREQ_200HZ\020\002\022\023\n\017PWM_FREQ"
-      "_2000HZ\020\003b\006proto3"
+      "\020\001*^\n\030TransitionDurationPreset\022\n\n\006ST_OFF"
+      "\020\000\022\013\n\007ST_FAST\020\001\022\r\n\tST_MEDIUM\020\002\022\013\n\007ST_SLO"
+      "W\020\003\022\r\n\tST_CUSTOM\020\004*\205\002\n\023ChannelCapabiliti"
+      "es\022\026\n\022CHAN_SUPPORTS_NONE\020\000\022 \n\034CHAN_SUPPO"
+      "RTS_DIGITAL_OUTPUT\020\001\022\032\n\026CHAN_SUPPORTS_PW"
+      "M_80HZ\020\002\022\033\n\027CHAN_SUPPORTS_PWM_100HZ\020\004\022\033\n"
+      "\027CHAN_SUPPORTS_PWM_200HZ\020\010\022\034\n\030CHAN_SUPPO"
+      "RTS_PWM_2000HZ\020\020\022\037\n\033CHAN_SUPPORTS_BIDIRE"
+      "CTIONAL\020 \022\037\n\033CHAN_SUPPORTS_DIGITAL_INPUT"
+      "\020@*^\n\014PwmFrequency\022\021\n\rPWM_FREQ_80HZ\020\000\022\022\n"
+      "\016PWM_FREQ_100HZ\020\001\022\022\n\016PWM_FREQ_200HZ\020\002\022\023\n"
+      "\017PWM_FREQ_2000HZ\020\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 737);
+      descriptor, 746);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "IoArray_test.proto", &protobuf_RegisterTypes);
   ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
@@ -145,11 +145,11 @@ bool DigitalState_IsValid(int value) {
   }
 }
 
-const ::google::protobuf::EnumDescriptor* SoftTransitions_descriptor() {
+const ::google::protobuf::EnumDescriptor* TransitionDurationPreset_descriptor() {
   protobuf_IoArray_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_IoArray_5ftest_2eproto::file_level_enum_descriptors[1];
 }
-bool SoftTransitions_IsValid(int value) {
+bool TransitionDurationPreset_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

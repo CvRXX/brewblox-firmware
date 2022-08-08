@@ -8,6 +8,8 @@
 
 #include "Constraints.pb.h"
 
+#include "IoArray.pb.h"
+
 /* @@protoc_insertion_point(includes) */
 #if PB_PROTO_HEADER_VERSION != 30
 #error Regenerate this file with the current version of nanopb generator.
@@ -38,14 +40,17 @@ typedef struct _blox_FastPwm_Block {
     int32_t value;
     blox_Constraints_AnalogConstraints constrainedBy;
     bool enabled;
+    blox_IoArray_TransitionDurationPreset transitionDurationPreset;
+    uint32_t transitionDurationSetting;
+    uint32_t transitionDurationValue;
 /* @@protoc_insertion_point(struct:blox_FastPwm_Block) */
 } blox_FastPwm_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_FastPwm_Block_init_default          {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0}
-#define blox_FastPwm_Block_init_zero             {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0}
+#define blox_FastPwm_Block_init_default          {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0}
+#define blox_FastPwm_Block_init_zero             {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_FastPwm_Block_hwDevice_tag          1
@@ -56,12 +61,15 @@ typedef struct _blox_FastPwm_Block {
 #define blox_FastPwm_Block_value_tag             6
 #define blox_FastPwm_Block_constrainedBy_tag     7
 #define blox_FastPwm_Block_enabled_tag           8
+#define blox_FastPwm_Block_transitionDurationPreset_tag 9
+#define blox_FastPwm_Block_transitionDurationSetting_tag 10
+#define blox_FastPwm_Block_transitionDurationValue_tag 11
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_FastPwm_Block_fields[9];
+extern const pb_field_t blox_FastPwm_Block_fields[12];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_FastPwm_Block_size                  237
+#define blox_FastPwm_Block_size                  251
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

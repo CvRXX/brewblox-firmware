@@ -16,9 +16,9 @@ const pb_field_t blox_DigitalActuator_Block_fields[10] = {
     PB_FIELD(  4, BOOL    , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, invert, state, 0),
     PB_FIELD(  5, MESSAGE , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, constrainedBy, invert, &blox_Constraints_DigitalConstraints_fields),
     PB_FIELD(  6, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, desiredState, constrainedBy, 0),
-    PB_FIELD(  7, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, softTransitions, desiredState, 0),
-    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationSetting, softTransitions, 0),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDuration, transitionDurationSetting, 0),
+    PB_FIELD(  7, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationPreset, desiredState, 0),
+    PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationSetting, transitionDurationPreset, 0),
+    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationValue, transitionDurationSetting, 0),
     PB_LAST_FIELD
 };
 

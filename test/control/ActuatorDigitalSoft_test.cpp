@@ -66,7 +66,7 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
     WHEN("A transition time of 250 ms is used")
     {
         mock.update(100);
-        mock.transitionTime(200);
+        mock.setTransitionTime(200);
         THEN("The target PWM channel goes from 0 to 100 over 250 ms")
         {
             mock.state(State::Active);

@@ -89,29 +89,29 @@ inline bool DigitalState_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<DigitalState>(
     DigitalState_descriptor(), name, value);
 }
-enum SoftTransitions {
+enum TransitionDurationPreset {
   ST_OFF = 0,
   ST_FAST = 1,
   ST_MEDIUM = 2,
   ST_SLOW = 3,
   ST_CUSTOM = 4,
-  SoftTransitions_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  SoftTransitions_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+  TransitionDurationPreset_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  TransitionDurationPreset_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool SoftTransitions_IsValid(int value);
-const SoftTransitions SoftTransitions_MIN = ST_OFF;
-const SoftTransitions SoftTransitions_MAX = ST_CUSTOM;
-const int SoftTransitions_ARRAYSIZE = SoftTransitions_MAX + 1;
+bool TransitionDurationPreset_IsValid(int value);
+const TransitionDurationPreset TransitionDurationPreset_MIN = ST_OFF;
+const TransitionDurationPreset TransitionDurationPreset_MAX = ST_CUSTOM;
+const int TransitionDurationPreset_ARRAYSIZE = TransitionDurationPreset_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* SoftTransitions_descriptor();
-inline const ::std::string& SoftTransitions_Name(SoftTransitions value) {
+const ::google::protobuf::EnumDescriptor* TransitionDurationPreset_descriptor();
+inline const ::std::string& TransitionDurationPreset_Name(TransitionDurationPreset value) {
   return ::google::protobuf::internal::NameOfEnum(
-    SoftTransitions_descriptor(), value);
+    TransitionDurationPreset_descriptor(), value);
 }
-inline bool SoftTransitions_Parse(
-    const ::std::string& name, SoftTransitions* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<SoftTransitions>(
-    SoftTransitions_descriptor(), name, value);
+inline bool TransitionDurationPreset_Parse(
+    const ::std::string& name, TransitionDurationPreset* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<TransitionDurationPreset>(
+    TransitionDurationPreset_descriptor(), name, value);
 }
 enum ChannelCapabilities {
   CHAN_SUPPORTS_NONE = 0,
@@ -329,10 +329,10 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::DigitalState>() {
   return ::blox_test::IoArray::DigitalState_descriptor();
 }
-template <> struct is_proto_enum< ::blox_test::IoArray::SoftTransitions> : ::std::true_type {};
+template <> struct is_proto_enum< ::blox_test::IoArray::TransitionDurationPreset> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::SoftTransitions>() {
-  return ::blox_test::IoArray::SoftTransitions_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::IoArray::TransitionDurationPreset>() {
+  return ::blox_test::IoArray::TransitionDurationPreset_descriptor();
 }
 template <> struct is_proto_enum< ::blox_test::IoArray::ChannelCapabilities> : ::std::true_type {};
 template <>

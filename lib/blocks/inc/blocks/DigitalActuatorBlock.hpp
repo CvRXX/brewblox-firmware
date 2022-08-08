@@ -52,7 +52,7 @@ public:
     std::optional<duration_millis_t> transitionDuration() const
     {
         if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
-            return pAct->transitionTime();
+            return pAct->getTransitionTime();
         } else if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
             {
                 if (auto dev = hwDevice.lock()) {
@@ -76,30 +76,8 @@ class DigitalActuatorBlock final : public Block<brewblox_BlockType_DigitalActuat
 private:
     ActuatorDigitalProxy actuator;
     ActuatorDigitalConstrained constrained;
-    blox_IoArray_SoftTransitions softTransitions = blox_IoArray_SoftTransitions_ST_OFF;
+    blox_IoArray_TransitionDurationPreset transitionDurationPreset = blox_IoArray_TransitionDurationPreset_ST_OFF;
     duration_millis_t transitionDurationSetting = 0;
-
-    duration_millis_t transitionDurationDesired()
-    {
-        switch (softTransitions) {
-        case blox_IoArray_SoftTransitions_ST_OFF:
-            return 0;
-            break;
-        case blox_IoArray_SoftTransitions_ST_FAST:
-            return 100;
-            break;
-        case blox_IoArray_SoftTransitions_ST_MEDIUM:
-            return 250;
-            break;
-        case blox_IoArray_SoftTransitions_ST_SLOW:
-            return 500;
-            break;
-        case blox_IoArray_SoftTransitions_ST_CUSTOM:
-            return transitionDurationSetting;
-            break;
-        }
-        return 0;
-    }
 
 public:
     DigitalActuatorBlock()

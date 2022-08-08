@@ -34,6 +34,7 @@
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
 #include "Constraints_test.pb.h"
+#include "IoArray_test.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_FastPwm_5ftest_2eproto 
 
@@ -230,6 +231,24 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool enabled() const;
   void set_enabled(bool value);
 
+  // .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
+  void clear_transitiondurationpreset();
+  static const int kTransitionDurationPresetFieldNumber = 9;
+  ::blox_test::IoArray::TransitionDurationPreset transitiondurationpreset() const;
+  void set_transitiondurationpreset(::blox_test::IoArray::TransitionDurationPreset value);
+
+  // uint32 transitionDurationSetting = 10 [(.brewblox.field) = {
+  void clear_transitiondurationsetting();
+  static const int kTransitionDurationSettingFieldNumber = 10;
+  ::google::protobuf::uint32 transitiondurationsetting() const;
+  void set_transitiondurationsetting(::google::protobuf::uint32 value);
+
+  // uint32 transitionDurationValue = 11 [(.brewblox.field) = {
+  void clear_transitiondurationvalue();
+  static const int kTransitionDurationValueFieldNumber = 11;
+  ::google::protobuf::uint32 transitiondurationvalue() const;
+  void set_transitiondurationvalue(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.FastPwm.Block)
  private:
 
@@ -242,6 +261,9 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 desiredsetting_;
   ::google::protobuf::int32 value_;
   bool enabled_;
+  int transitiondurationpreset_;
+  ::google::protobuf::uint32 transitiondurationsetting_;
+  ::google::protobuf::uint32 transitiondurationvalue_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_FastPwm_5ftest_2eproto::TableStruct;
 };
@@ -400,6 +422,48 @@ inline void Block::set_enabled(bool value) {
   
   enabled_ = value;
   // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.enabled)
+}
+
+// .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
+inline void Block::clear_transitiondurationpreset() {
+  transitiondurationpreset_ = 0;
+}
+inline ::blox_test::IoArray::TransitionDurationPreset Block::transitiondurationpreset() const {
+  // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.transitionDurationPreset)
+  return static_cast< ::blox_test::IoArray::TransitionDurationPreset >(transitiondurationpreset_);
+}
+inline void Block::set_transitiondurationpreset(::blox_test::IoArray::TransitionDurationPreset value) {
+  
+  transitiondurationpreset_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.transitionDurationPreset)
+}
+
+// uint32 transitionDurationSetting = 10 [(.brewblox.field) = {
+inline void Block::clear_transitiondurationsetting() {
+  transitiondurationsetting_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::transitiondurationsetting() const {
+  // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.transitionDurationSetting)
+  return transitiondurationsetting_;
+}
+inline void Block::set_transitiondurationsetting(::google::protobuf::uint32 value) {
+  
+  transitiondurationsetting_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.transitionDurationSetting)
+}
+
+// uint32 transitionDurationValue = 11 [(.brewblox.field) = {
+inline void Block::clear_transitiondurationvalue() {
+  transitiondurationvalue_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::transitiondurationvalue() const {
+  // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.transitionDurationValue)
+  return transitiondurationvalue_;
+}
+inline void Block::set_transitiondurationvalue(::google::protobuf::uint32 value) {
+  
+  transitiondurationvalue_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.transitionDurationValue)
 }
 
 #ifdef __GNUC__
