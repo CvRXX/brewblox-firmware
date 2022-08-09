@@ -21,30 +21,45 @@
 
 #include "spark/Spark2PinsBlock.hpp"
 #include "cbox/PayloadConversion.hpp"
-#include "pinmap_defines.h"
 #include "proto/Spark2Pins.pb.h"
 #include "spark/Board.hpp"
+#include <array>
 
 namespace platform::particle {
 
-pin_t Spark2PinsBlock::channelToPin(uint8_t channel) const
-{
-    auto pins = std::array<pin_t, numPins>{
-        PIN_ACTUATOR1,
-        PIN_ACTUATOR2,
-        PIN_ACTUATOR3,
-        PIN_ACTUATOR0,
-    };
+struct SparkChannel {
+    pin_t pin;
+    int8_t duty;
+};
 
-    if (validChannel(channel)) {
-        return pins[channel - 1];
+static std::array<SparkChannel, 4> spark2Channels{{
+    {PIN_ACTUATOR0, -1},
+    {PIN_ACTUATOR1, -1},
+    {PIN_ACTUATOR2, -1},
+    {PIN_ACTUATOR3, -1},
+}};
+
+void Spark2PinsBlock::timerTask()
+{
+    // timer clock is 10 kHz, 100 steps at 100Hz
+    static int8_t count = 0;
+    for (auto chan : spark2Channels) {
+        auto pin = chan.pin;
+        if (pin == -1) {
+            continue;
+        }
+        auto duty = chan.duty;
+        if (duty == -1) {
+            continue;
+        }
+        if (count == 0 && duty > 0) {
+            pinSetFast(pin);
+        }
+        if (count == duty) {
+            pinResetFast(pin);
+        }
     }
-    return -1;
-}
-
-Spark2PinsBlock::Spark2PinsBlock()
-    : SparkIoBase(getSparkVersion() == SparkVersion::V2 ? numPins : numPins - 1)
-{
+    count = count >= 99 ? 0 : count + 1;
 }
 
 cbox::CboxError Spark2PinsBlock::read(const cbox::PayloadCallback& callback) const
@@ -129,6 +144,92 @@ void* Spark2PinsBlock::implements(cbox::obj_type_t iface)
     }
     return nullptr;
 }
+
+IoValue::variant Spark2PinsBlock::writeChannelImpl(uint8_t channel, IoValue::variant val)
+{
+    if (channel > spark2Channels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    if (getSparkVersion() == SparkVersion::V1 && channel == spark2Channels.size()) {
+    }
+
+    auto& chan = spark2Channels[channel - 1];
+
+    if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        chan.duty = -1; // disables pwm updates
+        auto state = v->state();
+        if (state == IoValue::State::Active) {
+            pinSetFast(chan.pin);
+            return IoValue::Digital{state};
+        } else if (state == IoValue::State::Inactive) {
+            pinResetFast(chan.pin);
+            return IoValue::Digital{state};
+        }
+    } else if (auto pwmVal = std::get_if<IoValue::PWM>(&val)) {
+        chan.duty = static_cast<int8_t>(pwmVal->duty() + IoValue::PWM::duty_t{0.5});
+        return *pwmVal;
+    }
+    return IoValue::Error::UNSUPPORTED_VALUE;
+};
+
+// prevent inlining of hal function to save code size
+inline void setPinMode(pin_t pin, PinMode setMode)
+{
+    HAL_Pin_Mode(pin, setMode);
+}
+
+IoValue::Setup::variant Spark2PinsBlock::setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup)
+{
+    if (channel > spark2Channels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    if (getSparkVersion() == SparkVersion::V1 && channel == spark2Channels.size()) {
+    }
+
+    auto& chan = spark2Channels[channel - 1];
+    if (chan.pin == pin_t{1}) {
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+
+    chan.duty = std::holds_alternative<IoValue::Setup::OutputPwm>(setup) ? 0 : -1;
+
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)
+        || std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
+        setPinMode(chan.pin, OUTPUT);
+        return setup;
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+    if (std::holds_alternative<IoValue::Setup::Unused>(setup)) {
+        setPinMode(chan.pin, INPUT_PULLDOWN);
+        return setup;
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
+}
+
+IoValue::variant Spark2PinsBlock::readChannelImpl(uint8_t channel) const
+{
+    if (channel > spark2Channels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+    if (getSparkVersion() == SparkVersion::V1 && channel == spark2Channels.size()) {
+    }
+
+    const auto setup = channelSetup(channel);
+    auto& chan = spark2Channels[channel - 1];
+
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+        return pinReadFast(chan.pin) != 0 ? IoValue::Digital{State::Active} : IoValue::Digital{State::Inactive};
+    } else if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
+        return IoValue::PWM{chan.duty};
+    }
+    return IoValue::Error::UNSUPPORTED_VALUE;
+}
+
+int16_t Spark2PinsBlock::myInterrupt = 0;
 
 } // end namespace platform::particle
 

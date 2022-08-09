@@ -1,5 +1,4 @@
 #include "ExpOwGpio.hpp"
-#include "esp_log.h"
 
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
@@ -372,7 +371,6 @@ void ExpOwGpio::update(bool forceRefresh)
     if (pwm_freq_desired != pwm_freq_applied) {
         write2DrvRegisters(DRV8908::RegAddr::PWM_FREQ_CTRL_1, pwm_freq_desired);
         pwm_freq_applied = read2DrvRegisters(DRV8908::RegAddr::PWM_FREQ_CTRL_1);
-        ESP_LOGI("GPIO", "freq %x", pwm_freq_applied);
     }
 
     if (pwm_map_1_desired != pwm_map_1_applied) {

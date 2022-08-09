@@ -23,7 +23,6 @@
 #include "cbox/PayloadConversion.hpp"
 #include "proto/Spark3Pins.pb.h"
 #include "spark/Board.hpp"
-#include "spark/SparkIoBase.hpp"
 #include <array>
 
 #if PLATFORM_ID != 3
@@ -32,6 +31,11 @@ extern platform::particle::BrewPiTouch touch;
 #endif
 
 namespace platform::particle {
+
+struct SparkChannel {
+    pin_t pin;
+    int8_t duty;
+};
 
 static std::array<SparkChannel, 5> spark3Channels{{
 #ifdef PIN_V3_TOP1

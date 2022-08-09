@@ -116,7 +116,7 @@ SCENARIO("A FastPwm object can be created from protobuf data")
         CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
         payloadToMessage(cmd, message);
 
-        THEN("The preset is applied and value has is transitioning")
+        THEN("The preset is applied and value has not changed yet")
         {
             CHECK(message.ShortDebugString() ==
                   "hwDevice: 19 "
@@ -124,7 +124,7 @@ SCENARIO("A FastPwm object can be created from protobuf data")
                   "frequency: PWM_FREQ_100HZ "
                   "setting: 40960 "
                   "desiredSetting: 20480 "
-                  "value: 77824 "
+                  "value: 81920 "
                   "constrainedBy { constraints { min: 40960 limiting: true } } "
                   "enabled: true "
                   "transitionDurationPreset: ST_MEDIUM "
