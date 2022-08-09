@@ -78,13 +78,10 @@ public:
 
     std::optional<temp_t> value() const final
     {
-        if (m_sensorFailureCount <= m_failureThreshold) {
-            if (m_filterNr == 0) {
-                return m_filter.readLastInput();
-            }
-            return m_filter.read(m_filterNr - 1);
+        if (m_sensorFailureCount > m_failureThreshold) {
+            return std::nullopt;
         }
-        return std::nullopt;
+        return (m_filterNr == 0) ? m_filter.readLastInput() : m_filter.read(m_filterNr - 1);
     }
 
     std::optional<temp_t> valueUnfiltered() const

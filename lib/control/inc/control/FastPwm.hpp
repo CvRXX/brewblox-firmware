@@ -148,5 +148,6 @@ public:
     void frequency(IoValue::Setup::Frequency f)
     {
         m_frequency = f;
+        claimChannel(); // setup channel again to change frequency
     };
 };

@@ -58,8 +58,6 @@ void Spark3PinsBlock::timerTask()
         if (duty == -1) {
             continue;
         }
-        // uint8_t scaledDuty = (cnl::unwrap(pwmVal->duty()) * 100) / 4096;
-
         if (count == 0 && duty > 0) {
             pinSetFast(pin);
         }
@@ -186,7 +184,7 @@ IoValue::variant Spark3PinsBlock::writeChannelImpl(uint8_t channel, IoValue::var
             return IoValue::Digital{state};
         }
     } else if (auto pwmVal = std::get_if<IoValue::PWM>(&val)) {
-        chan.duty = static_cast<int8_t>(pwmVal->duty());
+        chan.duty = static_cast<int8_t>(pwmVal->duty() + IoValue::PWM::duty_t{0.5});
         return *pwmVal;
     }
     return IoValue::Error::UNSUPPORTED_VALUE;

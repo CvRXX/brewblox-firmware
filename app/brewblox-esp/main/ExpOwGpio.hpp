@@ -310,7 +310,8 @@ private:
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
-    uint16_t pwm_freq = 0;
+    uint16_t pwm_freq_desired = 0;
+    uint16_t pwm_freq_applied = 0;
     uint8_t pwm_map_1_desired = 0;
     uint8_t pwm_map_1_applied = 0;
     uint8_t pwm_map_2_desired = 0;
@@ -319,6 +320,10 @@ private:
     uint8_t pwm_map_3_applied = 0;
     uint8_t pwm_map_4_desired = 0;
     uint8_t pwm_map_4_applied = 0;
+    uint8_t pwm_ctrl_1_desired = 0;
+    uint8_t pwm_ctrl_1_applied = 0;
+    uint8_t pwm_ctrl_2_desired = 0;
+    uint8_t pwm_ctrl_2_applied = 0;
     bool externalPower = false;
     bool connected = false;
 
