@@ -82,8 +82,7 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
 
 void ExpOwGpio::init_driver()
 {
-    // set overvoltage threshold to 33V and clear all faults
-    writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
+    clearFaults();
 
     // disable OLD detect on all pins
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
@@ -120,7 +119,7 @@ IoValue::variant ExpOwGpio::readChannelImpl(uint8_t channel) const
 
     auto setup = channelSetup(channel);
     if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
-        IoValue::PWM::duty_t duty = (IoValue::PWM::duty_t{100} * chan.appliedDuty + IoValue::PWM::duty_t{127.5}) / 255;
+        IoValue::PWM::duty_t duty = (IoValue::PWM::duty_t{100} * chan.appliedDuty) / 255;
         return IoValue::PWM(duty);
     }
 
@@ -618,4 +617,10 @@ IoArray::ChannelCapabilities ExpOwGpio::getChannelCapabilities(uint8_t channel) 
     }
 
     return capabilities;
+}
+
+void ExpOwGpio::clearFaults()
+{
+    // set overvoltage threshold to 33V and clear all faults
+    writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
 }

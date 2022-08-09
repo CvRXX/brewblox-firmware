@@ -34,7 +34,7 @@ const pb_field_t blox_OneWireGpioModule_Block_fields[16] = {
     PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, overCurrent, pullDownWhenInactive, 0),
     PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, openLoad, overCurrent, 0),
     PB_FIELD( 14, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, useExternalPower, openLoad, 0),
-    PB_FIELD( 32, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, moduleStatusClear, useExternalPower, 0),
+    PB_FIELD( 32, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, clearFaults, useExternalPower, 0),
     PB_LAST_FIELD
 };
 

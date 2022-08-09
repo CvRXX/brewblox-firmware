@@ -137,11 +137,11 @@ duration_millis_t FastPwm::transitionTimeFromPreset(SoftTransitionsPreset preset
     case ST_OFF:
         return 0;
     case ST_FAST:
-        return 100;
-    case ST_MEDIUM:
         return 250;
+    case ST_MEDIUM:
+        return 750;
     case ST_SLOW:
-        return 500;
+        return 2000;
     case ST_CUSTOM:
         return custom;
     }

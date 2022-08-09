@@ -129,7 +129,7 @@ SCENARIO("A FastPwm object can be created from protobuf data")
                   "enabled: true "
                   "transitionDurationPreset: ST_MEDIUM "
                   "transitionDurationSetting: 2000 "
-                  "transitionDurationValue: 250");
+                  "transitionDurationValue: 750");
         }
     }
 }

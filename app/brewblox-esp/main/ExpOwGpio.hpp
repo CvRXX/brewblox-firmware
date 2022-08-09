@@ -267,6 +267,8 @@ public:
 
     IoArray::ChannelCapabilities getChannelCapabilities(uint8_t channel) const;
 
+    void clearFaults();
+
 private:
     bool assert_cs()
     {

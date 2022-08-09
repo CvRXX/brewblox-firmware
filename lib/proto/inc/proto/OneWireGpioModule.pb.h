@@ -85,7 +85,7 @@ typedef struct _blox_OneWireGpioModule_Block {
     uint8_t overCurrent;
     uint8_t openLoad;
     bool useExternalPower;
-    uint8_t moduleStatusClear;
+    bool clearFaults;
 /* @@protoc_insertion_point(struct:blox_OneWireGpioModule_Block) */
 } blox_OneWireGpioModule_Block;
 
@@ -118,7 +118,7 @@ typedef struct _blox_OneWireGpioModule_Block {
 #define blox_OneWireGpioModule_Block_overCurrent_tag 12
 #define blox_OneWireGpioModule_Block_openLoad_tag 13
 #define blox_OneWireGpioModule_Block_useExternalPower_tag 14
-#define blox_OneWireGpioModule_Block_moduleStatusClear_tag 32
+#define blox_OneWireGpioModule_Block_clearFaults_tag 32
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_OneWireGpioModule_GpioModuleChannel_fields[7];
@@ -126,7 +126,7 @@ extern const pb_field_t blox_OneWireGpioModule_Block_fields[16];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_OneWireGpioModule_GpioModuleChannel_size 60
-#define blox_OneWireGpioModule_Block_size        577
+#define blox_OneWireGpioModule_Block_size        573
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

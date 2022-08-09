@@ -43,6 +43,7 @@ public:
     explicit ActuatorDigitalSoft(ControlPtr<IoArray>& target, uint8_t chan)
         : pwm(target, chan)
     {
+        pwm.frequency(IoValue::Setup::Frequency::FREQ_2000HZ);
     }
 
     ActuatorDigitalSoft(const ActuatorDigitalSoft&) = delete;

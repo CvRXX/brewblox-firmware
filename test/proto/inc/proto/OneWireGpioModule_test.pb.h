@@ -460,11 +460,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool useexternalpower() const;
   void set_useexternalpower(bool value);
 
-  // uint32 moduleStatusClear = 32 [(.nanopb) = {
-  void clear_modulestatusclear();
-  static const int kModuleStatusClearFieldNumber = 32;
-  ::google::protobuf::uint32 modulestatusclear() const;
-  void set_modulestatusclear(::google::protobuf::uint32 value);
+  // bool clearFaults = 32;
+  void clear_clearfaults();
+  static const int kClearFaultsFieldNumber = 32;
+  bool clearfaults() const;
+  void set_clearfaults(bool value);
 
   // @@protoc_insertion_point(class_scope:blox_test.OneWireGpioModule.Block)
  private:
@@ -484,7 +484,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 overcurrent_;
   ::google::protobuf::uint32 openload_;
   bool useexternalpower_;
-  ::google::protobuf::uint32 modulestatusclear_;
+  bool clearfaults_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireGpioModule_5ftest_2eproto::TableStruct;
 };
@@ -838,18 +838,18 @@ inline void Block::set_useexternalpower(bool value) {
   // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.useExternalPower)
 }
 
-// uint32 moduleStatusClear = 32 [(.nanopb) = {
-inline void Block::clear_modulestatusclear() {
-  modulestatusclear_ = 0u;
+// bool clearFaults = 32;
+inline void Block::clear_clearfaults() {
+  clearfaults_ = false;
 }
-inline ::google::protobuf::uint32 Block::modulestatusclear() const {
-  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.moduleStatusClear)
-  return modulestatusclear_;
+inline bool Block::clearfaults() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.clearFaults)
+  return clearfaults_;
 }
-inline void Block::set_modulestatusclear(::google::protobuf::uint32 value) {
+inline void Block::set_clearfaults(bool value) {
   
-  modulestatusclear_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.moduleStatusClear)
+  clearfaults_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.clearFaults)
 }
 
 #ifdef __GNUC__

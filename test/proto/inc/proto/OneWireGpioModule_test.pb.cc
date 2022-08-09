@@ -105,7 +105,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, overcurrent_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, openload_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, useexternalpower_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, modulestatusclear_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, clearfaults_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::OneWireGpioModule::GpioModuleChannel)},
@@ -145,7 +145,7 @@ void AddDescriptorsImpl() {
       "2+.blox_test.OneWireGpioModule.GpioDevic"
       "eType\022\035\n\010pinsMask\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022\024\n\005"
       "width\030\004 \001(\rB\005\222\?\0028\010\022\023\n\004name\030\005 \001(\tB\005\222\?\002\010 \022"
-      "!\n\014capabilities\030\006 \001(\rB\013\222\?\0028\020\212\265\030\002P\001\"\234\005\n\005B"
+      "!\n\014capabilities\030\006 \001(\rB\013\222\?\0028\020\212\265\030\002P\001\"\211\005\n\005B"
       "lock\022G\n\010channels\030\001 \003(\0132..blox_test.OneWi"
       "reGpioModule.GpioModuleChannelB\005\222\?\002\020\010\022\035\n"
       "\016modulePosition\030\002 \001(\rB\005\222\?\0028\010\022!\n\014moduleSt"
@@ -161,35 +161,34 @@ void AddDescriptorsImpl() {
       "(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\013overCurrent\030\014 \001"
       "(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022#\n\010openLoad\030\r \001(\rB"
       "\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\030\n\020useExternalPower\030\016"
-      " \001(\010\022&\n\021moduleStatusClear\030  \001(\rB\013\222\?\0028\010\212\265"
-      "\030\002P\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n\212\265\030\002H\014*\225\005\n\016GpioDevice"
-      "Type\022\021\n\rGPIO_DEV_NONE\020\000\022\023\n\017GPIO_DEV_SSR_"
-      "2P\020\001\022\023\n\017GPIO_DEV_SSR_1P\020\002\022 \n\034GPIO_DEV_ME"
-      "CHANICAL_RELAY_2P\020\003\022*\n&GPIO_DEV_MECHANIC"
-      "AL_RELAY_1P_HIGH_SIDE\020\004\022)\n%GPIO_DEV_MECH"
-      "ANICAL_RELAY_1P_LOW_SIDE\020\005\022\024\n\020GPIO_DEV_C"
-      "OIL_2P\020\006\022\"\n\036GPIO_DEV_COIL_2P_BIDIRECTION"
-      "AL\020\007\022\036\n\032GPIO_DEV_COIL_1P_HIGH_SIDE\020\010\022\035\n\031"
-      "GPIO_DEV_COIL_1P_LOW_SIDE\020\t\022\025\n\021GPIO_DEV_"
-      "MOTOR_2P\020\n\022#\n\037GPIO_DEV_MOTOR_2P_BIDIRECT"
-      "IONAL\020\013\022\037\n\033GPIO_DEV_MOTOR_1P_HIGH_SIDE\020\014"
-      "\022\036\n\032GPIO_DEV_MOTOR_1P_LOW_SIDE\020\r\022\033\n\027GPIO"
-      "_DEV_LOAD_DETECT_2P\020\016\022%\n!GPIO_DEV_LOAD_D"
-      "ETECT_1P_PULL_DOWN\020\017\022#\n\037GPIO_DEV_LOAD_DE"
-      "TECT_1P_PULL_UP\020\020\022\025\n\021GPIO_DEV_POWER_1P\020\021"
-      "\022!\n\035GPIO_DEV_POWER_1P_LOAD_DETECT\020\022\022\023\n\017G"
-      "PIO_DEV_GND_1P\020\023\022\037\n\033GPIO_DEV_GND_1P_LOAD"
-      "_DETECT\020\024*\212\002\n\016GpioErrorFlags\022\021\n\rGPIO_ERR"
-      "_NONE\020\000\022\033\n\027GPIO_ERR_POWER_ON_RESET\020\001\022\030\n\024"
-      "GPIO_ERR_OVERVOLTAGE\020\002\022\031\n\025GPIO_ERR_UNDER"
-      "VOLTAGE\020\004\022\030\n\024GPIO_ERR_OVERCURRENT\020\010\022\026\n\022G"
-      "PIO_ERR_OPEN_LOAD\020\020\022$\n GPIO_ERR_OVERTEMP"
-      "ERATURE_WARNING\020 \022\"\n\036GPIO_ERR_OVERTEMPER"
-      "ATURE_ERROR\020@\022\027\n\022GPIO_ERR_SPI_ERROR\020\200\001b\006"
-      "proto3"
+      " \001(\010\022\023\n\013clearFaults\030  \001(\010:\023\212\265\030\003\030\305\002\212\265\030\002H\n"
+      "\212\265\030\002H\014*\225\005\n\016GpioDeviceType\022\021\n\rGPIO_DEV_NO"
+      "NE\020\000\022\023\n\017GPIO_DEV_SSR_2P\020\001\022\023\n\017GPIO_DEV_SS"
+      "R_1P\020\002\022 \n\034GPIO_DEV_MECHANICAL_RELAY_2P\020\003"
+      "\022*\n&GPIO_DEV_MECHANICAL_RELAY_1P_HIGH_SI"
+      "DE\020\004\022)\n%GPIO_DEV_MECHANICAL_RELAY_1P_LOW"
+      "_SIDE\020\005\022\024\n\020GPIO_DEV_COIL_2P\020\006\022\"\n\036GPIO_DE"
+      "V_COIL_2P_BIDIRECTIONAL\020\007\022\036\n\032GPIO_DEV_CO"
+      "IL_1P_HIGH_SIDE\020\010\022\035\n\031GPIO_DEV_COIL_1P_LO"
+      "W_SIDE\020\t\022\025\n\021GPIO_DEV_MOTOR_2P\020\n\022#\n\037GPIO_"
+      "DEV_MOTOR_2P_BIDIRECTIONAL\020\013\022\037\n\033GPIO_DEV"
+      "_MOTOR_1P_HIGH_SIDE\020\014\022\036\n\032GPIO_DEV_MOTOR_"
+      "1P_LOW_SIDE\020\r\022\033\n\027GPIO_DEV_LOAD_DETECT_2P"
+      "\020\016\022%\n!GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN\020"
+      "\017\022#\n\037GPIO_DEV_LOAD_DETECT_1P_PULL_UP\020\020\022\025"
+      "\n\021GPIO_DEV_POWER_1P\020\021\022!\n\035GPIO_DEV_POWER_"
+      "1P_LOAD_DETECT\020\022\022\023\n\017GPIO_DEV_GND_1P\020\023\022\037\n"
+      "\033GPIO_DEV_GND_1P_LOAD_DETECT\020\024*\212\002\n\016GpioE"
+      "rrorFlags\022\021\n\rGPIO_ERR_NONE\020\000\022\033\n\027GPIO_ERR"
+      "_POWER_ON_RESET\020\001\022\030\n\024GPIO_ERR_OVERVOLTAG"
+      "E\020\002\022\031\n\025GPIO_ERR_UNDERVOLTAGE\020\004\022\030\n\024GPIO_E"
+      "RR_OVERCURRENT\020\010\022\026\n\022GPIO_ERR_OPEN_LOAD\020\020"
+      "\022$\n GPIO_ERR_OVERTEMPERATURE_WARNING\020 \022\""
+      "\n\036GPIO_ERR_OVERTEMPERATURE_ERROR\020@\022\027\n\022GP"
+      "IO_ERR_SPI_ERROR\020\200\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1926);
+      descriptor, 1907);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireGpioModule_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -716,7 +715,7 @@ const int Block::kPullDownWhenInactiveFieldNumber;
 const int Block::kOverCurrentFieldNumber;
 const int Block::kOpenLoadFieldNumber;
 const int Block::kUseExternalPowerFieldNumber;
-const int Block::kModuleStatusClearFieldNumber;
+const int Block::kClearFaultsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -732,15 +731,15 @@ Block::Block(const Block& from)
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&moduleposition_, &from.moduleposition_,
-    static_cast<size_t>(reinterpret_cast<char*>(&modulestatusclear_) -
-    reinterpret_cast<char*>(&moduleposition_)) + sizeof(modulestatusclear_));
+    static_cast<size_t>(reinterpret_cast<char*>(&clearfaults_) -
+    reinterpret_cast<char*>(&moduleposition_)) + sizeof(clearfaults_));
   // @@protoc_insertion_point(copy_constructor:blox_test.OneWireGpioModule.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&moduleposition_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&modulestatusclear_) -
-      reinterpret_cast<char*>(&moduleposition_)) + sizeof(modulestatusclear_));
+      reinterpret_cast<char*>(&clearfaults_) -
+      reinterpret_cast<char*>(&moduleposition_)) + sizeof(clearfaults_));
 }
 
 Block::~Block() {
@@ -773,8 +772,8 @@ void Block::Clear() {
 
   channels_.Clear();
   ::memset(&moduleposition_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&modulestatusclear_) -
-      reinterpret_cast<char*>(&moduleposition_)) + sizeof(modulestatusclear_));
+      reinterpret_cast<char*>(&clearfaults_) -
+      reinterpret_cast<char*>(&moduleposition_)) + sizeof(clearfaults_));
   _internal_metadata_.Clear();
 }
 
@@ -982,14 +981,14 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 moduleStatusClear = 32 [(.nanopb) = {
+      // bool clearFaults = 32;
       case 32: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(0u /* 256 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &modulestatusclear_)));
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &clearfaults_)));
         } else {
           goto handle_unusual;
         }
@@ -1096,9 +1095,9 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(14, this->useexternalpower(), output);
   }
 
-  // uint32 moduleStatusClear = 32 [(.nanopb) = {
-  if (this->modulestatusclear() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(32, this->modulestatusclear(), output);
+  // bool clearFaults = 32;
+  if (this->clearfaults() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(32, this->clearfaults(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1188,9 +1187,9 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(14, this->useexternalpower(), target);
   }
 
-  // uint32 moduleStatusClear = 32 [(.nanopb) = {
-  if (this->modulestatusclear() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(32, this->modulestatusclear(), target);
+  // bool clearFaults = 32;
+  if (this->clearfaults() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(32, this->clearfaults(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1310,11 +1309,9 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // uint32 moduleStatusClear = 32 [(.nanopb) = {
-  if (this->modulestatusclear() != 0) {
-    total_size += 2 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->modulestatusclear());
+  // bool clearFaults = 32;
+  if (this->clearfaults() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1384,8 +1381,8 @@ void Block::MergeFrom(const Block& from) {
   if (from.useexternalpower() != 0) {
     set_useexternalpower(from.useexternalpower());
   }
-  if (from.modulestatusclear() != 0) {
-    set_modulestatusclear(from.modulestatusclear());
+  if (from.clearfaults() != 0) {
+    set_clearfaults(from.clearfaults());
   }
 }
 
@@ -1427,7 +1424,7 @@ void Block::InternalSwap(Block* other) {
   swap(overcurrent_, other->overcurrent_);
   swap(openload_, other->openload_);
   swap(useexternalpower_, other->useexternalpower_);
-  swap(modulestatusclear_, other->modulestatusclear_);
+  swap(clearfaults_, other->clearfaults_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

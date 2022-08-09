@@ -298,7 +298,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                               "desiredState: STATE_ACTIVE "
                               "transitionDurationPreset: ST_FAST "
                               "transitionDurationSetting: 2000 "
-                              "transitionDurationValue: 100");
+                              "transitionDurationValue: 250");
                     }
                     {
                         auto writeCmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());

@@ -89,6 +89,11 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_OneWireGpioModule_Block_modulePosition_tag)) {
             drivers.modulePosition(message.modulePosition);
         }
+        if (parser.hasField(blox_OneWireGpioModule_Block_clearFaults_tag)) {
+            if (message.clearFaults) {
+                drivers.clearFaults();
+            }
+        }
         if (parser.hasField(blox_OneWireGpioModule_Block_useExternalPower_tag)) {
             drivers.externalPowerEnabled(message.useExternalPower);
         }
