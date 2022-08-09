@@ -142,7 +142,8 @@ SCENARIO("A SetpointProfile block")
                     AND_WHEN("The profile is disabled")
                     {
                         profilePtr->get().enabler.set(false);
-                        update(10'1000);
+                        update(26'000);
+                        update(27'000);
                         THEN("It no longer claims the setpoint, and the second claimer can get write access")
                         {
                             CHECK(claimPtr->claimedBy() == 0);
