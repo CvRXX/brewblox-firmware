@@ -31,8 +31,14 @@ namespace cbox {
 template <typename T>
 class CboxClaimingPtr final : public ControlPtr<T> {
 public:
-    explicit CboxClaimingPtr(obj_id_t id = 0)
-        : _ptr(id)
+    explicit CboxClaimingPtr()
+        : _ptr(0)
+        , _claimerId(0)
+    {
+    }
+    explicit CboxClaimingPtr(obj_id_t targetId, obj_id_t claimerId)
+        : _ptr(targetId)
+        , _claimerId(claimerId)
     {
     }
     ~CboxClaimingPtr()
