@@ -41,7 +41,7 @@ namespace protobuf_Screen_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[8];
+  static const ::google::protobuf::internal::ParseTable schema[10];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -61,12 +61,18 @@ extern ColorWidgetDefaultTypeInternal _ColorWidget_default_instance_;
 class ContentNode;
 class ContentNodeDefaultTypeInternal;
 extern ContentNodeDefaultTypeInternal _ContentNode_default_instance_;
+class DigitalClockWidget;
+class DigitalClockWidgetDefaultTypeInternal;
+extern DigitalClockWidgetDefaultTypeInternal _DigitalClockWidget_default_instance_;
 class LayoutNode;
 class LayoutNodeDefaultTypeInternal;
 extern LayoutNodeDefaultTypeInternal _LayoutNode_default_instance_;
 class NumericValueWidget;
 class NumericValueWidgetDefaultTypeInternal;
 extern NumericValueWidgetDefaultTypeInternal _NumericValueWidget_default_instance_;
+class Page;
+class PageDefaultTypeInternal;
+extern PageDefaultTypeInternal _Page_default_instance_;
 class SetpointSensorPairWidget;
 class SetpointSensorPairWidgetDefaultTypeInternal;
 extern SetpointSensorPairWidgetDefaultTypeInternal _SetpointSensorPairWidget_default_instance_;
@@ -80,8 +86,10 @@ template<> ::screen::Block* Arena::CreateMaybeMessage<::screen::Block>(Arena*);
 template<> ::screen::Color* Arena::CreateMaybeMessage<::screen::Color>(Arena*);
 template<> ::screen::ColorWidget* Arena::CreateMaybeMessage<::screen::ColorWidget>(Arena*);
 template<> ::screen::ContentNode* Arena::CreateMaybeMessage<::screen::ContentNode>(Arena*);
+template<> ::screen::DigitalClockWidget* Arena::CreateMaybeMessage<::screen::DigitalClockWidget>(Arena*);
 template<> ::screen::LayoutNode* Arena::CreateMaybeMessage<::screen::LayoutNode>(Arena*);
 template<> ::screen::NumericValueWidget* Arena::CreateMaybeMessage<::screen::NumericValueWidget>(Arena*);
+template<> ::screen::Page* Arena::CreateMaybeMessage<::screen::Page>(Arena*);
 template<> ::screen::SetpointSensorPairWidget* Arena::CreateMaybeMessage<::screen::SetpointSensorPairWidget>(Arena*);
 template<> ::screen::TemperatureWidget* Arena::CreateMaybeMessage<::screen::TemperatureWidget>(Arena*);
 }  // namespace protobuf
@@ -795,6 +803,122 @@ class SetpointSensorPairWidget : public ::google::protobuf::Message /* @@protoc_
 };
 // -------------------------------------------------------------------
 
+class DigitalClockWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.DigitalClockWidget) */ {
+ public:
+  DigitalClockWidget();
+  virtual ~DigitalClockWidget();
+
+  DigitalClockWidget(const DigitalClockWidget& from);
+
+  inline DigitalClockWidget& operator=(const DigitalClockWidget& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DigitalClockWidget(DigitalClockWidget&& from) noexcept
+    : DigitalClockWidget() {
+    *this = ::std::move(from);
+  }
+
+  inline DigitalClockWidget& operator=(DigitalClockWidget&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DigitalClockWidget& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DigitalClockWidget* internal_default_instance() {
+    return reinterpret_cast<const DigitalClockWidget*>(
+               &_DigitalClockWidget_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(DigitalClockWidget* other);
+  friend void swap(DigitalClockWidget& a, DigitalClockWidget& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DigitalClockWidget* New() const final {
+    return CreateMaybeMessage<DigitalClockWidget>(NULL);
+  }
+
+  DigitalClockWidget* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<DigitalClockWidget>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const DigitalClockWidget& from);
+  void MergeFrom(const DigitalClockWidget& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DigitalClockWidget* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .screen.Color color = 1;
+  bool has_color() const;
+  void clear_color();
+  static const int kColorFieldNumber = 1;
+  private:
+  const ::screen::Color& _internal_color() const;
+  public:
+  const ::screen::Color& color() const;
+  ::screen::Color* release_color();
+  ::screen::Color* mutable_color();
+  void set_allocated_color(::screen::Color* color);
+
+  // bool showSeconds = 2;
+  void clear_showseconds();
+  static const int kShowSecondsFieldNumber = 2;
+  bool showseconds() const;
+  void set_showseconds(bool value);
+
+  // @@protoc_insertion_point(class_scope:screen.DigitalClockWidget)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::screen::Color* color_;
+  bool showseconds_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_Screen_5ftest_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.ColorWidget) */ {
  public:
   ColorWidget();
@@ -830,7 +954,7 @@ class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ColorWidget_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(ColorWidget* other);
   friend void swap(ColorWidget& a, ColorWidget& b) {
@@ -938,6 +1062,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
     kColorWidget = 3,
     kTemperatureWidget = 4,
     kSetpointSensorPairWidget = 5,
+    kDigitalClockWidget = 6,
     CONTENT_NOT_SET = 0,
   };
 
@@ -947,7 +1072,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ContentNode_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(ContentNode* other);
   friend void swap(ContentNode& a, ContentNode& b) {
@@ -1053,6 +1178,18 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::screen::SetpointSensorPairWidget* mutable_setpointsensorpairwidget();
   void set_allocated_setpointsensorpairwidget(::screen::SetpointSensorPairWidget* setpointsensorpairwidget);
 
+  // .screen.DigitalClockWidget digitalClockWidget = 6;
+  bool has_digitalclockwidget() const;
+  void clear_digitalclockwidget();
+  static const int kDigitalClockWidgetFieldNumber = 6;
+  private:
+  const ::screen::DigitalClockWidget& _internal_digitalclockwidget() const;
+  public:
+  const ::screen::DigitalClockWidget& digitalclockwidget() const;
+  ::screen::DigitalClockWidget* release_digitalclockwidget();
+  ::screen::DigitalClockWidget* mutable_digitalclockwidget();
+  void set_allocated_digitalclockwidget(::screen::DigitalClockWidget* digitalclockwidget);
+
   void clear_content();
   ContentCase content_case() const;
   // @@protoc_insertion_point(class_scope:screen.ContentNode)
@@ -1061,6 +1198,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void set_has_colorwidget();
   void set_has_temperaturewidget();
   void set_has_setpointsensorpairwidget();
+  void set_has_digitalclockwidget();
 
   inline bool has_content() const;
   inline void clear_has_content();
@@ -1073,6 +1211,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
     ::screen::ColorWidget* colorwidget_;
     ::screen::TemperatureWidget* temperaturewidget_;
     ::screen::SetpointSensorPairWidget* setpointsensorpairwidget_;
+    ::screen::DigitalClockWidget* digitalclockwidget_;
   } content_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1081,24 +1220,24 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
 };
 // -------------------------------------------------------------------
 
-class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.Block) */ {
+class Page : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.Page) */ {
  public:
-  Block();
-  virtual ~Block();
+  Page();
+  virtual ~Page();
 
-  Block(const Block& from);
+  Page(const Page& from);
 
-  inline Block& operator=(const Block& from) {
+  inline Page& operator=(const Page& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  Block(Block&& from) noexcept
-    : Block() {
+  Page(Page&& from) noexcept
+    : Page() {
     *this = ::std::move(from);
   }
 
-  inline Block& operator=(Block&& from) noexcept {
+  inline Page& operator=(Page&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1108,34 +1247,34 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Block& default_instance();
+  static const Page& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Block* internal_default_instance() {
-    return reinterpret_cast<const Block*>(
-               &_Block_default_instance_);
+  static inline const Page* internal_default_instance() {
+    return reinterpret_cast<const Page*>(
+               &_Page_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
-  void Swap(Block* other);
-  friend void swap(Block& a, Block& b) {
+  void Swap(Page* other);
+  friend void swap(Page& a, Page& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Block* New() const final {
-    return CreateMaybeMessage<Block>(NULL);
+  inline Page* New() const final {
+    return CreateMaybeMessage<Page>(NULL);
   }
 
-  Block* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Block>(arena);
+  Page* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Page>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Block& from);
-  void MergeFrom(const Block& from);
+  void CopyFrom(const Page& from);
+  void MergeFrom(const Page& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -1152,7 +1291,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Block* other);
+  void InternalSwap(Page* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1206,9 +1345,141 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // string timeZone = 6 [(.nanopb) = {
+  // uint32 id = 4;
+  void clear_id();
+  static const int kIdFieldNumber = 4;
+  ::google::protobuf::uint32 id() const;
+  void set_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:screen.Page)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode > layoutnodes_;
+  ::google::protobuf::RepeatedPtrField< ::screen::ContentNode > contentnodes_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::uint32 id_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_Screen_5ftest_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.Block) */ {
+ public:
+  Block();
+  virtual ~Block();
+
+  Block(const Block& from);
+
+  inline Block& operator=(const Block& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Block(Block&& from) noexcept
+    : Block() {
+    *this = ::std::move(from);
+  }
+
+  inline Block& operator=(Block&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Block& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Block* internal_default_instance() {
+    return reinterpret_cast<const Block*>(
+               &_Block_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  void Swap(Block* other);
+  friend void swap(Block& a, Block& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Block* New() const final {
+    return CreateMaybeMessage<Block>(NULL);
+  }
+
+  Block* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Block>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const Block& from);
+  void MergeFrom(const Block& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Block* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .screen.Page pages = 1;
+  int pages_size() const;
+  void clear_pages();
+  static const int kPagesFieldNumber = 1;
+  ::screen::Page* mutable_pages(int index);
+  ::google::protobuf::RepeatedPtrField< ::screen::Page >*
+      mutable_pages();
+  const ::screen::Page& pages(int index) const;
+  ::screen::Page* add_pages();
+  const ::google::protobuf::RepeatedPtrField< ::screen::Page >&
+      pages() const;
+
+  // string name = 2 [(.nanopb) = {
+  void clear_name();
+  static const int kNameFieldNumber = 2;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
+  // string timeZone = 5 [(.nanopb) = {
   void clear_timezone();
-  static const int kTimeZoneFieldNumber = 6;
+  static const int kTimeZoneFieldNumber = 5;
   const ::std::string& timezone() const;
   void set_timezone(const ::std::string& value);
   #if LANG_CXX11
@@ -1220,15 +1491,15 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_timezone();
   void set_allocated_timezone(::std::string* timezone);
 
-  // .screen.TemperatureUnit tempUnit = 4;
+  // .screen.TemperatureUnit tempUnit = 3;
   void clear_tempunit();
-  static const int kTempUnitFieldNumber = 4;
+  static const int kTempUnitFieldNumber = 3;
   ::screen::TemperatureUnit tempunit() const;
   void set_tempunit(::screen::TemperatureUnit value);
 
-  // uint32 brightness = 5 [(.nanopb) = {
+  // uint32 brightness = 4 [(.nanopb) = {
   void clear_brightness();
-  static const int kBrightnessFieldNumber = 5;
+  static const int kBrightnessFieldNumber = 4;
   ::google::protobuf::uint32 brightness() const;
   void set_brightness(::google::protobuf::uint32 value);
 
@@ -1236,8 +1507,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode > layoutnodes_;
-  ::google::protobuf::RepeatedPtrField< ::screen::ContentNode > contentnodes_;
+  ::google::protobuf::RepeatedPtrField< ::screen::Page > pages_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr timezone_;
   int tempunit_;
@@ -1735,6 +2005,78 @@ inline void SetpointSensorPairWidget::set_setpointsensorpair(::google::protobuf:
 
 // -------------------------------------------------------------------
 
+// DigitalClockWidget
+
+// .screen.Color color = 1;
+inline bool DigitalClockWidget::has_color() const {
+  return this != internal_default_instance() && color_ != NULL;
+}
+inline void DigitalClockWidget::clear_color() {
+  if (GetArenaNoVirtual() == NULL && color_ != NULL) {
+    delete color_;
+  }
+  color_ = NULL;
+}
+inline const ::screen::Color& DigitalClockWidget::_internal_color() const {
+  return *color_;
+}
+inline const ::screen::Color& DigitalClockWidget::color() const {
+  const ::screen::Color* p = color_;
+  // @@protoc_insertion_point(field_get:screen.DigitalClockWidget.color)
+  return p != NULL ? *p : *reinterpret_cast<const ::screen::Color*>(
+      &::screen::_Color_default_instance_);
+}
+inline ::screen::Color* DigitalClockWidget::release_color() {
+  // @@protoc_insertion_point(field_release:screen.DigitalClockWidget.color)
+  
+  ::screen::Color* temp = color_;
+  color_ = NULL;
+  return temp;
+}
+inline ::screen::Color* DigitalClockWidget::mutable_color() {
+  
+  if (color_ == NULL) {
+    auto* p = CreateMaybeMessage<::screen::Color>(GetArenaNoVirtual());
+    color_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:screen.DigitalClockWidget.color)
+  return color_;
+}
+inline void DigitalClockWidget::set_allocated_color(::screen::Color* color) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete color_;
+  }
+  if (color) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      color = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, color, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  color_ = color;
+  // @@protoc_insertion_point(field_set_allocated:screen.DigitalClockWidget.color)
+}
+
+// bool showSeconds = 2;
+inline void DigitalClockWidget::clear_showseconds() {
+  showseconds_ = false;
+}
+inline bool DigitalClockWidget::showseconds() const {
+  // @@protoc_insertion_point(field_get:screen.DigitalClockWidget.showSeconds)
+  return showseconds_;
+}
+inline void DigitalClockWidget::set_showseconds(bool value) {
+  
+  showseconds_ = value;
+  // @@protoc_insertion_point(field_set:screen.DigitalClockWidget.showSeconds)
+}
+
+// -------------------------------------------------------------------
+
 // ColorWidget
 
 // .screen.Color color = 1;
@@ -1985,6 +2327,50 @@ inline ::screen::SetpointSensorPairWidget* ContentNode::mutable_setpointsensorpa
   return content_.setpointsensorpairwidget_;
 }
 
+// .screen.DigitalClockWidget digitalClockWidget = 6;
+inline bool ContentNode::has_digitalclockwidget() const {
+  return content_case() == kDigitalClockWidget;
+}
+inline void ContentNode::set_has_digitalclockwidget() {
+  _oneof_case_[0] = kDigitalClockWidget;
+}
+inline void ContentNode::clear_digitalclockwidget() {
+  if (has_digitalclockwidget()) {
+    delete content_.digitalclockwidget_;
+    clear_has_content();
+  }
+}
+inline const ::screen::DigitalClockWidget& ContentNode::_internal_digitalclockwidget() const {
+  return *content_.digitalclockwidget_;
+}
+inline ::screen::DigitalClockWidget* ContentNode::release_digitalclockwidget() {
+  // @@protoc_insertion_point(field_release:screen.ContentNode.digitalClockWidget)
+  if (has_digitalclockwidget()) {
+    clear_has_content();
+      ::screen::DigitalClockWidget* temp = content_.digitalclockwidget_;
+    content_.digitalclockwidget_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::screen::DigitalClockWidget& ContentNode::digitalclockwidget() const {
+  // @@protoc_insertion_point(field_get:screen.ContentNode.digitalClockWidget)
+  return has_digitalclockwidget()
+      ? *content_.digitalclockwidget_
+      : *reinterpret_cast< ::screen::DigitalClockWidget*>(&::screen::_DigitalClockWidget_default_instance_);
+}
+inline ::screen::DigitalClockWidget* ContentNode::mutable_digitalclockwidget() {
+  if (!has_digitalclockwidget()) {
+    clear_content();
+    set_has_digitalclockwidget();
+    content_.digitalclockwidget_ = CreateMaybeMessage< ::screen::DigitalClockWidget >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:screen.ContentNode.digitalClockWidget)
+  return content_.digitalclockwidget_;
+}
+
 inline bool ContentNode::has_content() const {
   return content_case() != CONTENT_NOT_SET;
 }
@@ -1996,69 +2382,170 @@ inline ContentNode::ContentCase ContentNode::content_case() const {
 }
 // -------------------------------------------------------------------
 
-// Block
+// Page
 
 // repeated .screen.LayoutNode layoutNodes = 1;
-inline int Block::layoutnodes_size() const {
+inline int Page::layoutnodes_size() const {
   return layoutnodes_.size();
 }
-inline void Block::clear_layoutnodes() {
+inline void Page::clear_layoutnodes() {
   layoutnodes_.Clear();
 }
-inline ::screen::LayoutNode* Block::mutable_layoutnodes(int index) {
-  // @@protoc_insertion_point(field_mutable:screen.Block.layoutNodes)
+inline ::screen::LayoutNode* Page::mutable_layoutnodes(int index) {
+  // @@protoc_insertion_point(field_mutable:screen.Page.layoutNodes)
   return layoutnodes_.Mutable(index);
 }
 inline ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode >*
-Block::mutable_layoutnodes() {
-  // @@protoc_insertion_point(field_mutable_list:screen.Block.layoutNodes)
+Page::mutable_layoutnodes() {
+  // @@protoc_insertion_point(field_mutable_list:screen.Page.layoutNodes)
   return &layoutnodes_;
 }
-inline const ::screen::LayoutNode& Block::layoutnodes(int index) const {
-  // @@protoc_insertion_point(field_get:screen.Block.layoutNodes)
+inline const ::screen::LayoutNode& Page::layoutnodes(int index) const {
+  // @@protoc_insertion_point(field_get:screen.Page.layoutNodes)
   return layoutnodes_.Get(index);
 }
-inline ::screen::LayoutNode* Block::add_layoutnodes() {
-  // @@protoc_insertion_point(field_add:screen.Block.layoutNodes)
+inline ::screen::LayoutNode* Page::add_layoutnodes() {
+  // @@protoc_insertion_point(field_add:screen.Page.layoutNodes)
   return layoutnodes_.Add();
 }
 inline const ::google::protobuf::RepeatedPtrField< ::screen::LayoutNode >&
-Block::layoutnodes() const {
-  // @@protoc_insertion_point(field_list:screen.Block.layoutNodes)
+Page::layoutnodes() const {
+  // @@protoc_insertion_point(field_list:screen.Page.layoutNodes)
   return layoutnodes_;
 }
 
 // repeated .screen.ContentNode contentNodes = 2;
-inline int Block::contentnodes_size() const {
+inline int Page::contentnodes_size() const {
   return contentnodes_.size();
 }
-inline void Block::clear_contentnodes() {
+inline void Page::clear_contentnodes() {
   contentnodes_.Clear();
 }
-inline ::screen::ContentNode* Block::mutable_contentnodes(int index) {
-  // @@protoc_insertion_point(field_mutable:screen.Block.contentNodes)
+inline ::screen::ContentNode* Page::mutable_contentnodes(int index) {
+  // @@protoc_insertion_point(field_mutable:screen.Page.contentNodes)
   return contentnodes_.Mutable(index);
 }
 inline ::google::protobuf::RepeatedPtrField< ::screen::ContentNode >*
-Block::mutable_contentnodes() {
-  // @@protoc_insertion_point(field_mutable_list:screen.Block.contentNodes)
+Page::mutable_contentnodes() {
+  // @@protoc_insertion_point(field_mutable_list:screen.Page.contentNodes)
   return &contentnodes_;
 }
-inline const ::screen::ContentNode& Block::contentnodes(int index) const {
-  // @@protoc_insertion_point(field_get:screen.Block.contentNodes)
+inline const ::screen::ContentNode& Page::contentnodes(int index) const {
+  // @@protoc_insertion_point(field_get:screen.Page.contentNodes)
   return contentnodes_.Get(index);
 }
-inline ::screen::ContentNode* Block::add_contentnodes() {
-  // @@protoc_insertion_point(field_add:screen.Block.contentNodes)
+inline ::screen::ContentNode* Page::add_contentnodes() {
+  // @@protoc_insertion_point(field_add:screen.Page.contentNodes)
   return contentnodes_.Add();
 }
 inline const ::google::protobuf::RepeatedPtrField< ::screen::ContentNode >&
-Block::contentnodes() const {
-  // @@protoc_insertion_point(field_list:screen.Block.contentNodes)
+Page::contentnodes() const {
+  // @@protoc_insertion_point(field_list:screen.Page.contentNodes)
   return contentnodes_;
 }
 
 // string name = 3 [(.nanopb) = {
+inline void Page::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Page::name() const {
+  // @@protoc_insertion_point(field_get:screen.Page.name)
+  return name_.GetNoArena();
+}
+inline void Page::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.Page.name)
+}
+#if LANG_CXX11
+inline void Page::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.Page.name)
+}
+#endif
+inline void Page::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.Page.name)
+}
+inline void Page::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.Page.name)
+}
+inline ::std::string* Page::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.Page.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Page::release_name() {
+  // @@protoc_insertion_point(field_release:screen.Page.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Page::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:screen.Page.name)
+}
+
+// uint32 id = 4;
+inline void Page::clear_id() {
+  id_ = 0u;
+}
+inline ::google::protobuf::uint32 Page::id() const {
+  // @@protoc_insertion_point(field_get:screen.Page.id)
+  return id_;
+}
+inline void Page::set_id(::google::protobuf::uint32 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:screen.Page.id)
+}
+
+// -------------------------------------------------------------------
+
+// Block
+
+// repeated .screen.Page pages = 1;
+inline int Block::pages_size() const {
+  return pages_.size();
+}
+inline void Block::clear_pages() {
+  pages_.Clear();
+}
+inline ::screen::Page* Block::mutable_pages(int index) {
+  // @@protoc_insertion_point(field_mutable:screen.Block.pages)
+  return pages_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::screen::Page >*
+Block::mutable_pages() {
+  // @@protoc_insertion_point(field_mutable_list:screen.Block.pages)
+  return &pages_;
+}
+inline const ::screen::Page& Block::pages(int index) const {
+  // @@protoc_insertion_point(field_get:screen.Block.pages)
+  return pages_.Get(index);
+}
+inline ::screen::Page* Block::add_pages() {
+  // @@protoc_insertion_point(field_add:screen.Block.pages)
+  return pages_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::screen::Page >&
+Block::pages() const {
+  // @@protoc_insertion_point(field_list:screen.Block.pages)
+  return pages_;
+}
+
+// string name = 2 [(.nanopb) = {
 inline void Block::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -2111,7 +2598,7 @@ inline void Block::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:screen.Block.name)
 }
 
-// .screen.TemperatureUnit tempUnit = 4;
+// .screen.TemperatureUnit tempUnit = 3;
 inline void Block::clear_tempunit() {
   tempunit_ = 0;
 }
@@ -2125,7 +2612,7 @@ inline void Block::set_tempunit(::screen::TemperatureUnit value) {
   // @@protoc_insertion_point(field_set:screen.Block.tempUnit)
 }
 
-// uint32 brightness = 5 [(.nanopb) = {
+// uint32 brightness = 4 [(.nanopb) = {
 inline void Block::clear_brightness() {
   brightness_ = 0u;
 }
@@ -2139,7 +2626,7 @@ inline void Block::set_brightness(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:screen.Block.brightness)
 }
 
-// string timeZone = 6 [(.nanopb) = {
+// string timeZone = 5 [(.nanopb) = {
 inline void Block::clear_timezone() {
   timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -2195,6 +2682,10 @@ inline void Block::set_allocated_timezone(::std::string* timezone) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

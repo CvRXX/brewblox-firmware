@@ -2,6 +2,26 @@
 
 namespace gui::dynamic_interface {
 namespace detail {
+    bool pageEncoder(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
+    {
+        for (auto page : *reinterpret_cast<std::vector<std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>>>*>(*arg)) {
+            screen_Page newPage = screen_Page_init_default;
+            newPage.layoutNodes.funcs.encode = detail::layoutNodeEncoder;
+            newPage.layoutNodes.arg = reinterpret_cast<void*>(&(page.first));
+
+            newPage.contentNodes.funcs.encode = detail::contentNodeEncoder;
+            newPage.contentNodes.arg = reinterpret_cast<void*>(&(page.second));
+            if (!pb_encode_tag_for_field(stream, field)) {
+                return false;
+            }
+
+            if (!pb_encode_submessage(stream, screen_Page_fields, &newPage)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     bool layoutNodeEncoder(pb_ostream_t* stream, const pb_field_t* field, void* const* arg)
     {
         for (auto node : *reinterpret_cast<std::vector<screen_LayoutNode>*>(*arg)) {
@@ -41,11 +61,10 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<screen_LayoutNode>& la
 
     screen_Block protoMessage = screen_Block_init_default;
 
-    protoMessage.layoutNodes.funcs.encode = detail::layoutNodeEncoder;
-    protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
+    std::vector<std::pair<std::vector<std::reference_wrapper<screen_LayoutNode>>, std::vector<std::reference_wrapper<screen_ContentNode>>>> pages;
 
-    protoMessage.contentNodes.funcs.encode = detail::contentNodeEncoder;
-    protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
+    protoMessage.pages.funcs.encode = detail::pageEncoder;
+    protoMessage.pages.arg = reinterpret_cast<void*>(&pages);
 
     if (!pb_encode(&stream, screen_Block_fields, &protoMessage)) {
         return tl::unexpected{EncodeError::PBError};

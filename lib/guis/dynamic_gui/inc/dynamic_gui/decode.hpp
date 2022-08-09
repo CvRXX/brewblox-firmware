@@ -23,6 +23,7 @@ enum class DecodeError : uint8_t {
 };
 
 namespace detail {
+    bool pageDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg);
 
     // Decode layoutNodes and push them to a vector passed in arg.
     bool layoutNodeDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg);

@@ -6,6 +6,8 @@
 
 namespace gui::dynamic_interface {
 namespace detail {
+    bool pageEncoder(pb_ostream_t* stream, const pb_field_t* field, void* const* arg);
+
     bool layoutNodeEncoder(pb_ostream_t* stream, const pb_field_t* field, void* const* arg);
 
     bool contentNodeEncoder(pb_ostream_t* stream, const pb_field_t* field, void* const* arg);

@@ -1,6 +1,28 @@
 #include "dynamic_gui/decode.hpp"
 namespace gui::dynamic_interface {
 namespace detail {
+    bool pageDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg)
+    {
+        auto pages = reinterpret_cast<std::vector<std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>>>*>(*arg);
+        while (stream->bytes_left) {
+            screen_Page page = screen_Page_init_default;
+            std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>> decodedPage;
+
+            page.layoutNodes.funcs.decode = detail::layoutNodeDecoder;
+            page.layoutNodes.arg = reinterpret_cast<void*>(&(decodedPage.first));
+
+            page.contentNodes.funcs.decode = detail::contentNodeDecoder;
+            page.contentNodes.arg = reinterpret_cast<void*>(&(decodedPage.second));
+
+            if (!pb_decode(stream, screen_LayoutNode_fields, &page)) {
+                return false;
+            }
+
+            pages->push_back(decodedPage);
+        }
+        return true;
+    }
+
     bool layoutNodeDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg)
     {
         auto nodes = reinterpret_cast<std::vector<screen_LayoutNode>*>(*arg);
@@ -143,20 +165,24 @@ tl::expected<Screen, DecodeError> decodeBuffer(uint8_t* buffer, size_t length)
     }
 
     screen_Block protoMessage = screen_Block_init_default;
+    std::vector<std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>>> pages;
 
-    protoMessage.layoutNodes.funcs.decode = detail::layoutNodeDecoder;
-    auto layoutNodes = std::vector<screen_LayoutNode>{};
-    protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
+    protoMessage.pages.funcs.decode = detail::layoutNodeDecoder;
+    protoMessage.pages.arg = reinterpret_cast<void*>(&pages);
 
-    protoMessage.contentNodes.funcs.decode = detail::contentNodeDecoder;
-    auto contentNodes = std::vector<screen_ContentNode>{};
-    protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
+    // protoMessage.layoutNodes.funcs.decode = detail::layoutNodeDecoder;
+    // auto layoutNodes = std::vector<screen_LayoutNode>{};
+    // protoMessage.layoutNodes.arg = reinterpret_cast<void*>(&layoutNodes);
+
+    // protoMessage.contentNodes.funcs.decode = detail::contentNodeDecoder;
+    // auto contentNodes = std::vector<screen_ContentNode>{};
+    // protoMessage.contentNodes.arg = reinterpret_cast<void*>(&contentNodes);
 
     pb_istream_t stream = pb_istream_from_buffer(buffer, length);
     if (!pb_decode(&stream, screen_Block_fields, &protoMessage)) {
         return tl::unexpected{DecodeError::pbError};
     }
 
-    return decodeNodes(std::move(layoutNodes), std::move(contentNodes));
+    return decodeNodes(std::move(pages[0].first), std::move(pages[0].second));
 }
 }

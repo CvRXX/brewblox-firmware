@@ -104,8 +104,8 @@ int main(int argc, char* argv[])
         []() {
             if (ScreenConfig::newSettingsReceived()) {
                 auto& settings = ScreenConfig::settings();
-                auto layoutNodes = settings.layoutNodes;
-                auto contentNodes = settings.contentNodes;
+                auto layoutNodes = settings.pages[0].first;
+                auto contentNodes = settings.pages[0].second;
                 auto screen = gui::dynamic_interface::decodeNodes(std::move(layoutNodes), std::move(contentNodes));
                 if (screen) {
                     screen::interface->setNewScreen(std::move(*screen));

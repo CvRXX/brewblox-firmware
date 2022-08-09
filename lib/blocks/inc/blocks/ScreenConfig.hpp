@@ -31,8 +31,7 @@ public:
 
     struct DecodedScreenConfig {
         screen_Block settings;
-        std::vector<screen_LayoutNode> layoutNodes;
-        std::vector<screen_ContentNode> contentNodes;
+        std::vector<std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>>> pages;
     };
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;

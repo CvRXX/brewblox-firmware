@@ -23,13 +23,16 @@
 cbox::CboxError
 ScreenConfig::read(const cbox::PayloadCallback& callback) const
 {
-    const size_t size = screen_ContentNode_size * decodedScreenConfig.contentNodes.size() + screen_LayoutNode_size * decodedScreenConfig.layoutNodes.size() + 150;
+    const size_t size = 600;
 
-    decodedScreenConfig.settings.layoutNodes.funcs.encode = gui::dynamic_interface::detail::layoutNodeEncoder;
-    decodedScreenConfig.settings.layoutNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.layoutNodes));
+    // decodedScreenConfig.settings.pages.funcs.encode = gui::dynamic_interface::detail::pageEncoder;
+    // decodedScreenConfig.settings.layoutNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.layoutNodes));
 
-    decodedScreenConfig.settings.contentNodes.funcs.encode = gui::dynamic_interface::detail::contentNodeEncoder;
-    decodedScreenConfig.settings.contentNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.contentNodes));
+    // decodedScreenConfig.settings.contentNodes.funcs.encode = gui::dynamic_interface::detail::contentNodeEncoder;
+    // decodedScreenConfig.settings.contentNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.contentNodes));
+
+    decodedScreenConfig.settings.pages.funcs.encode = gui::dynamic_interface::detail::pageEncoder;
+    decodedScreenConfig.settings.pages.arg = reinterpret_cast<void*>(&decodedScreenConfig.pages);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&decodedScreenConfig.settings,
@@ -49,12 +52,9 @@ cbox::CboxError
 ScreenConfig::write(const cbox::Payload& payload)
 {
     screen_Block message = screen_Block_init_zero;
-    decodedScreenConfig.layoutNodes.clear();
-    decodedScreenConfig.contentNodes.clear();
-    message.layoutNodes.funcs.decode = gui::dynamic_interface::detail::layoutNodeDecoder;
-    message.contentNodes.funcs.decode = gui::dynamic_interface::detail::contentNodeDecoder;
-    message.layoutNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.layoutNodes));
-    message.contentNodes.arg = reinterpret_cast<void*>(&(decodedScreenConfig.contentNodes));
+    decodedScreenConfig.pages.clear();
+    message.pages.funcs.decode = gui::dynamic_interface::detail::pageDecoder;
+    message.pages.arg = reinterpret_cast<void*>(&(decodedScreenConfig.pages));
 
     auto parser = cbox::PayloadParser(payload);
 
@@ -67,6 +67,6 @@ ScreenConfig::write(const cbox::Payload& payload)
 }
 
 // use global static settings, because we only have one display
-ScreenConfig::DecodedScreenConfig ScreenConfig::decodedScreenConfig = {screen_Block_init_zero, {}, {}};
+ScreenConfig::DecodedScreenConfig ScreenConfig::decodedScreenConfig = {screen_Block_init_zero, {}};
 
 bool ScreenConfig::m_newSettingsReceived = false;

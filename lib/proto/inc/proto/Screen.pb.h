@@ -35,8 +35,7 @@ typedef enum _screen_LayoutNode_Type {
 
 /* Struct definitions */
 typedef struct _screen_Block {
-    pb_callback_t layoutNodes;
-    pb_callback_t contentNodes;
+    pb_callback_t pages;
     char name[40];
     screen_TemperatureUnit tempUnit;
     uint8_t brightness;
@@ -59,10 +58,24 @@ typedef struct _screen_LayoutNode {
 /* @@protoc_insertion_point(struct:screen_LayoutNode) */
 } screen_LayoutNode;
 
+typedef struct _screen_Page {
+    pb_callback_t layoutNodes;
+    pb_callback_t contentNodes;
+    char name[20];
+    uint32_t id;
+/* @@protoc_insertion_point(struct:screen_Page) */
+} screen_Page;
+
 typedef struct _screen_ColorWidget {
     screen_Color color;
 /* @@protoc_insertion_point(struct:screen_ColorWidget) */
 } screen_ColorWidget;
+
+typedef struct _screen_DigitalClockWidget {
+    screen_Color color;
+    bool showSeconds;
+/* @@protoc_insertion_point(struct:screen_DigitalClockWidget) */
+} screen_DigitalClockWidget;
 
 typedef struct _screen_NumericValueWidget {
     screen_Color color;
@@ -93,6 +106,7 @@ typedef struct _screen_ContentNode {
         screen_ColorWidget colorWidget;
         screen_TemperatureWidget temperatureWidget;
         screen_SetpointSensorPairWidget setpointSensorPairWidget;
+        screen_DigitalClockWidget digitalClockWidget;
     } content;
 /* @@protoc_insertion_point(struct:screen_ContentNode) */
 } screen_ContentNode;
@@ -105,25 +119,28 @@ typedef struct _screen_ContentNode {
 #define screen_NumericValueWidget_init_default   {screen_Color_init_default, 0, ""}
 #define screen_TemperatureWidget_init_default    {screen_Color_init_default, "", 0}
 #define screen_SetpointSensorPairWidget_init_default {screen_Color_init_default, "", 0}
+#define screen_DigitalClockWidget_init_default   {screen_Color_init_default, 0}
 #define screen_ColorWidget_init_default          {screen_Color_init_default}
 #define screen_ContentNode_init_default          {0, 0, {screen_NumericValueWidget_init_default}}
-#define screen_Block_init_default                {{{NULL}, NULL}, {{NULL}, NULL}, "", _screen_TemperatureUnit_MIN, 0, ""}
+#define screen_Page_init_default                 {{{NULL}, NULL}, {{NULL}, NULL}, "", 0}
+#define screen_Block_init_default                {{{NULL}, NULL}, "", _screen_TemperatureUnit_MIN, 0, ""}
 #define screen_LayoutNode_init_zero              {0, 0, _screen_LayoutNode_Type_MIN, 0}
 #define screen_Color_init_zero                   {0, 0, 0}
 #define screen_NumericValueWidget_init_zero      {screen_Color_init_zero, 0, ""}
 #define screen_TemperatureWidget_init_zero       {screen_Color_init_zero, "", 0}
 #define screen_SetpointSensorPairWidget_init_zero {screen_Color_init_zero, "", 0}
+#define screen_DigitalClockWidget_init_zero      {screen_Color_init_zero, 0}
 #define screen_ColorWidget_init_zero             {screen_Color_init_zero}
 #define screen_ContentNode_init_zero             {0, 0, {screen_NumericValueWidget_init_zero}}
-#define screen_Block_init_zero                   {{{NULL}, NULL}, {{NULL}, NULL}, "", _screen_TemperatureUnit_MIN, 0, ""}
+#define screen_Page_init_zero                    {{{NULL}, NULL}, {{NULL}, NULL}, "", 0}
+#define screen_Block_init_zero                   {{{NULL}, NULL}, "", _screen_TemperatureUnit_MIN, 0, ""}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define screen_Block_layoutNodes_tag             1
-#define screen_Block_contentNodes_tag            2
-#define screen_Block_name_tag                    3
-#define screen_Block_tempUnit_tag                4
-#define screen_Block_brightness_tag              5
-#define screen_Block_timeZone_tag                6
+#define screen_Block_pages_tag                   1
+#define screen_Block_name_tag                    2
+#define screen_Block_tempUnit_tag                3
+#define screen_Block_brightness_tag              4
+#define screen_Block_timeZone_tag                5
 #define screen_Color_r_tag                       1
 #define screen_Color_g_tag                       2
 #define screen_Color_b_tag                       3
@@ -131,7 +148,13 @@ typedef struct _screen_ContentNode {
 #define screen_LayoutNode_nodeId_tag             2
 #define screen_LayoutNode_type_tag               3
 #define screen_LayoutNode_weight_tag             4
+#define screen_Page_layoutNodes_tag              1
+#define screen_Page_contentNodes_tag             2
+#define screen_Page_name_tag                     3
+#define screen_Page_id_tag                       4
 #define screen_ColorWidget_color_tag             1
+#define screen_DigitalClockWidget_color_tag      1
+#define screen_DigitalClockWidget_showSeconds_tag 2
 #define screen_NumericValueWidget_color_tag      1
 #define screen_NumericValueWidget_value_tag      2
 #define screen_NumericValueWidget_label_tag      3
@@ -145,6 +168,7 @@ typedef struct _screen_ContentNode {
 #define screen_ContentNode_colorWidget_tag       3
 #define screen_ContentNode_temperatureWidget_tag 4
 #define screen_ContentNode_setpointSensorPairWidget_tag 5
+#define screen_ContentNode_digitalClockWidget_tag 6
 #define screen_ContentNode_layoutNodeId_tag      1
 
 /* Struct field encoding specification for nanopb */
@@ -153,9 +177,11 @@ extern const pb_field_t screen_Color_fields[4];
 extern const pb_field_t screen_NumericValueWidget_fields[4];
 extern const pb_field_t screen_TemperatureWidget_fields[4];
 extern const pb_field_t screen_SetpointSensorPairWidget_fields[4];
+extern const pb_field_t screen_DigitalClockWidget_fields[3];
 extern const pb_field_t screen_ColorWidget_fields[2];
-extern const pb_field_t screen_ContentNode_fields[6];
-extern const pb_field_t screen_Block_fields[7];
+extern const pb_field_t screen_ContentNode_fields[7];
+extern const pb_field_t screen_Page_fields[5];
+extern const pb_field_t screen_Block_fields[6];
 
 /* Maximum encoded size of messages (where known) */
 #define screen_LayoutNode_size                   20
@@ -163,8 +189,10 @@ extern const pb_field_t screen_Block_fields[7];
 #define screen_NumericValueWidget_size           69
 #define screen_TemperatureWidget_size            69
 #define screen_SetpointSensorPairWidget_size     69
+#define screen_DigitalClockWidget_size           22
 #define screen_ColorWidget_size                  20
 #define screen_ContentNode_size                  77
+/* screen_Page_size depends on runtime parameters */
 /* screen_Block_size depends on runtime parameters */
 
 /* Message IDs (where set with "msgid" option) */

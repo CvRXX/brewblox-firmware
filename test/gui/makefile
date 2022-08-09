@@ -5,6 +5,8 @@ ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
 # lib/gui
 INCLUDE_DIRS += $(ROOT_DIR)/lib/guis
+INCLUDE_DIRS += $(ROOT_DIR)/lib/guis/dynamic_gui/inc
+
 
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/expected/expected/include/
 CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/cnl/include
@@ -25,7 +27,39 @@ INCLUDE_DIRS += $(ROOT_DIR)/test/cbox
 CPPSRC += test/cbox/TestApplication.cpp
 
 INCLUDE_DIRS += $(ROOT_DIR)/external_libs/lvgl/lvgl/src
+INCLUDE_DIRS += $(ROOT_DIR)/lib/blocks/inc
+CPPSRC += $(wildcard $(ROOT_DIR)/lib/blocks/src/*.cpp)
 
+# platform
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/spark/inc
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/d4d_display/inc
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/mdns/inc
+INCLUDE_DIRS += $(ROOT_DIR)/platform/particle/eGUI/D4D
+
+# add spark files (tests use emulated hardware)
+CPPSRC += platform/particle/spark/src/Board.cpp
+CPPSRC += platform/particle/spark/src/Brewblox.cpp
+CPPSRC += platform/particle/spark/src/Spark2PinsBlock.cpp
+CPPSRC += platform/particle/spark/src/Spark3PinsBlock.cpp
+CPPSRC += platform/particle/spark/src/SparkIoBase.cpp
+CPPSRC += platform/particle/spark/src/ConnectionPool.cpp
+
+
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/inc
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/shared
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/services/inc
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/src/gcc
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/src/photon
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/hal/src/newhal
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/device-os/wiring/inc
+CPPFLAGS += -isystem $(ROOT_DIR)/external_libs/cnl/cnl/include
+
+CPPSRC += external_libs/device-os/hal/src/gcc/gpio_hal.cpp
+CPPSRC += external_libs/device-os/hal/src/gcc/eeprom_hal.cpp
+CPPSRC += external_libs/device-os/hal/src/gcc/filesystem.cpp
+CPPSRC += external_libs/device-os/test/unit_tests/communication/hal_stubs.cpp
+
+CFLAGS += -DPLATFORM_ID=3
 
 # test/shared
 # only add the files we need
@@ -52,9 +86,10 @@ CSRC += $(call target_files,external_libs/lvgl/lvgl/src,*.c)
 # CSRC += $(wildcard $(ROOT_DIR)/external_libs/lvgl/lvgl/src/*.c)
 CFLAGS += -DLV_CONF_INCLUDE_SIMPLE -DLV_LVGL_H_INCLUDE_SIMPLE
 
-
-CPPSRC += $(wildcard $(ROOT_DIR)/lib/guis/dynamic_gui/styles/*.cpp)
-CSRC += $(wildcard $(ROOT_DIR)/lib/guis/dynamic_gui/fonts/*.c)
+CPPSRC += $(wildcard $(ROOT_DIR)/lib/guis/dynamic_gui/src/*.cpp)
+CPPSRC += $(wildcard $(ROOT_DIR)/lib/guis/dynamic_gui/src/styles/*.cpp)
+CPPSRC += $(wildcard $(ROOT_DIR)/lib/guis/dynamic_gui/src/elements/layout/*.cpp)
+CSRC += $(wildcard $(ROOT_DIR)/lib/guis/dynamic_gui/src/fonts/*.c)
 
 
 # lib/proto
@@ -107,7 +142,7 @@ CFLAGS += -ffunction-sections -Wall
 CFLAGS += -Werror=deprecated-declarations
 
 CPPFLAGS += -std=gnu++17
-CPPFLAGS += -Werror
+# CPPFLAGS += -Werror
 
 CFLAGS += -pthread
 
