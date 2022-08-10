@@ -33,6 +33,8 @@ DS2413Block::read(const cbox::PayloadCallback& callback) const
     message.channels_count = 2;
     message.channels[0].id = blox_DS2413_ChannelId_DS2413_CHAN_A;
     message.channels[1].id = blox_DS2413_ChannelId_DS2413_CHAN_B;
+    message.channels[0].capabilities = device.getChannelCapabilities(1).all;
+    message.channels[1].capabilities = device.getChannelCapabilities(2).all;
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,

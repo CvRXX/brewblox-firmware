@@ -31,16 +31,17 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
     message.connectMode = connectMode;
     if (connectMode == blox_DS2408_PinConnectMode_CONNECT_ACTUATOR) {
         message.channels_count = 8;
-        message.channels[0].id = blox_DS2408_ChannelId_DS2408_CHAN_A;
-        message.channels[1].id = blox_DS2408_ChannelId_DS2408_CHAN_B;
-        message.channels[2].id = blox_DS2408_ChannelId_DS2408_CHAN_C;
-        message.channels[3].id = blox_DS2408_ChannelId_DS2408_CHAN_D;
-        message.channels[4].id = blox_DS2408_ChannelId_DS2408_CHAN_E;
-        message.channels[5].id = blox_DS2408_ChannelId_DS2408_CHAN_F;
-        message.channels[6].id = blox_DS2408_ChannelId_DS2408_CHAN_G;
-        message.channels[7].id = blox_DS2408_ChannelId_DS2408_CHAN_H;
+        auto caps = device.getChannelCapabilities(1); // same for all channels
+        for (uint8_t i = 0; i < message.channels_count; ++i) {
+            message.channels[i].capabilities = caps.all;
+            message.channels[i].id = blox_DS2408_ChannelId_DS2408_CHAN_A + i;
+        }
     } else {
         message.channels_count = 2;
+        auto caps = device.getChannelCapabilities(1);
+        caps.flags.bidirectional = 1;
+        message.channels[0].capabilities = caps.all;
+        message.channels[1].capabilities = caps.all;
         message.channels[0].id = blox_DS2408_ChannelId_DS2408_VALVE_A;
         message.channels[1].id = blox_DS2408_ChannelId_DS2408_VALVE_B;
     }

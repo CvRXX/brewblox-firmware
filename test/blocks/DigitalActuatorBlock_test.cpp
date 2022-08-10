@@ -75,8 +75,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                   "address: 451560922637681722 "
                   "connected: true "
                   "oneWireBusId: 4 "
-                  "channels { id: 1 } "
-                  "channels { id: 2 }");
+                  "channels { id: 1 capabilities: 1 } "
+                  "channels { id: 2 capabilities: 1 }");
         }
 
         THEN("The writable settings match what was sent")
@@ -129,8 +129,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                       "address: 451560922637681722 "
                       "connected: true "
                       "oneWireBusId: 4 "
-                      "channels { id: 1 } "
-                      "channels { id: 2 }");
+                      "channels { id: 1 capabilities: 1 } "
+                      "channels { id: 2 capabilities: 1 }");
             }
         }
 
