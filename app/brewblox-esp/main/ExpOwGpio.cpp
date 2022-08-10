@@ -306,7 +306,7 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
             pwm_ctrl_1_desired &= ~uint8_t{0x8};
         }
         if (pins_mask & (uint16_t{0x3} << 8)) {
-            pwm_map_3_desired = ~uint8_t{0b11111000};
+            pwm_map_3_desired &= ~uint8_t{0b11111000};
             pwm_ctrl_1_desired &= ~uint8_t{0x10};
         }
         if (pins_mask & (uint16_t{0x3} << 10)) {
@@ -314,7 +314,7 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
             pwm_ctrl_1_desired &= ~uint8_t{0x20};
         }
         if (pins_mask & (uint16_t{0x3} << 12)) {
-            pwm_map_4_desired ~uint8_t{0b11111000};
+            pwm_map_4_desired &= ~uint8_t{0b11111000};
             pwm_ctrl_1_desired &= ~uint8_t{0x40};
         }
         if (pins_mask & (uint16_t{0x3} << 14)) {
