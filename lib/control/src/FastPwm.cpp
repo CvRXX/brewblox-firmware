@@ -37,12 +37,12 @@ FastPwm::FastPwm(ControlPtr<IoArray>& target, uint8_t chan)
 void FastPwm::setting(std::optional<value_t> val)
 {
     if (val.has_value()) {
-        m_desiredDuty = std::clamp(*val, minDuty, maxDuty);
+        m_desiredDuty = std::clamp(*val, minDuty(), maxDuty());
     } else {
         if (m_desiredDuty.has_value()) {
             // set to zero once if the setting is cleared
             if (auto devPtr = m_target.lock()) {
-                devPtr->writeChannel(m_channel, IoValue::PWM{m_invert ? maxDuty : minDuty});
+                devPtr->writeChannel(m_channel, IoValue::PWM{m_invert ? maxDuty() : minDuty()});
             }
             m_desiredDuty = std::nullopt;
         }
@@ -66,7 +66,7 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
             // change max 25% in case update interval was long
             // change min 1 bit of duty_t
             duration_millis_t elapsed = now ? now - m_lastUpdateTime : 0;
-            int32_t rawIncrement = (int64_t{cnl::unwrap(maxDuty)} * elapsed) / m_transitionTime;
+            int32_t rawIncrement = (int64_t{cnl::unwrap(maxDuty())} * elapsed) / m_transitionTime;
             duty_t increment = (rawIncrement > cnl::unwrap(maxIncrease)) ? maxIncrease : cnl::wrap<duty_t>(rawIncrement);
             if (m_transitionDuty < desired) {
                 m_transitionDuty += increment;
@@ -86,11 +86,11 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
         } else {
             m_transitionDuty = desired;
         }
-        auto writtenValue = m_invert ? duty_t{maxDuty - m_transitionDuty} : m_transitionDuty;
+        auto writtenValue = m_invert ? duty_t{maxDuty() - m_transitionDuty} : m_transitionDuty;
         auto result = devPtr->writeChannel(m_channel, IoValue::PWM{writtenValue});
         auto actual = devPtr->readChannel(m_channel);
         if (const auto* pVal = std::get_if<IoValue::PWM>(&actual)) {
-            m_actualDuty = m_invert ? duty_t{maxDuty - pVal->duty()} : pVal->duty();
+            m_actualDuty = m_invert ? duty_t{maxDuty() - pVal->duty()} : pVal->duty();
             nextUpdate = now + 10;
         }
     }
@@ -147,4 +147,14 @@ duration_millis_t FastPwm::transitionTimeFromPreset(SoftTransitionsPreset preset
         return custom;
     }
     return 0;
+}
+
+duty_t FastPwm::minDuty() const
+{
+    if (auto devPtr = m_target.lock()) {
+        if (devPtr->getChannelCapabilities(m_channel).flags.bidirectional) {
+            return maxReverseDuty;
+        }
+    }
+    return zeroDuty;
 }

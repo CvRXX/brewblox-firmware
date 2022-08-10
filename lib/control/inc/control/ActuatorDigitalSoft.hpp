@@ -57,15 +57,16 @@ public:
     {
         if (v == State::Active) {
             m_desired = State::Active;
-            pwm.setting(100);
+            pwm.setting(pwm.maxDuty());
         } else {
             m_desired = State::Inactive;
-            pwm.setting(0);
+            pwm.setting(pwm.minDuty());
         }
-        auto current = pwm.value().value_or(FastPwm::minDuty);
-        if (current == FastPwm::minDuty || current == FastPwm::maxDuty) {
-            // do one immediate update if the actuator was at 0 or max to ensure the state will be active
-            pwm.update();
+        if (v != state()) {
+            {
+                // do one immediate update if the state changed
+                pwm.update();
+            }
         }
     }
 

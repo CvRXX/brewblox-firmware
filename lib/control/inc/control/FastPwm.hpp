@@ -59,9 +59,10 @@ private:
     duration_millis_t m_transitionTime = 0;
 
 public:
-    static constexpr auto maxDuty = duty_t{100};
+    static constexpr auto maxForwardDuty = duty_t{100};
+    static constexpr auto maxReverseDuty = duty_t{-100};
     static constexpr auto maxIncrease = duty_t{25};
-    static constexpr auto minDuty = duty_t{0};
+    static constexpr auto zeroDuty = duty_t{0};
 
     // separate flag for manually disabling the pwm actuator
     Enabler enabler;
@@ -149,5 +150,12 @@ public:
     {
         m_frequency = f;
         claimChannel(); // setup channel again to change frequency
+    };
+
+    duty_t minDuty() const;
+
+    static constexpr duty_t maxDuty()
+    {
+        return maxForwardDuty;
     };
 };

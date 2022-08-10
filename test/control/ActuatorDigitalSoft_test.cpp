@@ -29,7 +29,6 @@ SCENARIO("ActuatorDigitalSoft test", "[ActuatorDigitalSoft]")
     using State = ActuatorDigitalBase::State;
     auto io = TestControlPtr<IoArray>(new MockIoArray());
     ActuatorDigitalSoft mock(io, 1);
-    mock.setTransitionTime(0);
 
     WHEN("ActuatorDigitalSoft is newly constructed and transition time is set to 0")
     {
