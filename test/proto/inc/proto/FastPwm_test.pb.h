@@ -225,12 +225,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 value() const;
   void set_value(::google::protobuf::int32 value);
 
-  // bool enabled = 8;
-  void clear_enabled();
-  static const int kEnabledFieldNumber = 8;
-  bool enabled() const;
-  void set_enabled(bool value);
-
   // .blox_test.IoArray.TransitionDurationPreset transitionDurationPreset = 9;
   void clear_transitiondurationpreset();
   static const int kTransitionDurationPresetFieldNumber = 9;
@@ -242,6 +236,18 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   static const int kTransitionDurationSettingFieldNumber = 10;
   ::google::protobuf::uint32 transitiondurationsetting() const;
   void set_transitiondurationsetting(::google::protobuf::uint32 value);
+
+  // bool enabled = 8;
+  void clear_enabled();
+  static const int kEnabledFieldNumber = 8;
+  bool enabled() const;
+  void set_enabled(bool value);
+
+  // bool invert = 12;
+  void clear_invert();
+  static const int kInvertFieldNumber = 12;
+  bool invert() const;
+  void set_invert(bool value);
 
   // uint32 transitionDurationValue = 11 [(.brewblox.field) = {
   void clear_transitiondurationvalue();
@@ -260,9 +266,10 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 setting_;
   ::google::protobuf::int32 desiredsetting_;
   ::google::protobuf::int32 value_;
-  bool enabled_;
   int transitiondurationpreset_;
   ::google::protobuf::uint32 transitiondurationsetting_;
+  bool enabled_;
+  bool invert_;
   ::google::protobuf::uint32 transitiondurationvalue_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_FastPwm_5ftest_2eproto::TableStruct;
@@ -464,6 +471,20 @@ inline void Block::set_transitiondurationvalue(::google::protobuf::uint32 value)
   
   transitiondurationvalue_ = value;
   // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.transitionDurationValue)
+}
+
+// bool invert = 12;
+inline void Block::clear_invert() {
+  invert_ = false;
+}
+inline bool Block::invert() const {
+  // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.invert)
+  return invert_;
+}
+inline void Block::set_invert(bool value) {
+  
+  invert_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.invert)
 }
 
 #ifdef __GNUC__

@@ -42,7 +42,7 @@ void FastPwm::setting(std::optional<value_t> val)
         if (m_desiredDuty.has_value()) {
             // set to zero once if the setting is cleared
             if (auto devPtr = m_target.lock()) {
-                devPtr->writeChannel(m_channel, IoValue::PWM{0});
+                devPtr->writeChannel(m_channel, IoValue::PWM{m_invert ? maxDuty : minDuty});
             }
             m_desiredDuty = std::nullopt;
         }
@@ -86,10 +86,11 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
         } else {
             m_transitionDuty = desired;
         }
-        auto result = devPtr->writeChannel(m_channel, IoValue::PWM{m_transitionDuty});
+        auto writtenValue = m_invert ? duty_t{maxDuty - m_transitionDuty} : m_transitionDuty;
+        auto result = devPtr->writeChannel(m_channel, IoValue::PWM{writtenValue});
         auto actual = devPtr->readChannel(m_channel);
         if (const auto* pVal = std::get_if<IoValue::PWM>(&actual)) {
-            m_actualDuty = pVal->duty();
+            m_actualDuty = m_invert ? duty_t{maxDuty - pVal->duty()} : pVal->duty();
             nextUpdate = now + 10;
         }
     }

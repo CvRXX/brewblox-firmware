@@ -82,6 +82,9 @@ FastPwmBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_FastPwm_Block_frequency_tag)) {
             pwm.frequency(IoValue::Setup::Frequency{message.frequency});
         }
+        if (parser.hasField(blox_FastPwm_Block_invert_tag)) {
+            pwm.invert(message.invert);
+        }
         if (parser.hasField(blox_FastPwm_Block_constrainedBy_tag)) {
             setAnalogConstraints(message.constrainedBy, constrained);
         }

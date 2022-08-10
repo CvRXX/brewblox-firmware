@@ -163,4 +163,24 @@ SCENARIO("FastPwm test", "[FastPwm]")
             CHECK(getDuty() == 0);
         }
     }
+
+    WHEN("The FastPWM output is inverted")
+    {
+        pwm.setting(60);
+        CHECK(pwm.setting() == 60);
+        pwm.update(0);
+
+        pwm.invert(true);
+
+        THEN("The target IO array is configured with value: 100 - duty, but the fastpwm reports duty")
+        {
+            CHECK(pwm.setting() == 60);
+            CHECK(getDuty() == 40);
+
+            pwm.setting(30);
+            pwm.update(1);
+            CHECK(pwm.setting() == 30);
+            CHECK(getDuty() == 70);
+        }
+    }
 }

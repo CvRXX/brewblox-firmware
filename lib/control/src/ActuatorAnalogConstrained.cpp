@@ -74,13 +74,3 @@ void ActuatorAnalogConstrained::setting(std::optional<value_t> val)
         m_setting = std::nullopt;
     }
 }
-
-// void ActuatorAnalogConstrained::settingValid(bool v)
-// {
-//     auto old = actuator.settingValid();
-//     actuator.settingValid(v);
-//     if (old != actuator.settingValid()) {
-//         // update constraints state in case setting valid has changed the limits inside the actuator itself
-//         constrain(actuator.setting());
-//     }
-// }

@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_FastPwm_Block_fields[12] = {
+const pb_field_t blox_FastPwm_Block_fields[13] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_FastPwm_Block, hwDevice, hwDevice, 0),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, channel, hwDevice, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, frequency, channel, 0),
@@ -21,6 +21,7 @@ const pb_field_t blox_FastPwm_Block_fields[12] = {
     PB_FIELD(  9, UENUM   , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, transitionDurationPreset, enabled, 0),
     PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, transitionDurationSetting, transitionDurationPreset, 0),
     PB_FIELD( 11, UINT32  , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, transitionDurationValue, transitionDurationSetting, 0),
+    PB_FIELD( 12, BOOL    , SINGULAR, STATIC  , OTHER, blox_FastPwm_Block, invert, transitionDurationValue, 0),
     PB_LAST_FIELD
 };
 
