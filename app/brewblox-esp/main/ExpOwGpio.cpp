@@ -287,6 +287,41 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
         return setup;
     }
     if (std::holds_alternative<IoValue::Setup::Unused>(setup)) {
+        auto pins_mask = chan.pins_mask.bits.all;
+        // undo pwm settings
+        if (pins_mask & uint16_t{0x3}) {
+            pwm_map_1_desired &= ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x1};
+        }
+        if (pins_mask & (uint16_t{0x3} << 2)) {
+            pwm_map_1_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x2};
+        }
+        if (pins_mask & (uint16_t{0x3} << 4)) {
+            pwm_map_2_desired &= ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x4};
+        }
+        if (pins_mask & (uint16_t{0x3} << 6)) {
+            pwm_map_2_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x8};
+        }
+        if (pins_mask & (uint16_t{0x3} << 8)) {
+            pwm_map_3_desired = ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x10};
+        }
+        if (pins_mask & (uint16_t{0x3} << 10)) {
+            pwm_map_3_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x20};
+        }
+        if (pins_mask & (uint16_t{0x3} << 12)) {
+            pwm_map_4_desired ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x40};
+        }
+        if (pins_mask & (uint16_t{0x3} << 14)) {
+            pwm_map_4_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x80};
+        }
+
         ChanBitsInternal bits{};
         op_ctrl_desired.apply(chan.pins_mask, bits);
 
