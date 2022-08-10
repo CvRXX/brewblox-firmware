@@ -19,22 +19,11 @@
 extern "C" {
 #endif
 
-/* Enum definitions */
-typedef enum _blox_FastPwm_PwmFrequency {
-    blox_FastPwm_PwmFrequency_PWM_FREQ_OFF = 0,
-    blox_FastPwm_PwmFrequency_PWM_FREQ_100HZ = 1,
-    blox_FastPwm_PwmFrequency_PWM_FREQ_200HZ = 2,
-    blox_FastPwm_PwmFrequency_PWM_FREQ_2000HZ = 3
-} blox_FastPwm_PwmFrequency;
-#define _blox_FastPwm_PwmFrequency_MIN blox_FastPwm_PwmFrequency_PWM_FREQ_OFF
-#define _blox_FastPwm_PwmFrequency_MAX blox_FastPwm_PwmFrequency_PWM_FREQ_2000HZ
-#define _blox_FastPwm_PwmFrequency_ARRAYSIZE ((blox_FastPwm_PwmFrequency)(blox_FastPwm_PwmFrequency_PWM_FREQ_2000HZ+1))
-
 /* Struct definitions */
 typedef struct _blox_FastPwm_Block {
     uint16_t hwDevice;
     uint8_t channel;
-    blox_FastPwm_PwmFrequency frequency;
+    blox_IoArray_PwmFrequency frequency;
     int32_t setting;
     int32_t desiredSetting;
     int32_t value;
@@ -44,14 +33,15 @@ typedef struct _blox_FastPwm_Block {
     uint32_t transitionDurationSetting;
     uint32_t transitionDurationValue;
     bool invert;
+    uint16_t claimedBy;
 /* @@protoc_insertion_point(struct:blox_FastPwm_Block) */
 } blox_FastPwm_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_FastPwm_Block_init_default          {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0, 0}
-#define blox_FastPwm_Block_init_zero             {0, 0, _blox_FastPwm_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0, 0}
+#define blox_FastPwm_Block_init_default          {0, 0, _blox_IoArray_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0, 0, 0}
+#define blox_FastPwm_Block_init_zero             {0, 0, _blox_IoArray_PwmFrequency_MIN, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, _blox_IoArray_TransitionDurationPreset_MIN, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_FastPwm_Block_hwDevice_tag          1
@@ -66,12 +56,13 @@ typedef struct _blox_FastPwm_Block {
 #define blox_FastPwm_Block_transitionDurationSetting_tag 10
 #define blox_FastPwm_Block_transitionDurationValue_tag 11
 #define blox_FastPwm_Block_invert_tag            12
+#define blox_FastPwm_Block_claimedBy_tag         13
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_FastPwm_Block_fields[13];
+extern const pb_field_t blox_FastPwm_Block_fields[14];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_FastPwm_Block_size                  253
+#define blox_FastPwm_Block_size                  259
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

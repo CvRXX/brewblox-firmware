@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_DigitalActuator_Block_fields[10] = {
+const pb_field_t blox_DigitalActuator_Block_fields[11] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_DigitalActuator_Block, hwDevice, hwDevice, 0),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, channel, hwDevice, 0),
     PB_FIELD(  3, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, state, channel, 0),
@@ -19,6 +19,7 @@ const pb_field_t blox_DigitalActuator_Block_fields[10] = {
     PB_FIELD(  7, UENUM   , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationPreset, desiredState, 0),
     PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationSetting, transitionDurationPreset, 0),
     PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, transitionDurationValue, transitionDurationSetting, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_DigitalActuator_Block, claimedBy, transitionDurationValue, 0),
     PB_LAST_FIELD
 };
 

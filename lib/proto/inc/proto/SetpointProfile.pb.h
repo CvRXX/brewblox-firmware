@@ -20,8 +20,8 @@ typedef struct _blox_SetpointProfile_Block {
     pb_callback_t points;
     bool enabled;
     uint16_t targetId;
-    uint16_t drivenTargetId;
     uint32_t start;
+    bool drivenTargetId;
 /* @@protoc_insertion_point(struct:blox_SetpointProfile_Block) */
 } blox_SetpointProfile_Block;
 
@@ -46,8 +46,8 @@ typedef struct _blox_SetpointProfile_Point {
 #define blox_SetpointProfile_Block_points_tag    1
 #define blox_SetpointProfile_Block_enabled_tag   3
 #define blox_SetpointProfile_Block_targetId_tag  4
-#define blox_SetpointProfile_Block_drivenTargetId_tag 5
 #define blox_SetpointProfile_Block_start_tag     6
+#define blox_SetpointProfile_Block_drivenTargetId_tag 90
 #define blox_SetpointProfile_Point_temperature_tag 2
 #define blox_SetpointProfile_Point_time_tag      1
 

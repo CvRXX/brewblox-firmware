@@ -91,8 +91,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointProfile::Block, points_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointProfile::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointProfile::Block, targetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointProfile::Block, driventargetid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointProfile::Block, start_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SetpointProfile::Block, driventargetid_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::SetpointProfile::Point)},
@@ -129,16 +129,15 @@ void AddDescriptorsImpl() {
       "SetpointProfile\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\"b\n\005Point\022\031\n\004time\030\001 \001(\rB\013"
       "\212\265\030\002\010\003\222\?\0028 \022)\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001"
-      "\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneof\"\307\001\n\005"
+      "\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneof\"\265\001\n\005"
       "Block\0220\n\006points\030\001 \003(\0132 .blox_test.Setpoi"
       "ntProfile.Point\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targ"
-      "etId\030\004 \001(\rB\014\212\265\030\003\030\257\002\222\?\0028\020\0220\n\016drivenTarget"
-      "Id\030\005 \001(\rB\030\212\265\030\003\030\257\002\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\032\n\005st"
-      "art\030\006 \001(\rB\013\212\265\030\002X\001\222\?\0028 :\r\212\265\030\003\030\267\002\212\265\030\002H\017b\006p"
-      "roto3"
+      "etId\030\004 \001(\rB\014\212\265\030\003\030\257\002\222\?\0028\020\022\032\n\005start\030\006 \001(\rB"
+      "\013\212\265\030\002X\001\222\?\0028 \022\036\n\016drivenTargetId\030Z \001(\010B\006\212\265"
+      "\030\002H\001:\r\212\265\030\003\030\267\002\212\265\030\002H\017b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 405);
+      descriptor, 387);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointProfile_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -470,8 +469,8 @@ void Block::InitAsDefaultInstance() {
 const int Block::kPointsFieldNumber;
 const int Block::kEnabledFieldNumber;
 const int Block::kTargetIdFieldNumber;
-const int Block::kDrivenTargetIdFieldNumber;
 const int Block::kStartFieldNumber;
+const int Block::kDrivenTargetIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -486,16 +485,16 @@ Block::Block(const Block& from)
       _internal_metadata_(NULL),
       points_(from.points_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&enabled_, &from.enabled_,
-    static_cast<size_t>(reinterpret_cast<char*>(&start_) -
-    reinterpret_cast<char*>(&enabled_)) + sizeof(start_));
+  ::memcpy(&targetid_, &from.targetid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&driventargetid_) -
+    reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
   // @@protoc_insertion_point(copy_constructor:blox_test.SetpointProfile.Block)
 }
 
 void Block::SharedCtor() {
-  ::memset(&enabled_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&start_) -
-      reinterpret_cast<char*>(&enabled_)) + sizeof(start_));
+  ::memset(&targetid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&driventargetid_) -
+      reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
 }
 
 Block::~Block() {
@@ -527,9 +526,9 @@ void Block::Clear() {
   (void) cached_has_bits;
 
   points_.Clear();
-  ::memset(&enabled_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&start_) -
-      reinterpret_cast<char*>(&enabled_)) + sizeof(start_));
+  ::memset(&targetid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&driventargetid_) -
+      reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
   _internal_metadata_.Clear();
 }
 
@@ -539,7 +538,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.SetpointProfile.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -583,20 +582,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 drivenTargetId = 5 [(.nanopb) = {
-      case 5: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &driventargetid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // uint32 start = 6 [(.nanopb) = {
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -605,6 +590,20 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &start_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool drivenTargetId = 90 [(.brewblox.field) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &driventargetid_)));
         } else {
           goto handle_unusual;
         }
@@ -656,14 +655,14 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->targetid(), output);
   }
 
-  // uint32 drivenTargetId = 5 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->driventargetid(), output);
-  }
-
   // uint32 start = 6 [(.nanopb) = {
   if (this->start() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->start(), output);
+  }
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  if (this->driventargetid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->driventargetid(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -698,14 +697,14 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->targetid(), target);
   }
 
-  // uint32 drivenTargetId = 5 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->driventargetid(), target);
-  }
-
   // uint32 start = 6 [(.nanopb) = {
   if (this->start() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->start(), target);
+  }
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  if (this->driventargetid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->driventargetid(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -736,11 +735,6 @@ size_t Block::ByteSizeLong() const {
     }
   }
 
-  // bool enabled = 3;
-  if (this->enabled() != 0) {
-    total_size += 1 + 1;
-  }
-
   // uint32 targetId = 4 [(.nanopb) = {
   if (this->targetid() != 0) {
     total_size += 1 +
@@ -748,18 +742,21 @@ size_t Block::ByteSizeLong() const {
         this->targetid());
   }
 
-  // uint32 drivenTargetId = 5 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->driventargetid());
-  }
-
   // uint32 start = 6 [(.nanopb) = {
   if (this->start() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->start());
+  }
+
+  // bool enabled = 3;
+  if (this->enabled() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  if (this->driventargetid() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -790,17 +787,17 @@ void Block::MergeFrom(const Block& from) {
   (void) cached_has_bits;
 
   points_.MergeFrom(from.points_);
-  if (from.enabled() != 0) {
-    set_enabled(from.enabled());
-  }
   if (from.targetid() != 0) {
     set_targetid(from.targetid());
   }
-  if (from.driventargetid() != 0) {
-    set_driventargetid(from.driventargetid());
-  }
   if (from.start() != 0) {
     set_start(from.start());
+  }
+  if (from.enabled() != 0) {
+    set_enabled(from.enabled());
+  }
+  if (from.driventargetid() != 0) {
+    set_driventargetid(from.driventargetid());
   }
 }
 
@@ -829,10 +826,10 @@ void Block::Swap(Block* other) {
 void Block::InternalSwap(Block* other) {
   using std::swap;
   CastToBase(&points_)->InternalSwap(CastToBase(&other->points_));
-  swap(enabled_, other->enabled_);
   swap(targetid_, other->targetid_);
-  swap(driventargetid_, other->driventargetid_);
   swap(start_, other->start_);
+  swap(enabled_, other->enabled_);
+  swap(driventargetid_, other->driventargetid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

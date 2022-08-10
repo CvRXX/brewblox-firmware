@@ -268,6 +268,12 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 capabilities() const;
   void set_capabilities(::google::protobuf::uint32 value);
 
+  // uint32 claimedBy = 7 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 7;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.OneWireGpioModule.GpioModuleChannel)
  private:
 
@@ -278,6 +284,7 @@ class GpioModuleChannel : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint32 pinsmask_;
   ::google::protobuf::uint32 width_;
   ::google::protobuf::uint32 capabilities_;
+  ::google::protobuf::uint32 claimedby_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireGpioModule_5ftest_2eproto::TableStruct;
 };
@@ -466,6 +473,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool clearfaults() const;
   void set_clearfaults(bool value);
 
+  // uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+  void clear_modulestatusclear();
+  static const int kModuleStatusClearFieldNumber = 90;
+  ::google::protobuf::uint32 modulestatusclear() const;
+  void set_modulestatusclear(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.OneWireGpioModule.Block)
  private:
 
@@ -485,6 +498,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 openload_;
   bool useexternalpower_;
   bool clearfaults_;
+  ::google::protobuf::uint32 modulestatusclear_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_OneWireGpioModule_5ftest_2eproto::TableStruct;
 };
@@ -620,6 +634,20 @@ inline void GpioModuleChannel::set_capabilities(::google::protobuf::uint32 value
   
   capabilities_ = value;
   // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.capabilities)
+}
+
+// uint32 claimedBy = 7 [(.nanopb) = {
+inline void GpioModuleChannel::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 GpioModuleChannel::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.GpioModuleChannel.claimedBy)
+  return claimedby_;
+}
+inline void GpioModuleChannel::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.GpioModuleChannel.claimedBy)
 }
 
 // -------------------------------------------------------------------
@@ -850,6 +878,20 @@ inline void Block::set_clearfaults(bool value) {
   
   clearfaults_ = value;
   // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.clearFaults)
+}
+
+// uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+inline void Block::clear_modulestatusclear() {
+  modulestatusclear_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::modulestatusclear() const {
+  // @@protoc_insertion_point(field_get:blox_test.OneWireGpioModule.Block.moduleStatusClear)
+  return modulestatusclear_;
+}
+inline void Block::set_modulestatusclear(::google::protobuf::uint32 value) {
+  
+  modulestatusclear_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.moduleStatusClear)
 }
 
 #ifdef __GNUC__

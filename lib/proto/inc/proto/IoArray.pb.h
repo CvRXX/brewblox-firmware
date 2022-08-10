@@ -68,24 +68,26 @@ typedef enum _blox_IoArray_PwmFrequency {
 typedef struct _blox_IoArray_IoChannel {
     uint8_t id;
     uint16_t capabilities;
+    uint16_t claimedBy;
 /* @@protoc_insertion_point(struct:blox_IoArray_IoChannel) */
 } blox_IoArray_IoChannel;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_IoArray_IoChannel_init_default      {0, 0}
-#define blox_IoArray_IoChannel_init_zero         {0, 0}
+#define blox_IoArray_IoChannel_init_default      {0, 0, 0}
+#define blox_IoArray_IoChannel_init_zero         {0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_IoArray_IoChannel_id_tag            1
 #define blox_IoArray_IoChannel_capabilities_tag  2
+#define blox_IoArray_IoChannel_claimedBy_tag     3
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_IoArray_IoChannel_fields[3];
+extern const pb_field_t blox_IoArray_IoChannel_fields[4];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_IoArray_IoChannel_size              12
+#define blox_IoArray_IoChannel_size              18
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

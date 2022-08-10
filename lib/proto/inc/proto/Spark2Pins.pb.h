@@ -62,7 +62,7 @@ typedef struct _blox_Spark2Pins_Block {
 extern const pb_field_t blox_Spark2Pins_Block_fields[4];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_Spark2Pins_Block_size               60
+#define blox_Spark2Pins_Block_size               84
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

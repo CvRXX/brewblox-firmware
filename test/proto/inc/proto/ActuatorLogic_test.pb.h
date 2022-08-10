@@ -533,18 +533,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 targetid() const;
   void set_targetid(::google::protobuf::uint32 value);
 
-  // uint32 drivenTargetId = 2 [(.nanopb) = {
-  void clear_driventargetid();
-  static const int kDrivenTargetIdFieldNumber = 2;
-  ::google::protobuf::uint32 driventargetid() const;
-  void set_driventargetid(::google::protobuf::uint32 value);
-
-  // bool enabled = 3;
-  void clear_enabled();
-  static const int kEnabledFieldNumber = 3;
-  bool enabled() const;
-  void set_enabled(bool value);
-
   // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
   void clear_result();
   static const int kResultFieldNumber = 4;
@@ -557,6 +545,18 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 errorpos() const;
   void set_errorpos(::google::protobuf::uint32 value);
 
+  // bool enabled = 3;
+  void clear_enabled();
+  static const int kEnabledFieldNumber = 3;
+  bool enabled() const;
+  void set_enabled(bool value);
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  void clear_driventargetid();
+  static const int kDrivenTargetIdFieldNumber = 90;
+  bool driventargetid() const;
+  void set_driventargetid(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.ActuatorLogic.Block)
  private:
 
@@ -565,10 +565,10 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedPtrField< ::blox_test::ActuatorLogic::AnalogCompare > analog_;
   ::google::protobuf::internal::ArenaStringPtr expression_;
   ::google::protobuf::uint32 targetid_;
-  ::google::protobuf::uint32 driventargetid_;
-  bool enabled_;
   int result_;
   ::google::protobuf::uint32 errorpos_;
+  bool enabled_;
+  bool driventargetid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_ActuatorLogic_5ftest_2eproto::TableStruct;
 };
@@ -715,20 +715,6 @@ inline void Block::set_targetid(::google::protobuf::uint32 value) {
   
   targetid_ = value;
   // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.targetId)
-}
-
-// uint32 drivenTargetId = 2 [(.nanopb) = {
-inline void Block::clear_driventargetid() {
-  driventargetid_ = 0u;
-}
-inline ::google::protobuf::uint32 Block::driventargetid() const {
-  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.drivenTargetId)
-  return driventargetid_;
-}
-inline void Block::set_driventargetid(::google::protobuf::uint32 value) {
-  
-  driventargetid_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.drivenTargetId)
 }
 
 // bool enabled = 3;
@@ -884,6 +870,20 @@ inline void Block::set_errorpos(::google::protobuf::uint32 value) {
   
   errorpos_ = value;
   // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.errorPos)
+}
+
+// bool drivenTargetId = 90 [(.brewblox.field) = {
+inline void Block::clear_driventargetid() {
+  driventargetid_ = false;
+}
+inline bool Block::driventargetid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorLogic.Block.drivenTargetId)
+  return driventargetid_;
+}
+inline void Block::set_driventargetid(bool value) {
+  
+  driventargetid_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorLogic.Block.drivenTargetId)
 }
 
 #ifdef __GNUC__

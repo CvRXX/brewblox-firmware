@@ -68,6 +68,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, transitiondurationpreset_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, transitiondurationsetting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, transitiondurationvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DigitalActuator::Block, claimedby_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::DigitalActuator::Block)},
@@ -101,22 +102,23 @@ void AddDescriptorsImpl() {
       "\n\032DigitalActuator_test.proto\022\031blox_test."
       "DigitalActuator\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\032\026Constraints_test.proto\032"
-      "\022IoArray_test.proto\"\331\003\n\005Block\022#\n\010hwDevic"
-      "e\030\001 \001(\rB\021\212\265\030\002\030\n\212\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 "
-      "\001(\rB\005\222\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.Io"
-      "Array.DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006inve"
-      "rt\030\004 \001(\010\022@\n\rconstrainedBy\030\005 \001(\0132).blox_t"
-      "est.Constraints.DigitalConstraints\022=\n\014de"
-      "siredState\030\006 \001(\0162\037.blox_test.IoArray.Dig"
-      "italStateB\006\212\265\030\0020\001\022M\n\030transitionDurationP"
-      "reset\030\007 \001(\0162+.blox_test.IoArray.Transiti"
-      "onDurationPreset\0220\n\031transitionDurationSe"
-      "tting\030\010 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transition"
-      "DurationValue\030\t \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001"
-      ":\r\212\265\030\003\030\276\002\212\265\030\002H\006b\006proto3"
+      "\022IoArray_test.proto\"\200\004\n\005Block\022\035\n\010hwDevic"
+      "e\030\001 \001(\rB\013\212\265\030\002\030\n\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222"
+      "\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.IoArray."
+      "DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006invert\030\004 \001"
+      "(\010\022@\n\rconstrainedBy\030\005 \001(\0132).blox_test.Co"
+      "nstraints.DigitalConstraints\022=\n\014desiredS"
+      "tate\030\006 \001(\0162\037.blox_test.IoArray.DigitalSt"
+      "ateB\006\212\265\030\0020\001\022M\n\030transitionDurationPreset\030"
+      "\007 \001(\0162+.blox_test.IoArray.TransitionDura"
+      "tionPreset\0220\n\031transitionDurationSetting\030"
+      "\010 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transitionDurati"
+      "onValue\030\t \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001\022%\n\tcl"
+      "aimedBy\030\n \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020:\023\212\265\030\003\030"
+      "\276\002\212\265\030\002H\006\212\265\030\002H\020b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 623);
+      descriptor, 662);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DigitalActuator_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -161,6 +163,7 @@ const int Block::kDesiredStateFieldNumber;
 const int Block::kTransitionDurationPresetFieldNumber;
 const int Block::kTransitionDurationSettingFieldNumber;
 const int Block::kTransitionDurationValueFieldNumber;
+const int Block::kClaimedByFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -180,15 +183,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
-    static_cast<size_t>(reinterpret_cast<char*>(&transitiondurationvalue_) -
-    reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitiondurationvalue_));
+    static_cast<size_t>(reinterpret_cast<char*>(&claimedby_) -
+    reinterpret_cast<char*>(&hwdevice_)) + sizeof(claimedby_));
   // @@protoc_insertion_point(copy_constructor:blox_test.DigitalActuator.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&transitiondurationvalue_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(transitiondurationvalue_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(claimedby_));
 }
 
 Block::~Block() {
@@ -225,8 +228,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&hwdevice_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&transitiondurationvalue_) -
-      reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitiondurationvalue_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&hwdevice_)) + sizeof(claimedby_));
   _internal_metadata_.Clear();
 }
 
@@ -367,6 +370,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 claimedBy = 10 [(.nanopb) = {
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -442,6 +459,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->transitiondurationvalue(), output);
   }
 
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->claimedby(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -504,6 +526,11 @@ void Block::SerializeWithCachedSizes(
   // uint32 transitionDurationValue = 9 [(.brewblox.field) = {
   if (this->transitiondurationvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->transitiondurationvalue(), target);
+  }
+
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->claimedby(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -581,6 +608,13 @@ size_t Block::ByteSizeLong() const {
         this->transitiondurationvalue());
   }
 
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->claimedby());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -635,6 +669,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.transitiondurationvalue() != 0) {
     set_transitiondurationvalue(from.transitiondurationvalue());
   }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -670,6 +707,7 @@ void Block::InternalSwap(Block* other) {
   swap(transitiondurationpreset_, other->transitiondurationpreset_);
   swap(transitiondurationsetting_, other->transitiondurationsetting_);
   swap(transitiondurationvalue_, other->transitiondurationvalue_);
+  swap(claimedby_, other->claimedby_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

@@ -86,6 +86,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::GpioModuleChannel, width_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::GpioModuleChannel, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::GpioModuleChannel, capabilities_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::GpioModuleChannel, claimedby_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -106,10 +107,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, openload_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, useexternalpower_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, clearfaults_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::OneWireGpioModule::Block, modulestatusclear_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::OneWireGpioModule::GpioModuleChannel)},
-  { 11, -1, sizeof(::blox_test::OneWireGpioModule::Block)},
+  { 12, -1, sizeof(::blox_test::OneWireGpioModule::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -140,28 +142,30 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\034OneWireGpioModule_test.proto\022\033blox_tes"
       "t.OneWireGpioModule\032\023brewblox_test.proto"
-      "\032\021nanopb_test.proto\"\324\001\n\021GpioModuleChanne"
+      "\032\021nanopb_test.proto\"\201\002\n\021GpioModuleChanne"
       "l\022\021\n\002id\030\001 \001(\rB\005\222\?\0028\010\022\?\n\ndeviceType\030\002 \001(\016"
       "2+.blox_test.OneWireGpioModule.GpioDevic"
-      "eType\022\035\n\010pinsMask\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022\024\n\005"
+      "eType\022\035\n\010pinsMask\030\003 \001(\rB\013\212\265\030\002P\001\222\?\0028\010\022\024\n\005"
       "width\030\004 \001(\rB\005\222\?\0028\010\022\023\n\004name\030\005 \001(\tB\005\222\?\002\010 \022"
-      "!\n\014capabilities\030\006 \001(\rB\013\222\?\0028\020\212\265\030\002P\001\"\211\005\n\005B"
-      "lock\022G\n\010channels\030\001 \003(\0132..blox_test.OneWi"
-      "reGpioModule.GpioModuleChannelB\005\222\?\002\020\010\022\035\n"
-      "\016modulePosition\030\002 \001(\rB\005\222\?\0028\010\022!\n\014moduleSt"
-      "atus\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022(\n\rpullUpDesired"
-      "\030\004 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\'\n\014pullUpStatu"
-      "s\030\005 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022+\n\020pullUpWhen"
-      "Active\030\006 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022pullU"
-      "pWhenInactive\030\007 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022*"
-      "\n\017pullDownDesired\030\010 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002"
-      "P\001\022)\n\016pullDownStatus\030\t \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212"
-      "\265\030\002P\001\022-\n\022pullDownWhenActive\030\n \001(\rB\021\212\265\030\002("
-      "\001\222\?\0028\010\212\265\030\002P\001\022/\n\024pullDownWhenInactive\030\013 \001"
-      "(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\013overCurrent\030\014 \001"
-      "(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022#\n\010openLoad\030\r \001(\rB"
-      "\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\030\n\020useExternalPower\030\016"
-      " \001(\010\022\023\n\013clearFaults\030  \001(\010:\023\212\265\030\003\030\305\002\212\265\030\002H\n"
+      "\'\n\014capabilities\030\006 \001(\rB\021\212\265\030\002(\001\212\265\030\002P\001\222\?\0028\020"
+      "\022%\n\tclaimedBy\030\007 \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\""
+      "\254\005\n\005Block\022G\n\010channels\030\001 \003(\0132..blox_test."
+      "OneWireGpioModule.GpioModuleChannelB\005\222\?\002"
+      "\020\010\022\035\n\016modulePosition\030\002 \001(\rB\005\222\?\0028\010\022!\n\014mod"
+      "uleStatus\030\003 \001(\rB\013\222\?\0028\010\212\265\030\002P\001\022(\n\rpullUpDe"
+      "sired\030\004 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\'\n\014pullUp"
+      "Status\030\005 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022+\n\020pullU"
+      "pWhenActive\030\006 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022-\n\022"
+      "pullUpWhenInactive\030\007 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030"
+      "\002P\001\022*\n\017pullDownDesired\030\010 \001(\rB\021\212\265\030\002(\001\222\?\0028"
+      "\010\212\265\030\002P\001\022)\n\016pullDownStatus\030\t \001(\rB\021\212\265\030\002(\001\222"
+      "\?\0028\010\212\265\030\002P\001\022-\n\022pullDownWhenActive\030\n \001(\rB\021"
+      "\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022/\n\024pullDownWhenInactiv"
+      "e\030\013 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022&\n\013overCurren"
+      "t\030\014 \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022#\n\010openLoad\030\r"
+      " \001(\rB\021\212\265\030\002(\001\222\?\0028\010\212\265\030\002P\001\022\030\n\020useExternalPo"
+      "wer\030\016 \001(\010\022\023\n\013clearFaults\030  \001(\010\022!\n\021module"
+      "StatusClear\030Z \001(\rB\006\212\265\030\002H\001:\023\212\265\030\003\030\305\002\212\265\030\002H\n"
       "\212\265\030\002H\014*\225\005\n\016GpioDeviceType\022\021\n\rGPIO_DEV_NO"
       "NE\020\000\022\023\n\017GPIO_DEV_SSR_2P\020\001\022\023\n\017GPIO_DEV_SS"
       "R_1P\020\002\022 \n\034GPIO_DEV_MECHANICAL_RELAY_2P\020\003"
@@ -188,7 +192,7 @@ void AddDescriptorsImpl() {
       "IO_ERR_SPI_ERROR\020\200\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1907);
+      descriptor, 1987);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "OneWireGpioModule_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -274,6 +278,7 @@ const int GpioModuleChannel::kPinsMaskFieldNumber;
 const int GpioModuleChannel::kWidthFieldNumber;
 const int GpioModuleChannel::kNameFieldNumber;
 const int GpioModuleChannel::kCapabilitiesFieldNumber;
+const int GpioModuleChannel::kClaimedByFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GpioModuleChannel::GpioModuleChannel()
@@ -292,16 +297,16 @@ GpioModuleChannel::GpioModuleChannel(const GpioModuleChannel& from)
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&capabilities_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(capabilities_));
+    static_cast<size_t>(reinterpret_cast<char*>(&claimedby_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(claimedby_));
   // @@protoc_insertion_point(copy_constructor:blox_test.OneWireGpioModule.GpioModuleChannel)
 }
 
 void GpioModuleChannel::SharedCtor() {
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&capabilities_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(capabilities_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(claimedby_));
 }
 
 GpioModuleChannel::~GpioModuleChannel() {
@@ -335,8 +340,8 @@ void GpioModuleChannel::Clear() {
 
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&capabilities_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(capabilities_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(claimedby_));
   _internal_metadata_.Clear();
 }
 
@@ -437,6 +442,20 @@ bool GpioModuleChannel::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 claimedBy = 7 [(.nanopb) = {
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -499,6 +518,11 @@ void GpioModuleChannel::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->capabilities(), output);
   }
 
+  // uint32 claimedBy = 7 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->claimedby(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -548,6 +572,11 @@ void GpioModuleChannel::SerializeWithCachedSizes(
   // uint32 capabilities = 6 [(.nanopb) = {
   if (this->capabilities() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->capabilities(), target);
+  }
+
+  // uint32 claimedBy = 7 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->claimedby(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -608,6 +637,13 @@ size_t GpioModuleChannel::ByteSizeLong() const {
         this->capabilities());
   }
 
+  // uint32 claimedBy = 7 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->claimedby());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -654,6 +690,9 @@ void GpioModuleChannel::MergeFrom(const GpioModuleChannel& from) {
   if (from.capabilities() != 0) {
     set_capabilities(from.capabilities());
   }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
+  }
 }
 
 void GpioModuleChannel::CopyFrom(const ::google::protobuf::Message& from) {
@@ -687,6 +726,7 @@ void GpioModuleChannel::InternalSwap(GpioModuleChannel* other) {
   swap(pinsmask_, other->pinsmask_);
   swap(width_, other->width_);
   swap(capabilities_, other->capabilities_);
+  swap(claimedby_, other->claimedby_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
@@ -716,6 +756,7 @@ const int Block::kOverCurrentFieldNumber;
 const int Block::kOpenLoadFieldNumber;
 const int Block::kUseExternalPowerFieldNumber;
 const int Block::kClearFaultsFieldNumber;
+const int Block::kModuleStatusClearFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -731,15 +772,15 @@ Block::Block(const Block& from)
       channels_(from.channels_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&moduleposition_, &from.moduleposition_,
-    static_cast<size_t>(reinterpret_cast<char*>(&clearfaults_) -
-    reinterpret_cast<char*>(&moduleposition_)) + sizeof(clearfaults_));
+    static_cast<size_t>(reinterpret_cast<char*>(&modulestatusclear_) -
+    reinterpret_cast<char*>(&moduleposition_)) + sizeof(modulestatusclear_));
   // @@protoc_insertion_point(copy_constructor:blox_test.OneWireGpioModule.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&moduleposition_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&clearfaults_) -
-      reinterpret_cast<char*>(&moduleposition_)) + sizeof(clearfaults_));
+      reinterpret_cast<char*>(&modulestatusclear_) -
+      reinterpret_cast<char*>(&moduleposition_)) + sizeof(modulestatusclear_));
 }
 
 Block::~Block() {
@@ -772,8 +813,8 @@ void Block::Clear() {
 
   channels_.Clear();
   ::memset(&moduleposition_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&clearfaults_) -
-      reinterpret_cast<char*>(&moduleposition_)) + sizeof(clearfaults_));
+      reinterpret_cast<char*>(&modulestatusclear_) -
+      reinterpret_cast<char*>(&moduleposition_)) + sizeof(modulestatusclear_));
   _internal_metadata_.Clear();
 }
 
@@ -995,6 +1036,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &modulestatusclear_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1100,6 +1155,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(32, this->clearfaults(), output);
   }
 
+  // uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+  if (this->modulestatusclear() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(90, this->modulestatusclear(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1190,6 +1250,11 @@ void Block::SerializeWithCachedSizes(
   // bool clearFaults = 32;
   if (this->clearfaults() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(32, this->clearfaults(), target);
+  }
+
+  // uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+  if (this->modulestatusclear() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(90, this->modulestatusclear(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1314,6 +1379,13 @@ size_t Block::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
+  // uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+  if (this->modulestatusclear() != 0) {
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->modulestatusclear());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -1384,6 +1456,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.clearfaults() != 0) {
     set_clearfaults(from.clearfaults());
   }
+  if (from.modulestatusclear() != 0) {
+    set_modulestatusclear(from.modulestatusclear());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1425,6 +1500,7 @@ void Block::InternalSwap(Block* other) {
   swap(openload_, other->openload_);
   swap(useexternalpower_, other->useexternalpower_);
   swap(clearfaults_, other->clearfaults_);
+  swap(modulestatusclear_, other->modulestatusclear_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

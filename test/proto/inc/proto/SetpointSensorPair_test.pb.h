@@ -208,18 +208,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::SetpointSensorPair::FilterChoice filter() const;
   void set_filter(::blox_test::SetpointSensorPair::FilterChoice value);
 
-  // bool enabled = 7;
-  void clear_enabled();
-  static const int kEnabledFieldNumber = 7;
-  bool enabled() const;
-  void set_enabled(bool value);
-
-  // bool resetFilter = 12;
-  void clear_resetfilter();
-  static const int kResetFilterFieldNumber = 12;
-  bool resetfilter() const;
-  void set_resetfilter(bool value);
-
   // sint32 filterThreshold = 10 [(.nanopb) = {
   void clear_filterthreshold();
   static const int kFilterThresholdFieldNumber = 10;
@@ -238,6 +226,24 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 claimedby() const;
   void set_claimedby(::google::protobuf::uint32 value);
 
+  // bool enabled = 7;
+  void clear_enabled();
+  static const int kEnabledFieldNumber = 7;
+  bool enabled() const;
+  void set_enabled(bool value);
+
+  // bool resetFilter = 12;
+  void clear_resetfilter();
+  static const int kResetFilterFieldNumber = 12;
+  bool resetfilter() const;
+  void set_resetfilter(bool value);
+
+  // bool settingEnabled = 90 [(.brewblox.field) = {
+  void clear_settingenabled();
+  static const int kSettingEnabledFieldNumber = 90;
+  bool settingenabled() const;
+  void set_settingenabled(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.SetpointSensorPair.Block)
  private:
 
@@ -247,11 +253,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 value_;
   ::google::protobuf::int32 storedsetting_;
   int filter_;
-  bool enabled_;
-  bool resetfilter_;
   ::google::protobuf::int32 filterthreshold_;
   ::google::protobuf::int32 valueunfiltered_;
   ::google::protobuf::uint32 claimedby_;
+  bool enabled_;
+  bool resetfilter_;
+  bool settingenabled_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SetpointSensorPair_5ftest_2eproto::TableStruct;
 };
@@ -404,6 +411,20 @@ inline void Block::set_claimedby(::google::protobuf::uint32 value) {
   
   claimedby_ = value;
   // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.claimedBy)
+}
+
+// bool settingEnabled = 90 [(.brewblox.field) = {
+inline void Block::clear_settingenabled() {
+  settingenabled_ = false;
+}
+inline bool Block::settingenabled() const {
+  // @@protoc_insertion_point(field_get:blox_test.SetpointSensorPair.Block.settingEnabled)
+  return settingenabled_;
+}
+inline void Block::set_settingenabled(bool value) {
+  
+  settingenabled_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.settingEnabled)
 }
 
 #ifdef __GNUC__

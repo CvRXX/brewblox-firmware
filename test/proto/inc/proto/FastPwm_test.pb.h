@@ -29,7 +29,6 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
@@ -65,29 +64,6 @@ template<> ::blox_test::FastPwm::Block* Arena::CreateMaybeMessage<::blox_test::F
 namespace blox_test {
 namespace FastPwm {
 
-enum PwmFrequency {
-  PWM_FREQ_OFF = 0,
-  PWM_FREQ_100HZ = 1,
-  PWM_FREQ_200HZ = 2,
-  PWM_FREQ_2000HZ = 3,
-  PwmFrequency_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  PwmFrequency_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool PwmFrequency_IsValid(int value);
-const PwmFrequency PwmFrequency_MIN = PWM_FREQ_OFF;
-const PwmFrequency PwmFrequency_MAX = PWM_FREQ_2000HZ;
-const int PwmFrequency_ARRAYSIZE = PwmFrequency_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* PwmFrequency_descriptor();
-inline const ::std::string& PwmFrequency_Name(PwmFrequency value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    PwmFrequency_descriptor(), value);
-}
-inline bool PwmFrequency_Parse(
-    const ::std::string& name, PwmFrequency* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PwmFrequency>(
-    PwmFrequency_descriptor(), name, value);
-}
 // ===================================================================
 
 class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.FastPwm.Block) */ {
@@ -201,11 +177,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 channel() const;
   void set_channel(::google::protobuf::uint32 value);
 
-  // .blox_test.FastPwm.PwmFrequency frequency = 3;
+  // .blox_test.IoArray.PwmFrequency frequency = 3;
   void clear_frequency();
   static const int kFrequencyFieldNumber = 3;
-  ::blox_test::FastPwm::PwmFrequency frequency() const;
-  void set_frequency(::blox_test::FastPwm::PwmFrequency value);
+  ::blox_test::IoArray::PwmFrequency frequency() const;
+  void set_frequency(::blox_test::IoArray::PwmFrequency value);
 
   // sint32 setting = 4 [(.nanopb) = {
   void clear_setting();
@@ -255,6 +231,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 transitiondurationvalue() const;
   void set_transitiondurationvalue(::google::protobuf::uint32 value);
 
+  // uint32 claimedBy = 13 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 13;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.FastPwm.Block)
  private:
 
@@ -271,6 +253,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool enabled_;
   bool invert_;
   ::google::protobuf::uint32 transitiondurationvalue_;
+  ::google::protobuf::uint32 claimedby_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_FastPwm_5ftest_2eproto::TableStruct;
 };
@@ -313,15 +296,15 @@ inline void Block::set_channel(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.channel)
 }
 
-// .blox_test.FastPwm.PwmFrequency frequency = 3;
+// .blox_test.IoArray.PwmFrequency frequency = 3;
 inline void Block::clear_frequency() {
   frequency_ = 0;
 }
-inline ::blox_test::FastPwm::PwmFrequency Block::frequency() const {
+inline ::blox_test::IoArray::PwmFrequency Block::frequency() const {
   // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.frequency)
-  return static_cast< ::blox_test::FastPwm::PwmFrequency >(frequency_);
+  return static_cast< ::blox_test::IoArray::PwmFrequency >(frequency_);
 }
-inline void Block::set_frequency(::blox_test::FastPwm::PwmFrequency value) {
+inline void Block::set_frequency(::blox_test::IoArray::PwmFrequency value) {
   
   frequency_ = value;
   // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.frequency)
@@ -487,6 +470,20 @@ inline void Block::set_invert(bool value) {
   // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.invert)
 }
 
+// uint32 claimedBy = 13 [(.nanopb) = {
+inline void Block::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.FastPwm.Block.claimedBy)
+  return claimedby_;
+}
+inline void Block::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.FastPwm.Block.claimedBy)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -495,18 +492,6 @@ inline void Block::set_invert(bool value) {
 
 }  // namespace FastPwm
 }  // namespace blox_test
-
-namespace google {
-namespace protobuf {
-
-template <> struct is_proto_enum< ::blox_test::FastPwm::PwmFrequency> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::FastPwm::PwmFrequency>() {
-  return ::blox_test::FastPwm::PwmFrequency_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

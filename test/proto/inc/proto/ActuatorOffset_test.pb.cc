@@ -66,9 +66,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, setting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, value_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, driventargetid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, claimedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorOffset::Block, driventargetid_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::ActuatorOffset::Block)},
@@ -101,7 +102,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\031ActuatorOffset_test.proto\022\030blox_test.A"
       "ctuatorOffset\032\023brewblox_test.proto\032\021nano"
-      "pb_test.proto\032\026Constraints_test.proto\"\252\003"
+      "pb_test.proto\032\026Constraints_test.proto\"\306\003"
       "\n\005Block\022\035\n\010targetId\030\001 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022 "
       "\n\013referenceId\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022H\n\027refe"
       "renceSettingOrValue\030\004 \001(\0162\'.blox_test.Ac"
@@ -109,15 +110,15 @@ void AddDescriptorsImpl() {
       "\001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\007"
       " \001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\?\n\rconstr"
       "ainedBy\030\010 \001(\0132(.blox_test.Constraints.An"
-      "alogConstraints\022/\n\016drivenTargetId\030\t \001(\rB"
-      "\027\212\265\030\002\030\001\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n\007enabled\030\n \001("
-      "\010\022*\n\016desiredSetting\030\013 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 "
-      "\222\?\0028 :\023\212\265\030\003\030\264\002\212\265\030\002H\005\212\265\030\002H\017*/\n\rReferenceK"
-      "ind\022\017\n\013REF_SETTING\020\000\022\r\n\tREF_VALUE\020\001b\006pro"
-      "to3"
+      "alogConstraints\022\017\n\007enabled\030\n \001(\010\022*\n\016desi"
+      "redSetting\030\013 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022%\n\t"
+      "claimedBy\030\014 \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\022\036\n\016d"
+      "rivenTargetId\030Z \001(\010B\006\212\265\030\002H\001:\031\212\265\030\003\030\264\002\212\265\030\002"
+      "H\005\212\265\030\002H\017\212\265\030\002H\020*/\n\rReferenceKind\022\017\n\013REF_S"
+      "ETTING\020\000\022\r\n\tREF_VALUE\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 603);
+      descriptor, 631);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorOffset_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -172,9 +173,10 @@ const int Block::kReferenceSettingOrValueFieldNumber;
 const int Block::kSettingFieldNumber;
 const int Block::kValueFieldNumber;
 const int Block::kConstrainedByFieldNumber;
-const int Block::kDrivenTargetIdFieldNumber;
 const int Block::kEnabledFieldNumber;
 const int Block::kDesiredSettingFieldNumber;
+const int Block::kClaimedByFieldNumber;
+const int Block::kDrivenTargetIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -194,15 +196,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&targetid_, &from.targetid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
-    reinterpret_cast<char*>(&targetid_)) + sizeof(desiredsetting_));
+    static_cast<size_t>(reinterpret_cast<char*>(&driventargetid_) -
+    reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
   // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorOffset.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredsetting_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
+      reinterpret_cast<char*>(&driventargetid_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(driventargetid_));
 }
 
 Block::~Block() {
@@ -239,8 +241,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&targetid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredsetting_) -
-      reinterpret_cast<char*>(&targetid_)) + sizeof(desiredsetting_));
+      reinterpret_cast<char*>(&driventargetid_) -
+      reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
   _internal_metadata_.Clear();
 }
 
@@ -250,7 +252,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.ActuatorOffset.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -337,20 +339,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 drivenTargetId = 9 [(.nanopb) = {
-      case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(72u /* 72 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &driventargetid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // bool enabled = 10;
       case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -373,6 +361,34 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
                  input, &desiredsetting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 claimedBy = 12 [(.nanopb) = {
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool drivenTargetId = 90 [(.brewblox.field) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &driventargetid_)));
         } else {
           goto handle_unusual;
         }
@@ -437,11 +453,6 @@ void Block::SerializeWithCachedSizes(
       8, this->_internal_constrainedby(), output);
   }
 
-  // uint32 drivenTargetId = 9 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->driventargetid(), output);
-  }
-
   // bool enabled = 10;
   if (this->enabled() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(10, this->enabled(), output);
@@ -450,6 +461,16 @@ void Block::SerializeWithCachedSizes(
   // sint32 desiredSetting = 11 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(11, this->desiredsetting(), output);
+  }
+
+  // uint32 claimedBy = 12 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->claimedby(), output);
+  }
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  if (this->driventargetid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->driventargetid(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -499,11 +520,6 @@ void Block::SerializeWithCachedSizes(
         8, this->_internal_constrainedby(), deterministic, target);
   }
 
-  // uint32 drivenTargetId = 9 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->driventargetid(), target);
-  }
-
   // bool enabled = 10;
   if (this->enabled() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(10, this->enabled(), target);
@@ -512,6 +528,16 @@ void Block::SerializeWithCachedSizes(
   // sint32 desiredSetting = 11 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(11, this->desiredsetting(), target);
+  }
+
+  // uint32 claimedBy = 12 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->claimedby(), target);
+  }
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  if (this->driventargetid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->driventargetid(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -572,11 +598,18 @@ size_t Block::ByteSizeLong() const {
         this->value());
   }
 
-  // uint32 drivenTargetId = 9 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
+  // sint32 desiredSetting = 11 [(.nanopb) = {
+  if (this->desiredsetting() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->desiredsetting());
+  }
+
+  // uint32 claimedBy = 12 [(.nanopb) = {
+  if (this->claimedby() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->driventargetid());
+        this->claimedby());
   }
 
   // bool enabled = 10;
@@ -584,11 +617,9 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // sint32 desiredSetting = 11 [(.nanopb) = {
-  if (this->desiredsetting() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::SInt32Size(
-        this->desiredsetting());
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  if (this->driventargetid() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -636,14 +667,17 @@ void Block::MergeFrom(const Block& from) {
   if (from.value() != 0) {
     set_value(from.value());
   }
-  if (from.driventargetid() != 0) {
-    set_driventargetid(from.driventargetid());
+  if (from.desiredsetting() != 0) {
+    set_desiredsetting(from.desiredsetting());
+  }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
   }
   if (from.enabled() != 0) {
     set_enabled(from.enabled());
   }
-  if (from.desiredsetting() != 0) {
-    set_desiredsetting(from.desiredsetting());
+  if (from.driventargetid() != 0) {
+    set_driventargetid(from.driventargetid());
   }
 }
 
@@ -677,9 +711,10 @@ void Block::InternalSwap(Block* other) {
   swap(referencesettingorvalue_, other->referencesettingorvalue_);
   swap(setting_, other->setting_);
   swap(value_, other->value_);
-  swap(driventargetid_, other->driventargetid_);
-  swap(enabled_, other->enabled_);
   swap(desiredsetting_, other->desiredsetting_);
+  swap(claimedby_, other->claimedby_);
+  swap(enabled_, other->enabled_);
+  swap(driventargetid_, other->driventargetid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

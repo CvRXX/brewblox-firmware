@@ -52,7 +52,6 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[1];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -72,6 +71,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, transitiondurationsetting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, transitiondurationvalue_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, invert_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::FastPwm::Block, claimedby_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::FastPwm::Block)},
@@ -85,7 +85,7 @@ void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "FastPwm_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
+      file_level_metadata, NULL, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -105,26 +105,25 @@ void AddDescriptorsImpl() {
       "\n\022FastPwm_test.proto\022\021blox_test.FastPwm\032"
       "\023brewblox_test.proto\032\021nanopb_test.proto\032"
       "\026Constraints_test.proto\032\022IoArray_test.pr"
-      "oto\"\254\004\n\005Block\022#\n\010hwDevice\030\001 \001(\rB\021\212\265\030\002\030\n\212"
-      "\265\030\002@\001\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222\?\0028\010\0222\n\tfr"
-      "equency\030\003 \001(\0162\037.blox_test.FastPwm.PwmFre"
-      "quency\022)\n\007setting\030\004 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030"
-      "\003\020\200 \222\?\0028 \022*\n\016desiredSetting\030\005 \001(\021B\022\212\265\030\0020"
-      "\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\006 \001(\021B\030\212\265\030\0020\001\212\265\030\002"
-      "(\001\212\265\030\003\020\200 \222\?\0028 \022\?\n\rconstrainedBy\030\007 \001(\0132(."
-      "blox_test.Constraints.AnalogConstraints\022"
-      "\017\n\007enabled\030\010 \001(\010\022M\n\030transitionDurationPr"
-      "eset\030\t \001(\0162+.blox_test.IoArray.Transitio"
-      "nDurationPreset\0220\n\031transitionDurationSet"
-      "ting\030\n \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transitionD"
-      "urationValue\030\013 \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001\022"
-      "\016\n\006invert\030\014 \001(\010:\031\212\265\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002"
-      "H\017*]\n\014PwmFrequency\022\020\n\014PWM_FREQ_OFF\020\000\022\022\n\016"
-      "PWM_FREQ_100HZ\020\001\022\022\n\016PWM_FREQ_200HZ\020\002\022\023\n\017"
-      "PWM_FREQ_2000HZ\020\003b\006proto3"
+      "oto\"\323\004\n\005Block\022\035\n\010hwDevice\030\001 \001(\rB\013\212\265\030\002\030\n\222"
+      "\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222\?\0028\010\0222\n\tfrequenc"
+      "y\030\003 \001(\0162\037.blox_test.IoArray.PwmFrequency"
+      "\022)\n\007setting\030\004 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?"
+      "\0028 \022*\n\016desiredSetting\030\005 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020"
+      "\200 \222\?\0028 \022\'\n\005value\030\006 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003"
+      "\020\200 \222\?\0028 \022\?\n\rconstrainedBy\030\007 \001(\0132(.blox_t"
+      "est.Constraints.AnalogConstraints\022\017\n\007ena"
+      "bled\030\010 \001(\010\022M\n\030transitionDurationPreset\030\t"
+      " \001(\0162+.blox_test.IoArray.TransitionDurat"
+      "ionPreset\0220\n\031transitionDurationSetting\030\n"
+      " \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transitionDuratio"
+      "nValue\030\013 \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001\022\016\n\006inv"
+      "ert\030\014 \001(\010\022%\n\tclaimedBy\030\r \001(\rB\022\212\265\030\003\030\377\001\212\265\030"
+      "\002(\001\222\?\0028\020:\037\212\265\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H"
+      "\020b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 785);
+      descriptor, 729);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "FastPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -146,22 +145,6 @@ struct StaticDescriptorInitializer {
 }  // namespace protobuf_FastPwm_5ftest_2eproto
 namespace blox_test {
 namespace FastPwm {
-const ::google::protobuf::EnumDescriptor* PwmFrequency_descriptor() {
-  protobuf_FastPwm_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_FastPwm_5ftest_2eproto::file_level_enum_descriptors[0];
-}
-bool PwmFrequency_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
 
 // ===================================================================
 
@@ -188,6 +171,7 @@ const int Block::kTransitionDurationPresetFieldNumber;
 const int Block::kTransitionDurationSettingFieldNumber;
 const int Block::kTransitionDurationValueFieldNumber;
 const int Block::kInvertFieldNumber;
+const int Block::kClaimedByFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -207,15 +191,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
-    static_cast<size_t>(reinterpret_cast<char*>(&transitiondurationvalue_) -
-    reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitiondurationvalue_));
+    static_cast<size_t>(reinterpret_cast<char*>(&claimedby_) -
+    reinterpret_cast<char*>(&hwdevice_)) + sizeof(claimedby_));
   // @@protoc_insertion_point(copy_constructor:blox_test.FastPwm.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&transitiondurationvalue_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(transitiondurationvalue_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(claimedby_));
 }
 
 Block::~Block() {
@@ -252,8 +236,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&hwdevice_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&transitiondurationvalue_) -
-      reinterpret_cast<char*>(&hwdevice_)) + sizeof(transitiondurationvalue_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&hwdevice_)) + sizeof(claimedby_));
   _internal_metadata_.Clear();
 }
 
@@ -295,7 +279,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.FastPwm.PwmFrequency frequency = 3;
+      // .blox_test.IoArray.PwmFrequency frequency = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
@@ -303,7 +287,7 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_frequency(static_cast< ::blox_test::FastPwm::PwmFrequency >(value));
+          set_frequency(static_cast< ::blox_test::IoArray::PwmFrequency >(value));
         } else {
           goto handle_unusual;
         }
@@ -435,6 +419,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 claimedBy = 13 [(.nanopb) = {
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(104u /* 104 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -471,7 +469,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->channel(), output);
   }
 
-  // .blox_test.FastPwm.PwmFrequency frequency = 3;
+  // .blox_test.IoArray.PwmFrequency frequency = 3;
   if (this->frequency() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->frequency(), output);
@@ -524,6 +522,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(12, this->invert(), output);
   }
 
+  // uint32 claimedBy = 13 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->claimedby(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -548,7 +551,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->channel(), target);
   }
 
-  // .blox_test.FastPwm.PwmFrequency frequency = 3;
+  // .blox_test.IoArray.PwmFrequency frequency = 3;
   if (this->frequency() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       3, this->frequency(), target);
@@ -602,6 +605,11 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(12, this->invert(), target);
   }
 
+  // uint32 claimedBy = 13 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(13, this->claimedby(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -640,7 +648,7 @@ size_t Block::ByteSizeLong() const {
         this->channel());
   }
 
-  // .blox_test.FastPwm.PwmFrequency frequency = 3;
+  // .blox_test.IoArray.PwmFrequency frequency = 3;
   if (this->frequency() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->frequency());
@@ -695,6 +703,13 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->transitiondurationvalue());
+  }
+
+  // uint32 claimedBy = 13 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->claimedby());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -760,6 +775,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.transitiondurationvalue() != 0) {
     set_transitiondurationvalue(from.transitiondurationvalue());
   }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -798,6 +816,7 @@ void Block::InternalSwap(Block* other) {
   swap(enabled_, other->enabled_);
   swap(invert_, other->invert_);
   swap(transitiondurationvalue_, other->transitiondurationvalue_);
+  swap(claimedby_, other->claimedby_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

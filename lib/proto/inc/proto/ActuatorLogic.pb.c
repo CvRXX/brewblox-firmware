@@ -27,13 +27,13 @@ const pb_field_t blox_ActuatorLogic_AnalogCompare_fields[5] = {
 
 const pb_field_t blox_ActuatorLogic_Block_fields[9] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorLogic_Block, targetId, targetId, 0),
-    PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, drivenTargetId, targetId, 0),
-    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, enabled, drivenTargetId, 0),
+    PB_FIELD(  3, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, enabled, targetId, 0),
     PB_FIELD(  4, UENUM   , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, result, enabled, 0),
     PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, expression, result, 0),
     PB_FIELD(  6, MESSAGE , REPEATED, STATIC  , OTHER, blox_ActuatorLogic_Block, digital, expression, &blox_ActuatorLogic_DigitalCompare_fields),
     PB_FIELD(  7, MESSAGE , REPEATED, STATIC  , OTHER, blox_ActuatorLogic_Block, analog, digital, &blox_ActuatorLogic_AnalogCompare_fields),
     PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, errorPos, analog, 0),
+    PB_FIELD( 90, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorLogic_Block, drivenTargetId, errorPos, 0),
     PB_LAST_FIELD
 };
 

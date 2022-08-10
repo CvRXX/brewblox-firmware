@@ -24,17 +24,18 @@ typedef struct _blox_ActuatorPwm_Block {
     int32_t setting;
     int32_t value;
     blox_Constraints_AnalogConstraints constrainedBy;
-    uint16_t drivenActuatorId;
     bool enabled;
     int32_t desiredSetting;
+    uint16_t claimedBy;
+    bool drivenTargetId;
 /* @@protoc_insertion_point(struct:blox_ActuatorPwm_Block) */
 } blox_ActuatorPwm_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_ActuatorPwm_Block_init_default      {0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, 0, 0}
-#define blox_ActuatorPwm_Block_init_zero         {0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, 0, 0}
+#define blox_ActuatorPwm_Block_init_default      {0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, 0, 0, 0}
+#define blox_ActuatorPwm_Block_init_zero         {0, 0, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_ActuatorPwm_Block_actuatorId_tag    1
@@ -42,15 +43,16 @@ typedef struct _blox_ActuatorPwm_Block {
 #define blox_ActuatorPwm_Block_setting_tag       4
 #define blox_ActuatorPwm_Block_value_tag         5
 #define blox_ActuatorPwm_Block_constrainedBy_tag 6
-#define blox_ActuatorPwm_Block_drivenActuatorId_tag 7
 #define blox_ActuatorPwm_Block_enabled_tag       8
 #define blox_ActuatorPwm_Block_desiredSetting_tag 9
+#define blox_ActuatorPwm_Block_claimedBy_tag     10
+#define blox_ActuatorPwm_Block_drivenTargetId_tag 90
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_ActuatorPwm_Block_fields[9];
+extern const pb_field_t blox_ActuatorPwm_Block_fields[10];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_ActuatorPwm_Block_size              241
+#define blox_ActuatorPwm_Block_size              244
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

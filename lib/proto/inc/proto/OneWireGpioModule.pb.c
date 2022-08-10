@@ -9,17 +9,18 @@
 
 
 
-const pb_field_t blox_OneWireGpioModule_GpioModuleChannel_fields[7] = {
+const pb_field_t blox_OneWireGpioModule_GpioModuleChannel_fields[8] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_OneWireGpioModule_GpioModuleChannel, id, id, 0),
     PB_FIELD(  2, UENUM   , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, deviceType, id, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, pinsMask, deviceType, 0),
     PB_FIELD(  4, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, width, pinsMask, 0),
     PB_FIELD(  5, STRING  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, name, width, 0),
     PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, capabilities, name, 0),
+    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_GpioModuleChannel, claimedBy, capabilities, 0),
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_OneWireGpioModule_Block_fields[16] = {
+const pb_field_t blox_OneWireGpioModule_Block_fields[17] = {
     PB_FIELD(  1, MESSAGE , REPEATED, STATIC  , FIRST, blox_OneWireGpioModule_Block, channels, channels, &blox_OneWireGpioModule_GpioModuleChannel_fields),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, modulePosition, channels, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, moduleStatus, modulePosition, 0),
@@ -35,6 +36,7 @@ const pb_field_t blox_OneWireGpioModule_Block_fields[16] = {
     PB_FIELD( 13, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, openLoad, overCurrent, 0),
     PB_FIELD( 14, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, useExternalPower, openLoad, 0),
     PB_FIELD( 32, BOOL    , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, clearFaults, useExternalPower, 0),
+    PB_FIELD( 90, UINT32  , SINGULAR, STATIC  , OTHER, blox_OneWireGpioModule_Block, moduleStatusClear, clearFaults, 0),
     PB_LAST_FIELD
 };
 

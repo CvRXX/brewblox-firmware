@@ -9,16 +9,17 @@
 
 
 
-const pb_field_t blox_ActuatorOffset_Block_fields[10] = {
+const pb_field_t blox_ActuatorOffset_Block_fields[11] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorOffset_Block, targetId, targetId, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, referenceId, targetId, 0),
     PB_FIELD(  4, UENUM   , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, referenceSettingOrValue, referenceId, 0),
     PB_FIELD(  6, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, setting, referenceSettingOrValue, 0),
     PB_FIELD(  7, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, value, setting, 0),
     PB_FIELD(  8, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, constrainedBy, value, &blox_Constraints_AnalogConstraints_fields),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, drivenTargetId, constrainedBy, 0),
-    PB_FIELD( 10, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, enabled, drivenTargetId, 0),
+    PB_FIELD( 10, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, enabled, constrainedBy, 0),
     PB_FIELD( 11, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, desiredSetting, enabled, 0),
+    PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, claimedBy, desiredSetting, 0),
+    PB_FIELD( 90, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, drivenTargetId, claimedBy, 0),
     PB_LAST_FIELD
 };
 

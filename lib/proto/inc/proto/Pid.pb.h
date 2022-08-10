@@ -36,20 +36,20 @@ typedef struct _blox_Pid_Block {
     int32_t error;
     int32_t integral;
     int32_t derivative;
-    uint16_t drivenOutputId;
     int32_t integralReset;
     int32_t boilPointAdjust;
     int32_t boilMinOutput;
     bool boilModeActive;
     blox_SetpointSensorPair_FilterChoice derivativeFilter;
+    bool drivenOutputId;
 /* @@protoc_insertion_point(struct:blox_Pid_Block) */
 } blox_Pid_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_Pid_Block_init_default              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN}
-#define blox_Pid_Block_init_zero                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN}
+#define blox_Pid_Block_init_default              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0}
+#define blox_Pid_Block_init_zero                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_Pid_Block_inputId_tag               1
@@ -69,18 +69,18 @@ typedef struct _blox_Pid_Block {
 #define blox_Pid_Block_error_tag                 19
 #define blox_Pid_Block_integral_tag              20
 #define blox_Pid_Block_derivative_tag            21
-#define blox_Pid_Block_drivenOutputId_tag        22
 #define blox_Pid_Block_integralReset_tag         23
 #define blox_Pid_Block_boilPointAdjust_tag       24
 #define blox_Pid_Block_boilMinOutput_tag         25
 #define blox_Pid_Block_boilModeActive_tag        26
 #define blox_Pid_Block_derivativeFilter_tag      27
+#define blox_Pid_Block_drivenOutputId_tag        90
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_Pid_Block_fields[24];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_Pid_Block_size                      134
+#define blox_Pid_Block_size                      130
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

@@ -296,23 +296,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   const ::google::protobuf::RepeatedPtrField< ::blox_test::SetpointProfile::Point >&
       points() const;
 
-  // bool enabled = 3;
-  void clear_enabled();
-  static const int kEnabledFieldNumber = 3;
-  bool enabled() const;
-  void set_enabled(bool value);
-
   // uint32 targetId = 4 [(.nanopb) = {
   void clear_targetid();
   static const int kTargetIdFieldNumber = 4;
   ::google::protobuf::uint32 targetid() const;
   void set_targetid(::google::protobuf::uint32 value);
-
-  // uint32 drivenTargetId = 5 [(.nanopb) = {
-  void clear_driventargetid();
-  static const int kDrivenTargetIdFieldNumber = 5;
-  ::google::protobuf::uint32 driventargetid() const;
-  void set_driventargetid(::google::protobuf::uint32 value);
 
   // uint32 start = 6 [(.nanopb) = {
   void clear_start();
@@ -320,15 +308,27 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 start() const;
   void set_start(::google::protobuf::uint32 value);
 
+  // bool enabled = 3;
+  void clear_enabled();
+  static const int kEnabledFieldNumber = 3;
+  bool enabled() const;
+  void set_enabled(bool value);
+
+  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  void clear_driventargetid();
+  static const int kDrivenTargetIdFieldNumber = 90;
+  bool driventargetid() const;
+  void set_driventargetid(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.SetpointProfile.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox_test::SetpointProfile::Point > points_;
-  bool enabled_;
   ::google::protobuf::uint32 targetid_;
-  ::google::protobuf::uint32 driventargetid_;
   ::google::protobuf::uint32 start_;
+  bool enabled_;
+  bool driventargetid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SetpointProfile_5ftest_2eproto::TableStruct;
 };
@@ -457,20 +457,6 @@ inline void Block::set_targetid(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SetpointProfile.Block.targetId)
 }
 
-// uint32 drivenTargetId = 5 [(.nanopb) = {
-inline void Block::clear_driventargetid() {
-  driventargetid_ = 0u;
-}
-inline ::google::protobuf::uint32 Block::driventargetid() const {
-  // @@protoc_insertion_point(field_get:blox_test.SetpointProfile.Block.drivenTargetId)
-  return driventargetid_;
-}
-inline void Block::set_driventargetid(::google::protobuf::uint32 value) {
-  
-  driventargetid_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.SetpointProfile.Block.drivenTargetId)
-}
-
 // uint32 start = 6 [(.nanopb) = {
 inline void Block::clear_start() {
   start_ = 0u;
@@ -483,6 +469,20 @@ inline void Block::set_start(::google::protobuf::uint32 value) {
   
   start_ = value;
   // @@protoc_insertion_point(field_set:blox_test.SetpointProfile.Block.start)
+}
+
+// bool drivenTargetId = 90 [(.brewblox.field) = {
+inline void Block::clear_driventargetid() {
+  driventargetid_ = false;
+}
+inline bool Block::driventargetid() const {
+  // @@protoc_insertion_point(field_get:blox_test.SetpointProfile.Block.drivenTargetId)
+  return driventargetid_;
+}
+inline void Block::set_driventargetid(bool value) {
+  
+  driventargetid_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SetpointProfile.Block.drivenTargetId)
 }
 
 #ifdef __GNUC__

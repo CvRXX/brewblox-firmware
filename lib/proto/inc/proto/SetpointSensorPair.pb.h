@@ -41,14 +41,15 @@ typedef struct _blox_SetpointSensorPair_Block {
     int32_t valueUnfiltered;
     bool resetFilter;
     uint16_t claimedBy;
+    bool settingEnabled;
 /* @@protoc_insertion_point(struct:blox_SetpointSensorPair_Block) */
 } blox_SetpointSensorPair_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_SetpointSensorPair_Block_init_default {0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0, 0, 0, 0}
-#define blox_SetpointSensorPair_Block_init_zero  {0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0, 0, 0, 0}
+#define blox_SetpointSensorPair_Block_init_default {0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0, 0, 0, 0, 0}
+#define blox_SetpointSensorPair_Block_init_zero  {0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_SetpointSensorPair_Block_sensorId_tag 2
@@ -61,12 +62,13 @@ typedef struct _blox_SetpointSensorPair_Block {
 #define blox_SetpointSensorPair_Block_valueUnfiltered_tag 11
 #define blox_SetpointSensorPair_Block_resetFilter_tag 12
 #define blox_SetpointSensorPair_Block_claimedBy_tag 13
+#define blox_SetpointSensorPair_Block_settingEnabled_tag 90
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_SetpointSensorPair_Block_fields[11];
+extern const pb_field_t blox_SetpointSensorPair_Block_fields[12];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_SetpointSensorPair_Block_size       48
+#define blox_SetpointSensorPair_Block_size       51
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

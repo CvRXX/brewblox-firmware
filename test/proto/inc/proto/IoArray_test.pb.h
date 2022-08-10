@@ -264,12 +264,19 @@ class IoChannel : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::uint32 capabilities() const;
   void set_capabilities(::google::protobuf::uint32 value);
 
+  // uint32 claimedBy = 3 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 3;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.IoArray.IoChannel)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 id_;
   ::google::protobuf::uint32 capabilities_;
+  ::google::protobuf::uint32 claimedby_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_IoArray_5ftest_2eproto::TableStruct;
 };
@@ -310,6 +317,20 @@ inline void IoChannel::set_capabilities(::google::protobuf::uint32 value) {
   
   capabilities_ = value;
   // @@protoc_insertion_point(field_set:blox_test.IoArray.IoChannel.capabilities)
+}
+
+// uint32 claimedBy = 3 [(.nanopb) = {
+inline void IoChannel::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 IoChannel::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.IoArray.IoChannel.claimedBy)
+  return claimedby_;
+}
+inline void IoChannel::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.IoArray.IoChannel.claimedBy)
 }
 
 #ifdef __GNUC__

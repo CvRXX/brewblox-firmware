@@ -34,17 +34,18 @@ typedef struct _blox_ActuatorOffset_Block {
     int32_t setting;
     int32_t value;
     blox_Constraints_AnalogConstraints constrainedBy;
-    uint16_t drivenTargetId;
     bool enabled;
     int32_t desiredSetting;
+    uint16_t claimedBy;
+    bool drivenTargetId;
 /* @@protoc_insertion_point(struct:blox_ActuatorOffset_Block) */
 } blox_ActuatorOffset_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_ActuatorOffset_Block_init_default   {0, 0, _blox_ActuatorOffset_ReferenceKind_MIN, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, 0, 0}
-#define blox_ActuatorOffset_Block_init_zero      {0, 0, _blox_ActuatorOffset_ReferenceKind_MIN, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, 0, 0}
+#define blox_ActuatorOffset_Block_init_default   {0, 0, _blox_ActuatorOffset_ReferenceKind_MIN, 0, 0, blox_Constraints_AnalogConstraints_init_default, 0, 0, 0, 0}
+#define blox_ActuatorOffset_Block_init_zero      {0, 0, _blox_ActuatorOffset_ReferenceKind_MIN, 0, 0, blox_Constraints_AnalogConstraints_init_zero, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_ActuatorOffset_Block_targetId_tag   1
@@ -53,15 +54,16 @@ typedef struct _blox_ActuatorOffset_Block {
 #define blox_ActuatorOffset_Block_setting_tag    6
 #define blox_ActuatorOffset_Block_value_tag      7
 #define blox_ActuatorOffset_Block_constrainedBy_tag 8
-#define blox_ActuatorOffset_Block_drivenTargetId_tag 9
 #define blox_ActuatorOffset_Block_enabled_tag    10
 #define blox_ActuatorOffset_Block_desiredSetting_tag 11
+#define blox_ActuatorOffset_Block_claimedBy_tag  12
+#define blox_ActuatorOffset_Block_drivenTargetId_tag 90
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_ActuatorOffset_Block_fields[10];
+extern const pb_field_t blox_ActuatorOffset_Block_fields[11];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_ActuatorOffset_Block_size           243
+#define blox_ActuatorOffset_Block_size           246
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID
