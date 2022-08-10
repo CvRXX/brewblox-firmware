@@ -107,7 +107,8 @@ SysInfoBlock::write(const cbox::Payload& payload)
 
 cbox::update_t SysInfoBlock::updateHandler(cbox::update_t now)
 {
-    // group per 10 seconds
+    // group per 3.5 seconds
+    // Short enough to have unique data for every default interval poll (5s)
     static constexpr auto interval = cbox::update_t{3'500};
     _lastUpdate = now;
     auto elapsed = now - _updateCounterStart;
