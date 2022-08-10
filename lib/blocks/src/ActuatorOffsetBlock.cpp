@@ -21,9 +21,6 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     }
     if (auto val = constrained.setting()) {
         message.setting = cnl::unwrap(*val);
-        if (message.enabled) {
-            message.drivenTargetId = message.targetId;
-        }
     } else {
         excluded.push_back(blox_ActuatorOffset_Block_setting_tag);
     };

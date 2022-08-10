@@ -107,7 +107,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         CHECK(message.ShortDebugString() ==
               "targetId: 101 referenceId: 103 "
               "setting: 49152 value: 4096 " // setting is 12 (setpoint difference), value is 1 (21 - 20)
-              "drivenTargetId: 101 enabled: true "
+              "enabled: true "
               "desiredSetting: 49152");
     }
 
@@ -173,7 +173,6 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
                   "targetId: 101 "
                   "referenceId: 103 "
                   "setting: 49152 "
-                  "drivenTargetId: 101 "
                   "enabled: true "
                   "desiredSetting: 49152");
         }

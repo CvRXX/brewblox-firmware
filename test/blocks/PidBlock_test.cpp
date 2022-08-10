@@ -132,7 +132,6 @@ SCENARIO("A Blox Pid object with mock analog actuator")
               "kp: 40960 ti: 2000 td: 200 "
               "p: 40960 i: 20479 "
               "error: 4096 integral: 4096000 "
-              "drivenOutputId: 102 "
               "boilPointAdjust: -2048 "
               "boilMinOutput: 102400 "
               "derivativeFilter: FILTER_3m");
@@ -158,7 +157,6 @@ SCENARIO("A Blox Pid object with mock analog actuator")
               "kp: 40960 ti: 2000 td: 200 "
               "p: 40960 i: 81940 "
               "error: 4096 integral: 16388096 "
-              "drivenOutputId: 102 "
               "boilPointAdjust: -2048 "
               "boilMinOutput: 102400 "
               "derivativeFilter: FILTER_3m");
@@ -229,7 +227,6 @@ SCENARIO("A Blox Pid object with mock analog actuator")
                   "outputValue: 102400 outputSetting: 102400 "
                   "enabled: true active: true "
                   "kp: 40960 ti: 2000 td: 200 "
-                  "drivenOutputId: 102 "
                   "boilPointAdjust: -2048 "
                   "boilMinOutput: 102400 "
                   "boilModeActive: true "

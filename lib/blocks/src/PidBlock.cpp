@@ -70,9 +70,6 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
         excluded.push_back(blox_Pid_Block_outputSetting_tag);
         excluded.push_back(blox_Pid_Block_outputValue_tag);
     }
-    if (pid.active()) {
-        message.drivenOutputId = message.outputId;
-    }
 
     message.enabled = pid.enabler.get();
     message.active = pid.active();

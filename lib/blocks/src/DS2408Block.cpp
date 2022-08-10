@@ -35,6 +35,7 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
         for (uint8_t i = 0; i < message.channels_count; ++i) {
             message.channels[i].capabilities = caps.all;
             message.channels[i].id = blox_DS2408_ChannelId_DS2408_CHAN_A + i;
+            message.channels[i].claimedBy = device.claimedBy(i + 1);
         }
     } else {
         message.channels_count = 2;
@@ -44,6 +45,8 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
         message.channels[1].capabilities = caps.all;
         message.channels[0].id = blox_DS2408_ChannelId_DS2408_VALVE_A;
         message.channels[1].id = blox_DS2408_ChannelId_DS2408_VALVE_B;
+        message.channels[0].claimedBy = device.claimedBy(1);
+        message.channels[1].claimedBy = device.claimedBy(2);
     }
 
     return cbox::PayloadBuilder(*this)

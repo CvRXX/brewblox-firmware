@@ -1,14 +1,14 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "blocks/IoChannelPtr.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/FastPwm.hpp"
 #include "proto/FastPwm.pb.h"
 
 class FastPwmBlock final : public Block<brewblox_BlockType_FastPwm> {
 private:
-    cbox::CboxPtr<IoArray> io;
+    IoChannelPtr io;
     FastPwm pwm;
     ActuatorAnalogConstrained constrained;
     blox_IoArray_TransitionDurationPreset transitionDurationPreset = blox_IoArray_TransitionDurationPreset_ST_OFF;

@@ -42,7 +42,7 @@ SCENARIO("A FastPwm object can be created from protobuf data")
         message.set_hwdevice(sparkPinsId);
         message.set_channel(1);
         message.set_desiredsetting(cnl::unwrap(ActuatorAnalog::value_t(20)));
-        message.set_frequency(blox_test::FastPwm::PwmFrequency::PWM_FREQ_100HZ);
+        message.set_frequency(blox_test::IoArray::PwmFrequency::PWM_FREQ_100HZ);
         message.set_enabled(true);
         auto c = message.mutable_constrainedby()->add_constraints();
         c->set_min(cnl::unwrap(ActuatorAnalog::value_t(10)));

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "blocks/IoChannelPtr.hpp"
 #include "control/ActuatorDigital.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/ActuatorDigitalSoft.hpp"
@@ -57,7 +57,7 @@ public:
         return std::nullopt;
     }
 
-    cbox::CboxPtr<IoArray> hwDevice;
+    IoChannelPtr hwDevice;
 
     std::variant<ActuatorDigital, ActuatorDigitalSoft> act = ActuatorDigital(hwDevice, 0);
 };

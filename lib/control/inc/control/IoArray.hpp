@@ -228,6 +228,39 @@ public:
         return (fromChannel.all | requested.all) == fromChannel.all;
     }
 
+    bool claimChannel(uint16_t claimerId, uint8_t channel)
+    {
+        if (channel == 0) {
+            return true;
+        }
+        if (channel <= channels.size()) {
+            auto& chan = channels[channel - 1];
+            if (chan.claimedBy == 0) {
+                chan.claimedBy = claimerId;
+                return true;
+            }
+            if (chan.claimedBy == claimerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void unclaimChannel(uint16_t claimerId, uint8_t channel)
+    {
+        if (claimChannel(claimerId, channel)) {
+            channels[channel - 1].claimedBy = 0;
+        }
+    }
+
+    uint16_t claimedBy(uint8_t channel) const
+    {
+        if (channel > 0 && channel <= channels.size()) {
+            return channels[channel - 1].claimedBy;
+        }
+        return 0;
+    }
+
 protected:
     [[nodiscard]] virtual IoValue::variant readChannelImpl(uint8_t channel) const = 0;
     [[nodiscard]] virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
@@ -255,6 +288,7 @@ private:
         IoValue::variant actual = IoValue::Error::NOT_CONFIGURED;
         IoValue::Setup::variant setup = IoValue::Setup::Unused{};
         IoValue::Setup::variant setupDesired = IoValue::Setup::Unused{};
+        uint16_t claimedBy = 0;
     };
 
     std::vector<Channel> channels;

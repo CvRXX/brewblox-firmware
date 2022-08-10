@@ -129,7 +129,7 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                       "address: 451560922637681722 "
                       "connected: true "
                       "oneWireBusId: 4 "
-                      "channels { id: 1 capabilities: 1 } "
+                      "channels { id: 1 capabilities: 1 claimedBy: 101 } "
                       "channels { id: 2 capabilities: 1 }");
             }
         }
@@ -256,7 +256,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
 
                 // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind
                 CHECK(message.ShortDebugString() ==
-                      "channels { id: 1 capabilities: 5 } "
+                      "channels { id: 1 capabilities: 5 claimedBy: 101 } "
                       "channels { id: 2 capabilities: 5 } "
                       "channels { id: 3 capabilities: 5 } "
                       "channels { id: 4 capabilities: 5 } "

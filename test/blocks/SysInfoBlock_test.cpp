@@ -37,11 +37,11 @@ SCENARIO("SysInfo Block")
     std::string reply = std::string("deviceId: \"999999999999\"")
                         + " version: \"" + version + "\" platform: PLATFORM_GCC protocolVersion: \"" + protocolVersion
                         + "\" releaseDate: \"" + releaseDate + "\" protocolDate: \"" + protocolDate + "\" ip: 2130706433"
-                        + " uptime: 40000 updatesPerSecond: 20000 displayBrightness: 255";
+                        + " uptime: 10000 updatesPerSecond: 20000 displayBrightness: 255";
 
     auto sysInfoId = cbox::obj_id_t(2);
 
-    for (cbox::update_t now = 0; now <= 40000; now += 50) {
+    for (cbox::update_t now = 0; now <= 10000; now += 50) {
         cbox::getObjects().update(now);
     }
 

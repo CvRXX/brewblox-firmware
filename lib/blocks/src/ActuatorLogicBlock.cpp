@@ -82,9 +82,6 @@ void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool in
     if (includeNotPersisted) {
         message.result = m_result;
         message.errorPos = m_errorPos;
-        if (enabler.get()) {
-            message.drivenTargetId = message.targetId;
-        }
     }
 
     for (pb_size_t i = 0; i < digitals.size() && i < 16; i++) {

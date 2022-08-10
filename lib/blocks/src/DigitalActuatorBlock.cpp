@@ -74,9 +74,10 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_DigitalActuator_Block_fields)) {
         if (parser.hasField(blox_DigitalActuator_Block_hwDevice_tag)) {
-            actuator.hwDevice.setId(message.hwDevice);
+            actuator.hwDevice.setId(message.hwDevice, objectId());
         }
         if (parser.hasField(blox_DigitalActuator_Block_channel_tag)) {
+            actuator.hwDevice.setChannel(message.channel);
             if (auto pAct = std::get_if<ActuatorDigitalSoft>(&actuator.act)) {
                 pAct->channel(message.channel);
             } else if (auto pAct = std::get_if<ActuatorDigital>(&actuator.act)) {

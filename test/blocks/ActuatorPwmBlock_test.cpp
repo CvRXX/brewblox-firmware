@@ -82,7 +82,6 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
               "setting: 81920 "
               "value: 36404 "
               "constrainedBy { constraints { min: 40960 } } "
-              "drivenActuatorId: 100 "
               "enabled: true "
               "desiredSetting: 81920");
     }

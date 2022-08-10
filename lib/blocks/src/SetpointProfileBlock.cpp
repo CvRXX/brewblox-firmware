@@ -67,14 +67,11 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
     message.enabled = profile.enabler.get();
     message.start = profile.startTime();
     message.targetId = target.getId();
-    if (profile.isDriving()) {
-        message.drivenTargetId = target.getId();
-    }
 
     size_t blockSize = (blox_SetpointProfile_Point_size + 1) * profile.points().size()
                        + 3 // enabled
                        + 4 // targetId
-                       + 5 // drivenTargetId
+                       + 5 // drivenTargetId, ignored but allocate to be safe
                        + 6 // start
         ;
 

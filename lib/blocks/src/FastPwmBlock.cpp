@@ -7,7 +7,7 @@ void FastPwmBlock::addPersistedStateToMessage(blox_FastPwm_Block& message) const
 {
     message.hwDevice = io.getId();
     message.channel = pwm.channel();
-    message.frequency = blox_FastPwm_PwmFrequency(pwm.frequency());
+    message.frequency = blox_IoArray_PwmFrequency(pwm.frequency());
     message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
     message.enabled = pwm.enabler.get();
     message.transitionDurationSetting = transitionDurationSetting;
@@ -74,9 +74,10 @@ FastPwmBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_FastPwm_Block_fields)) {
         if (parser.hasField(blox_FastPwm_Block_hwDevice_tag)) {
-            io.setId(message.hwDevice);
+            io.setId(message.hwDevice, objectId());
         }
         if (parser.hasField(blox_FastPwm_Block_channel_tag)) {
+            io.setChannel(message.channel);
             pwm.channel(message.channel);
         }
         if (parser.hasField(blox_FastPwm_Block_frequency_tag)) {

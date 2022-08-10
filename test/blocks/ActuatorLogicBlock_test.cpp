@@ -137,7 +137,6 @@ SCENARIO("ActuatorLogicBlock")
     auto result = setLogic(message, true);
     CHECK(result.ShortDebugString() ==
           "targetId: 105 "
-          "drivenTargetId: 105 "
           "enabled: true "
           "result: RESULT_EMPTY");
 
@@ -177,7 +176,6 @@ SCENARIO("ActuatorLogicBlock")
             auto result = setLogic(message);
             CHECK(result.ShortDebugString() ==
                   "targetId: 105 "
-                  "drivenTargetId: 105 "
                   "enabled: true "
                   "expression: \"a|b|c\" "
                   "digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } "
@@ -198,7 +196,6 @@ SCENARIO("ActuatorLogicBlock")
                 payloadToMessage(cmd, decoded);
                 CHECK(decoded.ShortDebugString() ==
                       "targetId: 105 "
-                      "drivenTargetId: 105 "
                       "enabled: true "
                       "result: RESULT_TRUE "
                       "expression: \"a|b|c\" "
@@ -221,7 +218,6 @@ SCENARIO("ActuatorLogicBlock")
                 payloadToMessage(cmd, decoded);
                 CHECK(decoded.ShortDebugString() ==
                       "targetId: 105 "
-                      "drivenTargetId: 105 "
                       "enabled: true "
                       "result: RESULT_TRUE "
                       "expression: \"a|b|c\" "
@@ -416,7 +412,6 @@ SCENARIO("ActuatorLogicBlock")
             CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
             CHECK(result.ShortDebugString() ==
                   "targetId: 105 "
-                  "drivenTargetId: 105 "
                   "enabled: true "
                   "result: RESULT_TRUE "
                   "expression: \"A|B|C|D\" "

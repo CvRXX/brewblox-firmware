@@ -27,9 +27,6 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
     }
     if (auto val = constrained.setting()) {
         message.setting = cnl::unwrap(*val);
-        if (pwm.enabler.get()) {
-            message.drivenActuatorId = message.actuatorId;
-        }
     } else {
         excluded.push_back(blox_ActuatorPwm_Block_setting_tag);
     };

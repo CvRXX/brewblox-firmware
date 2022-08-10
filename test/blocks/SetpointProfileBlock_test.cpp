@@ -176,7 +176,6 @@ SCENARIO("A SetpointProfile block")
                       "points { time: 20 temperature: 86016 } "
                       "enabled: true "
                       "targetId: 101 "
-                      "drivenTargetId: 101 "
                       "start: 20000");
             }
         }
@@ -213,7 +212,6 @@ SCENARIO("A SetpointProfile block")
                   "points { time: 20 temperature: 86016 } "
                   "enabled: true "
                   "targetId: 101 "
-                  "drivenTargetId: 101 "
                   "start: 20000");
         }
     }

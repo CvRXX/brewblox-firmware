@@ -31,6 +31,7 @@ MockPinsBlock::read(const cbox::PayloadCallback& callback) const
     for (uint8_t i = 0; i < 8; ++i) {
         message.channels[i].id = i + 1;
         message.channels[i].capabilities = mocks.getChannelCapabilities(i + 1).all;
+        message.channels[i].claimedBy = mocks.claimedBy(i + 1);
     }
 
     return cbox::PayloadBuilder(*this)
