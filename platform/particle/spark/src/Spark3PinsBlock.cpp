@@ -76,15 +76,12 @@ cbox::CboxError Spark3PinsBlock::read(const cbox::PayloadCallback& callback) con
 {
     blox_Spark3Pins_Block message = blox_Spark3Pins_Block_init_zero;
 
-    message.channels_count = 5;
-    message.channels[0].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP1;
-    message.channels[1].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP2;
-    message.channels[2].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP3;
-    message.channels[3].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_BOTTOM1;
-    message.channels[4].id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_BOTTOM2;
-    for (uint8_t i = 0; i < 5; ++i) {
-        message.channels[i].capabilities = getChannelCapabilities(i + 1).all;
-        message.channels[i].claimedBy = claimedBy(i + 1);
+    message.channels_count = spark3Channels.size();
+    for (uint8_t i = 0; i < spark3Channels.size(); ++i) {
+        uint8_t id = blox_Spark3Pins_ChannelId_SPARK3_CHAN_TOP1 + i;
+        message.channels[i].id = id;
+        message.channels[i].capabilities = getChannelCapabilities(id).all;
+        message.channels[i].claimedBy = getChannelClaimerId(id);
     }
 
     message.soundAlarm = HAL_GPIO_Read(PIN_ALARM);

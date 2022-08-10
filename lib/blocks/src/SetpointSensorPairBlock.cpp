@@ -144,7 +144,8 @@ void* SetpointSensorPairBlock::implements(cbox::obj_type_t iface)
         return this; // me!
     }
     if (iface == cbox::interfaceId<cbox::Claimable>()) {
-        return &claim;
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ProcessValue<temp_t>>()) {
         // return the member that implements the interface in this case

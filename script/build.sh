@@ -50,14 +50,14 @@ elif [[ "${PLATFORM}" =~ ^(photon|p1|gcc)$ ]]; then
         COMPILE_LTO=y \
         "$@"
 
-    if [[ "${PLATFORM}" != gcc ]]; then
+    if [[ "${PLATFORM}" != gcc ]] && [[ "${1:-}" != clean ]]; then
         subtask bash script/check-no-float.sh
     fi
 
 elif [[ "${PLATFORM}" == sim ]]; then
     BUILD_DIR=app/brewblox-simulator/build
 
-    if [[ "${1:-}" == "clean" ]]; then
+    if [[ "${1:-}" == clean ]]; then
         rm -rf ${BUILD_DIR}
     else
         mkdir -p ${BUILD_DIR}

@@ -67,6 +67,7 @@ public:
             m_setting = std::nullopt;
         }
     }
+
     std::optional<value_t> setting() const final
     {
         return m_setting;

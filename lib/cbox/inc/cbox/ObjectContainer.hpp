@@ -41,7 +41,7 @@ public:
     ObjectContainer() = default;
     virtual ~ObjectContainer()
     {
-        clearAll(); // prevents object lookup during container destruction destruction
+        clearAll(); // prevents object lookup during container destruction
     };
 
 private:

@@ -13,6 +13,7 @@ set(control_srcs
   src/FilterChain.cpp
   src/FixedPoint.cpp
   src/IirFilter.cpp
+  src/InputDigital.cpp
   src/MotorValve.cpp
   src/OneWireAddress.cpp
   src/OneWire.cpp

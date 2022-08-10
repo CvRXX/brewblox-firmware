@@ -253,7 +253,7 @@ public:
         }
     }
 
-    uint16_t claimedBy(uint8_t channel) const
+    uint16_t getChannelClaimerId(uint8_t channel) const
     {
         if (channel > 0 && channel <= channels.size()) {
             return channels[channel - 1].claimedBy;

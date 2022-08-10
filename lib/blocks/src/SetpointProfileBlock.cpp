@@ -71,7 +71,7 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
     size_t blockSize = (blox_SetpointProfile_Point_size + 1) * profile.points().size()
                        + 3 // enabled
                        + 4 // targetId
-                       + 5 // drivenTargetId, ignored but allocate to be safe
+                       + 3 // drivenTargetId, ignored but allocate to be safe
                        + 6 // start
         ;
 

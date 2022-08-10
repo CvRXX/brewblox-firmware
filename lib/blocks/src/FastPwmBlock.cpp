@@ -112,8 +112,7 @@ cbox::update_t
 FastPwmBlock::updateHandler(cbox::update_t now)
 {
     constrained.update();
-    auto nextUpdate = pwm.update(now);
-    return nextUpdate;
+    return pwm.update(now);
 }
 
 void* FastPwmBlock::implements(cbox::obj_type_t iface)

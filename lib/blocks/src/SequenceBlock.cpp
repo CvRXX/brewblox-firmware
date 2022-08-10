@@ -304,7 +304,7 @@ InstructionResult waitSetpointFunc(SequenceBlock&,
         return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
     }
 
-    if (*value >= *setting - precision && value <= *setting + precision) {
+    if (*value >= *setting - precision && *value <= *setting + precision) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAIT;

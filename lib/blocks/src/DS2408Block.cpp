@@ -20,6 +20,9 @@
 #include "blocks/DS2408Block.hpp"
 #include "cbox/PayloadConversion.hpp"
 
+static constexpr uint8_t NUM_ACTUATOR_CHANNELS = 8;
+static constexpr uint8_t NUM_VALVE_CHANNELS = 2;
+
 cbox::CboxError
 DS2408Block::read(const cbox::PayloadCallback& callback) const
 {
@@ -30,23 +33,26 @@ DS2408Block::read(const cbox::PayloadCallback& callback) const
     message.connected = device.connected();
     message.connectMode = connectMode;
     if (connectMode == blox_DS2408_PinConnectMode_CONNECT_ACTUATOR) {
-        message.channels_count = 8;
+        message.channels_count = NUM_ACTUATOR_CHANNELS;
         auto caps = device.getChannelCapabilities(1); // same for all channels
-        for (uint8_t i = 0; i < message.channels_count; ++i) {
+        for (uint8_t i = 0; i < NUM_ACTUATOR_CHANNELS; ++i) {
+            uint8_t id = blox_DS2408_ChannelId_DS2408_CHAN_A + i;
             message.channels[i].capabilities = caps.all;
-            message.channels[i].id = blox_DS2408_ChannelId_DS2408_CHAN_A + i;
-            message.channels[i].claimedBy = device.claimedBy(i + 1);
+            message.channels[i].id = id;
+            message.channels[i].claimedBy = device.getChannelClaimerId(id);
         }
     } else {
-        message.channels_count = 2;
+        message.channels_count = NUM_VALVE_CHANNELS;
         auto caps = device.getChannelCapabilities(1);
         caps.flags.bidirectional = 1;
+
         message.channels[0].capabilities = caps.all;
-        message.channels[1].capabilities = caps.all;
         message.channels[0].id = blox_DS2408_ChannelId_DS2408_VALVE_A;
+        message.channels[0].claimedBy = device.getChannelClaimerId(1);
+
+        message.channels[1].capabilities = caps.all;
         message.channels[1].id = blox_DS2408_ChannelId_DS2408_VALVE_B;
-        message.channels[0].claimedBy = device.claimedBy(1);
-        message.channels[1].claimedBy = device.claimedBy(2);
+        message.channels[1].claimedBy = device.getChannelClaimerId(2);
     }
 
     return cbox::PayloadBuilder(*this)
