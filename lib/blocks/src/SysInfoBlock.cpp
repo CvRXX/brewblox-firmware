@@ -43,7 +43,7 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
     strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
 
     message.ip = network::ip4();
-    message.uptime = _lastUpdate;
+    message.uptime = ticks.millis();
     message.updatesPerSecond = _updateRate;
     message.systemTime = ticks.utc();
     strncpy(message.timeZone, _settings.timeZone.c_str(), _settings.timeZone.size());
@@ -108,15 +108,14 @@ SysInfoBlock::write(const cbox::Payload& payload)
 cbox::update_t SysInfoBlock::updateHandler(cbox::update_t now)
 {
     // group per 10 seconds
-    static constexpr auto interval = cbox::update_t{10'000};
+    static constexpr auto interval = cbox::update_t{3'500};
     _lastUpdate = now;
     auto elapsed = now - _updateCounterStart;
     if (elapsed >= interval) {
         // update rate is scaled in proto
         _updateRate = (uint64_t{_updateCounter} * 1'000'000) / elapsed;
         _updateCounter = 0;
-
-        _updateCounterStart = _lastUpdate;
+        _updateCounterStart = now;
     }
     _updateCounter++;
     return now + 1;
