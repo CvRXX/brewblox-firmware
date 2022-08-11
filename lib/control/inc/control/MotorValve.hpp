@@ -19,8 +19,6 @@
 
 #pragma once
 
-#include "blocks/IoChannelPtr.hpp"
-#include "cbox/Claimable.hpp"
 #include "control/ActuatorDigitalBase.hpp"
 #include "control/DS2408.hpp"
 #include <functional>

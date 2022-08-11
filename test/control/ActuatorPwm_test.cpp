@@ -1381,7 +1381,8 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
     auto ds2408mock = std::make_shared<DS2408Mock>(addr);
     mockOw.attach(ds2408mock);
     auto ds = TestControlPtr<DS2408>(new DS2408(ow, addr));
-    MotorValve act(ds, 1);
+    auto dsIo = TestControlPtr<IoArray>(new DS2408(ow, addr));
+    MotorValve act(dsIo, 1);
 
     auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));
     ActuatorPwm pwm(constrained, 4000);
