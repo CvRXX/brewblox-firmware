@@ -99,7 +99,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\035SetpointSensorPair_test.proto\022\034blox_te"
       "st.SetpointSensorPair\032\023brewblox_test.pro"
-      "to\032\021nanopb_test.proto\"\347\003\n\005Block\022\035\n\010senso"
+      "to\032\021nanopb_test.proto\"\354\003\n\005Block\022\035\n\010senso"
       "rId\030\002 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\022/\n\007setting\030\005 \001(\021B"
       "\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022-\n\005value"
       "\030\006 \001(\021B\036\212\265\030\0020\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\017"
@@ -110,15 +110,15 @@ void AddDescriptorsImpl() {
       "\003\020\200 \222\?\0028 \0227\n\017valueUnfiltered\030\013 \001(\021B\036\212\265\030\002"
       "0\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\023\n\013resetFilte"
       "r\030\014 \001(\010\022%\n\tclaimedBy\030\r \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002("
-      "\001\222\?\0028\020\022\036\n\016settingEnabled\030Z \001(\010B\006\212\265\030\002H\001:\037"
-      "\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030\002H\017\212\265\030\002H\020*~\n\014Filte"
-      "rChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFILTER_15s\020\001"
-      "\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s\020\003\022\r\n\tFILT"
-      "ER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFILTER_30m\020\006b"
-      "\006proto3"
+      "\001\222\?\0028\020\022#\n\016settingEnabled\030Z \001(\010B\013\212\265\030\002H\001\222\?"
+      "\002\030\003:\037\212\265\030\003\030\257\002\212\265\030\002H\001\212\265\030\002H\004\212\265\030\002H\017\212\265\030\002H\020*~\n\014"
+      "FilterChoice\022\017\n\013FILTER_NONE\020\000\022\016\n\nFILTER_"
+      "15s\020\001\022\016\n\nFILTER_45s\020\002\022\016\n\nFILTER_90s\020\003\022\r\n"
+      "\tFILTER_3m\020\004\022\016\n\nFILTER_10m\020\005\022\016\n\nFILTER_3"
+      "0m\020\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 727);
+      descriptor, 732);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointSensorPair_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -384,7 +384,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool settingEnabled = 90 [(.brewblox.field) = {
+      // bool settingEnabled = 90 [(.nanopb) = {
       case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
@@ -475,7 +475,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(13, this->claimedby(), output);
   }
 
-  // bool settingEnabled = 90 [(.brewblox.field) = {
+  // bool settingEnabled = 90 [(.nanopb) = {
   if (this->settingenabled() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->settingenabled(), output);
   }
@@ -545,7 +545,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(13, this->claimedby(), target);
   }
 
-  // bool settingEnabled = 90 [(.brewblox.field) = {
+  // bool settingEnabled = 90 [(.nanopb) = {
   if (this->settingenabled() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->settingenabled(), target);
   }
@@ -632,7 +632,7 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // bool settingEnabled = 90 [(.brewblox.field) = {
+  // bool settingEnabled = 90 [(.nanopb) = {
   if (this->settingenabled() != 0) {
     total_size += 2 + 1;
   }

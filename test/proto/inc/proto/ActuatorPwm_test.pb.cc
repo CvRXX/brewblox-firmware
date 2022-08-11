@@ -100,7 +100,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\026ActuatorPwm_test.proto\022\025blox_test.Actu"
       "atorPwm\032\023brewblox_test.proto\032\021nanopb_tes"
-      "t.proto\032\026Constraints_test.proto\"\201\003\n\005Bloc"
+      "t.proto\032\026Constraints_test.proto\"\206\003\n\005Bloc"
       "k\022\037\n\nactuatorId\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022\035\n\006pe"
       "riod\030\003 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022)\n\007setting\030\004 \001"
       "(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\005 "
@@ -108,12 +108,12 @@ void AddDescriptorsImpl() {
       "inedBy\030\006 \001(\0132(.blox_test.Constraints.Ana"
       "logConstraints\022\017\n\007enabled\030\010 \001(\010\022*\n\016desir"
       "edSetting\030\t \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022%\n\tc"
-      "laimedBy\030\n \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\022\036\n\016dr"
-      "ivenTargetId\030Z \001(\010B\006\212\265\030\002H\001:\037\212\265\030\003\030\263\002\212\265\030\002H"
-      "\001\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H\020b\006proto3"
+      "laimedBy\030\n \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\022#\n\016dr"
+      "ivenTargetId\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\037\212\265\030\003\030\263\002"
+      "\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H\020b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 507);
+      descriptor, 512);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -346,7 +346,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool drivenTargetId = 90 [(.brewblox.field) = {
+      // bool drivenTargetId = 90 [(.nanopb) = {
       case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
@@ -427,7 +427,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->claimedby(), output);
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->driventargetid(), output);
   }
@@ -488,7 +488,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->claimedby(), target);
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->driventargetid(), target);
   }
@@ -564,7 +564,7 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     total_size += 2 + 1;
   }

@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_ActuatorOffset_Block_fields[11] = {
+const pb_field_t blox_ActuatorOffset_Block_fields[10] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorOffset_Block, targetId, targetId, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, referenceId, targetId, 0),
     PB_FIELD(  4, UENUM   , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, referenceSettingOrValue, referenceId, 0),
@@ -19,7 +19,6 @@ const pb_field_t blox_ActuatorOffset_Block_fields[11] = {
     PB_FIELD( 10, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, enabled, constrainedBy, 0),
     PB_FIELD( 11, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, desiredSetting, enabled, 0),
     PB_FIELD( 12, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, claimedBy, desiredSetting, 0),
-    PB_FIELD( 90, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorOffset_Block, drivenTargetId, claimedBy, 0),
     PB_LAST_FIELD
 };
 

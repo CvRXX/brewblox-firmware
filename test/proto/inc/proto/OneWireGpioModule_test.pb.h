@@ -473,7 +473,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool clearfaults() const;
   void set_clearfaults(bool value);
 
-  // uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+  // uint32 moduleStatusClear = 90 [(.nanopb) = {
   void clear_modulestatusclear();
   static const int kModuleStatusClearFieldNumber = 90;
   ::google::protobuf::uint32 modulestatusclear() const;
@@ -880,7 +880,7 @@ inline void Block::set_clearfaults(bool value) {
   // @@protoc_insertion_point(field_set:blox_test.OneWireGpioModule.Block.clearFaults)
 }
 
-// uint32 moduleStatusClear = 90 [(.brewblox.field) = {
+// uint32 moduleStatusClear = 90 [(.nanopb) = {
 inline void Block::clear_modulestatusclear() {
   modulestatusclear_ = 0u;
 }

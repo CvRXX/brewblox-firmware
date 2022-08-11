@@ -284,7 +284,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool boilmodeactive() const;
   void set_boilmodeactive(bool value);
 
-  // bool drivenOutputId = 90 [(.brewblox.field) = {
+  // bool drivenOutputId = 90 [(.nanopb) = {
   void clear_drivenoutputid();
   static const int kDrivenOutputIdFieldNumber = 90;
   bool drivenoutputid() const;
@@ -639,7 +639,7 @@ inline void Block::set_derivativefilter(::blox_test::SetpointSensorPair::FilterC
   // @@protoc_insertion_point(field_set:blox_test.Pid.Block.derivativeFilter)
 }
 
-// bool drivenOutputId = 90 [(.brewblox.field) = {
+// bool drivenOutputId = 90 [(.nanopb) = {
 inline void Block::clear_drivenoutputid() {
   drivenoutputid_ = false;
 }

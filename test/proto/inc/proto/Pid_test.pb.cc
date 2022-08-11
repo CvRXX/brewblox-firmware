@@ -110,7 +110,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016Pid_test.proto\022\rblox_test.Pid\032\023brewblo"
       "x_test.proto\032\021nanopb_test.proto\032\035Setpoin"
-      "tSensorPair_test.proto\"\276\007\n\005Block\022\034\n\007inpu"
+      "tSensorPair_test.proto\"\303\007\n\005Block\022\034\n\007inpu"
       "tId\030\001 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\022\035\n\010outputId\030\002 \001(\r"
       "B\013\212\265\030\002\030\005\222\?\0028\020\0222\n\ninputValue\030\005 \001(\021B\036\212\265\030\0020"
       "\001\212\265\030\002\010\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\0224\n\014inputSettin"
@@ -133,11 +133,11 @@ void AddDescriptorsImpl() {
       "\030\031 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022$\n\016boilModeActive\030\032"
       " \001(\010B\014\212\265\030\0020\001\212\265\030\002(\001\022L\n\020derivativeFilter\030\033"
       " \001(\0162*.blox_test.SetpointSensorPair.Filt"
-      "erChoiceB\006\212\265\030\002(\001\022\036\n\016drivenOutputId\030Z \001(\010"
-      "B\006\212\265\030\002H\001:\r\212\265\030\003\030\260\002\212\265\030\002H\017b\006proto3"
+      "erChoiceB\006\212\265\030\002(\001\022#\n\016drivenOutputId\030Z \001(\010"
+      "B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\260\002\212\265\030\002H\017b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1071);
+      descriptor, 1076);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Pid_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -565,7 +565,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool drivenOutputId = 90 [(.brewblox.field) = {
+      // bool drivenOutputId = 90 [(.nanopb) = {
       case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
@@ -716,7 +716,7 @@ void Block::SerializeWithCachedSizes(
       27, this->derivativefilter(), output);
   }
 
-  // bool drivenOutputId = 90 [(.brewblox.field) = {
+  // bool drivenOutputId = 90 [(.nanopb) = {
   if (this->drivenoutputid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->drivenoutputid(), output);
   }
@@ -846,7 +846,7 @@ void Block::SerializeWithCachedSizes(
       27, this->derivativefilter(), target);
   }
 
-  // bool drivenOutputId = 90 [(.brewblox.field) = {
+  // bool drivenOutputId = 90 [(.nanopb) = {
   if (this->drivenoutputid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->drivenoutputid(), target);
   }
@@ -1015,7 +1015,7 @@ size_t Block::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
-  // bool drivenOutputId = 90 [(.brewblox.field) = {
+  // bool drivenOutputId = 90 [(.nanopb) = {
   if (this->drivenoutputid() != 0) {
     total_size += 2 + 1;
   }

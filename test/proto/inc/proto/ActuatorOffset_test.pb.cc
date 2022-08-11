@@ -102,7 +102,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\031ActuatorOffset_test.proto\022\030blox_test.A"
       "ctuatorOffset\032\023brewblox_test.proto\032\021nano"
-      "pb_test.proto\032\026Constraints_test.proto\"\306\003"
+      "pb_test.proto\032\026Constraints_test.proto\"\313\003"
       "\n\005Block\022\035\n\010targetId\030\001 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022 "
       "\n\013referenceId\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022H\n\027refe"
       "renceSettingOrValue\030\004 \001(\0162\'.blox_test.Ac"
@@ -112,13 +112,13 @@ void AddDescriptorsImpl() {
       "ainedBy\030\010 \001(\0132(.blox_test.Constraints.An"
       "alogConstraints\022\017\n\007enabled\030\n \001(\010\022*\n\016desi"
       "redSetting\030\013 \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022%\n\t"
-      "claimedBy\030\014 \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\022\036\n\016d"
-      "rivenTargetId\030Z \001(\010B\006\212\265\030\002H\001:\031\212\265\030\003\030\264\002\212\265\030\002"
-      "H\005\212\265\030\002H\017\212\265\030\002H\020*/\n\rReferenceKind\022\017\n\013REF_S"
-      "ETTING\020\000\022\r\n\tREF_VALUE\020\001b\006proto3"
+      "claimedBy\030\014 \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\022#\n\016d"
+      "rivenTargetId\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\031\212\265\030\003\030\264"
+      "\002\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H\020*/\n\rReferenceKind\022\017\n\013"
+      "REF_SETTING\020\000\022\r\n\tREF_VALUE\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 631);
+      descriptor, 636);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorOffset_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -381,7 +381,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool drivenTargetId = 90 [(.brewblox.field) = {
+      // bool drivenTargetId = 90 [(.nanopb) = {
       case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
@@ -468,7 +468,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->claimedby(), output);
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->driventargetid(), output);
   }
@@ -535,7 +535,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->claimedby(), target);
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->driventargetid(), target);
   }
@@ -617,7 +617,7 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     total_size += 2 + 1;
   }

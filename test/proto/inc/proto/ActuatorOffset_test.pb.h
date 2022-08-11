@@ -234,7 +234,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool enabled() const;
   void set_enabled(bool value);
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   void clear_driventargetid();
   static const int kDrivenTargetIdFieldNumber = 90;
   bool driventargetid() const;
@@ -428,7 +428,7 @@ inline void Block::set_claimedby(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.ActuatorOffset.Block.claimedBy)
 }
 
-// bool drivenTargetId = 90 [(.brewblox.field) = {
+// bool drivenTargetId = 90 [(.nanopb) = {
 inline void Block::clear_driventargetid() {
   driventargetid_ = false;
 }

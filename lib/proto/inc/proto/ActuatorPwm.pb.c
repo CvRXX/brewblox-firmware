@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_ActuatorPwm_Block_fields[10] = {
+const pb_field_t blox_ActuatorPwm_Block_fields[9] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorPwm_Block, actuatorId, actuatorId, 0),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, period, actuatorId, 0),
     PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, setting, period, 0),
@@ -18,7 +18,6 @@ const pb_field_t blox_ActuatorPwm_Block_fields[10] = {
     PB_FIELD(  8, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, enabled, constrainedBy, 0),
     PB_FIELD(  9, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, desiredSetting, enabled, 0),
     PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, claimedBy, desiredSetting, 0),
-    PB_FIELD( 90, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, drivenTargetId, claimedBy, 0),
     PB_LAST_FIELD
 };
 

@@ -238,7 +238,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool resetfilter() const;
   void set_resetfilter(bool value);
 
-  // bool settingEnabled = 90 [(.brewblox.field) = {
+  // bool settingEnabled = 90 [(.nanopb) = {
   void clear_settingenabled();
   static const int kSettingEnabledFieldNumber = 90;
   bool settingenabled() const;
@@ -413,7 +413,7 @@ inline void Block::set_claimedby(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.SetpointSensorPair.Block.claimedBy)
 }
 
-// bool settingEnabled = 90 [(.brewblox.field) = {
+// bool settingEnabled = 90 [(.nanopb) = {
 inline void Block::clear_settingenabled() {
   settingenabled_ = false;
 }

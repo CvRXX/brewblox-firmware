@@ -129,15 +129,15 @@ void AddDescriptorsImpl() {
       "SetpointProfile\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\"b\n\005Point\022\031\n\004time\030\001 \001(\rB\013"
       "\212\265\030\002\010\003\222\?\0028 \022)\n\013temperature\030\002 \001(\005B\022\212\265\030\002\010\001"
-      "\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneof\"\265\001\n\005"
+      "\212\265\030\003\020\200 \222\?\0028 H\000B\023\n\021temperature_oneof\"\272\001\n\005"
       "Block\0220\n\006points\030\001 \003(\0132 .blox_test.Setpoi"
       "ntProfile.Point\022\017\n\007enabled\030\003 \001(\010\022\036\n\010targ"
       "etId\030\004 \001(\rB\014\212\265\030\003\030\257\002\222\?\0028\020\022\032\n\005start\030\006 \001(\rB"
-      "\013\212\265\030\002X\001\222\?\0028 \022\036\n\016drivenTargetId\030Z \001(\010B\006\212\265"
-      "\030\002H\001:\r\212\265\030\003\030\267\002\212\265\030\002H\017b\006proto3"
+      "\013\212\265\030\002X\001\222\?\0028 \022#\n\016drivenTargetId\030Z \001(\010B\013\212\265"
+      "\030\002H\001\222\?\002\030\003:\r\212\265\030\003\030\267\002\212\265\030\002H\017b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 387);
+      descriptor, 392);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SetpointProfile_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -596,7 +596,7 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // bool drivenTargetId = 90 [(.brewblox.field) = {
+      // bool drivenTargetId = 90 [(.nanopb) = {
       case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
@@ -660,7 +660,7 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->start(), output);
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->driventargetid(), output);
   }
@@ -702,7 +702,7 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->start(), target);
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->driventargetid(), target);
   }
@@ -754,7 +754,7 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // bool drivenTargetId = 90 [(.brewblox.field) = {
+  // bool drivenTargetId = 90 [(.nanopb) = {
   if (this->driventargetid() != 0) {
     total_size += 2 + 1;
   }

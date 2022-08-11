@@ -41,15 +41,14 @@ typedef struct _blox_Pid_Block {
     int32_t boilMinOutput;
     bool boilModeActive;
     blox_SetpointSensorPair_FilterChoice derivativeFilter;
-    bool drivenOutputId;
 /* @@protoc_insertion_point(struct:blox_Pid_Block) */
 } blox_Pid_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_Pid_Block_init_default              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0}
-#define blox_Pid_Block_init_zero                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN, 0}
+#define blox_Pid_Block_init_default              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN}
+#define blox_Pid_Block_init_zero                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _blox_SetpointSensorPair_FilterChoice_MIN}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_Pid_Block_inputId_tag               1
@@ -74,13 +73,12 @@ typedef struct _blox_Pid_Block {
 #define blox_Pid_Block_boilMinOutput_tag         25
 #define blox_Pid_Block_boilModeActive_tag        26
 #define blox_Pid_Block_derivativeFilter_tag      27
-#define blox_Pid_Block_drivenOutputId_tag        90
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_Pid_Block_fields[24];
+extern const pb_field_t blox_Pid_Block_fields[23];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_Pid_Block_size                      130
+#define blox_Pid_Block_size                      127
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID
