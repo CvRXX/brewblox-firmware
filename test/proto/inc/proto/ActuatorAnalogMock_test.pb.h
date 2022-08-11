@@ -206,6 +206,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 desiredsetting() const;
   void set_desiredsetting(::google::protobuf::int32 value);
 
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 10;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.ActuatorAnalogMock.Block)
  private:
 
@@ -218,6 +224,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 minvalue_;
   ::google::protobuf::int32 maxvalue_;
   ::google::protobuf::int32 desiredsetting_;
+  ::google::protobuf::uint32 claimedby_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_ActuatorAnalogMock_5ftest_2eproto::TableStruct;
 };
@@ -376,6 +383,20 @@ inline void Block::set_desiredsetting(::google::protobuf::int32 value) {
   
   desiredsetting_ = value;
   // @@protoc_insertion_point(field_set:blox_test.ActuatorAnalogMock.Block.desiredSetting)
+}
+
+// uint32 claimedBy = 10 [(.nanopb) = {
+inline void Block::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorAnalogMock.Block.claimedBy)
+  return claimedby_;
+}
+inline void Block::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorAnalogMock.Block.claimedBy)
 }
 
 #ifdef __GNUC__

@@ -148,7 +148,7 @@ void AddDescriptorsImpl() {
       "erSecond\020\007\022\031\n\025DeltaCelsiusPerMinute\020\010\022\027\n"
       "\023DeltaCelsiusPerHour\020\t\022\032\n\026DeltaCelsiusMu"
       "ltSecond\020\n\022\032\n\026DeltaCelsiusMultMinute\020\013\022\030"
-      "\n\024DeltaCelsiusMultHour\020\014*\310\007\n\tBlockType\022\013"
+      "\n\024DeltaCelsiusMultHour\020\014*\356\007\n\tBlockType\022\013"
       "\n\007Invalid\020\000\022\031\n\025ProcessValueInterface\020\001\022\027"
       "\n\023TempSensorInterface\020\002\022\037\n\033SetpointSenso"
       "rPairInterface\020\004\022\033\n\027ActuatorAnalogInterf"
@@ -158,28 +158,29 @@ void AddDescriptorsImpl() {
       "erface\020\n\022\023\n\017DS2408Interface\020\013\022\027\n\023OneWire"
       "BusInterface\020\014\022\025\n\021IoModuleInterface\020\r\022\037\n"
       "\033OneWireDeviceBlockInterface\020\016\022\024\n\020Enable"
-      "rInterface\020\017\022\010\n\003Any\020\377\001\022\014\n\007SysInfo\020\200\002\022\n\n\005"
-      "Ticks\020\201\002\022\017\n\nOneWireBus\020\202\002\022\016\n\tBoardPins\020\203"
-      "\002\022\023\n\016TempSensorMock\020\255\002\022\026\n\021TempSensorOneW"
-      "ire\020\256\002\022\027\n\022SetpointSensorPair\020\257\002\022\010\n\003Pid\020\260"
-      "\002\022\027\n\022ActuatorAnalogMock\020\261\002\022\020\n\013ActuatorPi"
-      "n\020\262\002\022\020\n\013ActuatorPwm\020\263\002\022\023\n\016ActuatorOffset"
-      "\020\264\002\022\r\n\010Balancer\020\265\002\022\n\n\005Mutex\020\266\002\022\024\n\017Setpoi"
-      "ntProfile\020\267\002\022\021\n\014WiFiSettings\020\270\002\022\022\n\rTouch"
-      "Settings\020\271\002\022\024\n\017DisplaySettings\020\272\002\022\013\n\006DS2"
-      "413\020\273\002\022\024\n\017ActuatorOneWire\020\274\002\022\013\n\006DS2408\020\275"
-      "\002\022\024\n\017DigitalActuator\020\276\002\022\017\n\nSpark3Pins\020\277\002"
-      "\022\017\n\nSpark2Pins\020\300\002\022\017\n\nMotorValve\020\301\002\022\022\n\rAc"
-      "tuatorLogic\020\302\002\022\r\n\010MockPins\020\303\002\022\024\n\017TempSen"
-      "sorCombi\020\304\002\022\026\n\021OneWireGpioModule\020\305\002\022\r\n\010S"
-      "equence\020\306\002\022\027\n\022TempSensorExternal\020\310\002:J\n\005f"
-      "ield\022\035.google.protobuf.FieldOptions\030\321\206\003 "
-      "\001(\0132\023.brewblox.FieldOptsB\005\222\?\002\030\003:L\n\003msg\022\037"
-      ".google.protobuf.MessageOptions\030\321\206\003 \001(\0132"
-      "\025.brewblox.MessageOptsB\005\222\?\002\030\003b\006proto3"
+      "rInterface\020\017\022\026\n\022ClaimableInterface\020\020\022\010\n\003"
+      "Any\020\377\001\022\014\n\007SysInfo\020\200\002\022\n\n\005Ticks\020\201\002\022\017\n\nOneW"
+      "ireBus\020\202\002\022\016\n\tBoardPins\020\203\002\022\023\n\016TempSensorM"
+      "ock\020\255\002\022\026\n\021TempSensorOneWire\020\256\002\022\027\n\022Setpoi"
+      "ntSensorPair\020\257\002\022\010\n\003Pid\020\260\002\022\027\n\022ActuatorAna"
+      "logMock\020\261\002\022\020\n\013ActuatorPin\020\262\002\022\020\n\013Actuator"
+      "Pwm\020\263\002\022\023\n\016ActuatorOffset\020\264\002\022\r\n\010Balancer\020"
+      "\265\002\022\n\n\005Mutex\020\266\002\022\024\n\017SetpointProfile\020\267\002\022\021\n\014"
+      "WiFiSettings\020\270\002\022\022\n\rTouchSettings\020\271\002\022\024\n\017D"
+      "isplaySettings\020\272\002\022\013\n\006DS2413\020\273\002\022\024\n\017Actuat"
+      "orOneWire\020\274\002\022\013\n\006DS2408\020\275\002\022\024\n\017DigitalActu"
+      "ator\020\276\002\022\017\n\nSpark3Pins\020\277\002\022\017\n\nSpark2Pins\020\300"
+      "\002\022\017\n\nMotorValve\020\301\002\022\022\n\rActuatorLogic\020\302\002\022\r"
+      "\n\010MockPins\020\303\002\022\024\n\017TempSensorCombi\020\304\002\022\026\n\021O"
+      "neWireGpioModule\020\305\002\022\r\n\010Sequence\020\306\002\022\027\n\022Te"
+      "mpSensorExternal\020\310\002\022\014\n\007FastPwm\020\311\002:J\n\005fie"
+      "ld\022\035.google.protobuf.FieldOptions\030\321\206\003 \001("
+      "\0132\023.brewblox.FieldOptsB\005\222\?\002\030\003:L\n\003msg\022\037.g"
+      "oogle.protobuf.MessageOptions\030\321\206\003 \001(\0132\025."
+      "brewblox.MessageOptsB\005\222\?\002\030\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1877);
+      descriptor, 1915);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "brewblox_test.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -244,6 +245,7 @@ bool BlockType_IsValid(int value) {
     case 13:
     case 14:
     case 15:
+    case 16:
     case 255:
     case 256:
     case 257:
@@ -276,6 +278,7 @@ bool BlockType_IsValid(int value) {
     case 325:
     case 326:
     case 328:
+    case 329:
       return true;
     default:
       return false;

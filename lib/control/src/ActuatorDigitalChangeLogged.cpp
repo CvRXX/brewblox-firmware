@@ -133,8 +133,3 @@ void ActuatorDigitalChangeLogged::resetHistory()
     history[0] = {actuator.state(), 0};
     lastUpdateTime = 0;
 }
-
-bool ActuatorDigitalChangeLogged::supportsFastIo() const
-{
-    return actuator.supportsFastIo();
-}

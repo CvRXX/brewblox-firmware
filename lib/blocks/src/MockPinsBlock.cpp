@@ -21,21 +21,21 @@
 #include "cbox/PayloadConversion.hpp"
 #include "proto/MockPins.pb.h"
 
+static constexpr uint8_t NUM_CHANNELS = 8;
+
 cbox::CboxError
 MockPinsBlock::read(const cbox::PayloadCallback& callback) const
 {
     blox_MockPins_Block message = blox_MockPins_Block_init_zero;
 
     // looks a bit silly, but this way it is implemented the same as the Spark2 and Spark3 blocks
-    message.channels_count = 8;
-    message.channels[0].id = 1;
-    message.channels[1].id = 2;
-    message.channels[2].id = 3;
-    message.channels[3].id = 4;
-    message.channels[4].id = 5;
-    message.channels[5].id = 6;
-    message.channels[6].id = 7;
-    message.channels[7].id = 8;
+    message.channels_count = NUM_CHANNELS;
+    for (uint8_t i = 0; i < NUM_CHANNELS; ++i) {
+        uint8_t id = i + 1;
+        message.channels[i].id = id;
+        message.channels[i].capabilities = mocks.getChannelCapabilities(id).all;
+        message.channels[i].claimedBy = mocks.getChannelClaimerId(id);
+    }
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,

@@ -40,7 +40,6 @@ SCENARIO("PID Test with mock actuator", "[pid]")
 
     auto setpoint = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(sensor));
     setpoint.ptr->setting(20);
-    setpoint.ptr->settingValid(true);
 
     auto actuatorMock = TestControlPtr<ActuatorAnalogMock>(new ActuatorAnalogMock());
     auto actuator = TestControlPtr<ProcessValue<Pid::out_t>>(actuatorMock);
@@ -428,7 +427,7 @@ SCENARIO("PID Test with mock actuator", "[pid]")
         }
         AND_THEN("PID is inactive")
         {
-            CHECK(actuatorMock.ptr->settingValid() == false);
+            CHECK(actuatorMock.ptr->setting().has_value() == false);
         }
 
         AND_WHEN("The setpoint becomes valid again, the pid and actuator become active again")
@@ -438,7 +437,7 @@ SCENARIO("PID Test with mock actuator", "[pid]")
             pid.update();
 
             CHECK(pid.active() == true);
-            CHECK(actuatorMock.ptr->settingValid() == true);
+            CHECK(actuatorMock.ptr->setting().has_value() == true);
         }
     }
 }
@@ -454,11 +453,9 @@ SCENARIO("PID Test with offset actuator", "[pid]")
 
     auto target = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(targetSensor));
     target.ptr->setting(65);
-    target.ptr->settingValid(true);
 
     auto reference = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(referenceSensor));
     reference.ptr->setting(67);
-    reference.ptr->settingValid(true);
 
     auto actuator = TestControlPtr<ActuatorOffset>(new ActuatorOffset(target, reference));
     auto output = TestControlPtr<ProcessValue<Pid::out_t>>(actuator);
@@ -479,7 +476,6 @@ SCENARIO("PID Test with offset actuator", "[pid]")
     {
         CHECK(actuator.ptr->setting() == Approx(4.0).margin(0.01));
         CHECK(target.ptr->setting() == Approx(71.0).margin(0.01));
-        CHECK(actuator.ptr->settingValid() == true);
     }
 
     WHEN("The PID setpoint sensor becomes invalid")
@@ -492,14 +488,14 @@ SCENARIO("PID Test with offset actuator", "[pid]")
         {
             for (uint8_t i = 0; i < 10; ++i) {
                 CHECK(pid.active() == true);
-                CHECK(target.ptr->settingValid() == true);
+                CHECK(target.ptr->setting().has_value() == true);
                 reference.ptr->update();
                 pid.update();
             }
 
-            CHECK(reference.ptr->valueValid() == false);
+            CHECK(reference.ptr->value().has_value() == false);
             CHECK(pid.active() == false);
-            CHECK(target.ptr->settingValid() == false);
+            CHECK(target.ptr->setting().has_value() == false);
         }
 
         AND_WHEN("The sensor comes back alive, the pid and setpoint are active/valid again")
@@ -508,9 +504,9 @@ SCENARIO("PID Test with offset actuator", "[pid]")
             reference.ptr->update();
             pid.update();
 
-            CHECK(reference.ptr->valueValid() == true);
+            CHECK(reference.ptr->value().has_value() == true);
             CHECK(pid.active() == true);
-            CHECK(target.ptr->settingValid() == true);
+            CHECK(target.ptr->setting().has_value() == true);
         }
     }
 
@@ -522,21 +518,18 @@ SCENARIO("PID Test with offset actuator", "[pid]")
 
         THEN("The target setpoint is set to invalid")
         {
-            CHECK(target.ptr->settingValid() == false);
+            CHECK(target.ptr->setting().has_value() == false);
         }
 
         WHEN("Something else sets the target setpoint later")
         {
-            CHECK(target.ptr->settingValid() == false);
+            CHECK(target.ptr->setting().has_value() == false);
             target.ptr->setting(20.0);
-            target.ptr->settingValid(true);
-            CHECK(target.ptr->settingValid() == true);
             reference.ptr->update();
             pid.update();
 
             THEN("The already disabled PID doesn't affect it")
             {
-                CHECK(target.ptr->settingValid() == true);
                 CHECK(target.ptr->setting() == 20.0);
             }
         }
@@ -550,7 +543,6 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
     auto sensor = TestControlPtr<TempSensor>(sensorMock);
 
     auto setpoint = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(sensor));
-    setpoint.ptr->settingValid(true);
     setpoint.ptr->setting(20);
     setpoint.ptr->filterChoice(1);
     setpoint.ptr->filterThreshold(5);
@@ -882,21 +874,18 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
 
         THEN("The pwm setting is set to invalid")
         {
-            CHECK(actuator.ptr->settingValid() == false);
+            CHECK(actuator.ptr->setting().has_value() == false);
         }
 
         AND_WHEN("It is set manually later")
         {
             actuator.ptr->setting(50);
-            actuator.ptr->settingValid(true);
-            CHECK(actuator.ptr->settingValid() == true);
             CHECK(actuator.ptr->setting() == 50);
             setpoint.ptr->update();
             pid.update();
 
             THEN("The disabled PID doesn't affect it")
             {
-                CHECK(actuator.ptr->settingValid() == true);
                 CHECK(actuator.ptr->setting() == 50.0);
             }
         }
@@ -995,7 +984,6 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             THEN("The output of the PID is 10 (normal)")
             {
                 CHECK(!pid.boilModeActive());
-                CHECK(actuator.ptr->settingValid() == true);
                 CHECK(actuator.ptr->setting() == 10.0);
             }
         }
@@ -1011,7 +999,6 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             {
                 CHECK(pid.boilModeActive());
                 CHECK(pid.i() == 0);
-                CHECK(actuator.ptr->settingValid() == true);
                 CHECK(actuator.ptr->setting() == 40.0);
             }
         }
@@ -1027,7 +1014,6 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
             THEN("The output of the PID is 40")
             {
                 CHECK(pid.boilModeActive());
-                CHECK(actuator.ptr->settingValid() == true);
                 CHECK(actuator.ptr->setting() == 40.0);
             }
 
@@ -1038,7 +1024,6 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 THEN("The boil mode doesn't trigger and the output of the PID is 0")
                 {
                     CHECK(!pid.boilModeActive());
-                    CHECK(actuator.ptr->settingValid() == true);
                     CHECK(actuator.ptr->setting() == 0.0);
                 }
             }
@@ -1064,17 +1049,17 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
                 nextPwmUpdate = pwm.update(now);
             }
             if (now >= nextPidUpdate) {
-                auto newTemp = sensorMock.ptr->value() + actuator.ptr->value() / 2400; // very simple model for heating
+                auto newTemp = sensorMock.ptr->value().value() + actuator.ptr->value().value() / 2400; // very simple model for heating
                 sensorMock.ptr->setting(newTemp);
                 setpoint.ptr->update();
                 pid.update();
                 actuator.ptr->update();
                 nextPidUpdate = now + 1000;
             }
-            if (!closeDuration && sensorMock.ptr->value() + 1 >= setpoint.ptr->setting()) {
+            if (!closeDuration && sensorMock.ptr->value().value() + 1 >= setpoint.ptr->setting().value()) {
                 closeDuration = now - start;
             }
-            if (!reachedDuration && sensorMock.ptr->value() + 0.1 >= setpoint.ptr->setting()) {
+            if (!reachedDuration && sensorMock.ptr->value().value() + 0.1 >= setpoint.ptr->setting().value()) {
                 reachedDuration = now - start;
                 break;
             }
@@ -1085,7 +1070,7 @@ SCENARIO("PID Test with PWM actuator", "[pid]")
         AND_THEN("The overshoot is minimal and the integral is close to zero")
         {
 
-            CHECK(setpoint.ptr->value() - setpoint.ptr->setting() < 0.1); // overshoot is small
+            CHECK(setpoint.ptr->value().value() - setpoint.ptr->setting().value() < 0.1); // overshoot is small
             CHECK(pid.i() < 1.0);
         }
     }

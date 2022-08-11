@@ -29,7 +29,6 @@
  *
  */
 class MotorValve : public ActuatorDigitalBase {
-
 public:
     enum class ValveState : uint8_t {
         Unknown = 0,
@@ -47,7 +46,7 @@ public:
     static const uint8_t chanClosingHigh = 3;
 
 private:
-    ControlPtr<DS2408>& m_target;
+    ControlPtr<IoArray>& m_target;
     uint8_t m_startChannel = 0;
     uint8_t m_desiredChannel = 0;
 
@@ -55,7 +54,7 @@ private:
     ValveState m_actualValveState = ValveState::InitIdle;
 
 public:
-    explicit MotorValve(ControlPtr<DS2408>& target, uint8_t startChan)
+    explicit MotorValve(ControlPtr<IoArray>& target, uint8_t startChan)
         : m_target(target)
     {
         startChannel(startChan);
@@ -68,7 +67,7 @@ public:
         startChannel(0); // release channels before destruction
     }
 
-    void state(const State& v) final;
+    void state(State v) final;
     State state() const final;
 
     ValveState valveState() const
@@ -76,9 +75,9 @@ public:
         return m_actualValveState;
     }
 
-    void applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr);
+    void applyValveState(ValveState v, std::shared_ptr<IoArray>& devPtr);
 
-    ValveState getValveState(const std::shared_ptr<DS2408>& devPtr) const;
+    ValveState getValveState(const std::shared_ptr<IoArray>& devPtr) const;
 
     void update();
 
@@ -99,10 +98,4 @@ public:
     }
 
     void claimChannel();
-
-    virtual bool
-    supportsFastIo() const final
-    {
-        return false;
-    }
 };

@@ -45,8 +45,8 @@ TempSensorOneWireBlock::read(const cbox::PayloadCallback& callback) const
     blox_TempSensorOneWire_Block message = blox_TempSensorOneWire_Block_init_zero;
     std::vector<cbox::obj_field_tag_t> excluded;
 
-    if (sensor.valid()) {
-        message.value = cnl::unwrap((sensor.value()));
+    if (auto val = sensor.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_TempSensorOneWire_Block_value_tag);
     }
@@ -104,7 +104,7 @@ TempSensorOneWireBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
-cbox::update_t TempSensorOneWireBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t TempSensorOneWireBlock::updateHandler(cbox::update_t now)
 {
     sensor.update();
     return next_update_1s(now);

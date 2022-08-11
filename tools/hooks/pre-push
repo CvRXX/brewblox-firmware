@@ -9,7 +9,7 @@ if [ -n "$UNCOMMITTED_CHANGES" ]; then
 	exit 1
 fi
 
-UNPUSHED_CHANGES=$(cd "$REPO_ROOT/external_libs/brewblox-proto" && git diff origin/develop)
+UNPUSHED_CHANGES=$(cd "$REPO_ROOT/external_libs/brewblox-proto" && git cherry -v)
 
 if [ -n "$UNPUSHED_CHANGES" ]; then
 	echo "Unpushed changes in proto submodule detected!"

@@ -47,22 +47,19 @@ CboxError createBlock(const Payload& request, const PayloadCallback& callback)
         return makeResult.error();
     }
 
-    // Write desired settings to the newly created block
-    status = makeResult.value()->write(request);
-    if (status != CboxError::OK) {
-        return status;
-    }
-
     auto block = makeResult.value();
-
-    // Add created block to the container
+    // Add created block to the container first, so it gets an ID
     status = getObjects().add(block, request.blockId);
-    if (status != CboxError::OK) {
-        return status;
+
+    if (status == CboxError::OK) {
+        // Write desired settings to the newly created block
+        status = block->write(request);
     }
 
-    // Save block settings to storage
-    status = block->readStored(getStorage().saveObjectCallback);
+    if (status == CboxError::OK) {
+        // Save block settings to storage
+        status = block->readStored(getStorage().saveObjectCallback);
+    }
 
     if (status != CboxError::OK) {
         getObjects().remove(block->objectId());
@@ -237,13 +234,14 @@ void loadBlocksFromStorage()
                 return makeResult.error();
             }
 
-            // Write desired settings to the newly created block
-            status = makeResult.value()->write(payload);
-            if (status != CboxError::OK) {
-                return status;
-            }
+            // First add block to container, so block ID is set during the write
+            auto block = makeResult.value();
+            status = getObjects().add(std::move(block), payload.blockId);
 
-            getObjects().add(std::move(makeResult.value()), payload.blockId);
+            if (status == CboxError::OK) {
+                // Write desired settings to the newly created block
+                status = block->write(payload);
+            }
         }
         return status;
     });
@@ -261,13 +259,13 @@ void unloadBlocks()
     getObjects().clearAll();
 }
 
-void update(const update_t& now)
+void update(update_t now)
 {
     lastUpdateTime = now;
     getObjects().update(now);
 }
 
-void forcedUpdate(const update_t& now)
+void forcedUpdate(update_t now)
 {
     lastUpdateTime = now;
     getObjects().forcedUpdate(now);

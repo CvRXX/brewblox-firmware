@@ -36,25 +36,29 @@ AnalogCompare::eval() const
     if (auto pvPtr = m_lookup.lock()) {
         switch (m_op) {
         case blox_ActuatorLogic_AnalogOperator_OP_VALUE_LE:
-            if (!pvPtr->valueValid()) {
+            if (auto val = pvPtr->value()) {
+                return blox_ActuatorLogic_Result(*val <= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->value() <= m_rhs);
         case blox_ActuatorLogic_AnalogOperator_OP_VALUE_GE:
-            if (!pvPtr->valueValid()) {
+            if (auto val = pvPtr->value()) {
+                return blox_ActuatorLogic_Result(*val >= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->value() >= m_rhs);
         case blox_ActuatorLogic_AnalogOperator_OP_SETTING_LE:
-            if (!pvPtr->settingValid()) {
+            if (auto val = pvPtr->setting()) {
+                return blox_ActuatorLogic_Result(*val <= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->setting() <= m_rhs);
         case blox_ActuatorLogic_AnalogOperator_OP_SETTING_GE:
-            if (!pvPtr->settingValid()) {
+            if (auto val = pvPtr->setting()) {
+                return blox_ActuatorLogic_Result(pvPtr->setting() >= m_rhs);
+            } else {
                 return blox_ActuatorLogic_Result_RESULT_FALSE;
             }
-            return blox_ActuatorLogic_Result(pvPtr->setting() >= m_rhs);
         }
         return blox_ActuatorLogic_Result_RESULT_INVALID_ANALOG_OP;
     }
@@ -78,9 +82,6 @@ void ActuatorLogicBlock::writeMessage(blox_ActuatorLogic_Block& message, bool in
     if (includeNotPersisted) {
         message.result = m_result;
         message.errorPos = m_errorPos;
-        if (enabler.get()) {
-            message.drivenTargetId = message.targetId;
-        }
     }
 
     for (pb_size_t i = 0; i < digitals.size() && i < 16; i++) {
@@ -129,7 +130,7 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_ActuatorLogic_Block_fields)) {
         if (parser.hasField(blox_ActuatorLogic_Block_targetId_tag)) {
-            target.setId(message.targetId);
+            target.setId(message.targetId, objectId());
         }
         if (parser.hasField(blox_ActuatorLogic_Block_enabled_tag)) {
             enabler.set(message.enabled);
@@ -155,7 +156,7 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorLogicBlock::updateHandler(const cbox::update_t& now)
+ActuatorLogicBlock::updateHandler(cbox::update_t now)
 {
     m_result = evaluate();
     if (enabler.get()) {

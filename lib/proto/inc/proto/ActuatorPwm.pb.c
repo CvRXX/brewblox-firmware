@@ -15,9 +15,9 @@ const pb_field_t blox_ActuatorPwm_Block_fields[9] = {
     PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, setting, period, 0),
     PB_FIELD(  5, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, value, setting, 0),
     PB_FIELD(  6, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, constrainedBy, value, &blox_Constraints_AnalogConstraints_fields),
-    PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, drivenActuatorId, constrainedBy, 0),
-    PB_FIELD(  8, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, enabled, drivenActuatorId, 0),
+    PB_FIELD(  8, BOOL    , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, enabled, constrainedBy, 0),
     PB_FIELD(  9, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, desiredSetting, enabled, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorPwm_Block, claimedBy, desiredSetting, 0),
     PB_LAST_FIELD
 };
 

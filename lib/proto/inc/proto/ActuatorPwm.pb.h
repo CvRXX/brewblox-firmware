@@ -24,9 +24,9 @@ typedef struct _blox_ActuatorPwm_Block {
     int32_t setting;
     int32_t value;
     blox_Constraints_AnalogConstraints constrainedBy;
-    uint16_t drivenActuatorId;
     bool enabled;
     int32_t desiredSetting;
+    uint16_t claimedBy;
 /* @@protoc_insertion_point(struct:blox_ActuatorPwm_Block) */
 } blox_ActuatorPwm_Block;
 
@@ -42,9 +42,9 @@ typedef struct _blox_ActuatorPwm_Block {
 #define blox_ActuatorPwm_Block_setting_tag       4
 #define blox_ActuatorPwm_Block_value_tag         5
 #define blox_ActuatorPwm_Block_constrainedBy_tag 6
-#define blox_ActuatorPwm_Block_drivenActuatorId_tag 7
 #define blox_ActuatorPwm_Block_enabled_tag       8
 #define blox_ActuatorPwm_Block_desiredSetting_tag 9
+#define blox_ActuatorPwm_Block_claimedBy_tag     10
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_ActuatorPwm_Block_fields[9];

@@ -30,7 +30,6 @@
 #include "proto/DigitalActuator_test.pb.h"
 #include "proto/MockPins_test.pb.h"
 #include "spark/Brewblox.hpp"
-#include <sstream>
 
 namespace Catch {
 template <>
@@ -76,8 +75,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                   "address: 451560922637681722 "
                   "connected: true "
                   "oneWireBusId: 4 "
-                  "channels { id: 1 } "
-                  "channels { id: 2 }");
+                  "channels { id: 1 capabilities: 1 } "
+                  "channels { id: 2 capabilities: 1 }");
         }
 
         THEN("The writable settings match what was sent")
@@ -130,8 +129,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                       "address: 451560922637681722 "
                       "connected: true "
                       "oneWireBusId: 4 "
-                      "channels { id: 1 } "
-                      "channels { id: 2 }");
+                      "channels { id: 1 capabilities: 1 claimedBy: 101 } "
+                      "channels { id: 2 capabilities: 1 }");
             }
         }
 
@@ -145,6 +144,8 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 message.set_hwdevice(ds2413Id2);
                 message.set_channel(1);
                 message.set_desiredstate(blox_test::IoArray::DigitalState::Active);
+                message.set_transitiondurationsetting(250);
+                message.set_transitiondurationpreset(blox_test::IoArray::TransitionDurationPreset::ST_FAST);
 
                 messageToPayload(cmd, message);
                 CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
@@ -158,16 +159,21 @@ SCENARIO("A DigitalActuator Block with a DS2413 target")
                 CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
                 payloadToMessage(cmd, message);
 
+                // transitionDurationSetting can be set, but transitionDuration is masked because it is not supported by the DS2413
                 REQUIRE(cmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
                 REQUIRE(cmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{
                             blox_test::DigitalActuator::Block::kStateFieldNumber,
+                            blox_test::DigitalActuator::Block::kTransitionDurationValueFieldNumber,
                         });
 
                 // in simulation, the hw device will not work and therefore the state will be unknown
+                // soft transition settings are kept, even if not supported
                 CHECK(message.ShortDebugString() ==
                       "hwDevice: 102 "
                       "channel: 1 "
-                      "desiredState: STATE_ACTIVE");
+                      "desiredState: STATE_ACTIVE "
+                      "transitionDurationPreset: ST_FAST "
+                      "transitionDurationSetting: 250");
             }
         }
     }
@@ -201,14 +207,14 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
             payloadToMessage(cmd, message);
 
             CHECK(message.ShortDebugString() ==
-                  "channels { id: 1 } "
-                  "channels { id: 2 } "
-                  "channels { id: 3 } "
-                  "channels { id: 4 } "
-                  "channels { id: 5 } "
-                  "channels { id: 6 } "
-                  "channels { id: 7 } "
-                  "channels { id: 8 }");
+                  "channels { id: 1 capabilities: 5 } "
+                  "channels { id: 2 capabilities: 5 } "
+                  "channels { id: 3 capabilities: 5 } "
+                  "channels { id: 4 capabilities: 5 } "
+                  "channels { id: 5 capabilities: 5 } "
+                  "channels { id: 6 capabilities: 5 } "
+                  "channels { id: 7 capabilities: 5 } "
+                  "channels { id: 8 capabilities: 5 }");
         }
 
         AND_WHEN("A DigitalActuator block is created that uses one of the channels")
@@ -250,14 +256,81 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
 
                 // Mockpins proto doesn't change when channels are used, but leaving this here for when we change our mind
                 CHECK(message.ShortDebugString() ==
-                      "channels { id: 1 } "
-                      "channels { id: 2 } "
-                      "channels { id: 3 } "
-                      "channels { id: 4 } "
-                      "channels { id: 5 } "
-                      "channels { id: 6 } "
-                      "channels { id: 7 } "
-                      "channels { id: 8 }");
+                      "channels { id: 1 capabilities: 5 claimedBy: 101 } "
+                      "channels { id: 2 capabilities: 5 } "
+                      "channels { id: 3 capabilities: 5 } "
+                      "channels { id: 4 capabilities: 5 } "
+                      "channels { id: 5 capabilities: 5 } "
+                      "channels { id: 6 capabilities: 5 } "
+                      "channels { id: 7 capabilities: 5 } "
+                      "channels { id: 8 capabilities: 5 }");
+            }
+
+            AND_WHEN("When soft transitions are enabled")
+            {
+                {
+                    auto writeCmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                    auto writeMessage = blox_test::DigitalActuator::Block();
+                    writeMessage.set_transitiondurationsetting(2000);
+                    writeMessage.set_transitiondurationpreset(blox_test::IoArray::TransitionDurationPreset::ST_FAST);
+                    messageToPayload(writeCmd, writeMessage,
+                                     {
+                                         blox_test::DigitalActuator::Block::kTransitionDurationSettingFieldNumber,
+                                         blox_test::DigitalActuator::Block::kTransitionDurationPresetFieldNumber,
+                                     });
+                    CHECK(cbox::writeBlock(writeCmd.request, writeCmd.callback) == cbox::CboxError::OK);
+                }
+
+                THEN("Then the duration setting is determined by the ST enum, unless custom is selected")
+                {
+                    {
+                        auto readCmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                        auto readMsg = blox_test::DigitalActuator::Block();
+                        CHECK(cbox::readBlock(readCmd.request, readCmd.callback) == cbox::CboxError::OK);
+                        payloadToMessage(readCmd, readMsg);
+
+                        REQUIRE(readCmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+                        REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{});
+
+                        CHECK(readMsg.ShortDebugString() ==
+                              "hwDevice: 100 channel: 1 "
+                              "state: STATE_ACTIVE "
+                              "desiredState: STATE_ACTIVE "
+                              "transitionDurationPreset: ST_FAST "
+                              "transitionDurationSetting: 2000 "
+                              "transitionDurationValue: 250");
+                    }
+                    {
+                        auto writeCmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                        auto writeMessage = blox_test::DigitalActuator::Block();
+                        writeMessage.set_transitiondurationsetting(2000);
+                        writeMessage.set_transitiondurationpreset(blox_test::IoArray::TransitionDurationPreset::ST_CUSTOM);
+                        messageToPayload(writeCmd, writeMessage,
+                                         {
+                                             blox_test::DigitalActuator::Block::kTransitionDurationSettingFieldNumber,
+                                             blox_test::DigitalActuator::Block::kTransitionDurationPresetFieldNumber,
+                                         });
+                        CHECK(cbox::writeBlock(writeCmd.request, writeCmd.callback) == cbox::CboxError::OK);
+                    }
+
+                    {
+                        auto readCmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+                        auto readMsg = blox_test::DigitalActuator::Block();
+                        CHECK(cbox::readBlock(readCmd.request, readCmd.callback) == cbox::CboxError::OK);
+                        payloadToMessage(readCmd, readMsg);
+
+                        REQUIRE(readCmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
+                        REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{});
+
+                        CHECK(readMsg.ShortDebugString() ==
+                              "hwDevice: 100 channel: "
+                              "1 state: STATE_ACTIVE "
+                              "desiredState: STATE_ACTIVE "
+                              "transitionDurationPreset: ST_CUSTOM "
+                              "transitionDurationSetting: 2000 "
+                              "transitionDurationValue: 2000");
+                    }
+                }
             }
         }
     }

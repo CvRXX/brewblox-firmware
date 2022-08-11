@@ -29,20 +29,24 @@ cbox::CboxError ExpOwGpioBlock::handleRead(const cbox::PayloadCallback& callback
     message.useExternalPower = drivers.externalPowerEnabled();
 
     for (uint8_t i = 1; i <= 8; i++) {
-        auto& c = drivers.getChannel(i);
+        auto& c = drivers.getFlexChannel(i);
         if (c.deviceType != blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE) {
             message.channels[message.channels_count].id = i;
             message.channels[message.channels_count].deviceType = c.deviceType;
             message.channels[message.channels_count].width = c.width;
             message.channels[message.channels_count].pinsMask = c.pins();
-            for (auto& entry : channelNames) {
-                if (entry.id == i) {
-                    entry.name.copy(message.channels[message.channels_count].name, sizeof(message.channels[message.channels_count].name));
-                    break;
-                }
+            if (includeNotPersisted) {
+                message.channels[message.channels_count].capabilities = drivers.getChannelCapabilities(i).all;
+                message.channels[message.channels_count].claimedBy = drivers.getChannelClaimerId(i + 1);
             }
-            ++message.channels_count;
+            auto entry = std::find_if(channelNames.begin(), channelNames.end(), [i](const ChannelNameEntry& e) {
+                return e.id == i;
+            });
+            if (entry != channelNames.end()) {
+                entry->name.copy(message.channels[message.channels_count].name, sizeof(message.channels[message.channels_count].name));
+            }
         }
+        ++message.channels_count;
     }
 
     if (includeNotPersisted) {
@@ -86,6 +90,11 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_OneWireGpioModule_Block_modulePosition_tag)) {
             drivers.modulePosition(message.modulePosition);
         }
+        if (parser.hasField(blox_OneWireGpioModule_Block_clearFaults_tag)) {
+            if (message.clearFaults) {
+                drivers.clearFaults();
+            }
+        }
         if (parser.hasField(blox_OneWireGpioModule_Block_useExternalPower_tag)) {
             drivers.externalPowerEnabled(message.useExternalPower);
         }
@@ -108,7 +117,7 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 
             // copy to drivers, resulting zeroing omitted channels
             for (uint8_t i = 0; i < 8; i++) {
-                drivers.setupChannel(i + 1, newChannels[i]);
+                drivers.setupFlexChannel(i + 1, newChannels[i]);
             }
         }
     }
@@ -117,7 +126,7 @@ cbox::CboxError ExpOwGpioBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ExpOwGpioBlock::updateHandler(const cbox::update_t& now)
+ExpOwGpioBlock::updateHandler(cbox::update_t now)
 {
     // Update is called any time a channel is set,
     // but only talks to the driver when the cached value doesn't match the desired value

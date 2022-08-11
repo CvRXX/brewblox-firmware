@@ -252,13 +252,12 @@ InstructionResult waitTemperatureFunc(SequenceBlock&,
 
     bool within = false;
 
-    if (!ptr->valid()) {
+    if (auto val = ptr->value()) {
+        within = *val >= lower && *val <= upper;
+    } else {
         if (mode != WaitTempMode::UNEXPECTED) {
             return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
         }
-    } else {
-        auto value = ptr->value();
-        within = value >= lower && value <= upper;
     }
 
     if (within == (mode == WaitTempMode::BETWEEN)) {
@@ -291,17 +290,21 @@ InstructionResult waitSetpointFunc(SequenceBlock&,
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
-    if (!ptr->settingValid()) {
+    if (!ptr->enabler.get()) {
         return tl::make_unexpected(blox_Sequence_SequenceError_DISABLED_TARGET);
     }
 
-    if (!ptr->sensorValid()) {
+    auto setting = ptr->setting();
+    if (!setting) {
         return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
     }
 
-    auto setting = ptr->setting();
     auto value = ptr->value();
-    if (value >= setting - precision && value <= setting + precision) {
+    if (!value) {
+        return tl::make_unexpected(blox_Sequence_SequenceError_INACTIVE_TARGET);
+    }
+
+    if (*value >= *setting - precision && *value <= *setting + precision) {
         return blox_Sequence_SequenceStatus_NEXT;
     } else {
         return blox_Sequence_SequenceStatus_WAIT;
@@ -564,7 +567,7 @@ void SequenceBlock::saveChanges(utc_seconds_t utc)
 }
 
 cbox::update_t
-SequenceBlock::updateHandler(const cbox::update_t& now)
+SequenceBlock::updateHandler(cbox::update_t now)
 {
     auto utc = ticks.utc();
 

@@ -177,8 +177,7 @@ private:
     {
         if (enabler.get() && _active && !state) {
             if (auto ptr = _outputPtr.lock()) {
-                ptr->setting(0);
-                ptr->settingValid(false);
+                ptr->setting(std::nullopt);
             }
         }
         _active = state;

@@ -27,31 +27,31 @@ SCENARIO("ActuatorAnalogMock test")
     {
         {
             ActuatorAnalogMock act;
-            CHECK(act.setting() == 0);
-            CHECK(act.value() == 0);
-            CHECK(act.settingValid() == true);
-            CHECK(act.valueValid() == true);
+            REQUIRE(act.setting().has_value());
+            REQUIRE(act.value().has_value());
+            CHECK(act.setting().value() == 0);
+            CHECK(act.value().value() == 0);
         }
         {
             ActuatorAnalogMock act(50);
-            CHECK(act.setting() == 50);
-            CHECK(act.value() == 50);
-            CHECK(act.settingValid() == true);
-            CHECK(act.valueValid() == true);
+            REQUIRE(act.setting().has_value());
+            REQUIRE(act.value().has_value());
+            CHECK(act.setting().value() == 50);
+            CHECK(act.value().value() == 50);
         }
         {
             ActuatorAnalogMock act(110, 0, 100);
-            CHECK(act.setting() == 100);
-            CHECK(act.value() == 100);
-            CHECK(act.settingValid() == true);
-            CHECK(act.valueValid() == true);
+            REQUIRE(act.setting().has_value());
+            REQUIRE(act.value().has_value());
+            CHECK(act.setting().value() == 100);
+            CHECK(act.value().value() == 100);
         }
         {
             ActuatorAnalogMock act(-10, 5, 100);
-            CHECK(act.setting() == 5);
-            CHECK(act.value() == 5);
-            CHECK(act.settingValid() == true);
-            CHECK(act.valueValid() == true);
+            REQUIRE(act.setting().has_value());
+            REQUIRE(act.value().has_value());
+            CHECK(act.setting().value() == 5);
+            CHECK(act.value().value() == 5);
         }
     }
 }

@@ -23,7 +23,6 @@
 
 bool DS2413::update()
 {
-
     bool success = false;
     if (auto oneWire = selectRom()) {
         if (!writeNeeded()) { // skip read if we need to write anyway, which also returns status
@@ -67,49 +66,74 @@ bool DS2413::writeNeeded()
     return !connected() || (desiredState & 0b1010) != (actualState & 0b1010);
 }
 
-bool DS2413::writeChannelImpl(uint8_t channel, ChannelConfig config)
+uint8_t bitMask(uint8_t channel)
 {
-    bool latchEnabled = config == ChannelConfig::DRIVING_ON;
-    uint8_t bitmask;
     if (channel == 1) {
-        bitmask = 0b0010;
-    } else if (channel == 2) {
-        bitmask = 0b1000;
+        return 0b0010;
+    }
+    if (channel == 2) {
+        return 0b1000;
+    }
+    return 0x00;
+}
+
+IoValue::variant DS2413::writeChannelImpl(uint8_t channel, IoValue::variant val)
+{
+    auto mask = bitMask(channel);
+
+    if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        if (v->state() == IoValue::State::Active) {
+            desiredState &= ~mask; // enable latch
+        } else if (v->state() == IoValue::State::Inactive) {
+            desiredState |= mask; // disable latch
+        } else {
+            return IoValue::Error::UNSUPPORTED_VALUE;
+        }
     } else {
-        return false;
+        return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    if (latchEnabled) {
-        desiredState &= ~bitmask;
-    } else {
-        desiredState |= bitmask;
-    }
-    if (!connected()) {
-        return false;
-    }
     if (writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
         // they will reconnect in the normal update tick, which should happen every second
-        return update();
+        update();
     }
-    return true;
+    return readChannelImpl(channel);
 }
 
-bool DS2413::senseChannelImpl(uint8_t channel, State& result) const
+IoValue::variant DS2413::readChannelImpl(uint8_t channel) const
 {
     if (connected()) {
         // to reduce onewire communication, we assume the last read value in update() is correct
         // only in update(), actual onewire communication will take place to get the latest state
+
         if (channel == 1) {
-            result = (actualState & 0b0001) == 0 ? State::Active : State::Inactive;
-            return true;
+            return IoValue::Digital{(actualState & 0b0001) == 0 ? IoValue::State::Active : IoValue::State::Inactive};
         } else if (channel == 2) {
-            result = (actualState & 0b0100) == 0 ? State::Active : State::Inactive;
-            return true;
+            return IoValue::Digital{(actualState & 0b0100) == 0 ? IoValue::State::Active : IoValue::State::Inactive};
+        } else {
+            return IoValue::Error::INVALID_CHANNEL;
         }
     }
-    result = State::Unknown;
-    return false;
+    return IoValue::Error::DISCONNECTED;
+}
+
+IoValue::Setup::variant DS2413::setupChannelImpl(uint8_t channel, IoValue::Setup::variant val)
+{
+    auto mask = bitMask(channel);
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(val)) {
+        desiredState |= mask; // disable latch
+        return IoValue::Setup::OutputDigital{};
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(val)) {
+        desiredState |= mask; // disable latch
+        return IoValue::Setup::InputDigital{};
+    }
+    if (std::holds_alternative<IoValue::Setup::Unused>(val)) {
+        desiredState |= bitMask(channel); // disable latch
+        return IoValue::Setup::Unused{};
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
 }
 
 bool DS2413::processStatus(uint8_t data)

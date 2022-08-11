@@ -23,9 +23,8 @@
 #include "control/ActuatorDigitalBase.hpp"
 #include "control/ControlPtr.hpp"
 #include "control/IoArray.hpp"
-#include <cstdint>
-#include <functional>
-#include <memory>
+
+class ActuatorDigitalSoft;
 
 /*
  * A digital actuator that toggles a channel of an ArrayIo object.
@@ -46,18 +45,20 @@ public:
     }
 
     ActuatorDigital(const ActuatorDigital&) = delete;
+    ActuatorDigital(ActuatorDigital&&) = default;
     ActuatorDigital& operator=(const ActuatorDigital&) = delete;
+    ActuatorDigital& operator=(ActuatorDigital&&) = delete;
 
     virtual ~ActuatorDigital()
     {
         channel(0); // release channel before destruction
     }
 
-    void state(const State& v) final;
+    void state(State v) final;
 
-    State state() const final;
+    [[nodiscard]] State state() const final;
 
-    bool invert() const
+    [[nodiscard]] bool invert() const
     {
         return m_invert;
     }
@@ -69,14 +70,14 @@ public:
         state(active);
     }
 
-    uint8_t channel() const
+    [[nodiscard]] uint8_t channel() const
     {
         return m_desiredChannel;
     }
 
     void claimChannel();
 
-    bool channelReady() const
+    [[nodiscard]] bool channelReady() const
     {
         return m_desiredChannel == m_channel;
     }
@@ -87,6 +88,7 @@ public:
             // Periodic retry to claim channel in case target didn't exist
             // at earlier tries
             claimChannel();
+            state(State::Inactive);
         }
     }
 
@@ -95,6 +97,4 @@ public:
         m_desiredChannel = newChannel;
         update();
     }
-
-    bool supportsFastIo() const final;
 };

@@ -130,52 +130,56 @@ void PidWidget::drawPidRects(const Pid& pid)
 void PidWidget::update(const WidgetSettings& settings)
 {
     if (auto pid = lookup.lock()) {
-        auto& inputLookup = pid->getInputLookup();
-        auto& outputLookup = pid->getOutputLookup();
         setConnected();
-        auto input = inputLookup.lock();
-        if (input && input->valueValid()) {
-            setAndEnable(&inputValue, temp_to_string(input->value(), 1, settings.tempUnit));
-        } else {
-            setAndEnable(&inputValue, "");
-        }
-        if (input && input->settingValid()) {
-            setAndEnable(&inputTarget, temp_to_string(input->setting(), 1, settings.tempUnit));
-        } else {
-            setAndEnable(&inputTarget, "");
+        {
+            auto& inputLookup = pid->getInputLookup();
+            auto valueString = std::string{};
+            auto settingString = std::string{};
+            if (auto input = inputLookup.lock()) {
+                if (auto val = input->value()) {
+                    valueString = temp_to_string(*val, 1, settings.tempUnit);
+                }
+                if (auto val = input->setting()) {
+                    settingString = temp_to_string(*val, 1, settings.tempUnit);
+                }
+            }
+            setAndEnable(&inputValue, std::move(valueString));
+            setAndEnable(&inputTarget, std::move(settingString));
         }
 
-        auto output = outputLookup.lock();
-        if (output && output->valueValid()) {
-            setAndEnable(&outputValue, to_string_dec(output->value(), 1));
-        } else {
-            setAndEnable(&outputValue, "");
-        }
-        if (output && output->settingValid()) {
-            setAndEnable(&outputTarget, to_string_dec(output->setting(), 1));
-        } else {
-            setAndEnable(&outputTarget, "");
+        {
+            auto& outputLookup = pid->getOutputLookup();
+            auto valueString = std::string{};
+            auto settingString = std::string{};
+            if (auto output = outputLookup.lock()) {
+                if (auto val = output->value()) {
+                    valueString = to_string_dec(*val, 1);
+                }
+                if (auto val = output->setting()) {
+                    settingString = to_string_dec(*val, 1);
+                }
+                char icons[2] = "\x28";
+                if (auto pwmBlock = outputLookup.lock_as<ActuatorPwmBlock>()) {
+                    if (auto pwmTarget = pwmBlock->targetLookup().lock()) {
+                        switch (pwmTarget->state()) {
+                        case ActuatorPwm::State::Inactive:
+                            icons[0] = 0x26;
+                            break;
+                        case ActuatorPwm::State::Active:
+                            icons[0] = 0x27;
+                            break;
+                        }
+                    }
+                } else if (output) {
+                    icons[0] = 0;
+                }
+                setIcons(icons);
+            }
+            setAndEnable(&outputValue, std::move(valueString));
+            setAndEnable(&outputTarget, std::move(settingString));
         }
 
         drawPidRects(pid->get());
-
-        char icons[2] = "\x28";
-        if (auto pwmBlock = outputLookup.lock_as<ActuatorPwmBlock>()) {
-            if (auto pwmTarget = pwmBlock->targetLookup().lock()) {
-                switch (pwmTarget->state()) {
-                case ActuatorPwm::State::Inactive:
-                    icons[0] = 0x26;
-                    break;
-                case ActuatorPwm::State::Active:
-                    icons[0] = 0x27;
-                    break;
-                }
-            }
-        } else if (output) {
-            icons[0] = 0;
-        }
-
-        setIcons(icons);
 
         return;
     }

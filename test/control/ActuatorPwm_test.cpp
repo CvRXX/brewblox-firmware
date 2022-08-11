@@ -126,7 +126,7 @@ randomIntervalTest(
                     << "\t"
                     << std::setw(10) << lowTime
                     << "\t"
-                    << std::setprecision(5) << double(pwm.value())
+                    << std::setprecision(5) << double(*pwm.value())
                     << "\t"
                     << std::setw(10) << lowTime + highTime
                     << std::endl;
@@ -555,7 +555,7 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
             auto start = now;
             while (now < start + 10000) {
                 now = pwm.update(now);
-                if (pwm.value() == Approx(1).margin(1)) {
+                if (pwm.value().value() == Approx(1).margin(1)) {
                     break;
                 }
             }
@@ -920,7 +920,7 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
 
         CHECK(mock.state() == State::Active);
 
-        pwm.settingValid(false);
+        pwm.setting(std::nullopt);
 
         CHECK(mock.state() == State::Inactive);
     }
@@ -932,7 +932,7 @@ SCENARIO("ActuatorPWM driving mock actuator", "[pwm]")
         constrained.ptr->update(now);
         pwm.update(now);
 
-        CHECK(pwm.valueValid() == false);
+        CHECK(pwm.value().has_value() == false);
     }
 }
 
@@ -1145,8 +1145,7 @@ SCENARIO("Two PWM actuators driving mutually exclusive digital actuators")
 
         AND_WHEN("A PWM is set to invalid, its requested value is zero in the balancer")
         {
-            constrainedPwm1.setting(50);
-            constrainedPwm1.settingValid(false);
+            constrainedPwm1.setting(std::nullopt);
 
             constrainedPwm1.update();
             constrainedPwm2.update();
@@ -1382,7 +1381,8 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
     auto ds2408mock = std::make_shared<DS2408Mock>(addr);
     mockOw.attach(ds2408mock);
     auto ds = TestControlPtr<DS2408>(new DS2408(ow, addr));
-    MotorValve act(ds, 1);
+    auto dsIo = TestControlPtr<IoArray>(new DS2408(ow, addr));
+    MotorValve act(dsIo, 1);
 
     auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));
     ActuatorPwm pwm(constrained, 4000);

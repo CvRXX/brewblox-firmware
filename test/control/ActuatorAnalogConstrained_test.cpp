@@ -33,13 +33,11 @@ SCENARIO("ActuatorAnalogConstrained test", "[constraints]")
 
         CHECK(cAct.setting() == 0);
         CHECK(cAct.value() == 0);
-        CHECK(cAct.settingValid() == true);
 
         cAct.setting(50);
 
         CHECK(act.setting() == 50);
         CHECK(act.value() == 50);
-        CHECK(act.settingValid() == true);
 
         WHEN("A maximum constraint is added, the value is clipped at the maximum")
         {
@@ -78,11 +76,12 @@ SCENARIO("ActuatorAnalogConstrained test", "[constraints]")
 
         WHEN("The actuator setting is set to invalid")
         {
-            cAct.settingValid(false);
-            THEN("The setting value can still be written")
+            cAct.setting(std::nullopt);
+            THEN("The value can still be valid")
             {
-                cAct.setting(50);
-                CHECK(cAct.setting() == 50);
+                cAct.setting(std::nullopt);
+                CHECK(!cAct.setting().has_value());
+                CHECK(cAct.value().has_value());
             }
         }
     }

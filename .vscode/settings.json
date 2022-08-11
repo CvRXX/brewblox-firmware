@@ -68,9 +68,10 @@
   },
   "remote.localPortHost": "allInterfaces",
   "disasexpl.associations": {
-    "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
-    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
+    "**/*.c": "${workspaceFolder}/build/target/user/platform-8-m-lto/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s",
+    "**/*.cpp": "${workspaceFolder}/build/target/user/platform-8-m-lto/firmware/${relativeFileDirname}/${fileBasenameNoExtension}.s"
   },
+  "disasexpl.useBinaryParsing": true,
   "cmake.configureOnOpen": false,
   "cmake.cmakePath": "/usr/local/bin/cmake",
   "C_Cpp.codeAnalysis.clangTidy.enabled": false,
@@ -86,6 +87,7 @@
     "readability-*",
     "google-explicit-constructor",
   ],
+  "C_Cpp.codeAnalysis.runAutomatically": true,
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "cppcoreguidelines-pro-bounds-constant-array-index",
     "cppcoreguidelines-pro-bounds-array-to-pointer-decay",
@@ -124,4 +126,5 @@
       },
     }
   ],
+  "editor.formatOnSave": true,
 }

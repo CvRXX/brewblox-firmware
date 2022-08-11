@@ -39,4 +39,6 @@ public:
     {
         return ptr;
     }
+
+    void release() override final {}
 };

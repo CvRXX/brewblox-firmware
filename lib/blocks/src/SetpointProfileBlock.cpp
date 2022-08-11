@@ -67,14 +67,10 @@ SetpointProfileBlock::read(const cbox::PayloadCallback& callback) const
     message.enabled = profile.enabler.get();
     message.start = profile.startTime();
     message.targetId = target.getId();
-    if (profile.isDriving()) {
-        message.drivenTargetId = target.getId();
-    }
 
     size_t blockSize = (blox_SetpointProfile_Point_size + 1) * profile.points().size()
                        + 3 // enabled
                        + 4 // targetId
-                       + 5 // drivenTargetId
                        + 6 // start
         ;
 
@@ -114,7 +110,7 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
             profile.startTime(message.start);
         }
         if (parser.hasField(blox_SetpointProfile_Block_targetId_tag)) {
-            target.setId(message.targetId);
+            target.setId(message.targetId, objectId());
         }
     }
 
@@ -122,7 +118,7 @@ SetpointProfileBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-SetpointProfileBlock::updateHandler(const cbox::update_t& now)
+SetpointProfileBlock::updateHandler(cbox::update_t now)
 {
     auto time = ticks.utc();
     profile.update(time);

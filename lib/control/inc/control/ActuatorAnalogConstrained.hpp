@@ -119,7 +119,8 @@ private:
     std::vector<std::unique_ptr<Constraint>> constraints;
     ActuatorAnalog& actuator;
     uint8_t m_limiting = 0x00;
-    value_t m_desiredSetting = 0;
+    std::optional<value_t> m_desiredSetting = 0;
+    std::optional<value_t> m_setting = 0;
 
 public:
     explicit ActuatorAnalogConstrained(ActuatorAnalog& act)
@@ -138,56 +139,36 @@ public:
 
     value_t constrain(const value_t& val);
 
-    void setting(const value_t& val) final;
+    void setting(std::optional<value_t> val) final;
 
     void update()
     {
-        if (actuator.settingValid()) {
+        if (actuator.setting().has_value()) {
             setting(m_desiredSetting); // re-apply constraints
         }
     }
 
-    virtual value_t
-    setting() const final
+    virtual std::optional<value_t> setting() const final
     {
-        return actuator.setting();
+        return m_setting;
     }
 
-    virtual value_t
-    value() const final
+    virtual std::optional<value_t> value() const final
     {
         return actuator.value();
     }
 
-    virtual bool
-    valueValid() const final
-    {
-        return actuator.valueValid();
-    }
-
-    virtual bool
-    settingValid() const final
-    {
-        return actuator.settingValid();
-    }
-
-    virtual void
-    settingValid(bool v) final;
-
-    value_t
-    desiredSetting() const
+    std::optional<value_t> desiredSetting() const
     {
         return m_desiredSetting;
     }
 
-    uint8_t
-    limiting() const
+    uint8_t limiting() const
     {
         return m_limiting;
     }
 
-    const auto&
-    constraintsList() const
+    const auto& constraintsList() const
     {
         return constraints;
     }

@@ -32,6 +32,7 @@ set(proto_srcs
   inc/proto/Sequence.pb.c
   inc/proto/Spark3Pins.pb.c
   inc/proto/TempSensorExternal.pb.c
+  inc/proto/FastPwm.pb.c
 )
 
 if(ESP_PLATFORM)

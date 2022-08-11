@@ -85,7 +85,7 @@ template <typename T>
 class CboxPtr final : public CboxPtrBase, public ControlPtr<T> {
 
 public:
-    explicit CboxPtr(const obj_id_t& id = 0)
+    explicit CboxPtr(obj_id_t id = 0)
         : CboxPtrBase(id)
     {
     }
@@ -130,6 +130,9 @@ public:
     {
         return lock_as<T>();
     }
+
+    // no side-effects to undo
+    void release() override {}
 };
 
 } // end namespace cbox

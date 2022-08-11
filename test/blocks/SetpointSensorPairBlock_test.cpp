@@ -58,7 +58,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
         auto message = blox_test::SetpointSensorPair::Block();
 
         message.set_sensorid(sensorId);
-        message.set_settingenabled(true);
+        message.set_enabled(true);
         message.set_storedsetting(cnl::unwrap(temp_t(21)));
         message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_3m);
         message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
@@ -79,7 +79,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
               "sensorId: 100 "
               "setting: 86016 "
               "value: 81920 "
-              "settingEnabled: true "
+              "enabled: true "
               "storedSetting: 86016 "
               "filter: FILTER_3m "
               "filterThreshold: 2048 "
@@ -115,7 +115,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
             CHECK(message.ShortDebugString() ==
                   "sensorId: 100 "
                   "setting: 86016 "
-                  "settingEnabled: true "
+                  "enabled: true "
                   "storedSetting: 86016 "
                   "filter: FILTER_3m "
                   "filterThreshold: 2048");
@@ -144,7 +144,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
                   "sensorId: 100 "
                   "setting: 86016 "
                   "value: 81920 "
-                  "settingEnabled: true "
+                  "enabled: true "
                   "storedSetting: 86016 "
                   "filter: FILTER_3m "
                   "filterThreshold: 2048 "
@@ -170,7 +170,7 @@ SCENARIO("A Blox SetpointSensorPair object can be created from streamed protobuf
                   "sensorId: 100 "
                   "setting: 86016 "
                   "value: 102400 "
-                  "settingEnabled: true "
+                  "enabled: true "
                   "storedSetting: 86016 "
                   "filter: FILTER_3m "
                   "filterThreshold: 2048 "

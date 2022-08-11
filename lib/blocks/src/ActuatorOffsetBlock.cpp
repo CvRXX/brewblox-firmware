@@ -12,24 +12,27 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     message.targetId = target.getId();
     message.referenceId = reference.getId();
     message.referenceSettingOrValue = blox_ActuatorOffset_ReferenceKind(offset.selectedReference());
-    message.enabled = offset.enabled();
+    message.enabled = offset.enabler.get();
 
-    if (constrained.valueValid()) {
-        message.value = cnl::unwrap(constrained.value());
+    if (auto val = constrained.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_ActuatorOffset_Block_value_tag);
     }
-    if (constrained.settingValid()) {
-        message.setting = cnl::unwrap(constrained.setting());
-        if (offset.enabled()) {
-            message.drivenTargetId = message.targetId;
-        }
+    if (auto val = constrained.setting()) {
+        message.setting = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_ActuatorOffset_Block_setting_tag);
     };
-    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
 
-    getAnalogConstraints(message.constrainedBy, constrained);
+    if (auto val = constrained.desiredSetting()) {
+        message.desiredSetting = cnl::unwrap(*val);
+    } else {
+        excluded.push_back(blox_ActuatorOffset_Block_desiredSetting_tag);
+    }
+    message.claimedBy = claim.claimedBy();
+
+    getAnalogConstraints(message.constrainedBy, constrained, true);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -47,9 +50,10 @@ cbox::CboxError ActuatorOffsetBlock::readStored(const cbox::PayloadCallback& cal
     message.targetId = target.getId();
     message.referenceId = reference.getId();
     message.referenceSettingOrValue = _blox_ActuatorOffset_ReferenceKind(offset.selectedReference());
-    message.enabled = offset.enabled();
-    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
-    getAnalogConstraints(message.constrainedBy, constrained);
+    message.enabled = offset.enabler.get();
+    // default setting to 0 if it is invalid no not have to store excluded field in eeprom
+    message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
+    getAnalogConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -66,13 +70,13 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_ActuatorOffset_Block_fields)) {
         if (parser.hasField(blox_ActuatorOffset_Block_targetId_tag)) {
-            target.setId(message.targetId);
+            target.setId(message.targetId, objectId());
         }
         if (parser.hasField(blox_ActuatorOffset_Block_referenceId_tag)) {
             reference.setId(message.referenceId);
         }
         if (parser.hasField(blox_ActuatorOffset_Block_enabled_tag)) {
-            offset.enabled(message.enabled);
+            offset.enabler.set(message.enabled);
         }
         if (parser.hasField(blox_ActuatorOffset_Block_referenceSettingOrValue_tag)) {
             offset.selectedReference(ActuatorOffset::ReferenceKind(message.referenceSettingOrValue));
@@ -89,7 +93,7 @@ cbox::CboxError ActuatorOffsetBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-ActuatorOffsetBlock::updateHandler(const cbox::update_t& now)
+ActuatorOffsetBlock::updateHandler(cbox::update_t now)
 {
     offset.update();
     constrained.update();
@@ -100,6 +104,10 @@ void* ActuatorOffsetBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
         // return the member that implements the interface in this case

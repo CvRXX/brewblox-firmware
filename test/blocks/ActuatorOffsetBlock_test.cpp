@@ -53,7 +53,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         auto message = blox_test::SetpointSensorPair::Block();
         message.set_sensorid(100);
         message.set_storedsetting(cnl::unwrap(temp_t(20.0)));
-        message.set_settingenabled(true);
+        message.set_enabled(true);
 
         messageToPayload(cmd, message);
         CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
@@ -76,7 +76,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         auto message = blox_test::SetpointSensorPair::Block();
         message.set_sensorid(102);
         message.set_storedsetting(cnl::unwrap(temp_t(20.0)));
-        message.set_settingenabled(true);
+        message.set_enabled(true);
 
         messageToPayload(cmd, message);
         CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
@@ -107,7 +107,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         CHECK(message.ShortDebugString() ==
               "targetId: 101 referenceId: 103 "
               "setting: 49152 value: 4096 " // setting is 12 (setpoint difference), value is 1 (21 - 20)
-              "drivenTargetId: 101 enabled: true "
+              "enabled: true "
               "desiredSetting: 49152");
     }
 
@@ -121,10 +121,11 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
               "sensorId: 100 "
               "setting: 131072 "
               "value: 86016 "
-              "settingEnabled: true "
+              "enabled: true "
               "storedSetting: 131072 "
               "filterThreshold: 20480 "
-              "valueUnfiltered: 86016"); // setting 32, value 21 (setpoint adjusted to 20 + 12)
+              "valueUnfiltered: 86016 "
+              "claimedBy: 104"); // setting 32, value 21 (setpoint adjusted to 20 + 12)
     }
 
     // Read reference pair
@@ -137,7 +138,7 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
               "sensorId: 102 "
               "setting: 81920 "
               "value: 110592 "
-              "settingEnabled: true "
+              "enabled: true "
               "storedSetting: 81920 "
               "filterThreshold: 20480 "
               "valueUnfiltered: 110592"); // 20, 27 (unaffected)
@@ -148,13 +149,13 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
         auto writeCmd = cbox::TestCommand(103, SetpointSensorPairBlock::staticTypeId());
         auto writeMsg = blox_test::SetpointSensorPair::Block();
         writeMsg.set_storedsetting(cnl::unwrap(temp_t(20.0)));
-        writeMsg.set_settingenabled(false);
+        writeMsg.set_enabled(false);
         messageToPayload(writeCmd, writeMsg);
         CHECK(cbox::writeBlock(writeCmd.request, writeCmd.callback) == cbox::CboxError::OK);
 
         cbox::update(5000);
 
-        THEN("The actuator is not driving the target setpoint and setting and value are stripped")
+        THEN("The actuator is still driving the target setpoint and has a setting, but the value is stripped")
         {
             auto readCmd = cbox::TestCommand(104, ActuatorOffsetBlock::staticTypeId());
             CHECK(cbox::readBlock(readCmd.request, readCmd.callback) == cbox::CboxError::OK);
@@ -165,12 +166,13 @@ SCENARIO("A Blox ActuatorOffset object can be created from streamed protobuf dat
             REQUIRE(readCmd.responses[0].maskMode == cbox::MaskMode::EXCLUSIVE);
             REQUIRE(readCmd.responses[0].mask == std::vector<cbox::obj_field_tag_t>{
                         blox_test::ActuatorOffset::Block::kValueFieldNumber,
-                        blox_test::ActuatorOffset::Block::kSettingFieldNumber,
                     });
 
             CHECK(readMsg.ShortDebugString() ==
+
                   "targetId: 101 "
                   "referenceId: 103 "
+                  "setting: 49152 "
                   "enabled: true "
                   "desiredSetting: 49152");
         }

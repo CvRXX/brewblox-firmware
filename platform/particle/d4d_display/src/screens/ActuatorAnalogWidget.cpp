@@ -33,13 +33,13 @@ void ActuatorAnalogWidget::update(const WidgetSettings& settings)
     if (auto pAct = lookup.lock()) {
         setConnected();
 
-        if (pAct->valueValid()) {
-            setValue(to_string_dec(pAct->value(), 1));
+        if (auto val = pAct->value()) {
+            setValue(to_string_dec(*val, 1));
         } else {
             setValue("");
         }
-        if (pAct->settingValid()) {
-            setSetting(to_string_dec(pAct->setting(), 1));
+        if (auto val = pAct->setting()) {
+            setSetting(to_string_dec(*val, 1));
 
         } else {
             setSetting("");

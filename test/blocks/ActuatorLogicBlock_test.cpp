@@ -84,7 +84,7 @@ SCENARIO("ActuatorLogicBlock")
         auto message = blox_test::SetpointSensorPair::Block();
 
         message.set_sensorid(id - 10);
-        message.set_settingenabled(true);
+        message.set_enabled(true);
         message.set_storedsetting(cnl::unwrap(setting));
         message.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
         message.set_filterthreshold(cnl::unwrap(temp_t(0.5)));
@@ -137,7 +137,6 @@ SCENARIO("ActuatorLogicBlock")
     auto result = setLogic(message, true);
     CHECK(result.ShortDebugString() ==
           "targetId: 105 "
-          "drivenTargetId: 105 "
           "enabled: true "
           "result: RESULT_EMPTY");
 
@@ -177,7 +176,6 @@ SCENARIO("ActuatorLogicBlock")
             auto result = setLogic(message);
             CHECK(result.ShortDebugString() ==
                   "targetId: 105 "
-                  "drivenTargetId: 105 "
                   "enabled: true "
                   "expression: \"a|b|c\" "
                   "digital { op: OP_DESIRED_IS id: 101 rhs: STATE_ACTIVE } "
@@ -198,7 +196,6 @@ SCENARIO("ActuatorLogicBlock")
                 payloadToMessage(cmd, decoded);
                 CHECK(decoded.ShortDebugString() ==
                       "targetId: 105 "
-                      "drivenTargetId: 105 "
                       "enabled: true "
                       "result: RESULT_TRUE "
                       "expression: \"a|b|c\" "
@@ -221,7 +218,6 @@ SCENARIO("ActuatorLogicBlock")
                 payloadToMessage(cmd, decoded);
                 CHECK(decoded.ShortDebugString() ==
                       "targetId: 105 "
-                      "drivenTargetId: 105 "
                       "enabled: true "
                       "result: RESULT_TRUE "
                       "expression: \"a|b|c\" "
@@ -416,7 +412,6 @@ SCENARIO("ActuatorLogicBlock")
             CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_TRUE);
             CHECK(result.ShortDebugString() ==
                   "targetId: 105 "
-                  "drivenTargetId: 105 "
                   "enabled: true "
                   "result: RESULT_TRUE "
                   "expression: \"A|B|C|D\" "
@@ -432,6 +427,20 @@ SCENARIO("ActuatorLogicBlock")
             message.set_expression("(A&B)|(C&D)");
             result = setLogic(message);
             CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
+        }
+
+        THEN("The digital actuator knows it is driven by the logic actuator")
+        {
+            auto cmd = cbox::TestCommand(105, DigitalActuatorBlock::staticTypeId());
+            auto message = blox_test::DigitalActuator::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "hwDevice: 19 "
+                  "channel: 5 "
+                  "claimedBy: 130");
         }
     }
 }

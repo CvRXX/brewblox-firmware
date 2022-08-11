@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_Pid_Block_fields[24] = {
+const pb_field_t blox_Pid_Block_fields[23] = {
     PB_FIELD(  1, UINT32  , SINGULAR, STATIC  , FIRST, blox_Pid_Block, inputId, inputId, 0),
     PB_FIELD(  2, UINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, outputId, inputId, 0),
     PB_FIELD(  5, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, inputValue, outputId, 0),
@@ -27,8 +27,7 @@ const pb_field_t blox_Pid_Block_fields[24] = {
     PB_FIELD( 19, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, error, d, 0),
     PB_FIELD( 20, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, integral, error, 0),
     PB_FIELD( 21, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, derivative, integral, 0),
-    PB_FIELD( 22, UINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, drivenOutputId, derivative, 0),
-    PB_FIELD( 23, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, integralReset, drivenOutputId, 0),
+    PB_FIELD( 23, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, integralReset, derivative, 0),
     PB_FIELD( 24, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, boilPointAdjust, integralReset, 0),
     PB_FIELD( 25, SINT32  , SINGULAR, STATIC  , OTHER, blox_Pid_Block, boilMinOutput, boilPointAdjust, 0),
     PB_FIELD( 26, BOOL    , SINGULAR, STATIC  , OTHER, blox_Pid_Block, boilModeActive, boilMinOutput, 0),

@@ -76,8 +76,8 @@ TempSensorMockBlock::read(const cbox::PayloadCallback& callback) const
     message.setting = cnl::unwrap((sensor.setting()));
     message.connected = sensor.connected();
 
-    if (sensor.valid()) {
-        message.value = cnl::unwrap((sensor.value()));
+    if (auto val = sensor.value()) {
+        message.value = cnl::unwrap((*val));
     } else {
         excluded.push_back(blox_TempSensorMock_Block_value_tag);
     }
@@ -135,7 +135,7 @@ TempSensorMockBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
-cbox::update_t TempSensorMockBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t TempSensorMockBlock::updateHandler(cbox::update_t now)
 {
     return sensor.update(now);
 }

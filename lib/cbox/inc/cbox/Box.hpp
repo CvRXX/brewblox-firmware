@@ -39,7 +39,7 @@ CboxError discoverBlocks();
 
 void loadBlocksFromStorage();
 void unloadBlocks();
-void update(const update_t& now);
-void forcedUpdate(const update_t& now);
+void update(update_t now);
+void forcedUpdate(update_t now);
 
 } // end namespace cbox

@@ -62,7 +62,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
 
         setpointMessage.set_sensorid(sensorId);
         setpointMessage.set_storedsetting(cnl::unwrap(temp_t(21)));
-        setpointMessage.set_settingenabled(true);
+        setpointMessage.set_enabled(true);
         setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_15s);
         setpointMessage.set_filterthreshold(cnl::unwrap(temp_t(1)));
 
@@ -132,7 +132,6 @@ SCENARIO("A Blox Pid object with mock analog actuator")
               "kp: 40960 ti: 2000 td: 200 "
               "p: 40960 i: 20479 "
               "error: 4096 integral: 4096000 "
-              "drivenOutputId: 102 "
               "boilPointAdjust: -2048 "
               "boilMinOutput: 102400 "
               "derivativeFilter: FILTER_3m");
@@ -158,7 +157,6 @@ SCENARIO("A Blox Pid object with mock analog actuator")
               "kp: 40960 ti: 2000 td: 200 "
               "p: 40960 i: 81940 "
               "error: 4096 integral: 16388096 "
-              "drivenOutputId: 102 "
               "boilPointAdjust: -2048 "
               "boilMinOutput: 102400 "
               "derivativeFilter: FILTER_3m");
@@ -168,7 +166,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
     {
         auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
 
-        setpointMessage.set_settingenabled(false);
+        setpointMessage.set_enabled(false);
         CHECK(cbox::writeBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
 
         cbox::update(now + 2000);
@@ -184,8 +182,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         {
             auto actuatorLookup = cbox::CboxPtr<ActuatorAnalogMockBlock>(actuatorId);
             auto act = actuatorLookup.lock();
-            CHECK(act->get().setting() == 0);
-            CHECK(act->get().settingValid() == false);
+            CHECK(act->get().setting().has_value() == false);
         }
     }
 
@@ -206,7 +203,7 @@ SCENARIO("A Blox Pid object with mock analog actuator")
         {
             auto cmd = cbox::TestCommand(setpointId, SetpointSensorPairBlock::staticTypeId());
 
-            setpointMessage.set_settingenabled(true);
+            setpointMessage.set_enabled(true);
             setpointMessage.set_storedsetting(cnl::unwrap(Pid::in_t(99.5)));
             setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
 
@@ -230,11 +227,25 @@ SCENARIO("A Blox Pid object with mock analog actuator")
                   "outputValue: 102400 outputSetting: 102400 "
                   "enabled: true active: true "
                   "kp: 40960 ti: 2000 td: 200 "
-                  "drivenOutputId: 102 "
                   "boilPointAdjust: -2048 "
                   "boilMinOutput: 102400 "
                   "boilModeActive: true "
                   "derivativeFilter: FILTER_3m");
+        }
+
+        THEN("The actuator knows it is driven by the PID")
+        {
+            auto cmd = cbox::TestCommand(actuatorId, ActuatorAnalogMockBlock::staticTypeId());
+            auto message = blox_test::ActuatorAnalogMock::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "value: 102400 "
+                  "maxSetting: 409600 "
+                  "maxValue: 409600 "
+                  "claimedBy: 103");
         }
     }
 }

@@ -36,13 +36,13 @@ public:
     void update()
     {
         if (auto pAct = lookup.lock()) {
-            if (pAct->valueValid()) {
-                setValue(temp_to_string(pAct->value(), 2, tempUnit));
+            if (auto val = pAct->value()) {
+                setValue(temp_to_string(*val, 2, tempUnit));
             } else {
                 setValue("-");
             }
-            if (pAct->settingValid()) {
-                setSetting(temp_to_string(pAct->setting(), 2, tempUnit));
+            if (auto val = pAct->setting()) {
+                setSetting(temp_to_string(*val, 2, tempUnit));
 
             } else {
                 setSetting("-");

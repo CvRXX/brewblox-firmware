@@ -300,7 +300,6 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
                   "constraints { "
                   "balanced { balancerId: 200 granted: 204800 id: 1 } "
                   "limiting: true } } "
-                  "drivenActuatorId: 102 "
                   "enabled: true "
                   "desiredSetting: 327680");
         }
@@ -320,7 +319,6 @@ SCENARIO("Two pin actuators are constrained by a mutex", "[balancer, mutex]")
                   "constraints { "
                   "balanced { balancerId: 200 granted: 204800 id: 2 } "
                   "limiting: true } } "
-                  "drivenActuatorId: 103 "
                   "enabled: true "
                   "desiredSetting: 327680");
         }

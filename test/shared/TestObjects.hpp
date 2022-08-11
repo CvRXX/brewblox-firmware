@@ -25,7 +25,7 @@ public:
         return cbox::CboxError::OK;
     }
 
-    virtual cbox::update_t updateHandler(const cbox::update_t& now) override
+    virtual cbox::update_t updateHandler(cbox::update_t now) override
     {
         updateCount++;
         return now + interval;
@@ -259,7 +259,7 @@ public:
         return cbox::CboxError::OK;
     }
 
-    cbox::update_t updateHandler(const cbox::update_t& now) override
+    cbox::update_t updateHandler(cbox::update_t now) override
     {
         ++_count;
         return now + _interval;
@@ -402,7 +402,7 @@ public:
         return writeFunc(payload);
     }
 
-    cbox::update_t updateHandler(const cbox::update_t& now) override
+    cbox::update_t updateHandler(cbox::update_t now) override
     {
         return cbox::Object::next_update_never(now);
     }

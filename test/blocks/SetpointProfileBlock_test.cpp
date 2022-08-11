@@ -44,7 +44,7 @@ SCENARIO("A SetpointProfile block")
         auto setpointId = cbox::obj_id_t(101);
         auto profileId = cbox::obj_id_t(102);
 
-        auto update = [](const cbox::update_t& now) {
+        auto update = [](cbox::update_t now) {
             ticks.ticksImpl().reset(now);
             cbox::update(now);
         };
@@ -70,7 +70,7 @@ SCENARIO("A SetpointProfile block")
 
             message.set_sensorid(sensorId);
             message.set_storedsetting(cnl::unwrap(temp_t(99)));
-            message.set_settingenabled(true);
+            message.set_enabled(true);
 
             messageToPayload(cmd, message);
             CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
@@ -106,16 +106,23 @@ SCENARIO("A SetpointProfile block")
         auto pairPtr = pairLookup.lock();
         auto profileLookup = cbox::CboxPtr<SetpointProfileBlock>(102);
         auto profilePtr = profileLookup.lock();
+        auto claimLookup = cbox::CboxPtr<cbox::Claimable>(101);
+        auto claimPtr = claimLookup.lock();
 
         REQUIRE(profilePtr);
         REQUIRE(pairPtr);
+        REQUIRE(claimPtr);
 
         WHEN("The box has not received the current time (in seconds since epoch")
         {
             THEN("It does not change the setpoint")
             {
                 CHECK(pairPtr->get().setting() == temp_t(99));
-                CHECK(pairPtr->get().settingValid() == true);
+            }
+
+            THEN("It does not claim the target setpoint")
+            {
+                CHECK(claimPtr->claimedBy() == 0);
             }
         }
 
@@ -124,9 +131,32 @@ SCENARIO("A SetpointProfile block")
             ticks.setUtc(20'000);
             update(25000); // system is running for 25 seconds, so seconds since epoch should be 20'015 now
 
+            THEN("It claims the target setpoint")
+            {
+                CHECK(claimPtr->claimedBy() == 102);
+                AND_THEN("Another claiming cbox ptr cannot get write access to the setpoint")
+                {
+                    auto secondClaimer = cbox::CboxClaimingPtr<SetpointSensorPairBlock>(101, 103);
+                    CHECK(secondClaimer.lock() == nullptr);
+
+                    AND_WHEN("The profile is disabled")
+                    {
+                        profilePtr->get().enabler.set(false);
+                        update(26'000);
+                        update(27'000);
+                        THEN("It no longer claims the setpoint, and the second claimer can get write access")
+                        {
+                            CHECK(profilePtr->get().isDriving() == false);
+                            CHECK(claimPtr->claimedBy() == 0);
+                            CHECK(secondClaimer.lock() != nullptr);
+                        }
+                    }
+                }
+            }
+
             THEN("The setpoint is valid")
             {
-                CHECK(pairPtr->get().settingValid() == true);
+                CHECK(pairPtr->get().setting().has_value() == true);
             }
             AND_THEN("The setting is correctly interpolated")
             {
@@ -146,7 +176,6 @@ SCENARIO("A SetpointProfile block")
                       "points { time: 20 temperature: 86016 } "
                       "enabled: true "
                       "targetId: 101 "
-                      "drivenTargetId: 101 "
                       "start: 20000");
             }
         }
@@ -183,7 +212,6 @@ SCENARIO("A SetpointProfile block")
                   "points { time: 20 temperature: 86016 } "
                   "enabled: true "
                   "targetId: 101 "
-                  "drivenTargetId: 101 "
                   "start: 20000");
         }
     }

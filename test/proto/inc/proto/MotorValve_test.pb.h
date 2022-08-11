@@ -222,6 +222,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::IoArray::DigitalState desiredstate() const;
   void set_desiredstate(::blox_test::IoArray::DigitalState value);
 
+  // uint32 claimedBy = 8 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 8;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:blox_test.MotorValve.Block)
  private:
 
@@ -232,6 +238,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   int state_;
   int valvestate_;
   int desiredstate_;
+  ::google::protobuf::uint32 claimedby_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_MotorValve_5ftest_2eproto::TableStruct;
 };
@@ -362,6 +369,20 @@ inline void Block::set_desiredstate(::blox_test::IoArray::DigitalState value) {
   
   desiredstate_ = value;
   // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.desiredState)
+}
+
+// uint32 claimedBy = 8 [(.nanopb) = {
+inline void Block::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.claimedBy)
+  return claimedby_;
+}
+inline void Block::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.claimedBy)
 }
 
 #ifdef __GNUC__

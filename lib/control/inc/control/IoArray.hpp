@@ -19,9 +19,111 @@
 
 #pragma once
 
+#include "control/ActuatorAnalog.hpp"
 #include "control/ActuatorDigitalBase.hpp"
-#include <inttypes.h>
+#include <cinttypes>
+#include <optional>
+#include <variant>
 #include <vector>
+
+namespace IoValue {
+using State = ActuatorDigitalBase::State;
+enum class Error : uint8_t {
+    UNKNOWN,
+    NOT_CONFIGURED,
+    INVALID_CHANNEL,
+    UNSUPPORTED_VALUE,
+    UNSUPPORTED_SETUP,
+    CHANNEL_IN_USE,
+    IO_ERROR,
+    DISCONNECTED,
+    CHANNEL_TYPE_NOT_SET,
+    CHANNEL_PINS_NOT_SET,
+    NOT_IMPLEMENTED,
+};
+
+namespace Setup {
+    enum class Frequency : uint8_t {
+        FREQ_80HZ,
+        FREQ_100HZ,
+        FREQ_200HZ,
+        FREQ_2000HZ,
+    };
+
+    struct Unused {
+    };
+    struct OutputDigital {
+    };
+    struct OutputPwm {
+        Frequency frequency = Frequency::FREQ_100HZ;
+    };
+    struct InputDigital {};
+
+    using variant = std::variant<Unused,
+                                 Error,
+                                 OutputDigital,
+                                 OutputPwm,
+                                 InputDigital>;
+}; // end snamespace IoValue::Setup
+
+class Digital {
+private:
+    State _state;
+
+public:
+    explicit Digital(State s)
+        : _state(s)
+    {
+    }
+
+    [[nodiscard]] State state() const
+    {
+        return _state;
+    }
+};
+
+class PWM {
+public:
+    using duty_t = ActuatorAnalog::value_t;
+
+private:
+    duty_t _duty = 0;
+
+public:
+    explicit PWM(duty_t d)
+        : _duty{d}
+    {
+    }
+
+    [[nodiscard]] State state() const
+    {
+        if (_duty > 0) {
+            return State::Active;
+        }
+        if (_duty < 0) {
+            return State::Reverse;
+        }
+        return State::Inactive;
+    }
+
+    [[nodiscard]] duty_t duty() const
+    {
+        return _duty;
+    }
+};
+
+using variant = std::variant<Error,
+                             Digital,
+                             PWM>;
+
+inline bool operator==(const variant& v, const Digital& t)
+{
+    if (auto* val = std::get_if<Digital>(&v)) {
+        return val->state() == t.state();
+    };
+    return false;
+}
+};
 
 /*
  * Abstract interface to an array of digital inputs and/or outputs
@@ -29,113 +131,165 @@
 class IoArray {
 public:
     using State = ActuatorDigitalBase::State;
+
     explicit IoArray(uint8_t size)
-        : channels(size, {ChannelConfig::UNUSED, State::Unknown})
+        : channels{size}
     {
     }
 
     IoArray(const IoArray&) = delete;
     IoArray& operator=(const IoArray&) = delete;
+    IoArray(IoArray&&) = default;
+    IoArray& operator=(IoArray&&) = default;
 
     virtual ~IoArray() = default;
 
-    enum class ChannelConfig {
-        UNUSED = 0,
-        DRIVING_OFF = 1,
-        DRIVING_ON = 2,
-        DRIVING_REVERSE = 3,
-        DRIVING_BRAKE_LOW_SIDE = 4,
-        DRIVING_BRAKE_HIGH_SIDE = 5,
-        DRIVING_PWM = 6,
-        DRIVING_PWM_REVERSE = 7,
-        INPUT = 10,
-        UNKNOWN = 255,
-    };
-
-    bool validChannel(uint8_t channel) const
+    [[nodiscard]] bool validChannel(uint8_t channel) const
     {
+        // first channel is 1, because 0 is used as 'unconfigured'
         return channel > 0 && channel <= size();
     }
 
-    // returns the chached value for the pin state. The
-    bool senseChannel(uint8_t channel, ActuatorDigitalBase::State& result) const
+    // returns written value or error
+    IoValue::Setup::variant setupChannel(uint8_t channel, IoValue::Setup::variant setup)
     {
-        // first channel is 1, because 0 is used as 'unconfigured'
-        if (validChannel(channel)) {
-            if (senseChannelImpl(channel, channels[channel - 1].state)) {
-                result = channels[channel - 1].state;
-                return true;
-            }
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
         }
-        result = ActuatorDigitalBase::State::Unknown;
-        return false;
-    }
-
-    // returns cached value for channel config, which is assumed to be equal to the last write
-    bool readChannelConfig(uint8_t channel, ChannelConfig& result) const
-    {
-        // first channel on external interface is 1, because 0 is unconfigured
-        if (validChannel(channel)) {
-            result = channels[channel - 1].config;
-            return true;
+        auto& chan = channels[channel - 1];
+        // allow setup if the new value is a release or if the channel is not in use
+        if (std::holds_alternative<IoValue::Setup::Unused>(setup)
+            || std::holds_alternative<IoValue::Setup::Unused>(chan.setupDesired)) {
+            chan.setupDesired = setup;
+            chan.setup = setupChannelImpl(channel, setup);
+            return chan.setup;
         }
-        return false;
+        return IoValue::Error::CHANNEL_IN_USE;
     }
-    bool writeChannelConfig(uint8_t channel, ChannelConfig config)
+
+    void reapplySetup(uint8_t channel)
     {
-        // first channel on external interface is 1, because 0 is unconfigured
-        if (validChannel(channel)) {
-            channels[channel - 1].config = config;
-            writeChannelImpl(channel, config);
-            return true;
+        if (!validChannel(channel)) {
+            return;
         }
-        return false;
+        auto& chan = channels[channel - 1];
+        chan.setup = setupChannelImpl(channel, chan.setupDesired);
     }
 
-    bool claimChannel(uint8_t channel, ChannelConfig config)
+    // returns written value or error
+    IoValue::variant writeChannel(uint8_t channel, IoValue::variant val)
     {
-        ChannelConfig existingConfig;
-        if (readChannelConfig(channel, existingConfig)) {
-            if (existingConfig == ChannelConfig::UNUSED) {
-                writeChannelConfig(channel, config);
-                return true;
-            }
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
         }
-        return false;
-    }
+        auto& chan = channels[channel - 1];
 
-    bool releaseChannel(uint8_t channel)
-    {
-        if (!validChannel(channel) || writeChannelConfig(channel, ChannelConfig::UNUSED)) {
-            return true;
+        auto result = writeChannelImpl(channel, val);
+        if (std::holds_alternative<IoValue::Error>(result)) {
+            chan.actual = result;
+            chan.desired = val;
+        } else {
+            chan.desired = result;
         }
-
-        return false;
+        return result;
     }
 
-    const auto& readChannels() const
+    [[nodiscard]] IoValue::variant readChannel(uint8_t channel) const
     {
-        return channels;
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        return readChannelImpl(channel);
     }
 
-    uint8_t size() const
+    [[nodiscard]] size_t size() const
     {
         return channels.size();
     }
 
-    // virtual functions to be implemented by super class that perform actual hardware IO.
-    // most data and/or caching is stored in this class.
-    // the super class can choose to apply/read immediately or to implement no-op functions and sync in an update function
-    virtual bool supportsFastIo() const = 0;
+    typedef union {
+        struct Bits {
+            uint16_t digitalOutput : 1;
+            uint16_t pwm80Hz : 1;
+            uint16_t pwm100Hz : 1;
+            uint16_t pwm200Hz : 1;
+            uint16_t pwm2000Hz : 1;
+            uint16_t bidirectional : 1;
+            uint16_t digitalInput : 1;
+        } flags;
+        uint16_t all;
+    } ChannelCapabilities;
+    static_assert(sizeof(ChannelCapabilities) == 2);
+
+    [[nodiscard]] virtual ChannelCapabilities getChannelCapabilities(uint8_t channel) const = 0;
+    [[nodiscard]] bool channelSupports(uint8_t channel, ChannelCapabilities requested) const
+    {
+        auto fromChannel = getChannelCapabilities(channel);
+        return (fromChannel.all | requested.all) == fromChannel.all;
+    }
+
+    bool claimChannel(uint16_t claimerId, uint8_t channel)
+    {
+        if (channel == 0) {
+            return true;
+        }
+        if (channel <= channels.size()) {
+            auto& chan = channels[channel - 1];
+            if (chan.claimedBy == 0) {
+                chan.claimedBy = claimerId;
+                return true;
+            }
+            if (chan.claimedBy == claimerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void unclaimChannel(uint16_t claimerId, uint8_t channel)
+    {
+        if (claimChannel(claimerId, channel)) {
+            channels[channel - 1].claimedBy = 0;
+        }
+    }
+
+    uint16_t getChannelClaimerId(uint8_t channel) const
+    {
+        if (channel > 0 && channel <= channels.size()) {
+            return channels[channel - 1].claimedBy;
+        }
+        return 0;
+    }
 
 protected:
-    virtual bool senseChannelImpl(uint8_t channel, State& result) const = 0;
-    virtual bool writeChannelImpl(uint8_t channel, ChannelConfig config) = 0;
+    [[nodiscard]] virtual IoValue::variant readChannelImpl(uint8_t channel) const = 0;
+    [[nodiscard]] virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant value) = 0;
+    [[nodiscard]] virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant value) = 0;
 
+    [[nodiscard]] IoValue::variant channelDesired(uint8_t channel) const
+    {
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        return channels[channel - 1].desired;
+    }
+
+    [[nodiscard]] IoValue::Setup::variant channelSetup(uint8_t channel) const
+    {
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        return channels[channel - 1].setup;
+    }
+
+private:
     struct Channel {
-        ChannelConfig config = ChannelConfig::UNUSED;
-        State state = State::Unknown;
+        IoValue::variant desired = IoValue::Error::NOT_CONFIGURED;
+        IoValue::variant actual = IoValue::Error::NOT_CONFIGURED;
+        IoValue::Setup::variant setup = IoValue::Setup::Unused{};
+        IoValue::Setup::variant setupDesired = IoValue::Setup::Unused{};
+        uint16_t claimedBy = 0;
     };
 
-    mutable std::vector<Channel> channels;
+    std::vector<Channel> channels;
 };
