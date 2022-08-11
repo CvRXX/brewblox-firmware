@@ -8,6 +8,7 @@
 
 class FastPwmBlock final : public Block<brewblox_BlockType_FastPwm> {
 private:
+    cbox::Claimable claim;
     IoChannelPtr io;
     FastPwm pwm;
     ActuatorAnalogConstrained constrained;

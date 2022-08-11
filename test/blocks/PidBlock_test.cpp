@@ -232,5 +232,20 @@ SCENARIO("A Blox Pid object with mock analog actuator")
                   "boilModeActive: true "
                   "derivativeFilter: FILTER_3m");
         }
+
+        THEN("The actuator knows it is driven by the PID")
+        {
+            auto cmd = cbox::TestCommand(actuatorId, ActuatorAnalogMockBlock::staticTypeId());
+            auto message = blox_test::ActuatorAnalogMock::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "value: 102400 "
+                  "maxSetting: 409600 "
+                  "maxValue: 409600 "
+                  "claimedBy: 103");
+        }
     }
 }

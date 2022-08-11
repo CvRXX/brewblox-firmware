@@ -1,6 +1,7 @@
 #pragma once
 
 #include "blocks/Block.hpp"
+#include "cbox/Claimable.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorAnalogMock.hpp"
 
@@ -10,6 +11,7 @@ class ObjectContainer;
 
 class ActuatorAnalogMockBlock final : public Block<brewblox_BlockType_ActuatorAnalogMock> {
 private:
+    cbox::Claimable claim;
     ActuatorAnalogMock actuator;
     ActuatorAnalogConstrained constrained;
 

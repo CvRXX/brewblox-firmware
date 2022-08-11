@@ -40,6 +40,7 @@ DigitalActuatorBlock::read(const cbox::PayloadCallback& callback) const
     } else {
         excluded.push_back(blox_DigitalActuator_Block_transitionDurationValue_tag);
     }
+    message.claimedBy = claim.claimedBy();
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -147,6 +148,10 @@ void* DigitalActuatorBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {
         // return the member that implements the interface in this case

@@ -131,7 +131,7 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
             input.setId(message.inputId);
         }
         if (parser.hasField(blox_Pid_Block_outputId_tag)) {
-            output.setId(message.outputId);
+            output.setId(message.outputId, objectId());
         }
         if (parser.hasField(blox_Pid_Block_kp_tag)) {
             pid.kp(cnl::wrap<Pid::in_t>(message.kp));

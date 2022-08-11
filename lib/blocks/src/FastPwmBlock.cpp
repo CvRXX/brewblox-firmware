@@ -38,6 +38,7 @@ FastPwmBlock::read(const cbox::PayloadCallback& callback) const
         excluded.push_back(blox_FastPwm_Block_value_tag);
     }
     message.transitionDurationValue = pwm.getTransitionTime();
+    message.claimedBy = claim.claimedBy();
 
     getAnalogConstraints(message.constrainedBy, constrained, true);
 
@@ -119,6 +120,10 @@ void* FastPwmBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
         // return the member that implements the interface in this case

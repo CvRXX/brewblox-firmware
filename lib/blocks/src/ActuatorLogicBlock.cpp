@@ -130,7 +130,7 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_ActuatorLogic_Block_fields)) {
         if (parser.hasField(blox_ActuatorLogic_Block_targetId_tag)) {
-            target.setId(message.targetId);
+            target.setId(message.targetId, objectId());
         }
         if (parser.hasField(blox_ActuatorLogic_Block_enabled_tag)) {
             enabler.set(message.enabled);

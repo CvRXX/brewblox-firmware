@@ -20,15 +20,16 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/ActuatorAnalog.hpp"
 #include "control/IntervalHelper.hpp"
 #include "control/Pid.hpp"
 
 class PidBlock final : public Block<brewblox_BlockType_Pid> {
 private:
+    cbox::Claimable claim;
     cbox::CboxPtr<SetpointSensorPair> input;
-    cbox::CboxPtr<ProcessValue<Pid::out_t>> output;
+    cbox::CboxClaimingPtr<ProcessValue<Pid::out_t>> output;
 
     Pid pid;
     IntervalHelper<1000> m_intervalHelper;

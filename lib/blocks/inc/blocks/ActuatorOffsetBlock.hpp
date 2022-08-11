@@ -7,6 +7,7 @@
 
 class ActuatorOffsetBlock final : public Block<brewblox_BlockType_ActuatorOffset> {
 private:
+    cbox::Claimable claim;
     cbox::CboxClaimingPtr<SetpointSensorPair> target;
     cbox::CboxPtr<SetpointSensorPair> reference;
     ActuatorOffset offset;

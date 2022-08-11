@@ -86,6 +86,23 @@ public:
         }
     };
 
+    CboxError store() const
+    {
+        return _ptr.store();
+    }
+
+    template <class U>
+    [[nodiscard]] std::shared_ptr<U> lock_as()
+    {
+        return _ptr.template lock_as<U>();
+    }
+
+    template <class U>
+    [[nodiscard]] std::shared_ptr<const U> lock_as() const
+    {
+        return _ptr.template lock_as<U>();
+    }
+
 private:
     CboxPtr<T> _ptr;
     obj_id_t _claimerId;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
@@ -71,7 +71,7 @@ private:
 
 class ActuatorLogicBlock final : public Block<brewblox_BlockType_ActuatorLogic> {
 private:
-    cbox::CboxPtr<ActuatorDigitalConstrained> target;
+    cbox::CboxClaimingPtr<ActuatorDigitalConstrained> target;
     Enabler enabler;
     std::vector<DigitalCompare> digitals;
     std::vector<AnalogCompare> analogs;

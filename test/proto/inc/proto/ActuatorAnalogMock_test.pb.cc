@@ -67,6 +67,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, maxvalue_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, constrainedby_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorAnalogMock::Block, claimedby_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::ActuatorAnalogMock::Block)},
@@ -100,7 +101,7 @@ void AddDescriptorsImpl() {
       "\n\035ActuatorAnalogMock_test.proto\022\034blox_te"
       "st.ActuatorAnalogMock\032\023brewblox_test.pro"
       "to\032\021nanopb_test.proto\032\026Constraints_test."
-      "proto\"\341\002\n\005Block\022)\n\007setting\030\001 \001(\021B\030\212\265\030\0020\001"
+      "proto\"\210\003\n\005Block\022)\n\007setting\030\001 \001(\021B\030\212\265\030\0020\001"
       "\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\002 \001(\021B\030\212\265\030\0020"
       "\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022 \n\nminSetting\030\004 \001(\021B"
       "\014\212\265\030\003\020\200 \222\?\0028 \022 \n\nmaxSetting\030\005 \001(\021B\014\212\265\030\003\020"
@@ -108,11 +109,12 @@ void AddDescriptorsImpl() {
       "\036\n\010maxValue\030\007 \001(\021B\014\212\265\030\003\020\200 \222\?\0028 \022\?\n\rconst"
       "rainedBy\030\010 \001(\0132(.blox_test.Constraints.A"
       "nalogConstraints\022*\n\016desiredSetting\030\t \001(\021"
-      "B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 :\023\212\265\030\003\030\261\002\212\265\030\002H\005\212\265\030\002H"
-      "\001b\006proto3"
+      "B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022%\n\tclaimedBy\030\n \001(\rB"
+      "\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020:\023\212\265\030\003\030\261\002\212\265\030\002H\005\212\265\030\002H\001"
+      "b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 489);
+      descriptor, 528);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorAnalogMock_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -155,6 +157,7 @@ const int Block::kMinValueFieldNumber;
 const int Block::kMaxValueFieldNumber;
 const int Block::kConstrainedByFieldNumber;
 const int Block::kDesiredSettingFieldNumber;
+const int Block::kClaimedByFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -174,15 +177,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&setting_, &from.setting_,
-    static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
-    reinterpret_cast<char*>(&setting_)) + sizeof(desiredsetting_));
+    static_cast<size_t>(reinterpret_cast<char*>(&claimedby_) -
+    reinterpret_cast<char*>(&setting_)) + sizeof(claimedby_));
   // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorAnalogMock.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredsetting_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(claimedby_));
 }
 
 Block::~Block() {
@@ -219,8 +222,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&setting_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredsetting_) -
-      reinterpret_cast<char*>(&setting_)) + sizeof(desiredsetting_));
+      reinterpret_cast<char*>(&claimedby_) -
+      reinterpret_cast<char*>(&setting_)) + sizeof(claimedby_));
   _internal_metadata_.Clear();
 }
 
@@ -344,6 +347,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 claimedBy = 10 [(.nanopb) = {
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -411,6 +428,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(9, this->desiredsetting(), output);
   }
 
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->claimedby(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -465,6 +487,11 @@ void Block::SerializeWithCachedSizes(
   // sint32 desiredSetting = 9 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(9, this->desiredsetting(), target);
+  }
+
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->claimedby(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -540,6 +567,13 @@ size_t Block::ByteSizeLong() const {
         this->desiredsetting());
   }
 
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->claimedby());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -591,6 +625,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.desiredsetting() != 0) {
     set_desiredsetting(from.desiredsetting());
   }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -625,6 +662,7 @@ void Block::InternalSwap(Block* other) {
   swap(minvalue_, other->minvalue_);
   swap(maxvalue_, other->maxvalue_);
   swap(desiredsetting_, other->desiredsetting_);
+  swap(claimedby_, other->claimedby_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

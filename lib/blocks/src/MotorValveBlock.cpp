@@ -49,6 +49,7 @@ MotorValveBlock::read(const cbox::PayloadCallback& callback) const
     } else {
         message.valveState = blox_MotorValve_ValveState(valve.valveState());
     }
+    message.claimedBy = claim.claimedBy();
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -84,7 +85,7 @@ MotorValveBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_MotorValve_Block_hwDevice_tag)) {
             if (hwDevice.getId() != message.hwDevice) {
                 valve.startChannel(0); // unregister at old hwDevice
-                hwDevice.setId(message.hwDevice);
+                hwDevice.setId(message.hwDevice, objectId());
             }
         }
         if (parser.hasField(blox_MotorValve_Block_startChannel_tag)) {
@@ -112,6 +113,10 @@ void* MotorValveBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {
         // return the member that implements the interface in this case

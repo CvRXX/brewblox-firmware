@@ -428,5 +428,19 @@ SCENARIO("ActuatorLogicBlock")
             result = setLogic(message);
             CHECK(result.result() == blox_test::ActuatorLogic::Result::RESULT_FALSE);
         }
+
+        THEN("The digital actuator knows it is driven by the logic actuator")
+        {
+            auto cmd = cbox::TestCommand(105, DigitalActuatorBlock::staticTypeId());
+            auto message = blox_test::DigitalActuator::Block();
+
+            CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+            payloadToMessage(cmd, message);
+
+            CHECK(message.ShortDebugString() ==
+                  "hwDevice: 19 "
+                  "channel: 5 "
+                  "claimedBy: 130");
+        }
     }
 }

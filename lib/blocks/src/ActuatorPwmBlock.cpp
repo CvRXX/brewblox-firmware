@@ -30,6 +30,7 @@ ActuatorPwmBlock::read(const cbox::PayloadCallback& callback) const
     } else {
         excluded.push_back(blox_ActuatorPwm_Block_setting_tag);
     };
+    message.claimedBy = claim.claimedBy();
 
     getAnalogConstraints(message.constrainedBy, constrained, true);
 
@@ -71,7 +72,7 @@ ActuatorPwmBlock::write(const cbox::Payload& payload)
 
     if (parser.fillMessage(&message, blox_ActuatorPwm_Block_fields)) {
         if (parser.hasField(blox_ActuatorPwm_Block_actuatorId_tag)) {
-            actuator.setId(message.actuatorId);
+            actuator.setId(message.actuatorId, objectId());
         }
         if (parser.hasField(blox_ActuatorPwm_Block_period_tag)) {
             pwm.period(message.period);
@@ -116,6 +117,10 @@ void* ActuatorPwmBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
         // return the member that implements the interface in this case

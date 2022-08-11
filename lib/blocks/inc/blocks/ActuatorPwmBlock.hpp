@@ -2,14 +2,15 @@
 
 #include "blocks/Block.hpp"
 #include "blocks/DigitalActuatorBlock.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/ActuatorPwm.hpp"
 
 class ActuatorPwmBlock final : public Block<brewblox_BlockType_ActuatorPwm> {
 private:
-    cbox::CboxPtr<ActuatorDigitalConstrained> actuator;
+    cbox::Claimable claim;
+    cbox::CboxClaimingPtr<ActuatorDigitalConstrained> actuator;
     ActuatorPwm pwm;
     ActuatorAnalogConstrained constrained;
 

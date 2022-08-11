@@ -29,6 +29,7 @@ cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callb
     message.maxSetting = cnl::unwrap(actuator.maxSetting());
     message.minValue = cnl::unwrap(actuator.minValue());
     message.maxValue = cnl::unwrap(actuator.maxValue());
+    message.claimedBy = claim.claimedBy();
 
     getAnalogConstraints(message.constrainedBy, constrained, true);
 
@@ -95,6 +96,10 @@ void* ActuatorAnalogMockBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
         // return the member that implements the interface in this case

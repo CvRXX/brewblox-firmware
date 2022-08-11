@@ -30,6 +30,7 @@ cbox::CboxError ActuatorOffsetBlock::read(const cbox::PayloadCallback& callback)
     } else {
         excluded.push_back(blox_ActuatorOffset_Block_desiredSetting_tag);
     }
+    message.claimedBy = claim.claimedBy();
 
     getAnalogConstraints(message.constrainedBy, constrained, true);
 
@@ -103,6 +104,10 @@ void* ActuatorOffsetBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
         // return the member that implements the interface in this case

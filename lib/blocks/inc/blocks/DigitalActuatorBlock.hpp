@@ -64,6 +64,7 @@ public:
 
 class DigitalActuatorBlock final : public Block<brewblox_BlockType_DigitalActuator> {
 private:
+    cbox::Claimable claim;
     ActuatorDigitalProxy actuator;
     ActuatorDigitalConstrained constrained;
     blox_IoArray_TransitionDurationPreset transitionDurationPreset = blox_IoArray_TransitionDurationPreset_ST_OFF;

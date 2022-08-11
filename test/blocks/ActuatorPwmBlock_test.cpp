@@ -25,7 +25,9 @@
 #include "cbox/Box.hpp"
 #include "proto/ActuatorPwm_test.pb.h"
 #include "proto/DigitalActuator_test.pb.h"
+#include "proto/Spark3Pins_test.pb.h"
 #include "spark/Brewblox.hpp"
+#include "spark/Spark3PinsBlock.hpp"
 
 SCENARIO("An ActuatorPwm object can be created from protobuf data")
 {
@@ -84,5 +86,39 @@ SCENARIO("An ActuatorPwm object can be created from protobuf data")
               "constrainedBy { constraints { min: 40960 } } "
               "enabled: true "
               "desiredSetting: 81920");
+    }
+
+    THEN("The digital actuator knows it is driven by the PWM")
+    {
+        auto cmd = cbox::TestCommand(actId, DigitalActuatorBlock::staticTypeId());
+        auto message = blox_test::DigitalActuator::Block();
+
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
+
+        CHECK(message.ShortDebugString() ==
+              "hwDevice: 19 "
+              "channel: 1 "
+              "state: STATE_ACTIVE "
+              "desiredState: STATE_ACTIVE "
+              "claimedBy: 101");
+    }
+
+    THEN("The spark channel knows it is driven by the digital actuator")
+    {
+        auto cmd = cbox::TestCommand(sparkPinsId, platform::particle::Spark3PinsBlock::staticTypeId());
+        auto message = blox_test::Spark3Pins::Block();
+
+        CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
+        payloadToMessage(cmd, message);
+
+        CHECK(message.ShortDebugString() ==
+              "voltage5: 2050 "
+              "voltage12: 1788 "
+              "channels { id: 1 capabilities: 5 claimedBy: 100 } "
+              "channels { id: 2 capabilities: 5 } "
+              "channels { id: 3 capabilities: 5 } "
+              "channels { id: 4 capabilities: 5 } "
+              "channels { id: 5 capabilities: 5 }");
     }
 }

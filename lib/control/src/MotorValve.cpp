@@ -45,7 +45,7 @@ MotorValve::state() const
     return State::Unknown;
 }
 
-void MotorValve::applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr)
+void MotorValve::applyValveState(ValveState v, std::shared_ptr<IoArray>& devPtr)
 {
     if (m_startChannel == 0) {
         return;
@@ -65,7 +65,7 @@ void MotorValve::applyValveState(ValveState v, std::shared_ptr<DS2408>& devPtr)
 }
 
 MotorValve::ValveState
-MotorValve::getValveState(const std::shared_ptr<DS2408>& devPtr) const
+MotorValve::getValveState(const std::shared_ptr<IoArray>& devPtr) const
 {
     if (m_startChannel == 0) {
         return ValveState::Unknown;
