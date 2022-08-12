@@ -382,6 +382,18 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool brightness() const;
   void set_brightness(bool value);
 
+  // bool timeZone = 91 [(.nanopb) = {
+  void clear_timezone();
+  static const int kTimeZoneFieldNumber = 91;
+  bool timezone() const;
+  void set_timezone(bool value);
+
+  // bool tempUnit = 92 [(.nanopb) = {
+  void clear_tempunit();
+  static const int kTempUnitFieldNumber = 92;
+  bool tempunit() const;
+  void set_tempunit(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.DisplaySettings.Block)
  private:
 
@@ -389,6 +401,8 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget > widgets_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   bool brightness_;
+  bool timezone_;
+  bool tempunit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_DisplaySettings_5ftest_2eproto::TableStruct;
 };
@@ -747,6 +761,34 @@ inline void Block::set_brightness(bool value) {
   
   brightness_ = value;
   // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.brightness)
+}
+
+// bool timeZone = 91 [(.nanopb) = {
+inline void Block::clear_timezone() {
+  timezone_ = false;
+}
+inline bool Block::timezone() const {
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.timeZone)
+  return timezone_;
+}
+inline void Block::set_timezone(bool value) {
+  
+  timezone_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.timeZone)
+}
+
+// bool tempUnit = 92 [(.nanopb) = {
+inline void Block::clear_tempunit() {
+  tempunit_ = false;
+}
+inline bool Block::tempunit() const {
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.tempUnit)
+  return tempunit_;
+}
+inline void Block::set_tempunit(bool value) {
+  
+  tempunit_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.tempUnit)
 }
 
 #ifdef __GNUC__
