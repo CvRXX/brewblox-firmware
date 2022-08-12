@@ -376,12 +376,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
+  // bool brightness = 90 [(.nanopb) = {
+  void clear_brightness();
+  static const int kBrightnessFieldNumber = 90;
+  bool brightness() const;
+  void set_brightness(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.DisplaySettings.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget > widgets_;
   ::google::protobuf::internal::ArenaStringPtr name_;
+  bool brightness_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_DisplaySettings_5ftest_2eproto::TableStruct;
 };
@@ -726,6 +733,20 @@ inline void Block::set_allocated_name(::std::string* name) {
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
   // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Block.name)
+}
+
+// bool brightness = 90 [(.nanopb) = {
+inline void Block::clear_brightness() {
+  brightness_ = false;
+}
+inline bool Block::brightness() const {
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.brightness)
+  return brightness_;
+}
+inline void Block::set_brightness(bool value) {
+  
+  brightness_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.brightness)
 }
 
 #ifdef __GNUC__

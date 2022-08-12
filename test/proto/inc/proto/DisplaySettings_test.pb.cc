@@ -98,6 +98,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, widgets_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, name_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, brightness_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::DisplaySettings::Widget)},
@@ -138,13 +139,13 @@ void AddDescriptorsImpl() {
       "B\013\212\265\030\002\030\002\222\?\0028\020H\000\022)\n\022setpointSensorPair\030\013 "
       "\001(\rB\013\212\265\030\002\030\004\222\?\0028\020H\000\022%\n\016actuatorAnalog\030\014 \001"
       "(\rB\013\212\265\030\002\030\005\222\?\0028\020H\000\022\033\n\003pid\030\016 \001(\rB\014\212\265\030\003\030\260\002\222"
-      "\?\0028\020H\000B\014\n\nWidgetType\"`\n\005Block\0229\n\007widgets"
-      "\030\001 \003(\0132!.blox_test.DisplaySettings.Widge"
-      "tB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(:\007\212\265\030\003\030\272\002b\006"
-      "proto3"
+      "\?\0028\020H\000B\014\n\nWidgetType\"\201\001\n\005Block\0229\n\007widget"
+      "s\030\001 \003(\0132!.blox_test.DisplaySettings.Widg"
+      "etB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022\037\n\nbright"
+      "ness\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\007\212\265\030\003\030\272\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 446);
+      descriptor, 480);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DisplaySettings_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -717,6 +718,7 @@ void Block::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Block::kWidgetsFieldNumber;
 const int Block::kNameFieldNumber;
+const int Block::kBrightnessFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -735,11 +737,13 @@ Block::Block(const Block& from)
   if (from.name().size() > 0) {
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
+  brightness_ = from.brightness_;
   // @@protoc_insertion_point(copy_constructor:blox_test.DisplaySettings.Block)
 }
 
 void Block::SharedCtor() {
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  brightness_ = false;
 }
 
 Block::~Block() {
@@ -773,6 +777,7 @@ void Block::Clear() {
 
   widgets_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  brightness_ = false;
   _internal_metadata_.Clear();
 }
 
@@ -782,7 +787,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.DisplaySettings.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -808,6 +813,20 @@ bool Block::MergePartialFromCodedStream(
             this->name().data(), static_cast<int>(this->name().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "blox_test.DisplaySettings.Block.name"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool brightness = 90 [(.nanopb) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &brightness_)));
         } else {
           goto handle_unusual;
         }
@@ -859,6 +878,11 @@ void Block::SerializeWithCachedSizes(
       2, this->name(), output);
   }
 
+  // bool brightness = 90 [(.nanopb) = {
+  if (this->brightness() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->brightness(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -890,6 +914,11 @@ void Block::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->name(), target);
+  }
+
+  // bool brightness = 90 [(.nanopb) = {
+  if (this->brightness() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->brightness(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -927,6 +956,11 @@ size_t Block::ByteSizeLong() const {
         this->name());
   }
 
+  // bool brightness = 90 [(.nanopb) = {
+  if (this->brightness() != 0) {
+    total_size += 2 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -959,6 +993,9 @@ void Block::MergeFrom(const Block& from) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
+  if (from.brightness() != 0) {
+    set_brightness(from.brightness());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -988,6 +1025,7 @@ void Block::InternalSwap(Block* other) {
   CastToBase(&widgets_)->InternalSwap(CastToBase(&other->widgets_));
   name_.Swap(&other->name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  swap(brightness_, other->brightness_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

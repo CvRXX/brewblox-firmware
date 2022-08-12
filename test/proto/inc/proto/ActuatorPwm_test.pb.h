@@ -206,11 +206,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool enabled() const;
   void set_enabled(bool value);
 
-  // bool drivenTargetId = 90 [(.nanopb) = {
-  void clear_driventargetid();
-  static const int kDrivenTargetIdFieldNumber = 90;
-  bool driventargetid() const;
-  void set_driventargetid(bool value);
+  // bool drivenActuatorId = 90 [(.nanopb) = {
+  void clear_drivenactuatorid();
+  static const int kDrivenActuatorIdFieldNumber = 90;
+  bool drivenactuatorid() const;
+  void set_drivenactuatorid(bool value);
 
   // @@protoc_insertion_point(class_scope:blox_test.ActuatorPwm.Block)
  private:
@@ -224,7 +224,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 desiredsetting_;
   ::google::protobuf::uint32 claimedby_;
   bool enabled_;
-  bool driventargetid_;
+  bool drivenactuatorid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_ActuatorPwm_5ftest_2eproto::TableStruct;
 };
@@ -385,18 +385,18 @@ inline void Block::set_claimedby(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.claimedBy)
 }
 
-// bool drivenTargetId = 90 [(.nanopb) = {
-inline void Block::clear_driventargetid() {
-  driventargetid_ = false;
+// bool drivenActuatorId = 90 [(.nanopb) = {
+inline void Block::clear_drivenactuatorid() {
+  drivenactuatorid_ = false;
 }
-inline bool Block::driventargetid() const {
-  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.drivenTargetId)
-  return driventargetid_;
+inline bool Block::drivenactuatorid() const {
+  // @@protoc_insertion_point(field_get:blox_test.ActuatorPwm.Block.drivenActuatorId)
+  return drivenactuatorid_;
 }
-inline void Block::set_driventargetid(bool value) {
+inline void Block::set_drivenactuatorid(bool value) {
   
-  driventargetid_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.drivenTargetId)
+  drivenactuatorid_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.ActuatorPwm.Block.drivenActuatorId)
 }
 
 #ifdef __GNUC__

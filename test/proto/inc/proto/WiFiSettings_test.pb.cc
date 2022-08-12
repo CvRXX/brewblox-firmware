@@ -61,6 +61,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, security_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, cipher_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, signal_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::WiFiSettings::Block, ip_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::WiFiSettings::Block)},
@@ -93,22 +94,22 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\027WiFiSettings_test.proto\022\026blox_test.WiF"
       "iSettings\032\023brewblox_test.proto\032\021nanopb_t"
-      "est.proto\"\305\001\n\005Block\022\023\n\004ssid\030\001 \001(\tB\005\222\?\002\010!"
+      "est.proto\"\336\001\n\005Block\022\023\n\004ssid\030\001 \001(\tB\005\222\?\002\010!"
       "\022\027\n\010password\030\002 \001(\tB\005\222\?\002\010@\0222\n\010security\030\003 "
       "\001(\0162 .blox_test.WiFiSettings.Security\022.\n"
       "\006cipher\030\004 \001(\0162\036.blox_test.WiFiSettings.C"
       "ipher\022!\n\006signal\030\005 \001(\005B\021\212\265\030\002(\001\212\265\030\0020\001\222\?\0028\010"
-      ":\007\212\265\030\003\030\270\002*\247\001\n\010Security\022\022\n\016WLAN_SEC_UNSEC"
-      "\020\000\022\020\n\014WLAN_SEC_WEP\020\001\022\020\n\014WLAN_SEC_WPA\020\002\022\021"
-      "\n\rWLAN_SEC_WPA2\020\003\022\033\n\027WLAN_SEC_WPA_ENTERP"
-      "RISE\020\004\022\034\n\030WLAN_SEC_WPA2_ENTERPRISE\020\005\022\025\n\020"
-      "WLAN_SEC_NOT_SET\020\377\001*i\n\006Cipher\022\027\n\023WLAN_CI"
-      "PHER_NOT_SET\020\000\022\023\n\017WLAN_CIPHER_AES\020\001\022\024\n\020W"
-      "LAN_CIPHER_TKIP\020\002\022\033\n\027WLAN_CIPHER_AES_OR_"
-      "TKIP\020\003b\006proto3"
+      "\022\027\n\002ip\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\007\212\265\030\003\030\270\002*\247\001\n\010S"
+      "ecurity\022\022\n\016WLAN_SEC_UNSEC\020\000\022\020\n\014WLAN_SEC_"
+      "WEP\020\001\022\020\n\014WLAN_SEC_WPA\020\002\022\021\n\rWLAN_SEC_WPA2"
+      "\020\003\022\033\n\027WLAN_SEC_WPA_ENTERPRISE\020\004\022\034\n\030WLAN_"
+      "SEC_WPA2_ENTERPRISE\020\005\022\025\n\020WLAN_SEC_NOT_SE"
+      "T\020\377\001*i\n\006Cipher\022\027\n\023WLAN_CIPHER_NOT_SET\020\000\022"
+      "\023\n\017WLAN_CIPHER_AES\020\001\022\024\n\020WLAN_CIPHER_TKIP"
+      "\020\002\022\033\n\027WLAN_CIPHER_AES_OR_TKIP\020\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 574);
+      descriptor, 599);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "WiFiSettings_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -174,6 +175,7 @@ const int Block::kPasswordFieldNumber;
 const int Block::kSecurityFieldNumber;
 const int Block::kCipherFieldNumber;
 const int Block::kSignalFieldNumber;
+const int Block::kIpFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -196,8 +198,8 @@ Block::Block(const Block& from)
     password_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.password_);
   }
   ::memcpy(&security_, &from.security_,
-    static_cast<size_t>(reinterpret_cast<char*>(&signal_) -
-    reinterpret_cast<char*>(&security_)) + sizeof(signal_));
+    static_cast<size_t>(reinterpret_cast<char*>(&ip_) -
+    reinterpret_cast<char*>(&security_)) + sizeof(ip_));
   // @@protoc_insertion_point(copy_constructor:blox_test.WiFiSettings.Block)
 }
 
@@ -205,8 +207,8 @@ void Block::SharedCtor() {
   ssid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   password_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&security_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&signal_) -
-      reinterpret_cast<char*>(&security_)) + sizeof(signal_));
+      reinterpret_cast<char*>(&ip_) -
+      reinterpret_cast<char*>(&security_)) + sizeof(ip_));
 }
 
 Block::~Block() {
@@ -242,8 +244,8 @@ void Block::Clear() {
   ssid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&security_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&signal_) -
-      reinterpret_cast<char*>(&security_)) + sizeof(signal_));
+      reinterpret_cast<char*>(&ip_) -
+      reinterpret_cast<char*>(&security_)) + sizeof(ip_));
   _internal_metadata_.Clear();
 }
 
@@ -253,7 +255,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.WiFiSettings.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -333,6 +335,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // bool ip = 90 [(.nanopb) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &ip_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -396,6 +412,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->signal(), output);
   }
 
+  // bool ip = 90 [(.nanopb) = {
+  if (this->ip() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->ip(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -449,6 +470,11 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->signal(), target);
   }
 
+  // bool ip = 90 [(.nanopb) = {
+  if (this->ip() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->ip(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -499,6 +525,11 @@ size_t Block::ByteSizeLong() const {
         this->signal());
   }
 
+  // bool ip = 90 [(.nanopb) = {
+  if (this->ip() != 0) {
+    total_size += 2 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -543,6 +574,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.signal() != 0) {
     set_signal(from.signal());
   }
+  if (from.ip() != 0) {
+    set_ip(from.ip());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -576,6 +610,7 @@ void Block::InternalSwap(Block* other) {
   swap(security_, other->security_);
   swap(cipher_, other->cipher_);
   swap(signal_, other->signal_);
+  swap(ip_, other->ip_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
