@@ -25,7 +25,7 @@ void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message)
 {
     message.desiredState = blox_IoArray_DigitalState(constrained.desiredState());
     message.hwDevice = hwDevice.getId();
-    message.startChannel = valve.startChannel();
+    message.channel = valve.startChannel();
 }
 
 cbox::CboxError
@@ -88,8 +88,8 @@ MotorValveBlock::write(const cbox::Payload& payload)
                 hwDevice.setId(message.hwDevice, objectId());
             }
         }
-        if (parser.hasField(blox_MotorValve_Block_startChannel_tag)) {
-            valve.startChannel(message.startChannel);
+        if (parser.hasField(blox_MotorValve_Block_channel_tag)) {
+            valve.startChannel(message.channel);
         }
         if (parser.hasField(blox_MotorValve_Block_constrainedBy_tag)) {
             setDigitalConstraints(message.constrainedBy, constrained);

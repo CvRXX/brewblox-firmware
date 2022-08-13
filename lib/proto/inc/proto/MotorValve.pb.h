@@ -36,7 +36,7 @@ typedef enum _blox_MotorValve_ValveState {
 /* Struct definitions */
 typedef struct _blox_MotorValve_Block {
     uint16_t hwDevice;
-    uint8_t startChannel;
+    uint8_t channel;
     blox_IoArray_DigitalState state;
     blox_Constraints_DigitalConstraints constrainedBy;
     blox_MotorValve_ValveState valveState;
@@ -53,7 +53,7 @@ typedef struct _blox_MotorValve_Block {
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_MotorValve_Block_hwDevice_tag       1
-#define blox_MotorValve_Block_startChannel_tag   2
+#define blox_MotorValve_Block_channel_tag        2
 #define blox_MotorValve_Block_state_tag          3
 #define blox_MotorValve_Block_constrainedBy_tag  5
 #define blox_MotorValve_Block_valveState_tag     6
