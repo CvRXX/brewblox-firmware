@@ -1,3 +1,3 @@
 #pragma once
-#define COMPILED_PROTO_VERSION "603e9e07"
+#define COMPILED_PROTO_VERSION "e37f6d0e"
 #define COMPILED_PROTO_DATE "2022-08-13"

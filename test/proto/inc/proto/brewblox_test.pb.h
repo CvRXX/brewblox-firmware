@@ -113,6 +113,7 @@ enum BlockType {
   OneWireDeviceBlockInterface = 14,
   EnablerInterface = 15,
   ClaimableInterface = 16,
+  IoDriverInterface = 17,
   Any = 255,
   SysInfo = 256,
   Ticks = 257,
@@ -417,12 +418,6 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool hexstr() const;
   void set_hexstr(bool value);
 
-  // bool driven = 8;
-  void clear_driven();
-  static const int kDrivenFieldNumber = 8;
-  bool driven() const;
-  void set_driven(bool value);
-
   // bool ignored = 9;
   void clear_ignored();
   static const int kIgnoredFieldNumber = 9;
@@ -458,7 +453,6 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool readonly_;
   bool logged_;
   bool hexstr_;
-  bool driven_;
   bool ignored_;
   bool bitfield_;
   bool datetime_;
@@ -643,20 +637,6 @@ inline void FieldOpts::set_hexstr(bool value) {
   
   hexstr_ = value;
   // @@protoc_insertion_point(field_set:brewblox.FieldOpts.hexstr)
-}
-
-// bool driven = 8;
-inline void FieldOpts::clear_driven() {
-  driven_ = false;
-}
-inline bool FieldOpts::driven() const {
-  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.driven)
-  return driven_;
-}
-inline void FieldOpts::set_driven(bool value) {
-  
-  driven_ = value;
-  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.driven)
 }
 
 // bool ignored = 9;

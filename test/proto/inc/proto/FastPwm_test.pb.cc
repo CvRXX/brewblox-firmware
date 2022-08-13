@@ -105,7 +105,7 @@ void AddDescriptorsImpl() {
       "\n\022FastPwm_test.proto\022\021blox_test.FastPwm\032"
       "\023brewblox_test.proto\032\021nanopb_test.proto\032"
       "\026Constraints_test.proto\032\022IoArray_test.pr"
-      "oto\"\323\004\n\005Block\022\035\n\010hwDevice\030\001 \001(\rB\013\212\265\030\002\030\n\222"
+      "oto\"\331\004\n\005Block\022\035\n\010hwDevice\030\001 \001(\rB\013\212\265\030\002\030\n\222"
       "\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222\?\0028\010\0222\n\tfrequenc"
       "y\030\003 \001(\0162\037.blox_test.IoArray.PwmFrequency"
       "\022)\n\007setting\030\004 \001(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?"
@@ -119,11 +119,11 @@ void AddDescriptorsImpl() {
       " \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transitionDuratio"
       "nValue\030\013 \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001\022\016\n\006inv"
       "ert\030\014 \001(\010\022%\n\tclaimedBy\030\r \001(\rB\022\212\265\030\003\030\377\001\212\265\030"
-      "\002(\001\222\?\0028\020:\037\212\265\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H"
-      "\020b\006proto3"
+      "\002(\001\222\?\0028\020:%\212\265\030\003\030\311\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H"
+      "\020\212\265\030\002H\021b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 729);
+      descriptor, 735);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "FastPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

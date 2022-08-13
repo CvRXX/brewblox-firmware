@@ -50,6 +50,7 @@ typedef enum _brewblox_BlockType {
     brewblox_BlockType_OneWireDeviceBlockInterface = 14,
     brewblox_BlockType_EnablerInterface = 15,
     brewblox_BlockType_ClaimableInterface = 16,
+    brewblox_BlockType_IoDriverInterface = 17,
     brewblox_BlockType_Any = 255,
     brewblox_BlockType_SysInfo = 256,
     brewblox_BlockType_Ticks = 257,

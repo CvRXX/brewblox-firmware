@@ -26,7 +26,7 @@ const pb_field_t blox_EdgeCase_NestedLink_fields[2] = {
     PB_LAST_FIELD
 };
 
-const pb_field_t blox_EdgeCase_Block_fields[11] = {
+const pb_field_t blox_EdgeCase_Block_fields[10] = {
     PB_FIELD(  1, MESSAGE , SINGULAR, STATIC  , FIRST, blox_EdgeCase_Block, settings, settings, &blox_EdgeCase_Settings_fields),
     PB_FIELD(  2, MESSAGE , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, state, settings, &blox_EdgeCase_State_fields),
     PB_FIELD(  3, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, link, state, 0),
@@ -35,8 +35,7 @@ const pb_field_t blox_EdgeCase_Block_fields[11] = {
     PB_FIELD(  6, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, deltaV, listValues, 0),
     PB_FIELD(  7, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, logged, deltaV, 0),
     PB_FIELD(  8, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, unLogged, logged, 0),
-    PB_FIELD(  9, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, drivenDevice, unLogged, 0),
-    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, ip, drivenDevice, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_EdgeCase_Block, ip, unLogged, 0),
     PB_LAST_FIELD
 };
 

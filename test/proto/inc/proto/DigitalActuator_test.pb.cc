@@ -102,7 +102,7 @@ void AddDescriptorsImpl() {
       "\n\032DigitalActuator_test.proto\022\031blox_test."
       "DigitalActuator\032\023brewblox_test.proto\032\021na"
       "nopb_test.proto\032\026Constraints_test.proto\032"
-      "\022IoArray_test.proto\"\200\004\n\005Block\022\035\n\010hwDevic"
+      "\022IoArray_test.proto\"\206\004\n\005Block\022\035\n\010hwDevic"
       "e\030\001 \001(\rB\013\212\265\030\002\030\n\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222"
       "\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.IoArray."
       "DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022\016\n\006invert\030\004 \001"
@@ -114,11 +114,11 @@ void AddDescriptorsImpl() {
       "tionPreset\0220\n\031transitionDurationSetting\030"
       "\010 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\0224\n\027transitionDurati"
       "onValue\030\t \001(\rB\023\212\265\030\002\010\003\212\265\030\003\020\350\007\212\265\030\002(\001\022%\n\tcl"
-      "aimedBy\030\n \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020:\023\212\265\030\003\030"
-      "\276\002\212\265\030\002H\006\212\265\030\002H\020b\006proto3"
+      "aimedBy\030\n \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020:\031\212\265\030\003\030"
+      "\276\002\212\265\030\002H\006\212\265\030\002H\020\212\265\030\002H\021b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 662);
+      descriptor, 668);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DigitalActuator_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();

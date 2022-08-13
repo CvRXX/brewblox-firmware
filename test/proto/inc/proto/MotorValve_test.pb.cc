@@ -101,7 +101,7 @@ void AddDescriptorsImpl() {
       "\n\025MotorValve_test.proto\022\024blox_test.Motor"
       "Valve\032\023brewblox_test.proto\032\021nanopb_test."
       "proto\032\026Constraints_test.proto\032\022IoArray_t"
-      "est.proto\"\240\003\n\005Block\022\035\n\010hwDevice\030\001 \001(\rB\013\212"
+      "est.proto\"\246\003\n\005Block\022\035\n\010hwDevice\030\001 \001(\rB\013\212"
       "\265\030\002\030\013\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222\?\0028\010\022<\n\005st"
       "ate\030\003 \001(\0162\037.blox_test.IoArray.DigitalSta"
       "teB\014\212\265\030\0020\001\212\265\030\002(\001\022@\n\rconstrainedBy\030\005 \001(\0132"
@@ -111,14 +111,14 @@ void AddDescriptorsImpl() {
       "dState\030\007 \001(\0162\037.blox_test.IoArray.Digital"
       "StateB\006\212\265\030\0020\001\022%\n\tclaimedBy\030\010 \001(\rB\022\212\265\030\003\030\377"
       "\001\212\265\030\002(\001\222\?\0028\020\022!\n\014startChannel\030Z \001(\010B\013\212\265\030\002"
-      "H\001\222\?\002\030\003:\023\212\265\030\003\030\301\002\212\265\030\002H\006\212\265\030\002H\020*\226\001\n\nValveSt"
-      "ate\022\021\n\rVALVE_UNKNOWN\020\000\022\016\n\nVALVE_OPEN\020\001\022\020"
-      "\n\014VALVE_CLOSED\020\002\022\021\n\rVALVE_OPENING\020\003\022\021\n\rV"
-      "ALVE_CLOSING\020\004\022\030\n\024VALVE_HALF_OPEN_IDLE\020\005"
-      "\022\023\n\017VALVE_INIT_IDLE\020\006b\006proto3"
+      "H\001\222\?\002\030\003:\031\212\265\030\003\030\301\002\212\265\030\002H\006\212\265\030\002H\020\212\265\030\002H\021*\226\001\n\nV"
+      "alveState\022\021\n\rVALVE_UNKNOWN\020\000\022\016\n\nVALVE_OP"
+      "EN\020\001\022\020\n\014VALVE_CLOSED\020\002\022\021\n\rVALVE_OPENING\020"
+      "\003\022\021\n\rVALVE_CLOSING\020\004\022\030\n\024VALVE_HALF_OPEN_"
+      "IDLE\020\005\022\023\n\017VALVE_INIT_IDLE\020\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 709);
+      descriptor, 715);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MotorValve_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
