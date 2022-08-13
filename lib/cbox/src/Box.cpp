@@ -236,7 +236,7 @@ void loadBlocksFromStorage()
 
             // First add block to container, so block ID is set during the write
             auto block = makeResult.value();
-            status = getObjects().add(std::move(block), payload.blockId);
+            status = getObjects().add(block, payload.blockId);
 
             if (status == CboxError::OK) {
                 // Write desired settings to the newly created block
