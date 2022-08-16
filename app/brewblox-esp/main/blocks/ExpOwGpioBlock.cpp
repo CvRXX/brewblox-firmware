@@ -31,22 +31,23 @@ cbox::CboxError ExpOwGpioBlock::handleRead(const cbox::PayloadCallback& callback
     for (uint8_t i = 1; i <= 8; i++) {
         auto& c = drivers.getFlexChannel(i);
         if (c.deviceType != blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE) {
-            message.channels[message.channels_count].id = i;
-            message.channels[message.channels_count].deviceType = c.deviceType;
-            message.channels[message.channels_count].width = c.width;
-            message.channels[message.channels_count].pinsMask = c.pins();
+            uint8_t ci = message.channels_count;
+            ++message.channels_count;
+            message.channels[ci].id = i;
+            message.channels[ci].deviceType = c.deviceType;
+            message.channels[ci].width = c.width;
+            message.channels[ci].pinsMask = c.pins();
             if (includeNotPersisted) {
-                message.channels[message.channels_count].capabilities = drivers.getChannelCapabilities(i).all;
-                message.channels[message.channels_count].claimedBy = drivers.getChannelClaimerId(i + 1);
+                message.channels[ci].capabilities = drivers.getChannelCapabilities(i).all;
+                message.channels[ci].claimedBy = drivers.getChannelClaimerId(i + 1);
             }
             auto entry = std::find_if(channelNames.begin(), channelNames.end(), [i](const ChannelNameEntry& e) {
                 return e.id == i;
             });
             if (entry != channelNames.end()) {
-                entry->name.copy(message.channels[message.channels_count].name, sizeof(message.channels[message.channels_count].name));
+                entry->name.copy(message.channels[ci].name, sizeof(message.channels[ci].name));
             }
         }
-        ++message.channels_count;
     }
 
     if (includeNotPersisted) {
