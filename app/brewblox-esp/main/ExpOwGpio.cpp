@@ -82,38 +82,50 @@ void ChanBits::setBits(uint8_t down, uint8_t up)
 
 void ExpOwGpio::init_driver()
 {
-    // set overvoltage threshold to 33V and clear all faults
-    writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
+    clearFaults();
+
     // disable OLD detect on all pins
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_1, 0xFF);
+
     // disable shutdown on OLD globally (keep bridges operating when OLD is detected)
     writeDrvRegister(DRV8908::RegAddr::OLD_CTRL_2, 0b01000000);
+
+    // use 2.5 V/us slew rate for lower emissions
+    writeDrvRegister(DRV8908::RegAddr::SR_CTRL_1, 0xFF);
+
+    pwm_freq_applied = 0;
+    pwm_map_1_applied = 0;
+    pwm_map_2_applied = 0;
+    pwm_map_3_applied = 0;
+    pwm_map_4_applied = 0;
 }
 
-bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
+IoValue::variant ExpOwGpio::readChannelImpl(uint8_t channel) const
 {
-    if (!connected || !channel || channel > 8) {
-        return false;
+    if (!connected) {
+        return IoValue::Error::DISCONNECTED;
     }
-    uint8_t idx = channel - 1;
+    if (!channel || channel > flexChannels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
 
-    auto pins = flexChannels[idx].pins();
+    uint8_t idx = channel - 1;
+    auto& chan = flexChannels[idx];
+    auto pins = chan.pins();
 
     if (pins == 0) {
-        result = State::Unknown;
-        return false;
+        return IoValue::Error::CHANNEL_PINS_NOT_SET;
     }
 
-    if (flexChannels[idx].pwm_duty) {
-        // for a non-zero pwm value, return Active regardless of pin state
-        result = State::Active;
-        return true;
+    auto setup = channelSetup(channel);
+    if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
+        IoValue::PWM::duty_t duty = (IoValue::PWM::duty_t{100} * chan.appliedDuty) / 255;
+        return IoValue::PWM(duty);
     }
 
-    switch (flexChannels[idx].deviceType) {
+    switch (chan.deviceType) {
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE:
-        result = State::Unknown;
-        break;
+        return IoValue::Error::CHANNEL_TYPE_NOT_SET;
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P:                        // gnd, pp
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_1P:                        // pp, external ground
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_1P_HIGH_SIDE:             // pu, external ground
@@ -123,84 +135,199 @@ bool ExpOwGpio::senseChannelImpl(uint8_t channel, State& result) const
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_2P_BIDIRECTIONAL:         // pp,pp toggled 01 or 10
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P:                      // gnd, pu
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_HIGH_SIDE:            // pu, external to GND
-        result = pullUpStatus() & pins ? State::Active : State::Inactive;
-        break;
+        return pullUpStatus() & pins ? IoValue::Digital{State::Active} : IoValue::Digital{State::Inactive};
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_COIL_1P_LOW_SIDE:             // pd, external ground
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MECHANICAL_RELAY_1P_LOW_SIDE: // pd, external ground
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE:            // pd, external to PWR
-        result = pullDownStatus() & pins ? State::Active : State::Inactive;
-        break;
+        return pullDownStatus() & pins ? IoValue::Digital{State::Active} : IoValue::Digital{State::Inactive};
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL: // pp, pp, toggle 01 or 10
         if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
             // result = State::Reverse;
             // return Inactive for the reverse state to be compatible with digital actuator
             // until we expand processing of reversed state in rest of blocks
-            result = State::Inactive;
+            return IoValue::Digital{State::Inactive};
         } else if ((pullUpStatus() & pins) > (pullDownStatus() & pins)) {
-            result = State::Active;
-        } else {
-            result = State::Inactive;
+            return IoValue::Digital{State::Active};
         }
-        break;
-    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P: // old, old
-        result = State::Unknown;                                        // todo
-        break;
+        return IoValue::Digital{State::Unknown};
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P:           // old, old
+        return IoValue::Error::NOT_IMPLEMENTED;                                   // todo
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT:       // old, external GND
     case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_DOWN: // old only
-        result = State::Unknown;                                                  // todo
-        break;
-    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT:   // old, external PWR
-    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP: // old only
-        result = State::Unknown;                                                // todo
-        break;
-    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P: // pwr, no load detect
-        result = State::Unknown;                                  // todo
-        break;
-    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P: // gnd, no load detect
-        result = State::Unknown;                                // todo
-        break;
+        return IoValue::Error::NOT_IMPLEMENTED;                                   // todo
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT:     // old, external PWR
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP:   // old only
+        return IoValue::Error::NOT_IMPLEMENTED;                                   // todo
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P:                 // pwr, no load detect
+        return IoValue::Error::NOT_IMPLEMENTED;                                   // todo
+    case blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P:                   // gnd, no load detect
+        return IoValue::Error::NOT_IMPLEMENTED;                                   // todo
     }
-    return true;
+    return IoValue::Error::CHANNEL_TYPE_NOT_SET;
 }
 
-bool ExpOwGpio::writeChannelImpl(uint8_t channel, IoArray::ChannelConfig config)
+IoValue::variant ExpOwGpio::writeChannelImpl(uint8_t channel, IoValue::variant val)
 {
-    if (!connected || !channel || channel > 8) {
-        return false;
+    if (!connected) {
+        return IoValue::Error::DISCONNECTED;
     }
-    uint8_t idx = channel - 1;
+    if (!channel || channel > 8) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    auto& chan = flexChannels[channel - 1];
 
     ChanBitsInternal drive_bits;
-    switch (config) {
-    case ChannelConfig::UNUSED:
-    case ChannelConfig::UNKNOWN:
-        break;
-    case ChannelConfig::DRIVING_ON:
-    case ChannelConfig::DRIVING_PWM:
-        drive_bits.bits.all = when_active_mask.bits.all;
-        break;
-    case ChannelConfig::DRIVING_OFF:
-        drive_bits.bits.all = when_inactive_mask.bits.all;
-        break;
-    case ChannelConfig::DRIVING_REVERSE:
-    case ChannelConfig::DRIVING_PWM_REVERSE:
-        drive_bits.bits.all = ~when_inactive_mask.bits.all;
-        break;
-    case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:
-        drive_bits.bits.all = 0x5555;
-        break;
-    case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE:
-        drive_bits.bits.all = 0xAAAA;
-        break;
-    case ChannelConfig::INPUT:
-    default:
-        drive_bits.bits.all = 0x0000;
-        break;
+
+    if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+        if (v->state() == IoValue::State::Active) {
+            drive_bits.bits.all = when_active_mask.bits.all;
+        } else if (v->state() == IoValue::State::Inactive) {
+            drive_bits.bits.all = when_inactive_mask.bits.all;
+        } else if (v->state() == IoValue::State::Reverse) {
+            drive_bits.bits.all = ~when_active_mask.bits.all;
+        } else {
+            return IoValue::Error::UNSUPPORTED_VALUE;
+        }
+    } else if (auto* v = std::get_if<IoValue::PWM>(&val)) {
+        if (v->duty() >= 0) {
+            drive_bits.bits.all = when_active_mask.bits.all;
+            chan.desiredDuty = static_cast<uint8_t>((v->duty() * 255 + 50) / 100);
+        } else {
+            // reversed direction
+            drive_bits.bits.all = ~when_active_mask.bits.all;
+            chan.desiredDuty = static_cast<uint8_t>((-v->duty() * 255 + 50) / 100);
+        }
     }
-    op_ctrl_desired.apply(flexChannels[idx].pins_mask, drive_bits);
+
+    op_ctrl_desired.apply(chan.pins_mask, drive_bits);
     update();
 
-    return true;
+    return val;
+}
+
+IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup)
+{
+
+    if (!channel || channel > flexChannels.size()) {
+        return IoValue::Error::INVALID_CHANNEL;
+    }
+
+    uint8_t idx = channel - 1;
+    auto& chan = flexChannels[idx];
+
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+        writeChannelImpl(channel, IoValue::Digital{State::Inactive});
+        return setup;
+    }
+    if (auto* v = std::get_if<IoValue::Setup::OutputPwm>(&setup)) {
+        // set frequency
+        uint16_t freqBits = 0;
+        switch (v->frequency) {
+        case IoValue::Setup::Frequency::FREQ_80HZ:
+            freqBits = 0b00;
+            break;
+        case IoValue::Setup::Frequency::FREQ_100HZ:
+            freqBits = 0b01;
+            break;
+        case IoValue::Setup::Frequency::FREQ_200HZ:
+            freqBits = 0b10;
+            break;
+        case IoValue::Setup::Frequency::FREQ_2000HZ:
+            freqBits = 0b11;
+            break;
+        }
+
+        uint16_t mask = uint16_t{0b11} << (2 * idx);
+        uint16_t newBits = freqBits << (2 * idx);
+        pwm_freq_desired = (pwm_freq_desired & ~mask) | newBits;
+
+        auto pins_mask = chan.pins_mask.bits.all;
+
+        // map H-bridges to PWM channel
+        if (pins_mask & uint16_t{0x3}) {
+            pwm_map_1_desired |= idx;
+            pwm_ctrl_1_desired |= 0x1;
+        }
+        if (pins_mask & (uint16_t{0x3} << 2)) {
+            pwm_map_1_desired |= uint8_t(idx << 3);
+            pwm_ctrl_1_desired |= 0x2;
+        }
+        if (pins_mask & (uint16_t{0x3} << 4)) {
+            pwm_map_2_desired |= idx;
+            pwm_ctrl_1_desired |= 0x4;
+        }
+        if (pins_mask & (uint16_t{0x3} << 6)) {
+            pwm_map_2_desired |= uint8_t(idx << 3);
+            pwm_ctrl_1_desired |= 0x8;
+        }
+        if (pins_mask & (uint16_t{0x3} << 8)) {
+            pwm_map_3_desired |= idx;
+            pwm_ctrl_1_desired |= 0x10;
+        }
+        if (pins_mask & (uint16_t{0x3} << 10)) {
+            pwm_map_3_desired |= uint8_t(idx << 3);
+            pwm_ctrl_1_desired |= 0x20;
+        }
+        if (pins_mask & (uint16_t{0x3} << 12)) {
+            pwm_map_4_desired |= idx;
+            pwm_ctrl_1_desired |= 0x40;
+        }
+        if (pins_mask & (uint16_t{0x3} << 14)) {
+            pwm_map_4_desired |= uint8_t(idx << 3);
+            pwm_ctrl_1_desired |= 0x80;
+        }
+
+        writeChannelImpl(channel, IoValue::PWM{0});
+        return setup;
+    }
+    if (std::holds_alternative<IoValue::Setup::InputDigital>(setup)) {
+        ChanBitsInternal bits{};
+        op_ctrl_desired.apply(chan.pins_mask, bits);
+        return setup;
+    }
+    if (std::holds_alternative<IoValue::Setup::Unused>(setup)) {
+        auto pins_mask = chan.pins_mask.bits.all;
+        // undo pwm settings
+        if (pins_mask & uint16_t{0x3}) {
+            pwm_map_1_desired &= ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x1};
+        }
+        if (pins_mask & (uint16_t{0x3} << 2)) {
+            pwm_map_1_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x2};
+        }
+        if (pins_mask & (uint16_t{0x3} << 4)) {
+            pwm_map_2_desired &= ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x4};
+        }
+        if (pins_mask & (uint16_t{0x3} << 6)) {
+            pwm_map_2_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x8};
+        }
+        if (pins_mask & (uint16_t{0x3} << 8)) {
+            pwm_map_3_desired &= ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x10};
+        }
+        if (pins_mask & (uint16_t{0x3} << 10)) {
+            pwm_map_3_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x20};
+        }
+        if (pins_mask & (uint16_t{0x3} << 12)) {
+            pwm_map_4_desired &= ~uint8_t{0b11111000};
+            pwm_ctrl_1_desired &= ~uint8_t{0x40};
+        }
+        if (pins_mask & (uint16_t{0x3} << 14)) {
+            pwm_map_4_desired &= ~uint8_t{0b11000111};
+            pwm_ctrl_1_desired &= ~uint8_t{0x80};
+        }
+
+        ChanBitsInternal bits{};
+        op_ctrl_desired.apply(chan.pins_mask, bits);
+
+        return setup;
+    }
+    return IoValue::Error::UNSUPPORTED_SETUP;
 }
 
 // writes 2 consecutive registers
@@ -266,17 +393,62 @@ void ExpOwGpio::update(bool forceRefresh)
 
     auto drv_status = status();
 
-    bool updateNeeded = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
     bool initNeeded = drv_status.bits.spi_error || drv_status.bits.power_on_reset;
+    if (initNeeded) {
+        init_driver();
 
-    if (forceRefresh || updateNeeded || initNeeded) {
-        if (initNeeded) {
-            init_driver();
+        for (uint8_t i = 0; i < flexChannels.size(); ++i) {
+            reapplySetup(i + 1);
         }
+    }
 
+    if (pwm_freq_desired != pwm_freq_applied) {
+        write2DrvRegisters(DRV8908::RegAddr::PWM_FREQ_CTRL_1, pwm_freq_desired);
+        pwm_freq_applied = read2DrvRegisters(DRV8908::RegAddr::PWM_FREQ_CTRL_1);
+    }
+
+    if (pwm_map_1_desired != pwm_map_1_applied) {
+        writeDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_1, pwm_map_1_desired);
+        pwm_map_1_applied = readDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_1);
+    }
+    if (pwm_map_2_desired != pwm_map_2_applied) {
+        writeDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_2, pwm_map_2_desired);
+        pwm_map_2_applied = readDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_2);
+    }
+    if (pwm_map_3_desired != pwm_map_3_applied) {
+        writeDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_3, pwm_map_3_desired);
+        pwm_map_3_applied = readDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_3);
+    }
+    if (pwm_map_4_desired != pwm_map_4_applied) {
+        writeDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_4, pwm_map_4_desired);
+        pwm_map_4_applied = readDrvRegister(DRV8908::RegAddr::PWM_MAP_CTRL_4);
+    }
+
+    if (pwm_ctrl_1_desired != pwm_ctrl_1_applied) {
+        writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_1, pwm_ctrl_1_desired);
+        pwm_ctrl_1_applied = readDrvRegister(DRV8908::RegAddr::PWM_CTRL_1);
+    }
+
+    if (pwm_ctrl_2_desired != pwm_ctrl_2_applied) {
+        writeDrvRegister(DRV8908::RegAddr::PWM_CTRL_2, pwm_ctrl_2_desired);
+        pwm_ctrl_2_applied = readDrvRegister(DRV8908::RegAddr::PWM_CTRL_2);
+    }
+
+    // apply PWM duty cycles
+    for (uint8_t i = 0; i < flexChannels.size(); ++i) {
+        auto& chan = flexChannels[i];
+        if (chan.appliedDuty != chan.desiredDuty) {
+            auto addr = DRV8908::RegAddr(uint8_t(DRV8908::RegAddr::PWM_DUTY_CTRL_1) + i);
+            writeDrvRegister(addr, chan.desiredDuty);
+            chan.appliedDuty = readDrvRegister(addr);
+        }
+    }
+
+    bool ctrlChanged = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
+    if (forceRefresh || ctrlChanged) {
         write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
-        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
 
+        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
         drv_status = status(); // use latest status returned during read of registers
 
         if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
@@ -304,16 +476,17 @@ void ExpOwGpio::update(bool forceRefresh)
     }
 }
 
-void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
+void ExpOwGpio::setupFlexChannel(uint8_t channel, FlexChannel c)
 {
-    if (!channel || channel > 8) {
+    if (!channel || channel > flexChannels.size()) {
         return;
     }
     uint8_t idx = channel - 1;
+    auto& chan = flexChannels[idx];
 
-    bool configChanged = c != flexChannels[idx];
+    bool configChanged = c != chan;
     if (configChanged) {
-        auto old_mask = flexChannels[idx].pins_mask;
+        auto old_mask = chan.pins_mask;
         uint16_t exclude_old = ~old_mask.bits.all;
         if (c.pins_mask.bits.all & exclude_old & when_active_mask.bits.all) {
             // refuse overlapping channels
@@ -353,7 +526,7 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
         when_inactive_mask.bits.all = when_inactive_mask.bits.all & exclude_old;
         op_ctrl_desired.bits.all = op_ctrl_desired.bits.all & exclude_old;
 
-        flexChannels[idx] = c;
+        chan = c;
 
         if (c.pins_mask.bits.all) {
             // for device with 2/4/6/8 pins (multiple pins per terminal to higher current)
@@ -440,16 +613,49 @@ void ExpOwGpio::setupChannel(uint8_t channel, FlexChannel c)
             // set mask bits in shared masks
             when_inactive_mask.apply(c.pins_mask, ChanBitsInternal{when_inactive_external});
             when_active_mask.apply(c.pins_mask, ChanBitsInternal{when_active_external});
-            writeChannelImpl(channel, ChannelConfig::DRIVING_OFF);
+            writeChannelImpl(channel, IoValue::Digital{State::Inactive});
         }
     }
 }
 
-const FlexChannel& ExpOwGpio::getChannel(uint8_t channel) const
+const FlexChannel& ExpOwGpio::getFlexChannel(uint8_t channel) const
 {
     static FlexChannel invalid{};
     if (!channel || channel > 8) {
         return invalid;
     }
     return flexChannels[channel - 1];
+}
+
+IoArray::ChannelCapabilities ExpOwGpio::getChannelCapabilities(uint8_t channel) const
+{
+    auto chan = getFlexChannel(channel);
+    auto capabilities = ChannelCapabilities{};
+
+    if (chan.deviceType >= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_SSR_2P
+        && chan.deviceType <= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_1P_LOW_SIDE) {
+        capabilities.flags.digitalOutput = 1;
+        capabilities.flags.pwm100Hz = 1;
+        capabilities.flags.pwm200Hz = 1;
+        capabilities.flags.pwm2000Hz = 1;
+    }
+
+    if ((chan.deviceType >= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_2P
+         && chan.deviceType <= blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_LOAD_DETECT_1P_PULL_UP)
+        || chan.deviceType == blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_POWER_1P_LOAD_DETECT
+        || chan.deviceType == blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_GND_1P_LOAD_DETECT) {
+        capabilities.flags.digitalInput = 1;
+    }
+
+    if (chan.deviceType == blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_MOTOR_2P_BIDIRECTIONAL) {
+        capabilities.flags.bidirectional = 1;
+    }
+
+    return capabilities;
+}
+
+void ExpOwGpio::clearFaults()
+{
+    // set overvoltage threshold to 33V and clear all faults
+    writeDrvRegister(DRV8908::RegAddr::CONFIG_CTRL, 0b00000011);
 }

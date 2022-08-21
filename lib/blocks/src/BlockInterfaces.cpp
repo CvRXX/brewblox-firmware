@@ -20,6 +20,7 @@
 #include "AppTicks.hpp"
 #include "blocks/OneWireDeviceBlock.hpp"
 #include "blocks/SequenceBlock.hpp"
+#include "cbox/Claimable.hpp"
 #include "cbox/ObjectBase.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
@@ -138,9 +139,9 @@ interfaceIdImpl<Enabler>()
 
 template <>
 obj_type_t
-interfaceIdImpl<SequenceBlock>()
+interfaceIdImpl<Claimable>()
 {
-    return brewblox_BlockType_Sequence;
+    return brewblox_BlockType_ClaimableInterface;
 }
 
 } // end namespace cbox

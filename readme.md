@@ -15,12 +15,31 @@ When this is done, intellisense, build tasks, and the VSCode terminal will run i
 
 If you wish to use a different editor, you will need to either manually build the Docker image, or reproduce the installation steps on your local machine.
 
-## Submodules
+## Development: Submodules
 The repository includes multiple nested [Git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 These are not loaded by default when you clone the repository.
 To load them, run:
 ```
 git submodule update --init --recursive
+```
+
+## Development: signing key
+
+If the local ESP build fails with an error that `secure_boot_signing_key.pem` could not be located, create this file by copying the placeholder key.
+
+```sh
+cd app/brewblox-esp
+cp PLACEHOLDER_SIGNING_KEY.pem ./secure_boot_signing_key.pem
+```
+
+## Development: trusted directories
+
+The nested ESP submodules have a different owner (root) when installed in the devcontainer.
+To resolve this, run the following commands on the host, and then restart the container:
+
+```sh
+git config --global --add safe.directory /opt/esp/idf
+git config --global --add safe.directory /opt/esp/idf/components/openthread/openthread
 ```
 
 ## Protobuf

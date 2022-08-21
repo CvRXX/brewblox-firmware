@@ -1,7 +1,7 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/Enabler.hpp"
 #include "control/FixedPoint.hpp"
@@ -71,7 +71,7 @@ private:
 
 class ActuatorLogicBlock final : public Block<brewblox_BlockType_ActuatorLogic> {
 private:
-    cbox::CboxPtr<ActuatorDigitalConstrained> target;
+    cbox::CboxClaimingPtr<ActuatorDigitalConstrained> target;
     Enabler enabler;
     std::vector<DigitalCompare> digitals;
     std::vector<AnalogCompare> analogs;
@@ -83,7 +83,7 @@ public:
     [[nodiscard]] cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     [[nodiscard]] cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     [[nodiscard]] cbox::CboxError write(const cbox::Payload& payload) override;
-    [[nodiscard]] cbox::update_t updateHandler(const cbox::update_t& now) override;
+    [[nodiscard]] cbox::update_t updateHandler(cbox::update_t now) override;
     [[nodiscard]] void* implements(cbox::obj_type_t iface) override;
 
     blox_ActuatorLogic_Result evaluate();

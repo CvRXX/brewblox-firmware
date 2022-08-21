@@ -33,8 +33,8 @@ public:
     void update()
     {
         if (auto ptr = lookup.lock()) {
-            if (ptr->valid()) {
-                auto str = temp_to_string(ptr->value(), 1, tempUnit);
+            if (auto val = ptr->value()) {
+                auto str = temp_to_string(*val, 1, tempUnit);
                 str.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
                 lv_label_set_text(value, str.c_str());
             } else {

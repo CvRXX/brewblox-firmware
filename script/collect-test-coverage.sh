@@ -25,8 +25,9 @@ gcovr --root "$PWD" \
     -e "$PWD/test/blocks/" \
     -e "$PWD/test/cbox/" \
     -e "$PWD/test/control/" \
+    -e "$PWD/test/proto/" \
     --$FORMAT \
     --output "$OUTPUT" \
     $FORMAT_ARGS \
-    --delete \
-    --print-summary
+    --print-summary \
+    --delete

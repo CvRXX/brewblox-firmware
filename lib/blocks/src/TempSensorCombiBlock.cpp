@@ -37,8 +37,8 @@ TempSensorCombiBlock::read(const cbox::PayloadCallback& callback) const
 
     encodeStoredMessage(message);
 
-    if (sensor.valid()) {
-        message.value = cnl::unwrap((sensor.value()));
+    if (auto val = sensor.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_TempSensorCombi_Block_value_tag);
     }
@@ -91,7 +91,7 @@ TempSensorCombiBlock::write(const cbox::Payload& payload)
     return parser.status();
 }
 
-cbox::update_t TempSensorCombiBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t TempSensorCombiBlock::updateHandler(cbox::update_t now)
 {
     sensor.update();
     return next_update_1s(now);

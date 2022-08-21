@@ -34,9 +34,9 @@ typedef struct _blox_ActuatorOffset_Block {
     int32_t setting;
     int32_t value;
     blox_Constraints_AnalogConstraints constrainedBy;
-    uint16_t drivenTargetId;
     bool enabled;
     int32_t desiredSetting;
+    uint16_t claimedBy;
 /* @@protoc_insertion_point(struct:blox_ActuatorOffset_Block) */
 } blox_ActuatorOffset_Block;
 
@@ -53,9 +53,9 @@ typedef struct _blox_ActuatorOffset_Block {
 #define blox_ActuatorOffset_Block_setting_tag    6
 #define blox_ActuatorOffset_Block_value_tag      7
 #define blox_ActuatorOffset_Block_constrainedBy_tag 8
-#define blox_ActuatorOffset_Block_drivenTargetId_tag 9
 #define blox_ActuatorOffset_Block_enabled_tag    10
 #define blox_ActuatorOffset_Block_desiredSetting_tag 11
+#define blox_ActuatorOffset_Block_claimedBy_tag  12
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_ActuatorOffset_Block_fields[10];

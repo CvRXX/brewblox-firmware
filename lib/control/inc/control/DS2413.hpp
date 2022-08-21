@@ -66,14 +66,18 @@ public:
     bool update();
     bool writeNeeded();
 
-    // generic ArrayIO interface
-    bool senseChannelImpl(uint8_t channel, State& result) const final;
+    // generic ArrayIo interface
+    virtual IoValue::variant readChannelImpl(uint8_t channel) const override final;
 
-    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
+    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) override final;
 
-    bool supportsFastIo() const final
+    virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override final;
+
+    virtual IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const override final
     {
-        return false;
+        auto caps = ChannelCapabilities{.all = 0};
+        caps.flags.digitalOutput = 1;
+        return caps;
     }
 
 private:

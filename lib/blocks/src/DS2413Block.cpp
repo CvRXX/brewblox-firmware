@@ -21,6 +21,8 @@
 #include "cbox/PayloadConversion.hpp"
 #include "proto/DS2413.pb.h"
 
+static constexpr uint8_t NUM_CHANNELS = 2;
+
 cbox::CboxError
 DS2413Block::read(const cbox::PayloadCallback& callback) const
 {
@@ -30,9 +32,13 @@ DS2413Block::read(const cbox::PayloadCallback& callback) const
     message.address = uint64_t(device.address());
     message.connected = device.connected();
 
-    message.channels_count = 2;
-    message.channels[0].id = blox_DS2413_ChannelId_DS2413_CHAN_A;
-    message.channels[1].id = blox_DS2413_ChannelId_DS2413_CHAN_B;
+    message.channels_count = NUM_CHANNELS;
+    for (uint8_t i = 0; i < NUM_CHANNELS; i++) {
+        uint8_t id = blox_DS2413_ChannelId_DS2413_CHAN_A + i;
+        message.channels[i].id = id;
+        message.channels[i].capabilities = device.getChannelCapabilities(id).all;
+        message.channels[i].claimedBy = device.getChannelClaimerId(id);
+    }
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -79,7 +85,7 @@ DS2413Block::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-DS2413Block::updateHandler(const cbox::update_t& now)
+DS2413Block::updateHandler(cbox::update_t now)
 {
     device.update();
     return next_update_1s(now);

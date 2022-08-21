@@ -38,14 +38,25 @@ digitalWriteFast(pin_t pin, uint8_t value)
 {
     HAL_GPIO_Write(pin, value);
 }
-#else
-#include "pinmap_impl.h"
 
+inline void
+pinSetFast(pin_t pin)
+{
+    HAL_GPIO_Write(pin, HIGH);
+}
+
+inline void
+pinResetFast(pin_t pin)
+{
+    HAL_GPIO_Write(pin, LOW);
+}
+
+#else
 #include "fast_pin.h"
 #endif
 
 #include <array>
-#include <stdint.h>
+#include <cstdint>
 
 // Most pins are only conditionally defined here, allowing definitions to be provided in Config.h for
 // local overrides

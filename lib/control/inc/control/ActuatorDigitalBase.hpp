@@ -35,27 +35,40 @@ public:
         Reverse = 3,
     };
 
-    static inline State invertState(State s)
-    {
-        if (s == State::Active) {
-            return State::Inactive;
-        }
-        if (s == State::Inactive) {
-            return State::Active;
-        }
-        return State::Unknown;
-    }
+    virtual void state(State v) = 0;
 
-public:
-    ActuatorDigitalBase() = default;
+    [[nodiscard]] virtual State state() const = 0;
 
-protected:
     virtual ~ActuatorDigitalBase() = default;
 
-public:
-    virtual void state(const State& v) = 0;
+    [[nodiscard]] bool invert() const
+    {
+        return m_invert;
+    }
 
-    virtual State state() const = 0;
+    void invert(bool inv)
+    {
+        auto active = state();
+        m_invert = inv;
+        state(active);
+    }
 
-    virtual bool supportsFastIo() const = 0;
+protected:
+    ActuatorDigitalBase() = default;
+    ActuatorDigitalBase(const ActuatorDigitalBase&) = default;
+    ActuatorDigitalBase(ActuatorDigitalBase&&) noexcept = default;
+    ActuatorDigitalBase& operator=(const ActuatorDigitalBase&) = default;
+    ActuatorDigitalBase& operator=(ActuatorDigitalBase&&) noexcept = default;
+    bool m_invert = false;
 };
+
+inline ActuatorDigitalBase::State invertState(ActuatorDigitalBase::State s)
+{
+    if (s == ActuatorDigitalBase::State::Active) {
+        return ActuatorDigitalBase::State::Inactive;
+    }
+    if (s == ActuatorDigitalBase::State::Inactive) {
+        return ActuatorDigitalBase::State::Active;
+    }
+    return ActuatorDigitalBase::State::Unknown;
+}

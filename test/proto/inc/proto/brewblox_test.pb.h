@@ -112,6 +112,8 @@ enum BlockType {
   IoModuleInterface = 13,
   OneWireDeviceBlockInterface = 14,
   EnablerInterface = 15,
+  ClaimableInterface = 16,
+  IoDriverInterface = 17,
   Any = 255,
   SysInfo = 256,
   Ticks = 257,
@@ -145,12 +147,13 @@ enum BlockType {
   Sequence = 326,
   ScreenConfig = 327,
   TempSensorExternal = 328,
+  FastPwm = 329,
   BlockType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   BlockType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool BlockType_IsValid(int value);
 const BlockType BlockType_MIN = Invalid;
-const BlockType BlockType_MAX = TempSensorExternal;
+const BlockType BlockType_MAX = FastPwm;
 const int BlockType_ARRAYSIZE = BlockType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BlockType_descriptor();
@@ -416,12 +419,6 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool hexstr() const;
   void set_hexstr(bool value);
 
-  // bool driven = 8;
-  void clear_driven();
-  static const int kDrivenFieldNumber = 8;
-  bool driven() const;
-  void set_driven(bool value);
-
   // bool ignored = 9;
   void clear_ignored();
   static const int kIgnoredFieldNumber = 9;
@@ -457,7 +454,6 @@ class FieldOpts : public ::google::protobuf::Message /* @@protoc_insertion_point
   bool readonly_;
   bool logged_;
   bool hexstr_;
-  bool driven_;
   bool ignored_;
   bool bitfield_;
   bool datetime_;
@@ -642,20 +638,6 @@ inline void FieldOpts::set_hexstr(bool value) {
   
   hexstr_ = value;
   // @@protoc_insertion_point(field_set:brewblox.FieldOpts.hexstr)
-}
-
-// bool driven = 8;
-inline void FieldOpts::clear_driven() {
-  driven_ = false;
-}
-inline bool FieldOpts::driven() const {
-  // @@protoc_insertion_point(field_get:brewblox.FieldOpts.driven)
-  return driven_;
-}
-inline void FieldOpts::set_driven(bool value) {
-  
-  driven_ = value;
-  // @@protoc_insertion_point(field_set:brewblox.FieldOpts.driven)
 }
 
 // bool ignored = 9;

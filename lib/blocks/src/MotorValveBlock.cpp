@@ -25,8 +25,7 @@ void MotorValveBlock::addPersistedStateToMessage(blox_MotorValve_Block& message)
 {
     message.desiredState = blox_IoArray_DigitalState(constrained.desiredState());
     message.hwDevice = hwDevice.getId();
-    message.startChannel = valve.startChannel();
-    getDigitalConstraints(message.constrainedBy, constrained);
+    message.channel = valve.startChannel();
 }
 
 cbox::CboxError
@@ -36,6 +35,7 @@ MotorValveBlock::read(const cbox::PayloadCallback& callback) const
     std::vector<cbox::obj_field_tag_t> excluded;
 
     addPersistedStateToMessage(message);
+    getDigitalConstraints(message.constrainedBy, constrained, true);
 
     auto state = valve.state();
     if (state == ActuatorDigitalBase::State::Unknown) {
@@ -49,6 +49,7 @@ MotorValveBlock::read(const cbox::PayloadCallback& callback) const
     } else {
         message.valveState = blox_MotorValve_ValveState(valve.valveState());
     }
+    message.claimedBy = claim.claimedBy();
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -64,6 +65,7 @@ MotorValveBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_MotorValve_Block message = blox_MotorValve_Block_init_zero;
     addPersistedStateToMessage(message);
+    getDigitalConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -83,11 +85,11 @@ MotorValveBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_MotorValve_Block_hwDevice_tag)) {
             if (hwDevice.getId() != message.hwDevice) {
                 valve.startChannel(0); // unregister at old hwDevice
-                hwDevice.setId(message.hwDevice);
+                hwDevice.setId(message.hwDevice, objectId());
             }
         }
-        if (parser.hasField(blox_MotorValve_Block_startChannel_tag)) {
-            valve.startChannel(message.startChannel);
+        if (parser.hasField(blox_MotorValve_Block_channel_tag)) {
+            valve.startChannel(message.channel);
         }
         if (parser.hasField(blox_MotorValve_Block_constrainedBy_tag)) {
             setDigitalConstraints(message.constrainedBy, constrained);
@@ -101,7 +103,7 @@ MotorValveBlock::write(const cbox::Payload& payload)
 }
 
 cbox::update_t
-MotorValveBlock::updateHandler(const cbox::update_t& now)
+MotorValveBlock::updateHandler(cbox::update_t now)
 {
     valve.update();
     return constrained.update(now);
@@ -111,6 +113,10 @@ void* MotorValveBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorDigitalConstrained>()) {
         // return the member that implements the interface in this case

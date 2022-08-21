@@ -20,13 +20,14 @@
 #pragma once
 
 #include "control/IoArray.hpp"
+#include <array>
 
 class MockIoArray : public IoArray {
 public:
     uint8_t pinStates = 0;  // 1 = high, 0 is low
-    uint8_t pinModes = 0;   // 1 = ouput, 0 is input
     uint8_t errorState = 0; // error for specific channel
     bool isConnected = true;
+    std::array<IoValue::PWM::duty_t, 8> pwmSettings = {0};
 
     MockIoArray()
         : IoArray(8)
@@ -37,47 +38,67 @@ public:
 
     virtual ~MockIoArray() = default;
 
-    bool senseChannelImpl(uint8_t channel, State& result) const final
+    virtual IoValue::variant readChannelImpl(uint8_t channel) const override final
     {
-        // TODO
-        if (isConnected && validChannel(channel) && ((getMask(channel) & errorState) == 0)) {
-            result = (pinStates & getMask(channel)) != 0 ? State::Active : State::Inactive;
-            return true;
+        // valid channel check already performed in base class
+        if (!isConnected) {
+            return IoValue::Error::DISCONNECTED;
         }
-        result = State::Unknown;
-        return false;
-    }
 
-    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final
-    {
-        if (isConnected && validChannel(channel)) {
-            uint8_t mask = getMask(channel);
-            switch (config) {
-            case ChannelConfig::DRIVING_ON:
-                pinStates |= mask;
-                pinModes |= mask;
-                return true;
-            case ChannelConfig::DRIVING_OFF:
-                pinStates &= ~mask;
-                pinModes |= mask;
-                return true;
-            case ChannelConfig::INPUT:
-                pinModes &= mask;
-                return true;
-            case ChannelConfig::UNUSED:
-            case ChannelConfig::UNKNOWN:
-            case ChannelConfig::DRIVING_REVERSE:         // not supported
-            case ChannelConfig::DRIVING_BRAKE_LOW_SIDE:  // not supported
-            case ChannelConfig::DRIVING_BRAKE_HIGH_SIDE: // not supported
-            case ChannelConfig::DRIVING_PWM:             // not supported
-            case ChannelConfig::DRIVING_PWM_REVERSE:     // not supported
-                return false;
+        const auto setup = channelSetup(channel);
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)) {
+            auto mask = getMask(channel);
+
+            if ((mask & errorState) != 0) {
+                return IoValue::Error::IO_ERROR;
             }
+            return IoValue::Digital(pinStates & mask ? State::Active : State::Inactive);
+        } else if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
+            return IoValue::PWM{pwmSettings[channel - 1]};
         }
-        return false;
+        return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    void connected(bool v)
+    virtual IoValue::variant
+    writeChannelImpl(uint8_t channel, IoValue::variant val) override final
+    {
+        // valid channel check already performed in base class
+        if (!isConnected) {
+            return IoValue::Error::DISCONNECTED;
+        }
+
+        if (const auto* v = std::get_if<IoValue::Digital>(&val)) {
+        uint8_t mask = getMask(channel);
+            if (v->state() == IoValue::State::Active) {
+                pinStates |= mask;
+                return *v;
+            } else if (v->state() == IoValue::State::Inactive) {
+                pinStates &= ~mask;
+                return *v;
+            } else {
+                return IoValue::Error::UNSUPPORTED_VALUE;
+            }
+        } else if (const auto* v = std::get_if<IoValue::PWM>(&val)) {
+            pwmSettings[channel - 1] = v->duty();
+            return val;
+        }
+        return IoValue::Error::UNSUPPORTED_VALUE;
+    }
+
+    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override final
+    {
+        uint8_t mask = getMask(channel);
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(setup)
+            || std::holds_alternative<IoValue::Setup::OutputPwm>(setup)
+            || std::holds_alternative<IoValue::Setup::Unused>(setup)) {
+            pinStates &= ~mask;
+            return setup;
+        }
+        return IoValue::Error::UNSUPPORTED_SETUP;
+    }
+
+    void
+    connected(bool v)
     {
         isConnected = v;
     }
@@ -92,9 +113,12 @@ public:
         }
     }
 
-    bool supportsFastIo() const final
+    virtual IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const override final
     {
-        return true;
+        auto caps = ChannelCapabilities{.all = 0};
+        caps.flags.digitalOutput = 1;
+        caps.flags.pwm100Hz = 1;
+        return caps;
     }
 
 private:

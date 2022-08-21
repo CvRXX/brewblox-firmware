@@ -137,7 +137,7 @@ void* OneWireBusBlock::implements(cbox::obj_type_t iface)
     return nullptr;
 }
 
-cbox::update_t OneWireBusBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t OneWireBusBlock::updateHandler(cbox::update_t now)
 {
     if (onShortDetected) {
         if (bus.shortDetected()) {

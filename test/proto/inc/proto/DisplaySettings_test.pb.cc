@@ -76,7 +76,6 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[2];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -99,9 +98,9 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, widgets_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, name_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, tempunit_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, brightness_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, timezone_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::DisplaySettings::Block, tempunit_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::DisplaySettings::Widget)},
@@ -117,7 +116,7 @@ void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "DisplaySettings_test.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
+      file_level_metadata, NULL, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -142,17 +141,15 @@ void AddDescriptorsImpl() {
       "B\013\212\265\030\002\030\002\222\?\0028\020H\000\022)\n\022setpointSensorPair\030\013 "
       "\001(\rB\013\212\265\030\002\030\004\222\?\0028\020H\000\022%\n\016actuatorAnalog\030\014 \001"
       "(\rB\013\212\265\030\002\030\005\222\?\0028\020H\000\022\033\n\003pid\030\016 \001(\rB\014\212\265\030\003\030\260\002\222"
-      "\?\0028\020H\000B\014\n\nWidgetType\"\322\001\n\005Block\0229\n\007widget"
+      "\?\0028\020H\000B\014\n\nWidgetType\"\277\001\n\005Block\0229\n\007widget"
       "s\030\001 \003(\0132!.blox_test.DisplaySettings.Widg"
-      "etB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022<\n\010tempUn"
-      "it\030\003 \001(\0162*.blox_test.DisplaySettings.Tem"
-      "peratureUnit\022\031\n\nbrightness\030\004 \001(\rB\005\222\?\0028\010\022"
-      "\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010 :\007\212\265\030\003\030\272\002*8\n\017Tem"
-      "peratureUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_F"
-      "AHRENHEIT\020\001b\006proto3"
+      "etB\005\222\?\002\020\006\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022\037\n\nbright"
+      "ness\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\022\035\n\010timeZone\030[ \001("
+      "\010B\013\212\265\030\002H\001\222\?\002\030\003\022\035\n\010tempUnit\030\\ \001(\010B\013\212\265\030\002H\001"
+      "\222\?\002\030\003:\007\212\265\030\003\030\272\002b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 619);
+      descriptor, 542);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "DisplaySettings_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -172,20 +169,6 @@ struct StaticDescriptorInitializer {
 }  // namespace protobuf_DisplaySettings_5ftest_2eproto
 namespace blox_test {
 namespace DisplaySettings {
-const ::google::protobuf::EnumDescriptor* TemperatureUnit_descriptor() {
-  protobuf_DisplaySettings_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_DisplaySettings_5ftest_2eproto::file_level_enum_descriptors[0];
-}
-bool TemperatureUnit_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-      return true;
-    default:
-      return false;
-  }
-}
-
 
 // ===================================================================
 
@@ -739,9 +722,9 @@ void Block::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Block::kWidgetsFieldNumber;
 const int Block::kNameFieldNumber;
-const int Block::kTempUnitFieldNumber;
 const int Block::kBrightnessFieldNumber;
 const int Block::kTimeZoneFieldNumber;
+const int Block::kTempUnitFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -760,22 +743,17 @@ Block::Block(const Block& from)
   if (from.name().size() > 0) {
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
-  timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.timezone().size() > 0) {
-    timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
-  }
-  ::memcpy(&tempunit_, &from.tempunit_,
-    static_cast<size_t>(reinterpret_cast<char*>(&brightness_) -
-    reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
+  ::memcpy(&brightness_, &from.brightness_,
+    static_cast<size_t>(reinterpret_cast<char*>(&tempunit_) -
+    reinterpret_cast<char*>(&brightness_)) + sizeof(tempunit_));
   // @@protoc_insertion_point(copy_constructor:blox_test.DisplaySettings.Block)
 }
 
 void Block::SharedCtor() {
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&tempunit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&brightness_) -
-      reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
+  ::memset(&brightness_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&tempunit_) -
+      reinterpret_cast<char*>(&brightness_)) + sizeof(tempunit_));
 }
 
 Block::~Block() {
@@ -785,7 +763,6 @@ Block::~Block() {
 
 void Block::SharedDtor() {
   name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  timezone_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void Block::SetCachedSize(int size) const {
@@ -810,10 +787,9 @@ void Block::Clear() {
 
   widgets_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&tempunit_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&brightness_) -
-      reinterpret_cast<char*>(&tempunit_)) + sizeof(brightness_));
+  ::memset(&brightness_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&tempunit_) -
+      reinterpret_cast<char*>(&brightness_)) + sizeof(tempunit_));
   _internal_metadata_.Clear();
 }
 
@@ -823,7 +799,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.DisplaySettings.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -855,28 +831,13 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-      case 3: {
+      // bool brightness = 90 [(.nanopb) = {
+      case 90: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_tempunit(static_cast< ::blox_test::DisplaySettings::TemperatureUnit >(value));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint32 brightness = 4 [(.nanopb) = {
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &brightness_)));
         } else {
           goto handle_unusual;
@@ -884,16 +845,28 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // string timeZone = 5 [(.nanopb) = {
-      case 5: {
+      // bool timeZone = 91 [(.nanopb) = {
+      case 91: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_timezone()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->timezone().data(), static_cast<int>(this->timezone().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "blox_test.DisplaySettings.Block.timeZone"));
+            static_cast< ::google::protobuf::uint8>(216u /* 728 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &timezone_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool tempUnit = 92 [(.nanopb) = {
+      case 92: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(224u /* 736 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &tempunit_)));
         } else {
           goto handle_unusual;
         }
@@ -945,25 +918,19 @@ void Block::SerializeWithCachedSizes(
       2, this->name(), output);
   }
 
-  // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-  if (this->tempunit() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->tempunit(), output);
-  }
-
-  // uint32 brightness = 4 [(.nanopb) = {
+  // bool brightness = 90 [(.nanopb) = {
   if (this->brightness() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->brightness(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->brightness(), output);
   }
 
-  // string timeZone = 5 [(.nanopb) = {
-  if (this->timezone().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->timezone().data(), static_cast<int>(this->timezone().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox_test.DisplaySettings.Block.timeZone");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      5, this->timezone(), output);
+  // bool timeZone = 91 [(.nanopb) = {
+  if (this->timezone() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(91, this->timezone(), output);
+  }
+
+  // bool tempUnit = 92 [(.nanopb) = {
+  if (this->tempunit() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(92, this->tempunit(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -999,26 +966,19 @@ void Block::SerializeWithCachedSizes(
         2, this->name(), target);
   }
 
-  // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-  if (this->tempunit() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->tempunit(), target);
-  }
-
-  // uint32 brightness = 4 [(.nanopb) = {
+  // bool brightness = 90 [(.nanopb) = {
   if (this->brightness() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->brightness(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->brightness(), target);
   }
 
-  // string timeZone = 5 [(.nanopb) = {
-  if (this->timezone().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->timezone().data(), static_cast<int>(this->timezone().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "blox_test.DisplaySettings.Block.timeZone");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        5, this->timezone(), target);
+  // bool timeZone = 91 [(.nanopb) = {
+  if (this->timezone() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(91, this->timezone(), target);
+  }
+
+  // bool tempUnit = 92 [(.nanopb) = {
+  if (this->tempunit() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(92, this->tempunit(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1056,24 +1016,19 @@ size_t Block::ByteSizeLong() const {
         this->name());
   }
 
-  // string timeZone = 5 [(.nanopb) = {
-  if (this->timezone().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->timezone());
-  }
-
-  // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-  if (this->tempunit() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->tempunit());
-  }
-
-  // uint32 brightness = 4 [(.nanopb) = {
+  // bool brightness = 90 [(.nanopb) = {
   if (this->brightness() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->brightness());
+    total_size += 2 + 1;
+  }
+
+  // bool timeZone = 91 [(.nanopb) = {
+  if (this->timezone() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // bool tempUnit = 92 [(.nanopb) = {
+  if (this->tempunit() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1108,15 +1063,14 @@ void Block::MergeFrom(const Block& from) {
 
     name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
-  if (from.timezone().size() > 0) {
-
-    timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
+  if (from.brightness() != 0) {
+    set_brightness(from.brightness());
+  }
+  if (from.timezone() != 0) {
+    set_timezone(from.timezone());
   }
   if (from.tempunit() != 0) {
     set_tempunit(from.tempunit());
-  }
-  if (from.brightness() != 0) {
-    set_brightness(from.brightness());
   }
 }
 
@@ -1147,10 +1101,9 @@ void Block::InternalSwap(Block* other) {
   CastToBase(&widgets_)->InternalSwap(CastToBase(&other->widgets_));
   name_.Swap(&other->name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  timezone_.Swap(&other->timezone_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  swap(tempunit_, other->tempunit_);
   swap(brightness_, other->brightness_);
+  swap(timezone_, other->timezone_);
+  swap(tempunit_, other->tempunit_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

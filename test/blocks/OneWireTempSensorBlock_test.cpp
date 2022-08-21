@@ -92,7 +92,6 @@ SCENARIO("A TempSensorOneWireBlock")
                 AND_THEN("The values that are not writable are unchanged")
                 {
                     CHECK(sensorPtr->get().value() == temp_t(20.5));
-                    CHECK(sensorPtr->get().valid() == true);
                 }
             }
         }

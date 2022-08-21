@@ -212,24 +212,6 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 p() const;
   void set_p(::google::protobuf::int32 value);
 
-  // bool enabled = 11 [(.brewblox.field) = {
-  void clear_enabled();
-  static const int kEnabledFieldNumber = 11;
-  bool enabled() const;
-  void set_enabled(bool value);
-
-  // bool active = 12 [(.brewblox.field) = {
-  void clear_active();
-  static const int kActiveFieldNumber = 12;
-  bool active() const;
-  void set_active(bool value);
-
-  // bool boilModeActive = 26 [(.brewblox.field) = {
-  void clear_boilmodeactive();
-  static const int kBoilModeActiveFieldNumber = 26;
-  bool boilmodeactive() const;
-  void set_boilmodeactive(bool value);
-
   // sint32 i = 17 [(.nanopb) = {
   void clear_i();
   static const int kIFieldNumber = 17;
@@ -260,23 +242,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 derivative() const;
   void set_derivative(::google::protobuf::int32 value);
 
-  // uint32 drivenOutputId = 22 [(.nanopb) = {
-  void clear_drivenoutputid();
-  static const int kDrivenOutputIdFieldNumber = 22;
-  ::google::protobuf::uint32 drivenoutputid() const;
-  void set_drivenoutputid(::google::protobuf::uint32 value);
-
   // sint32 integralReset = 23 [(.nanopb) = {
   void clear_integralreset();
   static const int kIntegralResetFieldNumber = 23;
   ::google::protobuf::int32 integralreset() const;
   void set_integralreset(::google::protobuf::int32 value);
-
-  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
-  void clear_derivativefilter();
-  static const int kDerivativeFilterFieldNumber = 27;
-  ::blox_test::SetpointSensorPair::FilterChoice derivativefilter() const;
-  void set_derivativefilter(::blox_test::SetpointSensorPair::FilterChoice value);
 
   // sint32 boilPointAdjust = 24 [(.nanopb) = {
   void clear_boilpointadjust();
@@ -289,6 +259,36 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   static const int kBoilMinOutputFieldNumber = 25;
   ::google::protobuf::int32 boilminoutput() const;
   void set_boilminoutput(::google::protobuf::int32 value);
+
+  // .blox_test.SetpointSensorPair.FilterChoice derivativeFilter = 27 [(.brewblox.field) = {
+  void clear_derivativefilter();
+  static const int kDerivativeFilterFieldNumber = 27;
+  ::blox_test::SetpointSensorPair::FilterChoice derivativefilter() const;
+  void set_derivativefilter(::blox_test::SetpointSensorPair::FilterChoice value);
+
+  // bool enabled = 11 [(.brewblox.field) = {
+  void clear_enabled();
+  static const int kEnabledFieldNumber = 11;
+  bool enabled() const;
+  void set_enabled(bool value);
+
+  // bool active = 12 [(.brewblox.field) = {
+  void clear_active();
+  static const int kActiveFieldNumber = 12;
+  bool active() const;
+  void set_active(bool value);
+
+  // bool boilModeActive = 26 [(.brewblox.field) = {
+  void clear_boilmodeactive();
+  static const int kBoilModeActiveFieldNumber = 26;
+  bool boilmodeactive() const;
+  void set_boilmodeactive(bool value);
+
+  // bool drivenOutputId = 90 [(.nanopb) = {
+  void clear_drivenoutputid();
+  static const int kDrivenOutputIdFieldNumber = 90;
+  bool drivenoutputid() const;
+  void set_drivenoutputid(bool value);
 
   // @@protoc_insertion_point(class_scope:blox_test.Pid.Block)
  private:
@@ -304,19 +304,19 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 ti_;
   ::google::protobuf::uint32 td_;
   ::google::protobuf::int32 p_;
-  bool enabled_;
-  bool active_;
-  bool boilmodeactive_;
   ::google::protobuf::int32 i_;
   ::google::protobuf::int32 d_;
   ::google::protobuf::int32 error_;
   ::google::protobuf::int32 integral_;
   ::google::protobuf::int32 derivative_;
-  ::google::protobuf::uint32 drivenoutputid_;
   ::google::protobuf::int32 integralreset_;
-  int derivativefilter_;
   ::google::protobuf::int32 boilpointadjust_;
   ::google::protobuf::int32 boilminoutput_;
+  int derivativefilter_;
+  bool enabled_;
+  bool active_;
+  bool boilmodeactive_;
+  bool drivenoutputid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_Pid_5ftest_2eproto::TableStruct;
 };
@@ -569,20 +569,6 @@ inline void Block::set_derivative(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:blox_test.Pid.Block.derivative)
 }
 
-// uint32 drivenOutputId = 22 [(.nanopb) = {
-inline void Block::clear_drivenoutputid() {
-  drivenoutputid_ = 0u;
-}
-inline ::google::protobuf::uint32 Block::drivenoutputid() const {
-  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.drivenOutputId)
-  return drivenoutputid_;
-}
-inline void Block::set_drivenoutputid(::google::protobuf::uint32 value) {
-  
-  drivenoutputid_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.drivenOutputId)
-}
-
 // sint32 integralReset = 23 [(.nanopb) = {
 inline void Block::clear_integralreset() {
   integralreset_ = 0;
@@ -651,6 +637,20 @@ inline void Block::set_derivativefilter(::blox_test::SetpointSensorPair::FilterC
   
   derivativefilter_ = value;
   // @@protoc_insertion_point(field_set:blox_test.Pid.Block.derivativeFilter)
+}
+
+// bool drivenOutputId = 90 [(.nanopb) = {
+inline void Block::clear_drivenoutputid() {
+  drivenoutputid_ = false;
+}
+inline bool Block::drivenoutputid() const {
+  // @@protoc_insertion_point(field_get:blox_test.Pid.Block.drivenOutputId)
+  return drivenoutputid_;
+}
+inline void Block::set_drivenoutputid(bool value) {
+  
+  drivenoutputid_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.Pid.Block.drivenOutputId)
 }
 
 #ifdef __GNUC__

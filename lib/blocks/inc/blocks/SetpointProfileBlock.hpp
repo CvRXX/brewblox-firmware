@@ -20,14 +20,14 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "blocks/TicksBlock.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "cbox/CboxPtr.hpp"
 #include "control/SetpointProfile.hpp"
 #include "control/SetpointSensorPair.hpp"
 
 class SetpointProfileBlock final : public Block<brewblox_BlockType_SetpointProfile> {
 private:
-    cbox::CboxPtr<SetpointSensorPair> target;
+    cbox::CboxClaimingPtr<SetpointSensorPair> target;
     SetpointProfile profile;
 
 public:
@@ -40,7 +40,7 @@ public:
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
-    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    cbox::update_t updateHandler(cbox::update_t now) override;
     void* implements(cbox::obj_type_t iface) override;
 
     SetpointProfile& get()

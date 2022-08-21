@@ -9,24 +9,29 @@ cbox::CboxError ActuatorAnalogMockBlock::read(const cbox::PayloadCallback& callb
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
     std::vector<cbox::obj_field_tag_t> excluded;
 
-    if (constrained.valueValid()) {
-        message.value = cnl::unwrap(constrained.value());
+    if (auto val = constrained.value()) {
+        message.value = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_ActuatorAnalogMock_Block_value_tag);
     }
-    if (constrained.settingValid()) {
-        message.setting = cnl::unwrap(constrained.setting());
+    if (auto val = constrained.setting()) {
+        message.setting = cnl::unwrap(*val);
     } else {
         excluded.push_back(blox_ActuatorAnalogMock_Block_setting_tag);
     };
+    if (auto val = constrained.desiredSetting()) {
+        message.desiredSetting = cnl::unwrap(*val);
+    } else {
+        excluded.push_back(blox_ActuatorAnalogMock_Block_desiredSetting_tag);
+    }
 
-    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
     message.minSetting = cnl::unwrap(actuator.minSetting());
     message.maxSetting = cnl::unwrap(actuator.maxSetting());
     message.minValue = cnl::unwrap(actuator.minValue());
     message.maxValue = cnl::unwrap(actuator.maxValue());
+    message.claimedBy = claim.claimedBy();
 
-    getAnalogConstraints(message.constrainedBy, constrained);
+    getAnalogConstraints(message.constrainedBy, constrained, true);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -41,13 +46,14 @@ cbox::CboxError ActuatorAnalogMockBlock::readStored(const cbox::PayloadCallback&
 {
     blox_ActuatorAnalogMock_Block message = blox_ActuatorAnalogMock_Block_init_zero;
 
-    message.desiredSetting = cnl::unwrap(constrained.desiredSetting());
+    // default setting to 0 if it is invalid no not have to store excluded field in eeprom
+    message.desiredSetting = cnl::unwrap(constrained.desiredSetting().value_or(0));
     message.minSetting = cnl::unwrap(actuator.minSetting());
     message.maxSetting = cnl::unwrap(actuator.maxSetting());
     message.minValue = cnl::unwrap(actuator.minValue());
     message.maxValue = cnl::unwrap(actuator.maxValue());
 
-    getAnalogConstraints(message.constrainedBy, constrained);
+    getAnalogConstraints(message.constrainedBy, constrained, false);
 
     return cbox::PayloadBuilder(*this)
         .withContent(&message,
@@ -90,6 +96,10 @@ void* ActuatorAnalogMockBlock::implements(cbox::obj_type_t iface)
 {
     if (iface == staticTypeId()) {
         return this; // me!
+    }
+    if (iface == cbox::interfaceId<cbox::Claimable>()) {
+        cbox::Claimable* ptr = &claim;
+        return ptr;
     }
     if (iface == cbox::interfaceId<ActuatorAnalogConstrained>()) {
         // return the member that implements the interface in this case

@@ -121,13 +121,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, targetid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, driventargetid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, result_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, expression_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, digital_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, analog_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, errorpos_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorLogic::Block, driventargetid_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::ActuatorLogic::DigitalCompare)},
@@ -174,36 +174,35 @@ void AddDescriptorsImpl() {
       "torLogic.AnalogOperator\0227\n\006result\030\002 \001(\0162"
       "\037.blox_test.ActuatorLogic.ResultB\006\212\265\030\002(\001"
       "\022\027\n\002id\030\003 \001(\rB\013\212\265\030\002\030\001\222\?\0028\020\022\031\n\003rhs\030\004 \001(\021B\014"
-      "\212\265\030\003\020\200 \222\?\0028 \"\360\002\n\005Block\022\035\n\010targetId\030\001 \001(\r"
-      "B\013\212\265\030\002\030\006\222\?\0028\020\022/\n\016drivenTargetId\030\002 \001(\rB\027\212"
-      "\265\030\002\030\006\222\?\0028\020\212\265\030\002@\001\212\265\030\002(\001\022\017\n\007enabled\030\003 \001(\010\022"
-      "=\n\006result\030\004 \001(\0162\037.blox_test.ActuatorLogi"
-      "c.ResultB\014\212\265\030\0020\001\212\265\030\002(\001\022\031\n\nexpression\030\005 \001"
-      "(\tB\005\222\?\002p@\022\?\n\007digital\030\006 \003(\0132\'.blox_test.A"
-      "ctuatorLogic.DigitalCompareB\005\222\?\002\020\020\022=\n\006an"
-      "alog\030\007 \003(\0132&.blox_test.ActuatorLogic.Ana"
-      "logCompareB\005\222\?\002\020\020\022\035\n\010errorPos\030\010 \001(\rB\013\212\265\030"
-      "\002(\001\222\?\0028\010:\r\212\265\030\003\030\302\002\212\265\030\002H\017*\313\003\n\006Result\022\020\n\014RE"
-      "SULT_FALSE\020\000\022\017\n\013RESULT_TRUE\020\001\022\020\n\014RESULT_"
-      "EMPTY\020\002\022\032\n\026RESULT_EMPTY_SUBSTRING\020\003\022\032\n\026R"
-      "ESULT_BLOCK_NOT_FOUND\020\004\022\035\n\031RESULT_INVALI"
-      "D_DIGITAL_OP\020\005\022\034\n\030RESULT_INVALID_ANALOG_"
-      "OP\020\006\022$\n RESULT_UNDEFINED_DIGITAL_COMPARE"
-      "\020\010\022#\n\037RESULT_UNDEFINED_ANALOG_COMPARE\020\007\022"
-      "\"\n\036RESULT_UNEXPECTED_OPEN_BRACKET\020\013\022#\n\037R"
-      "ESULT_UNEXPECTED_CLOSE_BRACKET\020\t\022\037\n\033RESU"
-      "LT_UNEXPECTED_CHARACTER\020\014\022 \n\034RESULT_UNEX"
-      "PECTED_COMPARISON\020\r\022\036\n\032RESULT_UNEXPECTED"
-      "_OPERATOR\020\016\022 \n\034RESULT_MISSING_CLOSE_BRAC"
-      "KET\020\n*a\n\017DigitalOperator\022\017\n\013OP_VALUE_IS\020"
-      "\000\022\023\n\017OP_VALUE_IS_NOT\020\001\022\021\n\rOP_DESIRED_IS\020"
-      "\n\022\025\n\021OP_DESIRED_IS_NOT\020\013*X\n\016AnalogOperat"
-      "or\022\017\n\013OP_VALUE_LE\020\000\022\017\n\013OP_VALUE_GE\020\001\022\021\n\r"
-      "OP_SETTING_LE\020\n\022\021\n\rOP_SETTING_GE\020\013b\006prot"
-      "o3"
+      "\212\265\030\003\020\200 \222\?\0028 \"\344\002\n\005Block\022\035\n\010targetId\030\001 \001(\r"
+      "B\013\212\265\030\002\030\006\222\?\0028\020\022\017\n\007enabled\030\003 \001(\010\022=\n\006result"
+      "\030\004 \001(\0162\037.blox_test.ActuatorLogic.ResultB"
+      "\014\212\265\030\0020\001\212\265\030\002(\001\022\031\n\nexpression\030\005 \001(\tB\005\222\?\002p@"
+      "\022\?\n\007digital\030\006 \003(\0132\'.blox_test.ActuatorLo"
+      "gic.DigitalCompareB\005\222\?\002\020\020\022=\n\006analog\030\007 \003("
+      "\0132&.blox_test.ActuatorLogic.AnalogCompar"
+      "eB\005\222\?\002\020\020\022\035\n\010errorPos\030\010 \001(\rB\013\212\265\030\002(\001\222\?\0028\010\022"
+      "#\n\016drivenTargetId\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\r\212\265"
+      "\030\003\030\302\002\212\265\030\002H\017*\313\003\n\006Result\022\020\n\014RESULT_FALSE\020\000"
+      "\022\017\n\013RESULT_TRUE\020\001\022\020\n\014RESULT_EMPTY\020\002\022\032\n\026R"
+      "ESULT_EMPTY_SUBSTRING\020\003\022\032\n\026RESULT_BLOCK_"
+      "NOT_FOUND\020\004\022\035\n\031RESULT_INVALID_DIGITAL_OP"
+      "\020\005\022\034\n\030RESULT_INVALID_ANALOG_OP\020\006\022$\n RESU"
+      "LT_UNDEFINED_DIGITAL_COMPARE\020\010\022#\n\037RESULT"
+      "_UNDEFINED_ANALOG_COMPARE\020\007\022\"\n\036RESULT_UN"
+      "EXPECTED_OPEN_BRACKET\020\013\022#\n\037RESULT_UNEXPE"
+      "CTED_CLOSE_BRACKET\020\t\022\037\n\033RESULT_UNEXPECTE"
+      "D_CHARACTER\020\014\022 \n\034RESULT_UNEXPECTED_COMPA"
+      "RISON\020\r\022\036\n\032RESULT_UNEXPECTED_OPERATOR\020\016\022"
+      " \n\034RESULT_MISSING_CLOSE_BRACKET\020\n*a\n\017Dig"
+      "italOperator\022\017\n\013OP_VALUE_IS\020\000\022\023\n\017OP_VALU"
+      "E_IS_NOT\020\001\022\021\n\rOP_DESIRED_IS\020\n\022\025\n\021OP_DESI"
+      "RED_IS_NOT\020\013*X\n\016AnalogOperator\022\017\n\013OP_VAL"
+      "UE_LE\020\000\022\017\n\013OP_VALUE_GE\020\001\022\021\n\rOP_SETTING_L"
+      "E\020\n\022\021\n\rOP_SETTING_GE\020\013b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1522);
+      descriptor, 1510);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorLogic_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -974,13 +973,13 @@ void Block::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Block::kTargetIdFieldNumber;
-const int Block::kDrivenTargetIdFieldNumber;
 const int Block::kEnabledFieldNumber;
 const int Block::kResultFieldNumber;
 const int Block::kExpressionFieldNumber;
 const int Block::kDigitalFieldNumber;
 const int Block::kAnalogFieldNumber;
 const int Block::kErrorPosFieldNumber;
+const int Block::kDrivenTargetIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -1001,16 +1000,16 @@ Block::Block(const Block& from)
     expression_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.expression_);
   }
   ::memcpy(&targetid_, &from.targetid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&errorpos_) -
-    reinterpret_cast<char*>(&targetid_)) + sizeof(errorpos_));
+    static_cast<size_t>(reinterpret_cast<char*>(&driventargetid_) -
+    reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
   // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorLogic.Block)
 }
 
 void Block::SharedCtor() {
   expression_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&targetid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&errorpos_) -
-      reinterpret_cast<char*>(&targetid_)) + sizeof(errorpos_));
+      reinterpret_cast<char*>(&driventargetid_) -
+      reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
 }
 
 Block::~Block() {
@@ -1046,8 +1045,8 @@ void Block::Clear() {
   analog_.Clear();
   expression_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&targetid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&errorpos_) -
-      reinterpret_cast<char*>(&targetid_)) + sizeof(errorpos_));
+      reinterpret_cast<char*>(&driventargetid_) -
+      reinterpret_cast<char*>(&targetid_)) + sizeof(driventargetid_));
   _internal_metadata_.Clear();
 }
 
@@ -1057,7 +1056,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.ActuatorLogic.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -1069,20 +1068,6 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &targetid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint32 drivenTargetId = 2 [(.nanopb) = {
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &driventargetid_)));
         } else {
           goto handle_unusual;
         }
@@ -1172,6 +1157,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // bool drivenTargetId = 90 [(.nanopb) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &driventargetid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1201,11 +1200,6 @@ void Block::SerializeWithCachedSizes(
   // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->targetid(), output);
-  }
-
-  // uint32 drivenTargetId = 2 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->driventargetid(), output);
   }
 
   // bool enabled = 3;
@@ -1252,6 +1246,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->errorpos(), output);
   }
 
+  // bool drivenTargetId = 90 [(.nanopb) = {
+  if (this->driventargetid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->driventargetid(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1269,11 +1268,6 @@ void Block::SerializeWithCachedSizes(
   // uint32 targetId = 1 [(.nanopb) = {
   if (this->targetid() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->targetid(), target);
-  }
-
-  // uint32 drivenTargetId = 2 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->driventargetid(), target);
   }
 
   // bool enabled = 3;
@@ -1317,6 +1311,11 @@ void Block::SerializeWithCachedSizes(
   // uint32 errorPos = 8 [(.nanopb) = {
   if (this->errorpos() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->errorpos(), target);
+  }
+
+  // bool drivenTargetId = 90 [(.nanopb) = {
+  if (this->driventargetid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->driventargetid(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1372,18 +1371,6 @@ size_t Block::ByteSizeLong() const {
         this->targetid());
   }
 
-  // uint32 drivenTargetId = 2 [(.nanopb) = {
-  if (this->driventargetid() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->driventargetid());
-  }
-
-  // bool enabled = 3;
-  if (this->enabled() != 0) {
-    total_size += 1 + 1;
-  }
-
   // .blox_test.ActuatorLogic.Result result = 4 [(.brewblox.field) = {
   if (this->result() != 0) {
     total_size += 1 +
@@ -1395,6 +1382,16 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->errorpos());
+  }
+
+  // bool enabled = 3;
+  if (this->enabled() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool drivenTargetId = 90 [(.nanopb) = {
+  if (this->driventargetid() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1433,17 +1430,17 @@ void Block::MergeFrom(const Block& from) {
   if (from.targetid() != 0) {
     set_targetid(from.targetid());
   }
-  if (from.driventargetid() != 0) {
-    set_driventargetid(from.driventargetid());
-  }
-  if (from.enabled() != 0) {
-    set_enabled(from.enabled());
-  }
   if (from.result() != 0) {
     set_result(from.result());
   }
   if (from.errorpos() != 0) {
     set_errorpos(from.errorpos());
+  }
+  if (from.enabled() != 0) {
+    set_enabled(from.enabled());
+  }
+  if (from.driventargetid() != 0) {
+    set_driventargetid(from.driventargetid());
   }
 }
 
@@ -1476,10 +1473,10 @@ void Block::InternalSwap(Block* other) {
   expression_.Swap(&other->expression_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(targetid_, other->targetid_);
-  swap(driventargetid_, other->driventargetid_);
-  swap(enabled_, other->enabled_);
   swap(result_, other->result_);
   swap(errorpos_, other->errorpos_);
+  swap(enabled_, other->enabled_);
+  swap(driventargetid_, other->driventargetid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

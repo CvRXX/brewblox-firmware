@@ -29,7 +29,4 @@
 class ActuatorAnalog : public ProcessValue<fp12_t> {
 public:
     using value_t = fp12_t;
-
-    ActuatorAnalog() = default;
-    virtual ~ActuatorAnalog() = default;
 };

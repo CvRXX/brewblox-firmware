@@ -92,30 +92,36 @@ public:
     {
         if (auto ptr = lookup.lock()) {
             lv_obj_clear_state(obj, LV_STATE_DISABLED);
-            auto& inputLookup = ptr->getInputLookup();
-            auto& outputLookup = ptr->getOutputLookup();
-            auto input = inputLookup.lock();
-            if (input && input->valueValid()) {
-                lv_label_set_text(inputValue, temp_to_string(input->value(), 1, tempUnit).c_str());
-            } else {
-                lv_label_set_text(inputValue, "-");
-            }
-            if (input && input->settingValid()) {
-                lv_label_set_text(inputSetting, temp_to_string(input->setting(), 1, tempUnit).c_str());
-            } else {
-                lv_label_set_text(inputSetting, "-");
+            {
+                auto& inputLookup = ptr->getInputLookup();
+                auto valueString = std::string{"-"};
+                auto settingString = std::string{"-"};
+                if (auto input = inputLookup.lock()) {
+                    if (auto val = input->value()) {
+                        valueString = temp_to_string(*val, 1, tempUnit);
+                    }
+                    if (auto val = input->setting()) {
+                        settingString = temp_to_string(*val, 1, tempUnit);
+                    }
+                }
+                lv_label_set_text(inputValue, valueString.c_str());
+                lv_label_set_text(inputSetting, settingString.c_str());
             }
 
-            auto output = outputLookup.lock();
-            if (output && output->valueValid()) {
-                lv_label_set_text(outputValue, to_string_dec(output->value(), 1).c_str());
-            } else {
-                lv_label_set_text(outputValue, "-");
-            }
-            if (output && output->settingValid()) {
-                lv_label_set_text(outputSetting, to_string_dec(output->setting(), 1).c_str());
-            } else {
-                lv_label_set_text(outputSetting, "-");
+            {
+                auto& outputLookup = ptr->getOutputLookup();
+                auto valueString = std::string{"-"};
+                auto settingString = std::string{"-"};
+                if (auto output = outputLookup.lock()) {
+                    if (auto val = output->value()) {
+                        valueString = to_string_dec(*val, 1);
+                    }
+                    if (auto val = output->setting()) {
+                        settingString = to_string_dec(*val, 1);
+                    }
+                }
+                lv_label_set_text(outputValue, valueString.c_str());
+                lv_label_set_text(outputSetting, settingString.c_str());
             }
 
             lv_label_set_text(pValue, to_string_dec(ptr->get().p(), 0).c_str());

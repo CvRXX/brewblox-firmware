@@ -61,11 +61,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, hwdevice_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, startchannel_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, channel_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, state_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, constrainedby_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, valvestate_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, desiredstate_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, claimedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::MotorValve::Block, startchannel_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::MotorValve::Block)},
@@ -99,22 +101,24 @@ void AddDescriptorsImpl() {
       "\n\025MotorValve_test.proto\022\024blox_test.Motor"
       "Valve\032\023brewblox_test.proto\032\021nanopb_test."
       "proto\032\026Constraints_test.proto\032\022IoArray_t"
-      "est.proto\"\333\002\n\005Block\022#\n\010hwDevice\030\001 \001(\rB\021\212"
-      "\265\030\002\030\013\212\265\030\002@\001\222\?\0028\020\022\033\n\014startChannel\030\002 \001(\rB\005"
-      "\222\?\0028\010\022<\n\005state\030\003 \001(\0162\037.blox_test.IoArray"
-      ".DigitalStateB\014\212\265\030\0020\001\212\265\030\002(\001\022@\n\rconstrain"
-      "edBy\030\005 \001(\0132).blox_test.Constraints.Digit"
-      "alConstraints\022B\n\nvalveState\030\006 \001(\0162 .blox"
-      "_test.MotorValve.ValveStateB\014\212\265\030\0020\001\212\265\030\002("
-      "\001\022=\n\014desiredState\030\007 \001(\0162\037.blox_test.IoAr"
-      "ray.DigitalStateB\006\212\265\030\0020\001:\r\212\265\030\003\030\301\002\212\265\030\002H\006*"
-      "\226\001\n\nValveState\022\021\n\rVALVE_UNKNOWN\020\000\022\016\n\nVAL"
-      "VE_OPEN\020\001\022\020\n\014VALVE_CLOSED\020\002\022\021\n\rVALVE_OPE"
-      "NING\020\003\022\021\n\rVALVE_CLOSING\020\004\022\030\n\024VALVE_HALF_"
-      "OPEN_IDLE\020\005\022\023\n\017VALVE_INIT_IDLE\020\006b\006proto3"
+      "est.proto\"\246\003\n\005Block\022\035\n\010hwDevice\030\001 \001(\rB\013\212"
+      "\265\030\002\030\013\222\?\0028\020\022\026\n\007channel\030\002 \001(\rB\005\222\?\0028\010\022<\n\005st"
+      "ate\030\003 \001(\0162\037.blox_test.IoArray.DigitalSta"
+      "teB\014\212\265\030\0020\001\212\265\030\002(\001\022@\n\rconstrainedBy\030\005 \001(\0132"
+      ").blox_test.Constraints.DigitalConstrain"
+      "ts\022B\n\nvalveState\030\006 \001(\0162 .blox_test.Motor"
+      "Valve.ValveStateB\014\212\265\030\0020\001\212\265\030\002(\001\022=\n\014desire"
+      "dState\030\007 \001(\0162\037.blox_test.IoArray.Digital"
+      "StateB\006\212\265\030\0020\001\022%\n\tclaimedBy\030\010 \001(\rB\022\212\265\030\003\030\377"
+      "\001\212\265\030\002(\001\222\?\0028\020\022!\n\014startChannel\030Z \001(\010B\013\212\265\030\002"
+      "H\001\222\?\002\030\003:\031\212\265\030\003\030\301\002\212\265\030\002H\006\212\265\030\002H\020\212\265\030\002H\021*\226\001\n\nV"
+      "alveState\022\021\n\rVALVE_UNKNOWN\020\000\022\016\n\nVALVE_OP"
+      "EN\020\001\022\020\n\014VALVE_CLOSED\020\002\022\021\n\rVALVE_OPENING\020"
+      "\003\022\021\n\rVALVE_CLOSING\020\004\022\030\n\024VALVE_HALF_OPEN_"
+      "IDLE\020\005\022\023\n\017VALVE_INIT_IDLE\020\006b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 640);
+      descriptor, 715);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MotorValve_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -170,11 +174,13 @@ void Block::clear_constrainedby() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Block::kHwDeviceFieldNumber;
-const int Block::kStartChannelFieldNumber;
+const int Block::kChannelFieldNumber;
 const int Block::kStateFieldNumber;
 const int Block::kConstrainedByFieldNumber;
 const int Block::kValveStateFieldNumber;
 const int Block::kDesiredStateFieldNumber;
+const int Block::kClaimedByFieldNumber;
+const int Block::kStartChannelFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -194,15 +200,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&hwdevice_, &from.hwdevice_,
-    static_cast<size_t>(reinterpret_cast<char*>(&desiredstate_) -
-    reinterpret_cast<char*>(&hwdevice_)) + sizeof(desiredstate_));
+    static_cast<size_t>(reinterpret_cast<char*>(&startchannel_) -
+    reinterpret_cast<char*>(&hwdevice_)) + sizeof(startchannel_));
   // @@protoc_insertion_point(copy_constructor:blox_test.MotorValve.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredstate_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredstate_));
+      reinterpret_cast<char*>(&startchannel_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(startchannel_));
 }
 
 Block::~Block() {
@@ -239,8 +245,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&hwdevice_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredstate_) -
-      reinterpret_cast<char*>(&hwdevice_)) + sizeof(desiredstate_));
+      reinterpret_cast<char*>(&startchannel_) -
+      reinterpret_cast<char*>(&hwdevice_)) + sizeof(startchannel_));
   _internal_metadata_.Clear();
 }
 
@@ -250,7 +256,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.MotorValve.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -268,14 +274,14 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 startChannel = 2 [(.nanopb) = {
+      // uint32 channel = 2 [(.nanopb) = {
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &startchannel_)));
+                 input, &channel_)));
         } else {
           goto handle_unusual;
         }
@@ -339,6 +345,34 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // uint32 claimedBy = 8 [(.nanopb) = {
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(64u /* 64 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool startChannel = 90 [(.nanopb) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &startchannel_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -370,9 +404,9 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->hwdevice(), output);
   }
 
-  // uint32 startChannel = 2 [(.nanopb) = {
-  if (this->startchannel() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->startchannel(), output);
+  // uint32 channel = 2 [(.nanopb) = {
+  if (this->channel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->channel(), output);
   }
 
   // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
@@ -399,6 +433,16 @@ void Block::SerializeWithCachedSizes(
       7, this->desiredstate(), output);
   }
 
+  // uint32 claimedBy = 8 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->claimedby(), output);
+  }
+
+  // bool startChannel = 90 [(.nanopb) = {
+  if (this->startchannel() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->startchannel(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -418,9 +462,9 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->hwdevice(), target);
   }
 
-  // uint32 startChannel = 2 [(.nanopb) = {
-  if (this->startchannel() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->startchannel(), target);
+  // uint32 channel = 2 [(.nanopb) = {
+  if (this->channel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->channel(), target);
   }
 
   // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
@@ -446,6 +490,16 @@ void Block::SerializeWithCachedSizes(
   if (this->desiredstate() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       7, this->desiredstate(), target);
+  }
+
+  // uint32 claimedBy = 8 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->claimedby(), target);
+  }
+
+  // bool startChannel = 90 [(.nanopb) = {
+  if (this->startchannel() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->startchannel(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -479,11 +533,11 @@ size_t Block::ByteSizeLong() const {
         this->hwdevice());
   }
 
-  // uint32 startChannel = 2 [(.nanopb) = {
-  if (this->startchannel() != 0) {
+  // uint32 channel = 2 [(.nanopb) = {
+  if (this->channel() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->startchannel());
+        this->channel());
   }
 
   // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
@@ -502,6 +556,18 @@ size_t Block::ByteSizeLong() const {
   if (this->desiredstate() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->desiredstate());
+  }
+
+  // uint32 claimedBy = 8 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->claimedby());
+  }
+
+  // bool startChannel = 90 [(.nanopb) = {
+  if (this->startchannel() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -537,8 +603,8 @@ void Block::MergeFrom(const Block& from) {
   if (from.hwdevice() != 0) {
     set_hwdevice(from.hwdevice());
   }
-  if (from.startchannel() != 0) {
-    set_startchannel(from.startchannel());
+  if (from.channel() != 0) {
+    set_channel(from.channel());
   }
   if (from.state() != 0) {
     set_state(from.state());
@@ -548,6 +614,12 @@ void Block::MergeFrom(const Block& from) {
   }
   if (from.desiredstate() != 0) {
     set_desiredstate(from.desiredstate());
+  }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
+  }
+  if (from.startchannel() != 0) {
+    set_startchannel(from.startchannel());
   }
 }
 
@@ -577,10 +649,12 @@ void Block::InternalSwap(Block* other) {
   using std::swap;
   swap(constrainedby_, other->constrainedby_);
   swap(hwdevice_, other->hwdevice_);
-  swap(startchannel_, other->startchannel_);
+  swap(channel_, other->channel_);
   swap(state_, other->state_);
   swap(valvestate_, other->valvestate_);
   swap(desiredstate_, other->desiredstate_);
+  swap(claimedby_, other->claimedby_);
+  swap(startchannel_, other->startchannel_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

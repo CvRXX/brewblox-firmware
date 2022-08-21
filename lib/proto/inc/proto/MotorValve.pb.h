@@ -36,33 +36,35 @@ typedef enum _blox_MotorValve_ValveState {
 /* Struct definitions */
 typedef struct _blox_MotorValve_Block {
     uint16_t hwDevice;
-    uint8_t startChannel;
+    uint8_t channel;
     blox_IoArray_DigitalState state;
     blox_Constraints_DigitalConstraints constrainedBy;
     blox_MotorValve_ValveState valveState;
     blox_IoArray_DigitalState desiredState;
+    uint16_t claimedBy;
 /* @@protoc_insertion_point(struct:blox_MotorValve_Block) */
 } blox_MotorValve_Block;
 
 /* Default values for struct fields */
 
 /* Initializer values for message structs */
-#define blox_MotorValve_Block_init_default       {0, 0, _blox_IoArray_DigitalState_MIN, blox_Constraints_DigitalConstraints_init_default, _blox_MotorValve_ValveState_MIN, _blox_IoArray_DigitalState_MIN}
-#define blox_MotorValve_Block_init_zero          {0, 0, _blox_IoArray_DigitalState_MIN, blox_Constraints_DigitalConstraints_init_zero, _blox_MotorValve_ValveState_MIN, _blox_IoArray_DigitalState_MIN}
+#define blox_MotorValve_Block_init_default       {0, 0, _blox_IoArray_DigitalState_MIN, blox_Constraints_DigitalConstraints_init_default, _blox_MotorValve_ValveState_MIN, _blox_IoArray_DigitalState_MIN, 0}
+#define blox_MotorValve_Block_init_zero          {0, 0, _blox_IoArray_DigitalState_MIN, blox_Constraints_DigitalConstraints_init_zero, _blox_MotorValve_ValveState_MIN, _blox_IoArray_DigitalState_MIN, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_MotorValve_Block_hwDevice_tag       1
-#define blox_MotorValve_Block_startChannel_tag   2
+#define blox_MotorValve_Block_channel_tag        2
 #define blox_MotorValve_Block_state_tag          3
 #define blox_MotorValve_Block_constrainedBy_tag  5
 #define blox_MotorValve_Block_valveState_tag     6
 #define blox_MotorValve_Block_desiredState_tag   7
+#define blox_MotorValve_Block_claimedBy_tag      8
 
 /* Struct field encoding specification for nanopb */
-extern const pb_field_t blox_MotorValve_Block_fields[7];
+extern const pb_field_t blox_MotorValve_Block_fields[8];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_MotorValve_Block_size               237
+#define blox_MotorValve_Block_size               243
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

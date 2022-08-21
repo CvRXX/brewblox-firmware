@@ -9,7 +9,7 @@
 
 
 
-const pb_field_t blox_ActuatorAnalogMock_Block_fields[9] = {
+const pb_field_t blox_ActuatorAnalogMock_Block_fields[10] = {
     PB_FIELD(  1, SINT32  , SINGULAR, STATIC  , FIRST, blox_ActuatorAnalogMock_Block, setting, setting, 0),
     PB_FIELD(  2, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, value, setting, 0),
     PB_FIELD(  4, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, minSetting, value, 0),
@@ -18,6 +18,7 @@ const pb_field_t blox_ActuatorAnalogMock_Block_fields[9] = {
     PB_FIELD(  7, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, maxValue, minValue, 0),
     PB_FIELD(  8, MESSAGE , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, constrainedBy, maxValue, &blox_Constraints_AnalogConstraints_fields),
     PB_FIELD(  9, SINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, desiredSetting, constrainedBy, 0),
+    PB_FIELD( 10, UINT32  , SINGULAR, STATIC  , OTHER, blox_ActuatorAnalogMock_Block, claimedBy, desiredSetting, 0),
     PB_LAST_FIELD
 };
 

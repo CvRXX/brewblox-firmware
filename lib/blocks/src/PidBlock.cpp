@@ -39,13 +39,13 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     message.outputId = output.getId();
 
     if (auto ptr = input.lock()) {
-        if (ptr->valueValid()) {
-            message.inputValue = cnl::unwrap(ptr->value());
+        if (auto val = ptr->value()) {
+            message.inputValue = cnl::unwrap(*val);
         } else {
             excluded.push_back(blox_Pid_Block_inputValue_tag);
         }
-        if (ptr->settingValid()) {
-            message.inputSetting = cnl::unwrap(ptr->setting());
+        if (auto val = ptr->setting()) {
+            message.inputSetting = cnl::unwrap(*val);
         } else {
             excluded.push_back(blox_Pid_Block_inputSetting_tag);
         }
@@ -55,13 +55,13 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     }
 
     if (auto ptr = output.lock()) {
-        if (ptr->valueValid()) {
-            message.outputValue = cnl::unwrap(ptr->value());
+        if (auto val = ptr->value()) {
+            message.outputValue = cnl::unwrap(*val);
         } else {
             excluded.push_back(blox_Pid_Block_outputValue_tag);
         }
-        if (ptr->settingValid()) {
-            message.outputSetting = cnl::unwrap(ptr->setting());
+        if (auto val = ptr->setting()) {
+            message.outputSetting = cnl::unwrap(*val);
         } else {
             excluded.push_back(blox_Pid_Block_outputSetting_tag);
         }
@@ -69,9 +69,6 @@ cbox::CboxError PidBlock::read(const cbox::PayloadCallback& callback) const
     } else {
         excluded.push_back(blox_Pid_Block_outputSetting_tag);
         excluded.push_back(blox_Pid_Block_outputValue_tag);
-    }
-    if (pid.active()) {
-        message.drivenOutputId = message.outputId;
     }
 
     message.enabled = pid.enabler.get();
@@ -134,7 +131,7 @@ cbox::CboxError PidBlock::write(const cbox::Payload& payload)
             input.setId(message.inputId);
         }
         if (parser.hasField(blox_Pid_Block_outputId_tag)) {
-            output.setId(message.outputId);
+            output.setId(message.outputId, objectId());
         }
         if (parser.hasField(blox_Pid_Block_kp_tag)) {
             pid.kp(cnl::wrap<Pid::in_t>(message.kp));
@@ -171,7 +168,7 @@ PidBlock::loadFromCache()
 }
 
 cbox::update_t
-PidBlock::updateHandler(const cbox::update_t& now)
+PidBlock::updateHandler(cbox::update_t now)
 {
     bool doUpdate = false;
     auto nextUpdate = m_intervalHelper.update(now, doUpdate);
@@ -181,11 +178,10 @@ PidBlock::updateHandler(const cbox::update_t& now)
         auto pidActive = pid.active();
         if (previousActive != pidActive) {
             // When the pid changes whether it is active
-            // ensure that the output object setting in EEPROM is zero
+            // ensure that the output, that has been set to invalid, is stored
             // to prevent loading older EEPROM data for it on reboot
             // in which the output is still active
             if (auto ptr = output.lock()) {
-                ptr->setting(0);
                 output.store();
                 previousActive = pidActive;
             }

@@ -198,11 +198,11 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 hwdevice() const;
   void set_hwdevice(::google::protobuf::uint32 value);
 
-  // uint32 startChannel = 2 [(.nanopb) = {
-  void clear_startchannel();
-  static const int kStartChannelFieldNumber = 2;
-  ::google::protobuf::uint32 startchannel() const;
-  void set_startchannel(::google::protobuf::uint32 value);
+  // uint32 channel = 2 [(.nanopb) = {
+  void clear_channel();
+  static const int kChannelFieldNumber = 2;
+  ::google::protobuf::uint32 channel() const;
+  void set_channel(::google::protobuf::uint32 value);
 
   // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
   void clear_state();
@@ -222,16 +222,30 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::blox_test::IoArray::DigitalState desiredstate() const;
   void set_desiredstate(::blox_test::IoArray::DigitalState value);
 
+  // uint32 claimedBy = 8 [(.nanopb) = {
+  void clear_claimedby();
+  static const int kClaimedByFieldNumber = 8;
+  ::google::protobuf::uint32 claimedby() const;
+  void set_claimedby(::google::protobuf::uint32 value);
+
+  // bool startChannel = 90 [(.nanopb) = {
+  void clear_startchannel();
+  static const int kStartChannelFieldNumber = 90;
+  bool startchannel() const;
+  void set_startchannel(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.MotorValve.Block)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::blox_test::Constraints::DigitalConstraints* constrainedby_;
   ::google::protobuf::uint32 hwdevice_;
-  ::google::protobuf::uint32 startchannel_;
+  ::google::protobuf::uint32 channel_;
   int state_;
   int valvestate_;
   int desiredstate_;
+  ::google::protobuf::uint32 claimedby_;
+  bool startchannel_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_MotorValve_5ftest_2eproto::TableStruct;
 };
@@ -260,18 +274,18 @@ inline void Block::set_hwdevice(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.hwDevice)
 }
 
-// uint32 startChannel = 2 [(.nanopb) = {
-inline void Block::clear_startchannel() {
-  startchannel_ = 0u;
+// uint32 channel = 2 [(.nanopb) = {
+inline void Block::clear_channel() {
+  channel_ = 0u;
 }
-inline ::google::protobuf::uint32 Block::startchannel() const {
-  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.startChannel)
-  return startchannel_;
+inline ::google::protobuf::uint32 Block::channel() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.channel)
+  return channel_;
 }
-inline void Block::set_startchannel(::google::protobuf::uint32 value) {
+inline void Block::set_channel(::google::protobuf::uint32 value) {
   
-  startchannel_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.startChannel)
+  channel_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.channel)
 }
 
 // .blox_test.IoArray.DigitalState state = 3 [(.brewblox.field) = {
@@ -362,6 +376,34 @@ inline void Block::set_desiredstate(::blox_test::IoArray::DigitalState value) {
   
   desiredstate_ = value;
   // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.desiredState)
+}
+
+// uint32 claimedBy = 8 [(.nanopb) = {
+inline void Block::clear_claimedby() {
+  claimedby_ = 0u;
+}
+inline ::google::protobuf::uint32 Block::claimedby() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.claimedBy)
+  return claimedby_;
+}
+inline void Block::set_claimedby(::google::protobuf::uint32 value) {
+  
+  claimedby_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.claimedBy)
+}
+
+// bool startChannel = 90 [(.nanopb) = {
+inline void Block::clear_startchannel() {
+  startchannel_ = false;
+}
+inline bool Block::startchannel() const {
+  // @@protoc_insertion_point(field_get:blox_test.MotorValve.Block.startChannel)
+  return startchannel_;
+}
+inline void Block::set_startchannel(bool value) {
+  
+  startchannel_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.MotorValve.Block.startChannel)
 }
 
 #ifdef __GNUC__

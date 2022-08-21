@@ -82,14 +82,12 @@ public:
         return m_setting;
     }
 
-    temp_t value() const final
+    std::optional<temp_t> value() const final
     {
-        return m_setting + m_fluctuationsSum;
-    }
-
-    bool valid() const final
-    {
-        return m_connected;
+        if (m_connected) {
+            return m_setting + m_fluctuationsSum;
+        }
+        return std::nullopt;
     }
 
     void add(temp_t delta)

@@ -32,10 +32,9 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
     auto referenceSensor = TestControlPtr<TempSensor>(referenceSensorMock);
 
     auto target = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(targetSensor));
-    target.ptr->settingValid(true);
-
+    target.ptr->setting(20);
     auto reference = TestControlPtr<SetpointSensorPair>(new SetpointSensorPair(referenceSensor));
-    reference.ptr->settingValid(true);
+    reference.ptr->setting(20);
 
     auto act = std::make_shared<ActuatorOffset>(target, reference);
 
@@ -102,31 +101,25 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         referenceSensorMock.ptr->connected(false);
         act->setting(12.0);
 
+        REQUIRE(target.ptr->setting().has_value());
         CHECK(target.ptr->setting() == 32.0);
-        CHECK(act->settingValid() == true);
-        CHECK(act->valueValid() == true);
         CHECK(act->value() == 0);
         CHECK(act->setting() == 12.0);
-        CHECK(target.ptr->settingValid() == true);
 
         AND_WHEN("The reference setting becomes invalid")
         {
-            reference.ptr->settingValid(false);
+            reference.ptr->setting(std::nullopt);
             act->update();
             THEN("The target setting is set to invalid once, but not on subsequent updates")
             {
-                CHECK(target.ptr->settingValid() == false);
+                CHECK(target.ptr->setting().has_value() == false);
 
-                target.ptr->settingValid(true);
                 target.ptr->setting(33);
                 act->update();
-                CHECK(target.ptr->settingValid() == true);
                 CHECK(target.ptr->setting() == 33);
 
-                target.ptr->settingValid(true);
                 target.ptr->setting(31);
                 act->update();
-                CHECK(target.ptr->settingValid() == true);
                 CHECK(target.ptr->setting() == 31);
             }
         }
@@ -135,26 +128,22 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
     WHEN(
         "the reference setting is used but invalid"
         "but the reference sensor is valid, then "
-        "target setpoint will be set to invalid, and actuator value is invalid and 0")
+        "target setpoint will be set to invalid, and actuator value is invalid")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::SETTING);
         referenceSensorMock.ptr->connected(true);
-        reference.ptr->settingValid(false);
+        reference.ptr->setting(std::nullopt);
         act->setting(12.0);
 
-        CHECK(target.ptr->setting() == 20.0); // unchanged
-        CHECK(act->valueValid() == false);
-        CHECK(act->settingValid() == false);
-
-        CHECK(act->value() == 0);
-        CHECK(act->setting() == 12.0); // setting() still returns requested offset
-        CHECK(target.ptr->settingValid() == false);
+        CHECK(act->value().has_value() == false);
+        CHECK(act->setting().has_value() == true);
+        CHECK(target.ptr->setting().has_value() == false);
     }
 
     WHEN(
         "the reference value is used but invalid, "
         "but the reference setpoint is valid, then "
-        "target setpoint will be invalid and actuator value is 0")
+        "target setpoint will be invalid and offset actuator value is invalid")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::VALUE);
         target.ptr->setting(20);
@@ -162,14 +151,12 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
         for (int i = 0; i <= 10; i++) {
             reference.ptr->update(); // will only switch to invalid after 10s disconnected
         }
+        CHECK(reference.ptr->value().has_value() == false);
         act->setting(12.0);
 
-        CHECK(target.ptr->setting() == 20.0); // unchanged
-        CHECK(act->valueValid() == false);
-        CHECK(act->settingValid() == false);
-        CHECK(act->value() == 0);
-        CHECK(act->setting() == 12.0); // setting() still returns requested offset
-        CHECK(target.ptr->settingValid() == false);
+        CHECK(act->value().has_value() == false);
+        CHECK(act->setting().has_value() == true);
+        CHECK(target.ptr->setting().has_value() == false);
     }
 
     WHEN(
@@ -179,63 +166,60 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
     {
         act->selectedReference(ActuatorOffset::ReferenceKind::VALUE);
         referenceSensorMock.ptr->connected(true);
-        reference.ptr->settingValid(false);
+        reference.ptr->setting(std::nullopt);
         act->setting(12.0);
 
-        CHECK(target.ptr->setting() == 31.0);
-        CHECK(act->valueValid() == true);
-        CHECK(act->settingValid() == true);
-        CHECK(act->value() == 1.0); // ref sensor value is 19, target sensor is 20
-        CHECK(act->setting() == 12.0);
-        CHECK(target.ptr->settingValid() == true);
+        CHECK(target.ptr->setting().value() == 31.0);
+        CHECK(act->value().value() == 1.0); // ref sensor value is 19, target sensor is 20
+        CHECK(act->setting().value() == 12.0);
     }
 
     WHEN("The offset actuator is disabled")
     {
         act->setting(10.0);
-        CHECK(reference.ptr->setting() == 20.0);
-        CHECK(target.ptr->setting() == 30.0);
+        CHECK(reference.ptr->setting().value() == 20.0);
+        CHECK(target.ptr->setting().value() == 30.0);
         act->update();
         CHECK(act->setting() == 10.0); // difference between setpoints is 10
 
-        act->enabled(false);
+        act->enabler.set(false);
         act->update();
-
-        THEN("This action doesn't change the target")
-        {
-            CHECK(target.ptr->setting() == 30.0);
-            CHECK(act->setting() == 10.0); // difference between setpoints is 10
-        }
 
         THEN("The actuator setting is invalid")
         {
-            CHECK(act->settingValid() == false);
+            CHECK(act->setting().has_value() == false);
         }
 
-        THEN("Changing the setting of the actuator doesn't affect the target")
+        THEN("This action sets the targets setting to invalid once, and thus also the offset actuator value")
         {
-            act->setting(50);
-            act->update();
-            CHECK(target.ptr->setting() == 30.0); // still 20
-            AND_THEN("the target can be changed externally")
+            CHECK(target.ptr->setting().has_value() == false);
+            CHECK(act->value().value() == 0);
+
+            AND_THEN("Changing the setting of the actuator afterwards doesn't affect the target")
             {
-                target.ptr->setting(40);
+                target.ptr->setting(30);
                 act->setting(50);
                 act->update();
-                CHECK(target.ptr->setting() == 40.0);
-            }
-
-            AND_WHEN("the offset actuator is enabled again")
-            {
-                target.ptr->setting(40);
-                act->enabled(true);
-                act->update();
-                THEN("The actuator setting affects the target again")
+                CHECK(target.ptr->setting().value() == 30.0); // still 30
+                AND_THEN("the target can be changed externally")
                 {
+                    target.ptr->setting(40);
                     act->setting(50);
                     act->update();
-                    CHECK(target.ptr->settingValid() == true);
-                    CHECK(target.ptr->setting() == 70.0);
+                    CHECK(target.ptr->setting().value() == 40.0);
+                }
+
+                AND_WHEN("the offset actuator is enabled again")
+                {
+                    target.ptr->setting(40);
+                    act->enabler.set(true);
+                    act->update();
+                    THEN("The actuator setting affects the target again")
+                    {
+                        act->setting(50);
+                        act->update();
+                        CHECK(target.ptr->setting().value() == 70.0);
+                    }
                 }
             }
         }

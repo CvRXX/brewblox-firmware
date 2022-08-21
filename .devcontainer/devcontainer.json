@@ -4,6 +4,7 @@
   "name": "Firmware",
   "build": {
     "dockerfile": "Dockerfile",
+    "cacheFrom": "brewblox/firmware-devcontainer:focal",
     "args": {
       "USERNAME": "vscode"
     }

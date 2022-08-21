@@ -2,14 +2,15 @@
 
 #include "blocks/Block.hpp"
 #include "blocks/DigitalActuatorBlock.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "cbox/CboxClaimingPtr.hpp"
 #include "control/ActuatorAnalogConstrained.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/ActuatorPwm.hpp"
 
 class ActuatorPwmBlock final : public Block<brewblox_BlockType_ActuatorPwm> {
 private:
-    cbox::CboxPtr<ActuatorDigitalConstrained> actuator;
+    cbox::Claimable claim;
+    cbox::CboxClaimingPtr<ActuatorDigitalConstrained> actuator;
     ActuatorPwm pwm;
     ActuatorAnalogConstrained constrained;
 
@@ -26,7 +27,7 @@ public:
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
-    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    cbox::update_t updateHandler(cbox::update_t now) override;
     void* implements(cbox::obj_type_t iface) override;
 
     const auto& targetLookup() const

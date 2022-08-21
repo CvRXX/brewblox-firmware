@@ -20,7 +20,6 @@ typedef struct _blox_SetpointProfile_Block {
     pb_callback_t points;
     bool enabled;
     uint16_t targetId;
-    uint16_t drivenTargetId;
     uint32_t start;
 /* @@protoc_insertion_point(struct:blox_SetpointProfile_Block) */
 } blox_SetpointProfile_Block;
@@ -38,22 +37,21 @@ typedef struct _blox_SetpointProfile_Point {
 
 /* Initializer values for message structs */
 #define blox_SetpointProfile_Point_init_default  {0, 0, {0}}
-#define blox_SetpointProfile_Block_init_default  {{{NULL}, NULL}, 0, 0, 0, 0}
+#define blox_SetpointProfile_Block_init_default  {{{NULL}, NULL}, 0, 0, 0}
 #define blox_SetpointProfile_Point_init_zero     {0, 0, {0}}
-#define blox_SetpointProfile_Block_init_zero     {{{NULL}, NULL}, 0, 0, 0, 0}
+#define blox_SetpointProfile_Block_init_zero     {{{NULL}, NULL}, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define blox_SetpointProfile_Block_points_tag    1
 #define blox_SetpointProfile_Block_enabled_tag   3
 #define blox_SetpointProfile_Block_targetId_tag  4
-#define blox_SetpointProfile_Block_drivenTargetId_tag 5
 #define blox_SetpointProfile_Block_start_tag     6
 #define blox_SetpointProfile_Point_temperature_tag 2
 #define blox_SetpointProfile_Point_time_tag      1
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t blox_SetpointProfile_Point_fields[3];
-extern const pb_field_t blox_SetpointProfile_Block_fields[6];
+extern const pb_field_t blox_SetpointProfile_Block_fields[5];
 
 /* Maximum encoded size of messages (where known) */
 #define blox_SetpointProfile_Point_size          17

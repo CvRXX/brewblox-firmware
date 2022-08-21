@@ -1,7 +1,8 @@
 ## -*- Makefile -*-
 ROOT_DIR = $(shell git rev-parse --show-toplevel)
 
-# include ../checkers.mk # sanitizer and gcov
+include ../coverage.mk
+# include ../sanitize.mk
 
 # lib/blocks
 INCLUDE_DIRS += $(ROOT_DIR)/lib/blocks/inc
@@ -40,7 +41,6 @@ CPPSRC += platform/particle/spark/src/Board.cpp
 CPPSRC += platform/particle/spark/src/Brewblox.cpp
 CPPSRC += platform/particle/spark/src/Spark2PinsBlock.cpp
 CPPSRC += platform/particle/spark/src/Spark3PinsBlock.cpp
-CPPSRC += platform/particle/spark/src/SparkIoBase.cpp
 CPPSRC += platform/particle/spark/src/ConnectionPool.cpp
 
 # device-os nanopb
@@ -85,6 +85,7 @@ CPPSRC += $(ROOT_DIR)/test/blocks/AutoDiscover_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/BalancerAndMutexBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/DigitalActuatorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/DisplaySettingsBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/FastPwmBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireBusBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/OneWireTempSensorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/PidBlock_test.cpp

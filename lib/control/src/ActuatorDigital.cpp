@@ -19,23 +19,20 @@
  */
 
 #include "control/ActuatorDigital.hpp"
-#include "control/ActuatorDigitalBase.hpp"
-#include "control/IoArray.hpp"
-#include <functional>
-#include <memory>
 
 using State = ActuatorDigitalBase::State;
 
-void ActuatorDigital::state(const State& v)
+void ActuatorDigital::state(State v)
 {
     if (channelReady()) {
         if (auto devPtr = m_target.lock()) {
-            auto newState = v;
-            if (m_invert) {
-                newState = invertState(v);
+            if (v != State::Active) {
+                v = State::Inactive;
             }
-            IoArray::ChannelConfig config = newState == State::Active ? IoArray::ChannelConfig::DRIVING_ON : IoArray::ChannelConfig::DRIVING_OFF;
-            devPtr->writeChannelConfig(m_channel, config);
+            if (m_invert) {
+                v = invertState(v);
+            }
+            devPtr->writeChannel(m_channel, IoValue::Digital{v});
         }
     }
 }
@@ -45,7 +42,9 @@ State ActuatorDigital::state() const
     if (channelReady()) {
         if (auto devPtr = m_target.lock()) {
             State result = State::Unknown;
-            if (devPtr->senseChannel(m_channel, result)) {
+            auto val = devPtr->readChannel(m_channel);
+            if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+                result = v->state();
                 if (m_invert) {
                     result = invertState(result);
                 }
@@ -61,25 +60,18 @@ void ActuatorDigital::claimChannel()
 {
     if (auto devPtr = m_target.lock()) {
         if (m_channel != 0) {
-            if (!devPtr->releaseChannel(m_channel)) {
-                return;
-            }
+            // release old channel
+            devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
         }
 
         if (m_desiredChannel == 0) {
             m_channel = 0;
             return;
         }
-        if (devPtr->claimChannel(m_desiredChannel, IoArray::ChannelConfig::DRIVING_OFF)) {
+        // claim new channel
+        auto result = devPtr->setupChannel(m_desiredChannel, IoValue::Setup::OutputDigital{});
+        if (std::holds_alternative<IoValue::Setup::OutputDigital>(result)) {
             m_channel = m_desiredChannel;
         }
     }
-}
-
-bool ActuatorDigital::supportsFastIo() const
-{
-    if (auto devPtr = m_target.lock()) {
-        return devPtr->supportsFastIo();
-    }
-    return false;
 }

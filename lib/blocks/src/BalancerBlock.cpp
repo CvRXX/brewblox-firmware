@@ -58,7 +58,7 @@ BalancerBlock::write(const cbox::Payload&)
     return cbox::CboxError::OK;
 }
 
-cbox::update_t BalancerBlock::updateHandler(const cbox::update_t& now)
+cbox::update_t BalancerBlock::updateHandler(cbox::update_t now)
 {
     balancer.update();
     return now + 1000;

@@ -20,23 +20,44 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "spark/SparkIoBase.hpp"
+#include "control/IoArray.hpp"
+#include "control/TimerInterrupts.hpp"
 
 namespace platform::particle {
 
-class Spark2PinsBlock final : public SparkIoBase, public Block<brewblox_BlockType_Spark2Pins> {
-private:
-    static const uint8_t numPins = 4;
-    pin_t channelToPin(uint8_t channel) const override;
-
+class Spark2PinsBlock final : public IoArray, public Block<brewblox_BlockType_Spark2Pins> {
 public:
-    Spark2PinsBlock();
+    Spark2PinsBlock()
+        : IoArray(4)
+    {
+#if PLATFORM_ID != 3
+        if (!myInterrupt) {
+            myInterrupt = TimerInterrupts::add(timerTask);
+        }
+#endif
+    }
     ~Spark2PinsBlock() = default;
 
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
     void* implements(cbox::obj_type_t iface) override;
+
+    static void timerTask();
+
+    // generic ArrayIO interface
+    IoValue::variant readChannelImpl(uint8_t channel) const override;
+    IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) override;
+    IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup) override;
+
+    IoArray::ChannelCapabilities getChannelCapabilities(uint8_t /*channel*/) const override
+    {
+        return ChannelCapabilities{.flags{
+            .digitalOutput = 1,
+            .pwm100Hz = 1,
+        }};
+    }
+    static int16_t myInterrupt;
 };
 
 } // end namespace platform::particle

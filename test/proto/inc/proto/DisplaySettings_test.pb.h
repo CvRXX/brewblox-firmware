@@ -29,7 +29,6 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "brewblox_test.pb.h"
 #include "nanopb_test.pb.h"
@@ -67,27 +66,6 @@ template<> ::blox_test::DisplaySettings::Widget* Arena::CreateMaybeMessage<::blo
 namespace blox_test {
 namespace DisplaySettings {
 
-enum TemperatureUnit {
-  TEMP_CELSIUS = 0,
-  TEMP_FAHRENHEIT = 1,
-  TemperatureUnit_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  TemperatureUnit_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool TemperatureUnit_IsValid(int value);
-const TemperatureUnit TemperatureUnit_MIN = TEMP_CELSIUS;
-const TemperatureUnit TemperatureUnit_MAX = TEMP_FAHRENHEIT;
-const int TemperatureUnit_ARRAYSIZE = TemperatureUnit_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* TemperatureUnit_descriptor();
-inline const ::std::string& TemperatureUnit_Name(TemperatureUnit value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    TemperatureUnit_descriptor(), value);
-}
-inline bool TemperatureUnit_Parse(
-    const ::std::string& name, TemperatureUnit* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<TemperatureUnit>(
-    TemperatureUnit_descriptor(), name, value);
-}
 // ===================================================================
 
 class Widget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:blox_test.DisplaySettings.Widget) */ {
@@ -398,31 +376,23 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // string timeZone = 5 [(.nanopb) = {
-  void clear_timezone();
-  static const int kTimeZoneFieldNumber = 5;
-  const ::std::string& timezone() const;
-  void set_timezone(const ::std::string& value);
-  #if LANG_CXX11
-  void set_timezone(::std::string&& value);
-  #endif
-  void set_timezone(const char* value);
-  void set_timezone(const char* value, size_t size);
-  ::std::string* mutable_timezone();
-  ::std::string* release_timezone();
-  void set_allocated_timezone(::std::string* timezone);
-
-  // .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-  void clear_tempunit();
-  static const int kTempUnitFieldNumber = 3;
-  ::blox_test::DisplaySettings::TemperatureUnit tempunit() const;
-  void set_tempunit(::blox_test::DisplaySettings::TemperatureUnit value);
-
-  // uint32 brightness = 4 [(.nanopb) = {
+  // bool brightness = 90 [(.nanopb) = {
   void clear_brightness();
-  static const int kBrightnessFieldNumber = 4;
-  ::google::protobuf::uint32 brightness() const;
-  void set_brightness(::google::protobuf::uint32 value);
+  static const int kBrightnessFieldNumber = 90;
+  bool brightness() const;
+  void set_brightness(bool value);
+
+  // bool timeZone = 91 [(.nanopb) = {
+  void clear_timezone();
+  static const int kTimeZoneFieldNumber = 91;
+  bool timezone() const;
+  void set_timezone(bool value);
+
+  // bool tempUnit = 92 [(.nanopb) = {
+  void clear_tempunit();
+  static const int kTempUnitFieldNumber = 92;
+  bool tempunit() const;
+  void set_tempunit(bool value);
 
   // @@protoc_insertion_point(class_scope:blox_test.DisplaySettings.Block)
  private:
@@ -430,9 +400,9 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::blox_test::DisplaySettings::Widget > widgets_;
   ::google::protobuf::internal::ArenaStringPtr name_;
-  ::google::protobuf::internal::ArenaStringPtr timezone_;
-  int tempunit_;
-  ::google::protobuf::uint32 brightness_;
+  bool brightness_;
+  bool timezone_;
+  bool tempunit_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_DisplaySettings_5ftest_2eproto::TableStruct;
 };
@@ -779,85 +749,46 @@ inline void Block::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Block.name)
 }
 
-// .blox_test.DisplaySettings.TemperatureUnit tempUnit = 3;
-inline void Block::clear_tempunit() {
-  tempunit_ = 0;
-}
-inline ::blox_test::DisplaySettings::TemperatureUnit Block::tempunit() const {
-  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.tempUnit)
-  return static_cast< ::blox_test::DisplaySettings::TemperatureUnit >(tempunit_);
-}
-inline void Block::set_tempunit(::blox_test::DisplaySettings::TemperatureUnit value) {
-  
-  tempunit_ = value;
-  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.tempUnit)
-}
-
-// uint32 brightness = 4 [(.nanopb) = {
+// bool brightness = 90 [(.nanopb) = {
 inline void Block::clear_brightness() {
-  brightness_ = 0u;
+  brightness_ = false;
 }
-inline ::google::protobuf::uint32 Block::brightness() const {
+inline bool Block::brightness() const {
   // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.brightness)
   return brightness_;
 }
-inline void Block::set_brightness(::google::protobuf::uint32 value) {
+inline void Block::set_brightness(bool value) {
   
   brightness_ = value;
   // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.brightness)
 }
 
-// string timeZone = 5 [(.nanopb) = {
+// bool timeZone = 91 [(.nanopb) = {
 inline void Block::clear_timezone() {
-  timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timezone_ = false;
 }
-inline const ::std::string& Block::timezone() const {
+inline bool Block::timezone() const {
   // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.timeZone)
-  return timezone_.GetNoArena();
+  return timezone_;
 }
-inline void Block::set_timezone(const ::std::string& value) {
+inline void Block::set_timezone(bool value) {
   
-  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  timezone_ = value;
   // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.timeZone)
 }
-#if LANG_CXX11
-inline void Block::set_timezone(::std::string&& value) {
-  
-  timezone_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:blox_test.DisplaySettings.Block.timeZone)
+
+// bool tempUnit = 92 [(.nanopb) = {
+inline void Block::clear_tempunit() {
+  tempunit_ = false;
 }
-#endif
-inline void Block::set_timezone(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:blox_test.DisplaySettings.Block.timeZone)
+inline bool Block::tempunit() const {
+  // @@protoc_insertion_point(field_get:blox_test.DisplaySettings.Block.tempUnit)
+  return tempunit_;
 }
-inline void Block::set_timezone(const char* value, size_t size) {
+inline void Block::set_tempunit(bool value) {
   
-  timezone_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:blox_test.DisplaySettings.Block.timeZone)
-}
-inline ::std::string* Block::mutable_timezone() {
-  
-  // @@protoc_insertion_point(field_mutable:blox_test.DisplaySettings.Block.timeZone)
-  return timezone_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* Block::release_timezone() {
-  // @@protoc_insertion_point(field_release:blox_test.DisplaySettings.Block.timeZone)
-  
-  return timezone_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void Block::set_allocated_timezone(::std::string* timezone) {
-  if (timezone != NULL) {
-    
-  } else {
-    
-  }
-  timezone_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), timezone);
-  // @@protoc_insertion_point(field_set_allocated:blox_test.DisplaySettings.Block.timeZone)
+  tempunit_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.DisplaySettings.Block.tempUnit)
 }
 
 #ifdef __GNUC__
@@ -870,18 +801,6 @@ inline void Block::set_allocated_timezone(::std::string* timezone) {
 
 }  // namespace DisplaySettings
 }  // namespace blox_test
-
-namespace google {
-namespace protobuf {
-
-template <> struct is_proto_enum< ::blox_test::DisplaySettings::TemperatureUnit> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::blox_test::DisplaySettings::TemperatureUnit>() {
-  return ::blox_test::DisplaySettings::TemperatureUnit_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

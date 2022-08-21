@@ -53,7 +53,7 @@ typedef struct _blox_MockPins_Block {
 extern const pb_field_t blox_MockPins_Block_fields[2];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_MockPins_Block_size                 64
+#define blox_MockPins_Block_size                 160
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

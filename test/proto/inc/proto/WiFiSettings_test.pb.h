@@ -247,6 +247,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::int32 signal() const;
   void set_signal(::google::protobuf::int32 value);
 
+  // bool ip = 90 [(.nanopb) = {
+  void clear_ip();
+  static const int kIpFieldNumber = 90;
+  bool ip() const;
+  void set_ip(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.WiFiSettings.Block)
  private:
 
@@ -256,6 +262,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   int security_;
   int cipher_;
   ::google::protobuf::int32 signal_;
+  bool ip_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_WiFiSettings_5ftest_2eproto::TableStruct;
 };
@@ -416,6 +423,20 @@ inline void Block::set_signal(::google::protobuf::int32 value) {
   
   signal_ = value;
   // @@protoc_insertion_point(field_set:blox_test.WiFiSettings.Block.signal)
+}
+
+// bool ip = 90 [(.nanopb) = {
+inline void Block::clear_ip() {
+  ip_ = false;
+}
+inline bool Block::ip() const {
+  // @@protoc_insertion_point(field_get:blox_test.WiFiSettings.Block.ip)
+  return ip_;
+}
+inline void Block::set_ip(bool value) {
+  
+  ip_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.WiFiSettings.Block.ip)
 }
 
 #ifdef __GNUC__

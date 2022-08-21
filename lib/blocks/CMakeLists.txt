@@ -12,6 +12,7 @@ set(blocks_srcs
   src/DisplaySettingsBlock.cpp
   src/DS2408Block.cpp
   src/DS2413Block.cpp
+  src/FastPwmBlock.cpp
   src/MockPinsBlock.cpp
   src/MotorValveBlock.cpp
   src/MutexBlock.cpp

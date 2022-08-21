@@ -52,7 +52,7 @@ SCENARIO("A Sequence block with basic targets")
 
         setpointMessage.set_sensorid(sensorId);
         setpointMessage.set_storedsetting(cnl::unwrap(temp_t(21)));
-        setpointMessage.set_settingenabled(true);
+        setpointMessage.set_enabled(true);
         setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
         setpointMessage.set_filterthreshold(cnl::unwrap(temp_t(1)));
 
@@ -501,7 +501,7 @@ SCENARIO("A Sequence block with invalid targets")
 
             setpointMessage.set_sensorid(0);
             setpointMessage.set_storedsetting(cnl::unwrap(temp_t(25)));
-            setpointMessage.set_settingenabled(false);
+            setpointMessage.set_enabled(false);
             setpointMessage.set_filter(blox_test::SetpointSensorPair::FilterChoice::FILTER_NONE);
             setpointMessage.set_filterthreshold(cnl::unwrap(temp_t(1)));
 
@@ -938,7 +938,7 @@ SCENARIO("A Sequence with a SetpointProfile target")
 
         message.set_sensorid(sensorId);
         message.set_storedsetting(cnl::unwrap(temp_t(99)));
-        message.set_settingenabled(true);
+        message.set_enabled(true);
 
         messageToPayload(cmd, message);
         CHECK(cbox::createBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);

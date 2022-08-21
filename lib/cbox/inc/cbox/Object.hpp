@@ -79,7 +79,7 @@ protected:
      * @param now: current time in milliseconds
      * @return next update time, 24.8 days in the future
      */
-    static inline update_t next_update_never(const update_t& now)
+    static inline update_t next_update_never(update_t now)
     {
         return now + MAX_UPDATE_INTERVAL;
     }
@@ -89,7 +89,7 @@ protected:
      * @param now: current time in milliseconds
      * @return next update time, 24.8 days in the future
      */
-    inline update_t next_update_1s(const update_t& now)
+    inline update_t next_update_1s(update_t now)
     {
         return now + 1000;
     }
@@ -118,7 +118,10 @@ public:
 
     void setObjectId(obj_id_t id)
     {
-        _objectId = id;
+        // objects cannot change their ID once it has been written
+        if (_objectId == 0) {
+            _objectId = id;
+        }
     }
 
     /**
@@ -172,7 +175,7 @@ public:
      * update the object, returns timestamp at which the object wants to be updated again (in ms).
      * The default implementation permanently skips updates.
      */
-    [[nodiscard]] virtual update_t updateHandler(const update_t& now)
+    [[nodiscard]] virtual update_t updateHandler(update_t now)
     {
         return next_update_never(now);
     }

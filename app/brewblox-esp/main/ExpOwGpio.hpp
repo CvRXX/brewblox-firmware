@@ -155,9 +155,7 @@ public:
         }
 
         blox_OneWireGpioModule_GpioDeviceType deviceType = blox_OneWireGpioModule_GpioDeviceType_GPIO_DEV_NONE;
-        ChannelConfig config = ChannelConfig::UNUSED;
         uint8_t width;
-        uint8_t pwm_duty = 0;
 
         uint8_t pins() const
         {
@@ -166,22 +164,20 @@ public:
             // return only 1 bit per pin
             return converted.up();
         }
-        void apply(ChannelConfig& config, ChanBitsInternal& op_ctrl);
 
     private:
         ChanBitsInternal pins_mask; // pins controlled by this channel
+        uint8_t desiredDuty = 0;
+        uint8_t appliedDuty = 0;
         friend class ExpOwGpio;
     };
 
-    bool senseChannelImpl(uint8_t channel, State& result) const final;
-    bool writeChannelImpl(uint8_t channel, ChannelConfig config) final;
-    bool supportsFastIo() const final
-    {
-        return false;
-    }
+    virtual IoValue::variant readChannelImpl(uint8_t channel) const final;
+    virtual IoValue::variant writeChannelImpl(uint8_t channel, IoValue::variant val) final;
+    virtual IoValue::Setup::variant setupChannelImpl(uint8_t channel, IoValue::Setup::variant val) final;
 
-    void setupChannel(uint8_t channel, FlexChannel c);
-    const FlexChannel& getChannel(uint8_t channel) const;
+    void setupFlexChannel(uint8_t channel, FlexChannel c);
+    const FlexChannel& getFlexChannel(uint8_t channel) const;
 
     void update(bool forceRefresh = false);
 
@@ -269,6 +265,10 @@ public:
         return externalPower;
     }
 
+    IoArray::ChannelCapabilities getChannelCapabilities(uint8_t channel) const;
+
+    void clearFaults();
+
 private:
     bool assert_cs()
     {
@@ -312,6 +312,20 @@ private:
     ChanBitsInternal ocp_status;
     ChanBitsInternal when_active_mask;   // state when active
     ChanBitsInternal when_inactive_mask; // state when inactive
+    uint16_t pwm_freq_desired = 0;
+    uint16_t pwm_freq_applied = 0;
+    uint8_t pwm_map_1_desired = 0;
+    uint8_t pwm_map_1_applied = 0;
+    uint8_t pwm_map_2_desired = 0;
+    uint8_t pwm_map_2_applied = 0;
+    uint8_t pwm_map_3_desired = 0;
+    uint8_t pwm_map_3_applied = 0;
+    uint8_t pwm_map_4_desired = 0;
+    uint8_t pwm_map_4_applied = 0;
+    uint8_t pwm_ctrl_1_desired = 0;
+    uint8_t pwm_ctrl_1_applied = 0;
+    uint8_t pwm_ctrl_2_desired = 0;
+    uint8_t pwm_ctrl_2_applied = 0;
     bool externalPower = false;
     bool connected = false;
 

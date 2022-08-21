@@ -27,10 +27,25 @@ SCENARIO("SetpointSensorPair test")
 {
     WHEN("A SetpointSensorPair is constructed")
     {
-        auto sensor = TestControlPtr<TempSensor>(new TempSensorMock(21.0));
+        auto mock = std::make_shared<TempSensorMock>(21.0);
+        auto sensor = TestControlPtr<TempSensor>(mock);
         SetpointSensorPair setpoint(sensor);
 
-        CHECK(setpoint.setting() == 20.0);
-        CHECK(setpoint.value() == 21.0);
+        THEN("setting is initialized to invalid and value to arg")
+        {
+            CHECK(setpoint.setting() == std::nullopt);
+            CHECK(setpoint.value() == 21.0);
+        }
+        AND_WHEN("The value becomes invalid, the (filtered) value becomes invalid after 10 updates")
+        {
+            mock->connected(false);
+            for (int i = 0; i <= 20; i++) {
+                setpoint.update(); // will only switch to invalid after 10s disconnected
+                if (!setpoint.value().has_value()) {
+                    CHECK(i == 10);
+                    break;
+                }
+            }
+        }
     }
 }

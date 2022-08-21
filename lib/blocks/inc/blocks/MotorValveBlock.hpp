@@ -20,7 +20,7 @@
 #pragma once
 
 #include "blocks/Block.hpp"
-#include "cbox/CboxPtr.hpp"
+#include "blocks/IoChannelPtr.hpp"
 #include "control/ActuatorDigitalConstrained.hpp"
 #include "control/DS2408.hpp"
 #include "control/MotorValve.hpp"
@@ -28,7 +28,8 @@
 
 class MotorValveBlock final : public Block<brewblox_BlockType_MotorValve> {
 private:
-    cbox::CboxPtr<DS2408> hwDevice;
+    cbox::Claimable claim;
+    IoChannelPtr hwDevice;
     MotorValve valve;
     ActuatorDigitalConstrained constrained;
 
@@ -43,7 +44,7 @@ public:
     cbox::CboxError read(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError readStored(const cbox::PayloadCallback& callback) const override;
     cbox::CboxError write(const cbox::Payload& payload) override;
-    cbox::update_t updateHandler(const cbox::update_t& now) override;
+    cbox::update_t updateHandler(cbox::update_t now) override;
     void* implements(cbox::obj_type_t iface) override;
 
     ActuatorDigitalConstrained& getConstrained()

@@ -64,9 +64,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, setting_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, value_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, constrainedby_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, drivenactuatorid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, enabled_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, desiredsetting_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, claimedby_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::ActuatorPwm::Block, drivenactuatorid_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::ActuatorPwm::Block)},
@@ -99,20 +100,20 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\026ActuatorPwm_test.proto\022\025blox_test.Actu"
       "atorPwm\032\023brewblox_test.proto\032\021nanopb_tes"
-      "t.proto\032\026Constraints_test.proto\"\347\002\n\005Bloc"
+      "t.proto\032\026Constraints_test.proto\"\210\003\n\005Bloc"
       "k\022\037\n\nactuatorId\030\001 \001(\rB\013\212\265\030\002\030\006\222\?\0028\020\022\035\n\006pe"
       "riod\030\003 \001(\rB\r\212\265\030\002\010\003\212\265\030\003\020\350\007\022)\n\007setting\030\004 \001"
       "(\021B\030\212\265\030\0020\001\212\265\030\002(\001\212\265\030\003\020\200 \222\?\0028 \022\'\n\005value\030\005 "
       "\001(\021B\030\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \212\265\030\002(\001\022\?\n\rconstra"
       "inedBy\030\006 \001(\0132(.blox_test.Constraints.Ana"
-      "logConstraints\0221\n\020drivenActuatorId\030\007 \001(\r"
-      "B\027\212\265\030\002\030\006\212\265\030\002@\001\222\?\0028\020\212\265\030\002(\001\022\017\n\007enabled\030\010 \001"
-      "(\010\022*\n\016desiredSetting\030\t \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200"
-      " \222\?\0028 :\031\212\265\030\003\030\263\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017b\006proto"
-      "3"
+      "logConstraints\022\017\n\007enabled\030\010 \001(\010\022*\n\016desir"
+      "edSetting\030\t \001(\021B\022\212\265\030\0020\001\212\265\030\003\020\200 \222\?\0028 \022%\n\tc"
+      "laimedBy\030\n \001(\rB\022\212\265\030\003\030\377\001\212\265\030\002(\001\222\?\0028\020\022%\n\020dr"
+      "ivenActuatorId\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\037\212\265\030\003\030"
+      "\263\002\212\265\030\002H\001\212\265\030\002H\005\212\265\030\002H\017\212\265\030\002H\020b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 481);
+      descriptor, 514);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ActuatorPwm_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -152,9 +153,10 @@ const int Block::kPeriodFieldNumber;
 const int Block::kSettingFieldNumber;
 const int Block::kValueFieldNumber;
 const int Block::kConstrainedByFieldNumber;
-const int Block::kDrivenActuatorIdFieldNumber;
 const int Block::kEnabledFieldNumber;
 const int Block::kDesiredSettingFieldNumber;
+const int Block::kClaimedByFieldNumber;
+const int Block::kDrivenActuatorIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -174,15 +176,15 @@ Block::Block(const Block& from)
     constrainedby_ = NULL;
   }
   ::memcpy(&actuatorid_, &from.actuatorid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&desiredsetting_) -
-    reinterpret_cast<char*>(&actuatorid_)) + sizeof(desiredsetting_));
+    static_cast<size_t>(reinterpret_cast<char*>(&drivenactuatorid_) -
+    reinterpret_cast<char*>(&actuatorid_)) + sizeof(drivenactuatorid_));
   // @@protoc_insertion_point(copy_constructor:blox_test.ActuatorPwm.Block)
 }
 
 void Block::SharedCtor() {
   ::memset(&constrainedby_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredsetting_) -
-      reinterpret_cast<char*>(&constrainedby_)) + sizeof(desiredsetting_));
+      reinterpret_cast<char*>(&drivenactuatorid_) -
+      reinterpret_cast<char*>(&constrainedby_)) + sizeof(drivenactuatorid_));
 }
 
 Block::~Block() {
@@ -219,8 +221,8 @@ void Block::Clear() {
   }
   constrainedby_ = NULL;
   ::memset(&actuatorid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&desiredsetting_) -
-      reinterpret_cast<char*>(&actuatorid_)) + sizeof(desiredsetting_));
+      reinterpret_cast<char*>(&drivenactuatorid_) -
+      reinterpret_cast<char*>(&actuatorid_)) + sizeof(drivenactuatorid_));
   _internal_metadata_.Clear();
 }
 
@@ -230,7 +232,7 @@ bool Block::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:blox_test.ActuatorPwm.Block)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -302,20 +304,6 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 drivenActuatorId = 7 [(.nanopb) = {
-      case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &drivenactuatorid_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
       // bool enabled = 8;
       case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
@@ -338,6 +326,34 @@ bool Block::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
                  input, &desiredsetting_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 claimedBy = 10 [(.nanopb) = {
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &claimedby_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool drivenActuatorId = 90 [(.nanopb) = {
+      case 90: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(208u /* 720 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &drivenactuatorid_)));
         } else {
           goto handle_unusual;
         }
@@ -396,11 +412,6 @@ void Block::SerializeWithCachedSizes(
       6, this->_internal_constrainedby(), output);
   }
 
-  // uint32 drivenActuatorId = 7 [(.nanopb) = {
-  if (this->drivenactuatorid() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->drivenactuatorid(), output);
-  }
-
   // bool enabled = 8;
   if (this->enabled() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->enabled(), output);
@@ -409,6 +420,16 @@ void Block::SerializeWithCachedSizes(
   // sint32 desiredSetting = 9 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(9, this->desiredsetting(), output);
+  }
+
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->claimedby(), output);
+  }
+
+  // bool drivenActuatorId = 90 [(.nanopb) = {
+  if (this->drivenactuatorid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->drivenactuatorid(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -452,11 +473,6 @@ void Block::SerializeWithCachedSizes(
         6, this->_internal_constrainedby(), deterministic, target);
   }
 
-  // uint32 drivenActuatorId = 7 [(.nanopb) = {
-  if (this->drivenactuatorid() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->drivenactuatorid(), target);
-  }
-
   // bool enabled = 8;
   if (this->enabled() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->enabled(), target);
@@ -465,6 +481,16 @@ void Block::SerializeWithCachedSizes(
   // sint32 desiredSetting = 9 [(.nanopb) = {
   if (this->desiredsetting() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(9, this->desiredsetting(), target);
+  }
+
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->claimedby(), target);
+  }
+
+  // bool drivenActuatorId = 90 [(.nanopb) = {
+  if (this->drivenactuatorid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->drivenactuatorid(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -519,11 +545,18 @@ size_t Block::ByteSizeLong() const {
         this->value());
   }
 
-  // uint32 drivenActuatorId = 7 [(.nanopb) = {
-  if (this->drivenactuatorid() != 0) {
+  // sint32 desiredSetting = 9 [(.nanopb) = {
+  if (this->desiredsetting() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::SInt32Size(
+        this->desiredsetting());
+  }
+
+  // uint32 claimedBy = 10 [(.nanopb) = {
+  if (this->claimedby() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->drivenactuatorid());
+        this->claimedby());
   }
 
   // bool enabled = 8;
@@ -531,11 +564,9 @@ size_t Block::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // sint32 desiredSetting = 9 [(.nanopb) = {
-  if (this->desiredsetting() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::SInt32Size(
-        this->desiredsetting());
+  // bool drivenActuatorId = 90 [(.nanopb) = {
+  if (this->drivenactuatorid() != 0) {
+    total_size += 2 + 1;
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -580,14 +611,17 @@ void Block::MergeFrom(const Block& from) {
   if (from.value() != 0) {
     set_value(from.value());
   }
-  if (from.drivenactuatorid() != 0) {
-    set_drivenactuatorid(from.drivenactuatorid());
+  if (from.desiredsetting() != 0) {
+    set_desiredsetting(from.desiredsetting());
+  }
+  if (from.claimedby() != 0) {
+    set_claimedby(from.claimedby());
   }
   if (from.enabled() != 0) {
     set_enabled(from.enabled());
   }
-  if (from.desiredsetting() != 0) {
-    set_desiredsetting(from.desiredsetting());
+  if (from.drivenactuatorid() != 0) {
+    set_drivenactuatorid(from.drivenactuatorid());
   }
 }
 
@@ -620,9 +654,10 @@ void Block::InternalSwap(Block* other) {
   swap(period_, other->period_);
   swap(setting_, other->setting_);
   swap(value_, other->value_);
-  swap(drivenactuatorid_, other->drivenactuatorid_);
-  swap(enabled_, other->enabled_);
   swap(desiredsetting_, other->desiredsetting_);
+  swap(claimedby_, other->claimedby_);
+  swap(enabled_, other->enabled_);
+  swap(drivenactuatorid_, other->drivenactuatorid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

@@ -36,15 +36,15 @@ public:
         if (auto ptr = lookup.lock()) {
             auto& pair = ptr->get();
 
-            if (pair.valueValid()) {
-                auto str = temp_to_string(pair.value(), 1, tempUnit);
+            if (auto val = pair.value()) {
+                auto str = temp_to_string(*val, 1, tempUnit);
                 str.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
                 lv_label_set_text(value, str.c_str());
             } else {
                 lv_label_set_text(value, "-");
             }
-            if (pair.settingValid()) {
-                auto str = temp_to_string(pair.setting(), 1, tempUnit);
+            if (auto val = pair.setting()) {
+                auto str = temp_to_string(*val, 1, tempUnit);
                 lv_label_set_text(setting, str.c_str());
             } else {
                 lv_label_set_text(setting, "-");
