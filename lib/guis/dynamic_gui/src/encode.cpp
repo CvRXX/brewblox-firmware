@@ -61,7 +61,9 @@ tl::expected<size_t, EncodeError> encodeNodes(std::vector<screen_LayoutNode>& la
 
     screen_Block protoMessage = screen_Block_init_default;
 
-    std::vector<std::pair<std::vector<std::reference_wrapper<screen_LayoutNode>>, std::vector<std::reference_wrapper<screen_ContentNode>>>> pages;
+    std::vector<std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>>> pages;
+
+    pages.push_back({layoutNodes, contentNodes});
 
     protoMessage.pages.funcs.encode = detail::pageEncoder;
     protoMessage.pages.arg = reinterpret_cast<void*>(&pages);
@@ -85,5 +87,4 @@ tl::expected<size_t, EncodeError> encodeBuffer(Screen& screen, uint8_t* buffer, 
 
     return encodeNodes(layoutNodes, contentNodes, buffer, bufferSize);
 }
-
 }

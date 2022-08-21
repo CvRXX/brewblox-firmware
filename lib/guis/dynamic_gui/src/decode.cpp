@@ -1,4 +1,5 @@
 #include "dynamic_gui/decode.hpp"
+
 namespace gui::dynamic_interface {
 namespace detail {
     bool pageDecoder(pb_istream_t* stream, const pb_field_t* field, void** arg)
@@ -14,7 +15,7 @@ namespace detail {
             page.contentNodes.funcs.decode = detail::contentNodeDecoder;
             page.contentNodes.arg = reinterpret_cast<void*>(&(decodedPage.second));
 
-            if (!pb_decode(stream, screen_LayoutNode_fields, &page)) {
+            if (!pb_decode(stream, screen_Page_fields, &page)) {
                 return false;
             }
 
@@ -154,7 +155,6 @@ tl::expected<Screen, DecodeError> decodeNodes(std::vector<screen_LayoutNode>&& l
     if (buffer.size() != 1 || buffer.back().second != 0) {
         return tl::unexpected{DecodeError::nodeIdsAreNotSequentialPerLevel};
     }
-
     return Screen{std::move(buffer.back().first)};
 }
 
@@ -167,7 +167,7 @@ tl::expected<Screen, DecodeError> decodeBuffer(uint8_t* buffer, size_t length)
     screen_Block protoMessage = screen_Block_init_default;
     std::vector<std::pair<std::vector<screen_LayoutNode>, std::vector<screen_ContentNode>>> pages;
 
-    protoMessage.pages.funcs.decode = detail::layoutNodeDecoder;
+    protoMessage.pages.funcs.decode = detail::pageDecoder;
     protoMessage.pages.arg = reinterpret_cast<void*>(&pages);
 
     // protoMessage.layoutNodes.funcs.decode = detail::layoutNodeDecoder;
@@ -180,6 +180,10 @@ tl::expected<Screen, DecodeError> decodeBuffer(uint8_t* buffer, size_t length)
 
     pb_istream_t stream = pb_istream_from_buffer(buffer, length);
     if (!pb_decode(&stream, screen_Block_fields, &protoMessage)) {
+        return tl::unexpected{DecodeError::pbError};
+    }
+
+    if (pages.size() < 1) {
         return tl::unexpected{DecodeError::pbError};
     }
 

@@ -26,9 +26,9 @@
 
 SCENARIO("DynamicGui")
 {
-    GIVEN("A gui proto stream")
+/*  */    GIVEN("A gui proto stream")
     {
-        uint8_t buffer[128];
+        uint8_t buffer[256];
         // size_t message_length;
         std::vector<screen_LayoutNode> layoutNodes;
         layoutNodes.push_back({1, 2, screen_LayoutNode_Type_Content, 1});
