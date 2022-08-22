@@ -32,15 +32,17 @@ void SetpointProfile::update(const utc_seconds_t& time)
         return;
     }
 
-    auto newTemp = temp_t(0);
-
-    if (!m_points.empty() && time != 0) {
-
-        if (m_profileStartTime > time) {
+    if (auto targetPtr = m_target.lock()) {
+        if (time == 0
+            || m_points.empty()
+            || m_profileStartTime > time) {
             return;
         }
+
+        auto newTemp = temp_t(0);
         auto elapsed = time - m_profileStartTime;
         auto upper = std::lower_bound(m_points.cbegin(), m_points.cend(), elapsed, TimeStampLessEqual{});
+
         if (upper == m_points.cend()) { // every point is in the past, use the last point
             newTemp = m_points.back().temp;
         } else if (upper != m_points.cbegin()) { // first point is not in the future
@@ -53,8 +55,7 @@ void SetpointProfile::update(const utc_seconds_t& time)
         } else {
             return;
         }
-        if (auto targetPtr = m_target.lock()) {
-            targetPtr->setting(newTemp);
-        }
+
+        targetPtr->setting(newTemp);
     }
 }

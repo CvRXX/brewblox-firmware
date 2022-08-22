@@ -19,6 +19,7 @@
 
 #include <catch.hpp>
 
+#include "AppTicks.hpp"
 #include "TestHelpers.hpp"
 #include "blocks/SysInfoBlock.hpp"
 #include "cbox/Application.hpp"
@@ -29,6 +30,9 @@
 
 SCENARIO("SysInfo Block")
 {
+    ticks.ticksImpl().reset(0);
+    ticks.setUtc(0);
+
     std::string version = GIT_VERSION;
     std::string protocolVersion = COMPILED_PROTO_VERSION;
     std::string releaseDate = GIT_DATE;
@@ -42,7 +46,8 @@ SCENARIO("SysInfo Block")
     auto sysInfoId = cbox::obj_id_t(2);
 
     for (cbox::update_t now = 0; now <= 10000; now += 50) {
-        cbox::getObjects().update(now);
+        ticks.ticksImpl().reset(now);
+        cbox::update(now);
     }
 
     WHEN("The SysInfo block is read")
