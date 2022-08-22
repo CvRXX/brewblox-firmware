@@ -114,13 +114,14 @@ void AddDescriptorsImpl() {
       "8 \022\027\n\010timeZone\030\016 \001(\tB\005\222\?\002\010 \0224\n\010tempUnit\030"
       "\017 \001(\0162\".blox_test.SysInfo.TemperatureUni"
       "t\022 \n\021displayBrightness\030\020 \001(\rB\005\222\?\0028\010:\007\212\265\030"
-      "\003\030\200\002*X\n\010Platform\022\024\n\020PLATFORM_UNKNOWN\020\000\022\020"
+      "\003\030\200\002*}\n\010Platform\022\024\n\020PLATFORM_UNKNOWN\020\000\022\020"
       "\n\014PLATFORM_GCC\020\003\022\023\n\017PLATFORM_PHOTON\020\006\022\017\n"
-      "\013PLATFORM_P1\020\010*8\n\017TemperatureUnit\022\020\n\014TEM"
-      "P_CELSIUS\020\000\022\023\n\017TEMP_FAHRENHEIT\020\001b\006proto3"
+      "\013PLATFORM_P1\020\010\022\020\n\014PLATFORM_ESP\020d\022\021\n\014PLAT"
+      "FORM_SIM\020\310\001*8\n\017TemperatureUnit\022\020\n\014TEMP_C"
+      "ELSIUS\020\000\022\023\n\017TEMP_FAHRENHEIT\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 760);
+      descriptor, 797);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SysInfo_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -150,6 +151,8 @@ bool Platform_IsValid(int value) {
     case 3:
     case 6:
     case 8:
+    case 100:
+    case 200:
       return true;
     default:
       return false;

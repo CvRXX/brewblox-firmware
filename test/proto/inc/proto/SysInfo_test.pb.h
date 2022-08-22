@@ -68,12 +68,14 @@ enum Platform {
   PLATFORM_GCC = 3,
   PLATFORM_PHOTON = 6,
   PLATFORM_P1 = 8,
+  PLATFORM_ESP = 100,
+  PLATFORM_SIM = 200,
   Platform_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Platform_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Platform_IsValid(int value);
 const Platform Platform_MIN = PLATFORM_UNKNOWN;
-const Platform Platform_MAX = PLATFORM_P1;
+const Platform Platform_MAX = PLATFORM_SIM;
 const int Platform_ARRAYSIZE = Platform_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Platform_descriptor();
