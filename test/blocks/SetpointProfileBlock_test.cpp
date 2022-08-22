@@ -120,9 +120,9 @@ SCENARIO("A SetpointProfile block")
                 CHECK(pairPtr->get().setting() == temp_t(99));
             }
 
-            THEN("It does not claim the target setpoint")
+            THEN("It still claims the setpoint")
             {
-                CHECK(claimPtr->claimedBy() == 0);
+                CHECK(claimPtr->claimedBy() == profileId);
             }
         }
 
