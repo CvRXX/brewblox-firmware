@@ -89,6 +89,7 @@ MotorValveBlock::write(const cbox::Payload& payload)
             }
         }
         if (parser.hasField(blox_MotorValve_Block_channel_tag)) {
+            hwDevice.setChannel(message.channel);
             valve.startChannel(message.channel);
         }
         if (parser.hasField(blox_MotorValve_Block_constrainedBy_tag)) {
