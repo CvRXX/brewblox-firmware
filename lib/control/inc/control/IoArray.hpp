@@ -230,10 +230,7 @@ public:
 
     bool claimChannel(uint16_t claimerId, uint8_t channel)
     {
-        if (channel == 0) {
-            return true;
-        }
-        if (channel <= channels.size()) {
+        if (validChannel(channel)) {
             auto& chan = channels[channel - 1];
             if (chan.claimedBy == 0) {
                 chan.claimedBy = claimerId;
@@ -255,7 +252,7 @@ public:
 
     uint16_t getChannelClaimerId(uint8_t channel) const
     {
-        if (channel > 0 && channel <= channels.size()) {
+        if (validChannel(channel)) {
             return channels[channel - 1].claimedBy;
         }
         return 0;
