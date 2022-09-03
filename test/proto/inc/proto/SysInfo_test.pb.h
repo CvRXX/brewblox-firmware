@@ -330,6 +330,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   bool command() const;
   void set_command(bool value);
 
+  // bool trace = 91 [(.nanopb) = {
+  void clear_trace();
+  static const int kTraceFieldNumber = 91;
+  bool trace() const;
+  void set_trace(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Block)
  private:
 
@@ -348,6 +354,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   int tempunit_;
   ::google::protobuf::uint32 displaybrightness_;
   bool command_;
+  bool trace_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SysInfo_5ftest_2eproto::TableStruct;
 };
@@ -790,6 +797,20 @@ inline void Block::set_command(bool value) {
   
   command_ = value;
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.command)
+}
+
+// bool trace = 91 [(.nanopb) = {
+inline void Block::clear_trace() {
+  trace_ = false;
+}
+inline bool Block::trace() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.trace)
+  return trace_;
+}
+inline void Block::set_trace(bool value) {
+  
+  trace_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.trace)
 }
 
 #ifdef __GNUC__

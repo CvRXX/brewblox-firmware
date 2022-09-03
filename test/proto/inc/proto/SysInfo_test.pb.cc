@@ -70,6 +70,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, tempunit_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, displaybrightness_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, command_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::blox_test::SysInfo::Block, trace_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::blox_test::SysInfo::Block)},
@@ -102,7 +103,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\022SysInfo_test.proto\022\021blox_test.SysInfo\032"
       "\023brewblox_test.proto\032\021nanopb_test.proto\""
-      "\250\004\n\005Block\022#\n\010deviceId\030\001 \001(\014B\021\212\265\030\002(\001\222\?\002\010\014"
+      "\304\004\n\005Block\022#\n\010deviceId\030\001 \001(\014B\021\212\265\030\002(\001\222\?\002\010\014"
       "\212\265\030\0028\001\022\034\n\007version\030\002 \001(\tB\013\212\265\030\002(\001\222\?\002\010\014\0225\n\010"
       "platform\030\003 \001(\0162\033.blox_test.SysInfo.Platf"
       "ormB\006\212\265\030\002(\001\022$\n\017protocolVersion\030\007 \001(\tB\013\212\265"
@@ -115,15 +116,16 @@ void AddDescriptorsImpl() {
       "8 \022\027\n\010timeZone\030\016 \001(\tB\005\222\?\002\010 \0224\n\010tempUnit\030"
       "\017 \001(\0162\".blox_test.SysInfo.TemperatureUni"
       "t\022 \n\021displayBrightness\030\020 \001(\rB\005\222\?\0028\010\022\034\n\007c"
-      "ommand\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003:\007\212\265\030\003\030\200\002*}\n\010Pl"
-      "atform\022\024\n\020PLATFORM_UNKNOWN\020\000\022\020\n\014PLATFORM"
-      "_GCC\020\003\022\023\n\017PLATFORM_PHOTON\020\006\022\017\n\013PLATFORM_"
-      "P1\020\010\022\020\n\014PLATFORM_ESP\020d\022\021\n\014PLATFORM_SIM\020\310"
-      "\001*8\n\017TemperatureUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023"
-      "\n\017TEMP_FAHRENHEIT\020\001b\006proto3"
+      "ommand\030Z \001(\010B\013\212\265\030\002H\001\222\?\002\030\003\022\032\n\005trace\030[ \001(\010"
+      "B\013\212\265\030\002H\001\222\?\002\030\003:\007\212\265\030\003\030\200\002*}\n\010Platform\022\024\n\020PL"
+      "ATFORM_UNKNOWN\020\000\022\020\n\014PLATFORM_GCC\020\003\022\023\n\017PL"
+      "ATFORM_PHOTON\020\006\022\017\n\013PLATFORM_P1\020\010\022\020\n\014PLAT"
+      "FORM_ESP\020d\022\021\n\014PLATFORM_SIM\020\310\001*8\n\017Tempera"
+      "tureUnit\022\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_FAHRE"
+      "NHEIT\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 827);
+      descriptor, 855);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SysInfo_test.proto", &protobuf_RegisterTypes);
   ::protobuf_brewblox_5ftest_2eproto::AddDescriptors();
@@ -195,6 +197,7 @@ const int Block::kTimeZoneFieldNumber;
 const int Block::kTempUnitFieldNumber;
 const int Block::kDisplayBrightnessFieldNumber;
 const int Block::kCommandFieldNumber;
+const int Block::kTraceFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Block::Block()
@@ -233,8 +236,8 @@ Block::Block(const Block& from)
     timezone_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timezone_);
   }
   ::memcpy(&platform_, &from.platform_,
-    static_cast<size_t>(reinterpret_cast<char*>(&command_) -
-    reinterpret_cast<char*>(&platform_)) + sizeof(command_));
+    static_cast<size_t>(reinterpret_cast<char*>(&trace_) -
+    reinterpret_cast<char*>(&platform_)) + sizeof(trace_));
   // @@protoc_insertion_point(copy_constructor:blox_test.SysInfo.Block)
 }
 
@@ -246,8 +249,8 @@ void Block::SharedCtor() {
   protocoldate_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   timezone_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&platform_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&command_) -
-      reinterpret_cast<char*>(&platform_)) + sizeof(command_));
+      reinterpret_cast<char*>(&trace_) -
+      reinterpret_cast<char*>(&platform_)) + sizeof(trace_));
 }
 
 Block::~Block() {
@@ -291,8 +294,8 @@ void Block::Clear() {
   protocoldate_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   timezone_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&platform_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&command_) -
-      reinterpret_cast<char*>(&platform_)) + sizeof(command_));
+      reinterpret_cast<char*>(&trace_) -
+      reinterpret_cast<char*>(&platform_)) + sizeof(trace_));
   _internal_metadata_.Clear();
 }
 
@@ -512,6 +515,20 @@ bool Block::MergePartialFromCodedStream(
         break;
       }
 
+      // bool trace = 91 [(.nanopb) = {
+      case 91: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(216u /* 728 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &trace_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -636,6 +653,11 @@ void Block::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(90, this->command(), output);
   }
 
+  // bool trace = 91 [(.nanopb) = {
+  if (this->trace() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(91, this->trace(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -754,6 +776,11 @@ void Block::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(90, this->command(), target);
   }
 
+  // bool trace = 91 [(.nanopb) = {
+  if (this->trace() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(91, this->trace(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
@@ -865,6 +892,11 @@ size_t Block::ByteSizeLong() const {
     total_size += 2 + 1;
   }
 
+  // bool trace = 91 [(.nanopb) = {
+  if (this->trace() != 0) {
+    total_size += 2 + 1;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -940,6 +972,9 @@ void Block::MergeFrom(const Block& from) {
   if (from.command() != 0) {
     set_command(from.command());
   }
+  if (from.trace() != 0) {
+    set_trace(from.trace());
+  }
 }
 
 void Block::CopyFrom(const ::google::protobuf::Message& from) {
@@ -986,6 +1021,7 @@ void Block::InternalSwap(Block* other) {
   swap(tempunit_, other->tempunit_);
   swap(displaybrightness_, other->displaybrightness_);
   swap(command_, other->command_);
+  swap(trace_, other->trace_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
