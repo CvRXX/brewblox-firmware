@@ -324,6 +324,12 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 displaybrightness() const;
   void set_displaybrightness(::google::protobuf::uint32 value);
 
+  // bool command = 90 [(.nanopb) = {
+  void clear_command();
+  static const int kCommandFieldNumber = 90;
+  bool command() const;
+  void set_command(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Block)
  private:
 
@@ -341,6 +347,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 systemtime_;
   int tempunit_;
   ::google::protobuf::uint32 displaybrightness_;
+  bool command_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SysInfo_5ftest_2eproto::TableStruct;
 };
@@ -769,6 +776,20 @@ inline void Block::set_displaybrightness(::google::protobuf::uint32 value) {
   
   displaybrightness_ = value;
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.displayBrightness)
+}
+
+// bool command = 90 [(.nanopb) = {
+inline void Block::clear_command() {
+  command_ = false;
+}
+inline bool Block::command() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.command)
+  return command_;
+}
+inline void Block::set_command(bool value) {
+  
+  command_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.command)
 }
 
 #ifdef __GNUC__
