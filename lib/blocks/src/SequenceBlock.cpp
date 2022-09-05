@@ -341,15 +341,15 @@ InstructionResult waitDigitalFunc(SequenceBlock&,
 }
 
 InstructionResult setPwmFunc(SequenceBlock& sequence,
-                             cbox::CboxPtr<ActuatorPwmBlock>& target,
-                             ActuatorPwm::value_t setting)
+                             cbox::CboxPtr<ActuatorAnalogConstrained>& target,
+                             ActuatorAnalog::value_t setting)
 {
     auto ptr = target.lock();
     if (!ptr) {
         return tl::make_unexpected(blox_Sequence_SequenceError_INVALID_TARGET);
     }
 
-    ptr->getConstrained().setting(setting);
+    ptr->setting(setting);
     sequence.markTargetChanged(target.getId());
     return blox_Sequence_SequenceStatus_NEXT;
 }
@@ -501,8 +501,8 @@ InstructionFunctor SequenceBlock::makeRunner()
             return waitDigitalFunc(sequence, target);
         };
     case blox_Sequence_Instruction_SET_PWM_tag:
-        return [target = cbox::CboxPtr<ActuatorPwmBlock>(ins.instruction_oneof.SET_PWM.target),
-                setting = cnl::wrap<ActuatorPwm::value_t>(ins.instruction_oneof.SET_PWM.setting)](SequenceBlock& sequence) mutable {
+        return [target = cbox::CboxPtr<ActuatorAnalogConstrained>(ins.instruction_oneof.SET_PWM.target),
+                setting = cnl::wrap<ActuatorAnalog::value_t>(ins.instruction_oneof.SET_PWM.setting)](SequenceBlock& sequence) mutable {
             return setPwmFunc(sequence, target, setting);
         };
     case blox_Sequence_Instruction_START_PROFILE_tag:
