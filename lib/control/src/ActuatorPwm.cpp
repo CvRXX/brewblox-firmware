@@ -19,7 +19,6 @@ ActuatorPwm::ActuatorPwm(
 
 void ActuatorPwm::setting(std::optional<value_t> val)
 {
-
     if (!val && enabler.get() && m_dutySetting) {
         // disable target once when setting is set to nullopt
         if (auto actPtr = m_target.lock()) {
@@ -73,6 +72,11 @@ ActuatorPwm::period() const
 ActuatorPwm::update_t
 ActuatorPwm::update(update_t now)
 {
+    if (!enabler.get()) {
+        m_target.release();
+        return now + 1000;
+    }
+
     if (auto actPtr = m_target.lock()) {
         auto durations = actPtr->activeDurations(now);
         auto currentHighTime = durations.currentActive;

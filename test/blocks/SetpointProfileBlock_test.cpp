@@ -146,7 +146,6 @@ SCENARIO("A SetpointProfile block")
                         update(27'000);
                         THEN("It no longer claims the setpoint, and the second claimer can get write access")
                         {
-                            CHECK(profilePtr->get().isDriving() == false);
                             CHECK(claimPtr->claimedBy() == 0);
                             CHECK(secondClaimer.lock() != nullptr);
                         }

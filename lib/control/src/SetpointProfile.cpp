@@ -27,7 +27,7 @@ void SetpointProfile::update(const utc_seconds_t& time)
         bool operator()(const utc_seconds_t& time, const Point& p) const { return time <= p.time; }
     };
 
-    if (!isDriving()) {
+    if (!enabler.get()) {
         m_target.release();
         return;
     }

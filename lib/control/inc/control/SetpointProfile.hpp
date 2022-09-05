@@ -61,11 +61,6 @@ public:
         m_points.clear();
     }
 
-    bool isDriving() const
-    {
-        return (enabler.get() && !m_points.empty());
-    }
-
     void update(const utc_seconds_t& time);
 
     const std::vector<Point>& points() const

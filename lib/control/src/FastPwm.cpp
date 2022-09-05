@@ -51,9 +51,14 @@ void FastPwm::setting(std::optional<value_t> val)
 
 ticks_millis_t FastPwm::update(ticks_millis_t now)
 {
-
     auto nextUpdate = now + 1000;
     m_actualDuty = std::nullopt;
+
+    if (!enabler.get()) {
+        m_target.release();
+        return nextUpdate;
+    }
+
     if (!channelReady()) {
         if (!claimChannel()) {
             return nextUpdate;
