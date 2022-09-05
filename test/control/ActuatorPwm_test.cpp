@@ -1349,19 +1349,19 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
         logger::clear();
         ds2413mock->flipWrittenBits(writeBitFlips);
         ds2413mock->flipReadBits(readBitFlips);
-        CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now, everySecond) == Approx(49.0).margin(0.2));
+        CHECK(randomIntervalTest(200, pwm, act, 49.0, 1, now, everySecond) == Approx(49.0).margin(1));
         ds2413mock->flipWrittenBits(writeBitFlips);
         ds2413mock->flipReadBits(readBitFlips);
-        CHECK(randomIntervalTest(100, pwm, act, 50.0, 1, now, everySecond) == Approx(50.0).margin(0.2));
+        CHECK(randomIntervalTest(200, pwm, act, 50.0, 1, now, everySecond) == Approx(50.0).margin(1));
         ds2413mock->flipWrittenBits(writeBitFlips);
         ds2413mock->flipReadBits(readBitFlips);
-        CHECK(randomIntervalTest(100, pwm, act, 51.0, 1, now, everySecond) == Approx(51.0).margin(0.2));
+        CHECK(randomIntervalTest(200, pwm, act, 51.0, 1, now, everySecond) == Approx(51.0).margin(1));
         ds2413mock->flipWrittenBits(writeBitFlips);
         ds2413mock->flipReadBits(readBitFlips);
-        CHECK(randomIntervalTest(100, pwm, act, 2.0, 1, now, everySecond) == Approx(2.0).margin(0.2));
+        CHECK(randomIntervalTest(200, pwm, act, 2.0, 1, now, everySecond) == Approx(2.0).margin(1));
         ds2413mock->flipWrittenBits(writeBitFlips);
         ds2413mock->flipReadBits(readBitFlips);
-        CHECK(randomIntervalTest(100, pwm, act, 98.0, 1, now, everySecond) == Approx(98.0).margin(0.2));
+        CHECK(randomIntervalTest(200, pwm, act, 98.0, 1, now, everySecond) == Approx(98.0).margin(1));
 
         AND_THEN("The log contains disconnect and reconnect logs")
         {
@@ -1382,6 +1382,7 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
     mockOw.attach(ds2408mock);
     auto ds = TestControlPtr<DS2408>(new DS2408(ow, addr));
     auto dsIo = TestControlPtr<IoArray>(new DS2408(ow, addr));
+    ds.ptr->update(); // connected update happens here
     MotorValve act(dsIo, 1);
 
     auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));

@@ -26,44 +26,40 @@ bool DS2413::update()
     bool success = false;
     if (auto oneWire = selectRom()) {
         if (!writeNeeded()) { // skip read if we need to write anyway, which also returns status
-            if (!oneWire->write(ACCESS_READ)) {
-                return false;
+            if (oneWire->write(ACCESS_READ)) {
+                uint8_t status = 0xFF;
+                if (oneWire->read(status)) {
+                    success = processStatus(status);
+                }
             }
-            uint8_t status;
-            if (!oneWire->read(status)) {
-                return false;
-            }
-            success = processStatus(status);
-            connected(success);
         }
 
-        if (writeNeeded()) { // check again
-            oneWire->reset();
-            oneWire->select(m_address);
-            uint8_t data = (desiredState & 0b1000) >> 2 | (desiredState & 0b0010) >> 1;
-            uint8_t bytes[3] = {ACCESS_WRITE, data, uint8_t(~data)};
+        if (writeNeeded()) { // check again after read
+            success = false;
+            if (oneWire->reset() && oneWire->select(m_address)) {
+                uint8_t data = (desiredState & 0b1000) >> 2 | (desiredState & 0b0010) >> 1;
+                uint8_t bytes[3] = {ACCESS_WRITE, data, uint8_t(~data)};
 
-            if (oneWire->write_bytes(bytes, 3)) {
-                /* Acknowledgement byte, 0xAA for success, 0xFF for failure. */
+                if (oneWire->write_bytes(bytes, 3)) {
+                    /* Acknowledgement byte, 0xAA for success, 0xFF for failure. */
 
-                if (oneWire->read(data) && data == ACK_SUCCESS) {
-                    if (oneWire->read(data)) {
-                        success = processStatus(data);
+                    if (oneWire->read(data) && data == ACK_SUCCESS) {
+                        if (oneWire->read(data)) {
+                            success = processStatus(data);
+                        }
                     }
                 }
             }
         }
         oneWire->reset();
-        connected(success);
-        return success;
     }
-    connected(false);
-    return false;
+    connected(success);
+    return success;
 }
 
 bool DS2413::writeNeeded()
 {
-    return !connected() || (desiredState & 0b1010) != (actualState & 0b1010);
+    return (desiredState & 0b1010) != (actualState & 0b1010);
 }
 
 uint8_t bitMask(uint8_t channel)
@@ -93,7 +89,7 @@ IoValue::variant DS2413::writeChannelImpl(uint8_t channel, IoValue::variant val)
         return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    if (writeNeeded()) {
+    if (connected() && writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
         // they will reconnect in the normal update tick, which should happen every second
         update();

@@ -111,7 +111,10 @@ void MotorValve::update()
         // Periodic retry to claim channel in case target didn't exist
         // at earlier tries
         claimChannel();
-        return;
+        if (!channelReady()) {
+            return;
+        }
+        state(State::Inactive);
     }
     if (auto devPtr = m_target.lock()) {
         m_actualValveState = getValveState(devPtr);
