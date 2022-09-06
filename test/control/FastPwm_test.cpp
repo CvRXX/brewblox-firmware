@@ -171,6 +171,7 @@ SCENARIO("FastPwm test", "[FastPwm]")
         pwm.update(0);
 
         pwm.invert(true);
+        pwm.update(0);
 
         THEN("The target IO array is configured with value: 100 - duty, but the fastpwm reports duty")
         {

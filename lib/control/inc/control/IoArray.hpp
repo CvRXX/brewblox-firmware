@@ -176,6 +176,14 @@ public:
         chan.setup = setupChannelImpl(channel, chan.setupDesired);
     }
 
+    IoValue::Setup::variant getSetup(uint8_t channel)
+    {
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        return channels[channel - 1].setup;
+    }
+
     // returns written value or error
     IoValue::variant writeChannel(uint8_t channel, IoValue::variant val)
     {
@@ -248,6 +256,7 @@ public:
         if (validChannel(channel)) {
             auto& chan = channels[channel - 1];
             if (chan.claimedBy == claimerId) {
+                setupChannel(channel, IoValue::Setup::Unused{});
                 chan.claimedBy = 0;
             }
         }

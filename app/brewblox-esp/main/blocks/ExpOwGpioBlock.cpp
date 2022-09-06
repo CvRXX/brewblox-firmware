@@ -39,7 +39,7 @@ cbox::CboxError ExpOwGpioBlock::handleRead(const cbox::PayloadCallback& callback
             message.channels[ci].pinsMask = c.pins();
             if (includeNotPersisted) {
                 message.channels[ci].capabilities = drivers.getChannelCapabilities(i).all;
-                message.channels[ci].claimedBy = drivers.getChannelClaimerId(i + 1);
+                message.channels[ci].claimedBy = drivers.getChannelClaimerId(i);
             }
             auto entry = std::find_if(channelNames.begin(), channelNames.end(), [i](const ChannelNameEntry& e) {
                 return e.id == i;
