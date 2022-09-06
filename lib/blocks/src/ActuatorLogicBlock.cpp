@@ -158,14 +158,18 @@ cbox::CboxError ActuatorLogicBlock::write(const cbox::Payload& payload)
 cbox::update_t
 ActuatorLogicBlock::updateHandler(cbox::update_t now)
 {
-    m_result = evaluate();
-    if (enabler.get()) {
-        if (auto targetPtr = target.lock()) {
-            if (m_result == blox_ActuatorLogic_Result_RESULT_TRUE) {
-                targetPtr->desiredState(ActuatorDigitalBase::State::Active);
-            } else {
-                targetPtr->desiredState(ActuatorDigitalBase::State::Inactive);
-            }
+    if (!enabler.get()) {
+        m_result = blox_ActuatorLogic_Result_RESULT_FALSE;
+        target.release();
+        return now + 1000;
+    }
+
+    if (auto targetPtr = target.lock()) {
+        m_result = evaluate();
+        if (m_result == blox_ActuatorLogic_Result_RESULT_TRUE) {
+            targetPtr->desiredState(ActuatorDigitalBase::State::Active);
+        } else {
+            targetPtr->desiredState(ActuatorDigitalBase::State::Inactive);
         }
     }
     return now + 100; // update every 100ms

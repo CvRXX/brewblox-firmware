@@ -21,12 +21,15 @@
 
 void Pid::update()
 {
+    if (!enabler.get()) {
+        _inputPtr.release();
+        return;
+    }
+
     auto input = _inputPtr.lock();
     auto setpoint = in_t{0};
     if (input && input->setting().has_value() && input->value().has_value()) {
-        if (enabler.get()) {
-            active(true);
-        }
+        active(true);
         setpoint = *input->setting();
         _boilModeActive = setpoint >= in_t{100} + _boilPointAdjust;
         _error = input->error().value_or(0);
@@ -75,46 +78,44 @@ void Pid::update()
     }
 
     // try to set the output to the desired setting
-    if (enabler.get()) {
-        if (auto output = _outputPtr.lock()) {
-            output->setting(outputValue);
+    if (auto output = _outputPtr.lock()) {
+        output->setting(outputValue);
 
-            if (_boilModeActive) {
-                return;
-            }
+        if (_boilModeActive) {
+            return;
+        }
 
-            // get the clipped setting from the actuator for anti-windup
-            if (auto outputSetting = output->setting()) {
-                if (_ti != 0) { // 0 has been chosen to indicate that the integrator is disabled. This also prevents divide by zero.
-                                // update integral with anti-windup back calculation
-                                // pidResult - output is zero when actuator is not saturated
+        // get the clipped setting from the actuator for anti-windup
+        if (auto outputSetting = output->setting()) {
+            if (_ti != 0) { // 0 has been chosen to indicate that the integrator is disabled. This also prevents divide by zero.
+                            // update integral with anti-windup back calculation
+                            // pidResult - output is zero when actuator is not saturated
 
-                    auto antiWindup = integral_t{0};
-                    auto antiWindupValue = *outputSetting; // P + I + D, clipped
+                auto antiWindup = integral_t{0};
+                auto antiWindupValue = *outputSetting; // P + I + D, clipped
 
-                    if (_kp != 0) { // prevent divide by zero
-                        if (pidResult == *outputSetting && output->value().has_value()) {
-                            // Actuator could be set to desired value, but might not reach set value due to physics or limits in its target actuator
-                            // Get the actual achieved value in actuator. This could differ due to slowness time/mutex limits
-                            antiWindupValue = *output->value();
-                        } else {
-                            // else: clipped to actuator min or max set in target actuator
-                            // calculate anti-windup from setting instead of actual value, so it doesn't dip under the maximum
-                            // make sure anti-windup is at least the integral increase when clipping to prevent further windup
-                            // Extra anti-windup can still be added below to reduce integral quicker
-                            antiWindup += integral_increase;
-                        }
-
-                        out_t excess = cnl::quotient(pidResult - antiWindupValue, _kp);
-                        antiWindup += int8_t(3) * excess; // anti windup gain is 3
-                    }
-                    // make sure integral does not cross zero and does not increase by anti-windup
-                    integral_t newIntegral = _integral - antiWindup;
-                    if (_integral >= integral_t{0}) {
-                        _integral = std::clamp(newIntegral, integral_t{0}, _integral);
+                if (_kp != 0) { // prevent divide by zero
+                    if (pidResult == *outputSetting && output->value().has_value()) {
+                        // Actuator could be set to desired value, but might not reach set value due to physics or limits in its target actuator
+                        // Get the actual achieved value in actuator. This could differ due to slowness time/mutex limits
+                        antiWindupValue = *output->value();
                     } else {
-                        _integral = std::clamp(newIntegral, _integral, integral_t{0});
+                        // else: clipped to actuator min or max set in target actuator
+                        // calculate anti-windup from setting instead of actual value, so it doesn't dip under the maximum
+                        // make sure anti-windup is at least the integral increase when clipping to prevent further windup
+                        // Extra anti-windup can still be added below to reduce integral quicker
+                        antiWindup += integral_increase;
                     }
+
+                    out_t excess = cnl::quotient(pidResult - antiWindupValue, _kp);
+                    antiWindup += int8_t(3) * excess; // anti windup gain is 3
+                }
+                // make sure integral does not cross zero and does not increase by anti-windup
+                integral_t newIntegral = _integral - antiWindup;
+                if (_integral >= integral_t{0}) {
+                    _integral = std::clamp(newIntegral, integral_t{0}, _integral);
+                } else {
+                    _integral = std::clamp(newIntegral, _integral, integral_t{0});
                 }
             }
         }

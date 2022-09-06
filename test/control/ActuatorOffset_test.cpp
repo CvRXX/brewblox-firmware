@@ -190,9 +190,9 @@ SCENARIO("ActuatorOffset offsets one setpoint from another", "[ActuatorOffset]")
             CHECK(act->setting().has_value() == false);
         }
 
-        THEN("This action sets the targets setting to invalid once, and thus also the offset actuator value")
+        THEN("The target setting reverts to its user-defined desired setting")
         {
-            CHECK(target.ptr->setting().has_value() == false);
+            CHECK(target.ptr->setting().has_value() == true);
             CHECK(act->value().value() == 0);
 
             AND_THEN("Changing the setting of the actuator afterwards doesn't affect the target")

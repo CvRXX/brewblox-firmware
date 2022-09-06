@@ -245,8 +245,11 @@ public:
 
     void unclaimChannel(uint16_t claimerId, uint8_t channel)
     {
-        if (claimChannel(claimerId, channel)) {
-            channels[channel - 1].claimedBy = 0;
+        if (validChannel(channel)) {
+            auto& chan = channels[channel - 1];
+            if (chan.claimedBy == claimerId) {
+                chan.claimedBy = 0;
+            }
         }
     }
 
