@@ -25,7 +25,7 @@ void ActuatorPwm::setting(std::optional<value_t> val)
             actPtr->desiredState(State::Inactive);
         }
     }
-    if (!val) {
+    if (!val || !enabler.get()) {
         m_dutySetting = std::nullopt;
         m_dutyTime = 0;
         return;
