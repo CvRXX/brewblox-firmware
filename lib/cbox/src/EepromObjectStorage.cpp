@@ -133,8 +133,9 @@ CboxError EepromObjectStorage::loadAllObjects(const PayloadCallback& callback)
         if (err == CboxError::STORAGE_READ_ERROR) {
             return err; // only stop on read errors
         }
-        if (err != CboxError::OK) {
-            return err; // TODO should continue and only log error
+        if (err == CboxError::STORAGE_CRC_ERROR) {
+            // dispose block. We cannot trust it due to the CRC error and cannot recover this
+            (*objOpt).setBlockType(EepromBlockType::disposed_block);
         }
         pos = blockData.end();
     };

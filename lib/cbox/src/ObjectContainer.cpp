@@ -100,8 +100,14 @@ CboxError ObjectContainer::remove(obj_id_t id)
     }
     // find existing object
     auto p = findPosition(id);
-    contained.erase(p.first, p.second); // doesn't remove anything if no objects found (first == second)
-    return p.first == p.second ? CboxError::INVALID_BLOCK_ID : CboxError::OK;
+    if (p.first != p.second) {
+        // create extra shared pointer to delay destruction during container access
+        // destructors might do lookups in container
+        auto temp = *p.first;
+        contained.erase(p.first, p.second);
+        return CboxError::OK;
+    }
+    return CboxError::INVALID_BLOCK_ID;
 }
 
 // remove all non-system objects from the container
