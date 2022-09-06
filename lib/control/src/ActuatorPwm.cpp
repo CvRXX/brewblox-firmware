@@ -47,7 +47,7 @@ void ActuatorPwm::setting(std::optional<value_t> val)
 // returns the actual achieved PWM value, not the set value
 std::optional<value_t> ActuatorPwm::value() const
 {
-    return m_dutyAchieved;
+    return enabler.get() ? m_dutyAchieved : std::nullopt;
 }
 
 safe_elastic_fixed_point<2, 28>
