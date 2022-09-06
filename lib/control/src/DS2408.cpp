@@ -41,15 +41,16 @@ bool DS2408::writeNeeded() const
 {
     return dirty || desiredLatches != latches;
 }
+
 bool DS2408::update()
 {
     bool success = true;
+    dirty = true;
     if (auto oneWire = selectRom()) {
         // Compute the 1-Wire CRC16 and compare it against the received CRC.
         // Put everything in one buffer so we can compute the CRC easily.
-        uint8_t buf[13];
+        uint8_t buf[13] = {0};
 
-        dirty = true;
         buf[0] = READ_PIO_REG;            // Read PIO Registers
         buf[1] = ADDRESS_PIO_STATE_LOWER; // LSB address
         buf[2] = ADDRESS_UPPER;           // MSB address
@@ -91,7 +92,6 @@ bool DS2408::update()
 
         oneWire->reset();
     }
-    connected(success);
     return success;
 }
 
@@ -142,7 +142,7 @@ IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoValue::variant val)
         return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    if (dirty || desiredLatches != latches) {
+    if (connected() && writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
         // they will reconnect in the normal 1s update tick, which should happen every second
         update();

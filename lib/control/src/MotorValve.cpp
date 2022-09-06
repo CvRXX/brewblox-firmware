@@ -21,15 +21,12 @@
 
 void MotorValve::state(State v)
 {
-    auto oldState = m_desiredValveState;
     if (v == State::Active) {
         m_desiredValveState = ValveState::Opening;
     } else {
         m_desiredValveState = ValveState::Closing;
     }
-    if (oldState != m_desiredValveState) {
-        update();
-    }
+    update();
 }
 
 MotorValve::State
@@ -78,7 +75,6 @@ MotorValve::getValveState(const std::shared_ptr<IoArray>& devPtr) const
     auto closeChan = devPtr->readChannel(m_startChannel + chanClosingHigh);
 
     ValveState vs = ValveState::Unknown;
-
     // Note: signal to H-bridge is inverted because active high enables a pull down latch
     if (openChan == IoValue::Digital{State::Inactive} && closeChan == IoValue::Digital{State::Active}) {
         vs = ValveState::Opening;
@@ -86,8 +82,10 @@ MotorValve::getValveState(const std::shared_ptr<IoArray>& devPtr) const
         vs = ValveState::Closing;
     } else if (openChan == IoValue::Digital{State::Active} && closeChan == IoValue::Digital{State::Active}) {
         vs = ValveState::HalfOpenIdle;
+    } else if (openChan == IoValue::Digital{State::Inactive} && closeChan == IoValue::Digital{State::Inactive}) {
+        return ValveState::InitIdle;
     } else {
-        return ValveState::InitIdle; // return immediately to get out of init state
+        return ValveState::Unknown;
     }
 
     if (isOpenPin == IoValue::Digital{State::Active}) {
@@ -114,7 +112,6 @@ void MotorValve::update()
         if (!channelReady()) {
             return;
         }
-        state(State::Inactive);
     }
     if (auto devPtr = m_target.lock()) {
         m_actualValveState = getValveState(devPtr);
@@ -124,6 +121,10 @@ void MotorValve::update()
         }
         if (m_desiredValveState == ValveState::Opening && m_actualValveState == ValveState::Open) {
             return; // leave motor driven
+        }
+
+        if (m_desiredValveState == ValveState::InitIdle || m_desiredValveState == ValveState::Unknown) {
+            m_desiredValveState = ValveState::Closing;
         }
 
         if (m_actualValveState != m_desiredValveState) {
@@ -157,6 +158,7 @@ void MotorValve::claimChannel()
             }
         } else {
             m_desiredChannel = 0;
+            m_startChannel = 0;
         }
     }
 }
