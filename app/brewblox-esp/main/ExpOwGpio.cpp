@@ -120,6 +120,9 @@ IoValue::variant ExpOwGpio::readChannelImpl(uint8_t channel) const
     auto setup = channelSetup(channel);
     if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
         IoValue::PWM::duty_t duty = (IoValue::PWM::duty_t{100} * chan.appliedDuty) / 255;
+        if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
+            duty = -duty;
+        }
         return IoValue::PWM(duty);
     }
 
