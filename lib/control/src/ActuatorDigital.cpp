@@ -24,54 +24,59 @@ using State = ActuatorDigitalBase::State;
 
 void ActuatorDigital::state(State v)
 {
-    if (channelReady()) {
-        if (auto devPtr = m_target.lock()) {
-            if (v != State::Active) {
-                v = State::Inactive;
-            }
-            if (m_invert) {
-                v = invertState(v);
-            }
-            devPtr->writeChannel(m_channel, IoValue::Digital{v});
+    if (auto devPtr = m_target.lock()) {
+        if (!ensureChannelSetup(devPtr)) {
+            return;
         }
+        if (v != State::Active) {
+            v = State::Inactive;
+        }
+        if (m_invert) {
+            v = invertState(v);
+        }
+        devPtr->writeChannel(m_channel, IoValue::Digital{v});
     }
 }
 
 State ActuatorDigital::state() const
 {
-    if (channelReady()) {
-        if (auto devPtr = m_target.lock()) {
-            State result = State::Unknown;
-            auto val = devPtr->readChannel(m_channel);
-            if (auto* v = std::get_if<IoValue::Digital>(&val)) {
-                result = v->state();
-                if (m_invert) {
-                    result = invertState(result);
-                }
-                return result;
+    if (auto devPtr = m_target.lock()) {
+        State result = State::Unknown;
+        auto val = devPtr->readChannel(m_channel);
+        if (auto* v = std::get_if<IoValue::Digital>(&val)) {
+            result = v->state();
+            if (m_invert) {
+                result = invertState(result);
             }
+            return result;
         }
     }
 
     return State::Unknown;
 }
 
-void ActuatorDigital::claimChannel()
+bool ActuatorDigital::ensureChannelSetup(std::shared_ptr<IoArray>& devPtr)
 {
-    if (auto devPtr = m_target.lock()) {
-        if (m_channel != 0) {
-            // release old channel
-            devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
-        }
+    auto setupOpt = devPtr->getSetup(m_channel);
 
-        if (m_desiredChannel == 0) {
-            m_channel = 0;
-            return;
-        }
-        // claim new channel
-        auto result = devPtr->setupChannel(m_desiredChannel, IoValue::Setup::OutputDigital{});
-        if (std::holds_alternative<IoValue::Setup::OutputDigital>(result)) {
-            m_channel = m_desiredChannel;
-        }
+    // Happy flow: channel is already setup as Digital
+    if (std::holds_alternative<IoValue::Setup::OutputDigital>(setupOpt)) {
+        return true;
     }
+
+    // To make any changes, we must always first revert to Unused
+    if (!std::holds_alternative<IoValue::Setup::Unused>(setupOpt)) {
+        devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
+    }
+
+    // Setup as Digital
+    auto setupResult = devPtr->setupChannel(m_channel, IoValue::Setup::OutputDigital{});
+    if (!std::holds_alternative<IoValue::Setup::OutputDigital>(setupResult)) {
+        return false;
+    }
+
+    // Write initial value to the channel to ensure it's initialized as Inactive
+    auto initial = invert() ? State::Active : State::Inactive;
+    auto writeResult = devPtr->writeChannel(m_channel, IoValue::Digital{initial});
+    return std::holds_alternative<IoValue::Digital>(writeResult);
 }

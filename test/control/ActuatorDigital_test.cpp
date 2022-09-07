@@ -28,44 +28,37 @@ SCENARIO("ActuatorDigital test", "[ActuatorDigital]")
 {
     using State = ActuatorDigitalBase::State;
     auto io = TestControlPtr<IoArray>(new MockIoArray());
-    ActuatorDigital mock(io, 1);
+    ActuatorDigital act(io, 1);
 
     WHEN("ActuatorDigital is newly constructed")
     {
-        THEN("The state is set to Inactive")
+        THEN("The state is initialized as Inactive")
         {
-
-            CHECK(mock.state() == State::Inactive);
-        }
-
-        THEN("The channel is ready")
-        {
-
-            CHECK(mock.channelReady() == true);
+            CHECK(act.state() == State::Inactive);
         }
 
         THEN("It can be toggled between active and inactive")
         {
-            mock.state(State::Active);
-            CHECK(mock.state() == State::Active);
+            act.state(State::Active);
+            CHECK(act.state() == State::Active);
 
-            mock.state(State::Inactive);
-            CHECK(mock.state() == State::Inactive);
+            act.state(State::Inactive);
+            CHECK(act.state() == State::Inactive);
 
-            mock.state(State::Active);
-            CHECK(mock.state() == State::Active);
+            act.state(State::Active);
+            CHECK(act.state() == State::Active);
         }
 
         THEN("Writing a value other than Active sets it to inactive")
         {
-            mock.state(State::Active);
-            CHECK(mock.state() == State::Active);
+            act.state(State::Active);
+            CHECK(act.state() == State::Active);
 
-            mock.state(State::Unknown);
-            CHECK(mock.state() == State::Inactive);
+            act.state(State::Unknown);
+            CHECK(act.state() == State::Inactive);
 
-            mock.state(State::Reverse);
-            CHECK(mock.state() == State::Inactive);
+            act.state(State::Reverse);
+            CHECK(act.state() == State::Inactive);
         }
     }
 }
