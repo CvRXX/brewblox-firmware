@@ -76,21 +76,21 @@ public:
 
     void swapImplementation();
 
+    bool softStartSupported(uint8_t channel) const
+    {
+        if (auto dev = hwDevice.lock()) {
+            IoArray::ChannelCapabilities requested{.all = 0};
+            requested.flags.pwm100Hz = 1;
+            return dev->channelSupports(channel, requested);
+        }
+        return false;
+    }
+
     // returns a time if supported by the hwDevice and channel
     std::optional<duration_millis_t> transitionDuration() const
     {
         if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
             return pAct->getTransitionTime();
-        } else if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
-            {
-                if (auto dev = hwDevice.lock()) {
-                    IoArray::ChannelCapabilities requested{.all = 0};
-                    requested.flags.pwm100Hz = 1;
-                    if (dev->channelSupports(pAct->channel(), requested)) {
-                        return 0;
-                    }
-                }
-            }
         }
         return std::nullopt;
     }
@@ -107,6 +107,7 @@ private:
     ActuatorDigitalConstrained constrained;
     blox_IoArray_TransitionDurationPreset transitionDurationPreset = blox_IoArray_TransitionDurationPreset_ST_OFF;
     duration_millis_t transitionDurationSetting = 0;
+    duration_millis_t transitionDurationDesired = 0;
 
 public:
     DigitalActuatorBlock()
