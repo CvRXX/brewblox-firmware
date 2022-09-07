@@ -57,6 +57,8 @@ private:
     IoValue::Setup::Frequency m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
     duration_millis_t m_transitionTime = 0;
 
+    bool ensureChannelSetup(std::shared_ptr<IoArray>& devPtr);
+
 public:
     static constexpr auto maxForwardDuty = duty_t{100};
     static constexpr auto maxReverseDuty = duty_t{-100};
@@ -101,8 +103,6 @@ public:
     {
         m_channel = newChannel;
     }
-
-    bool ensureChannelSetup(std::shared_ptr<IoArray>& devPtr);
 
     [[nodiscard]] bool invert() const
     {

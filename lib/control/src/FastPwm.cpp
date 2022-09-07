@@ -105,15 +105,20 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
 bool FastPwm::ensureChannelSetup(std::shared_ptr<IoArray>& devPtr)
 {
     auto setupOpt = devPtr->getSetup(m_channel);
+
+    // Happy flow: channel is setup as PWM with the right frequency
     if (auto pwmSetup = std::get_if<IoValue::Setup::OutputPwm>(&setupOpt)) {
         if (pwmSetup->frequency == m_frequency) {
-            // already set up as pwm and correct frequency
             return true;
         }
-        // set to unused to allow re-setup
+    }
+
+    // To make any changes, we must always first revert to Unused
+    if (!std::holds_alternative<IoValue::Setup::Unused>(setupOpt)) {
         devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
     }
 
+    // Determine actual frequency based on channel capabilities
     auto channelFlags = devPtr->getChannelCapabilities(m_channel);
     auto setup = IoValue::Setup::OutputPwm{};
     if (channelFlags.flags.pwm2000Hz) {
@@ -126,6 +131,7 @@ bool FastPwm::ensureChannelSetup(std::shared_ptr<IoArray>& devPtr)
         return false;
     }
 
+    // Setup channel with new settings
     auto result = devPtr->setupChannel(m_channel, std::move(setup));
     return std::holds_alternative<IoValue::Setup::OutputPwm>(result);
 }

@@ -16,6 +16,16 @@ public:
     {
     }
 
+    [[nodiscard]] State state() const final
+    {
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            return pAct->state();
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            return pAct->state();
+        }
+        return State::Unknown;
+    }
+
     void state(State v) final
     {
         if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
@@ -25,15 +35,43 @@ public:
         }
     }
 
-    [[nodiscard]] State state() const final
+    [[nodiscard]] bool invert() const
     {
-
         if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
-            return pAct->state();
+            return pAct->invert();
         } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
-            return pAct->state();
+            return pAct->invert();
         }
-        return State::Unknown;
+        return false;
+    }
+
+    void invert(bool v)
+    {
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            pAct->invert(v);
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            pAct->invert(v);
+        }
+    }
+
+    [[nodiscard]] uint8_t channel() const
+    {
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            return pAct->channel();
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            return pAct->channel();
+        }
+        return false;
+    }
+
+    void channel(uint8_t v)
+    {
+        hwDevice.setChannel(v);
+        if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+            pAct->channel(v);
+        } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            pAct->channel(v);
+        }
     }
 
     void swapImplementation();

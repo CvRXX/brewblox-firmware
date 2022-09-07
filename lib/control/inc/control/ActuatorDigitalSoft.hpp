@@ -96,13 +96,13 @@ public:
     void channel(uint8_t newChannel)
     {
         pwm.channel(newChannel);
-        update();
     }
 
     ticks_millis_t update(ticks_millis_t now)
     {
         return pwm.update(now);
     }
+
     ticks_millis_t update()
     {
         return pwm.update();

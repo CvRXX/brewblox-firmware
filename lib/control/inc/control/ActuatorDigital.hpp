@@ -33,30 +33,39 @@ class ActuatorDigitalSoft;
 class ActuatorDigital : public ActuatorDigitalBase {
 private:
     ControlPtr<IoArray>& m_target;
-    bool m_invert = false;
     uint8_t m_channel = 0;
-    uint8_t m_desiredChannel = 0;
+    bool m_invert = false;
+
+    bool ensureChannelSetup(std::shared_ptr<IoArray>& devPtr);
 
 public:
     explicit ActuatorDigital(ControlPtr<IoArray>& target, uint8_t chan)
         : m_target(target)
+        , m_channel(chan)
     {
-        channel(chan);
+        // TODO(Bob) refactor ActuatorDigitalChangeLogged / ActuatorDigitalConstrained to not rely on this behavior
+        update();
     }
 
     ActuatorDigital(const ActuatorDigital&) = delete;
     ActuatorDigital(ActuatorDigital&&) = default;
     ActuatorDigital& operator=(const ActuatorDigital&) = delete;
     ActuatorDigital& operator=(ActuatorDigital&&) = delete;
+    virtual ~ActuatorDigital() = default;
 
-    virtual ~ActuatorDigital()
-    {
-        channel(0); // release channel before destruction
-    }
+    [[nodiscard]] State state() const final;
 
     void state(State v) final;
 
-    [[nodiscard]] State state() const final;
+    [[nodiscard]] uint8_t channel() const
+    {
+        return m_channel;
+    }
+
+    void channel(uint8_t chan)
+    {
+        m_channel = chan;
+    }
 
     [[nodiscard]] bool invert() const
     {
@@ -65,36 +74,14 @@ public:
 
     void invert(bool inv)
     {
-        auto active = state();
         m_invert = inv;
-        state(active);
-    }
-
-    [[nodiscard]] uint8_t channel() const
-    {
-        return m_desiredChannel;
-    }
-
-    void claimChannel();
-
-    [[nodiscard]] bool channelReady() const
-    {
-        return m_desiredChannel == m_channel;
     }
 
     void update()
     {
-        if (!channelReady()) {
-            // Periodic retry to claim channel in case target didn't exist
-            // at earlier tries
-            claimChannel();
-            state(State::Inactive);
+        // Check whether we can claim and setup target channel
+        if (auto devPtr = m_target.lock()) {
+            ensureChannelSetup(devPtr);
         }
-    }
-
-    void channel(uint8_t newChannel)
-    {
-        m_desiredChannel = newChannel;
-        update();
     }
 };
