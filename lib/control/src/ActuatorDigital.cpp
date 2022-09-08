@@ -71,12 +71,5 @@ bool ActuatorDigital::ensureChannelSetup(std::shared_ptr<IoArray>& devPtr)
 
     // Setup as Digital
     auto setupResult = devPtr->setupChannel(m_channel, IoValue::Setup::OutputDigital{});
-    if (!std::holds_alternative<IoValue::Setup::OutputDigital>(setupResult)) {
-        return false;
-    }
-
-    // Write initial value to the channel to ensure it's initialized as Inactive
-    auto initial = invert() ? State::Active : State::Inactive;
-    auto writeResult = devPtr->writeChannel(m_channel, IoValue::Digital{initial});
-    return std::holds_alternative<IoValue::Digital>(writeResult);
+    return std::holds_alternative<IoValue::Setup::OutputDigital>(setupResult);
 }
