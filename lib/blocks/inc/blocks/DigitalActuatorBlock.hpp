@@ -10,7 +10,13 @@
 #include <variant>
 
 class ActuatorDigitalProxy : public ActuatorDigitalBase {
+private:
+    duration_millis_t _transitionDuration = 0;
+
 public:
+    IoChannelPtr hwDevice;
+    std::variant<ActuatorDigital, ActuatorDigitalSoft> act = ActuatorDigital(hwDevice, 0);
+
     ActuatorDigitalProxy()
         : hwDevice{}
     {
@@ -61,7 +67,7 @@ public:
         } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
             return pAct->channel();
         }
-        return false;
+        return 0;
     }
 
     void channel(uint8_t v)
@@ -74,30 +80,41 @@ public:
         }
     }
 
-    void swapImplementation();
+    [[nodiscard]] bool softStartSupported(uint8_t channel) const
+    {
+        if (auto dev = hwDevice.lock()) {
+            IoArray::ChannelCapabilities requested{.all = 0};
+            requested.flags.pwm100Hz = 1;
+            return dev->channelSupports(channel, requested);
+        }
+        return false;
+    }
 
     // returns a time if supported by the hwDevice and channel
-    std::optional<duration_millis_t> transitionDuration() const
+    [[nodiscard]] std::optional<duration_millis_t> transitionDurationActual() const
     {
         if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
             return pAct->getTransitionTime();
-        } else if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
-            {
-                if (auto dev = hwDevice.lock()) {
-                    IoArray::ChannelCapabilities requested{.all = 0};
-                    requested.flags.pwm100Hz = 1;
-                    if (dev->channelSupports(pAct->channel(), requested)) {
-                        return 0;
-                    }
-                }
-            }
         }
         return std::nullopt;
     }
 
-    IoChannelPtr hwDevice;
+    [[nodiscard]] duration_millis_t transitionDurationDesired() const
+    {
+        return _transitionDuration;
+    }
 
-    std::variant<ActuatorDigital, ActuatorDigitalSoft> act = ActuatorDigital(hwDevice, 0);
+    void transitionDurationDesired(duration_millis_t v)
+    {
+        _transitionDuration = v;
+        if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+            pAct->setTransitionTime(v);
+        }
+    }
+
+    void swapImplementation();
+
+    cbox::update_t update(cbox::update_t now);
 };
 
 class DigitalActuatorBlock final : public Block<brewblox_BlockType_DigitalActuator> {

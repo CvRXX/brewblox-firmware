@@ -280,6 +280,7 @@ SCENARIO("A DigitalActuator Block with Mockpins as target")
                                      });
                     CHECK(cbox::writeBlock(writeCmd.request, writeCmd.callback) == cbox::CboxError::OK);
                 }
+                cbox::update(0); // Another update is required before the actuator becomes active
 
                 THEN("Then the duration setting is determined by the ST enum, unless custom is selected")
                 {

@@ -29,7 +29,7 @@ DigitalActuatorBlock::read(const cbox::PayloadCallback& callback) const
         message.state = blox_IoArray_DigitalState(actuator.state());
     }
 
-    if (auto duration = actuator.transitionDuration()) {
+    if (auto duration = actuator.transitionDurationActual()) {
         message.transitionDurationValue = *duration;
     } else {
         excluded.push_back(blox_DigitalActuator_Block_transitionDurationValue_tag);
@@ -90,6 +90,9 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_DigitalActuator_Block_desiredState_tag)) {
             constrained.desiredState(ActuatorDigitalBase::State(message.desiredState));
         }
+
+        actuator.transitionDurationDesired(FastPwm::transitionTimeFromPreset(SoftTransitionsPreset{transitionDurationPreset},
+                                                                             transitionDurationSetting));
     }
 
     return parser.status();
@@ -97,45 +100,48 @@ DigitalActuatorBlock::write(const cbox::Payload& payload)
 
 void ActuatorDigitalProxy::swapImplementation()
 {
-    auto activeState = state();
-    auto activeInvert = invert();
-
     if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
         auto channel = pAct->channel();
-        act.emplace<ActuatorDigitalSoft>(hwDevice, channel);
+        auto invert = pAct->invert();
+
+        auto& newAct = act.emplace<ActuatorDigitalSoft>(hwDevice, channel);
+        newAct.setTransitionTime(_transitionDuration);
+        newAct.invert(invert);
 
     } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
         auto channel = pAct->channel();
-        act.emplace<ActuatorDigital>(hwDevice, channel);
+        auto invert = pAct->invert();
+
+        auto& newAct = act.emplace<ActuatorDigital>(hwDevice, channel);
+        newAct.invert(invert);
+    }
+}
+
+cbox::update_t ActuatorDigitalProxy::update(cbox::update_t now)
+{
+    bool useSoft = _transitionDuration != 0 && softStartSupported(channel());
+    bool isSoft = std::holds_alternative<ActuatorDigitalSoft>(act);
+
+    if (useSoft != isSoft) {
+        swapImplementation();
     }
 
-    state(activeState);
-    invert(activeInvert);
+    if (auto pAct = std::get_if<ActuatorDigital>(&act)) {
+        pAct->update();
+        return now + 1000;
+    } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&act)) {
+        return pAct->update(now);
+    }
+
+    return now + 1000;
 }
 
 cbox::update_t
 DigitalActuatorBlock::updateHandler(cbox::update_t now)
 {
-    auto transitionTime = FastPwm::transitionTimeFromPreset(SoftTransitionsPreset{transitionDurationPreset}, transitionDurationSetting);
-    bool useSoft = transitionTime != 0 && actuator.transitionDuration().has_value();
-    bool isSoft = std::holds_alternative<ActuatorDigitalSoft>(actuator.act);
-
-    if (useSoft != isSoft) {
-        actuator.swapImplementation();
-    }
-
-    auto nextUpdate = constrained.update(now);
-
-    if (auto pAct = std::get_if<ActuatorDigital>(&actuator.act)) {
-        pAct->update();
-        return nextUpdate;
-    } else if (auto pAct = std::get_if<ActuatorDigitalSoft>(&actuator.act)) {
-        pAct->setTransitionTime(transitionTime);
-        auto nextUpdate2 = pAct->update(now);
-        return std::min(nextUpdate, nextUpdate2);
-    }
-
-    return now + 1000;
+    auto nextUpdate1 = constrained.update(now);
+    auto nextUpdate2 = actuator.update(now);
+    return std::min(nextUpdate1, nextUpdate2);
 }
 
 void* DigitalActuatorBlock::implements(cbox::obj_type_t iface)
