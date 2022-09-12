@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "../../../lvgl_helpers.hpp"
 #include "dynamic_gui/elements/widgets/color_widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/styles/sizing.hpp"
@@ -73,14 +74,14 @@ public:
         ColorWidget::draw(placeholder, width, height);
         valueLabel.reset(sizing::makeBigNumberLabel(contentArea.get(), width, height));
 
-        lv_label_set_text(valueLabel.get(), std::to_string(settings.value).c_str());
+        update_label(valueLabel.get(), std::to_string(settings.value).c_str());
         lv_obj_align(valueLabel.get(), LV_ALIGN_CENTER, 0, 0);
         lv_obj_set_style_pad_all(valueLabel.get(), 0, 0);
 
         if (sizing::spaceForNameLabel(width, height)) {
             LabelLabel.reset(lv_label_create(contentArea.get()));
             lv_obj_add_style(LabelLabel.get(), &style::widget_name, LV_PART_MAIN);
-            lv_label_set_text(LabelLabel.get(), settings.label);
+            update_label(LabelLabel.get(), settings.label);
             lv_obj_align(LabelLabel.get(), LV_ALIGN_BOTTOM_MID, 0, 0);
         }
     }

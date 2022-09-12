@@ -1,6 +1,7 @@
 #include "blox_hal/hal_network.hpp"
 #include "fonts/fonts.hpp"
 #include "lvgl.h"
+#include "lvgl_helpers.hpp"
 #include "styles.hpp"
 #include <ctime>
 #include <string>
@@ -18,7 +19,7 @@ public:
         lv_obj_add_style(barObj, &style::bar, 0);
         lv_obj_align(networksLabel, LV_ALIGN_LEFT_MID, 0, 0);
 
-        lv_label_set_text(this->timeLabel, time);
+        update_label(this->timeLabel, time);
         lv_obj_align(timeLabel, LV_ALIGN_RIGHT_MID, -5, 0);
     }
 
@@ -36,8 +37,8 @@ public:
         gettimeofday(&tv, nullptr);
         nowtime = tv.tv_sec;
         nowtm = localtime(&nowtime);
-        strftime(time, sizeof(time), "%H:%M:%S", nowtm);
-        lv_label_set_text(this->timeLabel, time);
+        snprintf(time, 10, "%02d:%02d:%02d", nowtm->tm_hour, nowtm->tm_min, nowtm->tm_sec);
+        update_label(this->timeLabel, time);
     }
 
     void updateNetworks()
@@ -83,7 +84,7 @@ public:
             }
         }
 
-        lv_label_set_text(this->networksLabel, networkState.c_str());
+        update_label(this->networksLabel, networkState.c_str());
     }
 
     void update()

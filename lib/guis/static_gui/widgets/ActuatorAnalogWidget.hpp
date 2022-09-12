@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../lvgl_helpers.hpp"
 #include "./BaseWidget.hpp"
 #include "blocks/ActuatorPwmBlock.hpp"
 #include "lvgl.h"
@@ -76,7 +77,7 @@ public:
      */
     void setValue(const std::string& txt)
     {
-        lv_label_set_text(value, txt.c_str());
+        update_label(value, txt.c_str());
         lv_obj_align(value, LV_ALIGN_CENTER, 0, 0);
     }
 
@@ -86,7 +87,7 @@ public:
      */
     void setSetting(const std::string& txt)
     {
-        lv_label_set_text(setting, txt.c_str());
+        update_label(setting, txt.c_str());
         lv_obj_align(setting, LV_ALIGN_CENTER, 0, -40);
     }
 
