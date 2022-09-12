@@ -1,4 +1,5 @@
 #include "ExpOwGpio.hpp"
+#include "AppLogger.hpp"
 
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
@@ -474,6 +475,7 @@ void ExpOwGpio::update(bool forceRefresh)
     }
 
     if (owDriver.shortDetected()) {
+        logger::warn("Detected short on OneWire, power cycling OneWire on GPIO module " + std::to_string(expander.address() % 4));
         expander.set_output(ExpanderPins::oneWirePowerEnable, false);
         hal_delay_ms(200);
         expander.set_output(ExpanderPins::oneWirePowerEnable, true);
