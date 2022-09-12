@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <string>
 
 namespace network {
 
@@ -18,6 +19,7 @@ enum class State : uint8_t {
 
 Mode mode();
 uint32_t ip4(); // little endian
+const std::string& ip4string();
 
 void connect();
 void disconnect();

@@ -11,15 +11,13 @@ class Bar {
 public:
     Bar(lv_obj_t* mainContainer)
         : barObj(lv_obj_create(mainContainer))
-        , networksLabel(lv_label_create(barObj))
+        , networkLabel(lv_label_create(barObj))
         , timeLabel(lv_label_create(barObj))
     {
         lv_obj_clear_flag(barObj, LV_OBJ_FLAG_SCROLLABLE);
         lv_obj_set_size(barObj, 480, 22);
         lv_obj_add_style(barObj, &style::bar, 0);
-        lv_obj_align(networksLabel, LV_ALIGN_LEFT_MID, 0, 0);
-
-        update_label(this->timeLabel, time);
+        lv_obj_align(networkLabel, LV_ALIGN_LEFT_MID, 5, 0);
         lv_obj_align(timeLabel, LV_ALIGN_RIGHT_MID, -5, 0);
     }
 
@@ -30,6 +28,7 @@ public:
 
     void updateTime()
     {
+        static char time[10] = "00:00:00";
         struct timeval tv;
         time_t nowtime;
         struct tm* nowtm;
@@ -43,48 +42,47 @@ public:
 
     void updateNetworks()
     {
-        std::string networkState = " ";
+        // TODO(elco) use flex row so icons and ip are separate labels
+        // This avoids rewriting ip string when wifi strength changes
+        static std::string text;
         if (network::mode() == network::Mode::WIFI_PROVISIONING) {
-            networkState.append(symbols::wifi_cog);
-            networkState.append(symbols::bluetooth);
-            networkState.append(" provisioning");
-
+            text = symbols::wifi_cog;
+            text.append(symbols::bluetooth);
+            text.append(" provisioning");
         } else {
             if (network::mode() == network::Mode::ETHERNET) {
-                networkState.append(symbols::ethernet);
-                networkState.push_back(' ');
+                text = symbols::ethernet;
             } else {
                 auto signal = network::wifiStrength();
                 if (signal < -80) {
-                    networkState.append(symbols::wifi_strength1);
+                    text = symbols::wifi_strength1;
                 } else if (signal < -70) {
-                    networkState.append(symbols::wifi_strength2);
+                    text = symbols::wifi_strength2;
                 } else if (signal < -67) {
-                    networkState.append(symbols::wifi_strength3);
+                    text = symbols::wifi_strength3;
                 } else if (signal < 0) {
-                    networkState.append(symbols::wifi_strength4);
+                    text = symbols::wifi_strength4;
                 } else {
-                    networkState.append(symbols::wifi_off);
+                    text = symbols::wifi_off;
                 }
             }
-            networkState.push_back(' ');
+            text.push_back(' ');
             switch (network::state()) {
             case network::State::OFF:
-                networkState.append("wifi disconnected");
+                text.append(" wifi disconnected");
                 break;
             case network::State::CONNECTED:
-                networkState.append(formatIp(network::ip4()));
+                text.append(network::ip4string());
                 break;
             case network::State::NOT_FOUND:
-                networkState.append("wifi unavailable");
+                text.append(" wifi unavailable");
                 break;
             case network::State::NETWORK_ERROR:
-                networkState.append("wifi error");
+                text.append(" wifi error");
                 break;
             }
         }
-
-        update_label(this->networksLabel, networkState.c_str());
+        update_label(networkLabel, text.c_str());
     }
 
     void update()
@@ -93,13 +91,7 @@ public:
         updateNetworks();
     }
 
-    static std::string formatIp(uint32_t ip)
-    {
-        return std::to_string((ip >> (8 * 0)) & 0xff) + "." + std::to_string((ip >> (8 * 1)) & 0xff) + "." + std::to_string((ip >> (8 * 2)) & 0xff) + "." + std::to_string((ip >> (8 * 3)) & 0xff);
-    }
-
-    char time[10] = "00:00:00";
     lv_obj_t* barObj;
-    lv_obj_t* networksLabel;
+    lv_obj_t* networkLabel;
     lv_obj_t* timeLabel;
 };
