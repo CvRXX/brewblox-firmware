@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../lvgl_helpers.hpp"
+#include "../../lvgl_helpers.hpp"
 #include "../styles.hpp"
 #include "./BaseWidget.hpp"
 #include "lvgl.h"

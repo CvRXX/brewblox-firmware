@@ -1,5 +1,5 @@
 #pragma once
-#include "../lvgl_helpers.hpp"
+#include "../../lvgl_helpers.hpp"
 #include "./BaseWidget.hpp"
 #include "blocks/PidBlock.hpp"
 

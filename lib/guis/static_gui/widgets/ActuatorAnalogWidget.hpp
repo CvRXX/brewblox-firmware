@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../lvgl_helpers.hpp"
+#include "../../lvgl_helpers.hpp"
 #include "./BaseWidget.hpp"
 #include "blocks/ActuatorPwmBlock.hpp"
 #include "lvgl.h"
