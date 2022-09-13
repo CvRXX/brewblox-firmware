@@ -90,7 +90,7 @@ error_t init(Settings& settings)
         .mode = settings.mode,
         .duty_cycle_pos = 0,
         .cs_ena_pretrans = 2,
-        .cs_ena_posttrans = 0,
+        .cs_ena_posttrans = 2,
         .clock_speed_hz = settings.speed,
         .input_delay_ns = 0,
         .spics_io_num = settings.ssPin,
@@ -121,7 +121,7 @@ error_t write(const Settings& settings, const uint8_t* data, size_t size)
     auto trans = spi_transaction_t{};
     if (size <= 4) {
         trans = spi_transaction_t{
-            .flags = uint32_t{SPI_TRANS_USE_TXDATA},
+            .flags = uint32_t{SPI_TRANS_USE_TXDATA} | (settings.ssPin > 0 ? uint32_t{SPI_TRANS_CS_KEEP_ACTIVE} : uint32_t{0}),
             .cmd = 0,
             .addr = 0,
             .length = size * 8, // esp platform wants size in bits
@@ -133,7 +133,7 @@ error_t write(const Settings& settings, const uint8_t* data, size_t size)
         memcpy(trans.tx_data, data, size);
     } else {
         trans = spi_transaction_t{
-            .flags = uint32_t{0},
+            .flags = settings.ssPin > 0 ? uint32_t{SPI_TRANS_CS_KEEP_ACTIVE} : uint32_t{0},
             .cmd = 0,
             .addr = 0,
             .length = size * 8, // esp platform wants size in bits
@@ -165,7 +165,7 @@ error_t dmaWrite(const Settings& settings, const uint8_t* data, size_t size, con
     if (auto trans = allocateTransaction()) {
 
         *trans = spi_transaction_t{
-            .flags = uint32_t{0},
+            .flags = settings.ssPin > 0 ? uint32_t{SPI_TRANS_CS_KEEP_ACTIVE} : uint32_t{0},
             .cmd = 0,
             .addr = 0,
             .length = size * 8, // esp platform wants size in bits
@@ -191,7 +191,7 @@ error_t dmaWriteValue(const Settings& settings, const uint8_t* data, size_t size
     if (auto trans = allocateTransaction()) {
 
         *trans = spi_transaction_t{
-            .flags = SPI_TRANS_USE_TXDATA,
+            .flags = uint32_t{SPI_TRANS_USE_TXDATA} | (settings.ssPin > 0 ? uint32_t{SPI_TRANS_CS_KEEP_ACTIVE} : uint32_t{0}),
             .cmd = 0,
             .addr = 0,
             .length = size * 8, // esp platform wants size in bits
@@ -218,7 +218,7 @@ error_t dmaWriteValue(const Settings& settings, const uint8_t* data, size_t size
 error_t writeAndRead(const Settings& settings, const uint8_t* tx, size_t txSize, uint8_t* rx, size_t rxSize)
 {
     auto trans = spi_transaction_t{
-        .flags = uint32_t{0},
+        .flags = settings.ssPin > 0 ? uint32_t{SPI_TRANS_CS_KEEP_ACTIVE} : uint32_t{0},
         .cmd = 0,
         .addr = 0,
         .length = txSize * 8, // esp platform wants size in bits
