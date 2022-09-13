@@ -25,7 +25,6 @@ public:
 
         setting = lv_label_create(obj);
         lv_obj_add_style(setting, &style::number_medium, 0);
-
         lv_obj_align(setting, LV_ALIGN_CENTER, 0, -40);
     }
 
@@ -78,7 +77,6 @@ public:
     void setValue(const std::string& txt)
     {
         update_label(value, txt.c_str());
-        lv_obj_align(value, LV_ALIGN_CENTER, 0, 0);
     }
 
     /**
@@ -88,7 +86,6 @@ public:
     void setSetting(const std::string& txt)
     {
         update_label(setting, txt.c_str());
-        lv_obj_align(setting, LV_ALIGN_CENTER, 0, -40);
     }
 
 private:
