@@ -15,11 +15,11 @@
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
 #include "BeepTask.hpp"
-#include "HttpHandler.hpp"
+// #include "HttpHandler.hpp"
 #include "OkButtonMonitor.hpp"
 #include "blox_hal/hal_network.hpp"
-#include "dynamic_gui/dynamicGui.hpp"
-#include "dynamic_gui/util/test_screen.hpp"
+// #include "dynamic_gui/dynamicGui.hpp"
+// #include "dynamic_gui/util/test_screen.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
@@ -89,13 +89,6 @@ void app_main()
     // }
 
     static asio::io_context io;
-    static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
-                                              RecurringTask::IntervalType::FROM_EXPIRY,
-                                              []() -> bool {
-                                                  screen::update();
-                                                  screen::tick(100);
-                                                  return true;
-                                              });
 
     static auto systemCheck = RecurringTask(io, asio::chrono::milliseconds(2000),
                                             RecurringTask::IntervalType::FROM_EXPIRY,
@@ -114,20 +107,26 @@ void app_main()
         });
 
     static auto updater = RecurringTask(
-        io, asio::chrono::milliseconds(10),
+        io, asio::chrono::milliseconds(1),
         RecurringTask::IntervalType::FROM_EXECUTION,
         []() {
             static const auto start = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
+            static uint32_t lastDisplayTick = 0;
             const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
             uint32_t millisSinceBoot = now - start;
+            uint32_t millisSinceDisplayTick = now - lastDisplayTick;
             cbox::update(millisSinceBoot);
+            if (millisSinceDisplayTick >= 100) {
+                screen::update();
+                screen::tick(millisSinceDisplayTick);
+                lastDisplayTick = now;
+            }
             return true;
         });
 
     static CboxServer cboxServer(io, 8332);
-    static HttpHandler http(io, 80, cboxServer);
+    // static HttpHandler http(io, 80, cboxServer);
 
-    displayTicker.start(true);
     buttonMonitor.start();
     systemCheck.start();
     cbox::loadBlocksFromStorage();

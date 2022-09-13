@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../lvgl_helpers.hpp"
 #include "../styles.hpp"
 #include "./BaseWidget.hpp"
 #include "lvgl.h"
@@ -36,9 +37,9 @@ public:
             if (auto val = ptr->value()) {
                 auto str = temp_to_string(*val, 1, tempUnit);
                 str.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
-                lv_label_set_text(value, str.c_str());
+                update_label(value, str.c_str());
             } else {
-                lv_label_set_text(value, "-");
+                update_label(value, "-");
             }
             lv_obj_align(value, LV_ALIGN_CENTER, 0, -10);
             return;

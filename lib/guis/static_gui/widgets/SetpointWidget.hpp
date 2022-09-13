@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../lvgl_helpers.hpp"
 #include "./BaseWidget.hpp"
 #include "blocks/SetpointSensorPairBlock.hpp"
 
@@ -39,15 +40,15 @@ public:
             if (auto val = pair.value()) {
                 auto str = temp_to_string(*val, 1, tempUnit);
                 str.append(tempUnit == TempUnit::Fahrenheit ? "°F" : "°C");
-                lv_label_set_text(value, str.c_str());
+                update_label(value, str.c_str());
             } else {
-                lv_label_set_text(value, "-");
+                update_label(value, "-");
             }
             if (auto val = pair.setting()) {
                 auto str = temp_to_string(*val, 1, tempUnit);
-                lv_label_set_text(setting, str.c_str());
+                update_label(setting, str.c_str());
             } else {
-                lv_label_set_text(setting, "-");
+                update_label(setting, "-");
             }
             return;
         }

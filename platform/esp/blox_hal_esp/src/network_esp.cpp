@@ -14,7 +14,6 @@
 #include "network_events.hpp"
 #include "wifi.hpp"
 #include "wifi_provision.hpp"
-#include <string.h>
 
 namespace network {
 constexpr auto TAG = "NETWORK";
@@ -88,6 +87,23 @@ void provision()
 void clearProvision()
 {
     wifi_provision::clear();
+}
+
+const std::string& ip4string()
+{
+    // keep cached copy of ip string. update if needed and return ref
+    static std::string ip4String;
+    static uint32_t prev_ip;
+
+    auto ip = ip4();
+    if (ip != prev_ip) {
+        ip4String = std::to_string(ip & 0xff) + "."
+                    + std::to_string((ip >> 8) & 0xff) + "."
+                    + std::to_string((ip >> 16) & 0xff) + "."
+                    + std::to_string((ip >> 24) & 0xff);
+        prev_ip = ip;
+    }
+    return ip4String;
 }
 
 }; // end namespace network
