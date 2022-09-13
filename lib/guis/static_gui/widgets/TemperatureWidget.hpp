@@ -21,6 +21,7 @@ public:
         , value(lv_label_create(obj))
     {
         lv_obj_add_style(value, &style::number_large, LV_PART_MAIN);
+        lv_obj_align(value, LV_ALIGN_CENTER, 0, -10);
     }
 
     TemperatureWidget(const TemperatureWidget&) = delete;
@@ -41,7 +42,6 @@ public:
             } else {
                 update_label(value, "-");
             }
-            lv_obj_align(value, LV_ALIGN_CENTER, 0, -10);
             return;
         }
     }
