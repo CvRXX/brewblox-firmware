@@ -23,7 +23,8 @@ public:
     bool write(const std::string& message) final
     {
         if (buf.size() + message.size() <= buf.max_size()) {
-            buf.sputn(message.c_str(), message.size());
+            buf.sputn(message.data(), message.size());
+            buf.pubsync();
             return true;
         }
         return false;
@@ -33,6 +34,7 @@ public:
     {
         if (buf.size() + 1 <= buf.max_size()) {
             buf.sputc(c);
+            buf.pubsync();
             return true;
         }
         return false;
@@ -42,8 +44,9 @@ public:
     {
         if (buf.size() + message.size() + 2 <= buf.max_size()) {
             buf.sputc('<');
-            buf.sputn(message.c_str(), message.size());
+            buf.sputn(message.data(), message.size());
             buf.sputc('>');
+            buf.pubsync();
             return true;
         }
         return false;
@@ -70,8 +73,8 @@ public:
     virtual void start();
     virtual void stop();
     // virtual dispatch because only derived class knows stream type to pass to templated async read/write
-    virtual void async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) = 0;
-    virtual void async_read_impl(asio::streambuf& buffer_in, std::shared_ptr<CboxConnection> self) = 0;
+    virtual void async_write_impl() = 0;
+    virtual void async_read_impl() = 0;
 
     void start_read();
     void start_write();
