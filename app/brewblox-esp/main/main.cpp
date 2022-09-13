@@ -94,7 +94,7 @@ void app_main()
                                             RecurringTask::IntervalType::FROM_EXPIRY,
                                             []() -> bool {
                                                 spark4::expander_check();
-                                                // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+                                                heap_caps_print_heap_info(MALLOC_CAP_8BIT);
                                                 return true;
                                             });
 
