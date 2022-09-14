@@ -126,29 +126,33 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         THEN("A OneWire sensor can use it on the fake bus")
         {
             DS18B20 sensor(ow, addr1);
-            sensor.update();
+            sensor.update(1000);
             CHECK(sensor.value().has_value() == false); // a reset will be detected, triggering a re-init
-            sensor.update();
-            CHECK(sensor.value().has_value() == true);
+            sensor.update(1500);
+            CHECK(sensor.value().has_value() == false); // conversion time has not elapsed
+            sensor.update(1750);                        // conversion time elapsed, does not start a new conversion yet
+            REQUIRE(sensor.value().has_value() == true);
             CHECK(sensor.value() == 20.0);
 
             mockSensor->setTemperature(temp_t{21.0});
             CHECK(mockSensor->getTemperature() == 21.0);
-            sensor.update();
-            CHECK(sensor.value() == 21.0);
+            sensor.update(2000); // reports value of previous conversion, mock sensor is not re-read yet, does start a conversion
+            CHECK(sensor.value() == 20.0);
 
-            mockSensor->setTemperature(temp_t{-10.0});
-            CHECK(mockSensor->getTemperature() == -10.0);
-            sensor.update();
-            CHECK(sensor.value() == -10.0);
+            // new conversion result is read after 750ms
+            sensor.update(2749);
+            CHECK(sensor.value() == 20.0);
+
+            sensor.update(2750);
+            CHECK(sensor.value() == 21.0);
         }
 
         WHEN("The sensor is disconnected")
         {
             DS18B20 sensor(ow, addr1);
             mockSensor->setConnected(false);
-            sensor.update();
-            sensor.update();
+            sensor.update(1000);
+            sensor.update(2000);
 
             THEN("It reads as invalid")
             {
@@ -158,9 +162,9 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             THEN("When it comes back, the first value is invalid and the second is valid (reset detection)")
             {
                 mockSensor->setConnected(true);
-                sensor.update();
+                sensor.update(1000);
                 CHECK(sensor.value().has_value() == false);
-                sensor.update();
+                sensor.update(2000);
                 CHECK(sensor.value().has_value() == true);
             }
         }
@@ -169,22 +173,33 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
         {
             DS18B20 sensor(ow, addr1);
             mockSensor->setTemperature(temp_t{21.0});
-            sensor.update();
-            sensor.update();
+            sensor.update(1000);
+            sensor.update(2000);
 
             THEN("A single bitflip will not give an error due to a retry")
             {
                 // 9 scratchpad bytes are read, 81 bits
                 mockSensor->flipReadBits({13});
-                sensor.update();
+                sensor.update(3000);
                 CHECK(sensor.value().has_value() == true);
                 CHECK(sensor.value() == 21.0);
             }
 
-            THEN("A bitflip in 2 scratchpads will give an error")
+            THEN("A bitflip in 2 scratchpads will set the sensor to disconnected, but the value will expire after 2 seconds")
             {
                 mockSensor->flipReadBits({13, 81 + 13});
-                sensor.update();
+                sensor.update(3000);
+                CHECK(sensor.connected() == false);
+                CHECK(sensor.value().has_value() == true);
+
+                mockSensor->flipReadBits({13, 81 + 13});
+                sensor.update(4000);
+                CHECK(sensor.connected() == false);
+                CHECK(sensor.value().has_value() == true);
+
+                mockSensor->flipReadBits({13, 81 + 13});
+                sensor.update(4001);
+                CHECK(sensor.connected() == false);
                 CHECK(sensor.value().has_value() == false);
             }
         }
@@ -212,10 +227,10 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
                 addr = ow.ptr->search();
             }
 
-            sensor1.update();
-            sensor2.update();
-            sensor1.update();
-            sensor2.update();
+            sensor1.update(1000);
+            sensor2.update(1000);
+            sensor1.update(2000);
+            sensor2.update(2000);
             CHECK(sensor1.value() == 20.0);
             CHECK(sensor2.value() == 20.0);
 
@@ -223,8 +238,8 @@ SCENARIO("A mocked OneWire bus and mocked slaves", "[onewire]")
             mockSensor2->setTemperature(temp_t{22.0});
             CHECK(mockSensor->getTemperature() == 21.0);
             CHECK(mockSensor2->getTemperature() == 22.0);
-            sensor1.update();
-            sensor2.update();
+            sensor1.update(3000);
+            sensor2.update(3000);
             CHECK(sensor1.value() == 21.0);
             CHECK(sensor2.value() == 22.0);
         }

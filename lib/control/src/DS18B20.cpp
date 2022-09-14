@@ -19,9 +19,6 @@
  */
 
 #include "control/DS18B20.hpp"
-#include "control/OneWire.hpp"
-#include "control/OneWireAddress.hpp"
-#include "control/Temperature.hpp"
 
 // OneWire commands
 static constexpr const uint8_t STARTCONVO = 0x44;      // Start a new conversion to be read from scratchpad 750ms later
@@ -90,8 +87,6 @@ void DS18B20::init()
     // Either way, initConnection() should be called again
     scratchPad[HIGH_ALARM_TEMP] = 1;
     writeScratchPad(scratchPad, false);
-
-    startConversion();
 }
 
 void DS18B20::startConversion()
@@ -104,43 +99,50 @@ void DS18B20::startConversion()
 
 std::optional<temp_t> DS18B20::value() const
 {
-    if (!connected()) {
-        return std::nullopt;
-    }
-
     return m_cachedValue;
 }
 
-void DS18B20::update()
+ticks_millis_t DS18B20::update(ticks_millis_t now)
 {
-    m_cachedValue = readAndConstrainTemp();
-    startConversion();
-}
+    auto sinceConversionStart = now - m_lastConversionStart;
 
-temp_t DS18B20::readAndConstrainTemp()
-{
-    // difference in precision between DS18B20 format and temperature format
-    static constexpr const int32_t scale = 1 << (cnl::_impl::fractional_digits<temp_t>::value - 4);
-    int32_t tempRaw;
-    bool success;
-
-    tempRaw = getRawTemp();
-    success = tempRaw > RESET_DETECTED_RAW;
-
-    if (tempRaw == RESET_DETECTED_RAW) {
-        // retry re-init if the sensor is present, but needs a reset
-        init();
+    if (connected() && sinceConversionStart < CONVERSION_TIME) {
+        // running conversion not ready yet
+        return now + (sinceConversionStart = CONVERSION_TIME);
     }
 
-    connected(success);
+    if (!connected() || m_conversionPending) {
+        int32_t tempRaw = getRawTemp();
+        m_conversionPending = false;
 
-    if (!success) {
-        return 0;
+        if (tempRaw == DEVICE_DISCONNECTED_RAW) {
+            connected(false);
+        } else if (tempRaw == RESET_DETECTED_RAW) {
+            // re-init if the sensor is present, but still needs to be configured
+            connected(true);
+            init();
+        } else {
+            connected(true);
+            m_cachedValue = cnl::wrap<temp_t>(tempRaw * scale) + m_calibrationOffset;
+        }
     }
 
-    temp_t temp = cnl::wrap<temp_t>(tempRaw * scale) + m_calibrationOffset;
+    // invalidate cache if conversion is too old
+    if (sinceConversionStart > VALID_TIME) {
+        m_cachedValue = std::nullopt;
+    }
 
-    return temp;
+    if (!connected()) {
+        return now + 1000;
+    }
+
+    if (sinceConversionStart >= CONVERSION_INTERVAL) {
+        m_lastConversionStart = now;
+        m_conversionPending = true;
+        startConversion();
+    }
+
+    return now + CONVERSION_TIME - sinceConversionStart;
 }
 
 bool DS18B20::readScratchPad(ScratchPad& scratchPad)
