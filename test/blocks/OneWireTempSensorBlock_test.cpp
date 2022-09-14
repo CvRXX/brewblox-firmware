@@ -68,9 +68,10 @@ SCENARIO("A TempSensorOneWireBlock")
                   "address: 9084060688381448488 "
                   "oneWireBusId: 4");
 
+            // After 2 updates, the sensor returns a valid temperature
             cbox::update(1000);
+            cbox::update(2000);
 
-            // After an update, the sensor returns a valid temperature
             cmd.responses.clear();
             CHECK(cbox::readBlock(cmd.request, cmd.callback) == cbox::CboxError::OK);
             payloadToMessage(cmd, message);

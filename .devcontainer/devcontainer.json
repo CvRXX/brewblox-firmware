@@ -18,17 +18,18 @@
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "editorconfig.editorconfig",
-    "ms-vscode.cpptools",
-    "ms-python.python",
-    "zxh404.vscode-proto3",
-    "timonwong.shellcheck",
-    "huizhou.githd",
-    "letmaik.git-tree-compare",
-    "foxundermoon.shell-format",
-    "GitHub.vscode-pull-request-github",
-    "twxs.cmake"
-  ],
+	"editorconfig.editorconfig",
+	"ms-vscode.cpptools",
+	"ms-python.python",
+	"zxh404.vscode-proto3",
+	"timonwong.shellcheck",
+	"huizhou.githd",
+	"letmaik.git-tree-compare",
+	"foxundermoon.shell-format",
+	"GitHub.vscode-pull-request-github",
+	"twxs.cmake",
+	"matepek.vscode-catch2-test-adapter"
+],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   "mounts": [
