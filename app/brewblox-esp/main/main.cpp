@@ -25,6 +25,7 @@
 #include "network/CboxServer.hpp"
 #include "network/mdns.hpp"
 #include "ota.hpp"
+#include "sntp.hpp"
 #include "static_gui/staticGui.hpp"
 #include "task_stats.hpp"
 #include <algorithm>
@@ -83,11 +84,14 @@ void app_main()
     spark4::adc_init();
     setupSystemBlocks();
     screen::init();
+    screen::update();
 
     // auto testScreen = gui::dynamic_interface::testScreen();
     // if (testScreen) {
     //     screen::interface->setNewScreen(std::move(*testScreen));
     // }
+    network::connect();
+    initialize_sntp();
 
     static asio::io_context io;
 
@@ -135,7 +139,6 @@ void app_main()
     updater.start(true);
 
     cbox::discoverBlocks();
-    network::connect();
     mdns::start();
     io.run();
 }
