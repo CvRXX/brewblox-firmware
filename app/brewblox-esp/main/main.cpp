@@ -26,6 +26,7 @@
 #include "network/mdns.hpp"
 #include "ota.hpp"
 #include "static_gui/staticGui.hpp"
+#include "task_stats.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -95,6 +96,7 @@ void app_main()
                                             []() -> bool {
                                                 spark4::expander_check();
                                                 // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+                                                // vTaskPrintRunTimeStats();
                                                 return true;
                                             });
 
@@ -107,7 +109,7 @@ void app_main()
         });
 
     static auto updater = RecurringTask(
-        io, asio::chrono::milliseconds(1),
+        io, asio::chrono::milliseconds(2),
         RecurringTask::IntervalType::FROM_EXECUTION,
         []() {
             static const auto start = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);

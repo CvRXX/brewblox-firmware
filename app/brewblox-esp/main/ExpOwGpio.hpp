@@ -279,18 +279,17 @@ private:
             // in case the IC has reset, this will ensure a correct state.
             // pin 4, 2, 1, 0 output, others input
             connected = expander.set_outputs(externalPower ? 0xFE : 0xFC) && expander.set_config(0b11101000);
-            return true;
+            if (!connected) {
+                spi.release_bus();
+            }
+            return connected;
         }
         return false;
     }
 
     void deassert_cs()
     {
-        if (connected) {
-            // if device couldn't be found, there is no point in trying to communicate with the expander
-            expander.set_outputs(externalPower ? 0xFF : 0xFD);
-        }
-        // the spi bus lock still has to be freed
+        expander.set_outputs(externalPower ? 0xFF : 0xFD);
         spi.release_bus();
     }
 

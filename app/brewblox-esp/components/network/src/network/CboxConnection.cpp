@@ -15,7 +15,7 @@ void CboxConnection::start()
 {
     auto message = cbox::handshakeMessage();
     buffer_out.sputc('<');
-    buffer_out.sputn(message.c_str(), message.size());
+    buffer_out.sputn(message.data(), message.size());
     buffer_out.sputc('>');
     buffer_out.pubsync();
     start_read();
@@ -27,14 +27,14 @@ void CboxConnection::stop()
 
 void CboxConnection::start_read()
 {
-    async_read_impl(buffer_in, shared_from_this());
+    async_read_impl();
 };
 
 void CboxConnection::start_write()
 {
     if (!writing && buffer_out.size() > 0) {
         writing = true;
-        async_write_impl(buffer_out, shared_from_this());
+        async_write_impl();
     }
 }
 

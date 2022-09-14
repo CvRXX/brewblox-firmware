@@ -14,23 +14,23 @@ void CboxTcpConnection::stop()
     socket.close();
 }
 
-void CboxTcpConnection::async_read_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self)
+void CboxTcpConnection::async_read_impl()
 {
     asio::async_read_until(
         socket,
         buffer_in,
         '\n',
-        [self{std::move(self)}](std::error_code ec, std::size_t bytes_transferred) {
+        [self{shared_from_this()}](std::error_code ec, std::size_t bytes_transferred) {
             self->finish_read(ec, bytes_transferred);
         });
 }
 
-void CboxTcpConnection::async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self)
+void CboxTcpConnection::async_write_impl()
 {
     asio::async_write(
         socket,
         buffer_out,
-        [self{std::move(self)}](std::error_code ec, std::size_t bytes_transferred) {
+        [self{shared_from_this()}](std::error_code ec, std::size_t bytes_transferred) {
             self->finish_write(ec, bytes_transferred);
         });
 }

@@ -11,8 +11,8 @@ public:
 
     void stop() override;
 
-    void async_read_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
-    void async_write_impl(asio::streambuf& buffer_out, std::shared_ptr<CboxConnection> self) override;
+    void async_read_impl() override;
+    void async_write_impl() override;
 
 private:
     asio::ip::tcp::socket socket;

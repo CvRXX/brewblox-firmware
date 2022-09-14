@@ -38,15 +38,15 @@ SysInfoBlock::read(const cbox::PayloadCallback& callback) const
     strncpy(message.version, GIT_VERSION, 12);
     message.platform = blox_SysInfo_Platform(PLATFORM_ID);
 
-    strncpy(message.protocolVersion, COMPILED_PROTO_VERSION, 12);
-    strncpy(message.releaseDate, GIT_DATE, 12);
-    strncpy(message.protocolDate, COMPILED_PROTO_DATE, 12);
+    strncpy(message.protocolVersion, COMPILED_PROTO_VERSION, sizeof(message.protocolVersion));
+    strncpy(message.releaseDate, GIT_DATE, sizeof(message.releaseDate));
+    strncpy(message.protocolDate, COMPILED_PROTO_DATE, sizeof(message.protocolDate));
 
     message.ip = network::ip4();
     message.uptime = ticks.millis();
     message.updatesPerSecond = _updateRate;
     message.systemTime = ticks.utc();
-    strncpy(message.timeZone, _settings.timeZone.c_str(), _settings.timeZone.size());
+    strncpy(message.timeZone, _settings.timeZone.c_str(), sizeof(message.timeZone));
     message.tempUnit = blox_SysInfo_TemperatureUnit(_settings.tempUnit);
     message.displayBrightness = _settings.displayBrightness;
 
@@ -63,7 +63,7 @@ SysInfoBlock::readStored(const cbox::PayloadCallback& callback) const
 {
     blox_SysInfo_Block message = blox_SysInfo_Block_init_zero;
 
-    strncpy(message.timeZone, _settings.timeZone.c_str(), _settings.timeZone.size());
+    strncpy(message.timeZone, _settings.timeZone.c_str(), sizeof(message.timeZone));
     message.tempUnit = blox_SysInfo_TemperatureUnit(_settings.tempUnit);
     message.displayBrightness = _settings.displayBrightness;
 
