@@ -50,13 +50,14 @@ private:
     ControlPtr<IoArray>& m_target;
     bool m_invert = false;
     uint8_t m_channel = 0;
-    uint8_t m_desiredChannel = 0;
     std::optional<value_t> m_desiredDuty = 0;
     std::optional<value_t> m_actualDuty = 0;
     value_t m_transitionDuty = 0;
     ticks_millis_t m_lastUpdateTime = 0;
     IoValue::Setup::Frequency m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
     duration_millis_t m_transitionTime = 0;
+
+    bool ensureChannelSetup(std::shared_ptr<IoArray>& devPtr);
 
 public:
     static constexpr auto maxForwardDuty = duty_t{100};
@@ -71,11 +72,6 @@ public:
 
     FastPwm(const FastPwm&) = delete;
     FastPwm& operator=(const FastPwm&) = delete;
-
-    ~FastPwm() final
-    {
-        channel(0); // release channel before destruction
-    }
 
     [[nodiscard]] std::optional<value_t> value() const final
     {
@@ -100,20 +96,12 @@ public:
 
     [[nodiscard]] uint8_t channel() const
     {
-        return m_desiredChannel;
+        return m_channel;
     }
 
     void channel(uint8_t newChannel)
     {
-        m_desiredChannel = newChannel;
-        update(0);
-    }
-
-    bool claimChannel();
-
-    [[nodiscard]] bool channelReady() const
-    {
-        return m_desiredChannel == m_channel;
+        m_channel = newChannel;
     }
 
     [[nodiscard]] bool invert() const
@@ -123,10 +111,7 @@ public:
 
     void invert(bool inv)
     {
-        if (m_invert != inv) {
-            m_invert = inv;
-            update(0);
-        }
+        m_invert = inv;
     }
 
     static duration_millis_t transitionTimeFromPreset(SoftTransitionsPreset preset, duration_millis_t custom);
@@ -149,7 +134,6 @@ public:
     void frequency(IoValue::Setup::Frequency f)
     {
         m_frequency = f;
-        claimChannel(); // setup channel again to change frequency
     };
 
     duty_t minDuty() const;

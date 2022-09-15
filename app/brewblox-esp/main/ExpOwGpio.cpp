@@ -1,4 +1,5 @@
 #include "ExpOwGpio.hpp"
+#include "AppLogger.hpp"
 
 using ChanBits = ExpOwGpio::ChanBits;
 using ChanBitsInternal = ExpOwGpio::ChanBitsInternal;
@@ -120,6 +121,9 @@ IoValue::variant ExpOwGpio::readChannelImpl(uint8_t channel) const
     auto setup = channelSetup(channel);
     if (std::holds_alternative<IoValue::Setup::OutputPwm>(setup)) {
         IoValue::PWM::duty_t duty = (IoValue::PWM::duty_t{100} * chan.appliedDuty) / 255;
+        if ((pullUpStatus() & pins) < (pullDownStatus() & pins)) {
+            duty = -duty;
+        }
         return IoValue::PWM(duty);
     }
 
@@ -208,7 +212,6 @@ IoValue::variant ExpOwGpio::writeChannelImpl(uint8_t channel, IoValue::variant v
 
 IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Setup::variant setup)
 {
-
     if (!channel || channel > flexChannels.size()) {
         return IoValue::Error::INVALID_CHANNEL;
     }
@@ -288,6 +291,10 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
     }
     if (std::holds_alternative<IoValue::Setup::Unused>(setup)) {
         auto pins_mask = chan.pins_mask.bits.all;
+
+        ChanBitsInternal bits{};
+        op_ctrl_desired.apply(chan.pins_mask, bits);
+
         // undo pwm settings
         if (pins_mask & uint16_t{0x3}) {
             pwm_map_1_desired &= ~uint8_t{0b11111000};
@@ -322,11 +329,10 @@ IoValue::Setup::variant ExpOwGpio::setupChannelImpl(uint8_t channel, IoValue::Se
             pwm_ctrl_1_desired &= ~uint8_t{0x80};
         }
 
-        ChanBitsInternal bits{};
-        op_ctrl_desired.apply(chan.pins_mask, bits);
-
+        update();
         return setup;
     }
+
     return IoValue::Error::UNSUPPORTED_SETUP;
 }
 
@@ -402,6 +408,30 @@ void ExpOwGpio::update(bool forceRefresh)
         }
     }
 
+    bool ctrlChanged = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
+    if (forceRefresh || ctrlChanged) {
+        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
+
+        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
+        drv_status = status(); // use latest status returned during read of registers
+
+        if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
+            // status is valid
+            if (drv_status.bits.openload) {
+                // open load is detected
+                old_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OLD_STAT_1);
+            } else {
+                old_status.bits.all = 0;
+            }
+            if (drv_status.bits.overcurrent) {
+                // status is valid and overcurrent is detected
+                ocp_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OCP_STAT_1);
+            } else {
+                ocp_status.bits.all = 0;
+            }
+        }
+    }
+
     if (pwm_freq_desired != pwm_freq_applied) {
         write2DrvRegisters(DRV8908::RegAddr::PWM_FREQ_CTRL_1, pwm_freq_desired);
         pwm_freq_applied = read2DrvRegisters(DRV8908::RegAddr::PWM_FREQ_CTRL_1);
@@ -444,31 +474,8 @@ void ExpOwGpio::update(bool forceRefresh)
         }
     }
 
-    bool ctrlChanged = op_ctrl_desired.bits.all != op_ctrl_status.bits.all;
-    if (forceRefresh || ctrlChanged) {
-        write2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1, op_ctrl_desired.bits.all);
-
-        op_ctrl_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OP_CTRL_1);
-        drv_status = status(); // use latest status returned during read of registers
-
-        if (!(drv_status.bits.spi_error || drv_status.bits.power_on_reset)) {
-            // status is valid
-            if (drv_status.bits.openload) {
-                // open load is detected
-                old_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OLD_STAT_1);
-            } else {
-                old_status.bits.all = 0;
-            }
-            if (drv_status.bits.overcurrent) {
-                // status is valid and overcurrent is detected
-                ocp_status.bits.all = read2DrvRegisters(DRV8908::RegAddr::OCP_STAT_1);
-            } else {
-                ocp_status.bits.all = 0;
-            }
-        }
-    }
-
     if (owDriver.shortDetected()) {
+        logger::warn("Detected short on OneWire, power cycling OneWire on GPIO module " + std::to_string(expander.address() % 4));
         expander.set_output(ExpanderPins::oneWirePowerEnable, false);
         hal_delay_ms(200);
         expander.set_output(ExpanderPins::oneWirePowerEnable, true);

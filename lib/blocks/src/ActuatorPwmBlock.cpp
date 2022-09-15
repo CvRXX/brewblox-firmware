@@ -80,7 +80,7 @@ ActuatorPwmBlock::write(const cbox::Payload& payload)
         if (parser.hasField(blox_ActuatorPwm_Block_constrainedBy_tag)) {
             setAnalogConstraints(message.constrainedBy, constrained);
         }
-        if (parser.hasField(blox_ActuatorPwm_Block_setting_tag)) {
+        if (parser.hasField(blox_ActuatorPwm_Block_desiredSetting_tag)) {
             constrained.setting(cnl::wrap<ActuatorAnalog::value_t>(message.desiredSetting));
         }
         if (parser.hasField(blox_ActuatorPwm_Block_enabled_tag)) {

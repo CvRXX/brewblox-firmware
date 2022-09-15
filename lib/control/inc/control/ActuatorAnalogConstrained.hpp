@@ -143,9 +143,7 @@ public:
 
     void update()
     {
-        if (actuator.setting().has_value()) {
-            setting(m_desiredSetting); // re-apply constraints
-        }
+        setting(m_desiredSetting); // re-apply constraints
     }
 
     virtual std::optional<value_t> setting() const final

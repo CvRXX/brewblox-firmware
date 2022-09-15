@@ -56,16 +56,17 @@ public:
 
     void setId(obj_id_t targetId, obj_id_t claimerId)
     {
+        if (claimerId != _claimerId || targetId != _ptr.getId()) {
+            release();
+        }
         _claimerId = claimerId;
         _ptr.setId(targetId);
     }
 
     void setChannel(uint8_t channel)
     {
-        if (channel == 0) {
-            if (auto ptr = _ptr.lock()) {
-                ptr->unclaimChannel(_claimerId, _channel);
-            }
+        if (channel != _channel) {
+            release();
         }
         _channel = channel;
     }

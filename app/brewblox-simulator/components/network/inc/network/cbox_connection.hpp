@@ -23,7 +23,7 @@ public:
     bool write(const std::string& message) final
     {
         if (buf.size() + message.size() <= buf.max_size()) {
-            buf.sputn(message.c_str(), static_cast<std::streamsize>(message.size()));
+            buf.sputn(message.data(), static_cast<std::streamsize>(message.size()));
             return true;
         }
         return false;
@@ -42,7 +42,7 @@ public:
     {
         if (buf.size() + message.size() + 2 <= buf.max_size()) {
             buf.sputc('<');
-            buf.sputn(message.c_str(), static_cast<std::streamsize>(message.size()));
+            buf.sputn(message.data(), static_cast<std::streamsize>(message.size()));
             buf.sputc('>');
             return true;
         }

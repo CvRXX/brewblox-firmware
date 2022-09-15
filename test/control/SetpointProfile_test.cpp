@@ -36,12 +36,11 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
     WHEN("the profile has no values, it does not change the setpoint")
     {
         CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-        CHECK(profile.isDriving() == false);
+        CHECK(profile.enabler.get() == true);
 
         profile.update(0);
 
         CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-        CHECK(profile.isDriving() == false);
     }
 
     WHEN("the profile contains a single temp")
@@ -51,15 +50,12 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
 
         AND_WHEN("the timestamp is in the future")
         {
-
-            THEN("The profile doesn't change the setpoint, but does indicate it as driving")
+            THEN("The profile doesn't change the setpoint")
             {
                 profile.update(1);
                 CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-                CHECK(profile.isDriving() == true);
                 profile.update(5);
                 CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-                CHECK(profile.isDriving() == true);
             }
         }
         AND_WHEN("the timestamp is in the past")
@@ -68,7 +64,6 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
             THEN("The profile sets the setpoint to this value")
             {
                 CHECK(setpoint.ptr->setting() == Approx(10).margin(0.001));
-                CHECK(profile.isDriving() == true);
             }
         }
     }
@@ -83,36 +78,30 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
         {
             profile.update(5);
             CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time is after the last point, the last temp is used")
         {
             profile.update(22);
             CHECK(setpoint.ptr->setting() == Approx(20).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time between the 2 points, it is correctly interpolated")
         {
             profile.update(12);
             CHECK(setpoint.ptr->setting() == Approx(11).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(16);
             CHECK(setpoint.ptr->setting() == Approx(15).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time is exactly at a point, that temp is used")
         {
             profile.update(11);
             CHECK(setpoint.ptr->setting() == Approx(10).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(21);
             CHECK(setpoint.ptr->setting() == Approx(20).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
     }
 
@@ -127,48 +116,39 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
         {
             profile.update(5);
             CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time is after the last point, the last temp is used")
         {
             profile.update(32);
             CHECK(setpoint.ptr->setting() == Approx(40).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time between the 2 points, it is correctly interpolated")
         {
             profile.update(12);
             CHECK(setpoint.ptr->setting() == Approx(11).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(16);
             CHECK(setpoint.ptr->setting() == Approx(15).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(22);
             CHECK(setpoint.ptr->setting() == Approx(22).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(30);
             CHECK(setpoint.ptr->setting() == Approx(38).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time is exactly at a point, that temp is used")
         {
             profile.update(11);
             CHECK(setpoint.ptr->setting() == Approx(10).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(21);
             CHECK(setpoint.ptr->setting() == Approx(20).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(31);
             CHECK(setpoint.ptr->setting() == Approx(40).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
     }
 
@@ -184,19 +164,15 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
         {
             profile.update(12);
             CHECK(setpoint.ptr->setting() == Approx(11).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(16);
             CHECK(setpoint.ptr->setting() == Approx(15).margin(0.001));
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time is at the step (rounded down to whole seconds), it is equal to the last point of the step")
         {
             profile.update(21);
             CHECK(setpoint.ptr->setting() == Approx(30).margin(0.001));
-            ;
-            CHECK(profile.isDriving() == true);
         }
 
         AND_WHEN("The time is after the step, it is correctly interpolated with the second point of the step")
@@ -204,12 +180,9 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
 
             profile.update(22);
             CHECK(setpoint.ptr->setting() == Approx(31).margin(0.001));
-            CHECK(profile.isDriving() == true);
 
             profile.update(31);
             CHECK(setpoint.ptr->setting() == Approx(40).margin(0.001));
-            ;
-            CHECK(profile.isDriving() == true);
         }
     }
 
@@ -221,8 +194,5 @@ SCENARIO("SetpointProfile test", "[SetpointProfile]")
 
         profile.update(0);
         CHECK(setpoint.ptr->setting() == Approx(99).margin(0.001));
-        ;
-
-        CHECK(profile.isDriving() == true);
     }
 }

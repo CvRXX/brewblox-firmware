@@ -25,7 +25,9 @@
 #include "dynamic_gui/util/color.hpp"
 #include "dynamic_gui/util/lvgl_object_wrapper.hpp"
 #include "proto/Screen.pb.h"
+#include <cstring>
 #include <ctime>
+#include <sys/time.h>
 
 #include "lvgl.h"
 #include <vector>

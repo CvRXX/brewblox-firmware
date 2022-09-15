@@ -51,16 +51,18 @@ void FastPwm::setting(std::optional<value_t> val)
 
 ticks_millis_t FastPwm::update(ticks_millis_t now)
 {
-
     auto nextUpdate = now + 1000;
     m_actualDuty = std::nullopt;
-    if (!channelReady()) {
-        if (!claimChannel()) {
-            return nextUpdate;
-        }
+
+    if (!enabler.get()) {
+        m_target.release();
+        return nextUpdate;
     }
 
     if (auto devPtr = m_target.lock()) {
+        if (!ensureChannelSetup(devPtr)) {
+            return nextUpdate;
+        }
         auto desired = m_desiredDuty.value_or(0);
         if (m_transitionTime) {
             // change max 25% in case update interval was long
@@ -100,36 +102,38 @@ ticks_millis_t FastPwm::update(ticks_millis_t now)
     return nextUpdate;
 }
 
-bool FastPwm::claimChannel()
+bool FastPwm::ensureChannelSetup(std::shared_ptr<IoArray>& devPtr)
 {
-    if (auto devPtr = m_target.lock()) {
-        if (m_channel != 0) {
-            // release old channel
-            devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
-        }
+    auto setupOpt = devPtr->getSetup(m_channel);
 
-        if (m_desiredChannel == 0) {
-            m_channel = 0;
-            return true;
-        }
-        auto channelFlags = devPtr->getChannelCapabilities(m_desiredChannel);
-        auto setup = IoValue::Setup::OutputPwm{};
-        if (channelFlags.flags.pwm2000Hz) {
-            setup.frequency = m_frequency;
-        } else if (channelFlags.flags.pwm100Hz) { // currently no devices that support 200hz but don't support 2khz
-            setup.frequency = IoValue::Setup::Frequency::FREQ_100HZ;
-            m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
-        } else {
-            return false;
-        }
-
-        auto result = devPtr->setupChannel(m_desiredChannel, std::move(setup));
-        if (std::holds_alternative<IoValue::Setup::OutputPwm>(result)) {
-            m_channel = m_desiredChannel;
+    // Happy flow: channel is setup as PWM with the right frequency
+    if (auto pwmSetup = std::get_if<IoValue::Setup::OutputPwm>(&setupOpt)) {
+        if (pwmSetup->frequency == m_frequency) {
             return true;
         }
     }
-    return false;
+
+    // To make any changes, we must always first revert to Unused
+    if (!std::holds_alternative<IoValue::Setup::Unused>(setupOpt)) {
+        devPtr->setupChannel(m_channel, IoValue::Setup::Unused{});
+    }
+
+    // Determine actual frequency based on channel capabilities
+    auto channelFlags = devPtr->getChannelCapabilities(m_channel);
+    auto setup = IoValue::Setup::OutputPwm{};
+    if (channelFlags.flags.pwm2000Hz) {
+        // currently all devices that support 2000hz also support all other frequencies
+        setup.frequency = m_frequency;
+    } else if (channelFlags.flags.pwm100Hz) {
+        setup.frequency = IoValue::Setup::Frequency::FREQ_100HZ;
+        m_frequency = IoValue::Setup::Frequency::FREQ_100HZ;
+    } else {
+        return false;
+    }
+
+    // Setup channel with new settings
+    auto result = devPtr->setupChannel(m_channel, std::move(setup));
+    return std::holds_alternative<IoValue::Setup::OutputPwm>(result);
 }
 
 duration_millis_t FastPwm::transitionTimeFromPreset(SoftTransitionsPreset preset, duration_millis_t custom)

@@ -106,8 +106,7 @@ TempSensorOneWireBlock::write(const cbox::Payload& payload)
 
 cbox::update_t TempSensorOneWireBlock::updateHandler(cbox::update_t now)
 {
-    sensor.update();
-    return next_update_1s(now);
+    return sensor.update(now);
 }
 
 void* TempSensorOneWireBlock::implements(cbox::obj_type_t iface)

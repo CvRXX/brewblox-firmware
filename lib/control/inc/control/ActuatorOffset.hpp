@@ -106,6 +106,11 @@ public:
         // ref valid, setting invalid -> write invalid to actuator the first time
         // ref invalid, setting invalid -> write invalid to actuator the first time
 
+        if (!enabler.get()) {
+            m_target.release();
+            return;
+        }
+
         std::optional<value_t> newTargetSetting = std::nullopt;
         if (auto targetPtr = m_target.lock()) {
             if (auto refPtr = m_reference.lock()) {
@@ -130,9 +135,6 @@ public:
                 targetPtr->setting(newTargetSetting);
                 m_targetSetting = newTargetSetting;
             }
-        }
-        if (!enabler.get()) {
-            m_target.release();
         }
     }
 };

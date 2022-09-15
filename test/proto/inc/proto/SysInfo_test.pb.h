@@ -68,12 +68,14 @@ enum Platform {
   PLATFORM_GCC = 3,
   PLATFORM_PHOTON = 6,
   PLATFORM_P1 = 8,
+  PLATFORM_ESP = 100,
+  PLATFORM_SIM = 200,
   Platform_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Platform_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Platform_IsValid(int value);
 const Platform Platform_MIN = PLATFORM_UNKNOWN;
-const Platform Platform_MAX = PLATFORM_P1;
+const Platform Platform_MAX = PLATFORM_SIM;
 const int Platform_ARRAYSIZE = Platform_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Platform_descriptor();
@@ -322,6 +324,18 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 displaybrightness() const;
   void set_displaybrightness(::google::protobuf::uint32 value);
 
+  // bool command = 90 [(.nanopb) = {
+  void clear_command();
+  static const int kCommandFieldNumber = 90;
+  bool command() const;
+  void set_command(bool value);
+
+  // bool trace = 91 [(.nanopb) = {
+  void clear_trace();
+  static const int kTraceFieldNumber = 91;
+  bool trace() const;
+  void set_trace(bool value);
+
   // @@protoc_insertion_point(class_scope:blox_test.SysInfo.Block)
  private:
 
@@ -339,6 +353,8 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::google::protobuf::uint32 systemtime_;
   int tempunit_;
   ::google::protobuf::uint32 displaybrightness_;
+  bool command_;
+  bool trace_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_SysInfo_5ftest_2eproto::TableStruct;
 };
@@ -767,6 +783,34 @@ inline void Block::set_displaybrightness(::google::protobuf::uint32 value) {
   
   displaybrightness_ = value;
   // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.displayBrightness)
+}
+
+// bool command = 90 [(.nanopb) = {
+inline void Block::clear_command() {
+  command_ = false;
+}
+inline bool Block::command() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.command)
+  return command_;
+}
+inline void Block::set_command(bool value) {
+  
+  command_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.command)
+}
+
+// bool trace = 91 [(.nanopb) = {
+inline void Block::clear_trace() {
+  trace_ = false;
+}
+inline bool Block::trace() const {
+  // @@protoc_insertion_point(field_get:blox_test.SysInfo.Block.trace)
+  return trace_;
+}
+inline void Block::set_trace(bool value) {
+  
+  trace_ = value;
+  // @@protoc_insertion_point(field_set:blox_test.SysInfo.Block.trace)
 }
 
 #ifdef __GNUC__

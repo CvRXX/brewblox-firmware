@@ -20,11 +20,13 @@ typedef enum _blox_SysInfo_Platform {
     blox_SysInfo_Platform_PLATFORM_UNKNOWN = 0,
     blox_SysInfo_Platform_PLATFORM_GCC = 3,
     blox_SysInfo_Platform_PLATFORM_PHOTON = 6,
-    blox_SysInfo_Platform_PLATFORM_P1 = 8
+    blox_SysInfo_Platform_PLATFORM_P1 = 8,
+    blox_SysInfo_Platform_PLATFORM_ESP = 100,
+    blox_SysInfo_Platform_PLATFORM_SIM = 200
 } blox_SysInfo_Platform;
 #define _blox_SysInfo_Platform_MIN blox_SysInfo_Platform_PLATFORM_UNKNOWN
-#define _blox_SysInfo_Platform_MAX blox_SysInfo_Platform_PLATFORM_P1
-#define _blox_SysInfo_Platform_ARRAYSIZE ((blox_SysInfo_Platform)(blox_SysInfo_Platform_PLATFORM_P1+1))
+#define _blox_SysInfo_Platform_MAX blox_SysInfo_Platform_PLATFORM_SIM
+#define _blox_SysInfo_Platform_ARRAYSIZE ((blox_SysInfo_Platform)(blox_SysInfo_Platform_PLATFORM_SIM+1))
 
 typedef enum _blox_SysInfo_TemperatureUnit {
     blox_SysInfo_TemperatureUnit_TEMP_CELSIUS = 0,
@@ -78,7 +80,7 @@ typedef struct _blox_SysInfo_Block {
 extern const pb_field_t blox_SysInfo_Block_fields[14];
 
 /* Maximum encoded size of messages (where known) */
-#define blox_SysInfo_Block_size                  139
+#define blox_SysInfo_Block_size                  140
 
 /* Message IDs (where set with "msgid" option) */
 #ifdef PB_MSGID

@@ -39,56 +39,59 @@ constexpr uint8_t bitMask(uint8_t channel)
 
 bool DS2408::writeNeeded() const
 {
-    return !connected() || desiredLatches != latches;
+    return dirty || desiredLatches != latches;
 }
 
 bool DS2408::update()
 {
-    bool success = false;
+    bool success = true;
+    dirty = true;
     if (auto oneWire = selectRom()) {
         // Compute the 1-Wire CRC16 and compare it against the received CRC.
         // Put everything in one buffer so we can compute the CRC easily.
-        uint8_t buf[13];
+        uint8_t buf[13] = {0};
 
         buf[0] = READ_PIO_REG;            // Read PIO Registers
         buf[1] = ADDRESS_PIO_STATE_LOWER; // LSB address
         buf[2] = ADDRESS_UPPER;           // MSB address
-        oneWire->write_bytes(buf, 3);     // Write 3 cmd bytes
-        oneWire->read_bytes(&buf[3], 10); // Read 6 data bytes, 2 0xFF, CRC16
 
-        uint16_t crcCalculated = OneWireCrc16(buf, 11);
-        // device sends CRC inverted
-        uint16_t crcReceived = ~((uint16_t(buf[12]) << 8) | uint16_t(buf[11]));
-        success = crcCalculated == crcReceived;
+        if (oneWire->write_bytes(buf, 3)) {         // Write 3 cmd bytes
+            if (oneWire->read_bytes(&buf[3], 10)) { // Read 6 data bytes, 2 0xFF, CRC16
+                uint16_t crcCalculated = OneWireCrc16(buf, 11);
+                // device sends CRC inverted
+                uint16_t crcReceived = ~((uint16_t(buf[12]) << 8) | uint16_t(buf[11]));
+                success = crcCalculated == crcReceived;
 
-        if (success) {
-            pins = buf[3];
-            latches = buf[4];
-            activity = buf[5];
-            cond_search_mask = buf[6];
-            cond_search_pol = buf[7];
-            status = buf[8];
-            dirty = false;
-        }
-        connected(success);
-        if (writeNeeded()) {
-            oneWire->reset();
-            oneWire->select(m_address);
-
-            uint8_t bytes[3] = {ACCESS_WRITE, desiredLatches, uint8_t(~desiredLatches)};
-
-            if (oneWire->write_bytes(bytes, 3)) {
-                /* Acknowledgement byte, 0xAA for success, 0xFF for failure. */
-                uint8_t ack;
-                if (oneWire->read(ack) && ack == ACK_SUCCESS) {
-                    success = success && oneWire->read(pins);
+                if (success) {
+                    pins = buf[3];
+                    latches = buf[4];
+                    activity = buf[5];
+                    cond_search_mask = buf[6];
+                    cond_search_pol = buf[7];
+                    status = buf[8];
+                    dirty = false;
                 }
-            };
+                connected(success);
+            }
+        }
+
+        if (writeNeeded()) {
+            success = false;
+            if (oneWire->reset() && oneWire->select(m_address)) {
+                uint8_t bytes[3] = {ACCESS_WRITE, desiredLatches, uint8_t(~desiredLatches)};
+
+                if (oneWire->write_bytes(bytes, 3)) {
+                    /* Acknowledgement byte, 0xAA for success, 0xFF for failure. */
+                    uint8_t ack;
+                    if (oneWire->read(ack) && ack == ACK_SUCCESS) {
+                        success = oneWire->read(pins);
+                    }
+                };
+            }
         }
 
         oneWire->reset();
     }
-    connected(success);
     return success;
 }
 
@@ -139,9 +142,9 @@ IoValue::variant DS2408::writeChannelImpl(uint8_t channel, IoValue::variant val)
         return IoValue::Error::UNSUPPORTED_VALUE;
     }
 
-    if (writeNeeded()) {
+    if (connected() && writeNeeded()) {
         // only directly update when connected, to prevent disconnected devices to continuously try to update
-        // they will reconnect in the normal update tick, which should happen every second
+        // they will reconnect in the normal 1s update tick, which should happen every second
         update();
     }
     return readChannelImpl(channel);

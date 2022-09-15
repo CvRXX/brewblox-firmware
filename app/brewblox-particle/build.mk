@@ -119,7 +119,8 @@ endif
 
 ifeq ($(PLATFORM_ID),3)
 ifeq ("$(TEST_BUILD)","y") # coverage, address sanitizer, undefined behavior
-include $(SOURCE_PATH)/test/checkers.mk # sanitizer and gcov
+include $(SOURCE_PATH)/test/sanitize.mk # sanitizer and gcov
+# include $(SOURCE_PATH)/test/coverage.mk # sanitizer and gcov
 endif
 endif
 

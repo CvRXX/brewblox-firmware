@@ -84,6 +84,7 @@ randomIntervalTest(
                 << std::endl;
     }
 
+    auto lastValidState = State::Active;
     for (int i = 0; i < numPeriods + 4; i++) {
         do {
             now += 1 + std::rand() % delayMax;
@@ -94,7 +95,11 @@ randomIntervalTest(
                 lastOneSecondUpdate = now;
                 everySecond();
             }
-        } while (target.state() == State::Active);
+            auto state = target.state();
+            if (state != State::Unknown) {
+                lastValidState = state;
+            }
+        } while (lastValidState == State::Active);
         highToLowTime = now;
         ticks_millis_t highTime = highToLowTime - lowToHighTime;
         if (i >= 4) {
@@ -109,7 +114,11 @@ randomIntervalTest(
                 lastOneSecondUpdate = now;
                 everySecond();
             }
-        } while (target.state() == State::Inactive);
+            auto state = target.state();
+            if (state != State::Unknown) {
+                lastValidState = state;
+            }
+        } while (lastValidState == State::Inactive);
         lowToHighTime = now;
         ticks_millis_t lowTime = lowToHighTime - highToLowTime;
         if (i >= 4) {
@@ -1315,13 +1324,17 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
     auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));
     ActuatorPwm pwm(constrained, 4000);
 
+    auto everySecond = [&ds]() {
+        ds.ptr->update(); // reconnects happen in this object, so need to include the 1s update
+    };
+
     WHEN("update is called without delays, the average duty cycle is correct")
     {
-        CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now) == Approx(49.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 50.0, 1, now) == Approx(50.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 51.0, 1, now) == Approx(51.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 2.0, 1, now) == Approx(2.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 98.0, 1, now) == Approx(98.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now, everySecond) == Approx(49.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 50.0, 1, now, everySecond) == Approx(50.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 51.0, 1, now, everySecond) == Approx(51.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 2.0, 1, now, everySecond) == Approx(2.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 98.0, 1, now, everySecond) == Approx(98.0).margin(0.2));
     }
 
     WHEN("Communication errors occur on the bus, the PWM values are still correct")
@@ -1341,10 +1354,6 @@ SCENARIO("ActuatorPWM driving mock DS2413 actuator", "[pwm]")
         };
         std::vector<uint32_t> readBitFlips(100);
         std::generate(readBitFlips.begin(), readBitFlips.end(), nextReadFlip);
-
-        auto everySecond = [&ds]() {
-            ds.ptr->update(); // reconnects happen in this object, so need to include the 1s update
-        };
 
         logger::clear();
         ds2413mock->flipWrittenBits(writeBitFlips);
@@ -1381,19 +1390,24 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
     auto ds2408mock = std::make_shared<DS2408Mock>(addr);
     mockOw.attach(ds2408mock);
     auto ds = TestControlPtr<DS2408>(new DS2408(ow, addr));
-    auto dsIo = TestControlPtr<IoArray>(new DS2408(ow, addr));
+    auto dsIo = TestControlPtr<IoArray>(ds);
+    ds.ptr->update(); // connected update happens here
     MotorValve act(dsIo, 1);
 
     auto constrained = TestControlPtr<ActuatorDigitalConstrained>(new ActuatorDigitalConstrained(act));
     ActuatorPwm pwm(constrained, 4000);
 
+    auto everySecond = [&ds, &act]() {
+        ds.ptr->update(); // reconnects happen in this object, so need to include the 1s update
+    };
+
     WHEN("update is called without delays, the average duty cycle is correct")
     {
-        CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now) == Approx(49.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 50.0, 1, now) == Approx(50.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 51.0, 1, now) == Approx(51.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 2.0, 1, now) == Approx(2.0).margin(0.2));
-        CHECK(randomIntervalTest(100, pwm, act, 98.0, 1, now) == Approx(98.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 49.0, 1, now, everySecond) == Approx(49.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 50.0, 1, now, everySecond) == Approx(50.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 51.0, 1, now, everySecond) == Approx(51.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 2.0, 1, now, everySecond) == Approx(2.0).margin(0.2));
+        CHECK(randomIntervalTest(100, pwm, act, 98.0, 1, now, everySecond) == Approx(98.0).margin(0.2));
     }
 
     WHEN("Communication errors occur on the bus, the PWM values are still correct")
@@ -1413,10 +1427,6 @@ SCENARIO("ActuatorPWM driving mock DS2408 motor valve", "[pwm]")
         };
         std::vector<uint32_t> readBitFlips(100);
         std::generate(readBitFlips.begin(), readBitFlips.end(), nextReadFlip);
-
-        auto everySecond = [&ds]() {
-            ds.ptr->update(); // reconnects happen in this object, so need to include the 1s update
-        };
 
         logger::clear();
         ds2408mock->flipWrittenBits(writeBitFlips);

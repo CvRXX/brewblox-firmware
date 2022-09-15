@@ -1,4 +1,5 @@
 #pragma once
+#include "../../lvgl_helpers.hpp"
 #include "./BaseWidget.hpp"
 #include "blocks/PidBlock.hpp"
 
@@ -104,8 +105,8 @@ public:
                         settingString = temp_to_string(*val, 1, tempUnit);
                     }
                 }
-                lv_label_set_text(inputValue, valueString.c_str());
-                lv_label_set_text(inputSetting, settingString.c_str());
+                update_label(inputValue, valueString.c_str());
+                update_label(inputSetting, settingString.c_str());
             }
 
             {
@@ -120,13 +121,13 @@ public:
                         settingString = to_string_dec(*val, 1);
                     }
                 }
-                lv_label_set_text(outputValue, valueString.c_str());
-                lv_label_set_text(outputSetting, settingString.c_str());
+                update_label(outputValue, valueString.c_str());
+                update_label(outputSetting, settingString.c_str());
             }
 
-            lv_label_set_text(pValue, to_string_dec(ptr->get().p(), 0).c_str());
-            lv_label_set_text(iValue, to_string_dec(ptr->get().i(), 0).c_str());
-            lv_label_set_text(dValue, to_string_dec(ptr->get().d(), 0).c_str());
+            update_label(pValue, to_string_dec(ptr->get().p(), 0).c_str());
+            update_label(iValue, to_string_dec(ptr->get().i(), 0).c_str());
+            update_label(dValue, to_string_dec(ptr->get().d(), 0).c_str());
         } else {
             lv_obj_add_state(obj, LV_STATE_DISABLED);
         }

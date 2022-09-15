@@ -176,6 +176,14 @@ public:
         chan.setup = setupChannelImpl(channel, chan.setupDesired);
     }
 
+    IoValue::Setup::variant getSetup(uint8_t channel)
+    {
+        if (!validChannel(channel)) {
+            return IoValue::Error::INVALID_CHANNEL;
+        }
+        return channels[channel - 1].setup;
+    }
+
     // returns written value or error
     IoValue::variant writeChannel(uint8_t channel, IoValue::variant val)
     {
@@ -230,10 +238,7 @@ public:
 
     bool claimChannel(uint16_t claimerId, uint8_t channel)
     {
-        if (channel == 0) {
-            return true;
-        }
-        if (channel <= channels.size()) {
+        if (validChannel(channel)) {
             auto& chan = channels[channel - 1];
             if (chan.claimedBy == 0) {
                 chan.claimedBy = claimerId;
@@ -248,14 +253,18 @@ public:
 
     void unclaimChannel(uint16_t claimerId, uint8_t channel)
     {
-        if (claimChannel(claimerId, channel)) {
-            channels[channel - 1].claimedBy = 0;
+        if (validChannel(channel)) {
+            auto& chan = channels[channel - 1];
+            if (chan.claimedBy == claimerId) {
+                setupChannel(channel, IoValue::Setup::Unused{});
+                chan.claimedBy = 0;
+            }
         }
     }
 
     uint16_t getChannelClaimerId(uint8_t channel) const
     {
-        if (channel > 0 && channel <= channels.size()) {
+        if (validChannel(channel)) {
             return channels[channel - 1].claimedBy;
         }
         return 0;

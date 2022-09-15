@@ -28,16 +28,14 @@ SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
 {
     using State = ActuatorDigitalBase::State;
     auto io = TestControlPtr<IoArray>(new MockIoArray());
-    ActuatorDigital mock(io, 1);
-    ActuatorDigitalChangeLogged logged(mock);
+    ActuatorDigital act(io, 1);
+    ActuatorDigitalChangeLogged logged(act);
     ticks_millis_t now = 1000;
 
     WHEN("ActuatorDigitalChangeLogged is newly constructed")
     {
-
         THEN("History is initialized at Unknown in the past and current state since construction")
         {
-
             auto times = logged.getLastStartEndTime(State::Unknown, now);
             CHECK(times.start == ticks_millis_t(-1));
             CHECK(times.end == 0);
@@ -106,7 +104,7 @@ SCENARIO("ActuatorDigitalChangeLogged test", "[ActuatorChangeLog]")
 
         THEN("Inverting target actuator has no effect on durations")
         {
-            mock.invert(true);
+            act.invert(true);
             logged.state(State::Active, 0);
             logged.state(State::Inactive, 1000);
             logged.state(State::Active, 2000);

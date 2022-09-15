@@ -16,17 +16,19 @@
 // #include "esp_heap_caps.h"
 // #include "esp_heap_trace.h"
 #include "BeepTask.hpp"
-#include "HttpHandler.hpp"
+// #include "HttpHandler.hpp"
 #include "OkButtonMonitor.hpp"
 #include "blox_hal/hal_network.hpp"
-#include "dynamic_gui/dynamicGui.hpp"
-#include "dynamic_gui/util/test_screen.hpp"
+// #include "dynamic_gui/dynamicGui.hpp"
+// #include "dynamic_gui/util/test_screen.hpp"
 #include "lvgl.h"
 #include "network/CboxConnection.hpp"
 #include "network/CboxServer.hpp"
 #include "network/mdns.hpp"
 #include "ota.hpp"
+#include "sntp.hpp"
 #include "static_gui/staticGui.hpp"
+#include "task_stats.hpp"
 #include <algorithm>
 #include <asio.hpp>
 #include <esp_log.h>
@@ -83,11 +85,14 @@ void app_main()
     spark4::adc_init();
     setupSystemBlocks();
     screen::init();
+    screen::update();
 
     // auto testScreen = gui::dynamic_interface::testScreen();
     // if (testScreen) {
     //     screen::interface->setNewScreen(std::move(*testScreen));
     // }
+    network::connect();
+    initialize_sntp();
 
     static asio::io_context io;
     static auto displayTicker = RecurringTask(io, asio::chrono::milliseconds(100),
@@ -104,6 +109,7 @@ void app_main()
                                             []() -> bool {
                                                 spark4::expander_check();
                                                 // heap_caps_print_heap_info(MALLOC_CAP_8BIT);
+                                                // vTaskPrintRunTimeStats();
                                                 return true;
                                             });
 
@@ -116,13 +122,20 @@ void app_main()
         });
 
     static auto updater = RecurringTask(
-        io, asio::chrono::milliseconds(10),
+        io, asio::chrono::milliseconds(2),
         RecurringTask::IntervalType::FROM_EXECUTION,
         []() {
             static const auto start = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
+            static uint32_t lastDisplayTick = 0;
             const auto now = asio::chrono::steady_clock::now().time_since_epoch() / asio::chrono::milliseconds(1);
             uint32_t millisSinceBoot = now - start;
+            uint32_t millisSinceDisplayTick = now - lastDisplayTick;
             cbox::update(millisSinceBoot);
+            if (millisSinceDisplayTick >= 100) {
+                screen::update();
+                screen::tick(millisSinceDisplayTick);
+                lastDisplayTick = now;
+            }
             return true;
         });
 
@@ -143,16 +156,14 @@ void app_main()
         });
 
     static CboxServer cboxServer(io, 8332);
-    static HttpHandler http(io, 80, cboxServer);
+    // static HttpHandler http(io, 80, cboxServer);
 
-    displayTicker.start(true);
     buttonMonitor.start();
     systemCheck.start();
     cbox::loadBlocksFromStorage();
     updater.start(true);
     configupdate.start();
     cbox::discoverBlocks();
-    network::connect();
     mdns::start();
     io.run();
 }

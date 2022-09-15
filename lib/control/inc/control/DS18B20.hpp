@@ -24,6 +24,8 @@
 #include "control/OneWireDevice.hpp"
 #include "control/TempSensor.hpp"
 #include "control/Temperature.hpp"
+#include "control/TicksTypes.hpp"
+#include <optional>
 
 class OneWire;
 
@@ -57,7 +59,13 @@ class DS18B20 final : public TempSensor, public OneWireDevice {
 public:
 private:
     temp_t m_calibrationOffset;
-    temp_t m_cachedValue = 0;
+    std::optional<temp_t> m_cachedValue = std::nullopt;
+    ticks_millis_t m_lastConversionStart = 0;
+    bool m_conversionPending = false;
+    static constexpr duration_millis_t CONVERSION_TIME = 750;
+    static constexpr duration_millis_t CONVERSION_INTERVAL = 1000;
+    static constexpr duration_millis_t VALID_TIME = 2000;
+    static constexpr int32_t scale = 1 << (cnl::_impl::fractional_digits<temp_t>::value - 4);
 
 public:
     /**
@@ -80,7 +88,7 @@ public:
     static constexpr uint8_t familyCode{0x28};
 
     std::optional<temp_t> value() const final; // return cached value
-    void update();                             // read from hardware sensor
+    ticks_millis_t update(ticks_millis_t now); // update cached value from hardware and start new conversion
 
     void setCalibration(temp_t const& calib)
     {
@@ -94,14 +102,6 @@ public:
 
 private:
     void init();
-
-    void requestConversion();
-
-    /**
-     * Reads the temperature. If successful, constrains the temp to the range of the temperature type and
-     * updates lastRequestTime. On successful, leaves lastRequestTime alone and returns DEVICE_DISCONNECTED.
-     */
-    temp_t readAndConstrainTemp();
 
     bool readScratchPad(ScratchPad& scratchPad);
 

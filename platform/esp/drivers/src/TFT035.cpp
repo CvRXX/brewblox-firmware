@@ -233,7 +233,7 @@ bool TFT035::writePixels(unsigned int xs, unsigned int xe, unsigned int ys, unsi
 
     return spiDevice.dmaWrite(pixels, nPixels * 3,
                               Callbacks{[&](TransactionData& t) {
-                                            gpio_set_level(gpio_num_t(2), true);
+                                            gpio_set_level(spark4::PIN_NUM_TFT_DC, true);
                                         },
                                         [&](TransactionData& t) {
                                             this->finishCallback();

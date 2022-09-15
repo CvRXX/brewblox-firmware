@@ -49,8 +49,7 @@ void hw_init()
     gpio_set_direction(PIN_NUM_CLK, GPIO_MODE_OUTPUT);
     gpio_set_direction(PIN_NUM_TFT_DC, GPIO_MODE_OUTPUT);
     gpio_set_direction(PIN_NUM_I2C_IRQ, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(PIN_NUM_MISO, GPIO_PULLUP_ONLY);
-    gpio_pullup_en(PIN_NUM_MISO);
+
     gpio_set_level(PIN_NUM_SD_CS, 1);
     gpio_set_level(PIN_NUM_TFT_CS, 1);
 

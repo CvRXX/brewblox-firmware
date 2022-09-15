@@ -35,23 +35,11 @@ public:
         Reverse = 3,
     };
 
-    virtual void state(State v) = 0;
+    virtual ~ActuatorDigitalBase() = default;
 
     [[nodiscard]] virtual State state() const = 0;
 
-    virtual ~ActuatorDigitalBase() = default;
-
-    [[nodiscard]] bool invert() const
-    {
-        return m_invert;
-    }
-
-    void invert(bool inv)
-    {
-        auto active = state();
-        m_invert = inv;
-        state(active);
-    }
+    virtual void state(State v) = 0;
 
 protected:
     ActuatorDigitalBase() = default;
@@ -59,7 +47,6 @@ protected:
     ActuatorDigitalBase(ActuatorDigitalBase&&) noexcept = default;
     ActuatorDigitalBase& operator=(const ActuatorDigitalBase&) = default;
     ActuatorDigitalBase& operator=(ActuatorDigitalBase&&) noexcept = default;
-    bool m_invert = false;
 };
 
 inline ActuatorDigitalBase::State invertState(ActuatorDigitalBase::State s)

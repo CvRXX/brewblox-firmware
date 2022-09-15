@@ -16,7 +16,7 @@ void CboxConnection::start()
 {
     auto message = cbox::handshakeMessage();
     _bufferOut.sputc('<');
-    _bufferOut.sputn(message.c_str(), static_cast<std::streamsize>(message.size()));
+    _bufferOut.sputn(message.data(), static_cast<std::streamsize>(message.size()));
     _bufferOut.sputc('>');
     _bufferOut.pubsync();
     start_read();

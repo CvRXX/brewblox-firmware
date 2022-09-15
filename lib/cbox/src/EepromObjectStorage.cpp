@@ -22,10 +22,10 @@
 
 namespace cbox {
 
-uint8_t calc_crc(const Payload& payload)
+uint8_t calc_crc(const Payload& payload, uint8_t flags)
 {
     uint8_t crc = calc_crc_16(0, payload.blockId);
-    crc = calc_crc_8(crc, 0); // flags reserved byte
+    crc = calc_crc_8(crc, flags); // flags reserved byte
     crc = calc_crc_16(crc, payload.blockType);
     crc = calc_crc_vector(crc, payload.content);
     return crc;
@@ -101,7 +101,7 @@ CboxError EepromObjectStorage::saveObject(const Payload& payload)
     blockToWrite.put(flags);
     blockToWrite.put(payload.blockType);
     blockToWrite.put(payload.content);
-    auto crc = calc_crc(payload);
+    auto crc = calc_crc(payload, flags);
     blockToWrite.put(crc);
     uint16_t end = blockToWrite.offset();
     auto written = end - start;
@@ -133,8 +133,9 @@ CboxError EepromObjectStorage::loadAllObjects(const PayloadCallback& callback)
         if (err == CboxError::STORAGE_READ_ERROR) {
             return err; // only stop on read errors
         }
-        if (err != CboxError::OK) {
-            return err; // TODO should continue and only log error
+        if (err == CboxError::STORAGE_CRC_ERROR) {
+            // dispose block. We cannot trust it due to the CRC error and cannot recover this
+            (*objOpt).setBlockType(EepromBlockType::disposed_block);
         }
         pos = blockData.end();
     };
@@ -287,7 +288,7 @@ CboxError EepromObjectStorage::eepromToPayload(const PayloadCallback& callback,
     auto id = in.getObjectId();
     in.resetToObjectData();
 
-    in.skip(1); // flags
+    auto flags = in.get<uint8_t>(); // flags
     auto objType = in.get<obj_type_t>();
 
     auto payload = Payload(id, objType, 0);
@@ -297,7 +298,7 @@ CboxError EepromObjectStorage::eepromToPayload(const PayloadCallback& callback,
 
     auto objCrc = in.get<uint8_t>();
 
-    uint8_t crc = calc_crc(payload);
+    uint8_t crc = calc_crc(payload, flags);
     crc = calc_crc_8(crc, objCrc);
 
     if (crc != 0) {

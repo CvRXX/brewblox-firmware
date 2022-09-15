@@ -83,6 +83,7 @@ CPPSRC += $(ROOT_DIR)/test/blocks/ActuatorOffsetBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/ActuatorPwmBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/AutoDiscover_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/BalancerAndMutexBlock_test.cpp
+CPPSRC += $(ROOT_DIR)/test/blocks/Claims_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/DigitalActuatorBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/DisplaySettingsBlock_test.cpp
 CPPSRC += $(ROOT_DIR)/test/blocks/FastPwmBlock_test.cpp

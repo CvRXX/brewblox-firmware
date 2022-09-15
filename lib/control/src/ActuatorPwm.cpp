@@ -19,14 +19,13 @@ ActuatorPwm::ActuatorPwm(
 
 void ActuatorPwm::setting(std::optional<value_t> val)
 {
-
     if (!val && enabler.get() && m_dutySetting) {
         // disable target once when setting is set to nullopt
         if (auto actPtr = m_target.lock()) {
             actPtr->desiredState(State::Inactive);
         }
     }
-    if (!val) {
+    if (!val || !enabler.get()) {
         m_dutySetting = std::nullopt;
         m_dutyTime = 0;
         return;
@@ -48,7 +47,7 @@ void ActuatorPwm::setting(std::optional<value_t> val)
 // returns the actual achieved PWM value, not the set value
 std::optional<value_t> ActuatorPwm::value() const
 {
-    return m_dutyAchieved;
+    return enabler.get() ? m_dutyAchieved : std::nullopt;
 }
 
 safe_elastic_fixed_point<2, 28>
@@ -73,6 +72,11 @@ ActuatorPwm::period() const
 ActuatorPwm::update_t
 ActuatorPwm::update(update_t now)
 {
+    if (!enabler.get()) {
+        m_target.release();
+        return now + 1000;
+    }
+
     if (auto actPtr = m_target.lock()) {
         auto durations = actPtr->activeDurations(now);
         auto currentHighTime = durations.currentActive;
