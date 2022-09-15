@@ -33,6 +33,8 @@ numbers = [
     '0x2D',  # -
     '0x30-0x39',  # 0-9
     '0x2E',  # period
+    '0x3A',  # :
+
 ]
 
 degree = '0xB0'
@@ -43,6 +45,7 @@ size_numbers_medium = 20
 size_numbers_large = 36
 size_numbers_huge = 80
 size_main = 16
+size_main_medium = 24
 size_main_small = 12
 
 # Change to script directory
@@ -79,6 +82,13 @@ os.system(
     f"--font RobotoMono-Medium.ttf -r {','.join([letters, degree])} "
     f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
     f"-o font_main.c"
+)
+
+os.system(
+    f"lv_font_conv --no-compress --no-prefilter --bpp 4 --format lvgl --size {size_main_medium} "
+    f"--font RobotoMono-Medium.ttf -r {','.join([letters, degree])} "
+    f"--font materialdesignicons-webfont.ttf -r {','.join(icons)} "
+    f"-o font_main_medium.c"
 )
 
 os.system(

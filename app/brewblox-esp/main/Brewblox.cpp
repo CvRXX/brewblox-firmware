@@ -3,6 +3,7 @@
 #include "AppTicks.hpp"
 #include "Brewblox.hpp"
 #include "blocks/DisplaySettingsBlock.hpp"
+#include "blocks/ScreenConfig.hpp"
 #include "blocks/SysInfoBlock.hpp"
 #include "blocks/stringify.hpp"
 #include "cbox/Application.hpp"
@@ -73,5 +74,6 @@ void setupSystemBlocks()
     objects.setObjectsStartId(cbox::systemStartId);
     objects.add(std::shared_ptr<cbox::Object>(new SysInfoBlock(readDeviceId)), 2);
     objects.add(std::shared_ptr<cbox::Object>(new DisplaySettingsBlock()), 7);
+    objects.add(std::shared_ptr<cbox::Object>(new ScreenConfig()), 8);
     objects.setObjectsStartId(cbox::userStartId);
 }

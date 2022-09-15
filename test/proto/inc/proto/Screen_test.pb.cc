@@ -27,8 +27,9 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobu
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_NumericValueWidget;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_SetpointSensorPairWidget;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_TemperatureWidget;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_TitleWidget;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_Page;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<5> scc_info_ContentNode;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_Screen_5ftest_2eproto ::google::protobuf::internal::SCCInfo<6> scc_info_ContentNode;
 }  // namespace protobuf_Screen_5ftest_2eproto
 namespace screen {
 class LayoutNodeDefaultTypeInternal {
@@ -46,6 +47,11 @@ class NumericValueWidgetDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<NumericValueWidget>
       _instance;
 } _NumericValueWidget_default_instance_;
+class TitleWidgetDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<TitleWidget>
+      _instance;
+} _TitleWidget_default_instance_;
 class TemperatureWidgetDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<TemperatureWidget>
@@ -75,6 +81,7 @@ class ContentNodeDefaultTypeInternal {
   const ::screen::TemperatureWidget* temperaturewidget_;
   const ::screen::SetpointSensorPairWidget* setpointsensorpairwidget_;
   const ::screen::DigitalClockWidget* digitalclockwidget_;
+  const ::screen::TitleWidget* titlewidget_;
 } _ContentNode_default_instance_;
 class PageDefaultTypeInternal {
  public:
@@ -129,6 +136,21 @@ static void InitDefaultsNumericValueWidget() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_NumericValueWidget =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsNumericValueWidget}, {
+      &protobuf_Screen_5ftest_2eproto::scc_info_Color.base,}};
+
+static void InitDefaultsTitleWidget() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::screen::_TitleWidget_default_instance_;
+    new (ptr) ::screen::TitleWidget();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::screen::TitleWidget::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_TitleWidget =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsTitleWidget}, {
       &protobuf_Screen_5ftest_2eproto::scc_info_Color.base,}};
 
 static void InitDefaultsTemperatureWidget() {
@@ -202,13 +224,14 @@ static void InitDefaultsContentNode() {
   ::screen::ContentNode::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<5> scc_info_ContentNode =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 5, InitDefaultsContentNode}, {
+::google::protobuf::internal::SCCInfo<6> scc_info_ContentNode =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 6, InitDefaultsContentNode}, {
       &protobuf_Screen_5ftest_2eproto::scc_info_NumericValueWidget.base,
       &protobuf_Screen_5ftest_2eproto::scc_info_ColorWidget.base,
       &protobuf_Screen_5ftest_2eproto::scc_info_TemperatureWidget.base,
       &protobuf_Screen_5ftest_2eproto::scc_info_SetpointSensorPairWidget.base,
-      &protobuf_Screen_5ftest_2eproto::scc_info_DigitalClockWidget.base,}};
+      &protobuf_Screen_5ftest_2eproto::scc_info_DigitalClockWidget.base,
+      &protobuf_Screen_5ftest_2eproto::scc_info_TitleWidget.base,}};
 
 static void InitDefaultsPage() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -245,6 +268,7 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LayoutNode.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Color.base);
   ::google::protobuf::internal::InitSCC(&scc_info_NumericValueWidget.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_TitleWidget.base);
   ::google::protobuf::internal::InitSCC(&scc_info_TemperatureWidget.base);
   ::google::protobuf::internal::InitSCC(&scc_info_SetpointSensorPairWidget.base);
   ::google::protobuf::internal::InitSCC(&scc_info_DigitalClockWidget.base);
@@ -254,7 +278,7 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_Block.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[10];
+::google::protobuf::Metadata file_level_metadata[11];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -283,6 +307,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::NumericValueWidget, color_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::NumericValueWidget, value_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::NumericValueWidget, label_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::TitleWidget, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::TitleWidget, color_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::TitleWidget, value_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::TitleWidget, label_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::TemperatureWidget, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -323,6 +355,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   offsetof(::screen::ContentNodeDefaultTypeInternal, temperaturewidget_),
   offsetof(::screen::ContentNodeDefaultTypeInternal, setpointsensorpairwidget_),
   offsetof(::screen::ContentNodeDefaultTypeInternal, digitalclockwidget_),
+  offsetof(::screen::ContentNodeDefaultTypeInternal, titlewidget_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::ContentNode, content_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::screen::Page, _internal_metadata_),
@@ -348,19 +381,21 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 0, -1, sizeof(::screen::LayoutNode)},
   { 9, -1, sizeof(::screen::Color)},
   { 17, -1, sizeof(::screen::NumericValueWidget)},
-  { 25, -1, sizeof(::screen::TemperatureWidget)},
-  { 33, -1, sizeof(::screen::SetpointSensorPairWidget)},
-  { 41, -1, sizeof(::screen::DigitalClockWidget)},
-  { 48, -1, sizeof(::screen::ColorWidget)},
-  { 54, -1, sizeof(::screen::ContentNode)},
-  { 66, -1, sizeof(::screen::Page)},
-  { 75, -1, sizeof(::screen::Block)},
+  { 25, -1, sizeof(::screen::TitleWidget)},
+  { 33, -1, sizeof(::screen::TemperatureWidget)},
+  { 41, -1, sizeof(::screen::SetpointSensorPairWidget)},
+  { 49, -1, sizeof(::screen::DigitalClockWidget)},
+  { 56, -1, sizeof(::screen::ColorWidget)},
+  { 62, -1, sizeof(::screen::ContentNode)},
+  { 75, -1, sizeof(::screen::Page)},
+  { 84, -1, sizeof(::screen::Block)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_LayoutNode_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_Color_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_NumericValueWidget_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_TitleWidget_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_TemperatureWidget_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_SetpointSensorPairWidget_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::screen::_DigitalClockWidget_default_instance_),
@@ -385,7 +420,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 10);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 11);
 }
 
 void AddDescriptorsImpl() {
@@ -400,36 +435,40 @@ void AddDescriptorsImpl() {
       "r\022\020\n\001r\030\001 \001(\rB\005\222\?\0028\010\022\020\n\001g\030\002 \001(\rB\005\222\?\0028\010\022\020\n"
       "\001b\030\003 \001(\rB\005\222\?\0028\010\"^\n\022NumericValueWidget\022\034\n"
       "\005color\030\001 \001(\0132\r.screen.Color\022\024\n\005value\030\002 \001"
-      "(\rB\005\222\?\0028\010\022\024\n\005label\030\003 \001(\tB\005\222\?\002p(\"h\n\021Tempe"
-      "ratureWidget\022\034\n\005color\030\001 \001(\0132\r.screen.Col"
-      "or\022\024\n\005label\030\002 \001(\tB\005\222\?\002p(\022\037\n\ntempSensor\030\003"
-      " \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\"w\n\030SetpointSensorPairW"
-      "idget\022\034\n\005color\030\001 \001(\0132\r.screen.Color\022\024\n\005l"
-      "abel\030\002 \001(\tB\005\222\?\002p(\022\'\n\022setpointSensorPair\030"
-      "\003 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\"G\n\022DigitalClockWidget"
-      "\022\034\n\005color\030\001 \001(\0132\r.screen.Color\022\023\n\013showSe"
-      "conds\030\002 \001(\010\"+\n\013ColorWidget\022\034\n\005color\030\001 \001("
-      "\0132\r.screen.Color\"\323\002\n\013ContentNode\022\033\n\014layo"
-      "utNodeId\030\001 \001(\rB\005\222\?\0028\010\0228\n\022numericValueWid"
-      "get\030\002 \001(\0132\032.screen.NumericValueWidgetH\000\022"
-      "*\n\013colorWidget\030\003 \001(\0132\023.screen.ColorWidge"
-      "tH\000\0226\n\021temperatureWidget\030\004 \001(\0132\031.screen."
-      "TemperatureWidgetH\000\022D\n\030setpointSensorPai"
-      "rWidget\030\005 \001(\0132 .screen.SetpointSensorPai"
-      "rWidgetH\000\0228\n\022digitalClockWidget\030\006 \001(\0132\032."
-      "screen.DigitalClockWidgetH\000B\t\n\007content\"{"
-      "\n\004Page\022\'\n\013layoutNodes\030\001 \003(\0132\022.screen.Lay"
-      "outNode\022)\n\014contentNodes\030\002 \003(\0132\023.screen.C"
-      "ontentNode\022\023\n\004name\030\003 \001(\tB\005\222\?\002\010\024\022\n\n\002id\030\004 "
-      "\001(\r\"\241\001\n\005Block\022\033\n\005pages\030\001 \003(\0132\014.screen.Pa"
-      "ge\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022)\n\010tempUnit\030\003 \001("
-      "\0162\027.screen.TemperatureUnit\022\031\n\nbrightness"
-      "\030\004 \001(\rB\005\222\?\0028\010\022\027\n\010timeZone\030\005 \001(\tB\005\222\?\002\010 :\007"
-      "\212\265\030\003\030\307\002*8\n\017TemperatureUnit\022\020\n\014TEMP_CELSI"
-      "US\020\000\022\023\n\017TEMP_FAHRENHEIT\020\001b\006proto3"
+      "(\rB\005\222\?\0028\010\022\024\n\005label\030\003 \001(\tB\005\222\?\002p(\"W\n\013Title"
+      "Widget\022\034\n\005color\030\001 \001(\0132\r.screen.Color\022\024\n\005"
+      "value\030\002 \001(\tB\005\222\?\002p(\022\024\n\005label\030\003 \001(\tB\005\222\?\002p("
+      "\"h\n\021TemperatureWidget\022\034\n\005color\030\001 \001(\0132\r.s"
+      "creen.Color\022\024\n\005label\030\002 \001(\tB\005\222\?\002p(\022\037\n\ntem"
+      "pSensor\030\003 \001(\rB\013\212\265\030\002\030\002\222\?\0028\020\"w\n\030SetpointSe"
+      "nsorPairWidget\022\034\n\005color\030\001 \001(\0132\r.screen.C"
+      "olor\022\024\n\005label\030\002 \001(\tB\005\222\?\002p(\022\'\n\022setpointSe"
+      "nsorPair\030\003 \001(\rB\013\212\265\030\002\030\004\222\?\0028\020\"G\n\022DigitalCl"
+      "ockWidget\022\034\n\005color\030\001 \001(\0132\r.screen.Color\022"
+      "\023\n\013showSeconds\030\002 \001(\010\"+\n\013ColorWidget\022\034\n\005c"
+      "olor\030\001 \001(\0132\r.screen.Color\"\377\002\n\013ContentNod"
+      "e\022\033\n\014layoutNodeId\030\001 \001(\rB\005\222\?\0028\010\0228\n\022numeri"
+      "cValueWidget\030\002 \001(\0132\032.screen.NumericValue"
+      "WidgetH\000\022*\n\013colorWidget\030\003 \001(\0132\023.screen.C"
+      "olorWidgetH\000\0226\n\021temperatureWidget\030\004 \001(\0132"
+      "\031.screen.TemperatureWidgetH\000\022D\n\030setpoint"
+      "SensorPairWidget\030\005 \001(\0132 .screen.Setpoint"
+      "SensorPairWidgetH\000\0228\n\022digitalClockWidget"
+      "\030\006 \001(\0132\032.screen.DigitalClockWidgetH\000\022*\n\013"
+      "titleWidget\030\007 \001(\0132\023.screen.TitleWidgetH\000"
+      "B\t\n\007content\"{\n\004Page\022\'\n\013layoutNodes\030\001 \003(\013"
+      "2\022.screen.LayoutNode\022)\n\014contentNodes\030\002 \003"
+      "(\0132\023.screen.ContentNode\022\023\n\004name\030\003 \001(\tB\005\222"
+      "\?\002\010\024\022\n\n\002id\030\004 \001(\r\"\241\001\n\005Block\022\033\n\005pages\030\001 \003("
+      "\0132\014.screen.Page\022\023\n\004name\030\002 \001(\tB\005\222\?\002\010(\022)\n\010"
+      "tempUnit\030\003 \001(\0162\027.screen.TemperatureUnit\022"
+      "\031\n\nbrightness\030\004 \001(\rB\005\222\?\0028\010\022\027\n\010timeZone\030\005"
+      " \001(\tB\005\222\?\002\010 :\007\212\265\030\003\030\307\002*8\n\017TemperatureUnit\022"
+      "\020\n\014TEMP_CELSIUS\020\000\022\023\n\017TEMP_FAHRENHEIT\020\001b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1433);
+      descriptor, 1566);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Screen_test.proto", &protobuf_RegisterTypes);
   ::protobuf_nanopb_5ftest_2eproto::AddDescriptors();
@@ -1453,6 +1492,356 @@ void NumericValueWidget::InternalSwap(NumericValueWidget* other) {
 }
 
 ::google::protobuf::Metadata NumericValueWidget::GetMetadata() const {
+  protobuf_Screen_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Screen_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void TitleWidget::InitAsDefaultInstance() {
+  ::screen::_TitleWidget_default_instance_._instance.get_mutable()->color_ = const_cast< ::screen::Color*>(
+      ::screen::Color::internal_default_instance());
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int TitleWidget::kColorFieldNumber;
+const int TitleWidget::kValueFieldNumber;
+const int TitleWidget::kLabelFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+TitleWidget::TitleWidget()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_Screen_5ftest_2eproto::scc_info_TitleWidget.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:screen.TitleWidget)
+}
+TitleWidget::TitleWidget(const TitleWidget& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.value().size() > 0) {
+    value_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_);
+  }
+  label_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.label().size() > 0) {
+    label_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.label_);
+  }
+  if (from.has_color()) {
+    color_ = new ::screen::Color(*from.color_);
+  } else {
+    color_ = NULL;
+  }
+  // @@protoc_insertion_point(copy_constructor:screen.TitleWidget)
+}
+
+void TitleWidget::SharedCtor() {
+  value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  label_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  color_ = NULL;
+}
+
+TitleWidget::~TitleWidget() {
+  // @@protoc_insertion_point(destructor:screen.TitleWidget)
+  SharedDtor();
+}
+
+void TitleWidget::SharedDtor() {
+  value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  label_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete color_;
+}
+
+void TitleWidget::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* TitleWidget::descriptor() {
+  ::protobuf_Screen_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_Screen_5ftest_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const TitleWidget& TitleWidget::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_Screen_5ftest_2eproto::scc_info_TitleWidget.base);
+  return *internal_default_instance();
+}
+
+
+void TitleWidget::Clear() {
+// @@protoc_insertion_point(message_clear_start:screen.TitleWidget)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  label_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && color_ != NULL) {
+    delete color_;
+  }
+  color_ = NULL;
+  _internal_metadata_.Clear();
+}
+
+bool TitleWidget::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:screen.TitleWidget)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // .screen.Color color = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_color()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string value = 2 [(.nanopb) = {
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_value()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->value().data(), static_cast<int>(this->value().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "screen.TitleWidget.value"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string label = 3 [(.nanopb) = {
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_label()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->label().data(), static_cast<int>(this->label().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "screen.TitleWidget.label"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:screen.TitleWidget)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:screen.TitleWidget)
+  return false;
+#undef DO_
+}
+
+void TitleWidget::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:screen.TitleWidget)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .screen.Color color = 1;
+  if (this->has_color()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, this->_internal_color(), output);
+  }
+
+  // string value = 2 [(.nanopb) = {
+  if (this->value().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->value().data(), static_cast<int>(this->value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "screen.TitleWidget.value");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->value(), output);
+  }
+
+  // string label = 3 [(.nanopb) = {
+  if (this->label().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->label().data(), static_cast<int>(this->label().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "screen.TitleWidget.label");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->label(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:screen.TitleWidget)
+}
+
+::google::protobuf::uint8* TitleWidget::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:screen.TitleWidget)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .screen.Color color = 1;
+  if (this->has_color()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        1, this->_internal_color(), deterministic, target);
+  }
+
+  // string value = 2 [(.nanopb) = {
+  if (this->value().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->value().data(), static_cast<int>(this->value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "screen.TitleWidget.value");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->value(), target);
+  }
+
+  // string label = 3 [(.nanopb) = {
+  if (this->label().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->label().data(), static_cast<int>(this->label().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "screen.TitleWidget.label");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->label(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:screen.TitleWidget)
+  return target;
+}
+
+size_t TitleWidget::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:screen.TitleWidget)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string value = 2 [(.nanopb) = {
+  if (this->value().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->value());
+  }
+
+  // string label = 3 [(.nanopb) = {
+  if (this->label().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->label());
+  }
+
+  // .screen.Color color = 1;
+  if (this->has_color()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *color_);
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void TitleWidget::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:screen.TitleWidget)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TitleWidget* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const TitleWidget>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:screen.TitleWidget)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:screen.TitleWidget)
+    MergeFrom(*source);
+  }
+}
+
+void TitleWidget::MergeFrom(const TitleWidget& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:screen.TitleWidget)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.value().size() > 0) {
+
+    value_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_);
+  }
+  if (from.label().size() > 0) {
+
+    label_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.label_);
+  }
+  if (from.has_color()) {
+    mutable_color()->::screen::Color::MergeFrom(from.color());
+  }
+}
+
+void TitleWidget::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:screen.TitleWidget)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TitleWidget::CopyFrom(const TitleWidget& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:screen.TitleWidget)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TitleWidget::IsInitialized() const {
+  return true;
+}
+
+void TitleWidget::Swap(TitleWidget* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TitleWidget::InternalSwap(TitleWidget* other) {
+  using std::swap;
+  value_.Swap(&other->value_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  label_.Swap(&other->label_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(color_, other->color_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata TitleWidget::GetMetadata() const {
   protobuf_Screen_5ftest_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_Screen_5ftest_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -2641,6 +3030,8 @@ void ContentNode::InitAsDefaultInstance() {
       ::screen::SetpointSensorPairWidget::internal_default_instance());
   ::screen::_ContentNode_default_instance_.digitalclockwidget_ = const_cast< ::screen::DigitalClockWidget*>(
       ::screen::DigitalClockWidget::internal_default_instance());
+  ::screen::_ContentNode_default_instance_.titlewidget_ = const_cast< ::screen::TitleWidget*>(
+      ::screen::TitleWidget::internal_default_instance());
 }
 void ContentNode::set_allocated_numericvaluewidget(::screen::NumericValueWidget* numericvaluewidget) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -2712,6 +3103,20 @@ void ContentNode::set_allocated_digitalclockwidget(::screen::DigitalClockWidget*
   }
   // @@protoc_insertion_point(field_set_allocated:screen.ContentNode.digitalClockWidget)
 }
+void ContentNode::set_allocated_titlewidget(::screen::TitleWidget* titlewidget) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_content();
+  if (titlewidget) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      titlewidget = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, titlewidget, submessage_arena);
+    }
+    set_has_titlewidget();
+    content_.titlewidget_ = titlewidget;
+  }
+  // @@protoc_insertion_point(field_set_allocated:screen.ContentNode.titleWidget)
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ContentNode::kLayoutNodeIdFieldNumber;
 const int ContentNode::kNumericValueWidgetFieldNumber;
@@ -2719,6 +3124,7 @@ const int ContentNode::kColorWidgetFieldNumber;
 const int ContentNode::kTemperatureWidgetFieldNumber;
 const int ContentNode::kSetpointSensorPairWidgetFieldNumber;
 const int ContentNode::kDigitalClockWidgetFieldNumber;
+const int ContentNode::kTitleWidgetFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ContentNode::ContentNode()
@@ -2753,6 +3159,10 @@ ContentNode::ContentNode(const ContentNode& from)
     }
     case kDigitalClockWidget: {
       mutable_digitalclockwidget()->::screen::DigitalClockWidget::MergeFrom(from.digitalclockwidget());
+      break;
+    }
+    case kTitleWidget: {
+      mutable_titlewidget()->::screen::TitleWidget::MergeFrom(from.titlewidget());
       break;
     }
     case CONTENT_NOT_SET: {
@@ -2813,6 +3223,10 @@ void ContentNode::clear_content() {
     }
     case kDigitalClockWidget: {
       delete content_.digitalclockwidget_;
+      break;
+    }
+    case kTitleWidget: {
+      delete content_.titlewidget_;
       break;
     }
     case CONTENT_NOT_SET: {
@@ -2918,6 +3332,18 @@ bool ContentNode::MergePartialFromCodedStream(
         break;
       }
 
+      // .screen.TitleWidget titleWidget = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_titlewidget()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -2979,6 +3405,12 @@ void ContentNode::SerializeWithCachedSizes(
       6, this->_internal_digitalclockwidget(), output);
   }
 
+  // .screen.TitleWidget titleWidget = 7;
+  if (has_titlewidget()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      7, this->_internal_titlewidget(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -3031,6 +3463,13 @@ void ContentNode::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         6, this->_internal_digitalclockwidget(), deterministic, target);
+  }
+
+  // .screen.TitleWidget titleWidget = 7;
+  if (has_titlewidget()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        7, this->_internal_titlewidget(), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3093,6 +3532,13 @@ size_t ContentNode::ByteSizeLong() const {
           *content_.digitalclockwidget_);
       break;
     }
+    // .screen.TitleWidget titleWidget = 7;
+    case kTitleWidget: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *content_.titlewidget_);
+      break;
+    }
     case CONTENT_NOT_SET: {
       break;
     }
@@ -3146,6 +3592,10 @@ void ContentNode::MergeFrom(const ContentNode& from) {
     }
     case kDigitalClockWidget: {
       mutable_digitalclockwidget()->::screen::DigitalClockWidget::MergeFrom(from.digitalclockwidget());
+      break;
+    }
+    case kTitleWidget: {
+      mutable_titlewidget()->::screen::TitleWidget::MergeFrom(from.titlewidget());
       break;
     }
     case CONTENT_NOT_SET: {
@@ -4001,6 +4451,9 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::screen::Color* Arena::CreateMayb
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::screen::NumericValueWidget* Arena::CreateMaybeMessage< ::screen::NumericValueWidget >(Arena* arena) {
   return Arena::CreateInternal< ::screen::NumericValueWidget >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::screen::TitleWidget* Arena::CreateMaybeMessage< ::screen::TitleWidget >(Arena* arena) {
+  return Arena::CreateInternal< ::screen::TitleWidget >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::screen::TemperatureWidget* Arena::CreateMaybeMessage< ::screen::TemperatureWidget >(Arena* arena) {
   return Arena::CreateInternal< ::screen::TemperatureWidget >(arena);

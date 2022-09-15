@@ -4,6 +4,7 @@
 extern "C" {
 extern lv_font_t font_main;
 extern lv_font_t font_main_small;
+extern lv_font_t font_main_medium;
 extern lv_font_t font_numbers_small;
 extern lv_font_t font_numbers_medium;
 extern lv_font_t font_numbers_large;
@@ -20,6 +21,10 @@ namespace fonts {
     static constexpr lv_font_t& main_small = font_main_small;
     static constexpr uint16_t main_small_height = 12;
     static constexpr uint16_t main_small_width = main_small_height * 0.844;
+
+    static constexpr lv_font_t& main_medium = font_main_medium;
+    static constexpr uint16_t main_medium_height = 24;
+    static constexpr uint16_t main_medium_width = main_medium_height * 0.844;
 
     static constexpr lv_font_t& numbers_small = font_numbers_small;
     static constexpr uint16_t numbers_small_height = 10;

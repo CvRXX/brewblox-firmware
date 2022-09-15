@@ -41,7 +41,7 @@ namespace protobuf_Screen_5ftest_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[10];
+  static const ::google::protobuf::internal::ParseTable schema[11];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -79,6 +79,9 @@ extern SetpointSensorPairWidgetDefaultTypeInternal _SetpointSensorPairWidget_def
 class TemperatureWidget;
 class TemperatureWidgetDefaultTypeInternal;
 extern TemperatureWidgetDefaultTypeInternal _TemperatureWidget_default_instance_;
+class TitleWidget;
+class TitleWidgetDefaultTypeInternal;
+extern TitleWidgetDefaultTypeInternal _TitleWidget_default_instance_;
 }  // namespace screen
 namespace google {
 namespace protobuf {
@@ -92,6 +95,7 @@ template<> ::screen::NumericValueWidget* Arena::CreateMaybeMessage<::screen::Num
 template<> ::screen::Page* Arena::CreateMaybeMessage<::screen::Page>(Arena*);
 template<> ::screen::SetpointSensorPairWidget* Arena::CreateMaybeMessage<::screen::SetpointSensorPairWidget>(Arena*);
 template<> ::screen::TemperatureWidget* Arena::CreateMaybeMessage<::screen::TemperatureWidget>(Arena*);
+template<> ::screen::TitleWidget* Arena::CreateMaybeMessage<::screen::TitleWidget>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace screen {
@@ -541,6 +545,145 @@ class NumericValueWidget : public ::google::protobuf::Message /* @@protoc_insert
 };
 // -------------------------------------------------------------------
 
+class TitleWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.TitleWidget) */ {
+ public:
+  TitleWidget();
+  virtual ~TitleWidget();
+
+  TitleWidget(const TitleWidget& from);
+
+  inline TitleWidget& operator=(const TitleWidget& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  TitleWidget(TitleWidget&& from) noexcept
+    : TitleWidget() {
+    *this = ::std::move(from);
+  }
+
+  inline TitleWidget& operator=(TitleWidget&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TitleWidget& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TitleWidget* internal_default_instance() {
+    return reinterpret_cast<const TitleWidget*>(
+               &_TitleWidget_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(TitleWidget* other);
+  friend void swap(TitleWidget& a, TitleWidget& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TitleWidget* New() const final {
+    return CreateMaybeMessage<TitleWidget>(NULL);
+  }
+
+  TitleWidget* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<TitleWidget>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const TitleWidget& from);
+  void MergeFrom(const TitleWidget& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TitleWidget* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string value = 2 [(.nanopb) = {
+  void clear_value();
+  static const int kValueFieldNumber = 2;
+  const ::std::string& value() const;
+  void set_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_value(::std::string&& value);
+  #endif
+  void set_value(const char* value);
+  void set_value(const char* value, size_t size);
+  ::std::string* mutable_value();
+  ::std::string* release_value();
+  void set_allocated_value(::std::string* value);
+
+  // string label = 3 [(.nanopb) = {
+  void clear_label();
+  static const int kLabelFieldNumber = 3;
+  const ::std::string& label() const;
+  void set_label(const ::std::string& value);
+  #if LANG_CXX11
+  void set_label(::std::string&& value);
+  #endif
+  void set_label(const char* value);
+  void set_label(const char* value, size_t size);
+  ::std::string* mutable_label();
+  ::std::string* release_label();
+  void set_allocated_label(::std::string* label);
+
+  // .screen.Color color = 1;
+  bool has_color() const;
+  void clear_color();
+  static const int kColorFieldNumber = 1;
+  private:
+  const ::screen::Color& _internal_color() const;
+  public:
+  const ::screen::Color& color() const;
+  ::screen::Color* release_color();
+  ::screen::Color* mutable_color();
+  void set_allocated_color(::screen::Color* color);
+
+  // @@protoc_insertion_point(class_scope:screen.TitleWidget)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr value_;
+  ::google::protobuf::internal::ArenaStringPtr label_;
+  ::screen::Color* color_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_Screen_5ftest_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class TemperatureWidget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:screen.TemperatureWidget) */ {
  public:
   TemperatureWidget();
@@ -576,7 +719,7 @@ class TemperatureWidget : public ::google::protobuf::Message /* @@protoc_inserti
                &_TemperatureWidget_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(TemperatureWidget* other);
   friend void swap(TemperatureWidget& a, TemperatureWidget& b) {
@@ -707,7 +850,7 @@ class SetpointSensorPairWidget : public ::google::protobuf::Message /* @@protoc_
                &_SetpointSensorPairWidget_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(SetpointSensorPairWidget* other);
   friend void swap(SetpointSensorPairWidget& a, SetpointSensorPairWidget& b) {
@@ -838,7 +981,7 @@ class DigitalClockWidget : public ::google::protobuf::Message /* @@protoc_insert
                &_DigitalClockWidget_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(DigitalClockWidget* other);
   friend void swap(DigitalClockWidget& a, DigitalClockWidget& b) {
@@ -954,7 +1097,7 @@ class ColorWidget : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ColorWidget_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(ColorWidget* other);
   friend void swap(ColorWidget& a, ColorWidget& b) {
@@ -1063,6 +1206,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
     kTemperatureWidget = 4,
     kSetpointSensorPairWidget = 5,
     kDigitalClockWidget = 6,
+    kTitleWidget = 7,
     CONTENT_NOT_SET = 0,
   };
 
@@ -1072,7 +1216,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ContentNode_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(ContentNode* other);
   friend void swap(ContentNode& a, ContentNode& b) {
@@ -1190,6 +1334,18 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::screen::DigitalClockWidget* mutable_digitalclockwidget();
   void set_allocated_digitalclockwidget(::screen::DigitalClockWidget* digitalclockwidget);
 
+  // .screen.TitleWidget titleWidget = 7;
+  bool has_titlewidget() const;
+  void clear_titlewidget();
+  static const int kTitleWidgetFieldNumber = 7;
+  private:
+  const ::screen::TitleWidget& _internal_titlewidget() const;
+  public:
+  const ::screen::TitleWidget& titlewidget() const;
+  ::screen::TitleWidget* release_titlewidget();
+  ::screen::TitleWidget* mutable_titlewidget();
+  void set_allocated_titlewidget(::screen::TitleWidget* titlewidget);
+
   void clear_content();
   ContentCase content_case() const;
   // @@protoc_insertion_point(class_scope:screen.ContentNode)
@@ -1199,6 +1355,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void set_has_temperaturewidget();
   void set_has_setpointsensorpairwidget();
   void set_has_digitalclockwidget();
+  void set_has_titlewidget();
 
   inline bool has_content() const;
   inline void clear_has_content();
@@ -1212,6 +1369,7 @@ class ContentNode : public ::google::protobuf::Message /* @@protoc_insertion_poi
     ::screen::TemperatureWidget* temperaturewidget_;
     ::screen::SetpointSensorPairWidget* setpointsensorpairwidget_;
     ::screen::DigitalClockWidget* digitalclockwidget_;
+    ::screen::TitleWidget* titlewidget_;
   } content_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1255,7 +1413,7 @@ class Page : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
                &_Page_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(Page* other);
   friend void swap(Page& a, Page& b) {
@@ -1399,7 +1557,7 @@ class Block : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
                &_Block_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(Block* other);
   friend void swap(Block& a, Block& b) {
@@ -1751,6 +1909,170 @@ inline void NumericValueWidget::set_allocated_label(::std::string* label) {
   }
   label_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), label);
   // @@protoc_insertion_point(field_set_allocated:screen.NumericValueWidget.label)
+}
+
+// -------------------------------------------------------------------
+
+// TitleWidget
+
+// .screen.Color color = 1;
+inline bool TitleWidget::has_color() const {
+  return this != internal_default_instance() && color_ != NULL;
+}
+inline void TitleWidget::clear_color() {
+  if (GetArenaNoVirtual() == NULL && color_ != NULL) {
+    delete color_;
+  }
+  color_ = NULL;
+}
+inline const ::screen::Color& TitleWidget::_internal_color() const {
+  return *color_;
+}
+inline const ::screen::Color& TitleWidget::color() const {
+  const ::screen::Color* p = color_;
+  // @@protoc_insertion_point(field_get:screen.TitleWidget.color)
+  return p != NULL ? *p : *reinterpret_cast<const ::screen::Color*>(
+      &::screen::_Color_default_instance_);
+}
+inline ::screen::Color* TitleWidget::release_color() {
+  // @@protoc_insertion_point(field_release:screen.TitleWidget.color)
+  
+  ::screen::Color* temp = color_;
+  color_ = NULL;
+  return temp;
+}
+inline ::screen::Color* TitleWidget::mutable_color() {
+  
+  if (color_ == NULL) {
+    auto* p = CreateMaybeMessage<::screen::Color>(GetArenaNoVirtual());
+    color_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:screen.TitleWidget.color)
+  return color_;
+}
+inline void TitleWidget::set_allocated_color(::screen::Color* color) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete color_;
+  }
+  if (color) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      color = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, color, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  color_ = color;
+  // @@protoc_insertion_point(field_set_allocated:screen.TitleWidget.color)
+}
+
+// string value = 2 [(.nanopb) = {
+inline void TitleWidget::clear_value() {
+  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& TitleWidget::value() const {
+  // @@protoc_insertion_point(field_get:screen.TitleWidget.value)
+  return value_.GetNoArena();
+}
+inline void TitleWidget::set_value(const ::std::string& value) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.TitleWidget.value)
+}
+#if LANG_CXX11
+inline void TitleWidget::set_value(::std::string&& value) {
+  
+  value_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.TitleWidget.value)
+}
+#endif
+inline void TitleWidget::set_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.TitleWidget.value)
+}
+inline void TitleWidget::set_value(const char* value, size_t size) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.TitleWidget.value)
+}
+inline ::std::string* TitleWidget::mutable_value() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.TitleWidget.value)
+  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* TitleWidget::release_value() {
+  // @@protoc_insertion_point(field_release:screen.TitleWidget.value)
+  
+  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void TitleWidget::set_allocated_value(::std::string* value) {
+  if (value != NULL) {
+    
+  } else {
+    
+  }
+  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set_allocated:screen.TitleWidget.value)
+}
+
+// string label = 3 [(.nanopb) = {
+inline void TitleWidget::clear_label() {
+  label_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& TitleWidget::label() const {
+  // @@protoc_insertion_point(field_get:screen.TitleWidget.label)
+  return label_.GetNoArena();
+}
+inline void TitleWidget::set_label(const ::std::string& value) {
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:screen.TitleWidget.label)
+}
+#if LANG_CXX11
+inline void TitleWidget::set_label(::std::string&& value) {
+  
+  label_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:screen.TitleWidget.label)
+}
+#endif
+inline void TitleWidget::set_label(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:screen.TitleWidget.label)
+}
+inline void TitleWidget::set_label(const char* value, size_t size) {
+  
+  label_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:screen.TitleWidget.label)
+}
+inline ::std::string* TitleWidget::mutable_label() {
+  
+  // @@protoc_insertion_point(field_mutable:screen.TitleWidget.label)
+  return label_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* TitleWidget::release_label() {
+  // @@protoc_insertion_point(field_release:screen.TitleWidget.label)
+  
+  return label_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void TitleWidget::set_allocated_label(::std::string* label) {
+  if (label != NULL) {
+    
+  } else {
+    
+  }
+  label_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), label);
+  // @@protoc_insertion_point(field_set_allocated:screen.TitleWidget.label)
 }
 
 // -------------------------------------------------------------------
@@ -2371,6 +2693,50 @@ inline ::screen::DigitalClockWidget* ContentNode::mutable_digitalclockwidget() {
   return content_.digitalclockwidget_;
 }
 
+// .screen.TitleWidget titleWidget = 7;
+inline bool ContentNode::has_titlewidget() const {
+  return content_case() == kTitleWidget;
+}
+inline void ContentNode::set_has_titlewidget() {
+  _oneof_case_[0] = kTitleWidget;
+}
+inline void ContentNode::clear_titlewidget() {
+  if (has_titlewidget()) {
+    delete content_.titlewidget_;
+    clear_has_content();
+  }
+}
+inline const ::screen::TitleWidget& ContentNode::_internal_titlewidget() const {
+  return *content_.titlewidget_;
+}
+inline ::screen::TitleWidget* ContentNode::release_titlewidget() {
+  // @@protoc_insertion_point(field_release:screen.ContentNode.titleWidget)
+  if (has_titlewidget()) {
+    clear_has_content();
+      ::screen::TitleWidget* temp = content_.titlewidget_;
+    content_.titlewidget_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::screen::TitleWidget& ContentNode::titlewidget() const {
+  // @@protoc_insertion_point(field_get:screen.ContentNode.titleWidget)
+  return has_titlewidget()
+      ? *content_.titlewidget_
+      : *reinterpret_cast< ::screen::TitleWidget*>(&::screen::_TitleWidget_default_instance_);
+}
+inline ::screen::TitleWidget* ContentNode::mutable_titlewidget() {
+  if (!has_titlewidget()) {
+    clear_content();
+    set_has_titlewidget();
+    content_.titlewidget_ = CreateMaybeMessage< ::screen::TitleWidget >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:screen.ContentNode.titleWidget)
+  return content_.titlewidget_;
+}
+
 inline bool ContentNode::has_content() const {
   return content_case() != CONTENT_NOT_SET;
 }
@@ -2682,6 +3048,8 @@ inline void Block::set_allocated_timezone(::std::string* timezone) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

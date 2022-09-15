@@ -98,6 +98,13 @@ typedef struct _screen_TemperatureWidget {
 /* @@protoc_insertion_point(struct:screen_TemperatureWidget) */
 } screen_TemperatureWidget;
 
+typedef struct _screen_TitleWidget {
+    screen_Color color;
+    char value[41];
+    char label[41];
+/* @@protoc_insertion_point(struct:screen_TitleWidget) */
+} screen_TitleWidget;
+
 typedef struct _screen_ContentNode {
     uint8_t layoutNodeId;
     pb_size_t which_content;
@@ -107,6 +114,7 @@ typedef struct _screen_ContentNode {
         screen_TemperatureWidget temperatureWidget;
         screen_SetpointSensorPairWidget setpointSensorPairWidget;
         screen_DigitalClockWidget digitalClockWidget;
+        screen_TitleWidget titleWidget;
     } content;
 /* @@protoc_insertion_point(struct:screen_ContentNode) */
 } screen_ContentNode;
@@ -117,6 +125,7 @@ typedef struct _screen_ContentNode {
 #define screen_LayoutNode_init_default           {0, 0, _screen_LayoutNode_Type_MIN, 0}
 #define screen_Color_init_default                {0, 0, 0}
 #define screen_NumericValueWidget_init_default   {screen_Color_init_default, 0, ""}
+#define screen_TitleWidget_init_default          {screen_Color_init_default, "", ""}
 #define screen_TemperatureWidget_init_default    {screen_Color_init_default, "", 0}
 #define screen_SetpointSensorPairWidget_init_default {screen_Color_init_default, "", 0}
 #define screen_DigitalClockWidget_init_default   {screen_Color_init_default, 0}
@@ -127,6 +136,7 @@ typedef struct _screen_ContentNode {
 #define screen_LayoutNode_init_zero              {0, 0, _screen_LayoutNode_Type_MIN, 0}
 #define screen_Color_init_zero                   {0, 0, 0}
 #define screen_NumericValueWidget_init_zero      {screen_Color_init_zero, 0, ""}
+#define screen_TitleWidget_init_zero             {screen_Color_init_zero, "", ""}
 #define screen_TemperatureWidget_init_zero       {screen_Color_init_zero, "", 0}
 #define screen_SetpointSensorPairWidget_init_zero {screen_Color_init_zero, "", 0}
 #define screen_DigitalClockWidget_init_zero      {screen_Color_init_zero, 0}
@@ -164,22 +174,27 @@ typedef struct _screen_ContentNode {
 #define screen_TemperatureWidget_color_tag       1
 #define screen_TemperatureWidget_label_tag       2
 #define screen_TemperatureWidget_tempSensor_tag  3
+#define screen_TitleWidget_color_tag             1
+#define screen_TitleWidget_value_tag             2
+#define screen_TitleWidget_label_tag             3
 #define screen_ContentNode_numericValueWidget_tag 2
 #define screen_ContentNode_colorWidget_tag       3
 #define screen_ContentNode_temperatureWidget_tag 4
 #define screen_ContentNode_setpointSensorPairWidget_tag 5
 #define screen_ContentNode_digitalClockWidget_tag 6
+#define screen_ContentNode_titleWidget_tag       7
 #define screen_ContentNode_layoutNodeId_tag      1
 
 /* Struct field encoding specification for nanopb */
 extern const pb_field_t screen_LayoutNode_fields[5];
 extern const pb_field_t screen_Color_fields[4];
 extern const pb_field_t screen_NumericValueWidget_fields[4];
+extern const pb_field_t screen_TitleWidget_fields[4];
 extern const pb_field_t screen_TemperatureWidget_fields[4];
 extern const pb_field_t screen_SetpointSensorPairWidget_fields[4];
 extern const pb_field_t screen_DigitalClockWidget_fields[3];
 extern const pb_field_t screen_ColorWidget_fields[2];
-extern const pb_field_t screen_ContentNode_fields[7];
+extern const pb_field_t screen_ContentNode_fields[8];
 extern const pb_field_t screen_Page_fields[5];
 extern const pb_field_t screen_Block_fields[6];
 
@@ -187,11 +202,12 @@ extern const pb_field_t screen_Block_fields[6];
 #define screen_LayoutNode_size                   20
 #define screen_Color_size                        18
 #define screen_NumericValueWidget_size           69
+#define screen_TitleWidget_size                  106
 #define screen_TemperatureWidget_size            69
 #define screen_SetpointSensorPairWidget_size     69
 #define screen_DigitalClockWidget_size           22
 #define screen_ColorWidget_size                  20
-#define screen_ContentNode_size                  77
+#define screen_ContentNode_size                  114
 /* screen_Page_size depends on runtime parameters */
 /* screen_Block_size depends on runtime parameters */
 

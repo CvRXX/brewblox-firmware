@@ -37,6 +37,7 @@ namespace style {
     extern lv_style_t number_medium;
     extern lv_style_t number_small;
     extern lv_style_t field_label;
+    extern lv_style_t widget_title;
 
     void init();
 }

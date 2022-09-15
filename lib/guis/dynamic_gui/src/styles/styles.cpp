@@ -17,6 +17,7 @@ namespace style {
     lv_style_t number_medium;
     lv_style_t number_small;
     lv_style_t field_label;
+    lv_style_t widget_title;
 
     void init()
     {
@@ -70,6 +71,9 @@ namespace style {
 
         lv_style_init(&widget_name);
         lv_style_set_text_font(&widget_name, &fonts::widget_name);
+
+        lv_style_init(&widget_title);
+        lv_style_set_text_font(&widget_title, &fonts::main_medium);
 
         lv_style_init(&field_label);
         lv_style_set_text_font(&field_label, &fonts::main_small);

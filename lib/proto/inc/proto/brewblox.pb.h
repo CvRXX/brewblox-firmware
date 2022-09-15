@@ -82,13 +82,9 @@ typedef enum _brewblox_BlockType {
     brewblox_BlockType_TempSensorCombi = 324,
     brewblox_BlockType_OneWireGpioModule = 325,
     brewblox_BlockType_Sequence = 326,
-<<<<<<< HEAD
     brewblox_BlockType_ScreenConfig = 327,
-    brewblox_BlockType_TempSensorExternal = 328
-=======
     brewblox_BlockType_TempSensorExternal = 328,
     brewblox_BlockType_FastPwm = 329
->>>>>>> 853a5b19e39ae379c32b3affa4295144bd265556
 } brewblox_BlockType;
 #define _brewblox_BlockType_MIN brewblox_BlockType_Invalid
 #define _brewblox_BlockType_MAX brewblox_BlockType_FastPwm

@@ -104,6 +104,17 @@ namespace detail {
                 buffer.push_back({std::move(newElement), nodeToAdd.parent});
             }
 
+            else if (content->which_content == screen_ContentNode_titleWidget_tag) {
+                std::unique_ptr<Widget> widget{new TitleWidget(content->content.titleWidget)};
+                std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+                buffer.push_back({std::move(newElement), nodeToAdd.parent});
+            }
+
+            else if (content->which_content == screen_ContentNode_digitalClockWidget_tag) {
+                std::unique_ptr<Widget> widget{new DigitalClockWidget(content->content.digitalClockWidget)};
+                std::unique_ptr<LayoutNode> newElement{new Content(nodeToAdd.weight, nodeToAdd.nodeId, std::move(widget))};
+                buffer.push_back({std::move(newElement), nodeToAdd.parent});
+            }
             // If the contentType is not known default to an empty widget.
             else {
                 std::unique_ptr<Widget> widget{new EmptyWidget()};

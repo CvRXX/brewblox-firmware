@@ -19,8 +19,6 @@
 
 #pragma once
 
-#include "cbox/CboxPtr.hpp"
-#include "control/TempSensor.hpp"
 #include "dynamic_gui/elements/widgets/color_widget.hpp"
 #include "dynamic_gui/fonts/fonts.hpp"
 #include "dynamic_gui/styles/sizing.hpp"
@@ -34,20 +32,19 @@
 namespace gui::dynamic_interface {
 
 /**
- * A widget which can display a temperature.
+ * A widget which can display a TitleWidget.
  */
-class TemperatureWidget : public ColorWidget {
+class TitleWidget : public ColorWidget {
 public:
     /**
-     * Constructs a temperature widget..
+     * Constructs a TitleWidget.
      * @param value The value to be displayed.
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    explicit TemperatureWidget(screen_TemperatureWidget& temperatureWidget)
-        : ColorWidget({temperatureWidget.color.r, temperatureWidget.color.g, temperatureWidget.color.b})
-        , settings(temperatureWidget)
-        , lookup(cbox::CboxPtr<TempSensor>(cbox::obj_id_t(temperatureWidget.tempSensor)))
+    TitleWidget(screen_TitleWidget& titleWidget)
+        : ColorWidget({titleWidget.color.r, titleWidget.color.g, titleWidget.color.b})
+        , settings(titleWidget)
     {
     }
 
@@ -56,27 +53,18 @@ public:
      * @param contentNodes The vector to which the serialized widget will be added.
      * @param layOutNodeId The id of it's matching layoutNode.
      */
-    void serialize(std::vector<screen_ContentNode>& contentNodes, uint8_t layOutNodeId) final
+    void serialize(std::vector<screen_ContentNode>& contentNodes, uint8_t layOutNodeId) override final
     {
         screen_ContentNode node = screen_ContentNode_init_default;
         node.layoutNodeId = layOutNodeId;
-        node.which_content = screen_ContentNode_temperatureWidget_tag;
-        node.content.temperatureWidget = settings;
+        node.which_content = screen_ContentNode_titleWidget_tag;
+        node.content.titleWidget = settings;
 
         contentNodes.push_back(node);
     }
 
-    void update() final
+    void update() override final
     {
-        if (auto ptr = lookup.lock()) {
-            if (ptr->value()) {
-                auto str = temp_to_string(*ptr->value(), 1, TempUnit::Celsius);
-                str.append(TempUnit::Celsius == TempUnit::Fahrenheit ? "°F" : "°C");
-                setValue(str);
-            } else {
-                setValue("-");
-            }
-        }
     }
 
     /**
@@ -85,12 +73,15 @@ public:
      * @param width The width of the parent placeholder.
      * @param height The height of the parent placeholder.
      */
-    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) final
+    void draw(lv_obj_t* placeholder, uint16_t width, uint16_t height) override final
     {
         ColorWidget::draw(placeholder, width, height);
-        valueLabel.reset(sizing::makeBigNumberLabel(contentArea.get(), width, height));
+        valueLabel.reset(lv_label_create(contentArea.get()));
 
-        update();
+        lv_label_set_text(valueLabel.get(), settings.value);
+        lv_obj_add_style(valueLabel.get(), &style::widget_title, LV_PART_MAIN);
+        lv_obj_align(valueLabel.get(), LV_ALIGN_CENTER, 0, 0);
+        lv_obj_set_style_pad_all(valueLabel.get(), 0, 0);
 
         if (sizing::spaceForNameLabel(width, height)) {
             LabelLabel.reset(lv_label_create(contentArea.get()));
@@ -101,15 +92,7 @@ public:
     }
 
 private:
-    void setValue(const std::string& value)
-    {
-        lv_label_set_text(valueLabel.get(), value.c_str());
-        lv_obj_align(valueLabel.get(), LV_ALIGN_CENTER, 0, 0);
-        lv_obj_set_style_pad_all(valueLabel.get(), 0, 0);
-    }
-    screen_TemperatureWidget settings;
-    cbox::CboxPtr<TempSensor> lookup;
-
+    screen_TitleWidget settings;
     LvglObjectWrapper valueLabel;
     LvglObjectWrapper LabelLabel;
 };

@@ -7,6 +7,7 @@ set(dynamic_gui_srcs
 
   src/fonts/font_main.c
   src/fonts/font_main_small.c
+  src/fonts/font_main_medium.c
   src/fonts/font_numbers_large.c
   src/fonts/font_numbers_medium.c
   src/fonts/font_numbers_huge.c

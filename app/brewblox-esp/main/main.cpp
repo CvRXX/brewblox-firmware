@@ -1,5 +1,6 @@
 #include "Brewblox.hpp"
 #include "RecurringTask.hpp"
+#include "blocks/ScreenConfig.hpp"
 #include "blox_hal/hal_delay.hpp"
 #include "cbox/Box.hpp"
 #include "control/DS248x.hpp"
@@ -72,8 +73,8 @@ void app_main()
 {
     // ESP_ERROR_CHECK(heap_trace_init_standalone(trace_record, MEMORY_DEBUG_RECORDS));
 
-    using screen = Gui<TFT035, FT6236, StaticGui>;
-    // using screen = Gui<TFT035, FT6236, gui::dynamic_interface::DynamicGui>;
+    // using screen = Gui<TFT035, FT6236, StaticGui>;
+    using screen = Gui<TFT035, FT6236, gui::dynamic_interface::DynamicGui>;
 
     spark4::hw_init();
     check_ota();
@@ -93,6 +94,7 @@ void app_main()
                                               RecurringTask::IntervalType::FROM_EXPIRY,
                                               []() -> bool {
                                                   screen::update();
+                                                  screen::updateWidgets();
                                                   screen::tick(100);
                                                   return true;
                                               });
@@ -124,6 +126,22 @@ void app_main()
             return true;
         });
 
+    static auto configupdate = RecurringTask(
+        io, asio::chrono::seconds(1),
+        RecurringTask::IntervalType::FROM_EXECUTION,
+        []() {
+            if (ScreenConfig::newSettingsReceived()) {
+                auto& settings = ScreenConfig::settings();
+                auto layoutNodes = settings.pages[0].first;
+                auto contentNodes = settings.pages[0].second;
+                auto screen = gui::dynamic_interface::decodeNodes(std::move(layoutNodes), std::move(contentNodes));
+                if (screen) {
+                    screen::interface->setNewScreen(std::move(*screen));
+                }
+            }
+            return true;
+        });
+
     static CboxServer cboxServer(io, 8332);
     static HttpHandler http(io, 80, cboxServer);
 
@@ -132,7 +150,7 @@ void app_main()
     systemCheck.start();
     cbox::loadBlocksFromStorage();
     updater.start(true);
-
+    configupdate.start();
     cbox::discoverBlocks();
     network::connect();
     mdns::start();

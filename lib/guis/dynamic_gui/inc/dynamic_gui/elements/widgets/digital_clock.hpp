@@ -43,9 +43,9 @@ public:
      * @param label The label to be displayed.
      * @param color The background color of the widget.
      */
-    DigitalClock(screen_DigitalClockWidget& digitalClock)
-        : ColorWidget({DigitalClockWidget.color.r, DigitalClockWidget.color.g, DigitalClockWidget.color.b})
-        , settings(DigitalClockWidget)
+    DigitalClockWidget(screen_DigitalClockWidget& digitalClock)
+        : ColorWidget({digitalClock.color.r, digitalClock.color.g, digitalClock.color.b})
+        , settings(digitalClock)
     {
     }
 
@@ -54,9 +54,14 @@ public:
      * @param contentNodes The vector to which the serialized widget will be added.
      * @param layOutNodeId The id of it's matching layoutNode.
      */
-    void serialize(std::vector<screen_ContentNode>& contentnodes, uint8_t layOutNodeId) override final
+    void serialize(std::vector<screen_ContentNode>& contentNodes, uint8_t layOutNodeId) override final
     {
-        contentnodes.push_back({layOutNodeId, screen_ContentNode_DigitalClockWidget_tag, settings});
+        screen_ContentNode node = screen_ContentNode_init_default;
+        node.layoutNodeId = layOutNodeId;
+        node.which_content = screen_ContentNode_digitalClockWidget_tag;
+        node.content.digitalClockWidget = settings;
+
+        contentNodes.push_back(node);
     }
 
     void update() override final
@@ -64,12 +69,16 @@ public:
         struct timeval tv;
         time_t nowtime;
         struct tm* nowtm;
-        char time[10] = "00:00:00";
+        char time[10] = "00:00";
 
         gettimeofday(&tv, nullptr);
         nowtime = tv.tv_sec;
         nowtm = localtime(&nowtime);
-        strftime(time, sizeof(time), "%H:%M:%S", nowtm);
+        if (settings.showSeconds) {
+            strftime(time, sizeof(time), "%H:%M:%S", nowtm);
+        } else {
+            strftime(time, sizeof(time), "%H:%M", nowtm);
+        }
         lv_label_set_text(valueLabel.get(), time);
     }
 
@@ -84,16 +93,9 @@ public:
         ColorWidget::draw(placeholder, width, height);
         valueLabel.reset(sizing::makeBigNumberLabel(contentArea.get(), width, height));
 
-        lv_label_set_text(valueLabel.get(), "00:00:00");
+        lv_label_set_text(valueLabel.get(), "00:00");
         lv_obj_align(valueLabel.get(), LV_ALIGN_CENTER, 0, 0);
         lv_obj_set_style_pad_all(valueLabel.get(), 0, 0);
-
-        if (sizing::spaceForNameLabel(width, height)) {
-            LabelLabel.reset(lv_label_create(contentArea.get()));
-            lv_obj_add_style(LabelLabel.get(), &style::widget_name, LV_PART_MAIN);
-            lv_label_set_text(LabelLabel.get(), settings.label);
-            lv_obj_align(LabelLabel.get(), LV_ALIGN_BOTTOM_MID, 0, 0);
-        }
     }
 
 private:
